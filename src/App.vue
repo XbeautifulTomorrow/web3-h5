@@ -14,6 +14,7 @@ export default {
 </script>
 
 <style>
+@import url("./index.scss");
 *{
   margin: 0;
   padding: 0;

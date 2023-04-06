@@ -5,7 +5,7 @@
     </div>
     <div class="bitzing-text">Where Surprises Meet Value!</div>
     <div
-      class="bitzing-main container"
+      class="container"
       ref="container"
       @mouseenter="mouseenterFun"
       @mouseleave="mouseleaveFun"
@@ -108,11 +108,13 @@ export default {
 <style scoped>
 /* @import url('./index.scss'); */
 .bitzing {
-  background-image: url('./img/bg.jpg');
-  background-repeat: no-repeat;
+  /* background-image: url('./img/bg.jpg'); */
+  /* background-repeat: no-repeat; */
   background-size: 100% 100%;
   width: 100vw;
   min-height: 100vh;
+  position: relative;
+  z-index: 10;
 }
 .bitzing-text {
   height: 34px;

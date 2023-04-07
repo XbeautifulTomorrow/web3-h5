@@ -36,73 +36,19 @@ export default {
     };
   },
   created() {
-    // this.test();
   },
   mounted() {
-    this.$nextTick(() => {
-      const { container, imgElement } = this.$refs;
-      this.container = container;
-      this.imgElement = imgElement;
-      this.setOrigin(container);
-    });
   },
   methods: {
-    mouseenterFun(event) {
-      this.update(event);
-    },
-    mouseleaveFun() {
-      this.style = '';
-    },
-    mousemoveFun(event) {
-      this.counter = this.counter + 1;
-      if (this.isTimeToUpdate()) {
-        this.update(event);
-      }
-    },
-    isTimeToUpdate() {
-      const { counter, updateRate } = this;
-      const isTimeToUpdate = counter % updateRate === 0;
-      return isTimeToUpdate;
-    },
-    updatePosition(event) {
-      const { mouse } = this;
-      const { _x, _y } = mouse;
-      const e = event || window.event;
-      this.mouse.x = e.clientX - _x;
-      this.mouse.y = (e.clientY - _y) * -1;
-    },
-    setOrigin(e) {
-      this.mouse._x = e.offsetLeft + Math.floor(e.offsetWidth / 2);
-      this.mouse._y = e.offsetTop + Math.floor(e.offsetHeight / 2);
-    },
-    show() {
-      const { x, y } = this.mouse;
-      return '(' + x + ', ' + y + ')';
-    },
-    update(event) {
-      const { mouse, imgElement, tilt } = this;
-      this.updatePosition(event);
-      this.updateTransformStyle(
-        ((mouse.y / imgElement.offsetHeight) * tilt).toFixed(2),
-        ((mouse.x / imgElement.offsetWidth) * tilt).toFixed(2)
-      );
-    },
-    updateTransformStyle(x, y) {
-      const style = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
-      this.style = Object.assign({}, { transform: style });
-    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* @import url('./index.scss'); */
 .bitzing {
-  /* background-image: url('./img/bg.jpg'); */
-  /* background-repeat: no-repeat; */
   background-size: 100% 100%;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: relative;
   z-index: 10;
@@ -149,7 +95,7 @@ export default {
   cursor: pointer;
 }
 .bitzing-iframe {
-  width: 100%;
+  width: 90%;
   height: 799px;
   margin: 20px auto;
   overflow: hidden;

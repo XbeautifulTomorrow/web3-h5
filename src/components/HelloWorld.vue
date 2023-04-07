@@ -4,17 +4,7 @@
       <img src="./img/logo.svg" alt="" />
     </div>
     <div class="bitzing-text">Where Surprises Meet Value!</div>
-    <div
-      class="container"
-      ref="container"
-      @mouseenter="mouseenterFun"
-      @mouseleave="mouseleaveFun"
-      @mousemove="mousemoveFun"
-    >
-      <div class="inner" :style="style" ref="imgElement">
-        <img :style="style" src="./img/main.png" alt="" />
-      </div>
-    </div>
+    <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
     <div class="bitzing-link">
       <img class="bitzing-link-twitter" src="./img/twitter.svg" alt="" />
       <img src="./img/discord.svg" alt="" />
@@ -30,6 +20,7 @@ export default {
   },
   data() {
     return {
+      iframeSrc: `http://localhost:5173/?imgUrl=https://raw.githubusercontent.com/Ikaris-a/bitzingimg/main/main.png`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
@@ -156,5 +147,17 @@ export default {
 
 .container:hover {
   cursor: pointer;
+}
+.bitzing-iframe {
+  width: 100%;
+  height: 600px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+</style>
+<style>
+.bitzing-iframe * {
+  overflow: hidden;
+  background: none;
 }
 </style>

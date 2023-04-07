@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      iframeSrc: `http://localhost:5173/?imgUrl=https://raw.githubusercontent.com/Ikaris-a/bitzingimg/main/main.png`,
+      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.c6717946.png`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
@@ -150,7 +150,7 @@ export default {
 }
 .bitzing-iframe {
   width: 100%;
-  height: 600px;
+  height: 799px;
   margin: 20px auto;
   overflow: hidden;
 }

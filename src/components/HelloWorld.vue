@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.c6717946.png`,
+      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
       counter: 0,
       updateRate: 10,
       tilt: 2,

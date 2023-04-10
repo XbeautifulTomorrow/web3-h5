@@ -40,8 +40,7 @@ export default {
   data() {
     return {
       showIfram: false,
-      // iframeSrc: `http://221.236.31.34:16085/`,
-      iframeSrc: `http://localhost:5173/`,
+      iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,

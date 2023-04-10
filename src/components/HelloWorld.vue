@@ -1,13 +1,28 @@
 <template>
   <div class="bitzing">
-    <div>
-      <img src="./img/logo.svg" alt="" />
-    </div>
-    <div class="bitzing-text">Where Surprises Meet Value!</div>
-    <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
-    <div class="bitzing-link">
-      <img class="bitzing-link-twitter" src="./img/twitter.svg" alt="" />
-      <img src="./img/discord.svg" alt="" />
+    <img class="bg-line" src="./img/bg-line.png" alt="" />
+    <div class="bitzing-main">
+      <div>
+        <img src="./img/logo.svg" alt="" />
+      </div>
+      <div class="bitzing-text">
+        <img src="./img/slogen.png" alt="" />
+      </div>
+      <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
+      <div class="bitzing-link">
+        <button class="cybr-btn bitzing-link-twitter">
+          <img src="./img/twitter.svg" alt="" />
+          <span aria-hidden class="cybr-btn__glitch">
+            <img src="./img/twitter.svg" alt="" />
+          </span>
+        </button>
+        <button class="cybr-btn bitzing-link-twitter">
+          <img src="./img/discord.svg" alt="" />
+          <span aria-hidden class="cybr-btn__glitch">
+            <img src="./img/discord.svg" alt="" />
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +35,8 @@ export default {
   },
   data() {
     return {
-      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
+      // iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
+      iframeSrc: `http://localhost:5173/?imgUrl=https://images.pexels.com/photos/8451490/pexels-photo-8451490.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
@@ -35,19 +51,15 @@ export default {
       },
     };
   },
-  created() {
-  },
-  mounted() {
-  },
-  methods: {
-  },
+  created() {},
+  mounted() {},
+  methods: {},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .bitzing {
-  background-size: 100% 100%;
   width: 100%;
   min-height: 100vh;
   position: relative;
@@ -55,7 +67,7 @@ export default {
 }
 .bitzing-text {
   height: 34px;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to bottom,
     #02081d 100%,
     #009afe 71%,
@@ -74,15 +86,17 @@ export default {
   letter-spacing: normal;
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.bitzing-link-twitter {
-  margin-right: 80px;
+  -webkit-text-fill-color: transparent; */
 }
 .container {
   perspective: 30px;
 }
-
+.bitzing-link {
+  height: 64px;
+}
+.bitzing-link-twitter {
+  margin-right: 20px;
+}
 .inner {
   transition: transform 0.5s;
 }
@@ -96,10 +110,25 @@ export default {
 }
 .bitzing-iframe {
   width: 90%;
-  height: 799px;
-  margin: 20px auto;
+  height: 400px;
+  margin: 0 auto;
   overflow: hidden;
 }
+.bg-line {
+  position: fixed;
+  top: 150px;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  z-index: 0;
+}
+.bitzing-main {
+  position: relative;
+  z-index: 10;
+}
+</style>
+<style scoped>
+@import url('./button.css');
 </style>
 <style>
 .bitzing-iframe * {

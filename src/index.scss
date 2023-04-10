@@ -1,5 +1,5 @@
 :root {
-  --c1: rgba(189, 148, 167, 0.3);
+  --c1: rgba(189, 148, 167, 0.1);
   --c2hsl: 292, 72%, 21%;
   --c2: rgba(1, 8, 28, 1);
   --c5: transparent;
@@ -33,9 +33,10 @@ html::before {
   z-index: -1;
   pointer-events: none;
   animation: outrun 0.6s linear infinite;
-  --lgDepth: url('data:image/svg+xml;utf8,<svg width="1808" height="230" xmlns="http://www.w3.org/2000/svg"><path d="M904 -46 L-2531.2000000000003 230 M904 -46  L-1446.4 230 M904 -46 L-723.2 230 M904 -46 L-361.6 230 M904 -46 L0 230 M904 -46 L361.6 230 M904 -46 L723.2 230 M904 -46 L1084.8000000000002 230 M904 -46 L1446.4 230 M904 -46 L1808 230 M904 -46 L2169.6000000000004 230 M904 -46 L2531.2000000000003 230 M904 -46 L3254.4 230 M904 -46  L4339.200000000001 230 M904 -46 " stroke="rgba(189, 148, 167, 1)" stroke-width="2" vector-effect="non-scaling-stroke" /></svg>')
+  --lgDepth: url('data:image/svg+xml;utf8,<svg width="1808" height="230" xmlns="http://www.w3.org/2000/svg"><path d="M904 -46 L-2531.2000000000003 230 M904 -46  L-1446.4 230 M904 -46 L-723.2 230 M904 -46 L-361.6 230 M904 -46 L0 230 M904 -46 L361.6 230 M904 -46 L723.2 230 M904 -46 L1084.8000000000002 230 M904 -46 L1446.4 230 M904 -46 L1808 230 M904 -46 L2169.6000000000004 230 M904 -46 L2531.2000000000003 230 M904 -46 L3254.4 230 M904 -46  L4339.200000000001 230 M904 -46 " stroke="rgba(189, 148, 167, .5)" stroke-width="2" vector-effect="non-scaling-stroke" /></svg>')
     left bottom / 100% 40% no-repeat;
-  --bg: url('./components/img/bg-line.png') left 0 bottom 39% / 100% 30%  no-repeat;
+  --bg: url('./components/img/bg-line.png') left 0 bottom 39% / 100% 30%
+    no-repeat;
   --outrun: 0;
   --pos: var(--outrun, 0);
   --distance: 0.5%;
@@ -145,9 +146,9 @@ html::before {
     var(--c1) calc(var(--l9)) calc(var(--l9) + 2px),
     transparent calc(var(--l9) + 2px)
   );
-  background: var(--lgDepth), var(--bg), var(--lgh), var(--lg0), var(--lg1), var(--lg2),
-    var(--lg3), var(--lg4), var(--lg5), var(--lg6), var(--lg7), var(--lg8),
-    var(--lg9),
+  background: var(--bg), var(--lgDepth), var(--lgh), var(--lg0), var(--lg1),
+    var(--lg2), var(--lg3), var(--lg4), var(--lg5), var(--lg6), var(--lg7),
+    var(--lg8), var(--lg9),
     linear-gradient(
       transparent 20%,
       var(--c4) 60%,

@@ -1,12 +1,7 @@
 <template>
   <div class="bitzing">
     <div class="bitzing-main">
-      <button class="cybr-btn bitzing-link-twitter">
-        <img src="./img/logo.svg" alt="" />
-        <span aria-hidden class="cybr-btn__glitch">
-          <img src="./img/logo.svg" alt="" />
-        </span>
-      </button>
+      <div id="logo" ref="logo" class="logo"></div>
       <div class="bitzing-text">
         <img src="./img/slogen.png" alt="" />
       </div>
@@ -36,6 +31,7 @@
 </template>
 
 <script>
+import { logoFun } from './logo';
 export default {
   name: 'HelloWorld',
   props: {
@@ -44,7 +40,8 @@ export default {
   data() {
     return {
       showIfram: false,
-      iframeSrc: `http://221.236.31.34:16085/`,
+      // iframeSrc: `http://221.236.31.34:16085/`,
+      iframeSrc: `http://localhost:5173/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
@@ -69,7 +66,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    logoFun('logo');
+  },
   methods: {},
 };
 </script>
@@ -127,7 +126,7 @@ export default {
 }
 .bitzing-iframe {
   width: 90%;
-  height: 400px;
+  height: 620px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -136,6 +135,11 @@ export default {
   z-index: 10;
 }
 .bitzing-main-img {
+  margin: 20px auto;
+}
+.logo {
+  width: 387px;
+  height: 188px;
   margin: 20px auto;
 }
 </style>

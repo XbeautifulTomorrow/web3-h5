@@ -35,8 +35,7 @@ export default {
   },
   data() {
     return {
-      // iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
-      iframeSrc: `http://localhost:5173/?imgUrl=https://images.pexels.com/photos/8451490/pexels-photo-8451490.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
       counter: 0,
       updateRate: 10,
       tilt: 2,

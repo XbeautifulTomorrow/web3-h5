@@ -62,7 +62,6 @@ export default {
     };
   },
   created() {
-    console.log(window.location.search);
     const { search } = window.location;
     if (search) {
       const searchArr = search.split('=');

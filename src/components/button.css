@@ -136,7 +136,7 @@ body .cybr-btn + .cybr-btn {
   font-weight: 700;
   border: 0;
   min-width: 64px;
-  height: 64px;
+  min-height: 64px;
   line-height: 64px;
   transition: background 0.2s;
 }

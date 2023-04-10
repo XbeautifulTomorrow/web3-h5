@@ -1,14 +1,24 @@
 <template>
   <div class="bitzing">
     <img class="bg-line" src="./img/bg-line.png" alt="" />
+
     <div class="bitzing-main">
-      <div>
+      <button class="cybr-btn bitzing-link-twitter">
         <img src="./img/logo.svg" alt="" />
-      </div>
+        <span aria-hidden class="cybr-btn__glitch">
+          <img src="./img/logo.svg" alt="" />
+        </span>
+      </button>
       <div class="bitzing-text">
         <img src="./img/slogen.png" alt="" />
       </div>
-      <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
+      <iframe
+        v-if="showIfram"
+        class="bitzing-iframe"
+        :src="iframeSrc"
+        frameborder="0"
+      ></iframe>
+      <img v-else class="bitzing-main-img" src="./img/main.png" alt="" />
       <div class="bitzing-link">
         <button class="cybr-btn bitzing-link-twitter">
           <img src="./img/twitter.svg" alt="" />
@@ -35,7 +45,8 @@ export default {
   },
   data() {
     return {
-      iframeSrc: `http://221.236.31.34:16085/?imgUrl=http://221.236.31.34:16082/img/main.png`,
+      showIfram: false,
+      iframeSrc: `http://221.236.31.34:16082/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
@@ -50,7 +61,17 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+    console.log(window.location.search);
+    const { search } = window.location;
+    if (search) {
+      const searchArr = search.split('=');
+      if (searchArr[1]) {
+        this.showIfram = true;
+        this.iframeSrc += `?imgUrl=${searchArr[1]}`;
+      }
+    }
+  },
   mounted() {},
   methods: {},
 };
@@ -115,7 +136,7 @@ export default {
 }
 .bg-line {
   position: fixed;
-  top: 150px;
+  bottom: 26%;
   left: 0;
   width: 100%;
   height: 300px;
@@ -124,6 +145,9 @@ export default {
 .bitzing-main {
   position: relative;
   z-index: 10;
+}
+.bitzing-main-img {
+  margin: 20px auto;
 }
 </style>
 <style scoped>

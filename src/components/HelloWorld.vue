@@ -1,7 +1,5 @@
 <template>
   <div class="bitzing">
-    <img class="bg-line" src="./img/bg-line.png" alt="" />
-
     <div class="bitzing-main">
       <button class="cybr-btn bitzing-link-twitter">
         <img src="./img/logo.svg" alt="" />
@@ -132,14 +130,6 @@ export default {
   height: 400px;
   margin: 0 auto;
   overflow: hidden;
-}
-.bg-line {
-  position: fixed;
-  bottom: 26%;
-  left: 0;
-  width: 100%;
-  height: 300px;
-  z-index: 0;
 }
 .bitzing-main {
   position: relative;

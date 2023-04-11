@@ -124,9 +124,9 @@ export default {
 }
 .bitzing-iframe {
   width: 90%;
-  height: 700px;
+  height: 750px;
   margin: 0 auto;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .bitzing-main {
   position: relative;
@@ -141,15 +141,16 @@ export default {
   margin: 0 auto 20px;
 }
 .bitzing-link-svg {
-  width: 94px;
-  height: 94px;
+  width: 74px;
+  height: 74px;
   background-repeat: no-repeat;
-  background-size: 500% auto;
+  background-size: 806% auto;
   display: inline-block;
   outline: none;
 }
 .link-twitter {
   background-image: url('./img/button-twitter-sprite.png');
+  margin-right: 20px;
 }
 .link-discord {
   background-image: url('./img/button-discord-sprite.png');

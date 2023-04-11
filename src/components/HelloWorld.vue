@@ -1,5 +1,5 @@
 <template>
-  <div class="bitzing">
+  <div class="bitzing" ref="bitzing" :style="bitzingStyle">
     <audio
       id="music"
       ref="music"
@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      bitzingStyle: {},
       isShow: true,
       iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
@@ -66,6 +67,19 @@ export default {
   },
   mounted() {
     logoFun('logo');
+    const { offsetHeight } = this.$refs.bitzing;
+    const { clientHeight } = document.body;
+    if (clientHeight > offsetHeight) {
+      const _style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      };
+      Object.assign(this.bitzingStyle, _style);
+    } else {
+      Object.assign(this.bitzingStyle, { padding: '20px 0' });
+    }
   },
   methods: {
     audioAutoPlay(id) {
@@ -82,7 +96,6 @@ export default {
 <style scoped>
 .bitzing {
   width: 100%;
-  min-height: 100vh;
   position: relative;
   z-index: 10;
 }
@@ -111,7 +124,7 @@ export default {
 }
 .bitzing-iframe {
   width: 90%;
-  height: 620px;
+  height: 700px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -125,7 +138,7 @@ export default {
 .logo {
   width: 387px;
   height: 188px;
-  margin: 20px auto;
+  margin: 0 auto 20px;
 }
 .bitzing-link-svg {
   width: 94px;

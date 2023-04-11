@@ -1,5 +1,15 @@
 <template>
   <div class="bitzing">
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      autoplay="true"
+      loop="loop"
+    ></audio>
+    <div v-if="isShow" class="audio-play" @click="audioAutoPlay('music')"></div>
     <div class="bitzing-main">
       <div id="logo" ref="logo" class="logo"></div>
       <div class="bitzing-text">
@@ -7,20 +17,16 @@
       </div>
       <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
       <div class="bitzing-link">
-        <span class="bitzing-link-svg link-twitter"></span>
-        <span class="bitzing-link-svg link-discord"></span>
-        <!-- <button class="cybr-btn bitzing-link-twitter">
-          <img src="./img/twitter.svg" alt="" />
-          <span aria-hidden class="cybr-btn__glitch">
-            <img src="./img/twitter.svg" alt="" />
-          </span>
-        </button>
-        <button class="cybr-btn bitzing-link-twitter">
-          <img src="./img/discord.svg" alt="" />
-          <span aria-hidden class="cybr-btn__glitch">
-            <img src="./img/discord.svg" alt="" />
-          </span>
-        </button> -->
+        <a
+          class="bitzing-link-svg link-twitter"
+          href="https://twitter.com/Bitzing_io"
+          target="_blank"
+        ></a>
+        <a
+          class="bitzing-link-svg link-discord"
+          href="https://discord.gg/J9KVVtWu"
+          target="_blank"
+        ></a>
       </div>
     </div>
   </div>
@@ -28,6 +34,7 @@
 
 <script>
 import { logoFun } from './logo';
+import musicSrc from './music/music.mp3';
 export default {
   name: 'HelloWorld',
   props: {
@@ -35,6 +42,7 @@ export default {
   },
   data() {
     return {
+      isShow: true,
       iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
@@ -59,7 +67,14 @@ export default {
   mounted() {
     logoFun('logo');
   },
-  methods: {},
+  methods: {
+    audioAutoPlay(id) {
+      let music = this.$refs[id];
+      music.src = musicSrc;
+      this.isShow = false;
+      music.play();
+    },
+  },
 };
 </script>
 
@@ -73,26 +88,6 @@ export default {
 }
 .bitzing-text {
   height: 34px;
-  /* background-image: linear-gradient(
-    to bottom,
-    #02081d 100%,
-    #009afe 71%,
-    #68ddfa 60%,
-    #ede8f7 46%,
-    #2e00a3 46%,
-    #ff2daf 25%,
-    #ff75ca 11%
-  );
-  font-family: Teko;
-  font-size: 24px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent; */
 }
 .container {
   perspective: 30px;
@@ -163,6 +158,14 @@ export default {
   to {
     background-position: 100% 0;
   }
+}
+.audio-play {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
 }
 </style>
 <style scoped>

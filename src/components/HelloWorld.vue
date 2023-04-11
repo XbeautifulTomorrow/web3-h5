@@ -5,13 +5,7 @@
       <div class="bitzing-text">
         <img src="./img/slogen.png" alt="" />
       </div>
-      <iframe
-        v-if="showIfram"
-        class="bitzing-iframe"
-        :src="iframeSrc"
-        frameborder="0"
-      ></iframe>
-      <img v-else class="bitzing-main-img" src="./img/main.png" alt="" />
+      <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
       <div class="bitzing-link">
         <button class="cybr-btn bitzing-link-twitter">
           <img src="./img/twitter.svg" alt="" />
@@ -39,7 +33,6 @@ export default {
   },
   data() {
     return {
-      showIfram: false,
       iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
@@ -47,12 +40,7 @@ export default {
       container: undefined,
       imgElement: undefined,
       style: '',
-      mouse: {
-        _x: 0,
-        _y: 0,
-        x: 0,
-        y: 0,
-      },
+      src: `${window.location.origin}/main.png`,
     };
   },
   created() {
@@ -60,10 +48,11 @@ export default {
     if (search) {
       const searchArr = search.split('=');
       if (searchArr[1]) {
-        this.showIfram = true;
         this.iframeSrc += `?imgUrl=${searchArr[1]}`;
+        return;
       }
     }
+    this.iframeSrc += `?imgUrl=${this.src}`;
   },
   mounted() {
     logoFun('logo');
@@ -149,5 +138,23 @@ export default {
 .bitzing-iframe * {
   overflow: hidden;
   background: none;
+}
+.bitzing-link-svg:hover {
+  animation-name: sprite;
+  animation-duration: 0.2s;
+  animation-timing-function: steps(4);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  cursor: pointer;
+  filter: drop-shadow(0 0 46rem #60dbff);
+}
+@keyframes sprite {
+  0% {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -529rem;
+  }
 }
 </style>

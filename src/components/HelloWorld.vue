@@ -66,7 +66,6 @@ export default {
     this.iframeSrc += `?imgUrl=${this.src}`;
   },
   mounted() {
-    logoFun('logo');
     const { offsetHeight } = this.$refs.bitzing;
     const { clientHeight } = document.body;
     if (clientHeight > offsetHeight) {
@@ -80,6 +79,7 @@ export default {
     } else {
       Object.assign(this.bitzingStyle, { padding: '20px 0' });
     }
+    logoFun('logo');
   },
   methods: {
     audioAutoPlay(id) {

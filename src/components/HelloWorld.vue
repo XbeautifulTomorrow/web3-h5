@@ -7,7 +7,9 @@
       </div>
       <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
       <div class="bitzing-link">
-        <button class="cybr-btn bitzing-link-twitter">
+        <span class="bitzing-link-svg link-twitter"></span>
+        <span class="bitzing-link-svg link-discord"></span>
+        <!-- <button class="cybr-btn bitzing-link-twitter">
           <img src="./img/twitter.svg" alt="" />
           <span aria-hidden class="cybr-btn__glitch">
             <img src="./img/twitter.svg" alt="" />
@@ -18,7 +20,7 @@
           <span aria-hidden class="cybr-btn__glitch">
             <img src="./img/discord.svg" alt="" />
           </span>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
@@ -130,14 +132,19 @@ export default {
   height: 188px;
   margin: 20px auto;
 }
-</style>
-<style scoped>
-@import url('./button.css');
-</style>
-<style>
-.bitzing-iframe * {
-  overflow: hidden;
-  background: none;
+.bitzing-link-svg {
+  width: 94px;
+  height: 94px;
+  background-repeat: no-repeat;
+  background-size: 500% auto;
+  display: inline-block;
+  outline: none;
+}
+.link-twitter {
+  background-image: url('./img/button-twitter-sprite.png');
+}
+.link-discord {
+  background-image: url('./img/button-discord-sprite.png');
 }
 .bitzing-link-svg:hover {
   animation-name: sprite;
@@ -150,11 +157,20 @@ export default {
 }
 @keyframes sprite {
   0% {
-    background-position: 0;
+    background-position: 0 0;
   }
 
   to {
-    background-position: -529rem;
+    background-position: 100% 0;
   }
+}
+</style>
+<style scoped>
+@import url('./button.css');
+</style>
+<style>
+.bitzing-iframe * {
+  overflow: hidden;
+  background: none;
 }
 </style>

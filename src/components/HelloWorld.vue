@@ -1,6 +1,6 @@
 <template>
   <div class="bitzing" ref="bitzing" :style="bitzingStyle">
-    <audio
+    <!-- <audio
       id="music"
       ref="music"
       preload="auto"
@@ -9,7 +9,7 @@
       autoplay="true"
       loop="loop"
     ></audio>
-    <div v-if="isShow" class="audio-play" @click="audioAutoPlay('music')"></div>
+    <div v-if="isShow" class="audio-play" @click="audioAutoPlay('music')"></div> -->
     <div class="bitzing-main">
       <div id="logo" ref="logo" class="logo"></div>
       <div class="bitzing-text">
@@ -34,7 +34,7 @@
 
 <script>
 import { logoFun } from './logo';
-import musicSrc from './music/music.mp3';
+// import musicSrc from './music/music.mp3';
 export default {
   name: 'HelloWorld',
   props: {
@@ -82,12 +82,12 @@ export default {
     logoFun('logo');
   },
   methods: {
-    audioAutoPlay(id) {
-      let music = this.$refs[id];
-      music.src = musicSrc;
-      this.isShow = false;
-      music.play();
-    },
+    // audioAutoPlay(id) {
+    //   let music = this.$refs[id];
+    //   music.src = musicSrc;
+    //   this.isShow = false;
+    //   music.play();
+    // },
   },
 };
 </script>
@@ -98,9 +98,6 @@ export default {
   width: 100%;
   position: relative;
   z-index: 10;
-}
-.bitzing-text {
-  height: 34px;
 }
 .container {
   perspective: 30px;

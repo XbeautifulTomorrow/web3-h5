@@ -124,7 +124,7 @@ export default {
 }
 .bitzing-iframe {
   width: 90%;
-  height: 750px;
+  height: 800px;
   margin: 0 auto;
   /* overflow: hidden; */
 }

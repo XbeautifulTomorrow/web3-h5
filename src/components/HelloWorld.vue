@@ -138,10 +138,10 @@ export default {
   margin: 0 auto 20px;
 }
 .bitzing-link-svg {
-  width: 74px;
-  height: 74px;
+  width: 127px;
+  height: 120px;
   background-repeat: no-repeat;
-  background-size: 806% auto;
+  background-size: auto 100%;
   display: inline-block;
   outline: none;
 }

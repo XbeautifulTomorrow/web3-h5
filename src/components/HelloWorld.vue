@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      bitzingStyle: {},
+      bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
       isShow: true,
       iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
@@ -50,7 +50,6 @@ export default {
       tilt: 2,
       container: undefined,
       imgElement: undefined,
-      style: '',
       src: `${window.location.origin}/main.png`,
     };
   },
@@ -68,17 +67,14 @@ export default {
   mounted() {
     const { offsetHeight } = this.$refs.bitzing;
     const { clientHeight } = document.body;
-    if (clientHeight > offsetHeight) {
-      const _style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      };
-      Object.assign(this.bitzingStyle, _style);
-    } else {
-      Object.assign(this.bitzingStyle, { padding: '20px 0' });
-    }
+    let _style = this.bitzingStyle;
+    _style = {
+      transform: ` translate(-50%, -50%) scale(${(
+        (clientHeight * 0.85) /
+        offsetHeight
+      ).toFixed(2)})`,
+    };
+    Object.assign(this.bitzingStyle, _style);
     logoFun('logo');
   },
   methods: {
@@ -96,14 +92,17 @@ export default {
 <style scoped>
 .bitzing {
   width: 100%;
-  position: relative;
+  margin: auto;
   z-index: 10;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(1);
 }
 .container {
   perspective: 30px;
-}
-.bitzing-link {
-  height: 64px;
 }
 .bitzing-link-twitter {
   margin-right: 20px;

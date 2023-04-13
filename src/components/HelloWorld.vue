@@ -44,7 +44,7 @@ export default {
     return {
       bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
       isShow: true,
-      iframeSrc: `http://221.236.31.34:16085/`,
+      iframeSrc: `/card/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,

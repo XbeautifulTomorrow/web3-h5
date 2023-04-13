@@ -66,25 +66,30 @@ export default {
     this.iframeSrc += `?imgUrl=${this.src}`;
   },
   mounted() {
-    const { offsetHeight } = this.$refs.bitzing;
-    const { clientHeight } = document.body;
-    let _style = this.bitzingStyle;
-    _style = {
-      transform: ` translate(-50%, -50%) scale(${(
-        (clientHeight * 0.85) /
-        offsetHeight
-      ).toFixed(2)})`,
-    };
-    Object.assign(this.bitzingStyle, _style);
+    this.bitzingStyleFun();
+    logoFun('logo');
     window.onresize = () => {
       if (this.timer !== null) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
+        this.bitzingStyleFun();
         logoFun('logo');
       }, 300);
     };
-    logoFun('logo');
   },
-  methods: {},
+  methods: {
+    bitzingStyleFun() {
+      const { offsetHeight } = this.$refs.bitzing;
+      const { clientHeight } = document.body;
+      let _style = this.bitzingStyle;
+      _style = {
+        transform: ` translate(-50%, -50%) scale(${(
+          (clientHeight * 0.85) /
+          offsetHeight
+        ).toFixed(2)})`,
+      };
+      Object.assign(this.bitzingStyle, _style);
+    },
+  },
   beforeUpdate() {
     clearTimeout(this.timer);
     this.timer = null;

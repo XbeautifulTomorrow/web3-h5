@@ -10,6 +10,7 @@ export function logoFun(id = 'logo') {
     let glitch;
     let imgSrc = img;
     sketch.setup = () => {
+      document.getElementById(id).innerHTML = null;
       const logo = sketch.createCanvas(windowW, windowH);
       logo.parent(id);
       sketch.loadImage(imgSrc, function (img) {
@@ -24,10 +25,6 @@ export function logoFun(id = 'logo') {
       if (isLoaded) {
         glitch.show();
       }
-
-      // fill(255, 255, 255);
-      // textSize(14);
-      // text('FPS: ' + sketch.floor(frameRate()), 20, 30);
     };
 
     class Glitch {

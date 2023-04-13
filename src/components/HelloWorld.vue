@@ -51,6 +51,7 @@ export default {
       container: undefined,
       imgElement: undefined,
       src: `${window.location.origin}/main.png`,
+      timer: null,
     };
   },
   created() {
@@ -75,15 +76,18 @@ export default {
       ).toFixed(2)})`,
     };
     Object.assign(this.bitzingStyle, _style);
+    window.onresize = () => {
+      if (this.timer !== null) clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        logoFun('logo');
+      }, 300);
+    };
     logoFun('logo');
   },
-  methods: {
-    // audioAutoPlay(id) {
-    //   let music = this.$refs[id];
-    //   music.src = musicSrc;
-    //   this.isShow = false;
-    //   music.play();
-    // },
+  methods: {},
+  beforeUpdate() {
+    clearTimeout(this.timer);
+    this.timer = null;
   },
 };
 </script>

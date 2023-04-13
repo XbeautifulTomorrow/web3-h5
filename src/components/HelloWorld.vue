@@ -179,9 +179,6 @@ export default {
   z-index: 20;
 }
 </style>
-<style scoped>
-@import url('./button.css');
-</style>
 <style>
 .bitzing-iframe * {
   overflow: hidden;

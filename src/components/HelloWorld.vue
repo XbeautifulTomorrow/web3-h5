@@ -66,15 +66,13 @@ export default {
     this.iframeSrc += `?imgUrl=${this.src}`;
   },
   mounted() {
-    this.bitzingStyleFun();
-    logoFun('logo');
     window.onresize = () => {
       if (this.timer !== null) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.bitzingStyleFun();
-        logoFun('logo');
       }, 300);
     };
+    this.bitzingStyleFun();
   },
   methods: {
     bitzingStyleFun() {
@@ -88,6 +86,7 @@ export default {
         ).toFixed(2)})`,
       };
       Object.assign(this.bitzingStyle, _style);
+      logoFun('logo');
     },
   },
   beforeUpdate() {

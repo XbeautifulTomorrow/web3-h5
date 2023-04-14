@@ -70,13 +70,20 @@ export default {
       bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
       isShow: true,
       showLogoOne: true,
-      iframeSrc: `http://221.236.31.34:16085/`,
+      iframeSrc:
+        window.location.origin.indexOf('www.bitzing.io') > 0
+          ? 'https://www.bitzing.io/card/'
+          : `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
       container: undefined,
       imgElement: undefined,
-      src: `${window.location.origin}/main.png`,
+      src: `${
+        window.location.origin.indexOf('www.bitzing.io') > 0
+          ? 'https://www.bitzing.io/card/'
+          : window.location.origin
+      }/main.png`,
       timer: null,
       musicTimer: null,
       showLogoTimer: null,

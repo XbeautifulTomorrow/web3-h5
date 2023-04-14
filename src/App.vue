@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld />
+  <CardHome />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import CardHome from './components/cardHome.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    CardHome,
   },
 };
 </script>

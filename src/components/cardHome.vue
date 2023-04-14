@@ -33,31 +33,34 @@
 </template>
 
 <script>
-import { logoFun } from './logo';
+import { logoFun } from "./logo";
 // import musicSrc from './music/music.mp3';
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String,
   },
   data() {
     return {
-      bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
+      bitzingStyle: { transform: "translate(-50%, -50%) scale(1)" },
       isShow: true,
-      iframeSrc: `/card/`,
+      iframeSrc: window.location.origin.indexOf("www.bitzing.io")>0
+        ? "https://www.bitzing.io/card/"
+        : `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
       tilt: 2,
       container: undefined,
       imgElement: undefined,
-      src: `${window.location.origin}/main.png`,
+      src: `${window.location.origin.indexOf("www.bitzing.io")>0
+        ? "https://www.bitzing.io/card/":window.location.origin}/main.png`,
       timer: null,
     };
   },
   created() {
     const { search } = window.location;
     if (search) {
-      const searchArr = search.split('=');
+      const searchArr = search.split("=");
       if (searchArr[1]) {
         this.iframeSrc += `?imgUrl=${searchArr[1]}`;
         return;
@@ -86,7 +89,7 @@ export default {
         ).toFixed(2)})`,
       };
       Object.assign(this.bitzingStyle, _style);
-      logoFun('logo');
+      logoFun("logo");
     },
   },
   beforeUpdate() {
@@ -153,11 +156,11 @@ export default {
   outline: none;
 }
 .link-twitter {
-  background-image: url('./img/button-twitter-sprite.png');
+  background-image: url("./img/button-twitter-sprite.png");
   margin-right: 20px;
 }
 .link-discord {
-  background-image: url('./img/button-discord-sprite.png');
+  background-image: url("./img/button-discord-sprite.png");
 }
 .bitzing-link-svg:hover {
   animation-name: sprite;

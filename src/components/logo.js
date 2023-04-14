@@ -1,27 +1,43 @@
 /* eslint-disable */
 import p5 from 'p5';
 import img from './img/logo.svg';
-export function logoFun(id = 'logo') {
+import glich1 from './music/glich1.mp3';
+import glich2 from './music/glich2.mp3';
+import glich3 from './music/glich3.mp3';
+import glich4 from './music/glich4.mp3';
+import glich5 from './music/glich5.mp3';
+export function logoFun(id = 'logo', musicId = 'music', isPlay = false) {
   const _test = (sketch) => {
+    const musicArr = [glich1, glich2, glich3, glich4, glich5];
     const ele = document.getElementById(id);
     let windowW = ele.offsetWidth;
     let windowH = ele.offsetHeight;
     let isLoaded = false;
     let glitch;
     let imgSrc = img;
+    let timer = null;
     sketch.setup = () => {
       document.getElementById(id).innerHTML = null;
       const logo = sketch.createCanvas(windowW, windowH);
       logo.parent(id);
+      sketch.frameRate(5); // 动画执行次数
+      if (isPlay) {
+        const dubbing = document.getElementById(musicId);
+        clearTimeout(timer);
+        timer = null;
+        timer = setInterval(() => {
+          const nuber = Math.floor(sketch.random(0, musicArr.length));
+          dubbing.src = musicArr[nuber];
+          dubbing.play();
+        }, 200);
+      }
       sketch.loadImage(imgSrc, function (img) {
         glitch = new Glitch(img, sketch);
         isLoaded = true;
       });
     };
-
     sketch.draw = () => {
       sketch.clear();
-
       if (isLoaded) {
         glitch.show();
       }

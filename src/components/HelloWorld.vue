@@ -1,17 +1,19 @@
 <template>
-  <div class="bitzing" ref="bitzing" :style="bitzingStyle">
-    <!-- <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      autoplay="true"
-      loop="loop"
-    ></audio>
-    <div v-if="isShow" class="audio-play" @click="audioAutoPlay('music')"></div> -->
-    <div class="bitzing-main">
-      <div id="logo" ref="logo" class="logo"></div>
+  <div class="bitzing">
+    <div class="bitzing-main" ref="bitzing" :style="bitzingStyle">
+      <div class="logo">
+        <div
+          v-if="showLogoOne"
+          id="logo"
+          ref="logo"
+          :class="['logo-img', { notShow: !isShow }]"
+        ></div>
+        <div
+          id="logoOther"
+          ref="logo"
+          :class="['logo-img', { notShow: isShow }]"
+        ></div>
+      </div>
       <div class="bitzing-text">
         <img src="./img/slogen.png" alt="" />
       </div>
@@ -29,12 +31,35 @@
         ></a>
       </div>
     </div>
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      autoplay="true"
+      loop="loop"
+      class="bitzing-audio"
+    ></audio>
+    <audio
+      id="dubbing"
+      ref="dubbing"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      class="bitzing-audio"
+    ></audio>
+    <div
+      v-show="isShow"
+      class="audio-play"
+      @click="audioAutoPlay('music')"
+    ></div>
   </div>
 </template>
 
 <script>
 import { logoFun } from './logo';
-// import musicSrc from './music/music.mp3';
+import BackgroundMusic from './music/Background.mp3';
 export default {
   name: 'HelloWorld',
   props: {
@@ -44,6 +69,7 @@ export default {
     return {
       bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
       isShow: true,
+      showLogoOne: true,
       iframeSrc: `http://221.236.31.34:16085/`,
       counter: 0,
       updateRate: 10,
@@ -52,6 +78,8 @@ export default {
       imgElement: undefined,
       src: `${window.location.origin}/main.png`,
       timer: null,
+      musicTimer: null,
+      showLogoTimer: null,
     };
   },
   created() {
@@ -75,7 +103,7 @@ export default {
     this.bitzingStyleFun();
   },
   methods: {
-    bitzingStyleFun() {
+    bitzingStyleFun(id = 'logo', isPlay = false) {
       const { offsetHeight } = this.$refs.bitzing;
       const { clientHeight } = document.body;
       let _style = this.bitzingStyle;
@@ -86,12 +114,28 @@ export default {
         ).toFixed(2)})`,
       };
       Object.assign(this.bitzingStyle, _style);
-      logoFun('logo');
+      logoFun(id, isPlay);
+    },
+    audioAutoPlay(id) {
+      this.isShow = false;
+      const music = this.$refs[id];
+      music.src = BackgroundMusic;
+      music.play();
+      this.bitzingStyleFun('logoOther', 'dubbing', true);
+      this.showLogoTimer = setTimeout(() => {
+        this.showLogoTimer = false;
+      }, 200);
+    },
+    fullClose(min, max) {
+      const number = Math.floor(Math.random() * (max - min + 1)) + min;
+      return number;
     },
   },
   beforeUpdate() {
     clearTimeout(this.timer);
+    clearTimeout(this.showLogoTimer);
     this.timer = null;
+    this.showLogoTimer = null;
   },
 };
 </script>
@@ -100,14 +144,11 @@ export default {
 <style scoped>
 .bitzing {
   width: 100%;
+  height: 100vh;
   margin: auto;
+  position: relative;
   z-index: 10;
   overflow: hidden;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: center center;
-  transform: translate(-50%, -50%) scale(1);
 }
 .container {
   perspective: 30px;
@@ -135,6 +176,11 @@ export default {
 .bitzing-main {
   position: relative;
   z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(1);
 }
 .bitzing-main-img {
   margin: 20px auto;
@@ -143,6 +189,20 @@ export default {
   width: 387px;
   height: 188px;
   margin: 0 auto 20px;
+  position: relative;
+}
+.logo-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.notShow {
+  z-index: -1;
+}
+.bitzing-text {
+  height: 48px;
 }
 .bitzing-link-svg {
   width: 127px;

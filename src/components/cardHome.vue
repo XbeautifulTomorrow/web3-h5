@@ -36,7 +36,7 @@
 import { logoFun } from "./logo";
 // import musicSrc from './music/music.mp3';
 export default {
-  name: "HelloWorld",
+  name: "cardHome",
   props: {
     msg: String,
   },

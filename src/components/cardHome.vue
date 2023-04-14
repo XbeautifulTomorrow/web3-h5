@@ -49,11 +49,22 @@
       playsinline="true"
       class="bitzing-audio"
     ></audio>
-    <div
-      v-show="isShow"
-      class="audio-play"
-      @click="audioAutoPlay('music')"
-    ></div>
+    <div v-show="isShow" class="audio-play" @click="audioAutoPlay('music')">
+      <div class="audio-play-main">
+        <div class="audio-play-close">
+          <img
+            src="./img/invalid-name.png"
+            class="audio-play-close-img"
+            alt=""
+          />
+        </div>
+        <img src="./img/get-ready-badass-d.png" alt="" />
+        <button class="audio-play-button">
+          <img src="./img/icon-hand.png" alt="" />
+          <img src="./img/start-rock.png" alt="" />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -251,6 +262,52 @@ export default {
   width: 100vw;
   height: 100vh;
   z-index: 20;
+  cursor: pointer;
+}
+.audio-play-main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 625.8px;
+  height: 352px;
+  margin: 0 auto;
+  padding-top: 63px;
+  text-align: center;
+  border-radius: 16px;
+  border: solid 2px rgba(0, 233, 236, 0.5);
+  background-color: rgba(1, 8, 28, 0.95);
+  overflow: hidden;
+}
+.audio-play-button {
+  background: none;
+  width: 149px;
+  height: 44px;
+  padding: 8px 23px 8px 22px;
+  border-radius: 22px;
+  box-shadow: 1px 1px 0 0 #df00ff;
+  border: solid 2px #00e9ec;
+  margin: 0 auto;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  margin-top: 60px;
+}
+.audio-play-close {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  position: absolute;
+  top: -42px;
+  right: -42px;
+  background-color: #00e9ec;
+}
+.audio-play-close-img {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
 }
 </style>
 <style>

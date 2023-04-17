@@ -175,9 +175,6 @@ export default {
 .notShow {
   z-index: -1;
 }
-.bitzing-text {
-  height: 48px;
-}
 .bitzing-link-svg {
   width: 127px;
   height: 120px;

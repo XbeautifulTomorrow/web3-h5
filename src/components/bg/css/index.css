@@ -210,8 +210,10 @@
   justify-content: center;
   align-items: flex-end;
   position: relative;
+  /* background: url('../../img/bg-line.png') 0% 527%/100% 90% no-repeat,
+    url('../../img/bg-top.png') no-repeat; */
 }
-/* .top:after {
+.top:after {
   content: '';
   position: absolute;
   bottom: -0.5vmin;
@@ -265,8 +267,8 @@
     100% 100%,
     0% 100%
   );
-} */
-/* .top:before {
+}
+.top:before {
   content: '';
   position: absolute;
   bottom: -1vmin;
@@ -323,7 +325,7 @@
     100% 100%,
     0% 100%
   );
-} */
+}
 
 .bottom-overlay {
   perspective: 14.5rem;
@@ -346,6 +348,7 @@
   perspective: 14.5rem;
   flex: 0 0 12.5rem;
   position: relative;
+  /* background: url('../../img/bg-line.png') 0% -527%/100% 90% no-repeat; */
 }
 .bottom:before {
   content: '';
@@ -554,7 +557,7 @@
   top: 0;
   z-index: -1;
 }
-/* .scene:after {
+.scene:after {
   content: '';
   position: absolute;
   inset: 0;
@@ -564,7 +567,7 @@
   mix-blend-mode: overlay;
   filter: invert(1);
   z-index: 20000;
-} */
+}
 
 body {
   background-color: var(--labs-sys-color-background);

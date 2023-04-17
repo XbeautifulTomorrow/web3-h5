@@ -10,10 +10,8 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "element-plus": "^2.3.0",
-    "glitch-canvas": "^1.1.12",
     "p5": "^1.6.0",
-    "vue": "^3.2.13",
-    "webfontloader": "^1.6.28"
+    "vue": "^3.2.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -20,7 +20,7 @@ export function logoFun(id = 'logo', musicId = 'music', isPlay = false) {
       document.getElementById(id).innerHTML = null;
       const logo = sketch.createCanvas(windowW, windowH);
       logo.parent(id);
-      sketch.frameRate(5); // 动画执行次数
+      // sketch.frameRate(20); // 动画执行次数
       if (isPlay) {
         const dubbing = document.getElementById(musicId);
         clearTimeout(timer);
@@ -29,7 +29,7 @@ export function logoFun(id = 'logo', musicId = 'music', isPlay = false) {
           const nuber = Math.floor(sketch.random(0, musicArr.length));
           dubbing.src = musicArr[nuber];
           dubbing.play();
-        }, 200);
+        }, 50);
       }
       sketch.loadImage(imgSrc, function (img) {
         glitch = new Glitch(img, sketch);

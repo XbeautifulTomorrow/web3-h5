@@ -10,7 +10,7 @@ const SKEW = 7;
 const SPEED = 0.014;
 const P_GLITCH = 0.005;
 const GLITCH_PAUSE_DURATION = [1000, 1200]; // min, max in ms.
-const COLOR = [54, 58, 90];
+const COLOR = [55, 255, 55];
 const TITLE = '';
 
 const dynamicCtx = document.createElement('canvas').getContext('2d');

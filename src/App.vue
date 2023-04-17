@@ -1,22 +1,22 @@
 <template>
+  <Bg />
   <CardHome />
-  <div class="bg" id="bg"></div>
 </template>
 
 <script>
 import CardHome from './components/cardHome.vue';
-import "./components/bg"
+import Bg from './components/bg/index.vue';
 
 export default {
   name: 'App',
   components: {
     CardHome,
+    Bg,
   },
 };
 </script>
 
 <style>
-/* @import url("./index.scss"); */
 * {
   margin: 0;
   padding: 0;
@@ -30,7 +30,7 @@ export default {
   width: 100%;
   min-height: 100vh;
 }
-body{
+body {
   background-color: #000;
 }
 .bg {

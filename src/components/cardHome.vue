@@ -2,17 +2,7 @@
   <div class="bitzing">
     <div class="bitzing-main" ref="bitzing" :style="bitzingStyle">
       <div class="logo">
-        <div
-          v-if="showLogoOne"
-          id="logo"
-          ref="logo"
-          :class="['logo-img', { notShow: !isShow }]"
-        ></div>
-        <div
-          id="logoOther"
-          ref="logo"
-          :class="['logo-img', { notShow: isShow }]"
-        ></div>
+        <div id="logo" ref="logo" :class="['logo-img']"></div>
       </div>
       <div class="bitzing-text">
         <img src="./img/slogen.png" alt="" />
@@ -38,15 +28,6 @@
       webkit-playsinline="true"
       playsinline="true"
       autoplay="true"
-      loop="loop"
-      class="bitzing-audio"
-    ></audio>
-    <audio
-      id="dubbing"
-      ref="dubbing"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
       class="bitzing-audio"
     ></audio>
     <div v-show="isShow" class="audio-play" @click="audioAutoPlay('music')">
@@ -70,7 +51,7 @@
 
 <script>
 import { logoFun } from './logo';
-import BackgroundMusic from './music/Background.mp3';
+import bitzingmusic from './music/bitzingmusic.mp3';
 export default {
   name: 'HelloWorld',
   props: {
@@ -80,17 +61,9 @@ export default {
     return {
       bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
       isShow: true,
-      showLogoOne: true,
       iframeSrc: `/card/`,
-      counter: 0,
-      updateRate: 10,
-      tilt: 2,
-      container: undefined,
-      imgElement: undefined,
       src: `${window.location.origin}/main.png`,
       timer: null,
-      musicTimer: null,
-      showLogoTimer: null,
     };
   },
   created() {
@@ -114,7 +87,7 @@ export default {
     this.bitzingStyleFun();
   },
   methods: {
-    bitzingStyleFun(id = 'logo', isPlay = false) {
+    bitzingStyleFun(id = 'logo') {
       const { offsetHeight } = this.$refs.bitzing;
       const { clientHeight } = document.body;
       let _style = this.bitzingStyle;
@@ -125,28 +98,18 @@ export default {
         ).toFixed(2)})`,
       };
       Object.assign(this.bitzingStyle, _style);
-      logoFun(id, isPlay);
+      logoFun(id);
     },
     audioAutoPlay(id) {
       this.isShow = false;
       const music = this.$refs[id];
-      music.src = BackgroundMusic;
+      music.src = bitzingmusic;
       music.play();
-      this.bitzingStyleFun('logoOther', 'dubbing', true);
-      this.showLogoTimer = setTimeout(() => {
-        this.showLogoTimer = false;
-      }, 200);
-    },
-    fullClose(min, max) {
-      const number = Math.floor(Math.random() * (max - min + 1)) + min;
-      return number;
     },
   },
   beforeUpdate() {
     clearTimeout(this.timer);
-    clearTimeout(this.showLogoTimer);
     this.timer = null;
-    this.showLogoTimer = null;
   },
 };
 </script>

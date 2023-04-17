@@ -211,7 +211,7 @@
   align-items: flex-end;
   position: relative;
 }
-.top:after {
+/* .top:after {
   content: '';
   position: absolute;
   bottom: -0.5vmin;
@@ -265,8 +265,8 @@
     100% 100%,
     0% 100%
   );
-}
-.top:before {
+} */
+/* .top:before {
   content: '';
   position: absolute;
   bottom: -1vmin;
@@ -323,7 +323,7 @@
     100% 100%,
     0% 100%
   );
-}
+} */
 
 .bottom-overlay {
   perspective: 14.5rem;
@@ -554,7 +554,7 @@
   top: 0;
   z-index: -1;
 }
-.scene:after {
+/* .scene:after {
   content: '';
   position: absolute;
   inset: 0;
@@ -564,7 +564,7 @@
   mix-blend-mode: overlay;
   filter: invert(1);
   z-index: 20000;
-}
+} */
 
 body {
   background-color: var(--labs-sys-color-background);

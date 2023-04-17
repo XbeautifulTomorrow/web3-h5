@@ -36,16 +36,16 @@
       <div class="shadow"></div>
     </div> -->
     <div class="top">
-      <div class="startails">
+      <!-- <div class="startails">
         <div class="startail-r"></div>
         <div class="startail-l"></div>
         <div class="startail-m"></div>
       </div>
       <div class="top-lines"></div>
-      <!-- <div class="brand">
+      <div class="brand">
         <div class="triangle"></div>
         <div class="kode-text"></div>
-      </div> -->
+      </div>
       <div class="sun"></div>
       <div class="palm small">
         <div class="trunk"></div>
@@ -66,7 +66,7 @@
         <div class="leaf-2-s"></div>
         <div class="leaf-3"></div>
         <div class="leaf-3-s"></div>
-      </div>
+      </div> -->
     </div>
     <div class="bottom">
       <div class="m0"></div>
@@ -74,7 +74,7 @@
       <div class="m2"></div>
       <div class="bottom-overlay"></div>
     </div>
-    <div id="stars"></div>
+    <!-- <div id="stars"></div> -->
   </div>
 </template>
 <script>
@@ -83,38 +83,37 @@ export default {
 
   mounted() {
     // const volume = document.getElementById('volume');
-    requestAnimationFrame(this.render);
+    // requestAnimationFrame(this.render);
     // volume.addEventListener('pointerdown', () => this.volumeToggle());
     // volume.addEventListener('keydown', (e) => {
     //   if (e.code === 'Space' || e.code === 'Enter') {
     //     this.volumeToggle();
     //   }
     // });
-    window.addEventListener('resize', () => requestAnimationFrame(this.render));
+    // window.addEventListener('resize', () => requestAnimationFrame(this.render));
   },
   methods: {
-    getRandomInt(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min) + min);
-    },
-    render() {
-      const stars = document.getElementById('stars');
-      stars.innerHTML = '';
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const starCount = this.getRandomInt(42, 100);
-
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        const x = this.getRandomInt(0, w);
-        const y = this.getRandomInt(0, h);
-        star.style.setProperty('--x', `${x}px`);
-        star.style.setProperty('--y', `${y}px`);
-        stars.appendChild(star);
-      }
-    },
+    // getRandomInt(min, max) {
+    //   min = Math.ceil(min);
+    //   max = Math.floor(max);
+    //   return Math.floor(Math.random() * (max - min) + min);
+    // },
+    // render() {
+    //   const stars = document.getElementById('stars');
+    //   stars.innerHTML = '';
+    //   const w = window.innerWidth;
+    //   const h = window.innerHeight;
+    //   const starCount = this.getRandomInt(42, 100);
+    //   for (let i = 0; i < starCount; i++) {
+    //     const star = document.createElement('div');
+    //     star.classList.add('star');
+    //     const x = this.getRandomInt(0, w);
+    //     const y = this.getRandomInt(0, h);
+    //     star.style.setProperty('--x', `${x}px`);
+    //     star.style.setProperty('--y', `${y}px`);
+    //     stars.appendChild(star);
+    //   }
+    // },
     // volumeToggle() {
     //   const volume = document.getElementById('volume');
     //   const audio = document.getElementById('synthwave-track');
@@ -130,8 +129,8 @@ export default {
 };
 </script>
 <style scoped>
-@import url('./css/palm.css');
-@import url('./css/root.css');
-@import url('./css/property.css');
+/* @import url('./css/palm.css');
+@import url('./css/root.css'); */
+/* @import url('./css/property.css'); */
 @import url('./css/index.css');
 </style>

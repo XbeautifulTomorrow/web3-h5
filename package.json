@@ -10,8 +10,12 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "element-plus": "^2.3.0",
+    "node-sass": "^8.0.0",
     "p5": "^1.6.0",
-    "vue": "^3.2.13"
+    "sass-loader": "^13.2.2",
+    "swiper": "^9.2.3",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

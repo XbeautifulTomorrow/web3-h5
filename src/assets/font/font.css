@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Bold';
+  src: url('./Teko-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Light';
+  src: url('./Teko-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Medium';
+  src: url('./Teko-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Regular';
+  src: url('./Teko-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SemiBold';
+  src: url('./Teko-SemiBold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}

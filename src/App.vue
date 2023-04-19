@@ -1,18 +1,12 @@
 <template>
-  <Bg />
-  <CardHome />
+  <router-view class="font-family" name="Header"></router-view>
+  <router-view class="font-family"></router-view>
+  <router-view class="font-family" name="Footer"></router-view>
 </template>
 
 <script>
-import CardHome from './components/cardHome.vue';
-import Bg from './components/bg/index.vue';
-
 export default {
   name: 'App',
-  components: {
-    CardHome,
-    Bg,
-  },
 };
 </script>
 
@@ -33,10 +27,7 @@ export default {
 body {
   background-color: #000;
 }
-.bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
+</style>
+<style lang="scss">
+@import url('@/assets/css/index.scss');
 </style>

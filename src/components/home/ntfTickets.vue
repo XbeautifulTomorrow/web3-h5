@@ -95,10 +95,10 @@ export default {
   align-items: center;
   align-content: center;
   justify-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .ntf-tickets-content-title {
-  width: calc(100% - var(--imgWidth) - var(--imgMargin));
+  width: 100px;
 }
 .ntf-tickets-img {
   width: var(--imgWidth);

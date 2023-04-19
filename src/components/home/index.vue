@@ -25,8 +25,15 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// .home {
+//   background: url('@/assets/img/home/bg.png') no-repeat 100% 100%;
+// }
+</style>
 <style lang="scss">
+body {
+  background: url('@/assets/img/home/bg.png') no-repeat;
+}
 .home-public-title {
   text-align: left;
   margin: 48px auto 24px;
@@ -37,9 +44,13 @@ export default {
 .boxes-list {
   width: 220px;
   margin-right: 16px;
-  opacity: 0.3;
   border-radius: 8px;
-  background-image: linear-gradient(228deg, #fff, rgba(255, 255, 255, 0) 62%);
+  box-sizing: border-box;
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
   &:last-child {
     margin-right: 0;
   }

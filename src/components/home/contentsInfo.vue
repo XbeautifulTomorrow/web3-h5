@@ -6,7 +6,7 @@
     <table class="contents-info-table">
       <thead>
         <tr>
-          <th>
+          <th style="width: 212px">
             <div class="boxes-button">
               <span class="boxes-button-text">
                 Otherdeed for Otherside Box
@@ -87,9 +87,26 @@ export default {
       border-bottom: 2px solid #33334b;
     }
   }
+  tbody {
+    tr {
+      &:first-child {
+        td {
+          padding-top: 24px;
+        }
+      }
+      &:last-child {
+        td {
+          padding-bottom: 24px;
+        }
+      }
+    }
+  }
   td {
     height: 64px;
   }
+}
+.boxes-button {
+  cursor: pointer;
 }
 .contents-info-down {
   height: 24px;

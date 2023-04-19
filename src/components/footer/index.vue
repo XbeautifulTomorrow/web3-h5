@@ -93,6 +93,7 @@ export default {
   line-height: 20px;
   color: #f5e1d6;
   margin-right: 32px;
+  cursor: pointer;
   &:last-child {
     margin-right: 0;
   }
@@ -106,6 +107,7 @@ export default {
   width: 46px;
   height: 46px;
   margin-right: 34px;
+  cursor: pointer;
   &:last-child {
     margin-right: 0;
   }

@@ -73,7 +73,11 @@ export default {
 <style lang="scss" scoped>
 $header-height: 64px;
 .header {
+  // position: fixed;
+  // top: 0;
+  // left: 0;
   width: 100%;
+  // z-index: 10;
 }
 .header-main {
   height: $header-height;

@@ -65,6 +65,7 @@ export default {
 <style lang="scss">
 body {
   background: url('@/assets/img/home/bg.png') no-repeat;
+  background-size: 100% auto;
 }
 .home-public-title {
   text-align: left;

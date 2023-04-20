@@ -12,7 +12,7 @@
       </div>
     </div>
     <ul class="boxes-content">
-      <template v-for="(item, index) in tickets">
+      <template v-for="(item, index) in ticketList">
         <li
           class="boxes-list ntf-tickets-list"
           v-if="index < 5"
@@ -21,12 +21,12 @@
           <img class="tickets-boxs-list-img" :src="item.url" alt="" />
           <p class="boxes-title text-ellipsis">
             <span class="ntf-tickets-content-title text-ellipsis">
-              {{ item.title }}
+              {{ item.seriesName }}
             </span>
-            <img class="ntf-tickets-img" src="" alt="" />
+            <img class="ntf-tickets-img" :src="item.nftImg" alt="" />
           </p>
           <p class="tickets-boxs-text text-ellipsis">
-            {{ `${item.number} ${item.currency}` }}
+            {{ `${item.price} ${item.coin}` }}
           </p>
           <div class="boxes-button">
             <span class="boxes-button-text"> ENTER NOW </span>
@@ -43,34 +43,10 @@
 <script>
 export default {
   name: 'NtfTickets',
+  props:["ticketList"],
   data() {
     return {
-      tickets: [
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-          text: '123 TICKETS SOLD',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-          text: '123 TICKETS SOLD',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-          text: '123 TICKETS SOLD',
-        },
-      ],
+      tickets: []
     };
   },
 };

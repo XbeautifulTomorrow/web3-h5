@@ -19,22 +19,47 @@
           </li>
         </ul>
       </div>
-      <div class="header-button" @click="conncet">Connect Wallet</div>
-      <div class="header-button" @click="transfer">Deposit</div>
+      <div class="header-button" @click="conncet">
+        {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
+      </div>
+      <div class="header-button" @click="dialogVisible = true">Deposit</div>
+      <!-- <div class="header-button" @click="lottery">lottery</div> -->
     </div>
+    <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+      <span>
+        Please input amount
+        <el-input v-model="amountVal" placeholder="Please amount"
+      /></span>
+      <span>
+        OrderId
+        <el-input v-model="orderVal" placeholder="Please orderId"
+      /></span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="transfer"> Confirm </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Web3 from "web3";
 import transferAbi from "@/config/transfer.json";
-import { BigNumber } from "bignumber.js";
+import lottAbi from "@/config/lott.json";
+import { h } from 'vue'
+import { ElNotification } from "element-plus";
+// import { BigNumber } from "bignumber.js";
 export default {
   name: "HeaderCom",
   components: {},
   data() {
     return {
-      transferContract: null,
+      dialogVisible: false,
+      conncectAddress: null,
+      amountVal: 0.01,
+      orderVal: "",
       nav: [
         {
           text: "Airdrop",
@@ -65,45 +90,17 @@ export default {
           page: "FAQ",
         },
       ],
+      receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
+      transferAddress: "0x22BCd7cB7bDB713CeFB5080f51C8f0ef830678AA",
+      lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
-  mounted() {},
+  mounted() {
+    this.conncet();
+  },
   methods: {
-    async transferToken(token, amount, receiver, orderId) {
-      // const accounts = await web3.eth.getAccounts();
-      // const gasPrice = await web3.eth.getGasPrice();
-      // const gasLimit = 200000;
-      // const transaction = 
-      console.log(window.web3.eth,"accounts[0]====")
-      this.transferContract.methods.transferToken(
-        token,
-        amount,
-        receiver,
-        orderId
-      ).send({from:"0x789516ece5a6e88470220be4b99a7edf1e6d4c59"});
-      // const encodedTransaction = transaction.encodeABI();
-      // const nonce = await web3.eth.getTransactionCount(accounts[0]);
-
-      // const rawTransaction = {
-      //   nonce,
-      //   from: accounts[0],
-      //   to: contractAddress,
-      //   gasPrice,
-      //   gasLimit,
-      //   data: encodedTransaction,
-      // };
-
-      // const signedTransaction = await web3.eth.accounts.signTransaction(
-      //   rawTransaction,
-      //   "your private key"
-      // );
-      // const txReceipt = await web3.eth.sendSignedTransaction(
-      //   signedTransaction.rawTransaction
-      // );
-      // console.log(`Transaction hash: ${txReceipt.transactionHash}`);
-    },
     async conncet() {
-      var web3 = new Web3();
+      let web3 = new Web3(window.ethereum);
       const _that = this;
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
@@ -126,37 +123,58 @@ export default {
             // 判断是否连接以太
             // if (ethereum.networkVersion !== desiredNetwork) {
             // }
-            let web3Provider = new Web3.providers.HttpProvider('https://rpc.ankr.com/eth_goerli');
-            // web3.setProvider(
-            //   new web3.providers.HttpProvider("https://rpc.ankr.com/eth_goerli")
-            // );
+            let web3Provider = new Web3.providers.HttpProvider(
+              "https://rpc.ankr.com/eth_goerli"
+            );
             web3 = new Web3(web3Provider);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
+            _that.conncectAddress = accounts[0];
             //这里返回用户钱包地址
-            console.log(await window.web3, accounts[0], "====");
-            const transferAddress =
-              "0x9aedb2865b25a66b0a4c6352a909f70ad7a0447e"; // 合约地址
-            var transferContract = new web3.eth.Contract(
-              transferAbi,
-              transferAddress
-            );
-            _that.transferContract = transferContract;
             // callback(accounts[0]);
           });
       }
     },
     async transfer() {
-     
-      let amount = new BigNumber(1).times(1e18).toFixed();
-      this.transferToken(
-        "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535", //token
-        amount, //数量
-        "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
-        "123",
-        window.web3
+      this.dialogVisible = false;
+      const web3 = new Web3(window.ethereum);
+      const contractAddress = this.transferAddress;
+      const transferContract = new web3.eth.Contract(
+        transferAbi,
+        contractAddress
       );
+
+      const amount = web3.utils.toWei(this.amountVal.toString(), "ether");
+      const receiver = this.receiver;
+      const orderId = this.orderVal;
+      if (!orderId||!amount) {
+        ElNotification({
+          title: "Tips",
+          message: h("i", { style: "color: teal" }, "Please input info"),
+        });
+        return;
+      }
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      await transferContract.methods
+        .transferETH(amount, receiver, orderId)
+        .send({
+          from: accounts[0],
+          to: contractAddress,
+          value: amount,
+        });
+    },
+    async lottery() {
+      var lottContract = new window.web3.eth.Contract(
+        lottAbi,
+        this.lottContractAddress
+      );
+      await lottContract.methods
+        .getRandomness("123", 10, "test")
+        .send({ from: window.web3.eth.defaultAccount });
+      console.log(lottContract, "lottContract====");
     },
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
@@ -217,6 +235,8 @@ $header-height: 64px;
 .header-button {
   width: 140px;
   height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 40px;
   border-radius: 20px;
   border: solid 2px #fff;

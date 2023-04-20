@@ -4,7 +4,7 @@
       <img src="@/assets/img/home/mysteryBoxes.png" alt="" />
     </div>
     <ul class="boxes-content">
-      <template v-for="(item, index) in mystery">
+      <template v-for="(item, index) in boxList">
         <li
           class="boxes-list mystery-boxes-list"
           v-if="index < 5"
@@ -12,14 +12,14 @@
         >
           <img class="mystery-boxs-list-img" :src="item.url" alt="" />
           <p class="boxes-title text-ellipsis">
-            {{ item.title }}
+            {{ item.boxName }}
           </p>
           <p class="mystery-boxs-text text-ellipsis">
-            {{ item.sale }}
+            {{ item.sales }}
           </p>
           <div class="boxes-button text-ellipsis">
             <span class="boxes-button-text">
-              {{ `${item.number} ${item.currency}` }}
+              {{ `${item.price} ${item.coin}` }}
             </span>
           </div>
         </li>
@@ -31,6 +31,7 @@
 <script>
 export default {
   name: 'MysteryBoxes',
+  props:["boxList"],
   data() {
     return {
       mystery: [

@@ -2,7 +2,7 @@ import axios from 'axios'
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://221.236.31.34:6599',
+  baseURL: '/',
   withCredentials: false,
   timeout: 20000
 })
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
 
 const handleRes = ({ type, url, data }) => {
   console.log(type,url)
-  if (data.code === 0) {
+  if (data.code === 200) {
     return data
   } else {
     return [false, data.code, data]

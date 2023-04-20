@@ -2,9 +2,9 @@
   <div class="home">
     <virtual-currency />
     <banner />
-    <mystery-boxes />
-    <ntf-tickets />
-    <contents-info />
+    <mystery-boxes :boxList="boxList"/>
+    <ntf-tickets :ticketList="ticketList"/>
+    <contents-info :NFTList="NFTList"/>
   </div>
 </template>
 
@@ -15,6 +15,8 @@ import MysteryBoxes from './mysteryBoxes.vue';
 import NtfTickets from './ntfTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
 import { getKey } from "@/services/api/user";
+import { getBoxList ,getTicketList,getNFTList} from "@/services/api/index";
+
 export default {
   name: 'IndexPage',
   components: {
@@ -24,10 +26,34 @@ export default {
     NtfTickets,
     ContentsInfo,
   },
+  data(){
+    return{
+      boxList:[],
+      ticketList:[],
+      NFTList:[],
+    }
+  },
   mounted(){
+    let get = true;
+    if(get)return
      getKey().then((res) => {
         console.log(res, "====");
       });
+      getBoxList().then(res=>{
+        if(res.data.length>0){
+          this.boxList = res.data;
+        }
+      })
+      getTicketList().then(res=>{
+        if(res.data.length>0){
+          this.ticketList = res.data;
+        }
+      })
+      getNFTList().then(res=>{
+        if(res.data.length>0){
+          this.NFTList = res.data;
+        }
+      })
   },
 };
 </script>

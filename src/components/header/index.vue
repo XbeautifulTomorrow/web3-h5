@@ -20,7 +20,7 @@
         </ul>
       </div>
       <div class="header-button" @click="conncet">Connect Wallet</div>
-      <div class="header-button" @click="transfer">Wallet</div>
+      <div class="header-button" @click="transfer">Deposit</div>
     </div>
   </div>
 </template>
@@ -34,6 +34,7 @@ export default {
   components: {},
   data() {
     return {
+      transferContract: null,
       nav: [
         {
           text: "Airdrop",
@@ -68,8 +69,42 @@ export default {
   },
   mounted() {},
   methods: {
+    async transferToken(token, amount, receiver, orderId) {
+      // const accounts = await web3.eth.getAccounts();
+      // const gasPrice = await web3.eth.getGasPrice();
+      // const gasLimit = 200000;
+      // const transaction = 
+      console.log(window.web3.eth,"accounts[0]====")
+      this.transferContract.methods.transferToken(
+        token,
+        amount,
+        receiver,
+        orderId
+      ).send({from:"0x789516ece5a6e88470220be4b99a7edf1e6d4c59"});
+      // const encodedTransaction = transaction.encodeABI();
+      // const nonce = await web3.eth.getTransactionCount(accounts[0]);
+
+      // const rawTransaction = {
+      //   nonce,
+      //   from: accounts[0],
+      //   to: contractAddress,
+      //   gasPrice,
+      //   gasLimit,
+      //   data: encodedTransaction,
+      // };
+
+      // const signedTransaction = await web3.eth.accounts.signTransaction(
+      //   rawTransaction,
+      //   "your private key"
+      // );
+      // const txReceipt = await web3.eth.sendSignedTransaction(
+      //   signedTransaction.rawTransaction
+      // );
+      // console.log(`Transaction hash: ${txReceipt.transactionHash}`);
+    },
     async conncet() {
       var web3 = new Web3();
+      const _that = this;
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
@@ -91,39 +126,37 @@ export default {
             // 判断是否连接以太
             // if (ethereum.networkVersion !== desiredNetwork) {
             // }
-            web3.setProvider(
-              new web3.providers.HttpProvider("https://rpc.ankr.com/eth_goerli")
-            );
+            let web3Provider = new Web3.providers.HttpProvider('https://rpc.ankr.com/eth_goerli');
+            // web3.setProvider(
+            //   new web3.providers.HttpProvider("https://rpc.ankr.com/eth_goerli")
+            // );
+            web3 = new Web3(web3Provider);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
             //这里返回用户钱包地址
-            console.log(accounts[0], "====");
+            console.log(await window.web3, accounts[0], "====");
+            const transferAddress =
+              "0x9aedb2865b25a66b0a4c6352a909f70ad7a0447e"; // 合约地址
+            var transferContract = new web3.eth.Contract(
+              transferAbi,
+              transferAddress
+            );
+            _that.transferContract = transferContract;
             // callback(accounts[0]);
           });
       }
     },
     async transfer() {
+     
       let amount = new BigNumber(1).times(1e18).toFixed();
-      let defaultAccount = window.web3.eth.defaultAccount;
-      console.log(amount, "amount===", window.web3.eth);
-      const transferAddress = "0x9aedb2865b25a66b0a4c6352a909f70ad7a0447e";
-      var myContract = new window.web3.eth.Contract(
-        transferAbi,
-        transferAddress
+      this.transferToken(
+        "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535", //token
+        amount, //数量
+        "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
+        "123",
+        window.web3
       );
-      console.log(myContract, "myContract===");
-      myContract.methods
-        .transferToken(
-          '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
-          amount,
-          "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB",
-          "123"
-        )
-        .call({
-          from: defaultAccount,
-        });
-
     },
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });

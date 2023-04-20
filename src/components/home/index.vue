@@ -14,6 +14,7 @@ import Banner from '../banner/index.vue';
 import MysteryBoxes from './mysteryBoxes.vue';
 import NtfTickets from './ntfTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
+import { getKey } from "@/services/api/user";
 export default {
   name: 'IndexPage',
   components: {
@@ -22,6 +23,11 @@ export default {
     MysteryBoxes,
     NtfTickets,
     ContentsInfo,
+  },
+  mounted(){
+     getKey().then((res) => {
+        console.log(res, "====");
+      });
   },
 };
 </script>

@@ -90,8 +90,9 @@ export default {
           page: "FAQ",
         },
       ],
+      usdtAddress:"0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
-      transferAddress: "0x22BCd7cB7bDB713CeFB5080f51C8f0ef830678AA",
+      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
@@ -157,6 +158,13 @@ export default {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
+      // await transferContract.methods
+      //   .transferToken(this.usdtAddress,amount, receiver, orderId)
+      //   .send({
+      //     from: accounts[0],
+      //     to: contractAddress,
+      //   });
+      // //   return
       await transferContract.methods
         .transferETH(amount, receiver, orderId)
         .send({

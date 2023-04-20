@@ -91,7 +91,7 @@ export default {
         },
       ],
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
-      transferAddress: "0x22BCd7cB7bDB713CeFB5080f51C8f0ef830678AA",
+      transferAddress: "0x9aedb2865b25a66b0a4c6352a909f70ad7a0447e",
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
@@ -144,7 +144,6 @@ export default {
         transferAbi,
         contractAddress
       );
-
       const amount = web3.utils.toWei(this.amountVal.toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;

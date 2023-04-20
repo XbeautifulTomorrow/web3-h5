@@ -2,7 +2,7 @@ import axios from 'axios'
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
-  baseURL: '/',
+  baseURL: 'http://221.236.31.34:6599',
   withCredentials: false,
   timeout: 20000
 })

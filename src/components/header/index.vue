@@ -26,6 +26,10 @@
       <!-- <div class="header-button" @click="lottery">lottery</div> -->
     </div>
     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+      <el-radio-group v-model="tokenChoose" class="ml-4">
+        <el-radio label="1" size="large">ETH</el-radio>
+        <el-radio label="2" size="large">USDT</el-radio>
+      </el-radio-group>
       <span>
         Please input amount
         <el-input v-model="amountVal" placeholder="Please amount"
@@ -48,7 +52,8 @@
 import Web3 from "web3";
 import transferAbi from "@/config/transfer.json";
 import lottAbi from "@/config/lott.json";
-import { h } from 'vue'
+import erc20Abi from "@/config/erc20.json";
+import { h } from "vue";
 import { ElNotification } from "element-plus";
 // import { BigNumber } from "bignumber.js";
 export default {
@@ -60,6 +65,7 @@ export default {
       conncectAddress: null,
       amountVal: 0.01,
       orderVal: "",
+      tokenChoose: "1",
       nav: [
         {
           text: "Airdrop",
@@ -90,7 +96,7 @@ export default {
           page: "FAQ",
         },
       ],
-      usdtAddress:"0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
+      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
@@ -148,7 +154,7 @@ export default {
       const amount = web3.utils.toWei(this.amountVal.toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
-      if (!orderId||!amount) {
+      if (!orderId || !amount) {
         ElNotification({
           title: "Tips",
           message: h("i", { style: "color: teal" }, "Please input info"),
@@ -158,13 +164,26 @@ export default {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      // await transferContract.methods
-      //   .transferToken(this.usdtAddress,amount, receiver, orderId)
-      //   .send({
-      //     from: accounts[0],
-      //     to: contractAddress,
-      //   });
-      // //   return
+      console.log(erc20Abi, "erc20Abi===");
+      const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
+      let allowance = await erc20Contract.methods
+        .allowance(accounts[0], contractAddress)
+        .call();
+      if (allowance == "0") {
+        await erc20Contract.methods
+          .approve(contractAddress, 10000)
+          .send({ from: accounts[0] });
+      }
+      if (this.tokenChoose == 2) {
+        await transferContract.methods
+          .transferToken(this.usdtAddress, amount, receiver, orderId)
+          .send({
+            from: accounts[0],
+            to: contractAddress,
+          });
+        return;
+      }
+
       await transferContract.methods
         .transferETH(amount, receiver, orderId)
         .send({

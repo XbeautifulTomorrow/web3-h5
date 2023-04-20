@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted(){
-    let get = true;
+    // let get = true;
     // if(get)return
      getKey().then((res) => {
         console.log(res, "====");

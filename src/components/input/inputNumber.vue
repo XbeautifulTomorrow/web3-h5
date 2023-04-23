@@ -2,7 +2,7 @@
   <div
     :class="[
       'public-input-com number-input',
-      { showBorder: isShowBorder || newValue > -1 },
+      { showBorder: isShowBorder || newValue || newValue === 0 },
     ]"
   >
     <el-input

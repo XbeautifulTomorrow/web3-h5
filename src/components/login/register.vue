@@ -72,7 +72,7 @@ export default {
     return {
       test: true,
       isAgree: true,
-      tab: 0,
+      tab: 1,
       title: 'Welcome',
       formData: {
         username: '',

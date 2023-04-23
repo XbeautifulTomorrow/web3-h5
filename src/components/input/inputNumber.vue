@@ -2,8 +2,7 @@
   <div
     :class="[
       'public-input-com number-input',
-      { showBorder: isShowBorder },
-      { showIcon: modelValue },
+      { showBorder: isShowBorder || newValue > -1 },
     ]"
   >
     <el-input
@@ -33,7 +32,6 @@ export default {
     },
     autofocus: {
       type: Boolean,
-      default: false,
     },
     maxlength: {
       type: Number,
@@ -90,13 +88,5 @@ export default {
   );
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #dd82af, #d12398 61%, #fab597);
-}
-</style>
-<style lang="scss">
-.number-input {
-  .el-input__inner {
-    height: 56px;
-    line-height: 56px;
-  }
 }
 </style>

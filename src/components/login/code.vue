@@ -4,7 +4,7 @@
     :model="formData"
     style="max-width: 100%"
     ref="codeForm"
-    class="register-form"
+    class="code-form"
     :inline="true"
   >
     <el-form-item
@@ -12,12 +12,14 @@
       label=""
       v-for="(item, index) in formData.code"
       :key="`code-${index}-${autofocus[index]}`"
+      @keydown.delete="myKeydown"
     >
       <input-number
         class="login-margin-top"
         v-model.number="formData.code[index]"
         :autofocus="autofocus[index]"
         :maxlength="1"
+        :ref="inputEle"
       />
     </el-form-item>
     <p class="explain-text login-margin-top">
@@ -49,6 +51,10 @@ export default {
       autofocus: [],
     });
     const codeForm = ref(null);
+    const inputref = ref([]);
+    const inputEle = (el) => {
+      inputref.value.push(el);
+    };
     onMounted(() => {
       initializationFun();
     });
@@ -64,6 +70,22 @@ export default {
       }
       state.formData.code = _code;
       state.autofocus = _autofocus;
+    };
+    const myKeydown = () => {
+      const { code } = state.formData;
+      const inputElement = document.getElementsByClassName('el-input__inner');
+      const Length = code.length;
+      for (let i = Length - 1; i > -1; i--) {
+        const value = code[i].toString();
+        if (value) {
+          inputElement[i].focus();
+          state.formData.code[i] = '';
+          return;
+        }
+      }
+      // if (inputElement[i]) {
+      //   inputElement[i].focus();
+      // }
     };
     const closePopup = () => {
       state.test = false;
@@ -86,13 +108,21 @@ export default {
       () => state.formData.code,
       (newVal) => {
         const Length = newVal.length;
+        const inputElement = document.getElementsByClassName('el-input__inner');
         for (let i = 0; i < Length; i++) {
-          if (newVal[i]) {
-            state.autofocus[i] = false;
+          const value = newVal[i].toString();
+          if (!value) {
+            console.log('watch value');
+            if (inputElement[i]) {
+              inputElement[i].focus();
+            }
             state.isAgree = false;
-          } else {
-            state.autofocus[i] = true;
             return;
+          } else {
+            if (value.length > 0) {
+              console.log('watch !value');
+              state.formData.code[i] = Number(value.charAt(value.length - 1));
+            }
           }
         }
         state.isAgree = true;
@@ -105,12 +135,14 @@ export default {
       clearFun,
       codeFun,
       codeForm,
+      inputEle,
+      myKeydown,
     };
   },
 };
 </script>
 <style lang="scss" scoped>
-.register-form {
+.code-form {
   box-sizing: border-box;
   * {
     box-sizing: border-box;
@@ -143,6 +175,22 @@ export default {
   margin-bottom: 0;
   &:last-child {
     margin-right: 0;
+  }
+}
+</style>
+<style lang="scss">
+.code-form {
+  .el-input__inner {
+    height: 56px;
+    line-height: 56px;
+    color: transparent;
+    text-shadow: 0 0 0 #fff;
+    font-size: 24px;
+    text-align: center;
+  }
+  .el-input--large .el-input__wrapper {
+    padding: 0;
+    text-align: center;
   }
 }
 </style>

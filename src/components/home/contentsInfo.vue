@@ -16,6 +16,20 @@
                 src="@/assets/img/home/icon-arrowdown.png"
                 alt=""
               />
+              <div class="otherside-box">
+                <div class="otherside-box-main">
+                  <ul class="otherside-box-content">
+                    <li
+                      class="otherside-box-list"
+                      v-for="(item, index) in othersideBox"
+                      :key="`box-${index}`"
+                      @click="othersideBoxFun(item)"
+                    >
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </th>
           <th>Collections</th>
@@ -71,7 +85,20 @@ export default {
   data() {
     return {
       tickets: [],
+      othersideBox: [
+        'All',
+        'Top Blue-chip Box',
+        'Bored Ape Yacht Club Box',
+        'Mutant Ape Yacht Club Box',
+        'Otherdeed for Otherside Box',
+        'Free Mytery Box',
+      ],
     };
+  },
+  methods: {
+    othersideBoxFun(item) {
+      console.log(item);
+    },
   },
 };
 </script>
@@ -107,6 +134,59 @@ export default {
 }
 .boxes-button {
   cursor: pointer;
+  position: relative;
+  overflow: visible;
+  &:hover {
+    .otherside-box {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+}
+.otherside-box {
+  transform: scaleY(0);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 16px;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: transform 0.2s ease;
+  transform-origin: top;
+}
+.otherside-box-main {
+  padding: 0;
+  border-radius: 12px;
+  border-style: solid;
+  border-width: 2px;
+  border-image-source: linear-gradient(
+    to bottom,
+    #6ce1f9,
+    #00669b 48%,
+    #b770f4
+  );
+  border-image-slice: 1;
+  background-image: linear-gradient(to bottom, #2d1942, #2d1942),
+    linear-gradient(to bottom, #6ce1f9, #00669b 48%, #b770f4);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+.otherside-box-content {
+  padding: 8px;
+}
+.otherside-box-list {
+  font-size: 18px;
+  color: #a896b5;
+  border-radius: 8px;
+  padding: 0 8px;
+  height: 40px;
+  line-height: 40px;
+  text-align: left;
+  &:hover {
+    color: #f5e1d6;
+    background-color: rgba(168, 150, 181, 0.1);
+  }
 }
 .contents-info-down {
   height: 24px;

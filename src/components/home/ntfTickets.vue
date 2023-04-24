@@ -29,7 +29,9 @@
             {{ `${item.price} ${item.coin}` }}
           </p>
           <div class="boxes-button">
-            <span class="boxes-button-text"> ENTER NOW </span>
+            <div class="boxes-button-enter">
+              <span class="boxes-button-text"> ENTER NOW </span>
+            </div>
           </div>
           <p class="ntf-tickets-text text-ellipsis">
             {{ item.text }}
@@ -43,10 +45,10 @@
 <script>
 export default {
   name: 'NtfTickets',
-  props:["ticketList"],
+  props: ['ticketList'],
   data() {
     return {
-      tickets: []
+      tickets: [],
     };
   },
 };
@@ -60,6 +62,40 @@ export default {
   height: 363px;
   padding-bottom: 10px;
   overflow: hidden;
+  transform: translateY(0);
+  transition: transform 0.2s;
+  &:hover {
+    transform: translateY(-20px);
+    .boxes-button {
+      border-image-source: linear-gradient(
+        to bottom,
+        #ffffff 12%,
+        #ffffff 53%,
+        #ffffff 70%
+      );
+      background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+        linear-gradient(to bottom, #ffffff 12%, #ffffff 53%, #ffffff 70%);
+    }
+    .boxes-button-enter {
+      width: 100%;
+      height: 100%;
+      border-radius: 17px;
+      background-image: linear-gradient(
+        to bottom,
+        #5fe3ef,
+        #00689d 54%,
+        #b063f5 75%
+      );
+    }
+    .boxes-button-text {
+      background-image: linear-gradient(
+        to bottom,
+        #ffffff,
+        #ffffff 54%,
+        #ffffff 75%
+      );
+    }
+  }
 }
 .tickets-boxs-list-img {
   $imgWidth: 200px;

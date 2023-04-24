@@ -2,9 +2,9 @@
   <div class="home">
     <virtual-currency />
     <banner />
-    <mystery-boxes :boxList="boxList"/>
-    <ntf-tickets :ticketList="ticketList"/>
-    <contents-info :NFTList="NFTList"/>
+    <mystery-boxes :boxList="boxList" />
+    <ntf-tickets :ticketList="ticketList" />
+    <contents-info :NFTList="NFTList" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import MysteryBoxes from './mysteryBoxes.vue';
 import NtfTickets from './ntfTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
 
-import { getBoxList ,getTicketList,getNFTList} from "@/services/api/index";
+import { getBoxList, getTicketList, getNFTList } from '@/services/api/index';
 
 export default {
   name: 'IndexPage',
@@ -26,31 +26,30 @@ export default {
     NtfTickets,
     ContentsInfo,
   },
-  data(){
-    return{
-      boxList:[],
-      ticketList:[],
-      NFTList:[],
-      generateKey:"",
-    }
+  data() {
+    return {
+      boxList: [],
+      ticketList: [],
+      NFTList: [],
+      generateKey: '',
+    };
   },
-  mounted(){
-
-      getBoxList().then(res=>{
-        if(res.data&&res.data.length>0){
-          this.boxList = res.data;
-        }
-      })
-      getTicketList().then(res=>{
-        if(res.data&&res.data.length>0){
-          this.ticketList = res.data;
-        }
-      })
-      getNFTList().then(res=>{
-        if(res.data&&res.data.length>0){
-          this.NFTList = res.data;
-        }
-      })
+  mounted() {
+    getBoxList().then((res) => {
+      if (res.data && res.data.length > 0) {
+        this.boxList = res.data;
+      }
+    });
+    getTicketList().then((res) => {
+      if (res.data && res.data.length > 0) {
+        this.ticketList = res.data;
+      }
+    });
+    getNFTList().then((res) => {
+      if (res.data && res.data.length > 0) {
+        this.NFTList = res.data;
+      }
+    });
   },
 };
 </script>
@@ -107,28 +106,24 @@ body {
   justify-content: center;
   width: $width;
   height: $height;
+  font-size: 24px;
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   margin-top: 12px;
-  &:before {
-    content: '';
-    position: absolute;
-    width: $width - $border * 3;
-    height: $height - $border * 2;
-    border-radius: 20px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: $border solid;
-    border-image: linear-gradient(
-        to bottom,
-        #5fe3ef 12%,
-        #00689d 53%,
-        #b063f5 70%
-      )
-      1;
-  }
+  padding: 2px;
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
+  border-image-slice: 1;
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+    linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  cursor: pointer;
 }
 .boxes-button-text {
   background-image: linear-gradient(

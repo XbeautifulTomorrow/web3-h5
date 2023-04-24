@@ -2,10 +2,11 @@ import axios from 'axios';
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
+  // baseURL: 'http://localhost:3000/',
   baseURL: 'http://221.236.31.34:6599',
-  withCredentials: false,
-  timeout: 20000,
-});
+  withCredentials: true,
+  timeout: 20000
+})
 
 axiosInstance.interceptors.request.use(
   (config) => {

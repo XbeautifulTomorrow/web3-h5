@@ -6,7 +6,7 @@ import Footer from '../components/footer/index.vue';
 
 const welcome = () => import('../components/welcome/index.vue');
 const Home = () => import('../components/home/index.vue');
-const Login = () => import('../components/login/register.vue');
+const Login = () => import('../components/login/index.vue');
 
 //2. 路由配置
 const routes = [

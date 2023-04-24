@@ -11,6 +11,7 @@
         :src="require('@/assets/img/login/icon-metamask.png')"
         text="MetaMask"
         link="home"
+        @click="connectParent"
       />
       <Link
         class="login-margin-top"
@@ -30,20 +31,28 @@ export default {
     PopupPage,
     Link,
   },
+  props:["connect","close"],
   data() {
     return {
       test: true,
     };
   },
   methods: {
+    connectParent(){
+      this.$emit('connectWallet')
+    },
     closePopup() {
       this.test = false;
+      this.$emit('close')
     },
   },
 };
 </script>
 <style lang="scss" scoped></style>
-<style lang="scss">
+<style lang="scss" scoped>
+.popup{
+  z-index: 999;
+}
 .explain-text {
   font-size: 18px;
   color: #a896b5;

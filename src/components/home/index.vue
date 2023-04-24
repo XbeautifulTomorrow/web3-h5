@@ -14,7 +14,7 @@ import Banner from '../banner/index.vue';
 import MysteryBoxes from './mysteryBoxes.vue';
 import NtfTickets from './ntfTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
-import { getKey } from "@/services/api/user";
+
 import { getBoxList ,getTicketList,getNFTList} from "@/services/api/index";
 
 export default {
@@ -31,26 +31,23 @@ export default {
       boxList:[],
       ticketList:[],
       NFTList:[],
+      generateKey:"",
     }
   },
   mounted(){
-    // let get = true;
-    // if(get)return
-     getKey().then((res) => {
-        console.log(res, "====");
-      });
+
       getBoxList().then(res=>{
-        if(res.data.length>0){
+        if(res.data&&res.data.length>0){
           this.boxList = res.data;
         }
       })
       getTicketList().then(res=>{
-        if(res.data.length>0){
+        if(res.data&&res.data.length>0){
           this.ticketList = res.data;
         }
       })
       getNFTList().then(res=>{
-        if(res.data.length>0){
+        if(res.data&&res.data.length>0){
           this.NFTList = res.data;
         }
       })

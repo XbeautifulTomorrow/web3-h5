@@ -19,19 +19,21 @@
           </li>
         </ul>
       </div>
-      <div class="header-button" @click="conncet">
+      <div class="header-button" @click="showConnect=true">
         {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
       <div class="header-button" @click="dialogVisible = true">Deposit</div>
       <!-- <div class="header-button" @click="lottery">lottery</div> -->
     </div>
+    <WalletList v-if="showConnect" @connectWallet="connect" @close="showConnect=false"/>
     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
         <el-radio label="2" size="large">USDT</el-radio>
       </el-radio-group>
+      <br />
       <span>
-        Please input amount
+        Amount
         <el-input v-model="amountVal" placeholder="Please amount"
       /></span>
       <span>
@@ -55,10 +57,14 @@ import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
+import { getKey, authLogin } from "@/services/api/user";
+import WalletList from '../login/index.vue';
 // import { BigNumber } from "bignumber.js";
 export default {
   name: "HeaderCom",
-  components: {},
+  components: {
+    WalletList
+  },
   data() {
     return {
       dialogVisible: false,
@@ -66,6 +72,8 @@ export default {
       amountVal: 0.01,
       orderVal: "",
       tokenChoose: "1",
+      web3:null,
+      showConnect:false,
       nav: [
         {
           text: "Airdrop",
@@ -103,10 +111,36 @@ export default {
     };
   },
   mounted() {
-    this.conncet();
+    // this.connect();
+    console.log(123123);
   },
   methods: {
-    async conncet() {
+    async login() {
+      const _that = this;
+      let web3 = window.web3;
+      getKey().then(async (res) => {
+        if (res.data) {
+          console.log(web3.eth,"web3=== ")
+          this.generateKey =   web3.utils.toHex(res.data);
+          let msg =this.generateKey;  
+          const signature = await window.ethereum.request({
+            method: 'personal_sign',
+            params: [_that.conncectAddress, msg],
+          });
+          let res1 = await authLogin({
+            key: res.data, //登录临时key
+            signature: signature, //钱包签名
+            chainId: 5, //链ID
+            walletAddress: web3.eth.defaultAccount, //钱包地址
+            walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
+            inviteCode: "", //邀请码
+          });
+          this.showConnect =false;
+          console.log(res1, "signature2===");
+        }
+      });
+    },
+    async connect() {
       let web3 = new Web3(window.ethereum);
       const _that = this;
       let ethereum = window.ethereum;
@@ -130,14 +164,16 @@ export default {
             // 判断是否连接以太
             // if (ethereum.networkVersion !== desiredNetwork) {
             // }
-            let web3Provider = new Web3.providers.HttpProvider(
-              "https://rpc.ankr.com/eth_goerli"
-            );
-            web3 = new Web3(web3Provider);
+            // let web3Provider = new Web3.providers.HttpProvider(
+            //   "https://eth.llamarpc.com"
+            // );
+            web3 = new Web3("https://rpc.ankr.com/eth_goerli");
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
+            _that.web3 = web3
             _that.conncectAddress = accounts[0];
+            _that.login();
             //这里返回用户钱包地址
             // callback(accounts[0]);
           });

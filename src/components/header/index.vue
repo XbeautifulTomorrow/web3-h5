@@ -58,7 +58,6 @@
         </div>
       </div>
     </div>
-    <span @click="lottery">123</span>
     <WalletList
       v-if="showConnect"
       @connectWallet="connect"

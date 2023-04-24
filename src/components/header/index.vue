@@ -218,7 +218,6 @@ export default {
           let receiver = await getTheUserSPayoutAddress();
           this.showConnect = false;
           this.receiver = receiver.data;
-          console.log(receiver, "signature2===");
         }
       });
     },
@@ -283,7 +282,6 @@ export default {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log(erc20Abi, "erc20Abi===");
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
@@ -319,7 +317,6 @@ export default {
       await lottContract.methods
         .getRandomness("123", 10, "test")
         .send({ from: window.web3.eth.defaultAccount });
-      console.log(lottContract, "lottContract====");
     },
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });

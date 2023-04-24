@@ -21,6 +21,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
+    console.log(response,"response===")
     if(response.headers.certificate){
       localStorage.setItem("certificate",response.headers.certificate)
     }

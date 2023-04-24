@@ -19,19 +19,23 @@
           </li>
         </ul>
       </div>
-      <div class="header-button" @click="showConnect = true">
-        {{ conncectAddress ? conncectAddress : 'Connect Wallet' }}
+      <div
+        class="header-button"
+        @click="showConnect = true"
+        v-if="!conncectAddress"
+      >
+        {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
-      <div class="header-button" @click="dialogVisible = true">Deposit</div>
-      <!-- <div class="header-button" @click="lottery">lottery</div> -->
-      <div class="header-wallet">
+      <div class="header-wallet" v-if="conncectAddress">
         <img class="header-wallet-img" src="" alt="" />
-        <span class="header-wallet-money">100ETH</span>
-        <span class="header-wallet-add"></span>
+        <span class="header-wallet-money">{{ ethBalance }}ETH</span>
+        <span class="header-wallet-add" @click="dialogVisible = true"></span>
       </div>
-      <div class="boxes-button">
+      <div class="boxes-button" v-if="conncectAddress">
         <img class="header-user-img" src="" alt="" />
-        <span class="boxes-button-text text-ellipsis"> Otherdeed </span>
+        <span class="boxes-button-text text-ellipsis">
+          {{ conncectAddress }}
+        </span>
         <img
           class="header-user-down"
           src="@/assets/img/headerFooter/icon-arrowup.png"
@@ -84,17 +88,21 @@
 </template>
 
 <script>
-import Web3 from 'web3';
-import transferAbi from '@/config/transfer.json';
-import lottAbi from '@/config/lott.json';
-import erc20Abi from '@/config/erc20.json';
-import { h } from 'vue';
-import { ElNotification } from 'element-plus';
-import { getKey, authLogin } from '@/services/api/user';
-import WalletList from '../login/index.vue';
-// import { BigNumber } from "bignumber.js";
+import Web3 from "web3";
+import transferAbi from "@/config/transfer.json";
+import lottAbi from "@/config/lott.json";
+import erc20Abi from "@/config/erc20.json";
+import { h } from "vue";
+import { ElNotification } from "element-plus";
+import {
+  getKey,
+  authLogin,
+  getTheUserSPayoutAddress,
+} from "@/services/api/user";
+import WalletList from "../login/index.vue";
+import { BigNumber } from "bignumber.js";
 export default {
-  name: 'HeaderCom',
+  name: "HeaderCom",
   components: {
     WalletList,
   },
@@ -103,82 +111,83 @@ export default {
       dialogVisible: false,
       conncectAddress: null,
       amountVal: 0.01,
-      orderVal: '',
-      tokenChoose: '1',
+      orderVal: "",
+      tokenChoose: "1",
+      ethBalance: 0,
       web3: null,
       showConnect: false,
       nav: [
         {
-          text: 'Airdrop',
-          page: 'home',
+          text: "Airdrop",
+          page: "home",
         },
         {
-          text: 'Mystery Box',
-          page: 'MysteryBox',
+          text: "Mystery Box",
+          page: "MysteryBox",
         },
         {
-          text: 'Stake',
-          page: 'Stake',
+          text: "Stake",
+          page: "Stake",
         },
         {
-          text: 'INO',
-          page: 'INO',
+          text: "INO",
+          page: "INO",
         },
         {
-          text: 'Market Place',
-          page: 'MarketPlace',
+          text: "Market Place",
+          page: "MarketPlace",
         },
         {
-          text: 'Whitebook',
-          page: 'Whitebook',
+          text: "Whitebook",
+          page: "Whitebook",
         },
         {
-          text: 'FAQ',
-          page: 'FAQ',
+          text: "FAQ",
+          page: "FAQ",
         },
       ],
       userList: [
         {
-          text: 'My Profile',
-          class: 'myProfile',
+          text: "My Profile",
+          class: "myProfile",
         },
         {
-          text: 'Wallet',
-          class: 'wallet',
+          text: "Wallet",
+          class: "wallet",
         },
         {
-          text: 'Wallet Log',
-          class: 'walletLog',
+          text: "Wallet Log",
+          class: "walletLog",
         },
         {
-          text: 'Competitions',
-          class: 'competitions',
+          text: "Competitions",
+          class: "competitions",
         },
         {
-          text: 'My Collections',
-          class: 'myCollections',
+          text: "My Collections",
+          class: "myCollections",
         },
         {
-          text: 'Create',
-          class: 'create',
+          text: "Create",
+          class: "create",
         },
         {
-          text: 'Referral',
-          class: 'referral',
+          text: "Referral",
+          class: "referral",
         },
         {
-          text: 'Settings',
-          class: 'settings',
+          text: "Settings",
+          class: "settings",
         },
         {
-          text: 'Logout',
-          class: 'logout',
+          text: "Logout",
+          class: "logout",
         },
       ],
-      usdtAddress: '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
-      receiver: '0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB', //收款地址
-      transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
-      lottContractAddress: '0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d', //抽奖合约
+      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
+      receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
+      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
+      lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
   mounted() {
@@ -191,23 +200,25 @@ export default {
       let web3 = window.web3;
       getKey().then(async (res) => {
         if (res.data) {
-          console.log(web3.eth, 'web3=== ');
+          console.log(web3.eth, "web3=== ");
           this.generateKey = web3.utils.toHex(res.data);
           let msg = this.generateKey;
           const signature = await window.ethereum.request({
-            method: 'personal_sign',
+            method: "personal_sign",
             params: [_that.conncectAddress, msg],
           });
-          let res1 = await authLogin({
+          await authLogin({
             key: res.data, //登录临时key
             signature: signature, //钱包签名
             chainId: 5, //链ID
             walletAddress: web3.eth.defaultAccount, //钱包地址
-            walletName: 'METAMASK', //钱包名称(META_MASK,WALLET_CONNECT)
-            inviteCode: '', //邀请码
+            walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
+            inviteCode: "", //邀请码
           });
+          let receiver = await getTheUserSPayoutAddress();
           this.showConnect = false;
-          console.log(res1, 'signature2===');
+          this.receiver = receiver.data;
+          console.log(receiver, "signature2===");
         }
       });
     },
@@ -215,20 +226,20 @@ export default {
       let web3 = new Web3(window.ethereum);
       const _that = this;
       let ethereum = window.ethereum;
-      if (typeof ethereum === 'undefined') {
+      if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
-        alert('请安装MetaMask');
+        alert("请安装MetaMask");
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum
           .enable()
           .catch(function (reason) {
             //如果用户拒绝了登录请求
-            if (reason === 'User rejected provider access') {
+            if (reason === "User rejected provider access") {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              alert('There was a problem signing you in');
+              alert("There was a problem signing you in");
             }
           })
           .then(async function (accounts) {
@@ -238,12 +249,13 @@ export default {
             // let web3Provider = new Web3.providers.HttpProvider(
             //   "https://eth.llamarpc.com"
             // );
-            web3 = new Web3('https://rpc.ankr.com/eth_goerli');
+            web3 = new Web3("https://rpc.ankr.com/eth_goerli");
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
             _that.web3 = web3;
             _that.conncectAddress = accounts[0];
+            _that.ethBalance = new BigNumber(await _that.web3.eth.getBalance(accounts[0])).div(1e18).toFixed(4)
             _that.login();
             //这里返回用户钱包地址
             // callback(accounts[0]);
@@ -258,25 +270,25 @@ export default {
         transferAbi,
         contractAddress
       );
-      const amount = web3.utils.toWei(this.amountVal.toString(), 'ether');
+      const amount = web3.utils.toWei(this.amountVal.toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
       if ((!orderId && this.tokenChoose == 1) || !amount) {
         ElNotification({
-          title: 'Tips',
-          message: h('i', { style: 'color: teal' }, 'Please input info'),
+          title: "Tips",
+          message: h("i", { style: "color: teal" }, "Please input info"),
         });
         return;
       }
       const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
+        method: "eth_requestAccounts",
       });
-      console.log(erc20Abi, 'erc20Abi===');
+      console.log(erc20Abi, "erc20Abi===");
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
         .call();
-      if (allowance == '0') {
+      if (allowance == "0") {
         await erc20Contract.methods
           .approve(contractAddress, 10000)
           .send({ from: accounts[0] });
@@ -305,11 +317,11 @@ export default {
         this.lottContractAddress
       );
       await lottContract.methods
-        .getRandomness('123', 10, 'test')
+        .getRandomness("123", 10, "test")
         .send({ from: window.web3.eth.defaultAccount });
-      console.log(lottContract, 'lottContract====');
+      console.log(lottContract, "lottContract====");
     },
-    goTo(page = 'home') {
+    goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },
   },
@@ -403,7 +415,7 @@ $header-height: 64px;
   height: 40px;
   line-height: 40px;
   border-radius: 20px;
-  background: url('@/assets/img/headerFooter/icon-add.png') no-repeat center
+  background: url("@/assets/img/headerFooter/icon-add.png") no-repeat center
     center #a896b5;
 }
 .boxes-button {
@@ -495,59 +507,59 @@ $header-height: 64px;
 .header-user-list {
   &:hover {
     .myProfile {
-      background-image: url('@/assets/img/headerFooter/icon-profile-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-profile-hover.png");
     }
     .wallet {
-      background-image: url('@/assets/img/headerFooter/icon-walletdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-walletdefault-hover.png");
     }
     .walletLog {
-      background-image: url('@/assets/img/headerFooter/icon-walletlogdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-walletlogdefault-hover.png");
     }
     .competitions {
-      background-image: url('@/assets/img/headerFooter/icon-competitionsdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-competitionsdefault-hover.png");
     }
     .myCollections {
-      background-image: url('@/assets/img/headerFooter/icon-collectiondefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-collectiondefault-hover.png");
     }
     .create {
-      background-image: url('@/assets/img/headerFooter/icon-create-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-create-hover.png");
     }
     .referral {
-      background-image: url('@/assets/img/headerFooter/icon-referraldefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-referraldefault-hover.png");
     }
     .settings {
-      background-image: url('@/assets/img/headerFooter/icon-settingsdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-settingsdefault-hover.png");
     }
     .logout {
-      background-image: url('@/assets/img/headerFooter/icon-logoutdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-logoutdefault-hover.png");
     }
   }
 }
 .myProfile {
-  background-image: url('@/assets/img/headerFooter/icon-profile.png');
+  background-image: url("@/assets/img/headerFooter/icon-profile.png");
 }
 .wallet {
-  background-image: url('@/assets/img/headerFooter/icon-walletdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-walletdefault.png");
 }
 .walletLog {
-  background-image: url('@/assets/img/headerFooter/icon-walletlogdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-walletlogdefault.png");
 }
 .competitions {
-  background-image: url('@/assets/img/headerFooter/icon-competitionsdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-competitionsdefault.png");
 }
 .myCollections {
-  background-image: url('@/assets/img/headerFooter/icon-collectiondefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-collectiondefault.png");
 }
 .create {
-  background-image: url('@/assets/img/headerFooter/icon-create.png');
+  background-image: url("@/assets/img/headerFooter/icon-create.png");
 }
 .referral {
-  background-image: url('@/assets/img/headerFooter/icon-referraldefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-referraldefault.png");
 }
 .settings {
-  background-image: url('@/assets/img/headerFooter/icon-settingsdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-settingsdefault.png");
 }
 .logout {
-  background-image: url('@/assets/img/headerFooter/icon-logoutdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-logoutdefault.png");
 }
 </style>

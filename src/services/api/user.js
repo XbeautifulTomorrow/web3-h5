@@ -5,5 +5,7 @@ const getKey = (params) =>
 
 const authLogin = (params) =>
   apiService.post("mystery-web-user/auth/login", params);
-
-export { getKey, authLogin };
+const getTheUserSPayoutAddress = (params) =>
+  apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params);
+  
+export { getKey, authLogin,getTheUserSPayoutAddress };

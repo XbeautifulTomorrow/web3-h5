@@ -8,7 +8,12 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(
-  config => config,
+  config => {
+    if(localStorage.getItem("certificate")){
+      config.headers.certificate = localStorage.getItem("certificate")
+    }
+    return config
+  },
   error => {
     return Promise.reject(error)
   }
@@ -16,6 +21,9 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
+    if(response.headers.certificate){
+      localStorage.setItem("certificate",response.headers.certificate)
+    }
     return response
   },
   error => {

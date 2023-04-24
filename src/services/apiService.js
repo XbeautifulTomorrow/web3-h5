@@ -1,74 +1,76 @@
-import axios from 'axios'
+import axios from 'axios';
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
   baseURL: 'http://221.236.31.34:6599',
   withCredentials: false,
-  timeout: 20000
-})
+  timeout: 20000,
+});
 
 axiosInstance.interceptors.request.use(
-  config => {
-    if(localStorage.getItem("certificate")){
-      config.headers.certificate = localStorage.getItem("certificate")
+  (config) => {
+    if (localStorage.getItem('certificate')) {
+      config.headers.certificate = localStorage.getItem('certificate');
     }
-    return config
+    return config;
   },
-  error => {
-    return Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
   }
-)
+);
 
 axiosInstance.interceptors.response.use(
-  response => {
-    console.log(response,"response===")
-    if(response.headers.certificate){
-      localStorage.setItem("certificate",response.headers.certificate)
+  (response) => {
+    console.log('response===', response);
+    if (response.headers.certificate || response.headers.Certificate) {
+      localStorage.setItem(
+        'Certificate',
+        response.headers.certificate || response.headers.Certificate
+      );
     }
-    return response
+    return response;
   },
-  error => {
-    console.log('[AxiosError]', error)
-    return Promise.reject(error)
+  (error) => {
+    console.log('[AxiosError]', error);
+    return Promise.reject(error);
   }
-)
-
+);
 
 const handleRes = ({ type, url, data }) => {
-  console.log(type,url)
+  // console.log(type,url)
   if (data.code === 200) {
-    return data
+    return data;
   } else {
-    return [false, data.code, data]
+    return [false, data.code, data];
   }
-}
+};
 
 export async function post(url, params, config = {}) {
   try {
-    const res = await axiosInstance.post(url, params, config)
+    const res = await axiosInstance.post(url, params, config);
     return handleRes({
       type: 'post',
       url,
-      data: res.data
-    })
+      data: res.data,
+    });
   } catch (err) {
-    console.warn(err)
-    err.message = 'error'
-    return err
+    console.warn(err);
+    err.message = 'error';
+    return err;
   }
 }
 
 export async function get(url, params) {
   try {
-    const res = await axiosInstance.get(url, { params })
+    const res = await axiosInstance.get(url, { params });
     return handleRes({
       type: 'get',
       url,
-      data: res.data
-    })
+      data: res.data,
+    });
   } catch (err) {
-    console.warn(err)
-    err.message = 'error'
-    return err
+    console.warn(err);
+    err.message = 'error';
+    return err;
   }
 }

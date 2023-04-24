@@ -36,7 +36,7 @@
         Amount
         <el-input v-model="amountVal" placeholder="Please amount"
       /></span>
-      <span>
+      <span v-if="tokenChoose==1">
         OrderId
         <el-input v-model="orderVal" placeholder="Please orderId"
       /></span>
@@ -190,7 +190,7 @@ export default {
       const amount = web3.utils.toWei(this.amountVal.toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
-      if (!orderId || !amount) {
+      if (!orderId&&this.tokenChoose==1 || !amount) {
         ElNotification({
           title: "Tips",
           message: h("i", { style: "color: teal" }, "Please input info"),

@@ -27,12 +27,12 @@
         {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
-        <img class="header-wallet-img" src="" alt="" />
+        <!-- <img class="header-wallet-img" src="" alt="" /> -->
         <span class="header-wallet-money">{{ ethBalance }}ETH</span>
         <span class="header-wallet-add" @click="dialogVisible = true"></span>
       </div>
       <div class="boxes-button" v-if="conncectAddress">
-        <img class="header-user-img" src="" alt="" />
+        <!-- <img class="header-user-img" src="" alt="" /> -->
         <span class="boxes-button-text text-ellipsis">
           {{ conncectAddress }}
         </span>

@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
 );
 
 const handleRes = ({ type, url, data }) => {
-  // console.log(type,url)
+  console.log(type, url);
   if (data.code === 200) {
     return data;
   } else {

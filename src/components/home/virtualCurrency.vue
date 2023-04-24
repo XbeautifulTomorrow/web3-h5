@@ -6,8 +6,10 @@
         <li
           v-for="(item, index) in currencyList"
           :key="`currency-${index}`"
-          class="virtual-currency-list"
+          :class="['virtual-currency-list', { isEnter: showPopup }]"
           :style="{ borderLeft: `4px solid ${item.color}` }"
+          @mouseenter="(e) => mouseenterFun(item, e)"
+          @mouseleave="showPopup = false"
         >
           <img class="virtual-currency-list-img" src="" alt="" />
           <div class="virtual-currency-list-text">
@@ -18,25 +20,34 @@
               }}
             </p>
           </div>
-          <ul
-            class="virtual-currency-list-popup"
-            :style="{ borderLeft: `4px solid ${item.color}` }"
-          >
-            <li class="popup-list">
-              <span class="popup-list-title text-ellipsis">Address</span>
-              <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
-            </li>
-            <li class="popup-list price-list">
-              <span class="popup-list-title text-ellipsis">Address</span>
-              <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
-            </li>
-            <li class="popup-list-button">
-              <div class="mystery-box-button">Go to Mystery Box</div>
-            </li>
-          </ul>
         </li>
       </ul>
     </div>
+    <ul
+      v-if="showPopup && currentData"
+      class="virtual-currency-list-popup"
+      :style="style"
+      @mouseenter="showPopup = true"
+      @mouseleave="showPopup = false"
+    >
+      <li class="popup-list">
+        <span class="popup-list-title text-ellipsis">Address</span>
+        <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
+      </li>
+      <li class="popup-list">
+        <span class="popup-list-title text-ellipsis">Address</span>
+        <span class="popup-list-text text-ellipsis">
+          {{ currentData.currency }}
+        </span>
+      </li>
+      <li class="popup-list price-list">
+        <span class="popup-list-title text-ellipsis">Address</span>
+        <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
+      </li>
+      <li class="popup-list-button">
+        <div class="mystery-box-button">Go to Mystery Box</div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -46,13 +57,18 @@ export default {
   components: {},
   data() {
     return {
+      showPopup: false,
+      currentData: undefined,
+      style: {
+        borderLeft: '4px solid transparent',
+      },
       currencyList: [
         {
           imgUrl: '',
           name: 'SchizoPost',
           color: '#e38d4c',
           number: '0.279',
-          currency: 'ETH',
+          currency: 'ETHC',
         },
         {
           imgUrl: '',
@@ -92,6 +108,18 @@ export default {
       ],
     };
   },
+  methods: {
+    mouseenterFun(data, e) {
+      this.showPopup = true;
+      this.currentData = data;
+      const { left, bottom } = e.target.getBoundingClientRect();
+      this.style = {
+        left: `${left}px`,
+        top: `${bottom}px`,
+        borderLeft: `4px solid ${data.color}`,
+      };
+    },
+  },
 };
 </script>
 
@@ -107,8 +135,8 @@ export default {
 .virtual-currency-content {
   height: 100%;
   flex: 1;
-  // overflow-y: hidden;
-  // overflow-x: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 .virtual-currency-main {
   display: flex;
@@ -140,12 +168,13 @@ export default {
   align-content: center;
   align-items: center;
   position: relative;
-  &:hover {
+  &:hover,
+  &.isEnter {
     border-radius: 8px 8px 0 0;
-    .virtual-currency-list-popup {
-      transform: scaleY(1);
-      opacity: 1;
-    }
+    // .virtual-currency-list-popup {
+    //   transform: scaleY(1);
+    //   opacity: 1;
+    // }
   }
 }
 .virtual-currency-list-img {
@@ -168,17 +197,18 @@ export default {
   font-weight: 500;
 }
 .virtual-currency-list-popup {
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.2s;
-  opacity: 0;
+  // transform: scaleY(0);
+  // transform-origin: top;
+  // transition: transform 0.2s;
+  // opacity: 0;
   border-radius: 0 0 8px 8px;
-  position: absolute;
-  left: -5px;
-  top: 100%;
+  // position: absolute;
+  // left: -5px;
+  // top: 100%;
+  position: fixed;
   width: 155px;
   padding: 8px 16px 8px 12px;
-  z-index: 20;
+  z-index: 50;
   background-color: #3c0d60;
 }
 .popup-list {
@@ -220,6 +250,7 @@ export default {
   color: #fff;
   font-size: 18px;
   margin: 0 auto;
+  cursor: pointer;
 }
 .price-list {
   .popup-list-title {

@@ -47,23 +47,7 @@
 
 <script>
 import buttonCom from './button.vue';
-import bor0 from './img/bor0.png';
-import bor5 from './img/bor5.png';
 // import box1 from './img/box1.png'
-// import box2 from './img/box2.png'
-// import box3 from './img/box3.png'
-// import box4 from './img/box4.png'
-// import box5 from './img/box5.png'
-// import box6 from './img/box6.png'
-// import box7 from './img/box7.png'
-// import box8 from './img/box8.png'
-// import box9 from './img/box9.png'
-// import box10 from './img/box10.png'
-// import box11 from './img/box11.png'
-// import box12 from './img/box12.png'
-// import box13 from './img/box13.png'
-// import box14 from './img/box14.png'
-// import box15 from './img/box15.png'
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
@@ -104,11 +88,26 @@ export default {
           item = this.itemList.filter((item) => item.itemid == this.awardId)[0]; //把奖励加到列表里
           this.awardItem = item; //拿到奖励的各个参数
         } else {
-          item = this.getItem();
+          if (i > 0) {
+            item = this.notRepeat(items, i);
+          } else {
+            item = this.getItem();
+          }
         }
         items.push(item);
       }
       this.items = items;
+    },
+    notRepeat(items, i) {
+      let _item = this.getItem();
+      if (!_item) {
+        this.notRepeat(items, i);
+      } else {
+        if (items[i - 1] && items[i - 1].itemid === _item.itemid) {
+          this.notRepeat(items, i);
+        }
+      }
+      return _item;
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);

@@ -7,6 +7,7 @@ import Footer from '../components/footer/index.vue';
 const welcome = () => import('../components/welcome/index.vue');
 const Home = () => import('../components/home/index.vue');
 const Login = () => import('../components/login/index.vue');
+const Lottery = () => import('../components/lottery/index.vue');
 
 //2. 路由配置
 const routes = [
@@ -30,6 +31,13 @@ const routes = [
     name: 'Login',
     components: {
       default: Login,
+    },
+  },
+  {
+    path: '/lottery',
+    name: 'Lottery',
+    components: {
+      default: Lottery,
     },
   },
 ];

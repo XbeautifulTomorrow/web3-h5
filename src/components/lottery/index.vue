@@ -181,7 +181,7 @@ export default {
       //console.log(value);
       // this.awardId = value; //value;
       //初始化数据
-      this.InitPageModel();
+      // this.InitPageModel();
       //150ms后显示奖励皮肤滚动组件
       setTimeout(() => {
         //打开滚动组件，同时显示跳过动画的按钮

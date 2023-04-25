@@ -9,7 +9,7 @@
           class="boxes-list mystery-boxes-list"
           v-if="index < 5"
           :key="`mystery-${index}`"
-          @click="$router.push('blindBoxDetail?boxId='+item.id)"
+          @click="$router.push('mysteryBox?boxId='+item.id)"
         >
           <img class="mystery-boxs-list-img" :src="item.url" alt="" />
           <p class="boxes-title text-ellipsis">

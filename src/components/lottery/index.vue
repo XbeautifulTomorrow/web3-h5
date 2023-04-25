@@ -1,5 +1,5 @@
 <template>
-  <div class="roll">
+  <div class="roll roll-container">
     <!--盒子 boom执行打开爆炸的效果-->
     <div class="box" :class="{ boom: boxOpen }"></div>
 
@@ -35,11 +35,14 @@
       </div>
     </div>
     <!--滚动组件开始滑动并且奖励没有弹出时显示 跳过动画的按钮-->
-    <div class="btns" v-show="awardRollOpen && !awardShow">
+    <!-- <div class="btns" v-show="awardRollOpen && !awardShow">
       <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
-    </div>
-    <button-com @click="openBox()" text="开始" />
+    </div> -->
+    <div class="btn-container">
+      <button-com @click="openBox()" text="开始" />
     <button-com @click="resetBox()" text="重置" />
+    </div>
+
   </div>
 </template>
 
@@ -65,6 +68,7 @@ import bor5 from './img/bor5.png';
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
+  props:["lottoList","test"],
   data() {
     return {
       awardId: 5001238, //当前中奖的道具编号
@@ -81,6 +85,7 @@ export default {
       lnStart: 60, //中奖位置区间开始
       lnEnd: 65, //中奖位置区间结束
       items: [], //滚动的卡片列表
+      boxOpen:false,
       awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '' }, //中奖道具
       itemList: [
         {
@@ -207,13 +212,7 @@ export default {
           itemid: 5004605,
           pz: bor0,
           heroname: '小何',
-          gl: 1,
-        },
-        {
-          itemid: 5004606,
-          pz: bor0,
-          heroname: '老张',
-          gl: 1,
+          gl: 2,
         },
       ],
     };
@@ -323,14 +322,39 @@ export default {
     //     return `https://static.7fgame.com/itemimg/temp/pf_${heroid}_${itemid}.png`;
     // },
   },
-  mounted() {},
+  mounted() {
+    let newArr = [];
+    let gl = parseInt(100/this.lottoList.length);
+    let glCount = 0;
+    let last = 0; 
+    this.lottoList.forEach((item,index)=>{
+      newArr.push({
+          itemid: index,
+          pz: item.seriesImg,
+          heroname:item.seriesName,
+          gl: gl,
+      })
+      glCount = glCount + gl;
+    })
+    last = 100 - glCount;
+    newArr[newArr.length-1].gl =last
+    // this.itemList = JSON.parse(JSON.stringify(newArr)); //将传过来的值赋值给抽奖
+    console.log(newArr,last,"====123")
+    this.InitPageModel();
+  },
   beforeCreate() {},
   created() {
-    this.InitPageModel();
+  
   },
 };
 </script>
 
 <style scoped>
 @import url('./index.css');
+.roll-container{
+  }
+  .btn-container{
+    position: absolute;
+    bottom:0;
+  }
 </style>

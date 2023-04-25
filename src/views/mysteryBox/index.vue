@@ -3,6 +3,9 @@
     <div @click="setWalletOrder('ONE')" class="one-btn">钱包下单单抽</div>
     <div @click="setWalletOrder('FIVE')" class="one-btn">钱包下单五连抽</div>
     <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div>
+    <template v-if="blindDetailInfo&&blindDetailInfo.series&&blindDetailInfo.series.length>0">
+      <Lottory :lottoList="blindDetailInfo.series" />
+    </template>
   </div>
 </template>
 
@@ -15,11 +18,14 @@ import {
 import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import transferAbi from "@/config/transfer.json";
+import Lottory from "@/components/lottery/index";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
 export default {
   name: "BlindDetail",
-  components: {},
+  components: {
+    Lottory
+  },
   data() {
     return {
       boxList: [],
@@ -49,7 +55,6 @@ export default {
     },
     async getBlindBoxDetail() {
       let detail = await blindBoxDetail({ boxId: this.boxId });
-      console.log(detail);
       this.blindDetailInfo = detail.data;
     },
     async transfer(id, coiledType) {
@@ -142,6 +147,9 @@ export default {
 // }
 </style>
 <style lang="scss">
+.blind-detail{
+  min-height: 800px;
+}
 .one-btn {
   color: #fff;
 }

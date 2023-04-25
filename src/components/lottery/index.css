@@ -2,8 +2,11 @@
     width: 1017px;
     margin: 0 auto;
     height: 630px;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
+ 
   .btns {
     padding-top: 5px;
     width: 277px;

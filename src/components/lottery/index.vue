@@ -71,6 +71,7 @@ export default {
       boxOpen: false,
       awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '' }, //中奖道具
       itemList: [],
+      currentItem: undefined,
     };
   },
   methods: {
@@ -89,7 +90,8 @@ export default {
           this.awardItem = item; //拿到奖励的各个参数
         } else {
           if (i > 0) {
-            item = this.notRepeat(items, i);
+            this.notRepeat(items, i)
+            item = this.currentItem;
           } else {
             item = this.getItem();
           }
@@ -99,15 +101,14 @@ export default {
       this.items = items;
     },
     notRepeat(items, i) {
-      let _item = this.getItem();
-      if (!_item) {
+      this.currentItem = this.getItem();
+      if (!this.currentItem) {
         this.notRepeat(items, i);
       } else {
-        if (items[i - 1] && items[i - 1].itemid === _item.itemid) {
+        if (items[i - 1].itemid === this.currentItem.itemid) {
           this.notRepeat(items, i);
         }
       }
-      return _item;
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);

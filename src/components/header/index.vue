@@ -208,7 +208,7 @@ export default {
             method: "personal_sign",
             params: [_that.conncectAddress, msg],
           });
-          await authLogin({
+          let loginData = await authLogin({
             key: res.data, //登录临时key
             signature: signature, //钱包签名
             chainId: 5, //链ID
@@ -216,6 +216,10 @@ export default {
             walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
             inviteCode: "", //邀请码
           });
+          console.log(loginData,"loginData==")
+          if (loginData.data.certificate) {
+            localStorage.setItem("Certificate", loginData.data.certificate);
+          }
           let receiver = await getTheUserSPayoutAddress();
           this.showConnect = false;
           this.receiver = receiver.data;
@@ -256,7 +260,11 @@ export default {
             window.web3 = web3;
             _that.web3 = web3;
             _that.conncectAddress = accounts[0];
-            _that.ethBalance = new BigNumber(await _that.web3.eth.getBalance(accounts[0])).div(1e18).toFixed(4);
+            _that.ethBalance = new BigNumber(
+              await _that.web3.eth.getBalance(accounts[0])
+            )
+              .div(1e18)
+              .toFixed(4);
             _that.login();
             //这里返回用户钱包地址
             // callback(accounts[0]);
@@ -312,17 +320,19 @@ export default {
         });
     },
     async lottery() {
-      var accountsFromMetaMask = await window.ethereum.send('eth_requestAccounts');
-      let web3 =window.web3;
-      let idStr ="1234"
-      let str = "5678"
+      var accountsFromMetaMask = await window.ethereum.send(
+        "eth_requestAccounts"
+      );
+      let web3 = window.web3;
+      let idStr = "1234";
+      let str = "5678";
       var lottContract = new web3.eth.Contract(
         lottAbi,
         this.lottContractAddress
       );
       await lottContract.methods
         .getRandomness(idStr, 10, str)
-        .send({ from:accountsFromMetaMask.result[0]});
+        .send({ from: accountsFromMetaMask.result[0] });
     },
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });

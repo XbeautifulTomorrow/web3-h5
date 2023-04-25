@@ -22,13 +22,6 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log('response===', response);
-    if (response.headers.certificate || response.headers.Certificate) {
-      localStorage.setItem(
-        'Certificate',
-        response.headers.certificate || response.headers.Certificate
-      );
-    }
     return response;
   },
   (error) => {

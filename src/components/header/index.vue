@@ -90,7 +90,6 @@
 <script>
 import Web3 from "web3";
 import transferAbi from "@/config/transfer.json";
-import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
@@ -99,6 +98,8 @@ import {
   authLogin,
   getTheUserSPayoutAddress,
 } from "@/services/api/user";
+
+
 import WalletList from "../login/index.vue";
 import { BigNumber } from "bignumber.js";
 export default {
@@ -222,6 +223,7 @@ export default {
           let receiver = await getTheUserSPayoutAddress();
           this.showConnect = false;
           this.receiver = receiver.data;
+          localStorage.setItem("receiver", this.receiver);
         }
       });
     },
@@ -318,21 +320,7 @@ export default {
           value: amount,
         });
     },
-    async lottery() {
-      var accountsFromMetaMask = await window.ethereum.send(
-        "eth_requestAccounts"
-      );
-      let web3 = window.web3;
-      let idStr = "1234";
-      let str = "5678";
-      var lottContract = new web3.eth.Contract(
-        lottAbi,
-        this.lottContractAddress
-      );
-      await lottContract.methods
-        .getRandomness(idStr, 10, str)
-        .send({ from: accountsFromMetaMask.result[0] });
-    },
+   
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },

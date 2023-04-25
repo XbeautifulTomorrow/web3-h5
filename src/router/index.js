@@ -8,6 +8,7 @@ const welcome = () => import('../components/welcome/index.vue');
 const Home = () => import('../components/home/index.vue');
 const Login = () => import('../components/login/index.vue');
 const Lottery = () => import('../components/lottery/index.vue');
+const BlindBoxDetail = () => import('../views/blindBox/detail.vue');
 
 //2. 路由配置
 const routes = [
@@ -38,6 +39,14 @@ const routes = [
     name: 'Lottery',
     components: {
       default: Lottery,
+    },
+  },
+  {
+    path: '/blindBoxDetail',
+    name: 'blindBoxDetail',
+    components: {
+      default: BlindBoxDetail,
+      Header,
     },
   },
 ];

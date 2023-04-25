@@ -90,7 +90,6 @@
 <script>
 import Web3 from "web3";
 import transferAbi from "@/config/transfer.json";
-import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
@@ -99,6 +98,8 @@ import {
   authLogin,
   getTheUserSPayoutAddress,
 } from "@/services/api/user";
+
+
 import WalletList from "../login/index.vue";
 import { BigNumber } from "bignumber.js";
 export default {
@@ -187,6 +188,7 @@ export default {
       usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
+      // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
@@ -207,7 +209,7 @@ export default {
             method: "personal_sign",
             params: [_that.conncectAddress, msg],
           });
-          await authLogin({
+          let loginData = await authLogin({
             key: res.data, //登录临时key
             signature: signature, //钱包签名
             chainId: 5, //链ID
@@ -215,9 +217,13 @@ export default {
             walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
             inviteCode: "", //邀请码
           });
+          if (loginData.data.certificate) {
+            localStorage.setItem("certificate", loginData.data.certificate);
+          }
           let receiver = await getTheUserSPayoutAddress();
           this.showConnect = false;
           this.receiver = receiver.data;
+          localStorage.setItem("receiver", this.receiver);
         }
       });
     },
@@ -248,13 +254,18 @@ export default {
             // let web3Provider = new Web3.providers.HttpProvider(
             //   "https://eth.llamarpc.com"
             // );
-            web3 = new Web3("https://rpc.ankr.com/eth_goerli");
+            // web3 = new Web3("https://goerli.infura.io/v3/60e51d66a38e4624bfb90643cff08d0b");
+            web3 = new Web3(window.ethereum);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
             _that.web3 = web3;
             _that.conncectAddress = accounts[0];
-            _that.ethBalance = new BigNumber(await _that.web3.eth.getBalance(accounts[0])).div(1e18).toFixed(4)
+            _that.ethBalance = new BigNumber(
+              await _that.web3.eth.getBalance(accounts[0])
+            )
+              .div(1e18)
+              .toFixed(4);
             _that.login();
             //这里返回用户钱包地址
             // callback(accounts[0]);
@@ -309,15 +320,7 @@ export default {
           value: amount,
         });
     },
-    async lottery() {
-      var lottContract = new window.web3.eth.Contract(
-        lottAbi,
-        this.lottContractAddress
-      );
-      await lottContract.methods
-        .getRandomness("123", 10, "test")
-        .send({ from: window.web3.eth.defaultAccount });
-    },
+   
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },

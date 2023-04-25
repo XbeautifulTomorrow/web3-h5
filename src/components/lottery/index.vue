@@ -6,7 +6,7 @@
     <div class="con">
       <div class="roll_con" :style="moveCss">
         <div class="lottery-list" v-for="(item, index) in items" :key="index">
-          <div>
+          <div v-if="item">
             <div class="lottery-list-con">
               {{ item.heroname }}
             </div>
@@ -40,9 +40,8 @@
     </div> -->
     <div class="btn-container">
       <button-com @click="openBox()" text="开始" />
-    <button-com @click="resetBox()" text="重置" />
+      <button-com @click="resetBox()" text="重置" />
     </div>
-
   </div>
 </template>
 
@@ -68,10 +67,10 @@ import bor5 from './img/bor5.png';
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
-  props:["lottoList","test"],
+  props: ['lottoList', 'test'],
   data() {
     return {
-      awardId: 5001238, //当前中奖的道具编号
+      awardId: 0, //当前中奖的道具编号
       rollTimer: null, //动画定时器句柄
       leftM: 50, //指针停止位置的偏移量  用来计算弹出框的初始位置
 
@@ -85,142 +84,16 @@ export default {
       lnStart: 60, //中奖位置区间开始
       lnEnd: 65, //中奖位置区间结束
       items: [], //滚动的卡片列表
-      boxOpen:false,
+      boxOpen: false,
       awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '' }, //中奖道具
-      itemList: [
-        {
-          itemid: 5001238,
-          pz: bor0,
-          heroname: '小赵',
-          gl: 8,
-        },
-        {
-          itemid: 5001537,
-          pz: bor0,
-          heroname: '小钱',
-          gl: 8,
-        },
-        {
-          itemid: 5001447,
-          pz: bor0,
-          heroname: '小孙',
-          gl: 8,
-        },
-        {
-          itemid: 5004400,
-          pz: bor0,
-          heroname: '小李',
-          gl: 8,
-        },
-        {
-          itemid: 5001167,
-          pz: bor0,
-          heroname: '小周',
-          gl: 8,
-        },
-        {
-          itemid: 5000451,
-          pz: bor0,
-          heroname: '小吴',
-          gl: 8,
-        },
-        {
-          itemid: 5004205,
-          pz: bor0,
-          heroname: '小郑',
-          gl: 6,
-        },
-        {
-          itemid: 5004183,
-          pz: bor0,
-          heroname: '小王',
-          gl: 6,
-        },
-        {
-          itemid: 5003722,
-          pz: bor0,
-          heroname: '小冯',
-          gl: 6,
-        },
-        {
-          itemid: 5003387,
-          pz: bor0,
-          heroname: '小陈',
-          gl: 6,
-        },
-        {
-          itemid: 5001876,
-          pz: bor0,
-          heroname: '小褚',
-          gl: 6,
-        },
-        {
-          itemid: 5004601,
-          pz: bor0,
-          heroname: '小卫',
-          gl: 3,
-        },
-        {
-          itemid: 5004602,
-          pz: bor0,
-          heroname: '小蒋',
-          gl: 3,
-        },
-        {
-          itemid: 5004603,
-          pz: bor0,
-          heroname: '小沈',
-          gl: 3,
-        },
-        {
-          itemid: 5004604,
-          pz: bor0,
-          heroname: '小韩',
-          gl: 3,
-        },
-        {
-          itemid: 5004598,
-          pz: bor0,
-          heroname: '小杨',
-          gl: 2,
-        },
-        {
-          itemid: 5004599,
-          pz: bor0,
-          heroname: '小朱',
-          gl: 2,
-        },
-        {
-          itemid: 5004600,
-          pz: bor0,
-          heroname: '小秦',
-          gl: 2,
-        },
-        {
-          itemid: 5004596,
-          pz: bor5,
-          heroname: '小尤',
-          gl: 1,
-        },
-        {
-          itemid: 5004597,
-          pz: bor5,
-          heroname: '小许',
-          gl: 1,
-        },
-        {
-          itemid: 5004605,
-          pz: bor0,
-          heroname: '小何',
-          gl: 2,
-        },
-      ],
+      itemList: [],
     };
   },
   methods: {
     InitPageModel() {
       //随机一个总数
       this.items = [];
+      let items = [];
       //中奖卡片的位置
       this.luckyNums = this.getRand(this.lnStart, this.lnEnd);
       let loopNum =
@@ -230,9 +103,12 @@ export default {
         if (i + 1 == this.luckyNums) {
           item = this.itemList.filter((item) => item.itemid == this.awardId)[0]; //把奖励加到列表里
           this.awardItem = item; //拿到奖励的各个参数
-        } else item = this.getItem();
-        this.items.push(item);
+        } else {
+          item = this.getItem();
+        }
+        items.push(item);
       }
+      this.items = items;
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
@@ -304,7 +180,7 @@ export default {
       // });
       // p.then((value) => {
       //console.log(value);
-      this.awardId = 5003387; //value;
+      // this.awardId = value; //value;
       //初始化数据
       this.InitPageModel();
       //150ms后显示奖励皮肤滚动组件
@@ -324,37 +200,35 @@ export default {
   },
   mounted() {
     let newArr = [];
-    let gl = parseInt(100/this.lottoList.length);
+    let gl = parseInt(100 / this.lottoList.length);
     let glCount = 0;
-    let last = 0; 
-    this.lottoList.forEach((item,index)=>{
+    let last = 0;
+    this.lottoList.forEach((item, index) => {
       newArr.push({
-          itemid: index,
-          pz: item.seriesImg,
-          heroname:item.seriesName,
-          gl: gl,
-      })
+        itemid: index,
+        pz: item.seriesImg,
+        heroname: item.seriesName,
+        gl: gl,
+      });
       glCount = glCount + gl;
-    })
+    });
     last = 100 - glCount;
-    newArr[newArr.length-1].gl =last
-    // this.itemList = JSON.parse(JSON.stringify(newArr)); //将传过来的值赋值给抽奖
-    console.log(newArr,last,"====123")
+    newArr[newArr.length - 1].gl = last;
+    this.itemList = JSON.parse(JSON.stringify(newArr)); //将传过来的值赋值给抽奖
+    console.log(newArr, last, '====123');
     this.InitPageModel();
   },
   beforeCreate() {},
-  created() {
-  
-  },
+  created() {},
 };
 </script>
 
 <style scoped>
 @import url('./index.css');
-.roll-container{
-  }
-  .btn-container{
-    position: absolute;
-    bottom:0;
-  }
+.roll-container {
+}
+.btn-container {
+  position: absolute;
+  bottom: 0;
+}
 </style>

@@ -3,7 +3,13 @@
     <div @click="setWalletOrder('ONE')" class="one-btn">钱包下单单抽</div>
     <div @click="setWalletOrder('FIVE')" class="one-btn">钱包下单五连抽</div>
     <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div>
-    <template v-if="blindDetailInfo&&blindDetailInfo.series&&blindDetailInfo.series.length>0">
+    <template
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
       <Lottory :lottoList="blindDetailInfo.series" />
     </template>
   </div>
@@ -14,30 +20,30 @@ import {
   //   lottery,
   blindBoxDetail,
   walletOrder,
-} from "@/services/api/blindBox";
-import lottAbi from "@/config/lott.json";
-import erc20Abi from "@/config/erc20.json";
-import transferAbi from "@/config/transfer.json";
-import Lottory from "@/components/lottery/index";
-import { h } from "vue";
-import { ElNotification } from "element-plus";
+} from '@/services/api/blindBox';
+import lottAbi from '@/config/lott.json';
+import erc20Abi from '@/config/erc20.json';
+import transferAbi from '@/config/transfer.json';
+import Lottory from '@/components/lottery/index';
+import { h } from 'vue';
+import { ElNotification } from 'element-plus';
 export default {
-  name: "BlindDetail",
+  name: 'BlindDetail',
   components: {
-    Lottory
+    Lottory,
   },
   data() {
     return {
       boxList: [],
       ticketList: [],
       NFTList: [],
-      generateKey: "",
+      generateKey: '',
       boxId: null,
-      walletOrderDetail: "",
-      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
-      lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约，
-      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
-      blindDetailInfo: "",
+      walletOrderDetail: '',
+      usdtAddress: '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
+      lottContractAddress: '0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d', //抽奖合约，
+      transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
+      blindDetailInfo: '',
     };
   },
   mounted() {
@@ -58,48 +64,54 @@ export default {
       this.blindDetailInfo = detail.data;
     },
     async transfer(id, coiledType) {
-        console.log(id,"id====")
-        const web3 = window.web3;
+      console.log(id, 'id====');
+      const web3 = window.web3;
       let amountVal = 1;
-      if (coiledType == "ONE") {
-        amountVal =  this.blindDetailInfo.price
+      if (coiledType == 'ONE') {
+        amountVal = this.blindDetailInfo.price;
       }
-      if (coiledType == "FIVE") {
-        amountVal =  web3.utils.toWei((this.blindDetailInfo.fivePrice*5).toString(), "ether")
+      if (coiledType == 'FIVE') {
+        amountVal = web3.utils.toWei(
+          (this.blindDetailInfo.fivePrice * 5).toString(),
+          'ether'
+        );
       }
-      if (coiledType == "TEN") {
-        amountVal =  web3.utils.toWei((this.blindDetailInfo.tenPrice*10).toString(), "ether")
+      if (coiledType == 'TEN') {
+        amountVal = web3.utils.toWei(
+          (this.blindDetailInfo.tenPrice * 10).toString(),
+          'ether'
+        );
       }
       this.dialogVisible = false;
-     
+
       const contractAddress = this.transferAddress;
       const transferContract = new web3.eth.Contract(
         transferAbi,
         contractAddress
       );
       let tokenChoose = 2;
-      if(this.blindDetailInfo.coin=="ETH"){
-        tokenChoose = 1
+      if (this.blindDetailInfo.coin == 'ETH') {
+        tokenChoose = 1;
       }
-      const amount = web3.utils.toWei(amountVal.toString(), "ether");
-      const receiver =  localStorage.getItem("receiver");
-      const orderId = id.toString() || "test";
+      const amount = web3.utils.toWei(amountVal.toString(), 'ether');
+      const receiver = localStorage.getItem('receiver');
+      const orderId = id.toString() || 'test';
       if ((!orderId && tokenChoose == 1) || !amount) {
         ElNotification({
-          title: "Tips",
-          message: h("i", { style: "color: teal" }, "Please input info"),
+          title: 'Tips',
+          message: h('i', { style: 'color: teal' }, 'Please input info'),
         });
         return;
       }
       const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+        method: 'eth_requestAccounts',
       });
-      console.log(accounts,contractAddress,"accounts===")
+      console.log(accounts, contractAddress, 'accounts===');
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
         .call();
-      if (allowance == "0") {
+      if (allowance == '0') {
         await erc20Contract.methods
           .approve(contractAddress, 10000)
           .send({ from: accounts[0] });
@@ -113,7 +125,7 @@ export default {
           });
         return;
       }
-      console.log(333,accounts[0],receiver,amount)
+      console.log(333, accounts[0], receiver, amount);
       await transferContract.methods
         .transferETH(amount, receiver, orderId)
         .send({
@@ -124,12 +136,12 @@ export default {
     },
     async lotteryBox() {
       var accountsFromMetaMask = await window.ethereum.send(
-        "eth_requestAccounts"
+        'eth_requestAccounts'
       );
       let web3 = window.web3;
       let idStr = this.walletOrderDetail.orderId.toString();
       let str = this.walletOrderDetail.orderNumber;
-      console.log(accountsFromMetaMask, "detail===");
+      console.log(accountsFromMetaMask, 'detail===');
       var lottContract = new web3.eth.Contract(
         lottAbi,
         this.lottContractAddress
@@ -147,14 +159,14 @@ export default {
 // }
 </style>
 <style lang="scss">
-.blind-detail{
+.blind-detail {
   min-height: 800px;
 }
 .one-btn {
   color: #fff;
 }
 body {
-  background: url("@/assets/img/home/bg.png") no-repeat;
+  background: url('@/assets/img/home/bg.png') no-repeat;
   background-size: 100% auto;
 }
 .home-public-title {

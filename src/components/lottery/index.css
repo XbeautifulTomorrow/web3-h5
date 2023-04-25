@@ -59,7 +59,7 @@
   }
   .roll_con {
     position: absolute;
-    width: 10000px;
+    width: max-content;
     height: 148px;
     top: 241px;
     left: 0;

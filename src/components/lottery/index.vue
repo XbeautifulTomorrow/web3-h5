@@ -47,8 +47,6 @@
 
 <script>
 import buttonCom from './button.vue';
-import bor0 from './img/bor0.png';
-import bor5 from './img/bor5.png';
 // import box1 from './img/box1.png'
 // import box2 from './img/box2.png'
 // import box3 from './img/box3.png'
@@ -182,7 +180,7 @@ export default {
       //console.log(value);
       // this.awardId = value; //value;
       //初始化数据
-      this.InitPageModel();
+      // this.InitPageModel();
       //150ms后显示奖励皮肤滚动组件
       setTimeout(() => {
         //打开滚动组件，同时显示跳过动画的按钮

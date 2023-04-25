@@ -3,12 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from '../views/header/index.vue';
 import Footer from '../views/footer/index.vue';
+import Currency from '../views/virtualCurrency/index.vue';
 
 const welcome = () => import('../views/welcome/index.vue');
 const Home = () => import('../views/home/index.vue');
 const Login = () => import('../views/login/index.vue');
 const Lottery = () => import('../views/lottery/index.vue');
-const BlindBoxDetail = () => import('../views/blindBox/index.vue');
+const MysteryBox = () => import('../views/mysteryBox/index.vue');
 
 //2. 路由配置
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
       default: Home,
       Header,
       Footer,
+      Currency,
     },
   },
   {
@@ -42,11 +44,13 @@ const routes = [
     },
   },
   {
-    path: '/blindBoxDetail',
-    name: 'blindBoxDetail',
+    path: '/mysteryBox',
+    name: 'MysteryBox',
     components: {
-      default: BlindBoxDetail,
+      default: MysteryBox,
       Header,
+      Footer,
+      Currency,
     },
   },
 ];

@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import PopupPage from '../popup/index.vue';
+import PopupPage from '@/components/popup/index.vue';
 import Link from './link.vue';
 export default {
   name: 'LoginPage',

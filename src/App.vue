@@ -1,5 +1,6 @@
 <template>
   <router-view class="font-family" name="Header"></router-view>
+  <router-view class="font-family" name="Currency"></router-view>
   <router-view class="font-family"></router-view>
   <router-view class="font-family" name="Footer"></router-view>
 </template>

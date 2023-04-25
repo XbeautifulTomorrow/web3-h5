@@ -58,8 +58,8 @@
   </div>
 </template>
 <script>
-import PopupPage from '../popup/index.vue';
-import InputCom from '../input/index.vue';
+import PopupPage from '@/components/popup/index.vue';
+import InputCom from '@/components/input/index.vue';
 import CodeCom from './code.vue';
 export default {
   name: 'LoginPage',

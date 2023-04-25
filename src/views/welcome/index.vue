@@ -1,18 +1,17 @@
 <template>
-  <!-- <Bg />
-   <CardHome /> -->
-  <div>test</div>
+  <Bg />
+   <CardHome />
 </template>
 
 <script>
-//  import CardHome from './cardHome.vue';
-//  import Bg from './bg/index.vue';
+ import CardHome from './cardHome.vue';
+ import Bg from './bg/index.vue';
 
 export default {
   name: 'WelcomePage',
   components: {
-    //  CardHome,
-    //  Bg,
+     CardHome,
+     Bg,
   },
 };
 </script>

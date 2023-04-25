@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <virtual-currency />
     <banner />
     <mystery-boxes :boxList="boxList" />
     <ntf-tickets :ticketList="ticketList" />
@@ -9,8 +8,7 @@
 </template>
 
 <script>
-import VirtualCurrency from './virtualCurrency.vue';
-import Banner from '../banner/index.vue';
+import Banner from '@/components/banner/index.vue';
 import MysteryBoxes from './mysteryBoxes.vue';
 import NtfTickets from './ntfTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
@@ -20,7 +18,6 @@ import { getBoxList, getTicketList, getNFTList } from '@/services/api/index';
 export default {
   name: 'IndexPage',
   components: {
-    VirtualCurrency,
     Banner,
     MysteryBoxes,
     NtfTickets,

@@ -35,7 +35,7 @@
 </template>
 <script>
 import { reactive, watch, toRefs, onMounted, ref } from 'vue';
-import InputNumber from '../input/inputNumber.vue';
+import InputNumber from '@/components/input/inputNumber.vue';
 export default {
   name: 'CodePage',
   components: {

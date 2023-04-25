@@ -31,26 +31,26 @@ export default {
     PopupPage,
     Link,
   },
-  props:["connect","close"],
+  props: ['connect', 'close'],
   data() {
     return {
       test: true,
     };
   },
   methods: {
-    connectParent(){
-      this.$emit('connectWallet')
+    connectParent() {
+      this.$emit('connectWallet');
     },
     closePopup() {
       this.test = false;
-      this.$emit('close')
+      this.$emit('close');
     },
   },
 };
 </script>
 <style lang="scss" scoped></style>
 <style lang="scss" scoped>
-.popup{
+.popup {
   z-index: 999;
 }
 .explain-text {

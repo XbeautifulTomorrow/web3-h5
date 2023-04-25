@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['pack-com', '', 'pack-bg']"
+    :class="['pack-com', 'pack-border', classNamePack]"
     @mouseenter="mouseenterFun"
     @mouseleave="mouseleaveFun"
   >
@@ -62,16 +62,26 @@ export default {
       packHeight: `${this.height}px`,
       borderRadius: `${this.radius}px`,
       packBorderWidth: `${this.borderWidth}px`,
-      isHover: this.hover,
+      isHover: true,
+      classNamePack: this.className,
     };
   },
   methods: {
     mouseenterFun() {
-      if (!this.hover) return;
+      if (this.isHover && this.hover) {
+        this.classNamePack += ` pack-bg`;
+      }
     },
     mouseleaveFun() {
-      if (!this.hover) return;
+      if (this.isHover && this.hover) {
+        this.classNamePack = this.classNamePack.replace('pack-bg', '');
+      }
     },
+  },
+  beforeMount() {
+    if (this.className.indexOf('pack-bg') > -1) {
+      this.isHover = false;
+    }
   },
 };
 </script>

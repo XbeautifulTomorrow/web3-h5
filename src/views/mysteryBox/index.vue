@@ -4,6 +4,7 @@
     <div @click="setBalanceOrder('ONE')" class="one-btn">余额下单单抽</div>
     <div @click="setWalletOrder('FIVE')" class="one-btn">钱包下单五连抽</div>
     <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div>
+
     <template
       v-if="
         blindDetailInfo &&
@@ -11,15 +12,19 @@
         blindDetailInfo.series.length > 0
       "
     >
-      <Lottory :lottoList="blindDetailInfo.series" :lottResult="lottResult" @setBalanceOrder="setBalanceOrder"/>
+      <Lottory
+        :lottoList="blindDetailInfo.series"
+        :lottResult="lottResult"
+        @setBalanceOrder="setBalanceOrder"
+      />
     </template>
   </div>
 </template>
 
 <script>
 import {
-    balanceOrder,
-    lotteryResult,
+  balanceOrder,
+  lotteryResult,
   blindBoxDetail,
   walletOrder,
 } from '@/services/api/blindBox';
@@ -46,8 +51,8 @@ export default {
       lottContractAddress: '0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d', //抽奖合约，
       transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
       blindDetailInfo: '',
-      lottStatus:true,
-      lottResult:"",
+      lottStatus: true,
+      lottResult: '',
     };
   },
   mounted() {
@@ -55,27 +60,28 @@ export default {
     this.getBlindBoxDetail();
   },
   methods: {
-    async setBalanceOrder(coiledType) {//余额抽盲盒
+    async setBalanceOrder(coiledType) {
+      //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({
         boxId: _that.boxId,
         coiledType,
       });
       // if(!walletOrderInfo){
-        let result = "";
-        let resultTimer = setInterval(async()=>{
-          result = await lotteryResult({
-            orderId: 46
-          });
-          if(result){
-            _that.lottResult =result.data;
-            console.log(result,"result===")
-            clearInterval(resultTimer)
-          }
-        },5000)
-       
+      let result = '';
+      let resultTimer = setInterval(async () => {
+        result = await lotteryResult({
+          orderId: 46,
+        });
+        if (result) {
+          _that.lottResult = result.data;
+          console.log(result, 'result===');
+          clearInterval(resultTimer);
+        }
+      }, 5000);
+
       // }
-      console.log(walletOrderInfo,"walletOrderInfo===")
+      console.log(walletOrderInfo, 'walletOrderInfo===');
       // this.walletOrderDetail = walletOrderInfo.data;
       // this.transfer(this.walletOrderDetail.orderId, coiledType);
     },

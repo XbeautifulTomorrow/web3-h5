@@ -192,3 +192,21 @@
     transform: rotate(720deg);
   }
 }
+.btn-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+}
+.lottery-carousel {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  align-content: center;
+  justify-items: center;
+  position: relative;
+}
+.lottery-carousel-list {
+  margin: 0 3px;
+}

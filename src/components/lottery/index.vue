@@ -8,77 +8,89 @@
       <!--盒子 boom执行打开爆炸的效果-->
       <div class="box" :class="{ boom: boxOpen }"></div>
       <div class="con">
-        <div
-          :class="['roll_con', { isAnimation: isAnimation }]"
-          :style="moveCss"
+        <el-carousel
+          height="280"
+          :interval="250"
+          :autoplay="autoplay"
+          :pause-on-hover="false"
+          indicator-position="none"
+          arrow="never"
+          @change="changeFun"
+          ref="carousel"
         >
-          <div
-            v-for="(item, index) in items"
-            class="lottery-list"
-            :style="{ width: `${itemWidth}px` }"
-            :key="index"
-          >
-            <div v-if="item">
-              <div class="lottery-list-bor" ref="light" :style="borStyle">
-                <img class="lottery-list-img" :src="item.pz" />
-              </div>
-              <div class="lottery-list-nftNumber">
-                #&nbsp;{{ item.nftNumber }}
-              </div>
-              <p class="public-color-three lottery-list-seriesName">
-                {{ item.seriesName }}
-              </p>
-              <div class="lottery-list-text">
-                <img class="lottery-list-logo" :src="item.seriesImg" />
-                <span class="public-color-two lottery-list-minPrice">
-                  {{ item.minPrice }}
-                </span>
-                <span class="public-color-two lottery-list-conin">
-                  {{ item.coin }}
-                </span>
+          <el-carousel-item v-for="(item, index) in items" :key="index">
+            <div class="lottery-carousel">
+              <div
+                v-for="(list, _listIndex) in item"
+                :key="`list-${_listIndex}`"
+                class="lottery-carousel-list"
+                :style="listStyle"
+              >
+                <div class="lottery-list-bor" ref="light" :style="borStyle">
+                  <img class="lottery-list-img" :src="list.pz" />
+                </div>
+                <div class="lottery-list-nftNumber">
+                  #&nbsp;{{ list.nftNumber }}
+                </div>
+                <p class="public-color-three lottery-list-seriesName">
+                  {{ list.seriesName }}
+                </p>
+                <div class="lottery-list-text">
+                  <img class="lottery-list-logo" :src="list.seriesImg" />
+                  <span class="public-color-two lottery-list-minPrice">
+                    {{ list.minPrice }}
+                  </span>
+                  <span class="public-color-two lottery-list-conin">
+                    {{ list.coin }}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </el-carousel-item>
+        </el-carousel>
         <div class="list_mask"></div>
       </div>
       <!--中奖皮肤的放大提示框-->
-      <div class="awardAlert" v-show="awardShow">
+      <!-- <div class="awardAlert" v-show="awardShow">
         <div class="lottery-show_con">
           <div class="light_bor" ref="light_bor"></div>
-          <!-- <div class="lottery-list-con">
-            {{ awardItem.heroname }}
-          </div> -->
           <div class="lottery-award-bor">
             <img class="lottery-list-img" :src="awardItem.pz" />
           </div>
         </div>
-      </div>
+      </div> -->
       <!--滚动组件开始滑动并且奖励没有弹出时显示 跳过动画的按钮-->
       <!-- <div class="btns" v-show="awardRollOpen && !awardShow">
       <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
     </div> -->
       <div class="btn-container">
         <button-com @click="openBox" text="开始" />
-        
         <button-com @click="stopScroll" text="结束" />
         <button-com @click="resetBox" text="重置" />
         <button-com @click="startLott" text="余额抽盲盒(单抽)" />
       </div>
+    </div>
+    <div
+      :style="{
+        display: 'none',
+      }"
+    >
+      <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
   </div>
 </template>
 
 <script>
 import buttonCom from './button.vue';
-// import box1 from './img/box1.png'
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
-  props: ['lottoList','setBalanceOrder','lottResult', 'test'],
+  props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
   data() {
     return {
+      slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
+      autoplay: false,
       awardId: 0, //当前中奖的道具编号
       rollTimer: null, //动画定时器句柄
       leftM: 50, //指针停止位置的偏移量  用来计算弹出框的初始位置
@@ -102,99 +114,45 @@ export default {
         height: `${itemWidth}px`,
       },
       showNumber: 0,
-      isAnimation: false,
-      timer: null,
-      timerTran: null,
+      showIndex: 0,
       translateX: 0,
+      imteImg: [],
+      listStyle: {},
     };
   },
-  watch:{
-    "lottResult":function(newVal,oldVal){
-      console.log(newVal,oldVal,"newVal")
-    }
+  watch: {
+    lottResult: function (newVal, oldVal) {
+      console.log(newVal, oldVal, 'newVal');
+      if (newVal) {
+        this.awardFun(newVal);
+      }
+    },
   },
   methods: {
-    startLott(){
-      this.openBox()
-      this.$emit("setBalanceOrder","ONE")
-    },
-    InitPageModel() {
-      const { clientWidth } = document.body;
-      const number = Math.ceil(clientWidth / itemWidth) * 4;
-      this.showNumber = Math.ceil(clientWidth / itemWidth);
-      const firster = [
-        this.itemList[this.getRand(0, this.itemList.length - 1)],
-      ];
-      const _items = this.forFun(number, firster);
-      this.items = _items;
-    },
-    forFun(number, items = this.items) {
-      let _items = items;
-      for (let i = 0; i < number; i++) {
-        let item = {};
-        if (i > 0) {
-          this.notRepeat(items, i);
-          item = this.currentItem;
-        } else {
-          item = this.getItem();
-        }
-        _items.push(item);
+    awardFun(orderId) {
+      const { itemList, showIndex, showNumber } = this;
+      const _showNumber = Math.floor(showNumber / 2);
+      const isAward = itemList.filter((item) => item.itemid == orderId);
+      if (isAward.length > 0) {
+        this.items[showIndex + 1].splice(_showNumber, 1, isAward[0]);
+        this.stopScroll();
       }
-      return _items;
     },
-    animationFun() {
-      const { items, showNumber } = this;
-      let _items = JSON.parse(JSON.stringify(items));
-      const _deleteNumber = Math.ceil(showNumber);
-      // _items.splice(0, _deleteNumber);
-      const _addItems = this.forFun(_deleteNumber, _items);
-      _items = _addItems;
-      this.items = _items;
+    changeFun(index) {
+      this.showIndex = index;
     },
-    notRepeat(items, i) {
-      this.currentItem = this.getItem();
-      if (!this.currentItem) {
-        this.notRepeat(items, i);
-      } else {
-        if (items[i - 1].itemid === this.currentItem.itemid) {
-          this.notRepeat(items, i);
-        }
-      }
+    startLott() {
+      this.openBox();
+      this.$emit('setBalanceOrder', 'ONE');
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
-    //按概率随机获取一个皮肤
-    getItem() {
-      let r = this.getRand(1, 100);
-      let g = 0;
-      let item;
-      for (let i = 0; i < this.itemList.length; i++) {
-        g = g + this.itemList[i].gl;
-        if (g >= r) {
-          item = this.itemList[i];
-          break;
-        }
-      }
-      return item;
-    },
-    stopScroll(e) {
-      if (e && e.preventDefault) {
-        e.preventDefault();
-      } else {
-        return;
-      }
-      const _awardItem = this.itemList[0];
-      this.moveCss = ` transform: translateX(${-this.translateX}px);`;
-      const { clientWidth } = document.body;
-      const Index =
-        Math.floor(this.translateX / itemWidth) +
-        Math.floor(clientWidth / itemWidth / 2) -
-        1;
-      this.items.splice(Index, 0, _awardItem);
-      this.awardItem = _awardItem;
-      this.awardShow = true;
-      this.clearTimerFun();
+    stopScroll() {
+      this.autoplay = false;
+      this.$refs.carousel.setActiveItem(this.showIndex + 1);
+      const _x = this.getRand(10, itemWidth - 10);
+      this.listStyle = { transform: `translateX(${_x}px` };
     },
     resetBox() {
       this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
@@ -206,66 +164,66 @@ export default {
       this.clearTimerFun();
       this.InitPageModel();
     },
-    openBox(e) {
-      // if (e && e.preventDefault) {
-      //   e.preventDefault();
-      // } else {
-      //   return;
-      // }
-      console.log(e)
-      this.clearTimerFun();
-      this.isAnimation = true;
-      this.moveCss = ` transform: translateX(${
-        -itemWidth * this.showNumber
-      }px);`;
-      this.translateX = itemWidth * this.showNumber;
-      this.timer = setInterval(() => {
-        this.animationFun();
-        this.translateX += itemWidth * this.showNumber;
-        // this.translateX += document.body.clientWidth;
-        this.moveCss = ` transform: translateX(${-this.translateX}px);`;
-      }, 300);
+    openBox() {
+      this.autoplay = true;
+      this.listStyle = {};
     },
-    clearTimerFun() {
-      this.isAnimation = false;
-      clearInterval(this.timer);
-      this.timer = null;
-      clearInterval(this.timerTran);
-      this.timerTran = null;
+    itemsFun(items) {
+      let _items = items;
+      if (_items.length < 3) {
+        _items = [..._items, ...JSON.parse(JSON.stringify(_items))];
+        if (_items.length < 3) {
+          this.itemsFun(_items);
+        } else {
+          this.items = _items;
+        }
+      }
     },
-    // setImg(heroid, itemid) {
-    //   if (heroid == 0) return `https://static.7fgame.com/itemimg/${itemid}.png`;
-    //   else
-    //     return `https://static.7fgame.com/itemimg/temp/pf_${heroid}_${itemid}.png`;
-    // },
+    dataFun() {
+      const { lottoList } = this;
+      const { clientWidth } = document.body;
+      const number = Math.ceil(clientWidth / itemWidth);
+      this.showNumber = number;
+      let _items = [];
+      let _itemImg = [];
+      let _arr = [];
+      lottoList.forEach((item, index) => {
+        let img = new Image();
+        img.src = item.seriesImg;
+        _itemImg.push(item.seriesImg);
+        let _obj = {
+          itemid: index,
+          pz: item.seriesImg,
+          heroname: item.seriesName,
+        };
+        _obj = { ..._obj, ...item };
+        this.itemList.push(_obj);
+        if (_arr.length - 1 >= number) {
+          _items.push(_arr);
+          _arr = [];
+          _arr.push(_obj);
+          return;
+        } else {
+          _arr.push(_obj);
+        }
+        if (index >= lottoList.length && _arr.length < number) {
+          for (let i = 0; i < number - _arr.length; i++) {
+            const _index = this.getRand(2, lottoList.length - 2);
+            _arr.push(lottoList[_index]);
+          }
+        }
+      });
+      this.imteImg = _itemImg;
+      this.itemsFun(_items);
+    },
   },
   mounted() {
-    let newArr = [];
-    let gl = parseInt(100 / this.lottoList.length);
-    let glCount = 0;
-    let last = 0;
-    this.lottoList.forEach((item, index) => {
-      let _obj = {
-        itemid: index,
-        pz: item.seriesImg,
-        heroname: item.seriesName,
-        gl: gl,
-      };
-      _obj = { ..._obj, ...item };
-      newArr.push(_obj);
-      glCount = glCount + gl;
-    });
-    last = 100 - glCount;
-    newArr[newArr.length - 1].gl = last;
-    this.itemList = JSON.parse(JSON.stringify(newArr)); //将传过来的值赋值给抽奖
-    this.InitPageModel();
+    this.dataFun();
   },
   beforeCreate() {},
   created() {},
   beforeUpdate() {},
-  beforeUnmount() {
-    this.clearTimerFun();
-  },
+  beforeUnmount() {},
 };
 </script>
 
@@ -276,5 +234,11 @@ export default {
 .btn-container {
   position: absolute;
   bottom: 0;
+}
+.el-carousel {
+  width: 100%;
+}
+.el-carousel__indicators {
+  display: none;
 }
 </style>

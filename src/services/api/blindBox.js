@@ -12,4 +12,8 @@ const walletOrder = (params) =>
 const lotteryResult = (params) =>
   apiService.get("mystery-web-user/box/lottery/result", params);//查询抽奖结果
   
-export { balanceOrder,blindBoxDetail,walletOrder,lotteryResult };
+   
+const lotteryHold = (params) =>
+apiService.get("mystery-web-user/box/lottery/hold", params);//选择持有还是回收
+
+export { balanceOrder,blindBoxDetail,walletOrder,lotteryResult,lotteryHold };

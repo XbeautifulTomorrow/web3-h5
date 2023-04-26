@@ -35,3 +35,43 @@ li {
   /*当文本溢出包含元素时，以省略号表示超出的文本*/
   text-overflow: ellipsis;
 }
+.public-color-one {
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    #dd82af 20%,
+    #dd81af 20%,
+    #d12398 50%,
+    #fab597 69%
+  );
+  font-size: 32px;
+  font-weight: bold;
+}
+.public-color-two {
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    #c7c3cc 3%,
+    #e2e3cf 24%,
+    #d94ba5 78%
+  );
+  font-size: 24px;
+  font-weight: bold;
+}
+.public-color-three {
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-image: linear-gradient(to bottom, #768098, #eceacf 61%, #edbed2);
+  font-size: 18px;
+}

@@ -1,46 +1,68 @@
 <template>
   <div class="roll roll-container">
-    <!--盒子 boom执行打开爆炸的效果-->
-    <div class="box" :class="{ boom: boxOpen }"></div>
-
-    <div class="con">
-      <div class="roll_con" :style="moveCss">
-        <div class="lottery-list" v-for="(item, index) in items" :key="index">
-          <div v-if="item">
-            <div class="lottery-list-con">
-              {{ item.heroname }}
-            </div>
-            <div class="lottery-list-bor" ref="light">
-              <img class="lottery-list-img" :src="item.pz" />
+    <div class="lottery-content">
+      <div class="roll-text public-color-one">
+        <p class="public-color-one">Top Blue-chips Box</p>
+        <p class="roll-text-offcial">An offcial box by Bitzing</p>
+      </div>
+      <!--盒子 boom执行打开爆炸的效果-->
+      <div class="box" :class="{ boom: boxOpen }"></div>
+      <div class="con">
+        <div class="roll_con" :style="moveCss">
+          <div
+            v-for="(item, index) in items"
+            class="lottery-list"
+            :style="{ width: `${itemWidth}px` }"
+            :key="index"
+          >
+            <div v-if="item">
+              <div class="lottery-list-bor" ref="light" :style="borStyle">
+                <img class="lottery-list-img" :src="item.pz" />
+              </div>
+              <div class="lottery-list-nftNumber">
+                #&nbsp;{{ item.nftNumber }}
+              </div>
+              <p class="public-color-three lottery-list-seriesName">
+                {{ item.seriesName }}
+              </p>
+              <div class="lottery-list-text">
+                <img class="lottery-list-logo" :src="item.seriesImg" />
+                <span class="public-color-two lottery-list-minPrice">{{
+                  item.minPrice
+                }}</span>
+                <span class="public-color-two lottery-list-conin">{{
+                  item.coin
+                }}</span>
+              </div>
             </div>
           </div>
         </div>
+        <div class="list_mask"></div>
       </div>
-      <div class="list_mask"></div>
-    </div>
-    <!--中奖皮肤的放大提示框-->
-    <div
-      class="awardAlert"
-      :style="`margin-left:${-53 + leftM}px;${scaleCss}`"
-      v-show="awardShow"
-    >
-      <div class="show_con">
-        <div class="light_bor" ref="light_bor"></div>
-        <div class="lottery-list-con">
-          {{ awardItem.heroname }}
-        </div>
-        <div class="lottery-list-bor">
-          <img class="lottery-list-img" :src="awardItem.pz" />
+      <!--中奖皮肤的放大提示框-->
+      <div
+        class="awardAlert"
+        :style="`margin-left:${-53 + leftM}px;${scaleCss}`"
+        v-show="awardShow"
+      >
+        <div class="show_con">
+          <div class="light_bor" ref="light_bor"></div>
+          <!-- <div class="lottery-list-con">
+            {{ awardItem.heroname }}
+          </div> -->
+          <div class="lottery-list-bor">
+            <img class="lottery-list-img" :src="awardItem.pz" />
+          </div>
         </div>
       </div>
-    </div>
-    <!--滚动组件开始滑动并且奖励没有弹出时显示 跳过动画的按钮-->
-    <!-- <div class="btns" v-show="awardRollOpen && !awardShow">
+      <!--滚动组件开始滑动并且奖励没有弹出时显示 跳过动画的按钮-->
+      <!-- <div class="btns" v-show="awardRollOpen && !awardShow">
       <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
     </div> -->
-    <div class="btn-container">
-      <button-com @click="openBox()" text="开始" />
-      <button-com @click="resetBox()" text="重置" />
+      <div class="btn-container">
+        <button-com @click="openBox()" text="开始" />
+        <button-com @click="resetBox()" text="重置" />
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +70,7 @@
 <script>
 import buttonCom from './button.vue';
 // import box1 from './img/box1.png'
+const itemWidth = 220;
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
@@ -62,7 +85,7 @@ export default {
       awardRollOpen: false, //奖励滚动组件的显示开关
       moveCss: '', //奖励滚动组件的滑动的动画效果css
       scaleCss: '', //奖励弹出放大效果的css
-      itemWidth: 113, //每张卡牌的宽度
+      itemWidth: itemWidth, //每张卡牌的宽度
 
       luckyNums: 0, //中奖位置
       lnStart: 60, //中奖位置区间开始
@@ -72,6 +95,10 @@ export default {
       awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '' }, //中奖道具
       itemList: [],
       currentItem: undefined,
+      borStyle: {
+        width: `${itemWidth}px`,
+        height: `${itemWidth}px`,
+      },
     };
   },
   methods: {
@@ -90,7 +117,7 @@ export default {
           this.awardItem = item; //拿到奖励的各个参数
         } else {
           if (i > 0) {
-            this.notRepeat(items, i)
+            this.notRepeat(items, i);
             item = this.currentItem;
           } else {
             item = this.getItem();
@@ -204,18 +231,19 @@ export default {
     let glCount = 0;
     let last = 0;
     this.lottoList.forEach((item, index) => {
-      newArr.push({
+      let _obj = {
         itemid: index,
         pz: item.seriesImg,
         heroname: item.seriesName,
         gl: gl,
-      });
+      };
+      _obj = { ..._obj, ...item };
+      newArr.push(_obj);
       glCount = glCount + gl;
     });
     last = 100 - glCount;
     newArr[newArr.length - 1].gl = last;
     this.itemList = JSON.parse(JSON.stringify(newArr)); //将传过来的值赋值给抽奖
-    console.log(newArr, last, '====123');
     this.InitPageModel();
   },
   beforeCreate() {},

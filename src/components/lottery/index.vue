@@ -8,7 +8,10 @@
       <!--盒子 boom执行打开爆炸的效果-->
       <div class="box" :class="{ boom: boxOpen }"></div>
       <div class="con">
-        <div class="roll_con" :style="moveCss">
+        <div
+          :class="['roll_con', { isAnimation: isAnimation }]"
+          :style="moveCss"
+        >
           <div
             v-for="(item, index) in items"
             class="lottery-list"
@@ -27,12 +30,12 @@
               </p>
               <div class="lottery-list-text">
                 <img class="lottery-list-logo" :src="item.seriesImg" />
-                <span class="public-color-two lottery-list-minPrice">{{
-                  item.minPrice
-                }}</span>
-                <span class="public-color-two lottery-list-conin">{{
-                  item.coin
-                }}</span>
+                <span class="public-color-two lottery-list-minPrice">
+                  {{ item.minPrice }}
+                </span>
+                <span class="public-color-two lottery-list-conin">
+                  {{ item.coin }}
+                </span>
               </div>
             </div>
           </div>
@@ -40,17 +43,13 @@
         <div class="list_mask"></div>
       </div>
       <!--中奖皮肤的放大提示框-->
-      <div
-        class="awardAlert"
-        :style="`margin-left:${-53 + leftM}px;${scaleCss}`"
-        v-show="awardShow"
-      >
-        <div class="show_con">
+      <div class="awardAlert" v-show="awardShow">
+        <div class="lottery-show_con">
           <div class="light_bor" ref="light_bor"></div>
           <!-- <div class="lottery-list-con">
             {{ awardItem.heroname }}
           </div> -->
-          <div class="lottery-list-bor">
+          <div class="lottery-award-bor">
             <img class="lottery-list-img" :src="awardItem.pz" />
           </div>
         </div>
@@ -60,8 +59,9 @@
       <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
     </div> -->
       <div class="btn-container">
-        <button-com @click="openBox()" text="开始" />
-        <button-com @click="resetBox()" text="重置" />
+        <button-com @click="openBox" text="开始" />
+        <button-com @click="stopScroll" text="结束" />
+        <button-com @click="resetBox" text="重置" />
       </div>
     </div>
   </div>
@@ -99,33 +99,46 @@ export default {
         width: `${itemWidth}px`,
         height: `${itemWidth}px`,
       },
+      showNumber: 0,
+      isAnimation: false,
+      timer: null,
+      timerTran: null,
+      translateX: 0,
     };
   },
   methods: {
     InitPageModel() {
-      //随机一个总数
-      this.items = [];
-      let items = [];
-      //中奖卡片的位置
-      this.luckyNums = this.getRand(this.lnStart, this.lnEnd);
-      let loopNum =
-        this.lnEnd - this.luckyNums < 4 ? this.luckyNums + 4 : this.lnEnd;
-      for (let i = 0; i < loopNum; i++) {
+      const { clientWidth } = document.body;
+      const number = Math.ceil(clientWidth / itemWidth) * 4;
+      this.showNumber = Math.ceil(clientWidth / itemWidth);
+      const firster = [
+        this.itemList[this.getRand(0, this.itemList.length - 1)],
+      ];
+      const _items = this.forFun(number, firster);
+      this.items = _items;
+    },
+    forFun(number, items = this.items) {
+      let _items = items;
+      for (let i = 0; i < number; i++) {
         let item = {};
-        if (i + 1 == this.luckyNums) {
-          item = this.itemList.filter((item) => item.itemid == this.awardId)[0]; //把奖励加到列表里
-          this.awardItem = item; //拿到奖励的各个参数
+        if (i > 0) {
+          this.notRepeat(items, i);
+          item = this.currentItem;
         } else {
-          if (i > 0) {
-            this.notRepeat(items, i);
-            item = this.currentItem;
-          } else {
-            item = this.getItem();
-          }
+          item = this.getItem();
         }
-        items.push(item);
+        _items.push(item);
       }
-      this.items = items;
+      return _items;
+    },
+    animationFun() {
+      const { items, showNumber } = this;
+      let _items = JSON.parse(JSON.stringify(items));
+      const _deleteNumber = Math.ceil(showNumber);
+      // _items.splice(0, _deleteNumber);
+      const _addItems = this.forFun(_deleteNumber, _items);
+      _items = _addItems;
+      this.items = _items;
     },
     notRepeat(items, i) {
       this.currentItem = this.getItem();
@@ -154,70 +167,59 @@ export default {
       }
       return item;
     },
-    startScroll() {
-      let m = this.getRand(0, 100) - 50;
-      this.leftM = m;
-      this.moveCss = `left:${
-        (this.luckyNums - 5) * -this.itemWidth + m
-      }px;transition:all 8s cubic-bezier(.1,.59,.1,.9)`;
-      //6s 动画结束后 开始弹出奖励图片，6500ms后执行
-      this.rollTimer = setTimeout(() => {
-        this.awardShow = true;
-        //display和动画会有前后执行的冲突，所以加上10ms延时处理
-        setTimeout(() => {
-          this.scaleCss = `transform:scale(2,2);transition: all 0.5s;margin-left:-53px;`;
-          //奖励背景闪光出现效果
-          this.$refs.light_bor.style.transition = 'all .5s';
-          this.$refs.light_bor.style.opacity = 1;
-        }, 50);
-      }, 8500);
-    },
-    stopScroll() {
-      this.moveCss = `left:${
-        (this.luckyNums - 5) * -this.itemWidth + this.leftM
-      }px;`;
-      clearTimeout(this.rollTimer);
+    stopScroll(e) {
+      if (e && e.preventDefault) {
+        e.preventDefault();
+      } else {
+        return;
+      }
+      const _awardItem = this.itemList[0];
+      this.moveCss = ` transform: translateX(${-this.translateX}px);`;
+      const { clientWidth } = document.body;
+      const Index =
+        Math.floor(this.translateX / itemWidth) +
+        Math.floor(clientWidth / itemWidth / 2) -
+        1;
+      this.items.splice(Index, 0, _awardItem);
+      this.awardItem = _awardItem;
       this.awardShow = true;
-      setTimeout(() => {
-        this.scaleCss = `transform:scale(2,2);transition: all 0.5s;margin-left:-53px;`;
-        this.$refs.light_bor.style.transition = 'all .5s';
-        this.$refs.light_bor.style.opacity = 1;
-      }, 50);
+      this.clearTimerFun();
     },
     resetBox() {
       this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
       this.scaleCss = ''; //奖励弹出放大效果的css
       this.$refs.light_bor.style.transition = '';
       this.$refs.light_bor.style.opacity = 0;
-
       this.awardShow = false; //滑动结束后显示奖励放大效果
       this.awardRollOpen = false; //奖励滚动组件的显示开关
-
-      //this.InitPageModel();
+      this.clearTimerFun();
+      this.InitPageModel();
     },
-    openBox() {
-      //此处调用接口抽取奖励，获得奖励的皮肤itemid
-      //执行一些页面上的交互动画
-      // .... do ...
-      //模拟500ms后得到结果
-      // const p = new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve(5003387); //成功，给出itemid
-      //   }, 500);
-      // });
-      // p.then((value) => {
-      //console.log(value);
-      // this.awardId = value; //value;
-      //初始化数据
-      // this.InitPageModel();
-      //150ms后显示奖励皮肤滚动组件
-      setTimeout(() => {
-        //打开滚动组件，同时显示跳过动画的按钮
-        this.awardRollOpen = true;
-        //500ms 之后开始奖励列表滑动
-        this.rollTimer = setTimeout(() => this.startScroll(), 100);
-      }, 150);
-      //});
+    openBox(e) {
+      if (e && e.preventDefault) {
+        e.preventDefault();
+      } else {
+        return;
+      }
+      this.clearTimerFun();
+      this.isAnimation = true;
+      this.moveCss = ` transform: translateX(${
+        -itemWidth * this.showNumber
+      }px);`;
+      this.translateX = itemWidth * this.showNumber;
+      this.timer = setInterval(() => {
+        this.animationFun();
+        this.translateX += itemWidth * this.showNumber;
+        // this.translateX += document.body.clientWidth;
+        this.moveCss = ` transform: translateX(${-this.translateX}px);`;
+      }, 300);
+    },
+    clearTimerFun() {
+      this.isAnimation = false;
+      clearInterval(this.timer);
+      this.timer = null;
+      clearInterval(this.timerTran);
+      this.timerTran = null;
     },
     // setImg(heroid, itemid) {
     //   if (heroid == 0) return `https://static.7fgame.com/itemimg/${itemid}.png`;
@@ -248,6 +250,10 @@ export default {
   },
   beforeCreate() {},
   created() {},
+  beforeUpdate() {},
+  beforeUnmount() {
+    this.clearTimerFun();
+  },
 };
 </script>
 

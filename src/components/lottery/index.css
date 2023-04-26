@@ -43,7 +43,6 @@
   height: 396px;
   margin: 0 auto;
   overflow-x: hidden;
-  background: url('./img/btn_stop.png') 0 234px no-repeat;
   position: relative;
   display: flex;
   align-items: center;
@@ -65,11 +64,14 @@
   height: 274px;
   left: 0;
   display: flex;
+  transform: translateX(0);
+  transition: transform 0.3s linear;
 }
 .roll_con .lottery-list {
   position: relative;
   padding: 0 3px;
   height: max-content;
+  transition: all 0.2s;
 }
 .roll_con .lottery-list .showImg {
   z-index: 100;
@@ -117,46 +119,10 @@
   background: #ff0000;
   transform: translate(-50%, -50%);
 }
-.awardAlert {
-  top: 241px;
-  position: absolute;
-  z-index: 10;
-  left: 50%;
-  margin-left: -53px;
-}
-.awardAlert .show_con {
-  position: relative;
-  width: 107px;
-  height: 148px;
-}
-.awardAlert .show_con .light_bor {
-  position: absolute;
-  top: -90px;
-  left: -108px;
-  width: 324px;
-  height: 329px;
-  opacity: 0;
-  background: url('./img/cur_bg.png') 0 0 no-repeat;
-  background-size: 100% 100%;
-}
-.awardAlert.big .show_con .light_bor {
-  transition: all 10s;
-  opacity: 1;
-}
-
-.awardAlert .show_con .lottery-list-con {
-  width: 107px;
-  height: 148px;
-  position: relative;
-  z-index: 5;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
 .lottery-list-img {
   width: 100%;
   height: 100%;
+  vertical-align: bottom;
 }
 .roll-text-offcial {
   font-size: 18px;
@@ -203,4 +169,26 @@
   top: 50%;
   left: 0;
   transform: translateY(-50%);
+}
+.lottery-award-bor {
+  animation: awardA 0.5s;
+}
+.awardAlert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  z-index: 50;
+}
+
+@keyframes awardA {
+  0% {
+    width: 220px;
+    transform: rotate(0);
+  }
+  100% {
+    width: 50vw;
+    transform: rotate(720deg);
+  }
 }

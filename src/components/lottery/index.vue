@@ -60,8 +60,10 @@
     </div> -->
       <div class="btn-container">
         <button-com @click="openBox" text="开始" />
+        
         <button-com @click="stopScroll" text="结束" />
         <button-com @click="resetBox" text="重置" />
+        <button-com @click="startLott" text="余额抽盲盒(单抽)" />
       </div>
     </div>
   </div>
@@ -74,7 +76,7 @@ const itemWidth = 220;
 export default {
   name: 'LotteryPage',
   components: { buttonCom },
-  props: ['lottoList', 'test'],
+  props: ['lottoList','setBalanceOrder','lottResult', 'test'],
   data() {
     return {
       awardId: 0, //当前中奖的道具编号
@@ -106,7 +108,16 @@ export default {
       translateX: 0,
     };
   },
+  watch:{
+    "lottResult":function(newVal,oldVal){
+      console.log(newVal,oldVal,"newVal")
+    }
+  },
   methods: {
+    startLott(){
+      this.openBox()
+      this.$emit("setBalanceOrder","ONE")
+    },
     InitPageModel() {
       const { clientWidth } = document.body;
       const number = Math.ceil(clientWidth / itemWidth) * 4;
@@ -196,11 +207,12 @@ export default {
       this.InitPageModel();
     },
     openBox(e) {
-      if (e && e.preventDefault) {
-        e.preventDefault();
-      } else {
-        return;
-      }
+      // if (e && e.preventDefault) {
+      //   e.preventDefault();
+      // } else {
+      //   return;
+      // }
+      console.log(e)
       this.clearTimerFun();
       this.isAnimation = true;
       this.moveCss = ` transform: translateX(${

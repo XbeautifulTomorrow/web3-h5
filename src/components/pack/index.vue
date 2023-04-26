@@ -1,10 +1,12 @@
 <template>
   <div
-    :class="['pack-com', 'pack-border', classNamePack]"
+    :style="style"
+    :class="['pack-com', classNamePack]"
     @mouseenter="mouseenterFun"
     @mouseleave="mouseleaveFun"
+    @click="clickFun"
   >
-    <div>asdgjasdjhasd</div>
+    <div>{{ text }}</div>
   </div>
 </template>
 <script>
@@ -23,21 +25,9 @@ export default {
       type: String,
       default: '#fff',
     },
-    radius: {
+    borderRadius: {
       type: Number,
       default: 30,
-    },
-    linearGradientBorder: {
-      type: String,
-      default: 'to bottom, #6ce1f9, #00669b 48%, #b770f4',
-    },
-    linearGradient: {
-      type: String,
-      default: '0, #b164f6 15%, #026aa1 58%, #42e2f0 79%',
-    },
-    backgronud: {
-      type: String,
-      default: 'to bottom, #141029, #141029',
     },
     hover: {
       type: Boolean,
@@ -45,43 +35,42 @@ export default {
     },
     className: {
       type: String,
-      default: '',
+      default: 'pack-border',
     },
-    borderWidth: {
-      type: Number,
-      default: 2,
-    },
-    borderColor: {
+    hoverClssName: {
       type: String,
-      default: '#fff',
+      default: 'pack-bg',
+    },
+    text: {
+      type: String,
+      default: '',
     },
   },
   data() {
     return {
-      packWidth: `${this.width}px`,
-      packHeight: `${this.height}px`,
-      borderRadius: `${this.radius}px`,
-      packBorderWidth: `${this.borderWidth}px`,
-      isHover: true,
+      style: {
+        width: `${this.width}px`,
+        height: `${this.height}px`,
+        color: this.color,
+        borderRadius: `${this.borderRadius}px`,
+      },
       classNamePack: this.className,
     };
   },
   methods: {
     mouseenterFun() {
-      if (this.isHover && this.hover) {
-        this.classNamePack += ` pack-bg`;
+      if (this.hover) {
+        this.classNamePack += ` ${this.hoverClssName}`;
       }
     },
     mouseleaveFun() {
-      if (this.isHover && this.hover) {
-        this.classNamePack = this.classNamePack.replace('pack-bg', '');
+      if (this.hover) {
+        this.classNamePack = this.classNamePack.replace(this.hoverClssName, '');
       }
     },
-  },
-  beforeMount() {
-    if (this.className.indexOf('pack-bg') > -1) {
-      this.isHover = false;
-    }
+    clickFun() {
+      this.$emit('click');
+    },
   },
 };
 </script>
@@ -92,23 +81,24 @@ export default {
   align-content: center;
   justify-items: center;
   justify-content: center;
-  width: v-bind(packWidth);
-  height: v-bind(packHeight);
-  color: v-bind(color);
-  border-radius: v-bind(borderRadius);
 }
 .pack-border {
   border-style: solid;
-  border-width: v-bind(packBorderWidth);
-  border-image-source: linear-gradient(v-bind(linearGradientBorder));
+  border-width: 2px;
+  border-image-source: linear-gradient(
+    to bottom,
+    #6ce1f9,
+    #00669b 48%,
+    #b770f4
+  );
   border-image-slice: 1;
-  background-image: linear-gradient(v-bind(backgronud)),
-    linear-gradient(v-bind(linearGradientBorder));
+  background-image: linear-gradient(to bottom, #141029, #141029),
+    linear-gradient(to bottom, #6ce1f9, #00669b 48%, #b770f4);
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
 .pack-bg {
-  border: solid v-bind(packBorderWidth) v-bind(borderColor);
-  background-image: linear-gradient(v-bind(linearGradient));
+  border: solid 2px #fff;
+  background-image: linear-gradient(0, #b164f6 15%, #026aa1 58%, #42e2f0 79%);
 }
 </style>

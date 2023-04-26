@@ -155,6 +155,7 @@ export default {
       this.listStyle = { transform: `translateX(${_x}px` };
     },
     resetBox() {
+      this.listStyle = {};
       this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
       this.scaleCss = ''; //奖励弹出放大效果的css
       this.$refs.light_bor.style.transition = '';
@@ -166,7 +167,6 @@ export default {
     },
     openBox() {
       this.autoplay = true;
-      this.listStyle = {};
     },
     itemsFun(items) {
       let _items = items;

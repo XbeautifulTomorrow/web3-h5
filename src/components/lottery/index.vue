@@ -90,8 +90,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="chooseLotteryHold()">持有</el-button>
-          <el-button type="primary" @click="chooseLotteryHold('hold')">
+          <el-button @click="chooseLotteryHold('hold')">持有</el-button>
+          <el-button type="primary" @click="chooseLotteryHold()">
             回收获得{{ awardItemPrice }}ETH
           </el-button>
         </span>
@@ -165,16 +165,19 @@ export default {
   },
   methods: {
     async chooseLotteryHold(type) {
-      if (type == 'hold') {
+     
         let data = this.lottoResult.data;
-        let res = await lotteryHold({
-          lotteryIds: data[0].id,
-          orderId: data[0].orderId,
-        });
+        let arg = {};
+        if (type == 'hold') {
+            arg ={
+              lotteryIds: data[0].id,
+              orderId: data[0].orderId,
+            }
+        }
+        let res = await lotteryHold();
         console.log(res, 'res===');
         this.showResult = false;
         localStorage.removeItem('awardItem');
-      }
     },
     awardFun(heroname) {
      
@@ -307,6 +310,7 @@ export default {
   position: absolute;
   bottom: 0;
 }
+
 .btn-container span{
   background-image: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
   display: inline-block;

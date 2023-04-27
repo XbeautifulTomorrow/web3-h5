@@ -202,7 +202,7 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   align-content: center;
   justify-items: center;
   position: relative;

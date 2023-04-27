@@ -19,12 +19,11 @@
           ref="carousel"
         >
           <el-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="lottery-carousel">
+            <div class="lottery-carousel" :style="carouselStyle">
               <div
                 v-for="(list, _listIndex) in item"
                 :key="`list-${_listIndex}`"
                 class="lottery-carousel-list"
-                :style="listStyle"
               >
                 <div class="lottery-list-bor" ref="light" :style="borStyle">
                   <img class="lottery-list-img" :src="list.pz" />
@@ -78,27 +77,31 @@
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
     <el-dialog v-model="showResult" title="Tips" width="30%" center>
-    <div class="result-modal">
-      <img class="lottery-list-img" :src="awardItem.pz" />
-      <p>你抽中了<b>{{ awardItem.seriesName }}</b>,请选择回收还是持有！</p>
-      <p>你还有<b>{{ resultSecond }}</b>秒做出选择</p>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="chooseLotteryHold()">持有</el-button>
-        <el-button type="primary" @click="chooseLotteryHold('hold')">
-          回收
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+      <div class="result-modal">
+        <img class="lottery-list-img" :src="awardItem.pz" />
+        <p>
+          你抽中了<b>{{ awardItem.seriesName }}</b
+          >,请选择回收还是持有！
+        </p>
+        <p>
+          你还有<b>{{ resultSecond }}</b
+          >秒做出选择
+        </p>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="chooseLotteryHold()">持有</el-button>
+          <el-button type="primary" @click="chooseLotteryHold('hold')">
+            回收
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {
-  lotteryHold
-} from '@/services/api/blindBox';
+import { lotteryHold } from '@/services/api/blindBox';
 import buttonCom from './button.vue';
 const itemWidth = 220;
 export default {
@@ -135,19 +138,22 @@ export default {
       showIndex: 0,
       translateX: 0,
       imteImg: [],
-      listStyle: {},
-      showResult:false,
-      lottoResult:"",
-      resultSecond:60,
-      resultSecondTimer:null,
+      carouselStyle: { transform: `translateX(-${itemWidth / 2}px)` },
+      showResult: false,
+      lottoResult: '',
+      resultSecond: 60,
+      resultSecondTimer: null,
     };
   },
   watch: {
     lottResult: function (newVal) {
       if (newVal) {
         this.lottoResult = newVal;
-        const second =this.$dayjs(newVal.localDateTime).diff(this.$dayjs(newVal.data[0].createTime))/1000;
-        if(second<this.resultSecond){
+        const second =
+          this.$dayjs(newVal.localDateTime).diff(
+            this.$dayjs(newVal.data[0].createTime)
+          ) / 1000;
+        if (second < this.resultSecond) {
           this.resultSecond = parseInt(second);
         }
         this.awardFun(newVal.data[0].seriesName);
@@ -155,33 +161,34 @@ export default {
     },
   },
   methods: {
-    async chooseLotteryHold(type){
-      if(type=='hold'){
+    async chooseLotteryHold(type) {
+      if (type == 'hold') {
         let data = this.lottoResult.data;
-        let res = await lotteryHold({lotteryIds:data[0].id,orderId:data[0].orderId})
-        console.log(res,"res===")
+        let res = await lotteryHold({
+          lotteryIds: data[0].id,
+          orderId: data[0].orderId,
+        });
+        console.log(res, 'res===');
         this.showResult = false;
-        localStorage.removeItem("awardItem")
+        localStorage.removeItem('awardItem');
       }
-
     },
     awardFun(heroname) {
       const { itemList, showIndex, showNumber } = this;
       const _showNumber = Math.floor(showNumber / 2);
       const isAward = itemList.filter((item) => item.heroname == heroname);
       this.awardItem = isAward[0];
-      localStorage.setItem('awardItem',JSON.stringify(this.lottoResult))
-      if(!this.resultSecondTimer){
-        this.resultSecondTimer = setInterval(()=>{
-        if(this.resultSecond<=0){
-          clearInterval(this.resultSecondTimer)
-        }
-        this.resultSecond--
-      },1000)
+      localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
+      if (!this.resultSecondTimer) {
+        this.resultSecondTimer = setInterval(() => {
+          if (this.resultSecond <= 0) {
+            clearInterval(this.resultSecondTimer);
+          }
+          this.resultSecond--;
+        }, 1000);
       }
-    
       if (isAward.length > 0) {
-        this.items[showIndex + 1].splice(_showNumber, 1, isAward[0]);
+        this.items[showIndex].splice(_showNumber, 1, isAward[0]);
         this.stopScroll();
       }
     },
@@ -197,20 +204,19 @@ export default {
     },
     stopScroll() {
       this.autoplay = false;
-      this.$refs.carousel.setActiveItem(this.showIndex + 1);
-      const _x = this.getRand(10, itemWidth - 10);
-      this.listStyle = { transform: `translateX(${_x}px` };
+      const _x = this.getRand(10, itemWidth - 60);
+      this.carouselStyle = { transform: `translateX(-${_x}px` };
     },
     resetBox() {
-      this.listStyle = {};
+      this.autoplay = false;
+      // this.carouselStyle = { transform: `translateX(-${_x}px` };
       this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
       this.scaleCss = ''; //奖励弹出放大效果的css
-      this.$refs.light_bor.style.transition = '';
-      this.$refs.light_bor.style.opacity = 0;
+      // this.$refs.light_bor.style.transition = '';
+      // this.$refs.light_bor.style.opacity = 0;
       this.awardShow = false; //滑动结束后显示奖励放大效果
       this.awardRollOpen = false; //奖励滚动组件的显示开关
-      this.clearTimerFun();
-      this.InitPageModel();
+      this.dataFun();
     },
     openBox() {
       this.autoplay = true;
@@ -266,7 +272,7 @@ export default {
   },
   mounted() {
     this.dataFun();
-    if( localStorage.getItem('awardItem')){
+    if (localStorage.getItem('awardItem')) {
       this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
@@ -280,12 +286,11 @@ export default {
 
 <style scoped>
 @import url('./index.css');
-.result-modal{
+.result-modal {
   font-size: 30px;
   font-weight: bold;
-
 }
-.result-modal b{
+.result-modal b {
   color: red;
 }
 .roll-container {

@@ -35,13 +35,13 @@
                   {{ list.heroname }}
                 </p>
                 <div class="lottery-list-text">
-                  <img class="lottery-list-logo" :src="list.pz" />
+                  <!-- <img class="lottery-list-logo" :src="list.pz" /> -->
+                  <img src="@/assets/img/eth.png" alt="" />
                   <span class="public-color-two lottery-list-minPrice">
                     {{ list.price }}
                   </span>
                   <span class="public-color-two lottery-list-conin">
                     {{ list.coin }}
-                    <img src="@/assets/img/eth.png" alt="" />
                   </span>
                 </div>
               </div>

@@ -153,12 +153,12 @@
   margin: 10px 0;
   font-size: 26px;
 }
-.lottery-list-conin img{
+.lottery-list-text img{
   width: 22px;
   height: 22px;
   position: relative;
   top: 4px;
-  margin-left: 6px;
+  margin-right: 4px;
 }
 .lottery-list-logo {
   width: 16px;

@@ -29,10 +29,10 @@
                   <img class="lottery-list-img" :src="list.nftImg" />
                 </div>
                 <div class="lottery-list-nftNumber">
-                  #&nbsp;{{ list.nftNumber }}
+                  #&nbsp;{{ list.tokenId }}
                 </div>
                 <p class="public-color-three lottery-list-seriesName">
-                  {{ list.seriesName }}
+                  {{ list.heroname }}
                 </p>
                 <div class="lottery-list-text">
                   <img class="lottery-list-logo" :src="list.pz" />
@@ -265,7 +265,8 @@ export default {
             pz: item1.seriesImg,
             nftImg:item.nftImg,
             heroname: item1.seriesName,
-            price:item.price
+            price:item.price,
+            tokenId:item1.tokenId
           };
           _obj = { ..._obj, ...item };
           this.itemList.push(_obj);

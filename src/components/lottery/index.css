@@ -149,6 +149,9 @@
 }
 .lottery-list-seriesName {
   line-height: 25px;
+  font-weight: bold;
+  margin: 10px 0;
+  font-size: 26px;
 }
 .lottery-list-logo {
   width: 16px;
@@ -211,4 +214,5 @@
 }
 .lottery-carousel-list {
   margin: 0 3px;
+  position: relative;
 }

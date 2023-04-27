@@ -41,6 +41,7 @@
                   </span>
                   <span class="public-color-two lottery-list-conin">
                     {{ list.coin }}
+                    <img src="@/assets/img/eth.png" alt="" />
                   </span>
                 </div>
               </div>
@@ -64,9 +65,9 @@
     </div> -->
       <div class="btn-container">
         <!-- <button-com @click="openBox" text="开始" /> -->
-        <span @click="stopScroll"  >结束</span>
-        <span @click="resetBox"  >重置</span>
-        <span @click="startLott"  >余额抽盲盒(单抽)</span>
+        <span @click="stopScroll">结束</span>
+        <span @click="resetBox">重置</span>
+        <span @click="startLott">余额抽盲盒(单抽)</span>
         <!-- <span @click="startLott('FIVE')"  >余额抽盲盒(五连抽)</span>
         <span @click="startLott('TEN')"  >余额抽盲盒(十连抽)</span> -->
       </div>
@@ -82,7 +83,7 @@
       <div class="result-modal">
         <img class="lottery-list-img" :src="awardItem.pz" />
         <p>
-          你抽中了<b>{{ awardItem.heroname }}</b
+          你抽中了<b>{{ awardItem.heroname }}#{{ awardItem.tokenId }}</b
           >,请选择回收还是持有！
         </p>
         <p>
@@ -103,13 +104,13 @@
 </template>
 
 <script>
-import { lotteryHold } from '@/services/api/blindBox';
+import { lotteryHold } from "@/services/api/blindBox";
 // import buttonCom from './button.vue';
 const itemWidth = 220;
 export default {
-  name: 'LotteryPage',
+  name: "LotteryPage",
   // components: { buttonCom },
-  props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
+  props: ["lottoList", "setBalanceOrder", "lottResult", "test"],
   data() {
     return {
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
@@ -120,8 +121,8 @@ export default {
 
       awardShow: false, //滑动结束后显示奖励放大效果
       awardRollOpen: false, //奖励滚动组件的显示开关
-      moveCss: '', //奖励滚动组件的滑动的动画效果css
-      scaleCss: '', //奖励弹出放大效果的css
+      moveCss: "", //奖励滚动组件的滑动的动画效果css
+      scaleCss: "", //奖励弹出放大效果的css
       itemWidth: itemWidth, //每张卡牌的宽度
 
       luckyNums: 0, //中奖位置
@@ -129,7 +130,7 @@ export default {
       lnEnd: 65, //中奖位置区间结束
       items: [], //滚动的卡片列表
       boxOpen: false,
-      awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '', price: '' }, //中奖道具
+      awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: "", price: "" }, //中奖道具
       awardItemPrice: 0,
       itemList: [],
       currentItem: undefined,
@@ -143,7 +144,7 @@ export default {
       imteImg: [],
       carouselStyle: { transform: `translateX(-${itemWidth / 2}px)` },
       showResult: false,
-      lottoResult: '',
+      lottoResult: "",
       resultSecond: 60,
       resultSecondTimer: null,
       interval: 280,
@@ -160,35 +161,33 @@ export default {
         if (second < this.resultSecond) {
           this.resultSecond = parseInt(second);
         }
-        this.awardItemPrice =newVal.data[0].price
+        this.awardItemPrice = newVal.data[0].price;
         this.awardFun(newVal.data[0].seriesName);
       }
     },
   },
   methods: {
     async chooseLotteryHold(type) {
-     
-        let data = this.lottoResult.data;
-        let arg = {  orderId: data[0].orderId};
-        if (type == 'hold') {
-            arg ={
-              lotteryIds: data[0].id,
-            }
-        }
-        let res = await lotteryHold(arg);
-        console.log(res, 'res===');
-        this.showResult = false;
-        localStorage.removeItem('awardItem');
+      let data = this.lottoResult.data;
+      let arg = { orderId: data[0].orderId };
+      if (type == "hold") {
+        arg = {
+          lotteryIds: data[0].id,
+        };
+      }
+      let res = await lotteryHold(arg);
+      console.log(res, "res===");
+      this.showResult = false;
+      localStorage.removeItem("awardItem");
     },
     awardFun(heroname) {
-     
       const { itemList, showIndex, showNumber } = this;
       const _showNumber = Math.floor(showNumber / 2);
       const isAward = itemList.filter((item) => item.heroname == heroname);
       this.awardItem = isAward[0];
-      console.log(this.awardItem,this.itemList,"heroname==")
-      this.showResult =true;
-      localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
+      console.log(this.awardItem, this.itemList, "heroname==");
+      this.showResult = true;
+      localStorage.setItem("awardItem", JSON.stringify(this.lottoResult));
       if (!this.resultSecondTimer) {
         this.resultSecondTimer = setInterval(() => {
           if (this.resultSecond <= 1) {
@@ -205,9 +204,9 @@ export default {
     changeFun(index) {
       this.showIndex = index;
     },
-    startLott(type='ONE') {
+    startLott(type = "ONE") {
       this.openBox();
-      this.$emit('setBalanceOrder', type);
+      this.$emit("setBalanceOrder", type);
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
@@ -218,11 +217,11 @@ export default {
       this.carouselStyle = { transform: `translateX(-${_x}px` };
     },
     resetBox() {
-      console.log(333)
+      console.log(333);
       this.autoplay = false;
       // this.carouselStyle = { transform: `translateX(-${_x}px` };
-      this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
-      this.scaleCss = ''; //奖励弹出放大效果的css
+      this.moveCss = ""; //奖励滚动组件的滑动的动画效果css
+      this.scaleCss = ""; //奖励弹出放大效果的css
       // this.$refs.light_bor.style.transition = '';
       // this.$refs.light_bor.style.opacity = 0;
       this.awardShow = false; //滑动结束后显示奖励放大效果
@@ -237,7 +236,6 @@ export default {
       let _items = [];
       let _item = [];
       for (;;) {
-      
         itemList.forEach((item) => {
           if (_item.length - 1 >= showNumber) {
             _items.push(_item);
@@ -247,7 +245,7 @@ export default {
             _item.push(item);
           }
         });
-        console.log(this.itemList)
+        console.log(this.itemList);
         if (_items.length > 3) {
           this.items = _items;
           return;
@@ -258,22 +256,22 @@ export default {
       const { lottoList } = this;
       let _itemImg = [];
       lottoList.forEach((item1) => {
-        item1.boxNftInfos.forEach((item)=>{
+        item1.boxNftInfos.forEach((item) => {
           let img = new Image();
           img.src = item1.seriesImg;
           _itemImg.push(item1.seriesImg);
           let _obj = {
             itemid: item.idx,
             pz: item1.seriesImg,
-            nftImg:item.nftImg,
+            nftImg: item.nftImg,
             heroname: item1.seriesName,
-            price:item.price,
-            tokenId:item1.tokenId
+            price: item.price,
+            tokenId: item1.tokenId,
           };
           _obj = { ..._obj, ...item };
           this.itemList.push(_obj);
-        })
-        console.log(this.itemList,"this.itemList===")
+        });
+        console.log(this.itemList, "this.itemList===");
       });
       this.imteImg = _itemImg;
       this.itemsFun();
@@ -288,10 +286,10 @@ export default {
       this.interval = 330;
     }
     this.dataFun();
-    if (localStorage.getItem('awardItem')) {
-      this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
+    if (localStorage.getItem("awardItem")) {
+      this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
       this.awardItemPrice = this.lottoResult.data[0].price;
-      console.log(this.lottoResult.data[0].price, 'this.lottoResult.data[0]==');
+      console.log(this.lottoResult.data[0].price, "this.lottoResult.data[0]==");
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
   },
@@ -303,7 +301,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('./index.css');
+@import url("./index.css");
 .result-modal {
   font-size: 30px;
   font-weight: bold;
@@ -318,8 +316,13 @@ export default {
   bottom: 0;
 }
 
-.btn-container span{
-  background-image: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+.btn-container span {
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   display: inline-block;
   padding: 4px 30px;
   border-radius: 20px;

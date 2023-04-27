@@ -10,7 +10,7 @@
       <div class="con">
         <el-carousel
           height="280"
-          :interval="250"
+          :interval="400"
           :autoplay="autoplay"
           :pause-on-hover="false"
           indicator-position="none"
@@ -77,26 +77,20 @@
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
     <el-dialog v-model="showResult" title="Tips" width="30%" center>
-      <div class="result-modal">
-        <img class="lottery-list-img" :src="awardItem.pz" />
-        <p>
-          你抽中了<b>{{ awardItem.seriesName }}</b
-          >,请选择回收还是持有！
-        </p>
-        <p>
-          你还有<b>{{ resultSecond }}</b
-          >秒做出选择
-        </p>
-      </div>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="chooseLotteryHold()">持有</el-button>
-          <el-button type="primary" @click="chooseLotteryHold('hold')">
-            回收
-          </el-button>
-        </span>
-      </template>
-    </el-dialog>
+    <div class="result-modal">
+      <img class="lottery-list-img" :src="awardItem.pz" />
+      <p>你抽中了<b>{{ awardItem.seriesName }}</b>,请选择回收还是持有！</p>
+      <p>你还有<b>{{ resultSecond }}</b>秒做出选择</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="chooseLotteryHold()">持有</el-button>
+        <el-button type="primary" @click="chooseLotteryHold('hold')">
+          回收获得{{ awardItemPrice }}ETH
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   </div>
 </template>
 
@@ -127,7 +121,8 @@ export default {
       lnEnd: 65, //中奖位置区间结束
       items: [], //滚动的卡片列表
       boxOpen: false,
-      awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '' }, //中奖道具
+      awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: '',price:'' }, //中奖道具
+      awardItemPrice:0,
       itemList: [],
       currentItem: undefined,
       borStyle: {
@@ -274,6 +269,8 @@ export default {
     this.dataFun();
     if (localStorage.getItem('awardItem')) {
       this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
+      this.awardItemPrice = this.lottoResult.data[0].price;
+      console.log(this.lottoResult.data[0].price,"this.lottoResult.data[0]==")
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
   },

@@ -79,7 +79,7 @@
     >
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
-    <el-dialog v-model="showResult" title="Tips" width="30%" center>
+    <el-dialog v-model="showResult" title="Tips" width="30%" center :close-on-click-modal=false >
       <div class="result-modal">
         <img class="lottery-list-img" :src="awardItem.pz" />
         <p>
@@ -88,7 +88,7 @@
         </p>
         <p>
           你还有<b>{{ resultSecond }}</b
-          >秒做出选择
+          >秒做出选择,倒计时结束将自动回收
         </p>
       </div>
       <template #footer>
@@ -192,6 +192,8 @@ export default {
         this.resultSecondTimer = setInterval(() => {
           if (this.resultSecond <= 1) {
             clearInterval(this.resultSecondTimer);
+            this.chooseLotteryHold();
+            this.showResult = false;
           }
           this.resultSecond--;
         }, 1000);

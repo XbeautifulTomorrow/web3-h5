@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     async setBalanceOrder(coiledType) {
-      console.log(coiledType,"coiledType===")
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({

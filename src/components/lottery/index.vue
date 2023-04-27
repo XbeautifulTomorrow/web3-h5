@@ -67,6 +67,8 @@
         <span @click="stopScroll"  >结束</span>
         <span @click="resetBox"  >重置</span>
         <span @click="startLott"  >余额抽盲盒(单抽)</span>
+        <!-- <span @click="startLott('FIVE')"  >余额抽盲盒(五连抽)</span>
+        <span @click="startLott('TEN')"  >余额抽盲盒(十连抽)</span> -->
       </div>
     </div>
     <div
@@ -203,9 +205,9 @@ export default {
     changeFun(index) {
       this.showIndex = index;
     },
-    startLott() {
+    startLott(type='ONE') {
       this.openBox();
-      this.$emit('setBalanceOrder', 'ONE');
+      this.$emit('setBalanceOrder', type);
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);

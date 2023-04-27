@@ -5,8 +5,6 @@
         <p class="public-color-one">Top Blue-chips Box</p>
         <p class="roll-text-offcial">An offcial box by Bitzing</p>
       </div>
-      <!--盒子 boom执行打开爆炸的效果-->
-      <div class="box" :class="{ boom: boxOpen }"></div>
       <div class="con">
         <el-carousel
           height="280"
@@ -32,10 +30,10 @@
                   #&nbsp;{{ list.tokenId }}
                 </div>
                 <p class="public-color-three lottery-list-seriesName">
-                  {{ list.heroname }}
+                  {{ list.seriesName }}
                 </p>
                 <div class="lottery-list-text">
-                  <!-- <img class="lottery-list-logo" :src="list.pz" /> -->
+                  <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
                   <img src="@/assets/img/eth.png" alt="" />
                   <span class="public-color-two lottery-list-minPrice">
                     {{ list.price }}
@@ -50,26 +48,13 @@
         </el-carousel>
         <div class="list_mask"></div>
       </div>
-      <!--中奖皮肤的放大提示框-->
-      <!-- <div class="awardAlert" v-show="awardShow">
-        <div class="lottery-show_con">
-          <div class="light_bor" ref="light_bor"></div>
-          <div class="lottery-award-bor">
-            <img class="lottery-list-img" :src="awardItem.pz" />
-          </div>
-        </div>
-      </div> -->
-      <!--滚动组件开始滑动并且奖励没有弹出时显示 跳过动画的按钮-->
-      <!-- <div class="btns" v-show="awardRollOpen && !awardShow">
-      <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
-    </div> -->
       <div class="btn-container">
         <!-- <button-com @click="openBox" text="开始" /> -->
         <span @click="stopScroll">结束</span>
         <span @click="resetBox">重置</span>
         <span @click="startLott('ONE')">余额抽盲盒(单抽)</span>
-        <!-- <span @click="startLott('FIVE')"  >余额抽盲盒(五连抽)</span>
-        <span @click="startLott('TEN')"  >余额抽盲盒(十连抽)</span> -->
+        <span @click="startLott('FIVE')">余额抽盲盒(五连抽)</span>
+        <span @click="startLott('TEN')">余额抽盲盒(十连抽)</span>
       </div>
     </div>
     <div
@@ -79,12 +64,19 @@
     >
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
-    <el-dialog v-model="showResult" title="Tips" width="30%" center :close-on-click-modal=false >
+    <el-dialog
+      v-model="showResult"
+      title="Tips"
+      width="30%"
+      center
+      :close-on-click-modal="false"
+    >
       <div class="result-modal">
-        <img class="lottery-list-img" :src="awardItem.pz" />
+        <img class="lottery-list-img" :src="awardItem.seriesImg" />
         <p>
-          你抽中了<b>{{ awardItem.heroname }}#{{ awardItem.tokenId }}</b
-          >,请选择回收还是持有！
+          你抽中了
+          <b>{{ awardItem.seriesName }}#{{ awardItem.tokenId }}</b>
+          ,请选择回收还是持有！
         </p>
         <p>
           你还有<b>{{ resultSecond }}</b
@@ -100,37 +92,72 @@
         </span>
       </template>
     </el-dialog>
+    <!-- 多个中奖 -->
+    <el-dialog
+      v-model="showMoreDialog"
+      title="Tips"
+      width="100%"
+      top="0"
+      class="lottery-moreLuck"
+    >
+      <ul class="lottery-moreLuck-content">
+        <li
+          v-for="(item, index) in moreLuck"
+          :key="`luck-${index}`"
+          class="lottery-moreLuck-list"
+        >
+          <div class="lottery-moreLuck-bor">
+            <img class="lottery-list-img" :src="item.nftImg" />
+          </div>
+          <div class="lottery-moreLuck-nftNumber">
+            #&nbsp;{{ item.tokenId }}
+          </div>
+          <p class="public-color-three lottery-moreLuck-seriesName">
+            {{ item.seriesName }}
+          </p>
+          <div class="lottery-moreLuck-text">
+            <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
+            <img
+              class="lottery-moreLuck-img"
+              src="@/assets/img/eth.png"
+              alt=""
+            />
+            <span class="public-color-two lottery-moreLuck-minPrice">
+              {{ item.price }}
+            </span>
+            <span class="public-color-two lottery-moreLuck-conin">
+              {{ item.coin }}
+            </span>
+          </div>
+        </li>
+      </ul>
+      <!-- <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="showMoreDialog = false">Cancel</el-button>
+          <el-button type="primary" @click="showMoreDialog = false">
+            Confirm
+          </el-button>
+        </span>
+      </template> -->
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { lotteryHold } from "@/services/api/blindBox";
+import { lotteryHold } from '@/services/api/blindBox';
 // import buttonCom from './button.vue';
 const itemWidth = 220;
 export default {
-  name: "LotteryPage",
+  name: 'LotteryPage',
   // components: { buttonCom },
-  props: ["lottoList", "setBalanceOrder", "lottResult", "test"],
+  props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
   data() {
     return {
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
       autoplay: false,
-      awardId: 0, //当前中奖的道具编号
-      rollTimer: null, //动画定时器句柄
-      leftM: 50, //指针停止位置的偏移量  用来计算弹出框的初始位置
-
-      awardShow: false, //滑动结束后显示奖励放大效果
-      awardRollOpen: false, //奖励滚动组件的显示开关
-      moveCss: "", //奖励滚动组件的滑动的动画效果css
-      scaleCss: "", //奖励弹出放大效果的css
       itemWidth: itemWidth, //每张卡牌的宽度
-
-      luckyNums: 0, //中奖位置
-      lnStart: 60, //中奖位置区间开始
-      lnEnd: 65, //中奖位置区间结束
       items: [], //滚动的卡片列表
-      boxOpen: false,
-      awardItem: { itemid: 0, pz: 0, heroid: 0, heroname: "", price: "" }, //中奖道具
+      awardItem: { idx: 0, seriesImg: 0, heroid: 0, seriesName: '', price: '' }, //中奖道具
       awardItemPrice: 0,
       itemList: [],
       currentItem: undefined,
@@ -144,10 +171,13 @@ export default {
       imteImg: [],
       carouselStyle: { transform: `translateX(-${itemWidth / 2}px)` },
       showResult: false,
-      lottoResult: "",
+      showMoreDialog: false,
+      lottoResult: '',
       resultSecond: 60,
       resultSecondTimer: null,
       interval: 280,
+      moreLuck: [],
+      moreLength: 1,
     };
   },
   watch: {
@@ -162,7 +192,8 @@ export default {
           this.resultSecond = parseInt(second);
         }
         this.awardItemPrice = newVal.data[0].price;
-        this.awardFun(newVal.data[0].seriesName);
+        // this.awardFun(newVal.data[0].seriesName);
+        this.luckyFun(newVal.data);
       }
     },
   },
@@ -170,45 +201,74 @@ export default {
     async chooseLotteryHold(type) {
       let data = this.lottoResult.data;
       let arg = { orderId: data[0].orderId };
-      if (type == "hold") {
+      if (type == 'hold') {
         arg = {
           lotteryIds: data[0].id,
         };
       }
       let res = await lotteryHold(arg);
-      console.log(res, "res===");
+      console.log(res, 'res===');
       this.showResult = false;
-      localStorage.removeItem("awardItem");
+      localStorage.removeItem('awardItem');
     },
-    awardFun(heroname) {
-      const { itemList, showIndex, showNumber } = this;
+    luckyFun(_luck) {
+      // itemList
+      const { showIndex, showNumber } = this;
       const _showNumber = Math.floor(showNumber / 2);
-      const isAward = itemList.filter((item) => item.heroname == heroname);
-      this.awardItem = isAward[0];
-      console.log(this.awardItem, this.itemList, "heroname==");
-      this.showResult = true;
-      localStorage.setItem("awardItem", JSON.stringify(this.lottoResult));
-      if (!this.resultSecondTimer) {
-        this.resultSecondTimer = setInterval(() => {
-          if (this.resultSecond <= 1) {
-            clearInterval(this.resultSecondTimer);
-            this.chooseLotteryHold();
-            this.showResult = false;
-          }
-          this.resultSecond--;
-        }, 1000);
+      // let _arr = [];
+      if (_luck.length < 2) {
+        // const { seriesName } = _luck[0];
+        // _arr = itemList.filter((item) => item.seriesName == seriesName);
+        this.items[showIndex].splice(_showNumber, 1, ..._luck);
+      } else {
+        // _luck.forEach((item) => {
+        //   const { seriesName } = item;
+        //   const isAward = itemList.filter(
+        //     (item) => item.seriesName == seriesName
+        //   );
+        //   _arr = [..._arr, ...isAward];
+        // });
+        const _length = _luck.length;
+        if (_length < showNumber) {
+          this.items[showIndex].splice(
+            Math.floor((showNumber - _length) / 2),
+            _length,
+            ..._luck
+          );
+        } else {
+          this.items[showIndex] = _luck;
+        }
       }
-      if (isAward.length > 0) {
-        this.items[showIndex].splice(_showNumber, 1, isAward[0]);
-        this.stopScroll();
+      this.awardFun(_luck);
+    },
+    awardFun(data) {
+      if (data.length < 2) {
+        this.awardItem = data[0];
+        this.showResult = true;
+        localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
+        if (!this.resultSecondTimer) {
+          this.resultSecondTimer = setInterval(() => {
+            if (this.resultSecond <= 1) {
+              clearInterval(this.resultSecondTimer);
+              this.chooseLotteryHold();
+              this.showResult = false;
+            }
+            this.resultSecond--;
+          }, 1000);
+        }
+      } else {
+        this.showMoreDialog = true;
+        this.moreLength = data.length / 5;
+        this.moreLuck = data;
       }
+      this.stopScroll();
     },
     changeFun(index) {
       this.showIndex = index;
     },
     startLott(type) {
       this.openBox();
-      this.$emit("setBalanceOrder", type);
+      this.$emit('setBalanceOrder', type);
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
@@ -219,15 +279,7 @@ export default {
       this.carouselStyle = { transform: `translateX(-${_x}px` };
     },
     resetBox() {
-      console.log(333);
       this.autoplay = false;
-      // this.carouselStyle = { transform: `translateX(-${_x}px` };
-      this.moveCss = ""; //奖励滚动组件的滑动的动画效果css
-      this.scaleCss = ""; //奖励弹出放大效果的css
-      // this.$refs.light_bor.style.transition = '';
-      // this.$refs.light_bor.style.opacity = 0;
-      this.awardShow = false; //滑动结束后显示奖励放大效果
-      this.awardRollOpen = false; //奖励滚动组件的显示开关
       this.dataFun();
     },
     openBox() {
@@ -247,7 +299,6 @@ export default {
             _item.push(item);
           }
         });
-        console.log(this.itemList);
         if (_items.length > 3) {
           this.items = _items;
           return;
@@ -263,17 +314,13 @@ export default {
           img.src = item1.seriesImg;
           _itemImg.push(item1.seriesImg);
           let _obj = {
-            itemid: item.idx,
-            pz: item1.seriesImg,
-            nftImg: item.nftImg,
-            heroname: item1.seriesName,
-            price: item.price,
+            seriesImg: item1.seriesImg,
+            seriesName: item1.seriesName,
             tokenId: item1.tokenId,
           };
           _obj = { ..._obj, ...item };
           this.itemList.push(_obj);
         });
-        console.log(this.itemList, "this.itemList===");
       });
       this.imteImg = _itemImg;
       this.itemsFun();
@@ -288,55 +335,30 @@ export default {
       this.interval = 330;
     }
     this.dataFun();
-    if (localStorage.getItem("awardItem")) {
-      this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
+    if (localStorage.getItem('awardItem')) {
+      this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
       this.awardItemPrice = this.lottoResult.data[0].price;
-      console.log(this.lottoResult.data[0].price, "this.lottoResult.data[0]==");
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
   },
-  beforeCreate() {},
-  created() {},
-  beforeUpdate() {},
-  beforeUnmount() {},
 };
 </script>
-
-<style scoped>
-@import url("./index.css");
-.result-modal {
-  font-size: 30px;
-  font-weight: bold;
+<style lang="scss" scoped>
+@import url('./index.scss');
+.lottery-moreLuck-content {
+  width: calc(var(--luckBorHeight) * (v-bind(moreLength)) + 20px);
 }
-.result-modal b {
-  color: red;
+.lottery-moreLuck-list {
+  width: calc(100% - (v-bind(moreLength)));
 }
-.roll-container {
-}
-.btn-container {
-  position: absolute;
-  bottom: 0;
-}
-
-.btn-container span {
-  background-image: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
-  display: inline-block;
-  padding: 4px 30px;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-  margin: 0 20px;
-}
-.el-carousel {
-  width: 100%;
-}
-.el-carousel__indicators {
-  display: none;
+</style>
+<style lang="scss">
+.lottery-moreLuck {
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__footer {
+    display: none;
+  }
 }
 </style>

@@ -1,0 +1,122 @@
+.user_wrapper {
+    padding-top: 20px;
+}
+
+.one_buy_box {
+    width: 75rem;
+    margin: 0 auto;
+    color: #fff;
+
+    &>div+div {
+        margin-top: 40px;
+    }
+
+
+    .stock_box,
+    .wallet_box {
+        &>div+div {
+            margin-top: 10px;
+        }
+    }
+
+    .module_title {
+        font-size: 40px;
+        border-bottom: 1px solid #fff;
+    }
+
+    .operating_box {
+        display: flex;
+        align-items: center;
+
+        .operating_btn {
+            background-color: #fff;
+            color: #000;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+
+    .nft_list {
+        display: flex;
+        flex-wrap: wrap;
+
+        &>div {
+            margin-right: 1rem;
+        }
+
+        &>div:nth-child(4n) {
+            margin-right: 0px;
+        }
+    }
+
+    .nft_item {
+        width: 24%;
+        height: 360px;
+        background-color: #B0B0B0;
+        border-radius: 10px;
+
+        .image_box {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: 1px solid #fff;
+
+            .image_tag {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background-color: #fff;
+                padding: 2px 30px;
+                border-radius: 20px;
+                color: #000;
+                line-height: 1;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .nft_name {
+            font-size: 40px;
+            color: #000;
+        }
+
+        .create_btn {
+            margin: 0 20px;
+            background-color: #fff;
+            padding: 2px 30px;
+            border-radius: 20px;
+            color: #000;
+            cursor: pointer;
+        }
+    }
+
+}
+
+.dialog_competition {
+    .nft_info {
+        .nft_name {
+            font-size: 32px;
+        }
+
+        .nft_id {
+            font-size: 16px;
+        }
+    }
+}
+
+.type-tabs {
+    /deep/ .el-tabs__nav {
+        width: 100%;
+    }
+
+    /deep/ .el-tabs__item {
+        flex: 1;
+        box-sizing: border-box;
+    }
+}

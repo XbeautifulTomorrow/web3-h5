@@ -6,6 +6,9 @@ const getKey = (params) =>
 const authLogin = (params) =>
   apiService.post("mystery-web-user/auth/login", params);
 const getTheUserSPayoutAddress = (params) =>
-  apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params);
+  apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params);//收款地址
+
+const getTheUserBalance = (params) =>
+  apiService.get("mystery-web-user/user/getTheUserBalance", params);//获取钱包余额
   
-export { getKey, authLogin,getTheUserSPayoutAddress };
+export { getKey, authLogin,getTheUserSPayoutAddress,getTheUserBalance };

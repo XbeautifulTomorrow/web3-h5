@@ -97,6 +97,7 @@ import {
   getKey,
   authLogin,
   getTheUserSPayoutAddress,
+  getTheUserBalance
 } from "@/services/api/user";
 
 
@@ -197,6 +198,10 @@ export default {
     console.log(123123);
   },
   methods: {
+    async getTheUserBalanceInfo(){
+      let res = await getTheUserBalance();
+      this.ethBalance = res.data[0].balance
+    },
     async login() {
       const _that = this;
       let web3 = window.web3;
@@ -221,6 +226,7 @@ export default {
             localStorage.setItem("certificate", loginData.data.certificate);
           }
           let receiver = await getTheUserSPayoutAddress();
+          this.getTheUserBalanceInfo();
           this.showConnect = false;
           this.receiver = receiver.data;
           localStorage.setItem("receiver", this.receiver);
@@ -231,6 +237,7 @@ export default {
       let web3 = new Web3(window.ethereum);
       const _that = this;
       let ethereum = window.ethereum;
+      console.log(123123)
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
         alert("请安装MetaMask");

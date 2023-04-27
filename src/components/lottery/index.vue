@@ -64,7 +64,7 @@
       <a class="stop_btn" @click="stopScroll()" href="javascript:;"></a>
     </div> -->
       <div class="btn-container">
-        <button-com @click="openBox" text="开始" />
+        <!-- <button-com @click="openBox" text="开始" /> -->
         <button-com @click="stopScroll" text="结束" />
         <button-com @click="resetBox" text="重置" />
         <button-com @click="startLott" text="余额抽盲盒(单抽)" />
@@ -77,10 +77,28 @@
     >
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
+    <el-dialog v-model="showResult" title="Tips" width="30%" center>
+    <div class="result-modal">
+      <img class="lottery-list-img" :src="awardItem.pz" />
+      <p>你抽中了<b>{{ awardItem.seriesName }}</b>,请选择回收还是持有！</p>
+      <p>你还有<b>{{ resultSecond }}</b>秒做出选择</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="chooseLotteryHold()">持有</el-button>
+        <el-button type="primary" @click="chooseLotteryHold('hold')">
+          回收
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   </div>
 </template>
 
 <script>
+import {
+  lotteryHold
+} from '@/services/api/blindBox';
 import buttonCom from './button.vue';
 const itemWidth = 220;
 export default {
@@ -118,21 +136,50 @@ export default {
       translateX: 0,
       imteImg: [],
       listStyle: {},
+      showResult:false,
+      lottoResult:"",
+      resultSecond:60,
+      resultSecondTimer:null,
     };
   },
   watch: {
-    lottResult: function (newVal, oldVal) {
-      console.log(newVal, oldVal, 'newVal');
+    lottResult: function (newVal) {
       if (newVal) {
-        this.awardFun(newVal);
+        this.lottoResult = newVal;
+        const second =this.$dayjs(newVal.localDateTime).diff(this.$dayjs(newVal.data[0].createTime))/1000;
+        if(second<this.resultSecond){
+          this.resultSecond = parseInt(second);
+        }
+        this.awardFun(newVal.data[0].seriesName);
       }
     },
   },
   methods: {
-    awardFun(orderId) {
+    async chooseLotteryHold(type){
+      if(type=='hold'){
+        let data = this.lottoResult.data;
+        let res = await lotteryHold({lotteryIds:data[0].id,orderId:data[0].orderId})
+        console.log(res,"res===")
+        this.showResult = false;
+        localStorage.removeItem("awardItem")
+      }
+
+    },
+    awardFun(heroname) {
       const { itemList, showIndex, showNumber } = this;
       const _showNumber = Math.floor(showNumber / 2);
-      const isAward = itemList.filter((item) => item.itemid == orderId);
+      const isAward = itemList.filter((item) => item.heroname == heroname);
+      this.awardItem = isAward[0];
+      localStorage.setItem('awardItem',JSON.stringify(this.lottoResult))
+      if(!this.resultSecondTimer){
+        this.resultSecondTimer = setInterval(()=>{
+        if(this.resultSecond<=0){
+          clearInterval(this.resultSecondTimer)
+        }
+        this.resultSecond--
+      },1000)
+      }
+    
       if (isAward.length > 0) {
         this.items[showIndex + 1].splice(_showNumber, 1, isAward[0]);
         this.stopScroll();
@@ -219,6 +266,10 @@ export default {
   },
   mounted() {
     this.dataFun();
+    if( localStorage.getItem('awardItem')){
+      this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
+      this.awardFun(this.lottoResult.data[0].seriesName);
+    }
   },
   beforeCreate() {},
   created() {},
@@ -229,6 +280,14 @@ export default {
 
 <style scoped>
 @import url('./index.css');
+.result-modal{
+  font-size: 30px;
+  font-weight: bold;
+
+}
+.result-modal b{
+  color: red;
+}
 .roll-container {
 }
 .btn-container {

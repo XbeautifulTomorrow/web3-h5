@@ -1,10 +1,9 @@
 <template>
   <div class="blind-detail">
-    <div @click="setWalletOrder('ONE')" class="one-btn">钱包下单单抽</div>
+    <!-- <div @click="setWalletOrder('ONE')" class="one-btn">钱包下单单抽</div>
     <div @click="setBalanceOrder('ONE')" class="one-btn">余额下单单抽</div>
     <div @click="setWalletOrder('FIVE')" class="one-btn">钱包下单五连抽</div>
-    <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div>
-
+    <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div> -->
     <template
       v-if="
         blindDetailInfo &&
@@ -67,20 +66,18 @@ export default {
         boxId: _that.boxId,
         coiledType,
       });
-      // if(!walletOrderInfo){
-      let result = '';
-      let resultTimer = setInterval(async () => {
-        result = await lotteryResult({
-          orderId: 46,
-        });
-        if (result) {
-          _that.lottResult = result.data;
-          console.log(result, 'result===');
-          clearInterval(resultTimer);
-        }
-      }, 5000);
-
-      // }
+      if(!walletOrderInfo){
+        let result = '';
+        let resultTimer = setInterval(async () => {
+          result = await lotteryResult({
+            orderId: this.walletOrderDetail.orderId,
+          });
+          if (result) {
+            _that.lottResult = result;
+            clearInterval(resultTimer);
+          }
+        }, 2000);
+      }
       console.log(walletOrderInfo, 'walletOrderInfo===');
       // this.walletOrderDetail = walletOrderInfo.data;
       // this.transfer(this.walletOrderDetail.orderId, coiledType);

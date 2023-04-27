@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ElMessage } from 'element-plus'
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
@@ -25,7 +26,10 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log('[AxiosError]', error);
+    ElMessage({
+      message: error,
+      type: 'warning',
+    })
     return Promise.reject(error);
   }
 );
@@ -35,6 +39,10 @@ const handleRes = ({ type, url, data }) => {
   if (data.code === 200) {
     return data;
   } else {
+    ElMessage({
+      message: data.message,
+      type: 'warning',
+    })
     return [false, data.code, data];
   }
 };
@@ -48,7 +56,10 @@ export async function post(url, params, config = {}) {
       data: res.data,
     });
   } catch (err) {
-    console.warn(err);
+    ElMessage({
+      message: err,
+      type: 'warning',
+    })
     err.message = 'error';
     return err;
   }

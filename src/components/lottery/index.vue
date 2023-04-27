@@ -10,7 +10,7 @@
       <div class="con">
         <el-carousel
           height="280"
-          :interval="250"
+          :interval="interval"
           :autoplay="autoplay"
           :pause-on-hover="false"
           indicator-position="none"
@@ -143,6 +143,7 @@ export default {
       lottoResult: '',
       resultSecond: 60,
       resultSecondTimer: null,
+      interval: 250,
     };
   },
   watch: {
@@ -243,9 +244,6 @@ export default {
     },
     dataFun() {
       const { lottoList } = this;
-      const { clientWidth } = document.body;
-      const number = Math.ceil(clientWidth / itemWidth);
-      this.showNumber = number;
       let _itemImg = [];
       lottoList.forEach((item, index) => {
         let img = new Image();
@@ -264,11 +262,15 @@ export default {
     },
   },
   mounted() {
-    this.dataFun();
+    const { clientWidth } = document.body;
+    const number = Math.ceil(clientWidth / itemWidth);
+    this.showNumber = number;
+    this.interval = Math.floor(clientWidth / 1920) * this.interval;
     if (localStorage.getItem('awardItem')) {
       this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
+    this.dataFun();
   },
   beforeCreate() {},
   created() {},

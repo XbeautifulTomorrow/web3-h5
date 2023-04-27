@@ -6,7 +6,9 @@
     @mouseleave="mouseleaveFun"
     @click="clickFun"
   >
-    <div>{{ text }}</div>
+    <div>
+      <slot />
+    </div>
   </div>
 </template>
 <script>
@@ -68,7 +70,8 @@ export default {
         this.classNamePack = this.classNamePack.replace(this.hoverClssName, '');
       }
     },
-    clickFun() {
+    clickFun(e) {
+      if (e) return;
       this.$emit('click');
     },
   },

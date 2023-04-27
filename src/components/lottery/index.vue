@@ -80,7 +80,7 @@
       <div class="result-modal">
         <img class="lottery-list-img" :src="awardItem.pz" />
         <p>
-          你抽中了<b>{{ awardItem.seriesName }}</b
+          你抽中了<b>{{ awardItem.heroname }}</b
           >,请选择回收还是持有！
         </p>
         <p>

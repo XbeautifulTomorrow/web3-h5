@@ -47,7 +47,7 @@ export default {
       boxId: null,
       walletOrderDetail: '',
       usdtAddress: '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
-      lottContractAddress: '0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d', //抽奖合约，
+      lottContractAddress: '0x7729c592e087d88afea4b55c367c8570e0025ee0', //抽奖合约，
       transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
       blindDetailInfo: '',
       lottStatus: true,

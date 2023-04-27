@@ -146,9 +146,10 @@ export default {
     lottResult: function (newVal) {
       if (newVal) {
         this.lottoResult = newVal;
+        console.log(newVal,"newVal=====")
         const second =this.$dayjs(newVal.localDateTime).diff(this.$dayjs(newVal.data[0].createTime))/1000;
         if(second<this.resultSecond){
-          this.resultSecond = parseInt(second);
+          this.resultSecond = 60;
         }
         this.awardFun(newVal.data[0].seriesName);
       }
@@ -170,6 +171,7 @@ export default {
       const _showNumber = Math.floor(showNumber / 2);
       const isAward = itemList.filter((item) => item.heroname == heroname);
       this.awardItem = isAward[0];
+      this.showResult = true;
       localStorage.setItem('awardItem',JSON.stringify(this.lottoResult))
       if(!this.resultSecondTimer){
         this.resultSecondTimer = setInterval(()=>{

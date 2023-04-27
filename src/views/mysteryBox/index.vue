@@ -66,11 +66,14 @@ export default {
         boxId: _that.boxId,
         coiledType,
       });
-      if(!walletOrderInfo){
+      console.log(walletOrderInfo.code==200, 'walletOrderInfo===');
+      if(walletOrderInfo.code==200){
+        this.walletOrderInfo = walletOrderInfo;
+        console.log(walletOrderInfo,"walletOrderInfo===")
         let result = '';
         let resultTimer = setInterval(async () => {
           result = await lotteryResult({
-            orderId: this.walletOrderDetail.orderId,
+            orderId: walletOrderInfo.data.orderId,
           });
           if (result) {
             _that.lottResult = result;
@@ -78,7 +81,7 @@ export default {
           }
         }, 2000);
       }
-      console.log(walletOrderInfo, 'walletOrderInfo===');
+
       // this.walletOrderDetail = walletOrderInfo.data;
       // this.transfer(this.walletOrderDetail.orderId, coiledType);
     },

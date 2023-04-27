@@ -64,9 +64,9 @@
     </div> -->
       <div class="btn-container">
         <!-- <button-com @click="openBox" text="开始" /> -->
-        <button-com @click="stopScroll" text="结束" />
-        <button-com @click="resetBox" text="重置" />
-        <button-com @click="startLott" text="余额抽盲盒(单抽)" />
+        <span @click="stopScroll"  >结束</span>
+        <span @click="resetBox"  >重置</span>
+        <span @click="startLott"  >余额抽盲盒(单抽)</span>
       </div>
     </div>
     <div
@@ -102,11 +102,11 @@
 
 <script>
 import { lotteryHold } from '@/services/api/blindBox';
-import buttonCom from './button.vue';
+// import buttonCom from './button.vue';
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
-  components: { buttonCom },
+  // components: { buttonCom },
   props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
   data() {
     return {
@@ -214,6 +214,7 @@ export default {
       this.carouselStyle = { transform: `translateX(-${_x}px` };
     },
     resetBox() {
+      console.log(333)
       this.autoplay = false;
       // this.carouselStyle = { transform: `translateX(-${_x}px` };
       this.moveCss = ''; //奖励滚动组件的滑动的动画效果css
@@ -305,6 +306,16 @@ export default {
 .btn-container {
   position: absolute;
   bottom: 0;
+}
+.btn-container span{
+  background-image: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  display: inline-block;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0 20px;
 }
 .el-carousel {
   width: 100%;

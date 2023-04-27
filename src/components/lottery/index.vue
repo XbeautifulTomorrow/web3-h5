@@ -144,7 +144,7 @@ export default {
       lottoResult: '',
       resultSecond: 60,
       resultSecondTimer: null,
-      interval: 250,
+      interval: 280,
     };
   },
   watch: {

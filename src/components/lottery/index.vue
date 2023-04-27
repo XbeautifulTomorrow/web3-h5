@@ -158,7 +158,7 @@ export default {
         if (second < this.resultSecond) {
           this.resultSecond = parseInt(second);
         }
-        console.log(newVal,"newVal====")
+        this.awardItemPrice =newVal.data[0].price
         this.awardFun(newVal.data[0].seriesName);
       }
     },

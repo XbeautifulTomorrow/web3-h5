@@ -267,8 +267,8 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.interval = Math.ceil(clientWidth / 1920) * this.interval;
-    if (this.interval >= 300) {
-      this.interval = 300;
+    if (this.interval >= 330) {
+      this.interval = 330;
     }
     if (localStorage.getItem('awardItem')) {
       this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));

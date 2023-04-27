@@ -235,17 +235,7 @@
   bottom: 0;
 }
 
-.btn-container span {
-  background-image: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
-  display: inline-block;
-  padding: 4px 30px;
-  border-radius: 20px;
-  color: #fff;
+.btn-container .pack-bg {
   cursor: pointer;
   font-weight: bold;
   margin: 0 20px;

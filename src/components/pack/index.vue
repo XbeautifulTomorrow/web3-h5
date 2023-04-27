@@ -6,7 +6,7 @@
     @mouseleave="mouseleaveFun"
     @click="clickFun"
   >
-    <div>
+    <div class="pack-com-conyent">
       <slot />
     </div>
   </div>
@@ -15,10 +15,6 @@
 export default {
   name: 'PackCom',
   props: {
-    width: {
-      type: Number,
-      default: 100,
-    },
     height: {
       type: Number,
       default: 30,
@@ -51,7 +47,6 @@ export default {
   data() {
     return {
       style: {
-        width: `${this.width}px`,
         height: `${this.height}px`,
         color: this.color,
         borderRadius: `${this.borderRadius}px`,
@@ -103,5 +98,8 @@ export default {
 .pack-bg {
   border: solid 2px #fff;
   background-image: linear-gradient(0, #b164f6 15%, #026aa1 58%, #42e2f0 79%);
+}
+.pack-com-conyent{
+  padding: 0 20px;
 }
 </style>

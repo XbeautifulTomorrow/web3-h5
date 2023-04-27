@@ -67,7 +67,7 @@
         <!-- <button-com @click="openBox" text="开始" /> -->
         <span @click="stopScroll">结束</span>
         <span @click="resetBox">重置</span>
-        <span @click="startLott">余额抽盲盒(单抽)</span>
+        <span @click="startLott('ONE')">余额抽盲盒(单抽)</span>
         <!-- <span @click="startLott('FIVE')"  >余额抽盲盒(五连抽)</span>
         <span @click="startLott('TEN')"  >余额抽盲盒(十连抽)</span> -->
       </div>
@@ -204,7 +204,7 @@ export default {
     changeFun(index) {
       this.showIndex = index;
     },
-    startLott(type = "ONE") {
+    startLott(type) {
       this.openBox();
       this.$emit("setBalanceOrder", type);
     },

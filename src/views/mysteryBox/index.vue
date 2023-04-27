@@ -1,9 +1,5 @@
 <template>
   <div class="blind-detail">
-    <!-- <div @click="setWalletOrder('ONE')" class="one-btn">钱包下单单抽</div>
-    <div @click="setBalanceOrder('ONE')" class="one-btn">余额下单单抽</div>
-    <div @click="setWalletOrder('FIVE')" class="one-btn">钱包下单五连抽</div>
-    <div @click="setWalletOrder('TEN')" class="one-btn">钱包下单十连抽</div> -->
     <template
       v-if="
         blindDetailInfo &&
@@ -60,6 +56,7 @@ export default {
   },
   methods: {
     async setBalanceOrder(coiledType) {
+      console.log(coiledType,"coiledType===")
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({

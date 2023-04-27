@@ -158,6 +158,7 @@ export default {
         if (second < this.resultSecond) {
           this.resultSecond = parseInt(second);
         }
+        console.log(newVal,"newVal====")
         this.awardFun(newVal.data[0].seriesName);
       }
     },
@@ -176,14 +177,17 @@ export default {
       }
     },
     awardFun(heroname) {
+     
       const { itemList, showIndex, showNumber } = this;
       const _showNumber = Math.floor(showNumber / 2);
       const isAward = itemList.filter((item) => item.heroname == heroname);
       this.awardItem = isAward[0];
+      console.log(this.awardItem,this.itemList,"heroname==")
+      this.showResult =true;
       localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
       if (!this.resultSecondTimer) {
         this.resultSecondTimer = setInterval(() => {
-          if (this.resultSecond <= 0) {
+          if (this.resultSecond < 0) {
             clearInterval(this.resultSecondTimer);
           }
           this.resultSecond--;
@@ -228,6 +232,7 @@ export default {
       let _items = [];
       let _item = [];
       for (;;) {
+      
         itemList.forEach((item) => {
           if (_item.length - 1 >= showNumber) {
             _items.push(_item);
@@ -237,6 +242,7 @@ export default {
             _item.push(item);
           }
         });
+        console.log(this.itemList)
         if (_items.length > 3) {
           this.items = _items;
           return;
@@ -270,13 +276,13 @@ export default {
     if (this.interval >= 300) {
       this.interval = 300;
     }
+    this.dataFun();
     if (localStorage.getItem('awardItem')) {
       this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
       this.awardItemPrice = this.lottoResult.data[0].price;
       console.log(this.lottoResult.data[0].price, 'this.lottoResult.data[0]==');
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
-    this.dataFun();
   },
   beforeCreate() {},
   created() {},

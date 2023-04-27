@@ -187,7 +187,7 @@ export default {
       localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
       if (!this.resultSecondTimer) {
         this.resultSecondTimer = setInterval(() => {
-          if (this.resultSecond < 0) {
+          if (this.resultSecond <= 1) {
             clearInterval(this.resultSecondTimer);
           }
           this.resultSecond--;

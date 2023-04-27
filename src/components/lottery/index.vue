@@ -26,7 +26,7 @@
                 class="lottery-carousel-list"
               >
                 <div class="lottery-list-bor" ref="light" :style="borStyle">
-                  <img class="lottery-list-img" :src="list.pz" />
+                  <img class="lottery-list-img" :src="list.nftImg" />
                 </div>
                 <div class="lottery-list-nftNumber">
                   #&nbsp;{{ list.nftNumber }}
@@ -35,9 +35,9 @@
                   {{ list.seriesName }}
                 </p>
                 <div class="lottery-list-text">
-                  <img class="lottery-list-logo" :src="list.seriesImg" />
+                  <img class="lottery-list-logo" :src="list.pz" />
                   <span class="public-color-two lottery-list-minPrice">
-                    {{ list.minPrice }}
+                    {{ list.price }}
                   </span>
                   <span class="public-color-two lottery-list-conin">
                     {{ list.coin }}
@@ -167,14 +167,13 @@ export default {
     async chooseLotteryHold(type) {
      
         let data = this.lottoResult.data;
-        let arg = {};
+        let arg = {  orderId: data[0].orderId};
         if (type == 'hold') {
             arg ={
               lotteryIds: data[0].id,
-              orderId: data[0].orderId,
             }
         }
-        let res = await lotteryHold();
+        let res = await lotteryHold(arg);
         console.log(res, 'res===');
         this.showResult = false;
         localStorage.removeItem('awardItem');
@@ -256,17 +255,22 @@ export default {
     dataFun() {
       const { lottoList } = this;
       let _itemImg = [];
-      lottoList.forEach((item, index) => {
-        let img = new Image();
-        img.src = item.seriesImg;
-        _itemImg.push(item.seriesImg);
-        let _obj = {
-          itemid: index,
-          pz: item.seriesImg,
-          heroname: item.seriesName,
-        };
-        _obj = { ..._obj, ...item };
-        this.itemList.push(_obj);
+      lottoList.forEach((item1) => {
+        item1.boxNftInfos.forEach((item)=>{
+          let img = new Image();
+          img.src = item1.seriesImg;
+          _itemImg.push(item1.seriesImg);
+          let _obj = {
+            itemid: item.idx,
+            pz: item1.seriesImg,
+            nftImg:item.nftImg,
+            heroname: item1.seriesName,
+            price:item.price
+          };
+          _obj = { ..._obj, ...item };
+          this.itemList.push(_obj);
+        })
+        console.log(this.itemList,"this.itemList===")
       });
       this.imteImg = _itemImg;
       this.itemsFun();

@@ -221,14 +221,23 @@ export default {
     openBox() {
       this.autoplay = true;
     },
-    itemsFun(items) {
-      let _items = items;
-      if (_items.length < 3) {
-        _items = [..._items, ...JSON.parse(JSON.stringify(_items))];
-        if (_items.length < 3) {
-          this.itemsFun(_items);
-        } else {
+    itemsFun() {
+      const { itemList, showNumber } = this;
+      let _items = [];
+      let _item = [];
+      for (;;) {
+        itemList.forEach((item) => {
+          if (_item.length - 1 >= showNumber) {
+            _items.push(_item);
+            _item = [];
+            _item.push(item);
+          } else {
+            _item.push(item);
+          }
+        });
+        if (_items.length > 3) {
           this.items = _items;
+          return;
         }
       }
     },
@@ -237,9 +246,7 @@ export default {
       const { clientWidth } = document.body;
       const number = Math.ceil(clientWidth / itemWidth);
       this.showNumber = number;
-      let _items = [];
       let _itemImg = [];
-      let _arr = [];
       lottoList.forEach((item, index) => {
         let img = new Image();
         img.src = item.seriesImg;
@@ -251,23 +258,9 @@ export default {
         };
         _obj = { ..._obj, ...item };
         this.itemList.push(_obj);
-        if (_arr.length - 1 >= number) {
-          _items.push(_arr);
-          _arr = [];
-          _arr.push(_obj);
-          return;
-        } else {
-          _arr.push(_obj);
-        }
-        if (index >= lottoList.length && _arr.length < number) {
-          for (let i = 0; i < number - _arr.length; i++) {
-            const _index = this.getRand(2, lottoList.length - 2);
-            _arr.push(lottoList[_index]);
-          }
-        }
       });
       this.imteImg = _itemImg;
-      this.itemsFun(_items);
+      this.itemsFun();
     },
   },
   mounted() {

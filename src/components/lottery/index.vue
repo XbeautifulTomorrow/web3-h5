@@ -236,7 +236,6 @@ export default {
           }, 1000);
         }
       } else {
-        this.showMoreDialog = true;
         this.moreLuck = data;
       }
       this.stopScroll();

@@ -202,10 +202,14 @@ export default {
       clearTimeout(this.closeTimer);
       this.closeTimer = null;
     },
-    closeFun() {
-      this.closeTimer = setTimeout(() => {
+    closeFun(isTimer) {
+      if (isTimer) {
+        this.closeTimer = setTimeout(() => {
+          this.showMoreDialog = false;
+        }, 500);
+      } else {
         this.showMoreDialog = false;
-      }, 500);
+      }
     },
     luckyFun(_luck) {
       // itemList
@@ -216,7 +220,7 @@ export default {
         // const { seriesName } = _luck[0];
         // _arr = itemList.filter((item) => item.seriesName == seriesName);
         this.items[showIndex].splice(_showNumber, 1, ..._luck);
-      } 
+      }
       // else {
       //   // _luck.forEach((item) => {
       //   //   const { seriesName } = item;

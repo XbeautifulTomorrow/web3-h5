@@ -132,7 +132,7 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
-        this.$emit('closeFun');
+        this.$emit('closeFun', true);
       }
     },
   },

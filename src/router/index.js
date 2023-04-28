@@ -10,6 +10,8 @@ const Home = () => import('../views/home/index.vue');
 const Login = () => import('../views/login/index.vue');
 // const Lottery = () => import('@/components/lottery/index.vue');
 const MysteryBox = () => import('../views/mysteryBox/index.vue');
+const User = () => import('../views/user/index.vue');
+
 
 //2. 路由配置
 const routes = [
@@ -48,6 +50,16 @@ const routes = [
     name: 'MysteryBox',
     components: {
       default: MysteryBox,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: '/user',
+    name: 'User',
+    components: {
+      default: User,
       Header,
       Footer,
       Currency,

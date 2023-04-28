@@ -45,6 +45,10 @@
             margin-right: 1rem;
         }
 
+        &>div:nth-child(n+5) {
+            margin-top: 1rem;
+        }
+
         &>div:nth-child(4n) {
             margin-right: 0px;
         }
@@ -52,18 +56,19 @@
 
     .nft_item {
         width: 24%;
-        height: 360px;
+        min-height: 360px;
         background-color: #B0B0B0;
         border-radius: 10px;
+        padding-bottom: 1rem;
 
         .image_box {
             position: relative;
+            display: flex;
             width: 100%;
-            height: 240px;
+            min-height: 240px;
             overflow: hidden;
             box-sizing: border-box;
-            border-radius: 10px;
-            border: 1px solid #fff;
+            border-radius: 10px 10px 0 0;
 
             .image_tag {
                 position: absolute;
@@ -99,6 +104,12 @@
 }
 
 .dialog_competition {
+    .image_box {
+        img {
+            width: 50%;
+        }
+    }
+
     .nft_info {
         .nft_name {
             font-size: 32px;
@@ -111,12 +122,26 @@
 }
 
 .type-tabs {
-    /deep/ .el-tabs__nav {
+    :deep(.el-tabs__nav) {
         width: 100%;
     }
 
-    /deep/ .el-tabs__item {
+    :deep(.el-tabs__item) {
         flex: 1;
         box-sizing: border-box;
     }
+}
+
+.hint-text {
+    text-align: left;
+    padding-top: 10px;
+}
+
+:deep(input::-webkit-outer-spin-button),
+:deep(input::-webkit-inner-spin-button) {
+    -webkit-appearance: none;
+}
+
+:deep(input[type="number"]) {
+    -moz-appearance: textfield;
 }

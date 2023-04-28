@@ -99,53 +99,13 @@
       </template>
     </el-dialog>
     <!-- 多个中奖 -->
-    <el-dialog
-      v-model="showMoreDialog"
-      title="Tips"
-      width="100%"
-      top="0"
-      class="lottery-moreLuck"
-    >
-      <ul class="lottery-moreLuck-content">
-        <li
-          v-for="(item, index) in moreLuck"
-          :key="`luck-${index}`"
-          class="lottery-moreLuck-list"
-        >
-          <div class="lottery-moreLuck-bor">
-            <img class="lottery-list-img" :src="item.nftImg" />
-          </div>
-          <div class="lottery-moreLuck-nftNumber">
-            #&nbsp;{{ item.tokenId }}
-          </div>
-          <p class="public-color-three lottery-moreLuck-seriesName">
-            {{ item.seriesName }}
-          </p>
-          <div class="lottery-moreLuck-text">
-            <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
-            <img
-              class="lottery-moreLuck-img"
-              src="@/assets/img/eth.png"
-              alt=""
-            />
-            <span class="public-color-two lottery-moreLuck-minPrice">
-              {{ item.price }}
-            </span>
-            <span class="public-color-two lottery-moreLuck-conin">
-              {{ item.coin }}
-            </span>
-          </div>
-        </li>
-      </ul>
-      <!-- <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="showMoreDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="showMoreDialog = false">
-            Confirm
-          </el-button>
-        </span>
-      </template> -->
-    </el-dialog>
+    <more-awards
+      v-if="showMoreDialog"
+      :showMoreDialog="showMoreDialog"
+      :prizeList="itemList"
+      :moreLuck="moreLuck"
+      :number="moreNumber"
+    />
   </div>
 </template>
 
@@ -153,10 +113,12 @@
 import { lotteryHold } from '@/services/api/blindBox';
 import PackBtn from '../pack/index.vue';
 import { useHeaderStore } from '@/store/header.js';
+
+import MoreAwards from './moreAwards.vue';
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
-  components: { PackBtn },
+  components: { PackBtn, MoreAwards },
   props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
   data() {
     return {
@@ -184,7 +146,7 @@ export default {
       resultSecondTimer: null,
       interval: 280,
       moreLuck: [],
-      moreLength: 1,
+      moreNumber: 5,
     };
   },
   watch: {
@@ -265,7 +227,6 @@ export default {
         }
       } else {
         this.showMoreDialog = true;
-        this.moreLength = data.length / 5;
         this.moreLuck = data;
       }
       this.stopScroll();
@@ -274,7 +235,16 @@ export default {
       this.showIndex = index;
     },
     startLott(type) {
-      this.openBox();
+      if (type === 'ONE') {
+        this.openBox();
+      } else {
+        if (type === 'FIVE') {
+          this.moreNumber = 5;
+        } else {
+          this.moreNumber = 10;
+        }
+        this.showMoreDialog = true;
+      }
       const headerStore = useHeaderStore();
       console.log(headerStore,"headerStore====")
       this.$emit('setBalanceOrder', type);
@@ -298,8 +268,9 @@ export default {
       const { itemList, showNumber } = this;
       let _items = [];
       let _item = [];
+      const _itemList = JSON.parse(JSON.stringify(itemList));
       for (;;) {
-        itemList.forEach((item) => {
+        _itemList.forEach((item) => {
           if (_item.length - 1 >= showNumber) {
             _items.push(_item);
             _item = [];
@@ -354,12 +325,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url('./index.scss');
-.lottery-moreLuck-content {
-  width: calc(var(--luckBorHeight) * (v-bind(moreLength)) + 20px);
-}
-.lottery-moreLuck-list {
-  width: calc(100% - (v-bind(moreLength)));
-}
 </style>
 <style lang="scss">
 .lottery-moreLuck {

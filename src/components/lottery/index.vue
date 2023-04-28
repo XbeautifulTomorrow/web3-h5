@@ -110,16 +110,26 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus';
 import { lotteryHold } from '@/services/api/blindBox';
 import PackBtn from '../pack/index.vue';
 import { useHeaderStore } from '@/store/header.js';
 
+import { shuffle } from '@/assets/js';
+
 import MoreAwards from './moreAwards.vue';
+
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
   components: { PackBtn, MoreAwards },
-  props: ['lottoList', 'setBalanceOrder', 'lottResult', 'test'],
+  props: [
+    'lottoList',
+    'setBalanceOrder',
+    'lottResult',
+    'test',
+    'blindDetailInfo',
+  ],
   data() {
     return {
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
@@ -234,19 +244,42 @@ export default {
     changeFun(index) {
       this.showIndex = index;
     },
+    messageFun(type = 'warning', message = '余额不足,请充值!') {
+      ElMessage({
+        message,
+        type,
+      });
+    },
     startLott(type) {
+      const headerStore = useHeaderStore();
+      const { balance } = headerStore;
+      const { blindDetailInfo } = this;
+      if (!blindDetailInfo || !balance) {
+        this.messageFun('error', '请求数据出错，请刷新重新登录！');
+        return;
+      }
       if (type === 'ONE') {
+        if (blindDetailInfo.price > balance) {
+          this.messageFun();
+          return;
+        }
         this.openBox();
       } else {
         if (type === 'FIVE') {
+          if (blindDetailInfo.fivePrice * 5 > balance) {
+            this.messageFun();
+            return;
+          }
           this.moreNumber = 5;
         } else {
+          if (blindDetailInfo.tenPrice * 10 > balance) {
+            this.messageFun();
+            return;
+          }
           this.moreNumber = 10;
         }
         this.showMoreDialog = true;
       }
-      const headerStore = useHeaderStore();
-      console.log(headerStore,"headerStore====")
       this.$emit('setBalanceOrder', type);
     },
     getRand(start, end) {
@@ -280,7 +313,7 @@ export default {
           }
         });
         if (_items.length > 3) {
-          this.items = _items;
+          this.items = shuffle(_items);
           return;
         }
       }

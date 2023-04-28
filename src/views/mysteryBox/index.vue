@@ -10,6 +10,7 @@
       <Lottory
         :lottoList="blindDetailInfo.series"
         :lottResult="lottResult"
+        :blindDetailInfo="blindDetailInfo"
         @setBalanceOrder="setBalanceOrder"
       />
     </template>
@@ -65,10 +66,8 @@ export default {
       });
       const headerStore = useHeaderStore();
       await headerStore.getTheUserBalanceApi();
-      console.log(walletOrderInfo.code==200, 'walletOrderInfo===');
-      if(walletOrderInfo.code==200){
+      if (walletOrderInfo.code == 200) {
         this.walletOrderInfo = walletOrderInfo;
-        console.log(walletOrderInfo,"walletOrderInfo===")
         let result = '';
         let resultTimer = setInterval(async () => {
           result = await lotteryResult({

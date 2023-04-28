@@ -37,6 +37,7 @@
   </el-carousel>
 </template>
 <script>
+import { shuffle } from '@/assets/js';
 export default {
   name: 'AwardsList',
   props: {
@@ -65,7 +66,7 @@ export default {
   data() {
     return {
       index: 0,
-      poolList: JSON.parse(JSON.stringify(this.prizePoolList)),
+      poolList: shuffle(JSON.parse(JSON.stringify(this.prizePoolList))),
       autoPlay: this.autoplay,
     };
   },
@@ -80,7 +81,6 @@ export default {
   watch: {
     winData: function (newData) {
       if (newData) {
-        console.log(newData);
         this.poolList.splice(this.index, 1, newData);
       }
     },

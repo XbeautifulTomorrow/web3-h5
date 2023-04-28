@@ -29,6 +29,7 @@ import transferAbi from '@/config/transfer.json';
 import Lottory from '@/components/lottery/index';
 import { h } from 'vue';
 import { ElNotification } from 'element-plus';
+import { useHeaderStore } from '@/store/header.js';
 export default {
   name: 'BlindDetail',
   components: {
@@ -62,6 +63,8 @@ export default {
         boxId: _that.boxId,
         coiledType,
       });
+      const headerStore = useHeaderStore();
+      await headerStore.getTheUserBalanceApi();
       console.log(walletOrderInfo.code==200, 'walletOrderInfo===');
       if(walletOrderInfo.code==200){
         this.walletOrderInfo = walletOrderInfo;

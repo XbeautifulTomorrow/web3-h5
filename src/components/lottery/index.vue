@@ -152,6 +152,7 @@
 <script>
 import { lotteryHold } from '@/services/api/blindBox';
 import PackBtn from '../pack/index.vue';
+import { useHeaderStore } from '@/store/header.js';
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
@@ -274,6 +275,8 @@ export default {
     },
     startLott(type) {
       this.openBox();
+      const headerStore = useHeaderStore();
+      console.log(headerStore,"headerStore====")
       this.$emit('setBalanceOrder', type);
     },
     getRand(start, end) {

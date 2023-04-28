@@ -54,6 +54,10 @@ export default {
       type: Number,
       default: 300,
     },
+    apiIsError: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -85,15 +89,18 @@ export default {
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
+    clearTimerFun() {
+      clearInterval(this.timer);
+      this.timer = null;
+    },
     stopScroll(data) {
       this.timer = setInterval(() => {
         this.winData.push(data[this.numberTest]);
         this.autoplay[this.numberTest] = false;
         this.numberTest += 1;
         if (this.winData.length >= this.number) {
-          clearInterval(this.timer);
           this.autoplayFun();
-          this.timer = null;
+          this.clearTimerFun();
           this.numberTest = 0;
         }
       }, 1000);
@@ -109,6 +116,9 @@ export default {
       }
     },
   },
+  beforeUnmount() {
+    this.clearTimerFun();
+  },
   watch: {
     moreLuck: {
       deep: true,
@@ -117,6 +127,13 @@ export default {
           this.stopScroll(newData);
         }
       },
+    },
+    apiIsError: function (newData) {
+      if (newData) {
+        this.autoplayFun();
+        this.clearTimerFun();
+        this.$emit('closeFun');
+      }
     },
   },
 };

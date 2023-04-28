@@ -11,6 +11,7 @@
         :lottoList="blindDetailInfo.series"
         :lottResult="lottResult"
         :blindDetailInfo="blindDetailInfo"
+        :apiIsError="apiIsError"
         @setBalanceOrder="setBalanceOrder"
       />
     </template>
@@ -50,6 +51,7 @@ export default {
       blindDetailInfo: '',
       lottStatus: true,
       lottResult: '',
+      apiIsError: false,
     };
   },
   mounted() {
@@ -76,8 +78,13 @@ export default {
           if (result) {
             _that.lottResult = result;
             clearInterval(resultTimer);
+          } else {
+            this.apiIsError = true;
+            clearInterval(resultTimer);
           }
         }, 2000);
+      } else {
+        this.apiIsError = true;
       }
 
       // this.walletOrderDetail = walletOrderInfo.data;

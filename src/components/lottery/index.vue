@@ -105,6 +105,8 @@
       :prizeList="itemList"
       :moreLuck="moreLuck"
       :number="moreNumber"
+      :apiIsError="apiIsError"
+      @closeFun="closeFun"
     />
   </div>
 </template>
@@ -129,6 +131,7 @@ export default {
     'lottResult',
     'test',
     'blindDetailInfo',
+    'apiIsError',
   ],
   data() {
     return {
@@ -175,6 +178,12 @@ export default {
         this.luckyFun(newVal.data);
       }
     },
+    apiIsError: function (newData) {
+      if (newData) {
+        this.autoplay = false;
+        this.messageFun('error', '网络错误，即将停止抽奖');
+      }
+    },
   },
   methods: {
     async chooseLotteryHold(type) {
@@ -185,10 +194,18 @@ export default {
           lotteryIds: data[0].id,
         };
       }
-      let res = await lotteryHold(arg);
-      console.log(res, 'res===');
+      await lotteryHold(arg);
       this.showResult = false;
       localStorage.removeItem('awardItem');
+    },
+    clearTimerFun() {
+      clearTimeout(this.closeTimer);
+      this.closeTimer = null;
+    },
+    closeFun() {
+      this.closeTimer = setTimeout(() => {
+        this.showMoreDialog = false;
+      }, 500);
     },
     luckyFun(_luck) {
       // itemList
@@ -199,25 +216,26 @@ export default {
         // const { seriesName } = _luck[0];
         // _arr = itemList.filter((item) => item.seriesName == seriesName);
         this.items[showIndex].splice(_showNumber, 1, ..._luck);
-      } else {
-        // _luck.forEach((item) => {
-        //   const { seriesName } = item;
-        //   const isAward = itemList.filter(
-        //     (item) => item.seriesName == seriesName
-        //   );
-        //   _arr = [..._arr, ...isAward];
-        // });
-        const _length = _luck.length;
-        if (_length < showNumber) {
-          this.items[showIndex].splice(
-            Math.floor((showNumber - _length) / 2),
-            _length,
-            ..._luck
-          );
-        } else {
-          this.items[showIndex] = _luck;
-        }
-      }
+      } 
+      // else {
+      //   // _luck.forEach((item) => {
+      //   //   const { seriesName } = item;
+      //   //   const isAward = itemList.filter(
+      //   //     (item) => item.seriesName == seriesName
+      //   //   );
+      //   //   _arr = [..._arr, ...isAward];
+      //   // });
+      //   const _length = _luck.length;
+      //   if (_length < showNumber) {
+      //     this.items[showIndex].splice(
+      //       Math.floor((showNumber - _length) / 2),
+      //       _length,
+      //       ..._luck
+      //     );
+      //   } else {
+      //     this.items[showIndex] = _luck;
+      //   }
+      // }
       this.awardFun(_luck);
     },
     awardFun(data) {
@@ -352,6 +370,9 @@ export default {
       this.awardItemPrice = this.lottoResult.data[0].price;
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
+  },
+  beforeUnmount() {
+    this.clearTimerFun();
   },
 };
 </script>

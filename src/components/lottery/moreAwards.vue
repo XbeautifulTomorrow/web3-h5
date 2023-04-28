@@ -102,6 +102,7 @@ export default {
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
+          this.$emit('closeFun', false, 1000);
         }
       }, 1000);
     },

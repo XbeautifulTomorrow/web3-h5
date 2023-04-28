@@ -73,22 +73,52 @@
     <el-dialog
       v-model="showResult"
       title="Tips"
-      width="30%"
+      :width="awardItem.length > 1 ? resultWidth : '30%'"
       center
       :close-on-click-modal="false"
+      class="lottery-result"
     >
-      <div class="result-modal">
-        <img class="lottery-list-img" :src="awardItem.seriesImg" />
-        <p>
+      <div class="lottery-result-modal">
+        <div
+          :class="[
+            'lottery-result-content',
+            { moreAward: awardItem.length > 1 },
+          ]"
+        >
+          <div
+            v-for="(list, _listIndex) in awardItem"
+            :key="`list-${_listIndex}`"
+            :class="['lottery-carousel-list']"
+          >
+            <div class="lottery-list-bor">
+              <img class="lottery-list-img" :src="list.nftImg" />
+            </div>
+            <div class="lottery-list-nftNumber">#&nbsp;{{ list.tokenId }}</div>
+            <p class="lottery-list-seriesName">
+              {{ list.seriesName }}
+            </p>
+            <div class="lottery-list-text">
+              <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
+              <img src="@/assets/img/eth.png" alt="" />
+              <span class="lottery-list-minPrice">
+                {{ list.price }}
+              </span>
+              <span class="lottery-list-conin">
+                {{ list.coin }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="lottery-result-choose" v-if="awardItem.length === 1">
           你抽中了
-          <b>{{ awardItem.seriesName }}#{{ awardItem.tokenId }}</b>
+          <b>{{ awardItem[0].seriesName }}#{{ awardItem[0].tokenIdAll }}</b>
           ,请选择回收还是持有！
         </p>
-        <p>
-          你还有<b>{{ resultSecond }}</b
-          >秒做出选择,倒计时结束将自动回收
-        </p>
       </div>
+      <p>
+        你还有<b>{{ resultSecond }}</b
+        >秒做出选择,倒计时结束将自动回收
+      </p>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="chooseLotteryHold('hold')">持有</el-button>
@@ -113,6 +143,7 @@
 
 <script>
 import { ElMessage } from 'element-plus';
+import { BigNumber } from 'bignumber.js';
 import { lotteryHold } from '@/services/api/blindBox';
 import PackBtn from '../pack/index.vue';
 import { useHeaderStore } from '@/store/header.js';
@@ -139,7 +170,7 @@ export default {
       autoplay: false,
       itemWidth: itemWidth, //每张卡牌的宽度
       items: [], //滚动的卡片列表
-      awardItem: { idx: 0, seriesImg: 0, heroid: 0, seriesName: '', price: '' }, //中奖道具
+      awardItem: [], //中奖道具
       awardItemPrice: 0,
       itemList: [],
       currentItem: undefined,
@@ -160,11 +191,12 @@ export default {
       interval: 280,
       moreLuck: [],
       moreNumber: 5,
+      resultWidth: 180 * 5 + 6 * 5 + 40,
     };
   },
   watch: {
     lottResult: function (newVal) {
-      if (newVal) {
+      if (newVal && newVal.data && newVal.data.length) {
         this.lottoResult = newVal;
         const second =
           this.$dayjs(newVal.localDateTime).diff(
@@ -173,14 +205,22 @@ export default {
         if (second < this.resultSecond) {
           this.resultSecond = parseInt(second);
         }
-        this.awardItemPrice = newVal.data[0].price;
-        // this.awardFun(newVal.data[0].seriesName);
+        newVal.data.forEach((item) => {
+          this.awardItemPrice = BigNumber(this.awardItemPrice).plus(
+            Number(item.price)
+          );
+        });
         this.luckyFun(newVal.data);
+      } else {
+        this.messageFun('warning', '很遗憾您没有中奖');
+        this.autoplay = false;
+        this.closeFun(true);
       }
     },
     apiIsError: function (newData) {
       if (newData) {
         this.autoplay = false;
+        this.$emit('apiIsErrorFun', false);
         this.messageFun('error', '网络错误，即将停止抽奖');
       }
     },
@@ -196,19 +236,26 @@ export default {
       }
       await lotteryHold(arg);
       this.showResult = false;
+      this.moreLuck = [];
       localStorage.removeItem('awardItem');
     },
     clearTimerFun() {
       clearTimeout(this.closeTimer);
       this.closeTimer = null;
     },
-    closeFun(isTimer) {
+    closeFun(isTimer, timer = 500) {
       if (isTimer) {
         this.closeTimer = setTimeout(() => {
           this.showMoreDialog = false;
-        }, 500);
+        }, timer);
       } else {
         this.showMoreDialog = false;
+      }
+      const { moreLuck } = this;
+      const _type = Object.prototype.toString.call(moreLuck);
+      if (_type === '[object Array]' && moreLuck && moreLuck.length > 0) {
+        this.showResult = true;
+        this.awardItem = moreLuck;
       }
     },
     luckyFun(_luck) {
@@ -244,7 +291,7 @@ export default {
     },
     awardFun(data) {
       if (data.length < 2) {
-        this.awardItem = data[0];
+        this.awardItem = data;
         this.showResult = true;
         localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
         if (!this.resultSecondTimer) {
@@ -272,13 +319,15 @@ export default {
       });
     },
     startLott(type) {
+      this.awardItem = [];
+      this.moreLuck = [];
       const headerStore = useHeaderStore();
       const { balance } = headerStore;
       const { blindDetailInfo } = this;
-      if (!blindDetailInfo || !balance) {
-        this.messageFun('error', '请求数据出错，请刷新重新登录！');
-        return;
-      }
+      // if (!blindDetailInfo || !balance) {
+      //   this.messageFun('error', '请求数据出错，请刷新重新登录！');
+      //   return;
+      // }
       if (type === 'ONE') {
         if (blindDetailInfo.price > balance) {
           this.messageFun();
@@ -287,10 +336,10 @@ export default {
         this.openBox();
       } else {
         if (type === 'FIVE') {
-          if (blindDetailInfo.fivePrice * 5 > balance) {
-            this.messageFun();
-            return;
-          }
+          // if (blindDetailInfo.fivePrice * 5 > balance) {
+          //   this.messageFun();
+          //   return;
+          // }
           this.moreNumber = 5;
         } else {
           if (blindDetailInfo.tenPrice * 10 > balance) {
@@ -391,5 +440,60 @@ export default {
   .el-dialog__footer {
     display: none;
   }
+}
+</style>
+<style lang="scss">
+$borWidth: 180px;
+.moreAward {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  .lottery-carousel-list {
+    background-image: linear-gradient(
+      228deg,
+      hsla(0, 0%, 100%, 0.3),
+      hsla(0, 0%, 100%, 0) 62%
+    );
+    background-color: #e38d4c;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+  .lottery-list-bor {
+    width: 180px;
+  }
+  .lottery-list-seriesName {
+    font-size: 18px;
+    line-height: 20px;
+    margin: 5px 0;
+    color: #000;
+  }
+  .lottery-list-text img {
+    width: 15px;
+    height: 15px;
+  }
+  .lottery-list-text {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 17px;
+    background-color: #fff;
+    color: #f00;
+    border-radius: 5px;
+  }
+}
+.lottery-result-choose {
+  b {
+    color: red;
+  }
+}
+.lottery-result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 0;
 }
 </style>

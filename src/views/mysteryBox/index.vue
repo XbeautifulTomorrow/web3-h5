@@ -13,6 +13,7 @@
         :blindDetailInfo="blindDetailInfo"
         :apiIsError="apiIsError"
         @setBalanceOrder="setBalanceOrder"
+        @apiIsErrorFun="apiIsErrorFun"
       />
     </template>
   </div>
@@ -59,6 +60,9 @@ export default {
     this.getBlindBoxDetail();
   },
   methods: {
+    apiIsErrorFun(data){
+      this.apiIsError = data;
+    },
     async setBalanceOrder(coiledType) {
       //余额抽盲盒
       let _that = this;
@@ -76,8 +80,10 @@ export default {
             orderId: walletOrderInfo.data.orderId,
           });
           if (result) {
-            _that.lottResult = result;
-            clearInterval(resultTimer);
+            if (result.data && result.data.length) {
+              _that.lottResult = result;
+              clearInterval(resultTimer);
+            }
           } else {
             this.apiIsError = true;
             clearInterval(resultTimer);

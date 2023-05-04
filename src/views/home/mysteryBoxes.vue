@@ -11,7 +11,7 @@
           :key="`mystery-${index}`"
           @click="$router.push('mysteryBox?boxId='+item.id)"
         >
-          <img class="mystery-boxs-list-img" :src="item.url" alt="" />
+          <img class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
           <p class="boxes-title text-ellipsis">
             {{ item.boxName }}
           </p>

@@ -163,6 +163,11 @@ export default {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
           const { activeType, competitionNft } = this;
+
+          if (competitionNft.price <= competitionNft.ticketPrice) {
+            this.$message.success("单份价值不能超过总价格");
+          }
+
           let ruleForm = {
             ...this.competitionForm,
             orderType: activeType,

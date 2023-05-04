@@ -2,7 +2,7 @@
   <div class="home">
     <banner />
     <mystery-boxes :boxList="boxList" />
-    <ntf-tickets :ticketList="ticketList" />
+    <nft-tickets :ticketList="ticketList" />
     <contents-info :NFTList="NFTList" />
   </div>
 </template>
@@ -10,17 +10,18 @@
 <script>
 import Banner from '@/components/banner/index.vue';
 import MysteryBoxes from './mysteryBoxes.vue';
-import NtfTickets from './ntfTickets.vue';
+import NftTickets from './nftTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
 
-import { getBoxList, getTicketList, getNFTList } from '@/services/api/index';
+import { getBoxList, getNFTList } from '@/services/api/index';
+import { getCheckAllOrders } from "@/services/api/oneBuy";
 
 export default {
   name: 'IndexPage',
   components: {
     Banner,
     MysteryBoxes,
-    NtfTickets,
+    NftTickets,
     ContentsInfo,
   },
   data() {
@@ -37,9 +38,9 @@ export default {
         this.boxList = res.data;
       }
     });
-    getTicketList().then((res) => {
-      if (res.data && res.data.length > 0) {
-        this.ticketList = res.data;
+    getCheckAllOrders({ page: 1, size: 5 }).then((res) => {
+      if (res.data && res.data.records.length > 0) {
+        this.ticketList = res.data.records;
       }
     });
     getNFTList().then((res) => {
@@ -60,27 +61,30 @@ body {
   background: url('@/assets/img/home/bg.png') no-repeat;
   background-size: 100% auto;
 }
+
 .home-public-title {
   text-align: left;
   margin: 48px auto 24px;
 }
+
 .boxes-content {
   display: flex;
 }
+
 .boxes-list {
   width: 220px;
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(
-    228deg,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0) 62%
-  );
+  background-image: linear-gradient(228deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0) 62%);
+
   &:last-child {
     margin-right: 0;
   }
 }
+
 .boxes-title {
   width: 200px;
   height: max-content;
@@ -92,6 +96,7 @@ body {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+
 .boxes-button {
   $width: 200px;
   $height: 40px;
@@ -109,12 +114,10 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
+  border-image-source: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
@@ -122,13 +125,12 @@ body {
   background-clip: content-box, border-box;
   cursor: pointer;
 }
+
 .boxes-button-text {
-  background-image: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
+  background-image: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

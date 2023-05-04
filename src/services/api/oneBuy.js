@@ -26,6 +26,18 @@ const cancelNftOrder = (params) =>
   apiService.post(serviceUrl + "/oneNftOrders/cancelNftOrder", params);
 
 /**
+* @description 获取即将结束的nft订单
+*/
+const getOneBuyList = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders", params);
+
+/**
+* @description 获取即将结束的nft订单
+*/
+const getEndingSoon = (params) =>
+  apiService.get(serviceUrl + "/oneNftLotteryOrders/endingSoonPage", params);
+
+/**
 * @description 获取一元购详情
 */
 const getOneBuyInfo = (params) =>
@@ -36,21 +48,25 @@ const getOneBuyInfo = (params) =>
  */
 const getLatestBuyRecord = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfActivities", params);
+
 /**
 * @description 获取一元购用户购买记录
 */
 const getUserBuyRecord = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants", params);
+
+/**
+* @description 获取一元购用户购买记录
+*/
+const getCheckAllOrders = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/checkAllOrders", params);
+
 /**
  * @description 获取开奖者
  */
 const getLottery = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getLottery", params);
-/**
-* @description 获取即将结束的nft订单
-*/
-const getEndingSoon = (params) =>
-  apiService.get(serviceUrl + "/oneNftLotteryOrders/endingSoonPage", params);
+
 /**
 * @description 余额购买一元购活动
 */
@@ -69,11 +85,13 @@ export {
   getSystemNft,
   addNftOrder,
   cancelNftOrder,
+  getOneBuyList,
+  getEndingSoon,
   buyNftBalance,
   buyNftWallet,
   getOneBuyInfo,
   getLatestBuyRecord,
+  getCheckAllOrders,
   getUserBuyRecord,
-  getLottery,
-  getEndingSoon
+  getLottery
 };

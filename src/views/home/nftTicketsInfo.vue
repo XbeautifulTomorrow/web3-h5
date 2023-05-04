@@ -387,13 +387,9 @@ export default {
             const { nftInfo } = this;
             const values = new bigNumber(nftInfo.totalPrice).dividedBy(nftInfo.price).toFixed(0); // 总票数
 
-            console.log(values)
-            let available = 0; // 可购买数量 总票数的4/1;
-            if (nftInfo.orderType == "LIMITED_PRICE") {
-                available = new bigNumber(values).dividedBy(4).toFixed(0);
-            }   // 暂时不计算限时
+            let available = new bigNumber(values).dividedBy(4).toFixed(0); // 可购买数量 总票数的4/1;
 
-            if (!nftInfo || !nftInfo.totalPrice || !nftInfo.price || values <= 1) return
+            if (!nftInfo || !nftInfo.totalPrice || !nftInfo.price || values < 1) return
 
             if (this.timer) {
                 clearTimeout(this.timer);

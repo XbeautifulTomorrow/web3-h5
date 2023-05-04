@@ -237,6 +237,7 @@ export default {
       await lotteryHold(arg);
       this.showResult = false;
       this.awardItemPrice = 0;
+      this.resultSecond = 60;
       this.moreLuck = [];
       localStorage.removeItem('awardItem');
     },

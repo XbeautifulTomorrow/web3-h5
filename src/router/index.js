@@ -12,6 +12,7 @@ const Login = () => import('../views/login/index.vue');
 const MysteryBox = () => import('../views/mysteryBox/index.vue');
 const User = () => import('../views/user/index.vue');
 const nftTicketsInfo = () => import('../views/home/nftTicketsInfo.vue');
+const Competitions = () => import('../views/user/competitions.vue');
 
 
 //2. 路由配置
@@ -76,7 +77,16 @@ const routes = [
       Currency,
     },
   },
-
+  {
+    path: '/competitions',
+    name: 'Competitions',
+    components: {
+      default: Competitions,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
 ];
 
 // 3. 创建路由实例

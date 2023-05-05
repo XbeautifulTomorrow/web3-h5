@@ -2,28 +2,14 @@
   <div class="header">
     <div class="header-main public-width">
       <div class="header-left">
-        <img
-          class="header-logo"
-          src="@/assets/img/headerFooter/logo.png"
-          alt="logo"
-          @click="goTo()"
-        />
+        <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
         <ul class="header-nav">
-          <li
-            class="header-nav-text"
-            v-for="(item, index) in nav"
-            :key="`nav-${index}`"
-            @click="goTo(item.page)"
-          >
+          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
             {{ item.text }}
           </li>
         </ul>
       </div>
-      <div
-        class="header-button"
-        @click="showConnect = true"
-        v-if="!conncectAddress"
-      >
+      <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
         {{ conncectAddress ? conncectAddress : 'Connect Wallet' }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
@@ -36,20 +22,12 @@
         <span class="boxes-button-text text-ellipsis">
           {{ conncectAddress }}
         </span>
-        <img
-          class="header-user-down"
-          src="@/assets/img/headerFooter/icon-arrowup.png"
-          alt=""
-        />
+        <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
         <div class="header-user">
           <div class="header-user-main">
             <ul class="header-user-content">
-              <li
-                :class="['header-user-list']"
-                v-for="(item, index) in userList"
-                :key="`box-${index}`"
-                @click="othersideBoxFun(item)"
-              >
+              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
+                @click="othersideBoxFun(item)">
                 <span :class="['header-user-list-img', item.class]"></span>
                 <span>{{ item.text }}</span>
               </li>
@@ -58,11 +36,7 @@
         </div>
       </div>
     </div>
-    <WalletList
-      v-if="showConnect"
-      @connectWallet="connect"
-      @close="showConnect = false"
-    />
+    <WalletList v-if="showConnect" @connectWallet="connect" @close="showConnect = false" />
     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
@@ -71,12 +45,10 @@
       <br />
       <span>
         Amount
-        <el-input v-model="amountVal" placeholder="Please amount"
-      /></span>
+        <el-input v-model="amountVal" placeholder="Please amount" /></span>
       <span v-if="tokenChoose == 1">
         OrderId
-        <el-input v-model="orderVal" placeholder="Please orderId"
-      /></span>
+        <el-input v-model="orderVal" placeholder="Please orderId" /></span>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">Cancel</el-button>
@@ -336,6 +308,16 @@ export default {
     },
     goTo(page = 'home') {
       this.$router.push({ path: `/${page}` });
+    },
+    othersideBoxFun(item) {
+      console.log(item);
+      if (item.text == "Wallet") {
+        this.$router.push({ name: "User" });
+      } else if (item.text == "Competitions") {
+        this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
+      } else if (item.text == "My Collections") {
+        this.$router.push({ name: "Competitions", query: { type: "MY_COMPETITIONS" } });
+      }
     },
   },
 };

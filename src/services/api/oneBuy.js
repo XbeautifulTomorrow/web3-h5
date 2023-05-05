@@ -26,7 +26,7 @@ const cancelNftOrder = (params) =>
   apiService.post(serviceUrl + "/oneNftOrders/cancelNftOrder", params);
 
 /**
-* @description 获取即将结束的nft订单
+* @description 获取用户相关nft订单
 */
 const getOneBuyList = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders", params);
@@ -74,7 +74,7 @@ const buyNftBalance = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/balancePurchases", params);
 
 /**
-* @description 余额购买一元购活动
+* @description 钱包购买一元购活动
 */
 const buyNftWallet = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/onChainPurchases", params);

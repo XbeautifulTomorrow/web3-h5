@@ -53,6 +53,7 @@ export default {
       lottStatus: true,
       lottResult: '',
       apiIsError: false,
+      resultTimer: null,
     };
   },
   mounted() {
@@ -60,7 +61,7 @@ export default {
     this.getBlindBoxDetail();
   },
   methods: {
-    apiIsErrorFun(data){
+    apiIsErrorFun(data) {
       this.apiIsError = data;
     },
     async setBalanceOrder(coiledType) {
@@ -74,27 +75,36 @@ export default {
       await headerStore.getTheUserBalanceApi();
       if (walletOrderInfo.code == 200) {
         this.walletOrderInfo = walletOrderInfo;
-        let result = '';
-        let resultTimer = setInterval(async () => {
-          result = await lotteryResult({
-            orderId: walletOrderInfo.data.orderId,
-          });
-          if (result) {
-            if (result.data && result.data.length) {
-              _that.lottResult = result;
-              clearInterval(resultTimer);
-            }
-          } else {
-            this.apiIsError = true;
-            clearInterval(resultTimer);
-          }
-        }, 2000);
+        this.timeOutFun(walletOrderInfo);
       } else {
         this.apiIsError = true;
       }
-
       // this.walletOrderDetail = walletOrderInfo.data;
       // this.transfer(this.walletOrderDetail.orderId, coiledType);
+    },
+    clearTimerFun() {
+      clearTimeout(this.resultTimer);
+      this.resultTimer = null;
+    },
+    timeOutFun(walletOrderInfo) {
+      this.clearTimerFun();
+      let result = '';
+      this.resultTimer = setTimeout(async () => {
+        result = await lotteryResult({
+          orderId: walletOrderInfo.data.orderId,
+        });
+        if (result) {
+          if (result.data && result.data.length) {
+            this.lottResult = result;
+            this.clearTimerFun();
+          } else {
+            this.timeOutFun(walletOrderInfo);
+          }
+        } else {
+          this.apiIsError = true;
+          this.clearTimerFun();
+        }
+      }, 2000);
     },
     async setWalletOrder(coiledType) {
       let walletOrderInfo = await walletOrder({
@@ -109,7 +119,6 @@ export default {
       this.blindDetailInfo = detail.data;
     },
     async transfer(id, coiledType) {
-      console.log(id, 'id====');
       const web3 = window.web3;
       let amountVal = 1;
       if (coiledType == 'ONE') {
@@ -151,7 +160,6 @@ export default {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
-      console.log(accounts, contractAddress, 'accounts===');
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
@@ -170,7 +178,6 @@ export default {
           });
         return;
       }
-      console.log(333, accounts[0], receiver, amount);
       await transferContract.methods
         .transferETH(amount, receiver, orderId)
         .send({
@@ -195,6 +202,9 @@ export default {
         .getRandomness(idStr, 10, str)
         .send({ from: accountsFromMetaMask.result[0] });
     },
+  },
+  beforeUnmount() {
+    this.clearTimerFun();
   },
 };
 </script>

@@ -12,6 +12,7 @@ const Login = () => import('../views/login/index.vue');
 const MysteryBox = () => import('../views/mysteryBox/index.vue');
 const User = () => import('../views/user/index.vue');
 const nftTicketsInfo = () => import('../views/home/nftTicketsInfo.vue');
+const nftTicketsList = () => import('../views/home/nftTicketsList.vue');
 const Competitions = () => import('../views/user/competitions.vue');
 
 
@@ -72,6 +73,16 @@ const routes = [
     name: 'NftTicketsInfo',
     components: {
       default: nftTicketsInfo,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: '/nftTicketsList',
+    name: 'NftTicketsList',
+    components: {
+      default: nftTicketsList,
       Header,
       Footer,
       Currency,

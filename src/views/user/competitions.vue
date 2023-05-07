@@ -20,7 +20,7 @@
                 <div class="nft_price">{{ item && item.price }}ETH</div>
                 <div class="buy_btn" @click="enterNow(item)">ENTER NOW</div>
                 <div class="remaining_votes">
-                    {{ `You used ${item && item.numberOfTicketsSold || 0} of ${item && item.limitNum || 0} tickets` }}
+                    {{ `You used ${item && item.userNum || 0} of ${item && item.limitNum || 0} tickets` }}
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
         </div>
         <div class="history_box" v-else>
             <el-table :data="enteredList" style="width: 100%" class="tabel_box">
-                <el-table-column prop="date" label="NFT DETAIL">
+                <el-table-column prop="nftImage" label="NFT DETAIL">
                     <template #default="scope">
                         <div class="nft_info">
                             <img :src="scope.row.nftImage" alt="">
@@ -62,23 +62,23 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="name" label="LIMIT">
+                <el-table-column prop="limitNum" label="LIMIT">
                     <template #default="scope">
                         <div v-if="scope.row.orderType == 'LIMITED_TIME'">{{ `${scope.row.limitDay} Days` }}</div>
                         <div v-else>{{ `${scope.row.limitNum} Tickets` }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="address" label="UNIT PRICE">
+                <el-table-column prop="ticketPrice" label="UNIT PRICE">
                     <template #default="scope">
                         {{ `${scope.row.ticketPrice} ETH` }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="address" label="YOUR TICKETS">
+                <el-table-column prop="userNum" label="YOUR TICKETS">
                     <template #default="scope">
-                        {{ `${scope.row.numberOfTicketsSold} Tickets` }}
+                        {{ `${scope.row.userNum} Tickets` }}
                     </template>
                 </el-table-column>
-                <el-table-column prop="WINNER" label="WINNER">
+                <el-table-column prop="winningAddress" label="WINNER">
                     <template #default="scope">
                         <div class="winner" v-if="scope.row.orderStatus == 'DRAWN'">
                             {{ formatAddr(scope.row.winningAddress) }}
@@ -86,7 +86,7 @@
                         <div class="cancel" v-if="scope.row.orderStatus == 'CANCELLED'">CANCELED</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="address" label="END DATE">
+                <el-table-column prop="endTime" label="END DATE">
                     <template #default="scope">
                         {{ timeFormat(scope.row.endTime) }}
                     </template>

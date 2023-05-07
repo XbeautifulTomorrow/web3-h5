@@ -2,7 +2,7 @@
   <div class="ntf-tickets public-width">
     <div class="home-public-title ntf-tickets-title">
       <img src="@/assets/img/home/ntfTickets.png" alt="" />
-      <div class="ntf-tickets-all">
+      <div class="ntf-tickets-all" @click="openAll()">
         <span class="ntf-tickets-all-text">View all tickets</span>
         <img class="ntf-tickets-all-img" src="@/assets/img/home/icon-chickhover.png" alt="" />
       </div>
@@ -47,6 +47,9 @@ export default {
     handleTickets(event) {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
+    openAll() {
+      this.$router.push({ name: "NftTicketsList" });
+    }
   }
 };
 </script>

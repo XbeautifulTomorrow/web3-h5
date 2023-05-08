@@ -26,7 +26,7 @@
         <div class="nft_list">
           <div class="nft_item" v-for="(item, index) in walletNftList" :key="index">
             <div class="image_box">
-              <div class="image_tag">#{{ item && item.id }}</div>
+              <div class="image_tag">#{{ item && item.tokenId }}</div>
               <img :src="item && item.nftImg" alt="">
             </div>
             <div class="nft_name">{{ item && item.name }}</div>

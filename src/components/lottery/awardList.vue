@@ -37,7 +37,6 @@
   </el-carousel>
 </template>
 <script>
-import { shuffle } from '@/assets/js';
 export default {
   name: 'AwardsList',
   props: {
@@ -66,7 +65,7 @@ export default {
   data() {
     return {
       index: 0,
-      poolList: shuffle(JSON.parse(JSON.stringify(this.prizePoolList))),
+      poolList: JSON.parse(JSON.stringify(this.prizePoolList)),
       autoPlay: this.autoplay,
     };
   },

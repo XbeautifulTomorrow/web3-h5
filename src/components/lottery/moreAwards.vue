@@ -9,10 +9,10 @@
   >
     <div class="lottery-moreLuck-content" :style="style">
       <awards-list
-        v-for="(item, index) in number"
+        v-for="(item, index) in prizeList"
         :key="`moreLuck-${item}`"
         :height="height"
-        :prizePoolList="prizePoolList"
+        :prizePoolList="item"
         :autoplay="autoplay[index]"
         :interval="interval"
         :winData="winData[index]"
@@ -63,7 +63,6 @@ export default {
     return {
       autoplay: [],
       height: Math.floor((window.innerHeight - 20) / 5),
-      prizePoolList: this.prizeList,
       winData: [],
       timer: null,
       numberTest: 0,

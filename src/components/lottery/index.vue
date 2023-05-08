@@ -132,7 +132,7 @@
     <more-awards
       v-if="showMoreDialog"
       :showMoreDialog="showMoreDialog"
-      :prizeList="itemList"
+      :prizeList="moreNumber === 5 ? fiveList : tenList"
       :moreLuck="moreLuck"
       :number="moreNumber"
       :apiIsError="apiIsError"
@@ -173,6 +173,8 @@ export default {
       awardItem: [], //中奖道具
       awardItemPrice: 0,
       itemList: [],
+      fiveList: [],
+      tenList: [],
       currentItem: undefined,
       borStyle: {
         width: `${itemWidth}px`,
@@ -390,6 +392,18 @@ export default {
         }
       }
     },
+    moreListFun(number = 5) {
+      const { itemList } = this;
+      let _arr = [];
+      for (let i = 0; i < number; i++) {
+        _arr.push(shuffle(JSON.parse(JSON.stringify(itemList))));
+      }
+      if (number === 5) {
+        this.fiveList = _arr;
+      } else if (number === 10) {
+        this.tenList = _arr;
+      }
+    },
     dataFun() {
       const { lottoList } = this;
       let _itemImg = [];
@@ -409,6 +423,8 @@ export default {
       });
       this.imteImg = _itemImg;
       this.itemsFun();
+      this.moreListFun();
+      this.moreListFun(10);
     },
   },
   mounted() {

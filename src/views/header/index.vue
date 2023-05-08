@@ -194,7 +194,6 @@ export default {
   },
   mounted() {
     // this.connect();
-    console.log(123123);
   },
   computed: {
     ethBalance() {
@@ -203,9 +202,9 @@ export default {
     },
   },
   methods: {
-    async getTheUserBalanceInfo() {
+    getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
-      await headerStore.getTheUserBalanceApi();
+      headerStore.getTheUserBalanceApi();
       // let res = await getTheUserBalance();
       // this.ethBalance = res.data[0].balance;
     },

@@ -338,10 +338,10 @@ export default {
         this.openBox();
       } else {
         if (type === 'FIVE') {
-          // if (blindDetailInfo.fivePrice * 5 > balance) {
-          //   this.messageFun();
-          //   return;
-          // }
+          if (blindDetailInfo.fivePrice * 5 > balance) {
+            this.messageFun();
+            return;
+          }
           this.moreNumber = 5;
         } else {
           if (blindDetailInfo.tenPrice * 10 > balance) {

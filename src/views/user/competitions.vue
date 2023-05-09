@@ -120,7 +120,8 @@
 <script>
 import {
     getOneBuyList,
-    cancelNftOrder
+    cancelNftOrder,
+    delNftOrder
 } from "@/services/api/oneBuy";
 export default {
     name: 'UserCompetitions',
@@ -165,13 +166,20 @@ export default {
             });
             if (res && res.code == 200) {
                 this.$message.success("下架成功");
+                this.fetchOneBuyList();
             } else {
                 this.isCancel = false;
             }
         },
         // 删除订单
-        delOrder(evnet) {
-            console.log(evnet)
+        async delOrder(evnet) {
+            const res = await delNftOrder({
+                orderNumber: evnet.orderNumber
+            });
+            if (res && res.code == 200) {
+                this.$message.success("删除成功");
+                this.fetchOneBuyList();
+            }
         },
         // 关闭弹窗
         handleClose(done) {

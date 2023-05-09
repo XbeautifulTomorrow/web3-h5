@@ -76,6 +76,19 @@
                 padding-top: 8px;
             }
         }
+
+        .finish {
+            display: flex;
+            align-items: center;
+            line-height: 1;
+            font-size: 32px;
+
+            .time-text {
+                color: #2D9D00;
+                padding-left: 8px;
+                padding-top: 8px;
+            }
+        }
     }
 
     .creator {
@@ -414,6 +427,31 @@
     .remaining_votes {
         color: #000;
     }
+}
+
+.winning_box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 24px 0;
+
+    .winning_text {
+        font-size: 36px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    img {
+        width: 10rem;
+        height: auto;
+        padding: 8px;
+    }
+}
+
+.return_box {
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
 }
 
 :deep(input::-webkit-outer-spin-button),

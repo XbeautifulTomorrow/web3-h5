@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { getTheUserBalance } from '@/services/api/user';
 
 export const useHeaderStore = defineStore('headerStore', {
-  state: () => ({ balance: '' }),
+  state: () => ({ balance: '', walletAddr: '' }),
   actions: {
     async getTheUserBalanceApi(params) {
       const res = await getTheUserBalance(params);
@@ -13,6 +13,9 @@ export const useHeaderStore = defineStore('headerStore', {
     },
     setBalance(data) {
       this.balance = data;
+    },
+    setWallet(data) {
+      this.walletAddr = data;
     },
   },
 });

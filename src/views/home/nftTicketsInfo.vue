@@ -13,7 +13,13 @@
                         <span class="val">{{ nftInfo && nftInfo.totalPrice }}</span>
                         <span class="unit">ETH</span>
                     </div>
-                    <div class="time" v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'">
+                    <div class="finish" v-if="nftInfo && nftInfo.currentStatus != 'IN_PROGRESS'">
+                        <el-icon>
+                            <Paperclip />
+                        </el-icon>
+                        <div class="time-text">COMPLETED</div>
+                    </div>
+                    <div class="time" v-else-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'">
                         <el-icon>
                             <AlarmClock />
                         </el-icon>
@@ -32,7 +38,7 @@
                     </div>
                     <div class="owner" v-if="nftInfo && nftInfo.owner">{{ `Owner：${nftInfo && nftInfo.owner} ` }}</div>
                 </div>
-                <div class="buy_relevant">
+                <div class="buy_relevant" v-if="nftInfo && nftInfo.currentStatus == 'IN_PROGRESS'">
                     <div class="enter_relevant">
                         <div class="title">ENTER COMPETITION</div>
                         <div class="buy">
@@ -59,9 +65,21 @@
                         <div class="buy_hint">使用余额购买不用支付GAS</div>
                     </div>
                 </div>
+                <div class="nft_end" v-else>
+                    <div class="winning_box" v-if="nftInfo && nftInfo.currentStatus == 'DRAWN'">
+                        <div class="winning_text">WINNER</div>
+                        <img :src="drawnInfo && drawnInfo.userImg" alt="">
+                        <div class="address">{{ formatAddr(drawnInfo && drawnInfo.winningAddress) }}</div>
+                    </div>
+                    <div class="return_box" v-else>
+                        {{ `本次比赛未能达成售卖目标，您购买的门票已退款至余额，价值 ${new bigNumber(nftInfo && nftInfo.price ||
+                            0).multipliedBy(drawnInfo &&
+                                drawnInfo.num || 0)} ETH` }}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="nft_buy_info">
+        <div class="nft_buy_info" v-if="nftInfo && nftInfo.currentStatus == 'IN_PROGRESS'">
             <div class="nft_buy_info_l">
                 <el-tabs v-model="activeType" class="type-tabs" @tab-click="handleClick">
                     <el-tab-pane label="ACTIVITY" name="activity"></el-tab-pane>
@@ -141,9 +159,11 @@ import {
     buyNftWallet,
     getLatestBuyRecord,
     getUserBuyRecord,
-    getEndingSoon
+    getEndingSoon,
+    getLottery
 } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
+import { useHeaderStore } from '@/store/header.js';
 export default {
     name: 'ntfTicketsInfo',
     data() {
@@ -163,6 +183,7 @@ export default {
             total: 0,
             finished: false,
             timer: null,
+            drawnInfo: null
         };
     },
     computed: {
@@ -174,6 +195,7 @@ export default {
         }
     },
     methods: {
+        bigNumber: bigNumber,
         // 获取Nft信息
         async fetchOneBuyInfo() {
             const res = await getOneBuyInfo({
@@ -182,6 +204,18 @@ export default {
             if (res && res.code == 200) {
                 this.nftInfo = res.data;
                 this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
+                if (this.nftInfo.currentStatus != 'IN_PROGRESS') {
+                    const userStore = useHeaderStore();
+                    const { walletAddr } = userStore;
+                    const resDrawn = await getLottery({
+                        orderNumber: this.orderId,
+                        address: walletAddr && walletAddr || null
+                    })
+
+                    if (resDrawn && resDrawn.code == 200) {
+                        this.drawnInfo = resDrawn.data
+                    }
+                }
             }
         },
         // 获取即将结束的一元购活动

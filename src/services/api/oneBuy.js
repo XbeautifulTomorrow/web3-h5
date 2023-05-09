@@ -14,32 +14,38 @@ const getSystemNft = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getWalletNftSystem", params);
 
 /**
-* @description 添加一元购活动订单
-*/
+ * @description 添加一元购活动订单
+ */
 const addNftOrder = (params) =>
   apiService.post(serviceUrl + "/oneNftOrders/addNftOrder", params);
 
 /**
-* @description 取消一元购活动订单
-*/
+ * @description 取消一元购活动订单
+ */
 const cancelNftOrder = (params) =>
   apiService.post(serviceUrl + "/oneNftOrders/cancelNftOrder", params);
 
 /**
-* @description 获取用户相关nft订单
-*/
+ * @description 删除一元购活动订单
+ */
+const delNftOrder = (params) =>
+  apiService.post(serviceUrl + "/oneNftOrders/delNftOrder", params);
+
+/**
+ * @description 获取用户相关nft订单
+ */
 const getOneBuyList = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders", params);
 
 /**
-* @description 获取即将结束的nft订单
-*/
+ * @description 获取即将结束的nft订单
+ */
 const getEndingSoon = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/endingSoonPage", params);
 
 /**
-* @description 获取一元购详情
-*/
+ * @description 获取一元购详情
+ */
 const getOneBuyInfo = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getInfo", params);
 
@@ -50,14 +56,14 @@ const getLatestBuyRecord = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfActivities", params);
 
 /**
-* @description 获取一元购用户购买记录
-*/
+ * @description 获取一元购用户购买记录
+ */
 const getUserBuyRecord = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants", params);
 
 /**
-* @description 获取一元购用户购买记录
-*/
+ * @description 获取一元购用户购买记录
+ */
 const getCheckAllOrders = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/checkAllOrders", params);
 
@@ -68,14 +74,14 @@ const getLottery = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getLottery", params);
 
 /**
-* @description 余额购买一元购活动
-*/
+ * @description 余额购买一元购活动
+ */
 const buyNftBalance = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/balancePurchases", params);
 
 /**
-* @description 钱包购买一元购活动
-*/
+ * @description 钱包购买一元购活动
+ */
 const buyNftWallet = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/onChainPurchases", params);
 
@@ -85,6 +91,7 @@ export {
   getSystemNft,
   addNftOrder,
   cancelNftOrder,
+  delNftOrder,
   getOneBuyList,
   getEndingSoon,
   buyNftBalance,

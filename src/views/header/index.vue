@@ -9,11 +9,7 @@
           </li>
         </ul>
       </div>
-      <div
-        class="header-button"
-        @click="showConnect = true"
-        v-if="!conncectAddress"
-      >
+      <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
         {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
@@ -51,17 +47,14 @@
 
       <span v-if="tokenChoose == 3">
         NFT合约地址
-        <el-input v-model="transferNFTAddress" placeholder="Please input"
-      /></span>
+        <el-input v-model="transferNFTAddress" placeholder="Please input" /></span>
       <span v-if="tokenChoose == 3">
         NFT token id
-        <el-input v-model="transferNFTID" placeholder="Please input"
-      /></span>
+        <el-input v-model="transferNFTID" placeholder="Please input" /></span>
       <span>
         数量
-        <el-input v-model="amountVal" placeholder="Please amount"
-      /></span>
-      <span v-if="tokenChoose == 1||tokenChoose == 3">
+        <el-input v-model="amountVal" placeholder="Please amount" /></span>
+      <span v-if="tokenChoose == 1 || tokenChoose == 3">
         OrderId
         <el-input v-model="orderVal" placeholder="Please orderId" /></span>
       <template #footer>
@@ -272,6 +265,7 @@ export default {
               .div(1e18)
               .toFixed(4);
             headerStore.setBalance(_ethBalance);
+            headerStore.setWallet(accounts[0]);
             _that.login();
             //这里返回用户钱包地址
             // callback(accounts[0]);
@@ -311,7 +305,7 @@ export default {
         // console.log(new BigNumber(tokenId).toString(),"nftTransferContract=====")
         //mubai 0x2953399124f0cbb46d2cbacd8a89cf0599974963
         await nftTransferContract.methods
-          .transfer1155(nftAddress, [this.transferNFTID], [this.amountVal], this.receiver,orderId, "0x")
+          .transfer1155(nftAddress, [this.transferNFTID], [this.amountVal], this.receiver, orderId, "0x")
           .send({ from: accounts[0] });
         return;
       }

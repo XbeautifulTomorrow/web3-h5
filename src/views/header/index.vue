@@ -177,7 +177,7 @@ export default {
       transferNFTAddress: "",
       transferNFTID: "",
       usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
-      nftTokenAddress: "0x6712957c6B71D6DC7432Ca7ebb16A4DBCa76E535", //nft充值
+      nftTokenAddress: "0x38eb121fa2899949f7ce8a7c7547594c7f80c409", //nft充值
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc

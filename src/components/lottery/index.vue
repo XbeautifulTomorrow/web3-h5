@@ -145,26 +145,38 @@
     />
     <your-reard
       v-else-if="showDialog === 'yourReard'"
+      :sold="{}"
+      @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
     <chain-dialog
       v-else-if="showDialog === 'chainDialog'"
+      :sold="{}"
+      @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
     />
     <been-sold
       v-else-if="showDialog === 'beenSold'"
+      :sold="{}"
+      @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
     />
     <all-sold
       v-else-if="showDialog === 'allSold'"
+      :soldList="[]"
+      @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
     <part-sold
       v-else-if="showDialog === 'partSold'"
+      :reserveList="[]"
+      :soldList="[]"
+      @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
     <transaction-warning
       v-else-if="showDialog === 'transactionWarning'"
+      @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
@@ -282,6 +294,12 @@ export default {
     },
   },
   methods: {
+    inventoryFun() {
+      this.closeDialogFun();
+    },
+    balanceFun() {
+      this.closeDialogFun();
+    },
     closeDialogFun() {
       this.showDialog = '';
     },

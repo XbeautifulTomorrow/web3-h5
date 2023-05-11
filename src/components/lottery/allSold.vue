@@ -29,27 +29,35 @@
       <ul class="lottery-dialog-lists">
         <li
           class="lottery-dialog-list"
-          v-for="(item, index) in 10"
+          v-for="(item, index) in soldList"
           :key="`portrait-${index}`"
         >
-          <img class="lottery-dialog-portrait" src="" alt="" />
+          <img class="lottery-dialog-portrait" :src="item.nftImg" alt="" />
         </li>
       </ul>
-      <el-button class="lottery-dialog-button">Check my inventory</el-button>
+      <el-button class="lottery-dialog-button" @click="inventoryFun">
+        Check my inventory
+      </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 
-// const props = defineProps({
-
-// })
-const emit = defineEmits(['closeDialogFun']);
+defineProps({
+  soldList: {
+    type: Object,
+    requird: true,
+  },
+});
+const emit = defineEmits(['closeDialogFun', 'inventoryFun']);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit('closeDialogFun');
+};
+const inventoryFun = () => {
+  emit('inventoryFun');
 };
 </script>
 <style lang="scss" scoped>

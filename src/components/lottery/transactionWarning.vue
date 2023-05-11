@@ -24,7 +24,9 @@
       <p class="lottery-dialog-text">
         {{ text }}
       </p>
-      <el-button class="lottery-dialog-button">Check my balance</el-button>
+      <el-button class="lottery-dialog-button" @click="balanceFun">
+        Check my balance
+      </el-button>
     </div>
   </el-dialog>
 </template>
@@ -37,11 +39,14 @@ defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['closeDialogFun']);
+const emit = defineEmits(['closeDialogFun', 'balanceFun']);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit('closeDialogFun');
+};
+const balanceFun = () => {
+  emit('balanceFun');
 };
 </script>
 <style lang="scss" scoped>

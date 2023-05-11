@@ -24,27 +24,38 @@
       <p class="lottery-dialog-text">
         Your reward,
         <span class="lottery-dialog-special">Mutant Ape Yacht Club # 5154</span>
+        <!-- <span class="lottery-dialog-special">
+          {{sold.}}
+        </span> -->
         , has been sold and you will receive:
       </p>
       <div class="lottery-dialog-total">
-        <img class="lottery-dialog-icon" src="" alt="" />
-        <span class="lottery-dialog-total-number">73.052</span>
+        <img class="lottery-dialog-icon" src="@/assets/img/eth.png" alt="" />
+        <span class="lottery-dialog-total-number">{{ sold.price }}</span>
       </div>
-      <el-button class="lottery-dialog-button">Check balance</el-button>
+      <el-button class="lottery-dialog-button" @click="balanceFun">
+        Check balance
+      </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 
-// const props = defineProps({
-
-// })
-const emit = defineEmits(['closeDialogFun']);
+defineProps({
+  sold: {
+    type: Object,
+    requird: true,
+  },
+});
+const emit = defineEmits(['closeDialogFun', 'balanceFun']);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit('closeDialogFun');
+};
+const balanceFun = () => {
+  emit('balanceFun');
 };
 </script>
 <style lang="scss" scoped>

@@ -27,24 +27,32 @@
       </p>
       <h3 class="lottery-dialog-title-other">Your reward</h3>
       <div class="lottery-dialog-img">
-        <img class="lottery-dialog-portrait" src="" alt="" />
+        <img class="lottery-dialog-portrait" :src="sold.nftImg" alt="" />
       </div>
       <p class="lottery-dialog-club">Bored Ape Yacht Club</p>
-      <el-button class="lottery-dialog-button">Check my inventory</el-button>
+      <el-button class="lottery-dialog-button" @click="inventoryFun">
+        Check my inventory
+      </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 
-// const props = defineProps({
-
-// })
-const emit = defineEmits(['closeDialogFun']);
+defineProps({
+  sold: {
+    type: Object,
+    requird: true,
+  },
+});
+const emit = defineEmits(['closeDialogFun', 'inventoryFun']);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit('closeDialogFun');
+};
+const inventoryFun = () => {
+  emit('inventoryFun');
 };
 </script>
 <style scoped lang="scss">

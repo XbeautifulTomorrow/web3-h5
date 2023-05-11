@@ -25,53 +25,81 @@
         out
       </p>
       <p class="lottery-dialog-illustrate">
-        Prizes have entered your backpack, please go to the backpack to check, due to congestion on the chain, part of the prizes can not be accounted for, we will be converted to the final value of the NFT directly into the ETH transferred to your balance
+        Prizes have entered your backpack, please go to the backpack to check,
+        due to congestion on the chain, part of the prizes can not be accounted
+        for, we will be converted to the final value of the NFT directly into
+        the ETH transferred to your balance
       </p>
-      <h3 class="lottery-dialog-title-other">NFTs</h3>
-      <ul class="lottery-dialog-lists">
-        <li
-          class="lottery-dialog-list"
-          v-for="(item, index) in 6"
-          :key="`portrait-${index}`"
-        >
-          <img class="lottery-dialog-portrait" src="" alt="" />
-        </li>
-      </ul>
-      <h3 class="lottery-dialog-title-other">ETH</h3>
-      <ul class="lottery-dialog-lists">
-        <li
-          class="lottery-dialog-list"
-          v-for="(item, index) in 4"
-          :key="`portrait-${index}`"
-        >
-          <img class="lottery-dialog-portrait" src="" alt="" />
-          <p class="lottery-dialog-list-text">
-            <img class="lottery-dialog-list-img" src="" alt="" />
-            <span class="lottery-dialog-list-number">73.025</span>
-          </p>
-          <span class="lottery-dialog-list-result sold">Sold</span>
-          <span class="lottery-dialog-list-result refund">Refund</span>
-        </li>
-      </ul>
+      <template v-if="reserveList.length">
+        <h3 class="lottery-dialog-title-other">NFTs</h3>
+        <ul class="lottery-dialog-lists">
+          <li
+            class="lottery-dialog-list"
+            v-for="(item, index) in reserveList"
+            :key="`portrait-${index}`"
+          >
+            <img class="lottery-dialog-portrait" :src="item.nftImg" alt="" />
+          </li>
+        </ul>
+      </template>
+      <template v-if="soldList.length">
+        <h3 class="lottery-dialog-title-other">ETH</h3>
+        <ul class="lottery-dialog-lists">
+          <li
+            class="lottery-dialog-list"
+            v-for="(item, index) in soldList"
+            :key="`portrait-${index}`"
+          >
+            <img class="lottery-dialog-portrait" :src="item.nftImg" alt="" />
+            <p class="lottery-dialog-list-text">
+              <img
+                class="lottery-dialog-list-img"
+                src="@/assets/img/eth.png"
+                alt=""
+              />
+              <span class="lottery-dialog-list-number">{{ item.price }}</span>
+            </p>
+            <span class="lottery-dialog-list-result sold">Sold</span>
+            <span class="lottery-dialog-list-result refund">Refund</span>
+          </li>
+        </ul>
+      </template>
       <p class="lottery-dialog-total">
         <span class="lottery-dialog-total-title">Total:</span>
-        <span class="lottery-dialog-total-number"> 352.6514 ETH </span>
+        <span class="lottery-dialog-total-number"> {{ total }} ETH </span>
       </p>
-      <el-button class="lottery-dialog-button">Check my inventory</el-button>
+      <el-button class="lottery-dialog-button" @click="inventoryFun">
+        Check my inventory
+      </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 
-// const props = defineProps({
-
-// })
+defineProps({
+  reserveList: {
+    type: Object,
+    default: () => {
+      return [];
+    },
+  },
+  soldList: {
+    type: Object,
+    default: () => {
+      return [];
+    },
+  },
+});
 const emit = defineEmits(['closeDialogFun']);
 
 const visible = ref(true);
+const total = ref(0);
 const closeDialogFun = () => {
   emit('closeDialogFun');
+};
+const inventoryFun = () => {
+  emit('inventoryFun');
 };
 </script>
 <style lang="scss" scoped>

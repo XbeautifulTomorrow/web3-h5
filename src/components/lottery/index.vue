@@ -138,6 +138,36 @@
       :apiIsError="apiIsError"
       @closeFun="closeFun"
     />
+    <!-- 弹窗 -->
+    <choose-token
+      v-if="showDialog === 'chooseToken'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <your-reard
+      v-else-if="showDialog === 'yourReard'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <chain-dialog
+      v-else-if="showDialog === 'chainDialog'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <been-sold
+      v-else-if="showDialog === 'beenSold'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <all-sold
+      v-else-if="showDialog === 'allSold'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <part-sold
+      v-else-if="showDialog === 'partSold'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <transaction-warning
+      v-else-if="showDialog === 'transactionWarning'"
+      @closeDialogFun="closeDialogFun"
+      :text="warningText"
+    />
   </div>
 </template>
 
@@ -151,11 +181,30 @@ import { useHeaderStore } from '@/store/header.js';
 import { shuffle } from '@/assets/js';
 
 import MoreAwards from './moreAwards.vue';
+import ChooseToken from './chooseToken.vue';
+import YourReard from './yourReard.vue';
+import ChainDialog from './chainDialog.vue';
+import BeenSold from './beenSold.vue';
+import AllSold from './allSold.vue';
+import PartSold from './partSold.vue';
+import TransactionWarning from './transactionWarning.vue';
+
+import './css/dialog.scss';
 
 const itemWidth = 220;
 export default {
   name: 'LotteryPage',
-  components: { PackBtn, MoreAwards },
+  components: {
+    PackBtn,
+    MoreAwards,
+    ChooseToken,
+    YourReard,
+    ChainDialog,
+    BeenSold,
+    AllSold,
+    PartSold,
+    TransactionWarning,
+  },
   props: [
     'lottoList',
     'setBalanceOrder',
@@ -166,6 +215,11 @@ export default {
   ],
   data() {
     return {
+      showDialog: '',
+      // warningText
+      // Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.
+      // Timeout not paid, this transaction is closed
+      warningText: '',
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
       autoplay: false,
       itemWidth: itemWidth, //每张卡牌的宽度
@@ -228,6 +282,9 @@ export default {
     },
   },
   methods: {
+    closeDialogFun() {
+      this.showDialog = '';
+    },
     async chooseLotteryHold(type) {
       let data = this.lottoResult.data;
       let arg = { orderId: data[0].orderId };
@@ -448,7 +505,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url('./index.scss');
+@import url('./css/index.scss');
 </style>
 <style lang="scss">
 .lottery-moreLuck {

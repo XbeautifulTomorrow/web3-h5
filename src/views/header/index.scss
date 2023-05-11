@@ -227,3 +227,31 @@ $header-height: 64px;
 .logout {
   background-image: url('@/assets/img/headerFooter/icon-logoutdefault.png');
 }
+.header-nft {
+  margin-top: 10px;
+}
+.header-nft,
+.header-nft-wrapper {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+}
+.header-nft-label {
+  display: inline-block;
+  width: 70px;
+}
+.header-nft-input {
+  flex: 1;
+}
+.header-nft-add {
+  margin: 10px auto;
+  width: 100%;
+}
+.header-nft-button {
+  width: 100%;
+}
+.header-nft-icon {
+  margin-left: 3px;
+}

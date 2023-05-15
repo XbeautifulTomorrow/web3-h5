@@ -1,81 +1,44 @@
 <template>
-  <div class="contents-info public-width">
+  <div class="contents-info">
     <div class="home-public-title">
-      <img src="@/assets/img/home/contents.png" alt="" />
+      <div class="title-box-l">
+        <div class="title_text">CONTENTS INFORMATION</div>
+        <div class="title_description">
+          Amet ornare massa praesent lacus. In mi tristique enim tellus amet semper a. Donec ac congue nunc porta semper
+          auctor enim.
+        </div>
+      </div>
+      <el-select class="title-box-r" v-model="value" @change="othersideBoxFun" placeholder="Select" size="large"
+        effect="dark">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
     </div>
-    <table class="contents-info-table">
-      <thead>
-        <tr>
-          <th style="width: 212px">
-            <div class="boxes-button">
-              <span class="boxes-button-text">
-                Otherdeed for Otherside Box
-              </span>
-              <img
-                class="contents-info-down"
-                src="@/assets/img/home/icon-arrowdown.png"
-                alt=""
-              />
-              <div class="otherside-box">
-                <div class="otherside-box-main">
-                  <ul class="otherside-box-content">
-                    <li
-                      class="otherside-box-list"
-                      v-for="(item, index) in othersideBox"
-                      :key="`box-${index}`"
-                      @click="othersideBoxFun(item)"
-                    >
-                      {{ item }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </th>
-          <th>Collections</th>
-          <th>Price</th>
-          <th>USD Price</th>
-          <th>Recommended</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="table-box">
-              <img class="table-box-img" src="" alt="" />
-              <span class="table-box-text"># 1916</span>
-            </div>
-          </td>
-          <td>
-            <div class="table-other">
-              <span class="table-box-text">Beanz</span>
-            </div>
-          </td>
-          <td>
-            <div class="table-other">
-              <span class="table-price-text">28.4 ETH</span>
-            </div>
-          </td>
-          <td>
-            <div class="table-other">
-              <span class="table-box-text">$ 6446.7</span>
-            </div>
-          </td>
-          <td>
-            <div class="table-other">
-              <span class="table-box-text">Free Mytery Box</span>
-            </div>
-          </td>
-          <td>
-            <div class="table-other">
-              <img src="@/assets/img/home/icon-chickdefault.png" alt="" />
-              <!-- <img src="@/assets/img/home/icon-chickhover.png" alt="" /> -->
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-table :data="tableData" class="table_container" style="width: 100%">
+      <el-table-column prop="userId" label="User ID">
+        <template #default="scope">
+          <div class="user_info">
+            <img src="" alt="">
+            <span>{{ `#${scope.row.userId}` }}</span>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="date" label="Collections" />
+      <el-table-column prop="date" label="Price" />
+      <el-table-column prop="date" label="USD Price" />
+      <el-table-column prop="date" label="Last Sale" />
+      <el-table-column prop="date" label="Last Sale" />
+      <el-table-column prop="date" label="Recommended" />
+      <el-table-column prop="date" label="Action" align="right">
+        <template #default="scope">
+          <div class="active_btn">
+            <img @click="active(scope.row)" src="@/assets/svg/home/icon_active.svg" alt="">
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagination-box">
+      <el-pagination :page-size="20" :pager-count="7" layout="prev, pager, next" :total="1000" prev-text="Pre"  next-text="Next" />
+    </div>
   </div>
 </template>
 
@@ -85,14 +48,30 @@ export default {
   data() {
     return {
       tickets: [],
-      othersideBox: [
-        'All',
-        'Top Blue-chip Box',
-        'Bored Ape Yacht Club Box',
-        'Mutant Ape Yacht Club Box',
-        'Otherdeed for Otherside Box',
-        'Free Mytery Box',
+      value: null,
+      options: [
+        {
+          value: 'Option1',
+          label: 'Option1',
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+        },
+        {
+          value: 'Option3',
+          label: 'Option3',
+        },
+        {
+          value: 'Option4',
+          label: 'Option4',
+        },
+        {
+          value: 'Option5',
+          label: 'Option5',
+        },
       ],
+      tableData: [{ userId: "111", userName: "dsadasds" }, 2, 3, 4, 5]
     };
   },
   methods: {
@@ -103,132 +82,32 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.contents-info-table {
-  width: 100%;
-  border: none;
-  thead {
-    font-size: 18px;
-    color: #a896b5;
-    height: 96px;
-    th {
-      border-bottom: 2px solid #33334b;
+@import "./components/contentsInfo.scss";
+</style>
+<style lang="scss">
+.el-select__popper {
+  &.is-dark {
+    background-color: #1d0f36;
+    border: none;
+  }
+
+  .el-select-dropdown__list {
+    margin: 0.5rem 0 !important;
+  }
+
+  .el-select-dropdown__item {
+    height: 3.3125rem;
+    line-height: 3.3125rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+
+    &.hover {
+      background-color: #281d31;
     }
   }
-  tbody {
-    tr {
-      &:first-child {
-        td {
-          padding-top: 24px;
-        }
-      }
-      &:last-child {
-        td {
-          padding-bottom: 24px;
-        }
-      }
-    }
+
+  .el-popper__arrow {
+    display: none;
   }
-  td {
-    height: 64px;
-  }
-}
-.boxes-button {
-  cursor: pointer;
-  position: relative;
-  overflow: visible;
-  &:hover {
-    .otherside-box {
-      transform: scaleY(1);
-      opacity: 1;
-    }
-  }
-}
-.otherside-box {
-  transform: scaleY(0);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  padding-top: 16px;
-  width: 100%;
-  overflow: hidden;
-  opacity: 0;
-  transition: transform 0.2s ease;
-  transform-origin: top;
-}
-.otherside-box-main {
-  padding: 0;
-  border-radius: 12px;
-  border-style: solid;
-  border-width: 2px;
-  border-image-source: linear-gradient(
-    to bottom,
-    #6ce1f9,
-    #00669b 48%,
-    #b770f4
-  );
-  border-image-slice: 1;
-  background-image: linear-gradient(to bottom, #2d1942, #2d1942),
-    linear-gradient(to bottom, #6ce1f9, #00669b 48%, #b770f4);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-}
-.otherside-box-content {
-  padding: 8px;
-}
-.otherside-box-list {
-  font-size: 18px;
-  color: #a896b5;
-  border-radius: 8px;
-  padding: 0 8px;
-  height: 40px;
-  line-height: 40px;
-  text-align: left;
-  &:hover {
-    color: #f5e1d6;
-    background-color: rgba(168, 150, 181, 0.1);
-  }
-}
-.contents-info-down {
-  height: 24px;
-  width: 24px;
-  margin-left: 8px;
-}
-.table-box,
-.table-other {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: center;
-}
-.table-box {
-  justify-content: start;
-}
-.table-box-img {
-  width: 52px;
-  height: 52px;
-  border-radius: 8px;
-  margin-right: 24px;
-}
-.table-box-text {
-  background-image: linear-gradient(to bottom, #768098, #eceacf 61%, #edbed2);
-  font-size: 18px;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-.table-price-text {
-  background-image: linear-gradient(
-    to bottom,
-    #c7c3cc 15%,
-    #e2e3cf 30%,
-    #d94ba5 67%
-  );
-  font-size: 18px;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
 }
 </style>

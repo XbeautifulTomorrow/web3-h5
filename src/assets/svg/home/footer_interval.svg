@@ -1,0 +1,11 @@
+<svg width="6" height="247" viewBox="0 0 6 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#hvmckoihja)">
+        <path fill="#000" fill-opacity=".01" d="M.333 0h5.333v246.333H.333z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M.333 2.667A2.667 2.667 0 1 1 3.5 5.287v2.4h-1v-2.4a2.668 2.668 0 0 1-2.167-2.62zM3.5 241.047v-2.401h-1v2.401a2.668 2.668 0 1 0 1 0zM2.5 22.75V12.708h1V22.75h-1zm0 15.063V27.77h1v10.041h-1zm0 15.062V42.833h1v10.042h-1zm0 15.063V57.895h1v10.041h-1zM2.5 83V72.958h1V83h-1zm0 15.063V88.02h1v10.041h-1zm0 15.062v-10.042h1v10.042h-1zm0 15.063v-10.042h1v10.042h-1zm0 15.062v-10.042h1v10.042h-1zm0 15.063v-10.042h1v10.042h-1zm0 15.062v-10.042h1v10.042h-1zm0 15.063v-10.042h1v10.042h-1zm0 15.062v-10.042h1V203.5h-1zm0 15.063v-10.042h1v10.042h-1zm0 15.062v-10.042h1v10.042h-1z" fill="#293C44"/>
+    </g>
+    <defs>
+        <clipPath id="hvmckoihja">
+            <path fill="#fff" transform="translate(.333)" d="M0 0h5.333v246.333H0z"/>
+        </clipPath>
+    </defs>
+</svg>

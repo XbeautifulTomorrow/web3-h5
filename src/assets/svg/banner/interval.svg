@@ -1,0 +1,11 @@
+<svg width="3" height="30" viewBox="0 0 3 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#oilt94ljda)">
+        <path fill="#000" fill-opacity=".01" d="M0 .667h2.667v28.667H0z"/>
+        <path opacity=".7" fill-rule="evenodd" clip-rule="evenodd" d="M0 2a1.333 1.333 0 1 1 1.583 1.31v23.38a1.334 1.334 0 1 1-.5 0V3.31A1.334 1.334 0 0 1 0 2z" fill="#A9A4B4"/>
+    </g>
+    <defs>
+        <clipPath id="oilt94ljda">
+            <path fill="#fff" transform="translate(0 .667)" d="M0 0h2.667v28.667H0z"/>
+        </clipPath>
+    </defs>
+</svg>

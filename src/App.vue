@@ -16,6 +16,7 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -25,8 +26,9 @@ export default {
   width: 100%;
   min-height: 100vh;
 }
+
 body {
-  background-color: #000;
+  background-color: #110429;
 }
 </style>
 <style lang="scss">

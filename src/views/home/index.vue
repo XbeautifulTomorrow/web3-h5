@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Banner from '@/components/banner/index.vue';
+import Banner from './banner.vue';
 import MysteryBoxes from './mysteryBoxes.vue';
 import NftTickets from './nftTickets.vue';
 import ContentsInfo from './contentsInfo.vue';
@@ -51,15 +51,14 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-// .home {
-//   background: url('@/assets/img/home/bg.png') no-repeat 100% 100%;
-// }
-</style>
+<style lang="scss" scoped></style>
 <style lang="scss">
 body {
-  background: url('@/assets/img/home/bg.png') no-repeat;
   background-size: 100% auto;
+}
+
+.home {
+  padding-bottom: 10.625rem;
 }
 
 .home-public-title {

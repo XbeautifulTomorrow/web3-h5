@@ -1,48 +1,56 @@
 <template>
   <div class="virtual-currency">
-    <p class="virtual-currency-title">Recent Unboxings</p>
+    <div class="title-box">
+      <div class="virtual-currency-title">RECENT UNBOXINGS</div>
+      <div class="interval">
+        <div class="top"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
     <div :class="['virtual-currency-content publick-scrollbar']">
-      <ul class="virtual-currency-main">
-        <li
-          v-for="(item, index) in currencyList"
-          :key="`currency-${index}`"
-          :class="['virtual-currency-list', { isEnter: showPopup }]"
-          :style="{ borderLeft: `4px solid ${item.color}` }"
-          @mouseenter="(e) => mouseenterFun(item, e)"
-          @mouseleave="showPopup = false"
-        >
-          <img class="virtual-currency-list-img" src="" alt="" />
-          <div class="virtual-currency-list-text">
-            <p class="list-nam">{{ item.name }}</p>
-            <p class="list-currency" :style="{ color: item.color }">
-              {{ item.number ? Number(item.number).toFixed(2) : 0 }}&nbsp;{{
-                item.currency
-              }}
-            </p>
+      <ul class="virtual-currency-main" ref="currencyAll">
+        <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`"
+          :style="'transform: translateX(' + item.translateNum + 'px)'"
+          :class="['virtual-currency-item', `box_frame_${index < 4 ? index + 1 : (index % 4)+1}`, { isEnter: activeIndex == index }]"
+          @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
+          <div class="virtual-currency-item-l">
+            <img class="virtual-currency-item-img" src="" alt="" />
+            <div class="virtual-currency-item-text">
+              <p class="list-nam" :style="{ color: item.color }">{{ item.name }}</p>
+              <p class="list-currency">
+                {{ item.number ? Number(item.number).toFixed(2) : 0 }}&nbsp;{{
+                  item.currency
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="virtual-currency-item-r">
+            <img src="@/assets/svg/virtualCurrency/arrow-up-right.svg" alt="">
           </div>
         </li>
       </ul>
     </div>
-    <ul
-      v-if="showPopup && currentData"
-      class="virtual-currency-list-popup"
-      :style="style"
-      @mouseenter="showPopup = true"
-      @mouseleave="showPopup = false"
-    >
+    <ul v-if="showPopup && currentData" class="virtual-currency-item-popup" :style="style" @mouseenter="mouseOver()"
+      @mouseleave="mouseLeave()">
       <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Address</span>
-        <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
+        <span class="popup-list-title text-ellipsis">NFT ID</span>
+        <span class="popup-list-text text-ellipsis">3957</span>
       </li>
       <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Address</span>
-        <span class="popup-list-text text-ellipsis">
-          {{ currentData.currency }}
-        </span>
+        <span class="popup-list-title text-ellipsis">Metamask</span>
+        <span class="popup-list-text text-ellipsis">0x.....81685</span>
       </li>
-      <li class="popup-list price-list">
-        <span class="popup-list-title text-ellipsis">Address</span>
-        <span class="popup-list-text text-ellipsis">0xbc4c...f13d</span>
+      <li class="popup-list">
+        <span class="popup-list-title text-ellipsis">Wallet</span>
+        <span class="popup-list-text text-ellipsis">Ethereum</span>
+      </li>
+      <li class="popup-list">
+        <span class="popup-list-title text-ellipsis">Winner</span>
+        <span class="popup-list-text text-ellipsis">0x.....81r445</span>
+      </li>
+      <li class="popup-list">
+        <span class="popup-list-title text-ellipsis">Price</span>
+        <span class="popup-list-text text-ellipsis" style="color:#fff;">5.099ETH</span>
       </li>
       <li class="popup-list-button">
         <div class="mystery-box-button">Go to Mystery Box</div>
@@ -57,11 +65,11 @@ export default {
   components: {},
   data() {
     return {
-      showPopup: false,
+      activeIndex: null,
+      currentIndex: null,
+      showPopup: null,
       currentData: undefined,
-      style: {
-        borderLeft: '4px solid transparent',
-      },
+      style: {},
       currencyList: [
         {
           imgUrl: '',
@@ -103,182 +111,125 @@ export default {
           name: 'SchizoPost',
           color: '#e38d4c',
           number: '0.279',
+          currency: 'ETHC',
+        },
+        {
+          imgUrl: '',
+          name: 'SchizoPost',
+          color: '#e38d4c',
+          number: '0.279',
           currency: 'ETH',
         },
+        {
+          imgUrl: '',
+          name: 'SchizoPost',
+          color: '#e38d4c',
+          number: '0.279',
+          currency: 'ETH',
+        },
+        {
+          imgUrl: '',
+          name: 'SchizoPost',
+          color: '#e38d4c',
+          number: '0.279',
+          currency: 'ETH',
+        },
+        {
+          imgUrl: '',
+          name: 'SchizoPost',
+          color: '#e38d4c',
+          number: '0.279',
+          currency: 'ETH',
+        }
       ],
+      translateNum: 0,
+      timer: null
     };
   },
+  mounted() {
+    this.search();
+  },
+  beforeUnmount() {
+    // 销毁定时器，否则可能导致重载此组件时会有多个定时器同时执行，使得滚动变快
+    window.clearTimeout(this.timer);
+  },
   methods: {
-    mouseenterFun(data, e) {
+    mouseenterFun(data, index, e) {
       this.showPopup = true;
+      this.activeIndex = index;
+      this.currentIndex = index;
       this.currentData = data;
+      window.clearTimeout(this.timer);
       const { left, bottom } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left}px`,
-        top: `${bottom}px`,
-        borderLeft: `4px solid ${data.color}`,
+        top: `${bottom}px`
       };
     },
+    search() {
+      // 循环给currencyList数组每一个对象添加translateNum属性为0，这也是为了方便记录每一个对象滚动的宽度
+      for (var i = 0; i < this.currencyList.length; i++) {
+        this.currencyList[i]['translateNum'] = 0;
+      }
+
+      // 在元素完全渲染后再循环给每一个对象添加indexLeft属性，记录此对象初始位置，方便滚动超出父元素边界后，重新设置元素位置
+      this.$nextTick(() => {
+        for (var j = 0; j < this.currencyList.length; j++) {
+          this.currencyList[j]['indexLeft'] = this.$refs.currencyItem[j].offsetLeft;
+        }
+
+        // 调用滚动定时器
+        // this.roll();
+      })
+    },
+    roll() {
+      this.timer = setInterval(() => {
+        // 循环给每一个对象修改translateNum属性值，从而动态修改页面元素的transform样式，达到滚动的效果
+        for (var i = 0; i < this.currencyList.length; i++) {
+
+          /**
+           * 判断此元素是否即将超出父级元素carousel-item的显示区域
+           * 1948 = 父级元素carousel的宽度 + 一个子元素carousel-item的宽度（如果元素有间距也需要带上）即 1600 + 328 + 20(间距) 
+           * 修改父级元素与子元素样式时需要留意此处也应当一起修改
+           */
+          if (1948 - this.currencyList[i].translateNum - this.currencyList[i].indexLeft < 0) {
+
+            /**
+             * 如果超出，则将元素移动至父级元素显示区域的左方
+             * 此处的328 对应着子元素carousel-item的样式宽度
+             */
+            this.currencyList[i]['translateNum'] = this.$refs.currencyAll.offsetLeft - this.currencyList[i].indexLeft - 348;
+          }
+
+          // 设置每个元素每次滚动的像素大小，像素越小越平滑,这里每次只移动一个像素
+          this.currencyList[i]['translateNum'] = this.currencyList[i].translateNum + 1;
+
+        }
+      }, 30); // 30毫秒滚动一次，时间间隔越短滚动越平滑
+
+    },
+
+    /**
+     * 鼠标悬停销毁定时器
+     */
+    mouseOver() {
+      this.showPopup = true;
+      this.activeIndex = this.currentIndex;
+      window.clearTimeout(this.timer);
+    },
+
+    /**
+     * 鼠标离开再次执行定时器
+     */
+    mouseLeave() {
+      this.showPopup = false;
+      this.activeIndex = null;
+      // this.roll();
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.virtual-currency {
-  height: 80px;
-  background-color: #320158;
-  padding: 0 16px;
-  display: flex;
-  align-content: center;
-  align-items: center;
-}
-.virtual-currency-content {
-  height: 100%;
-  flex: 1;
-  overflow-y: hidden;
-  overflow-x: auto;
-}
-.virtual-currency-main {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  height: 100%;
-  width: max-content;
-  flex: 1;
-}
-.virtual-currency-title {
-  height: 20px;
-  margin-right: 16px;
-  background-image: linear-gradient(to bottom, #768098, #eceacf 61%, #edbed2);
-  font-size: 18px;
-  font-weight: bold;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-.virtual-currency-list {
-  width: 155px;
-  height: 60px;
-  margin: 0 16px;
-  padding: 0 16px 0 12px;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-content: center;
-  align-items: center;
-  position: relative;
-  &:hover,
-  &.isEnter {
-    border-radius: 8px 8px 0 0;
-    // .virtual-currency-list-popup {
-    //   transform: scaleY(1);
-    //   opacity: 1;
-    // }
-  }
-}
-.virtual-currency-list-img {
-  width: 44px;
-  height: 44px;
-}
-.virtual-currency-list-text {
-  flex: 1;
-  text-align: left;
-  margin-left: 8px;
-}
-.list-nam {
-  width: 100%;
-  height: 20px;
-  font-size: 18px;
-  color: #5e5779;
-}
-.list-currency {
-  font-size: 24px;
-  font-weight: 500;
-}
-.virtual-currency-list-popup {
-  // transform: scaleY(0);
-  // transform-origin: top;
-  // transition: transform 0.2s;
-  // opacity: 0;
-  border-radius: 0 0 8px 8px;
-  // position: absolute;
-  // left: -5px;
-  // top: 100%;
-  position: fixed;
-  width: 155px;
-  padding: 8px 16px 8px 12px;
-  z-index: 50;
-  background-color: #3c0d60;
-}
-.popup-list {
-  font-size: 18px;
-  color: #a896b5;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-.popup-list-title {
-  max-width: 40px;
-  height: 22px;
-  margin-right: 5px;
-}
-.popup-list-text {
-  text-align: right;
-  flex: 1;
-  height: 22px;
-}
-.popup-list-button {
-  text-align: center;
-}
-.mystery-box-button {
-  width: 135px;
-  height: 36px;
-  line-height: 36px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: solid 2px #fffaff;
-  background-image: linear-gradient(
-    to bottom,
-    #5fe3ef,
-    #00689d 54%,
-    #b063f5 75%
-  );
-  color: #fff;
-  font-size: 18px;
-  margin: 0 auto;
-  cursor: pointer;
-}
-.price-list {
-  .popup-list-title {
-    text-shadow: 0 0 2px #9c42f5;
-    background-image: linear-gradient(to bottom, #768098, #eceacf 61%, #edbed2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    height: 30px;
-    display: flex;
-    align-items: flex-end;
-  }
-  .popup-list-text {
-    height: 30px;
-    background-image: linear-gradient(
-      to bottom,
-      #c7c3cc 8%,
-      #e2e3cf 27%,
-      #d94ba5 75%
-    );
-    font-family: Teko;
-    font-size: 24px;
-    font-weight: 600;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-}
+@import url("./components/index.scss");
 </style>

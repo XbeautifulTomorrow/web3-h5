@@ -1,0 +1,25 @@
+<svg width="358" height="248" viewBox="0 0 358 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#cubet9kkoa)">
+        <path fill="#000" fill-opacity=".01" d="M0 0h358v248H0z"/>
+        <mask id="5ppnowu67b" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="358" height="248">
+            <path d="M0 10C0 4.477 4.477 0 10 0h338c5.523 0 10 4.477 10 10v238H0V10z" fill="#222530"/>
+        </mask>
+        <g filter="url(#1n63s7tgkc)" mask="url(#5ppnowu67b)">
+            <ellipse cx="78.402" cy="140.431" rx="78.402" ry="140.431" transform="matrix(.81257 -.58287 .60843 .7936 -3 132.022)" fill="url(#mgm7bpt9td)"/>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="mgm7bpt9td" x1="95.837" y1="-66.357" x2="133.215" y2="274.831" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#CA2A2A"/>
+            <stop offset="1" stop-color="#A415A7"/>
+        </linearGradient>
+        <clipPath id="cubet9kkoa">
+            <path fill="#fff" d="M0 0h358v248H0z"/>
+        </clipPath>
+        <filter id="1n63s7tgkc" x="-174.436" y="-136.713" width="641.17" height="668.968" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="107" result="effect1_foregroundBlur_165_185"/>
+        </filter>
+    </defs>
+</svg>

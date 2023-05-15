@@ -1,29 +1,19 @@
 <template>
   <div class="header">
-    <div class="header-main public-width">
+    <div class="header-main">
       <div class="header-left">
-        <img
-          class="header-logo"
-          src="@/assets/img/headerFooter/logo.png"
-          alt="logo"
-          @click="goTo()"
-        />
+        <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
         <ul class="header-nav">
-          <li
-            class="header-nav-text"
-            v-for="(item, index) in nav"
-            :key="`nav-${index}`"
-            @click="goTo(item.page)"
-          >
+          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
             {{ item.text }}
           </li>
         </ul>
       </div>
-      <div
-        class="header-button"
-        @click="showConnect = true"
-        v-if="!conncectAddress"
-      >
+      <div class="header-right">
+        <div class="btn-box login">Login</div>
+        <div class="btn-box register">Register</div>
+      </div>
+      <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
         {{ conncectAddress ? conncectAddress : 'Connect Wallet' }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
@@ -36,20 +26,12 @@
         <span class="boxes-button-text text-ellipsis">
           {{ conncectAddress }}
         </span>
-        <img
-          class="header-user-down"
-          src="@/assets/img/headerFooter/icon-arrowup.png"
-          alt=""
-        />
+        <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
         <div class="header-user">
           <div class="header-user-main">
             <ul class="header-user-content">
-              <li
-                :class="['header-user-list']"
-                v-for="(item, index) in userList"
-                :key="`box-${index}`"
-                @click="othersideBoxFun(item)"
-              >
+              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
+                @click="othersideBoxFun(item)">
                 <span :class="['header-user-list-img', item.class]"></span>
                 <span>{{ item.text }}</span>
               </li>
@@ -58,11 +40,7 @@
         </div>
       </div>
     </div>
-    <WalletList
-      v-if="showConnect"
-      @connectWallet="connect"
-      @close="showConnect = false"
-    />
+    <WalletList v-if="showConnect" @connectWallet="connect" @close="showConnect = false" />
     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
@@ -76,43 +54,23 @@
         <el-input v-model="transferNFTAddress" placeholder="Please input" />
       </span>
       <template v-if="tokenChoose == 3">
-        <div
-          class="header-nft"
-          v-for="(item, index) in transferNFTID"
-          :key="`nft-${index}`"
-        >
+        <div class="header-nft" v-for="(item, index) in transferNFTID" :key="`nft-${index}`">
           <span class="header-nft-wrapper">
             <span class="header-nft-label">NFT token id</span>
-            <el-input
-              class="header-nft-input"
-              v-model="transferNFTID[index]"
-              placeholder="Please input"
-            />
+            <el-input class="header-nft-input" v-model="transferNFTID[index]" placeholder="Please input" />
           </span>
           <span class="header-nft-wrapper">
             <span class="header-nft-label">数量</span>
-            <el-input
-              class="header-nft-input"
-              v-model="amountVal[index]"
-              placeholder="Please amount"
-            />
+            <el-input class="header-nft-input" v-model="amountVal[index]" placeholder="Please amount" />
             <!-- <span   class=""> -->
-            <el-icon
-              v-if="amountVal.length > 1"
-              @click="deleteTransferNFTIDFun(index)"
-              class="header-nft-icon"
-            >
+            <el-icon v-if="amountVal.length > 1" @click="deleteTransferNFTIDFun(index)" class="header-nft-icon">
               <Delete />
             </el-icon>
             <!-- </span> -->
           </span>
         </div>
         <div class="header-nft-add">
-          <el-button
-            class="header-nft-button"
-            type="primary"
-            @click="addTransferNFTIDFun"
-          >
+          <el-button class="header-nft-button" type="primary" @click="addTransferNFTIDFun">
             添加
           </el-button>
         </div>

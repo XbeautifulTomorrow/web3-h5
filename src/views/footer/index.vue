@@ -1,39 +1,40 @@
 <template>
   <div class="footer">
-    <div class="footer-logo">
-      <img src="@/assets/img/headerFooter/footer_logo.png" alt="logo" />
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="@/assets/img/headerFooter/footer_logo.png" alt="logo" />
+        <span>Copyright © 2023 Bitzing.io. All rights reserved.</span>
+      </div>
+      <div class="footer-nav-box">
+        <img src="@/assets/svg/home/footer_interval.svg" alt="">
+        <ul class="footer-nav">
+          <li class="footer-nav-text active">
+            Menu
+          </li>
+          <li class="footer-nav-text " v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+            {{ item.text }}
+          </li>
+        </ul>
+        <img src="@/assets/svg/home/footer_interval.svg" alt="">
+      </div>
+      <div class="link_box">
+        <p class="footer-social">Social Media</p>
+        <ul class="footer-link">
+          <li class="footer-link-icon">
+            <img src="@/assets/svg/twitter.svg" alt="" />
+          </li>
+          <li class="footer-link-icon">
+            <img src="@/assets/svg/youtube.svg" alt="" />
+          </li>
+          <li class="footer-link-icon">
+            <img src="@/assets/svg/facebook.svg" alt="" />
+          </li>
+          <li class="footer-link-icon">
+            <img src="@/assets/svg/telegram.svg" alt="" />
+          </li>
+        </ul>
+      </div>
     </div>
-    <ul class="footer-nav">
-      <li
-        class="footer-nav-text"
-        v-for="(item, index) in nav"
-        :key="`footer-nav-${index}`"
-        @click="goTo(item.page)"
-      >
-        {{ item.text }}
-      </li>
-    </ul>
-    <p class="footer-social">Social Media</p>
-    <ul class="footer-link">
-      <li class="footer-link-icon">
-        <img src="@/assets/svg/twitter.svg" alt="" />
-      </li>
-      <li class="footer-link-icon">
-        <img src="@/assets/svg/youtube.svg" alt="" />
-      </li>
-      <li class="footer-link-icon">
-        <img src="@/assets/svg/facebook.svg" alt="" />
-      </li>
-      <li class="footer-link-icon">
-        <img src="@/assets/svg/invalid.svg" alt="" />
-      </li>
-    </ul>
-    <img
-      class="footer-divider"
-      src="@/assets/img/headerFooter/divider.png"
-      alt=""
-    />
-    <p class="footer-bitzing">© 2023 Bitzing — Where Surprises Meet Value!</p>
   </div>
 </template>
 
@@ -73,57 +74,96 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
+  height: 44.8125rem;
   text-align: center;
-  background: url('@/assets/img/headerFooter/imagelight.png') no-repeat,
-    url('@/assets/img/headerFooter/footerbg.png') center bottom no-repeat;
-  padding-bottom: 65px;
+  background: url('@/assets/img/home/footer_bg.png') no-repeat;
+  background-repeat: no-repeat;
+  background-size: 120rem 44.8125rem;
+  background-position: center center;
 }
-.footer-nav,
+
+.footer-container {
+  max-width: 120rem;
+  padding: 0 12.5rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 9.625rem;
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+.footer-nav-box {
+  display: flex;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12.5rem;
+
+  &>li+li {
+    margin-top: 0.625rem;
+  }
+
+  &>li {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+
+    &.active {
+      font-family: Tomorrow;
+      font-size: 1.375rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 0.625rem;
+      cursor: auto;
+    }
+  }
+}
+
+.footer-social {
+  font-family: Tomorrow;
+  font-size: 1.375rem;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: left;
+  color: white;
+  padding-bottom: 1.875rem;
+}
+
 .footer-link {
   display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: center;
-  margin-top: 22px;
-}
-.footer-nav-text {
-  font-size: 18px;
-  height: 20px;
-  line-height: 20px;
-  color: #f5e1d6;
-  margin-right: 32px;
-  cursor: pointer;
-  &:last-child {
-    margin-right: 0;
+
+  &>li+li {
+    margin-left: 0.75rem;
   }
 }
-.footer-social {
-  margin: 126px auto 25px;
-  font-size: 24px;
-  color: #f5e1d6;
-}
+
 .footer-link-icon {
-  width: 46px;
-  height: 46px;
-  margin-right: 34px;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
-  &:last-child {
-    margin-right: 0;
-  }
+
   img {
     width: 100%;
-    height: 100%;
+    height: auto;
   }
-}
-.footer-divider {
-  display: inline-block;
-  margin: 41px 0 24px;
-}
-.footer-bitzing {
-  font-size: 18px;
-  color: #f5e1d6;
-  height: 20px;
-  line-height: 20px;
 }
 </style>

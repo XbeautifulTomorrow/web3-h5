@@ -1,0 +1,127 @@
+.result-dialog-content {
+  --white: #e4e7f5;
+}
+.result-title {
+  font-size: 56px;
+  font-weight: bold;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(234, 32, 141, 0.9) 15%,
+    #e63a97 39%,
+    #f1f1cb 70%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.result-illustrate {
+  font-size: 18px;
+  color: #a9a4b4;
+}
+.result-main {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+.result-main .result-list {
+  width: calc((100% - 40px) / 5);
+  margin-top: 10px;
+}
+.onlyOne {
+  justify-content: center;
+}
+.onlyOne .result-list {
+  width: 357px;
+}
+.result-list {
+  padding: 20px;
+  mix-blend-mode: lighten;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #271909;
+  box-sizing: border-box;
+}
+.result-portrait {
+  width: 100%;
+  border-radius: 10px;
+}
+.result-club {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+.result-club-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--white);
+}
+.result-club-serial {
+  font-family: Inter;
+  font-size: 14px;
+  color: #0cbb3e;
+}
+.result-coin {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: left;
+  color: #11cde9;
+}
+.result-one-button {
+  width: 100%;
+  font-size: 14px;
+}
+.result-total {
+  font-size: 24px;
+  font-weight: bold;
+  color: #11cde9;
+  margin: 0 8px;
+}
+.result-end {
+  font-size: 12px;
+  line-height: 24px;
+  color: #a9a4b4;
+  margin-top: 16px;
+}
+.result-one-footer {
+  margin-top: 20px;
+}
+.result-sell {
+  width: 100%;
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 23px;
+}
+.result-sell-text {
+  font-size: 14px;
+  color: var(--white);
+}
+.result-sell-total {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fad54d;
+  margin-left: 8px;
+}
+.result-footer {
+  margin-top: 60px;
+}
+.resule-footer-buttons {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+}
+.result-footer-button {
+  padding: 0 40px !important;
+  min-width: 318px;
+  box-sizing: border-box;
+}

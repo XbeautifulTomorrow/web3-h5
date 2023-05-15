@@ -70,64 +70,6 @@
     >
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
-    <el-dialog
-      v-model="showResult"
-      title="Tips"
-      :width="awardItem.length > 1 ? resultWidth : '30%'"
-      center
-      :close-on-click-modal="false"
-      class="lottery-result"
-    >
-      <div class="lottery-result-modal">
-        <div
-          :class="[
-            'lottery-result-content',
-            { moreAward: awardItem.length > 1 },
-          ]"
-        >
-          <div
-            v-for="(list, _listIndex) in awardItem"
-            :key="`list-${_listIndex}`"
-            :class="['lottery-carousel-list']"
-          >
-            <div class="lottery-list-bor">
-              <img class="lottery-list-img" :src="list.nftImg" />
-            </div>
-            <div class="lottery-list-nftNumber">#&nbsp;{{ list.tokenId }}</div>
-            <p class="lottery-list-seriesName">
-              {{ list.seriesName }}
-            </p>
-            <div class="lottery-list-text">
-              <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
-              <img src="@/assets/img/eth.png" alt="" />
-              <span class="lottery-list-minPrice">
-                {{ list.price }}
-              </span>
-              <span class="lottery-list-conin">
-                {{ list.coin }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <p class="lottery-result-choose" v-if="awardItem.length === 1">
-          你抽中了
-          <b>{{ awardItem[0].seriesName }}#{{ awardItem[0].tokenIdAll }}</b>
-          ,请选择回收还是持有！
-        </p>
-      </div>
-      <p>
-        你还有<b>{{ resultSecond }}</b
-        >秒做出选择,倒计时结束将自动回收
-      </p>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="chooseLotteryHold('hold')">持有</el-button>
-          <el-button type="primary" @click="chooseLotteryHold()">
-            回收获得{{ awardItemPrice }}ETH
-          </el-button>
-        </span>
-      </template>
-    </el-dialog>
     <!-- 多个中奖 -->
     <more-awards
       v-if="showMoreDialog"
@@ -180,6 +122,7 @@
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
+    <result-list v-if="showResult" :result="awardItem" />
   </div>
 </template>
 
@@ -192,6 +135,7 @@ import { useHeaderStore } from '@/store/header.js';
 
 import { shuffle } from '@/assets/js';
 
+import ResultList from './resultList.vue';
 import MoreAwards from './moreAwards.vue';
 import ChooseToken from './chooseToken.vue';
 import YourReard from './yourReard.vue';
@@ -208,6 +152,7 @@ export default {
   name: 'LotteryPage',
   components: {
     PackBtn,
+    ResultList,
     MoreAwards,
     ChooseToken,
     YourReard,
@@ -221,7 +166,6 @@ export default {
     'lottoList',
     'setBalanceOrder',
     'lottResult',
-    'test',
     'blindDetailInfo',
     'apiIsError',
   ],

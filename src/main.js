@@ -9,6 +9,7 @@ import store from './store/index';
 
 import 'element-plus/dist/index.css';
 import '@/assets/font/font.css';
+import '@/assets/css/element.scss';
 const app = createApp(App);
 for (const name in ElementPlusIconsVue) {
   app.component(name, ElementPlusIconsVue[name]);

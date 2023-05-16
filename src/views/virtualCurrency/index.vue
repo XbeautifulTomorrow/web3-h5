@@ -10,8 +10,8 @@
     <div :class="['virtual-currency-content publick-scrollbar']">
       <ul class="virtual-currency-main" ref="currencyAll">
         <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`"
-          :style="'transform: translateX(' + item.translateNum + 'px)'"
-          :class="['virtual-currency-item', `box_frame_${index < 4 ? index + 1 : (index % 4)+1}`, { isEnter: activeIndex == index }]"
+          :style="'transform: translateX(' + item.translateNum + 'px);'"
+          :class="['virtual-currency-item', `box_frame_${index < 4 ? index + 1 : (index % 4) + 1}`, { isHide: activeIndex == index }]"
           @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
           <div class="virtual-currency-item-l">
             <img class="virtual-currency-item-img" src="" alt="" />
@@ -30,8 +30,26 @@
         </li>
       </ul>
     </div>
-    <ul v-if="showPopup && currentData" class="virtual-currency-item-popup" :style="style" @mouseenter="mouseOver()"
-      @mouseleave="mouseLeave()">
+    <ul v-if="showPopup && currentData"
+      :class="['virtual-currency-item-popup', `box_frame_${activeIndex < 4 ? activeIndex + 1 : (activeIndex % 4) + 1}`]"
+      :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
+      <li :class="['virtual-currency-item', 'isEnter']">
+        <div class="virtual-currency-item-l">
+          <img class="virtual-currency-item-img" src="" alt="" />
+          <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
+            <p class="list-nam" :style="{ color: currencyList[activeIndex].color }">{{
+              currencyList[activeIndex].name }}
+            </p>
+            <p class="list-currency">
+              {{ currencyList[activeIndex].number ? Number(currencyList[activeIndex].number).toFixed(2) : 0 }}&nbsp;{{
+                currencyList[activeIndex].currency }}
+            </p>
+          </div>
+        </div>
+        <div class="virtual-currency-item-r">
+          <img src="@/assets/svg/virtualCurrency/arrow-up-right.svg" alt="">
+        </div>
+      </li>
       <li class="popup-list">
         <span class="popup-list-title text-ellipsis">NFT ID</span>
         <span class="popup-list-text text-ellipsis">3957</span>
@@ -163,7 +181,7 @@ export default {
       const { left, bottom } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left}px`,
-        top: `${bottom}px`
+        top: `${bottom - 92}px`
       };
     },
     search() {

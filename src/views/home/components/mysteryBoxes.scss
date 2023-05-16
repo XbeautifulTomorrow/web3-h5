@@ -49,7 +49,7 @@
 
     &:hover {
         .mystery-boxs-list-img {
-            transform: scale(1.1);
+            transform: scale(1.15);
             transition: all 0.3s;
         }
     }
@@ -61,11 +61,12 @@
         align-items: center;
         justify-content: center;
         background-image: url("@/assets/svg/home/box_img_bg.svg");
+        overflow: hidden;
     }
 
     .mystery-boxs-list-img {
-        width: 19.89375rem;
-        height: auto;
+        width: auto;
+        height: 13rem;
     }
 
     .mystery-boxs-title {

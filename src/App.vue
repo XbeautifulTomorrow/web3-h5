@@ -24,6 +24,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
+  min-width: 120rem;
   min-height: 100vh;
 }
 

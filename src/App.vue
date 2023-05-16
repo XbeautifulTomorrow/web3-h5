@@ -58,7 +58,7 @@ body {
     pointer-events: none;
     background-color: #a21ae2;
     border-radius: 50%;
-    filter: blur(33.125rem);
+    filter: blur(18.75rem);
   }
 
   &>div:nth-child(2) {
@@ -77,7 +77,7 @@ body {
     position: absolute;
     width: 29.875rem;
     height: 33.8125rem;
-    filter: blur(37.5rem);
+    filter: blur(18.75rem);
     border-radius: 50%;
     background-color: #ed21b4;
   }

@@ -127,29 +127,29 @@
 </template>
 
 <script>
-import { ElMessage } from 'element-plus';
-import { BigNumber } from 'bignumber.js';
-import { lotteryHold } from '@/services/api/blindBox';
-import PackBtn from '../pack/index.vue';
-import { useHeaderStore } from '@/store/header.js';
+import { ElMessage } from "element-plus";
+import { BigNumber } from "bignumber.js";
+import { lotteryHold } from "@/services/api/blindBox";
+import PackBtn from "../pack/index.vue";
+import { useHeaderStore } from "@/store/header.js";
 
-import { shuffle } from '@/assets/js';
+import { shuffle } from "@/assets/js";
 
-import ResultList from './resultList.vue';
-import MoreAwards from './moreAwards.vue';
-import ChooseToken from './chooseToken.vue';
-import YourReard from './yourReard.vue';
-import ChainDialog from './chainDialog.vue';
-import BeenSold from './beenSold.vue';
-import AllSold from './allSold.vue';
-import PartSold from './partSold.vue';
-import TransactionWarning from './transactionWarning.vue';
+import ResultList from "./resultList.vue";
+import MoreAwards from "./moreAwards.vue";
+import ChooseToken from "./chooseToken.vue";
+import YourReard from "./yourReard.vue";
+import ChainDialog from "./chainDialog.vue";
+import BeenSold from "./beenSold.vue";
+import AllSold from "./allSold.vue";
+import PartSold from "./partSold.vue";
+import TransactionWarning from "./transactionWarning.vue";
 
-import './css/dialog.scss';
+// import './css/dialog.scss';
 
 const itemWidth = 220;
 export default {
-  name: 'LotteryPage',
+  name: "LotteryPage",
   components: {
     PackBtn,
     ResultList,
@@ -163,19 +163,19 @@ export default {
     TransactionWarning,
   },
   props: [
-    'lottoList',
-    'setBalanceOrder',
-    'lottResult',
-    'blindDetailInfo',
-    'apiIsError',
+    "lottoList",
+    "setBalanceOrder",
+    "lottResult",
+    "blindDetailInfo",
+    "apiIsError",
   ],
   data() {
     return {
-      showDialog: '',
+      showDialog: "",
       // warningText
       // Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.
       // Timeout not paid, this transaction is closed
-      warningText: '',
+      warningText: "",
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
       autoplay: false,
       itemWidth: itemWidth, //每张卡牌的宽度
@@ -197,7 +197,7 @@ export default {
       carouselStyle: { transform: `translateX(-${itemWidth / 2}px)` },
       showResult: false,
       showMoreDialog: false,
-      lottoResult: '',
+      lottoResult: "",
       resultSecond: 60,
       resultSecondTimer: null,
       interval: 280,
@@ -224,7 +224,7 @@ export default {
         });
         this.luckyFun(newVal.data);
       } else {
-        this.messageFun('warning', '很遗憾您没有中奖');
+        this.messageFun("warning", "很遗憾您没有中奖");
         this.autoplay = false;
         this.closeFun(true);
       }
@@ -232,8 +232,8 @@ export default {
     apiIsError: function (newData) {
       if (newData) {
         this.autoplay = false;
-        this.$emit('apiIsErrorFun', false);
-        this.messageFun('error', '网络错误，即将停止抽奖');
+        this.$emit("apiIsErrorFun", false);
+        this.messageFun("error", "网络错误，即将停止抽奖");
       }
     },
   },
@@ -245,12 +245,12 @@ export default {
       this.closeDialogFun();
     },
     closeDialogFun() {
-      this.showDialog = '';
+      this.showDialog = "";
     },
     async chooseLotteryHold(type) {
       let data = this.lottoResult.data;
       let arg = { orderId: data[0].orderId };
-      if (type == 'hold') {
+      if (type == "hold") {
         arg = {
           lotteryIds: data[0].id,
         };
@@ -260,7 +260,7 @@ export default {
       this.awardItemPrice = 0;
       this.resultSecond = 60;
       this.moreLuck = [];
-      localStorage.removeItem('awardItem');
+      localStorage.removeItem("awardItem");
     },
     clearTimerFun() {
       clearTimeout(this.closeTimer);
@@ -276,7 +276,7 @@ export default {
       }
       const { moreLuck } = this;
       const _type = Object.prototype.toString.call(moreLuck);
-      if (_type === '[object Array]' && moreLuck && moreLuck.length > 0) {
+      if (_type === "[object Array]" && moreLuck && moreLuck.length > 0) {
         this.showResult = true;
         this.awardItem = moreLuck;
       }
@@ -316,7 +316,7 @@ export default {
       if (data.length < 2) {
         this.awardItem = data;
         this.showResult = true;
-        localStorage.setItem('awardItem', JSON.stringify(this.lottoResult));
+        localStorage.setItem("awardItem", JSON.stringify(this.lottoResult));
         if (!this.resultSecondTimer) {
           this.resultSecondTimer = setInterval(() => {
             if (this.resultSecond <= 1) {
@@ -335,7 +335,7 @@ export default {
     changeFun(index) {
       this.showIndex = index;
     },
-    messageFun(type = 'warning', message = '余额不足,请充值!') {
+    messageFun(type = "warning", message = "余额不足,请充值!") {
       ElMessage({
         message,
         type,
@@ -351,14 +351,14 @@ export default {
       //   this.messageFun('error', '请求数据出错，请刷新重新登录！');
       //   return;
       // }
-      if (type === 'ONE') {
+      if (type === "ONE") {
         if (blindDetailInfo.price > balance) {
           this.messageFun();
           return;
         }
         this.openBox();
       } else {
-        if (type === 'FIVE') {
+        if (type === "FIVE") {
           if (blindDetailInfo.fivePrice * 5 > balance) {
             this.messageFun();
             return;
@@ -373,7 +373,7 @@ export default {
         }
         this.showMoreDialog = true;
       }
-      this.$emit('setBalanceOrder', type);
+      this.$emit("setBalanceOrder", type);
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
@@ -455,8 +455,8 @@ export default {
       this.interval = 330;
     }
     this.dataFun();
-    if (localStorage.getItem('awardItem')) {
-      this.lottoResult = JSON.parse(localStorage.getItem('awardItem'));
+    if (localStorage.getItem("awardItem")) {
+      this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
       this.awardItemPrice = this.lottoResult.data[0].price;
       this.awardFun(this.lottoResult.data[0].seriesName);
     }
@@ -467,7 +467,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url('./css/index.scss');
+@import url("./css/index.scss");
 </style>
 <style lang="scss">
 .lottery-moreLuck {

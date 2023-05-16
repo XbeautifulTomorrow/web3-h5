@@ -1,5 +1,5 @@
-.lottery-dialog {
-  background-image: url('@/assets/img/public/popup_bg.png');
+.public-dialog {
+  background-image: url("@/assets/img/public/popup_bg.png") !important;
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: 0 100%;
@@ -8,33 +8,33 @@
     border-radius: 20px;
     color: #a9a4b4;
   }
-  .lottery-dialog-header {
+  .public-dialog-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
   }
-  .lottery-dialog-header-icon {
+  .public-dialog-header-icon {
     background-color: #a9a4b4;
     border-radius: 50%;
   }
-  .lottery-dialog-content {
+  .public-dialog-content {
     padding-bottom: 40px;
   }
-  .lottery-dialog-title {
+  .public-dialog-title {
     font-size: 64px;
     color: #e4e7f5;
   }
-  .lottery-dialog-illustrate {
+  .public-dialog-illustrate {
     font-size: 18px;
   }
-  .lottery-dialog-title-other {
+  .public-dialog-title-other {
     font-size: 46px;
   }
-  .lottery-dialog-portrait {
+  .public-dialog-portrait {
     width: 100%;
     height: 118px;
   }
-  .lottery-dialog-button {
+  .public-button {
     width: 100%;
     border-radius: 8px;
     color: #13151f;
@@ -42,18 +42,18 @@
     border: none;
     margin-top: 60px;
   }
-  .lottery-dialog-text {
+  .public-dialog-text {
     font-size: 18px;
   }
-  .lottery-dialog-special {
+  .public-dialog-special {
     color: #e4e7f5;
     margin: 0 5px;
   }
-  .lottery-dialog-lists {
+  .public-dialog-lists {
     display: flex;
     flex-wrap: wrap;
   }
-  .lottery-dialog-list {
+  .public-dialog-list {
     margin-right: 10px;
     margin-bottom: 10px;
     width: calc((100% - 40px) / 5);
@@ -67,7 +67,7 @@
       margin-right: 0;
     }
   }
-  .lottery-dialog-list-text {
+  .public-dialog-list-text {
     display: flex;
     align-items: center;
     align-content: center;
@@ -75,7 +75,7 @@
     justify-content: center;
     height: 30px;
   }
-  .lottery-dialog-list-result {
+  .public-dialog-list-result {
     position: absolute;
     left: 0;
     bottom: 30px;
@@ -92,18 +92,24 @@
   .refund {
     background-color: rgba(250, 213, 77, 0.9);
   }
-  .lottery-dialog-total {
+  .public-dialog-total {
     text-align: left;
   }
-  .lottery-dialog-total-title {
+  .public-dialog-total-title {
     display: inline-block;
     font-size: 18px;
     height: 36px;
   }
-  .lottery-dialog-total-number {
+  .public-dialog-total-number {
     font-size: 30px;
     color: #11cde9;
     font-weight: 700;
     margin-left: 10px;
+  }
+  .cancel-button {
+    border: solid 1px rgba(228, 231, 245, 0.15);
+    background-color: #292c36;
+    color: #e4e7f5;
+    background-image: none;
   }
 }

@@ -163,12 +163,3 @@
 .ntf-tickets-all {
     cursor: pointer;
 }
-
-:deep(input::-webkit-outer-spin-button),
-:deep(input::-webkit-inner-spin-button) {
-    -webkit-appearance: none;
-}
-
-:deep(input[type="number"]) {
-    -moz-appearance: textfield;
-}

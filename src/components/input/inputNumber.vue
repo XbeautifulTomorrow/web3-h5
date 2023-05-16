@@ -21,14 +21,14 @@
 </template>
 <script>
 export default {
-  name: 'InputCom',
+  name: "InputCom",
   props: {
     modelValue: {
       type: Number,
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
     autofocus: {
       type: Boolean,
@@ -46,7 +46,7 @@ export default {
         return this.modelValue;
       },
       set: function (value) {
-        this.$emit('update:modelValue', value);
+        this.$emit("update:modelValue", value);
       },
     },
   },
@@ -70,23 +70,12 @@ export default {
 <style lang="scss" scoped>
 .public-input-com {
   width: 44px;
-  height: 64px;
+  height: 100%;
   border-radius: 8px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: transparent;
-  border-image-slice: 1;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
+  border: solid 1px #363945;
+  background-color: #13151f;
 }
 .showBorder {
-  border-image-source: linear-gradient(
-    to bottom,
-    #dd82af,
-    #d12398 61%,
-    #fab597
-  );
-  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
-    linear-gradient(to bottom, #dd82af, #d12398 61%, #fab597);
+  border: solid 1px #a9a4b4;
 }
 </style>

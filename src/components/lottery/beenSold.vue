@@ -4,43 +4,43 @@
     destroy-on-close
     :show-close="false"
     :align-center="true"
-    class="lottery-dialog"
+    class="public-dialog"
     width="700"
   >
     <template #header="{ close }">
-      <div class="lottery-dialog-header">
+      <div class="public-dialog-header">
         <el-icon
           v-on="{ click: [close, closeDialogFun] }"
           color="#2d313f"
           size="16"
-          class="lottery-dialog-header-icon"
+          class="public-dialog-header-icon"
         >
           <CircleCloseFilled />
         </el-icon>
       </div>
     </template>
-    <div class="lottery-dialog-content">
-      <h2 class="lottery-dialog-title">Notice</h2>
-      <p class="lottery-dialog-text">
+    <div class="public-dialog-content">
+      <h2 class="public-dialog-title">Notice</h2>
+      <p class="public-dialog-text">
         Your reward,
-        <span class="lottery-dialog-special">Mutant Ape Yacht Club # 5154</span>
-        <!-- <span class="lottery-dialog-special">
+        <span class="public-dialog-special">Mutant Ape Yacht Club # 5154</span>
+        <!-- <span class="public-dialog-special">
           {{sold.}}
         </span> -->
         , has been sold and you will receive:
       </p>
-      <div class="lottery-dialog-total">
-        <img class="lottery-dialog-icon" src="@/assets/img/eth.png" alt="" />
-        <span class="lottery-dialog-total-number">{{ sold.price }}</span>
+      <div class="public-dialog-total">
+        <img class="public-dialog-icon" src="@/assets/img/eth.png" alt="" />
+        <span class="public-dialog-total-number">{{ sold.price }}</span>
       </div>
-      <el-button class="lottery-dialog-button" @click="balanceFun">
+      <el-button class="public-button" @click="balanceFun">
         Check balance
       </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue';
+import { ref, defineEmits, defineProps } from "vue";
 
 defineProps({
   sold: {
@@ -48,23 +48,23 @@ defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(['closeDialogFun', 'balanceFun']);
+const emit = defineEmits(["closeDialogFun", "balanceFun"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {
-  emit('closeDialogFun');
+  emit("closeDialogFun");
 };
 const balanceFun = () => {
-  emit('balanceFun');
+  emit("balanceFun");
 };
 </script>
 <style lang="scss" scoped>
-.lottery-dialog-icon {
+.public-dialog-icon {
   width: 30px;
   height: 30px;
   margin-right: 20px;
 }
-.lottery-dialog-total {
+.public-dialog-total {
   display: flex;
   align-items: center;
   align-content: center;
@@ -72,7 +72,7 @@ const balanceFun = () => {
   justify-items: center;
   margin-top: 30px;
 }
-.lottery-dialog-total-number {
+.public-dialog-total-number {
   font-size: 30px;
   color: #11cde9;
 }

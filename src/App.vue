@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
 };
 </script>
 
@@ -32,5 +32,6 @@ body {
 }
 </style>
 <style lang="scss">
-@import url('@/assets/css/index.scss');
+@import url("@/assets/css/index.scss");
+@import url("@/components/lottery/css/dialog.scss");
 </style>

@@ -8,6 +8,8 @@ import Currency from '../views/virtualCurrency/index.vue';
 const welcome = () => import('../views/welcome/index.vue');
 const Home = () => import('../views/home/index.vue');
 const Login = () => import('../views/login/index.vue');
+const Register = () => import('../views/login/register.vue');
+const Forgot = () => import('../views/forgot/index.vue');
 // const Lottery = () => import('@/components/lottery/index.vue');
 const MysteryBox = () => import('../views/mysteryBox/index.vue');
 const User = () => import('../views/user/index.vue');
@@ -39,6 +41,20 @@ const routes = [
     name: 'Login',
     components: {
       default: Login,
+    },
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    components: {
+      default: Register,
+    },
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    components: {
+      default: Forgot,
     },
   },
   // {

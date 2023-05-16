@@ -25,16 +25,16 @@ import {
   lotteryResult,
   blindBoxDetail,
   walletOrder,
-} from '@/services/api/blindBox';
-import lottAbi from '@/config/lott.json';
-import erc20Abi from '@/config/erc20.json';
-import transferAbi from '@/config/transfer.json';
-import Lottory from '@/components/lottery/index';
-import { h } from 'vue';
-import { ElNotification } from 'element-plus';
-import { useHeaderStore } from '@/store/header.js';
+} from "@/services/api/blindBox";
+import lottAbi from "@/config/lott.json";
+import erc20Abi from "@/config/erc20.json";
+import transferAbi from "@/config/transfer.json";
+import Lottory from "@/components/lottery/index";
+import { h } from "vue";
+import { ElNotification } from "element-plus";
+import { useHeaderStore } from "@/store/header.js";
 export default {
-  name: 'BlindDetail',
+  name: "BlindDetail",
   components: {
     Lottory,
   },
@@ -43,15 +43,15 @@ export default {
       boxList: [],
       ticketList: [],
       NFTList: [],
-      generateKey: '',
+      generateKey: "",
       boxId: null,
-      walletOrderDetail: '',
-      usdtAddress: '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
-      lottContractAddress: '0x7729c592e087d88afea4b55c367c8570e0025ee0', //抽奖合约，
-      transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
-      blindDetailInfo: '',
+      walletOrderDetail: "",
+      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
+      lottContractAddress: "0x7729c592e087d88afea4b55c367c8570e0025ee0", //抽奖合约，
+      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
+      blindDetailInfo: "",
       lottStatus: true,
-      lottResult: '',
+      lottResult: "",
       apiIsError: false,
       resultTimer: null,
     };
@@ -88,7 +88,7 @@ export default {
     },
     timeOutFun(walletOrderInfo) {
       this.clearTimerFun();
-      let result = '';
+      let result = "";
       this.resultTimer = setTimeout(async () => {
         result = await lotteryResult({
           orderId: walletOrderInfo.data.orderId,
@@ -121,19 +121,19 @@ export default {
     async transfer(id, coiledType) {
       const web3 = window.web3;
       let amountVal = 1;
-      if (coiledType == 'ONE') {
+      if (coiledType == "ONE") {
         amountVal = this.blindDetailInfo.price;
       }
-      if (coiledType == 'FIVE') {
+      if (coiledType == "FIVE") {
         amountVal = web3.utils.toWei(
           (this.blindDetailInfo.fivePrice * 5).toString(),
-          'ether'
+          "ether"
         );
       }
-      if (coiledType == 'TEN') {
+      if (coiledType == "TEN") {
         amountVal = web3.utils.toWei(
           (this.blindDetailInfo.tenPrice * 10).toString(),
-          'ether'
+          "ether"
         );
       }
       this.dialogVisible = false;
@@ -144,27 +144,27 @@ export default {
         contractAddress
       );
       let tokenChoose = 2;
-      if (this.blindDetailInfo.coin == 'ETH') {
+      if (this.blindDetailInfo.coin == "ETH") {
         tokenChoose = 1;
       }
-      const amount = web3.utils.toWei(amountVal.toString(), 'ether');
-      const receiver = localStorage.getItem('receiver');
-      const orderId = id.toString() || 'test';
+      const amount = web3.utils.toWei(amountVal.toString(), "ether");
+      const receiver = localStorage.getItem("receiver");
+      const orderId = id.toString() || "test";
       if ((!orderId && tokenChoose == 1) || !amount) {
         ElNotification({
-          title: 'Tips',
-          message: h('i', { style: 'color: teal' }, 'Please input info'),
+          title: "Tips",
+          message: h("i", { style: "color: teal" }, "Please input info"),
         });
         return;
       }
       const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
+        method: "eth_requestAccounts",
       });
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
         .call();
-      if (allowance == '0') {
+      if (allowance == "0") {
         await erc20Contract.methods
           .approve(contractAddress, 10000)
           .send({ from: accounts[0] });
@@ -188,12 +188,12 @@ export default {
     },
     async lotteryBox() {
       var accountsFromMetaMask = await window.ethereum.send(
-        'eth_requestAccounts'
+        "eth_requestAccounts"
       );
       let web3 = window.web3;
       let idStr = this.walletOrderDetail.orderId.toString();
       let str = this.walletOrderDetail.orderNumber;
-      console.log(accountsFromMetaMask, 'detail===');
+      console.log(accountsFromMetaMask, "detail===");
       var lottContract = new web3.eth.Contract(
         lottAbi,
         this.lottContractAddress

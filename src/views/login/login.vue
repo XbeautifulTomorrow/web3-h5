@@ -20,37 +20,28 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">Welcome</h2>
+      <h2 class="public-dialog-title">Login</h2>
       <el-form
         ref="ruleFormRef"
         label-position="top"
         label-width="max-content"
-        :model="formRegister"
+        :model="formLogin"
         :rules="rules"
         :hide-required-asterisk="true"
         :status-icon="true"
         class="public-login"
       >
         <el-form-item label="Email" prop="email">
-          <el-input
-            v-model="formRegister.email"
-            placeholder="Enter your email"
-          />
+          <!-- SuccessFilled -->
+          <!-- CircleCloseFilled -->
+          <el-input v-model="formLogin.email" placeholder="Enter your email" />
         </el-form-item>
         <el-form-item label="Password" prop="password">
           <el-input
-            v-model="formRegister.password"
+            v-model="formLogin.password"
             placeholder="Enter your password"
             type="password"
-            show-password
-          />
-        </el-form-item>
-        <el-form-item label="Confirm password" prop="confirm">
-          <el-input
-            v-model="formRegister.confirm"
-            placeholder="Enter your password again"
-            type="password"
-            show-password
+            autocomplete="off"
           />
         </el-form-item>
       </el-form>
@@ -62,53 +53,36 @@
               class="form-rember-rectangle-fill"
             ></span>
           </span>
-          <span class="form-rember-text">
-            By creating your account, you confirm that you are at least 18 years
-            old and agree to our terms and Conditions
-          </span>
+          <span class="form-rember-text">Remember me</span>
         </div>
+        <div class="form-forgot" @click="goTo('forgot')">Forgot password?</div>
       </div>
       <el-button
         class="public-button form-button"
-        @click="registerFun(ruleFormRef)"
+        @click="loginFun(ruleFormRef)"
       >
-        Complete Registration
+        Login
       </el-button>
+      <p class="form-register">
+        <span>Not registered yet?</span>
+        <span class="form-register-link" @click="goTo('register')">
+          REGISTER
+        </span>
+      </p>
     </div>
   </el-dialog>
 </template>
 <script setup>
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const visible = ref(true);
 const showRemember = ref(false);
 const ruleFormRef = ref();
-const formRegister = reactive({
+const formLogin = reactive({
   email: "",
   password: "",
-  confirm: "",
 });
-const validatePass = (rule, value, callback) => {
-  if (value === "") {
-    callback(new Error("Please input the password"));
-  } else {
-    if (formRegister.checkPass !== "") {
-      if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField("checkPass", () => null);
-    }
-    callback();
-  }
-};
-const validatePass2 = (rule, value, callback) => {
-  if (value === "") {
-    callback(new Error("Please input the password again"));
-  } else if (value !== formRegister.password) {
-    callback(new Error("Two inputs don't match!"));
-  } else {
-    callback();
-  }
-};
 const rules = reactive({
   email: [
     {
@@ -118,23 +92,24 @@ const rules = reactive({
       trigger: ["blur", "change"],
     },
   ],
-  password: [{ validator: validatePass, trigger: ["blur", "change"] }],
-  confirm: [{ validator: validatePass2, trigger: ["blur", "change"] }],
+  password: [
+    {
+      required: true,
+      message: "Password is incorrect, please check and try again.",
+      trigger: ["blur", "change"],
+    },
+  ],
 });
 const showRememberFun = () => {
   showRemember.value = !showRemember.value;
 };
-const registerFun = async (formEl) => {
+const goTo = (page) => {
+  router.push({ path: `/${page}` });
+};
+const loginFun = async (formEl) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (!showRemember.value) {
-        ElMessage({
-          message: "请同意条款",
-          type: "warning",
-        });
-        return;
-      }
       console.log("submit!");
     } else {
       console.log("error submit!", fields);
@@ -169,12 +144,14 @@ const registerFun = async (formEl) => {
   border-radius: 2px;
   background-color: #fad54d;
 }
+.form-link,
 .form-rember {
   display: flex;
   align-content: center;
-  align-items: flex-start;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-between;
   font-size: 16px;
-  text-align: left;
 }
 .form-forgot,
 .form-register-link {

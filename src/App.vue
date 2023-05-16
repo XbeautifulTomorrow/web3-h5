@@ -30,6 +30,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
+  overflow: hidden;
   min-width: 120rem;
   min-height: 100vh;
 }
@@ -46,7 +47,6 @@ body {
   max-width: 120rem;
   margin: 0 auto;
   box-sizing: border-box;
-  overflow: hidden;
   position: relative;
 
   &>div:nth-child(1) {

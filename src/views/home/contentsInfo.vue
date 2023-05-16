@@ -22,12 +22,23 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="date" label="Collections" />
-      <el-table-column prop="date" label="Price" />
-      <el-table-column prop="date" label="USD Price" />
-      <el-table-column prop="date" label="Last Sale" />
-      <el-table-column prop="date" label="Last Sale" />
-      <el-table-column prop="date" label="Recommended" />
+      <el-table-column prop="collections" label="Collections" />
+      <el-table-column prop="price" label="Price">
+        <template #default="scope">
+          {{ `${scope.row.price} ${scope.row.unit}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="usd_price" label="USD Price">
+        <template #default="scope">
+          {{ `$${scope.row.usd_price}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="last_sale" label="Last Sale">
+        <template #default="scope">
+          {{ `${scope.row.last_sale} ${scope.row.unit}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="recommended" label="Recommended" />
       <el-table-column prop="date" label="Action" align="right">
         <template #default="scope">
           <div class="active_btn">
@@ -37,7 +48,8 @@
       </el-table-column>
     </el-table>
     <div class="pagination-box">
-      <el-pagination :page-size="20" :pager-count="7" layout="prev, pager, next" :total="1000" prev-text="Pre"  next-text="Next" />
+      <el-pagination :page-size="20" :pager-count="7" layout="prev, pager, next" :total="1000" prev-text="Pre"
+        next-text="Next" />
     </div>
   </div>
 </template>
@@ -71,7 +83,18 @@ export default {
           label: 'Option5',
         },
       ],
-      tableData: [{ userId: "111", userName: "dsadasds" }, 2, 3, 4, 5]
+      tableData: [
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", },
+        { userId: "12231", collections: "RENGA Black Box", price: "44.231", unit: "ETH", 'usd_price': "62,541.12", 'last_sale': '22.3', recommended: "TopBlue-chip Box", }
+      ]
     };
   },
   methods: {

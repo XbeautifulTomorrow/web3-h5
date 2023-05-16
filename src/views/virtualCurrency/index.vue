@@ -180,7 +180,7 @@ export default {
       window.clearTimeout(this.timer);
       const { left, bottom } = e.target.getBoundingClientRect();
       this.style = {
-        left: `${left}px`,
+        left: `${left + window.scrollX}px`,
         top: `${bottom - 92}px`
       };
     },

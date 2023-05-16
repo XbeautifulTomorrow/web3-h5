@@ -41,7 +41,7 @@
       </template>
     </ul>
     <div class="ntf-tickets-all" @click="openAll()">
-      <span>View all tickets</span>
+      <span>View all competition</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
   </div>

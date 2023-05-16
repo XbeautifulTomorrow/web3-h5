@@ -13,9 +13,9 @@
         <div class="btn-box login">Login</div>
         <div class="btn-box register">Register</div>
       </div>
-      <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
+      <!-- <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
         {{ conncectAddress ? conncectAddress : 'Connect Wallet' }}
-      </div>
+      </div> -->
       <div class="header-wallet" v-if="conncectAddress">
         <!-- <img class="header-wallet-img" src="" alt="" /> -->
         <span class="header-wallet-money">{{ ethBalance }}ETH</span>

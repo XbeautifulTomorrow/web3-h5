@@ -123,7 +123,6 @@
       :text="warningText"
     />
     <result-list v-if="showResult" :result="awardItem" />
-    <span></span>
   </div>
 </template>
 

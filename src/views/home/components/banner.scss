@@ -1,9 +1,10 @@
 .banner_wrapper {
-    width: 100%;
+    margin: 0 auto;
+    max-width: 120rem;
     height: 55.9375rem;
     background-image: url("@/assets/img/banner/banner_bg.png");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 120rem 55.9375rem;
     display: flex;
     justify-content: space-between;
 }

@@ -78,7 +78,7 @@ export default {
   text-align: center;
   background: url('@/assets/img/home/footer_bg.png') no-repeat;
   background-repeat: no-repeat;
-  background-size: 120rem 44.8125rem;
+  background-size: 100% 44.8125rem;
   background-position: center center;
 }
 

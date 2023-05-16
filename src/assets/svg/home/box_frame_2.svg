@@ -1,39 +1,39 @@
 <svg width="328" height="92" viewBox="0 0 328 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#q5t6yo3l7a)">
+    <g clip-path="url(#54vkvk0x6a)">
         <path fill="#000" fill-opacity=".01" d="M0 0h328v92H0z"/>
-        <rect x=".5" y=".5" width="327" height="91" rx="7.5" fill="url(#n6ygpqhfyb)"/>
-        <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#a7j8pbbfhc)"/>
-        <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#1lxmfgbozd)"/>
-        <g style="mix-blend-mode:lighten" filter="url(#qiotytufbe)">
-            <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#5qonuazk6f)"/>
-            <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#ghoqduxa1g)"/>
+        <rect x=".5" y=".5" width="327" height="91" rx="7.5" fill="url(#e7bednfnwb)"/>
+        <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#o4cszav2qc)"/>
+        <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#uyrdp2ip9d)"/>
+        <g style="mix-blend-mode:lighten" filter="url(#7j8ex6ke2e)">
+            <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#gvwqwurxof)"/>
+            <rect x=".5" y=".5" width="327" height="91" rx="7.5" stroke="url(#qcr47ndngg)"/>
         </g>
     </g>
     <defs>
-        <linearGradient id="n6ygpqhfyb" x1="4" y1="0" x2="328" y2="92" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#1D3C34"/>
-            <stop offset="1" stop-color="#05221B"/>
+        <linearGradient id="e7bednfnwb" x1="4" y1="0" x2="328" y2="92" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1C3441"/>
+            <stop offset="1" stop-color="#091E29"/>
         </linearGradient>
-        <linearGradient id="a7j8pbbfhc" x1="0" y1="0" x2="62.5" y2="62.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#42FFDD"/>
+        <linearGradient id="o4cszav2qc" x1="0" y1="0" x2="62.5" y2="62.5" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#31AFF0"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="1lxmfgbozd" x1="328" y1="92" x2="267" y2="46" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#42FFDD"/>
+        <linearGradient id="uyrdp2ip9d" x1="328" y1="92" x2="267" y2="46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#31AFF0"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="5qonuazk6f" x1="0" y1="0" x2="62.5" y2="62.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#42FFDD"/>
+        <linearGradient id="gvwqwurxof" x1="0" y1="0" x2="62.5" y2="62.5" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#31AFF0"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="ghoqduxa1g" x1="328" y1="92" x2="267" y2="46" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#42FFDD"/>
+        <linearGradient id="qcr47ndngg" x1="328" y1="92" x2="267" y2="46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#31AFF0"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <clipPath id="q5t6yo3l7a">
+        <clipPath id="54vkvk0x6a">
             <path fill="#fff" d="M0 0h328v92H0z"/>
         </clipPath>
-        <filter id="qiotytufbe" x="-3" y="-3" width="334" height="98" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="7j8ex6ke2e" x="-3" y="-3" width="334" height="98" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
             <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
             <feGaussianBlur stdDeviation="1.5" result="effect1_foregroundBlur_165_171"/>

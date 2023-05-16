@@ -14,6 +14,7 @@
     margin-left: 12.5rem;
 
     .next_box {
+        visibility: hidden;
         display: flex;
         align-items: center;
         padding-bottom: 0.625rem;
@@ -98,13 +99,9 @@
     margin-right: 12.5rem;
     width: 43.5625rem;
     height: 40.5rem;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2.75rem);
     display: flex;
     align-items: center;
     justify-content: center;
-
-    .banner_swiper {
-        width: 35.0625rem;
-        height: 33.6875rem;
-    }
 }

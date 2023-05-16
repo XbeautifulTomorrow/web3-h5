@@ -84,20 +84,25 @@
 
     th {
         &.el-table__cell {
-            background-color: rgba($color: #221B2D, $alpha: 0.8);
+            background-color: #191c28;
             border-bottom-color: #23172A;
         }
     }
 
     tr {
-        background-color: #221B2D;
+        background-color: #151722;
     }
 
     td {
         &.el-table__cell {
-            background-color: #151722;
             border-bottom-color: #23172A;
         }
+    }
+
+    .el-table__empty-block {
+        background-color: #151722;
+        font-size: 1.125rem;
+        color: #a9a4b4;
     }
 
     .el-table__body tr:hover>td {
@@ -111,6 +116,12 @@
     .user_info {
         display: inline-flex;
         align-items: center;
+
+        img {
+            width: 3.125rem;
+            height: auto;
+            border-radius: 0.5rem;
+        }
 
         span {
             padding-left: 0.75rem;

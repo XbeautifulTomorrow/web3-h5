@@ -8,77 +8,89 @@
           auctor enim.
         </div>
       </div>
-      <el-select class="title-box-r" v-model="value" @change="othersideBoxFun" placeholder="Select" size="large"
+      <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
         effect="dark">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <el-option label="ALL" value="" />
+        <el-option v-for="(item, index) in boxList" :key="index" :label="item.boxName" :value="item.id" />
       </el-select>
     </div>
-    <el-table :data="tableData" class="table_container" style="width: 100%">
-      <el-table-column prop="userId" label="User ID">
+    <el-table :data="nftData" class="table_container" style="width: 100%">
+      <el-table-column prop="nftId" label="NFT">
         <template #default="scope">
           <div class="user_info">
-            <img src="" alt="">
-            <span>{{ `#${scope.row.userId}` }}</span>
+            <img :src="scope.row.nftImg" alt="">
+            <span>{{ `#${scope.row.nftId}` }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="date" label="Collections" />
-      <el-table-column prop="date" label="Price" />
-      <el-table-column prop="date" label="USD Price" />
-      <el-table-column prop="date" label="Last Sale" />
-      <el-table-column prop="date" label="Last Sale" />
-      <el-table-column prop="date" label="Recommended" />
+      <el-table-column prop="nftName" label="Collections" />
+      <el-table-column prop="price" label="Price">
+        <template #default="scope">
+          {{ `${scope.row.price} ${scope.row.coin}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="usdtPrice" label="USD Price">
+        <template #default="scope">
+          {{ `$${scope.row.usdtPrice}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="boxName" label="Recommended" />
       <el-table-column prop="date" label="Action" align="right">
         <template #default="scope">
           <div class="active_btn">
-            <img @click="active(scope.row)" src="@/assets/svg/home/icon_active.svg" alt="">
+            <img @click="handleActive(scope.row)" src="@/assets/svg/home/icon_active.svg" alt="">
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination-box">
-      <el-pagination :page-size="20" :pager-count="7" layout="prev, pager, next" :total="1000" prev-text="Pre"  next-text="Next" />
+      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+        layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
     </div>
   </div>
 </template>
 
 <script>
+import { getNFTList } from '@/services/api/index';
 export default {
   name: 'ContentsInfo',
+  props: ['boxList'],
   data() {
     return {
-      tickets: [],
-      value: null,
-      options: [
-        {
-          value: 'Option1',
-          label: 'Option1',
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-        },
-        {
-          value: 'Option3',
-          label: 'Option3',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ],
-      tableData: [{ userId: "111", userName: "dsadasds" }, 2, 3, 4, 5]
+      nftData: [],
+      searchId: null,
+      page: 1,
+      size: 10,
+      count: 0
     };
   },
   methods: {
-    othersideBoxFun(item) {
-      console.log(item);
+    async fetchNftList() {
+      const res = await getNFTList({
+        page: this.page,
+        size: this.size,
+        boxId: this.searchId
+      });
+      if (res && res.code == 200) {
+        this.nftData = res.data.records;
+        this.count = res.data.total;
+      }
     },
+    othersideBoxFun() {
+      this.page = 1;
+      this.fetchNftList();
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchNftList();
+    },
+    handleActive(event) {
+      console.log(event);
+    }
   },
+  created() {
+    this.fetchNftList();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -101,7 +113,9 @@ export default {
     font-size: 1.125rem;
     font-weight: 500;
 
+    &.selected,
     &.hover {
+      color: white;
       background-color: #281d31;
     }
   }

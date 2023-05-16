@@ -24,7 +24,8 @@
             <div class="invite_button">Total Rewarded: $4.97</div>
         </div>
         <div class="banner_box">
-            <swiper class="banner_swiper" :slides-per-view="1" :space-between="50">
+            <img src="@/assets/img/home/banner.png" alt="">
+            <!-- <swiper class="banner_swiper" :slides-per-view="1" :space-between="50">
                 <swiper-slide>
                     <div class="banner-main">
                         <div class="banner-content">
@@ -32,17 +33,17 @@
                         </div>
                     </div>
                 </swiper-slide>
-            </swiper>
+            </swiper> -->
         </div>
     </div>
 </template>
   
 <script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
+// import { Swiper, SwiperSlide } from 'swiper/vue';
+// import 'swiper/css';
 export default {
     name: 'BannerPage',
-    components: { Swiper, SwiperSlide },
+    // components: { Swiper, SwiperSlide },
     data() {
         return {};
     },

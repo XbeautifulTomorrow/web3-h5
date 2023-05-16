@@ -12,7 +12,7 @@
         <li class="mystery-boxes-item" v-if="index < 5" :key="`mystery-${index}`"
           @click="$router.push('mysteryBox?boxId=' + item.id)">
           <div class="img_box">
-            <img class="mystery-boxs-list-img" src="@/assets/img/home/icon_box.png" alt="" />
+            <img class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
           </div>
           <div class="mystery-boxs-title text-ellipsis">
             <div class="box-name">{{ item.boxName }}</div>
@@ -45,31 +45,7 @@ export default {
   name: 'MysteryBoxes',
   props: ['boxList'],
   data() {
-    return {
-      mystery: [
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-      ],
-    };
+    return {};
   },
 };
 </script>

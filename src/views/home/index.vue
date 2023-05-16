@@ -3,7 +3,7 @@
     <banner />
     <mystery-boxes :boxList="boxList" />
     <nft-tickets :ticketList="ticketList" />
-    <contents-info :NFTList="NFTList" />
+    <contents-info :boxList="boxList" />
   </div>
 </template>
 

@@ -1,8 +1,7 @@
 .ntf-tickets {
     max-width: 120rem;
-    padding-top: 10.625rem;
     box-sizing: border-box;
-    padding: 0 12.5rem;
+    padding: 10.625rem 12.5rem 0;
     margin: 0 auto;
 }
 
@@ -44,12 +43,22 @@
     border-radius: 0.625rem;
     background-color: #1d0f36;
 
+    &:hover {
+        .img-box {
+            &>img {
+                transform: scale(1.15);
+                transition: all 0.3s;
+            }
+        }
+    }
+
     .img-box {
         width: 100%;
         min-height: 20.3125rem;
         position: relative;
         box-sizing: border-box;
         border-radius: 0.625rem;
+        overflow: hidden;
 
         img {
             width: 100%;

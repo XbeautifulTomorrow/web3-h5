@@ -84,18 +84,17 @@
 
     th {
         &.el-table__cell {
-            background-color: rgba($color: #221B2D, $alpha: 0.8);
+            background-color: #191c28;
             border-bottom-color: #23172A;
         }
     }
 
     tr {
-        background-color: #221B2D;
+        background-color: #151722;
     }
 
     td {
         &.el-table__cell {
-            background-color: #151722;
             border-bottom-color: #23172A;
         }
     }

@@ -99,6 +99,12 @@
         }
     }
 
+    .el-table__empty-block {
+        background-color: #151722;
+        font-size: 1.125rem;
+        color: #a9a4b4;
+    }
+
     .el-table__body tr:hover>td {
         background-color: #281d31 !important;
     }
@@ -110,6 +116,12 @@
     .user_info {
         display: inline-flex;
         align-items: center;
+
+        img {
+            width: 3.125rem;
+            height: auto;
+            border-radius: 0.5rem;
+        }
 
         span {
             padding-left: 0.75rem;

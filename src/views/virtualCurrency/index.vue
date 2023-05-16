@@ -14,12 +14,12 @@
           :class="['virtual-currency-item', `box_frame_${index < 4 ? index + 1 : (index % 4) + 1}`, { isHide: activeIndex == index }]"
           @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
           <div class="virtual-currency-item-l">
-            <img class="virtual-currency-item-img" src="" alt="" />
+            <img class="virtual-currency-item-img" :src="item.nftImg" alt="" />
             <div class="virtual-currency-item-text">
-              <p class="list-nam" :style="{ color: item.color }">{{ item.name }}</p>
+              <p class="list-nam">{{ item.seriesName }}</p>
               <p class="list-currency">
-                {{ item.number ? Number(item.number).toFixed(2) : 0 }}&nbsp;{{
-                  item.currency
+                {{ item.price ? Number(item.price).toFixed(2) : 0 }}&nbsp;{{
+                  item.coin
                 }}
               </p>
             </div>
@@ -29,55 +29,69 @@
           </div>
         </li>
       </ul>
-    </div>
-    <ul v-if="showPopup && currentData"
-      :class="['virtual-currency-item-popup', `box_frame_${activeIndex < 4 ? activeIndex + 1 : (activeIndex % 4) + 1}`]"
-      :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
-      <li :class="['virtual-currency-item', 'isEnter']">
-        <div class="virtual-currency-item-l">
-          <img class="virtual-currency-item-img" src="" alt="" />
-          <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
-            <p class="list-nam" :style="{ color: currencyList[activeIndex].color }">{{
-              currencyList[activeIndex].name }}
-            </p>
-            <p class="list-currency">
-              {{ currencyList[activeIndex].number ? Number(currencyList[activeIndex].number).toFixed(2) : 0 }}&nbsp;{{
-                currencyList[activeIndex].currency }}
-            </p>
+      <ul v-if="showPopup && currentData"
+        :class="['virtual-currency-item-popup', `box_frame_${activeIndex < 4 ? activeIndex + 1 : (activeIndex % 4) + 1}`]"
+        :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
+        <li :class="['virtual-currency-item', 'isEnter']">
+          <div class="virtual-currency-item-l">
+            <img class="virtual-currency-item-img" :src="currencyList[activeIndex] && currencyList[activeIndex].nftImg"
+              alt="" />
+            <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
+              <p class="list-nam">{{
+                currencyList[activeIndex].seriesName }}
+              </p>
+              <p class="list-currency">
+                {{ currencyList[activeIndex].price ? Number(currencyList[activeIndex].price).toFixed(2) : 0 }}&nbsp;{{
+                  currencyList[activeIndex].coin }}
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="virtual-currency-item-r">
-          <img src="@/assets/svg/virtualCurrency/arrow-up-right.svg" alt="">
-        </div>
-      </li>
-      <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">NFT ID</span>
-        <span class="popup-list-text text-ellipsis">3957</span>
-      </li>
-      <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Metamask</span>
-        <span class="popup-list-text text-ellipsis">0x.....81685</span>
-      </li>
-      <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Wallet</span>
-        <span class="popup-list-text text-ellipsis">Ethereum</span>
-      </li>
-      <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Winner</span>
-        <span class="popup-list-text text-ellipsis">0x.....81r445</span>
-      </li>
-      <li class="popup-list">
-        <span class="popup-list-title text-ellipsis">Price</span>
-        <span class="popup-list-text text-ellipsis" style="color:#fff;">5.099ETH</span>
-      </li>
-      <li class="popup-list-button">
-        <div class="mystery-box-button">Go to Mystery Box</div>
-      </li>
-    </ul>
+          <div class="virtual-currency-item-r">
+            <img src="@/assets/svg/virtualCurrency/arrow-up-right.svg" alt="">
+          </div>
+        </li>
+        <li class="popup-list">
+          <span class="popup-list-title text-ellipsis">NFT ID</span>
+          <span class="popup-list-text text-ellipsis">
+            {{ currencyList[activeIndex] && currencyList[activeIndex].nftId }}
+          </span>
+        </li>
+        <li class="popup-list">
+          <span class="popup-list-title text-ellipsis">Contract</span>
+          <span class="popup-list-text text-ellipsis">
+            {{ currencyList[activeIndex] && currencyList[activeIndex].contractAddress }}
+          </span>
+        </li>
+        <li class="popup-list">
+          <span class="popup-list-title text-ellipsis">Chain</span>
+          <span class="popup-list-text text-ellipsis">
+            {{ currencyList[activeIndex] && currencyList[activeIndex].chainId || "-" }}
+          </span>
+        </li>
+        <li class="popup-list">
+          <span class="popup-list-title text-ellipsis">Winner</span>
+          <span class="popup-list-text text-ellipsis">
+            {{ currencyList[activeIndex] && formatAddr(currencyList[activeIndex].winner) }}
+          </span>
+        </li>
+        <li class="popup-list">
+          <span class="popup-list-title text-ellipsis">Price</span>
+          <span class="popup-list-text text-ellipsis" style="color:#fff;">
+            {{ currencyList[activeIndex] && `${currencyList[activeIndex].price}${currencyList[activeIndex].coin}` }}
+          </span>
+        </li>
+        <li class="popup-list-button">
+          <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
+            Go to Mystery Box
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
+import { getTicketList } from '@/services/api/index';
 export default {
   name: 'VirtualCurrency',
   components: {},
@@ -88,78 +102,7 @@ export default {
       showPopup: null,
       currentData: undefined,
       style: {},
-      currencyList: [
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETHC',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETHC',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        },
-        {
-          imgUrl: '',
-          name: 'SchizoPost',
-          color: '#e38d4c',
-          number: '0.279',
-          currency: 'ETH',
-        }
-      ],
+      currencyList: [],
       translateNum: 0,
       timer: null
     };
@@ -172,17 +115,26 @@ export default {
     window.clearTimeout(this.timer);
   },
   methods: {
+    async fetchTicketList() {
+      const res = await getTicketList();
+      if (res && res.code == 200) {
+        this.currencyList = res.data;
+      }
+    },
     mouseenterFun(data, index, e) {
       this.showPopup = true;
       this.activeIndex = index;
       this.currentIndex = index;
       this.currentData = data;
       window.clearTimeout(this.timer);
-      const { left, bottom } = e.target.getBoundingClientRect();
+      const { left } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left + window.scrollX}px`,
-        top: `${bottom - 92}px`
+        top: `${25}px`
       };
+    },
+    handleMysteryBox(event) {
+      this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
     },
     search() {
       // 循环给currencyList数组每一个对象添加translateNum属性为0，这也是为了方便记录每一个对象滚动的宽度
@@ -243,8 +195,19 @@ export default {
       this.showPopup = false;
       this.activeIndex = null;
       // this.roll();
-    }
+    },
+    /**
+     * @description: 格式化地址
+     */
+    formatAddr(event) {
+      if (!event) return "";
+      var reg = /^(\S{2})\S+(\S{6})$/;
+      return event.replace(reg, "$1...$2");
+    },
   },
+  created() {
+    this.fetchTicketList();
+  }
 };
 </script>
 

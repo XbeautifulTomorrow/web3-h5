@@ -45,31 +45,7 @@ export default {
   name: 'MysteryBoxes',
   props: ['boxList'],
   data() {
-    return {
-      mystery: [
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-        {
-          url: '',
-          title: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          number: '69.84',
-          currency: 'ETH',
-        },
-      ],
-    };
+    return {};
   },
 };
 </script>

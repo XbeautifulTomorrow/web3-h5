@@ -1,10 +1,12 @@
 .virtual-currency {
     height: 8.875rem;
-    margin-left: 6.25rem;
+    padding-left: 6.25rem;
+    box-sizing: border-box;
     display: flex;
     align-content: center;
     align-items: center;
     z-index: 10;
+    position: relative;
 }
 
 .virtual-currency-content {
@@ -27,18 +29,34 @@
 
     &>.box_frame_1 {
         background-image: url("@/assets/svg/home/box_frame_1.svg");
+
+        .list-nam {
+            color: #ef962e;
+        }
     }
 
     &>.box_frame_2 {
         background-image: url("@/assets/svg/home/box_frame_2.svg");
+
+        .list-nam {
+            color: #31aff0;
+        }
     }
 
     &>.box_frame_3 {
         background-image: url("@/assets/svg/home/box_frame_3.svg");
+
+        .list-nam {
+            color: #ce42ff;
+        }
     }
 
     &>.box_frame_4 {
         background-image: url("@/assets/svg/home/box_frame_4.svg");
+
+        .list-nam {
+            color: #4a4d58;
+        }
     }
 }
 
@@ -88,7 +106,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
 
     .virtual-currency-item-l {
         display: flex;
@@ -98,6 +115,7 @@
     .virtual-currency-item-img {
         width: 3.75rem;
         height: 3.75rem;
+        border-radius: 0.5rem;
         margin-right: 1.25rem;
     }
 
@@ -132,7 +150,6 @@
 
     &:hover,
     &.isEnter {
-        border-radius: 0.5rem 0.5rem 0 0;
 
         .virtual-currency-item-r {
             display: none;
@@ -156,18 +173,34 @@
 
     &.box_frame_1 {
         background-image: url("@/assets/svg/home/box_frame_1_expand.svg");
+
+        .list-nam {
+            color: #ef962e;
+        }
     }
 
     &.box_frame_2 {
         background-image: url("@/assets/svg/home/box_frame_2_expand.svg");
+
+        .list-nam {
+            color: #31aff0;
+        }
     }
 
     &.box_frame_3 {
         background-image: url("@/assets/svg/home/box_frame_3_expand.svg");
+
+        .list-nam {
+            color: #ce42ff;
+        }
     }
 
     &.box_frame_4 {
         background-image: url("@/assets/svg/home/box_frame_4_expand.svg");
+
+        .list-nam {
+            color: #4a4d58;
+        }
     }
 
     &>.popup-list+.popup-list {

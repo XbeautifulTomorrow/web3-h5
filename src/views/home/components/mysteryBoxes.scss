@@ -47,6 +47,13 @@
     background-repeat: no-repeat;
     background-size: contain;
 
+    &:hover {
+        .mystery-boxs-list-img {
+            transform: scale(1.1);
+            transition: all 0.3s;
+        }
+    }
+
     .img_box {
         width: 100%;
         height: 15.5rem;

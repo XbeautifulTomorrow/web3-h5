@@ -58,7 +58,7 @@ body {
     pointer-events: none;
     background-color: #a21ae2;
     border-radius: 50%;
-    filter: blur(18.75rem);
+    filter: blur(15.625rem);
   }
 
   &>div:nth-child(2) {

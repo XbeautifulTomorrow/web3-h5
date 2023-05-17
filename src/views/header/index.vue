@@ -163,6 +163,7 @@ import { BigNumber } from "bignumber.js";
 import { ElNotification } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
+import { useUserStore } from "@/store/user.js";
 
 import transferAbi from "@/config/transfer.json";
 import nftAbi from "@/config/nft.json";
@@ -284,11 +285,25 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
+    },
+    regInfo() {
+      const userStore = useUserStore();
+      return userStore.regInfo;
+    },
   },
   methods: {
     closeDialogFun() {
       this.pageType = "";
       this.showConnect = false;
+      //   do something
+      if (this.userInfo) {
+        console.log(this.userInfo);
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
+      }
     },
     changeTypeFun(page) {
       this.pageType = page;

@@ -75,6 +75,7 @@
 </template>
 <script setup>
 import { ref, reactive, onBeforeMount, defineEmits } from "vue";
+import { ElMessage } from "element-plus";
 // import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
 import { getLogin } from "@/services/api/user";
@@ -134,6 +135,17 @@ const loginFun = async (formEl) => {
           localStorage.setItem("loginInfo", JSON.stringify(formLogin));
         } else {
           localStorage.removeItem("loginInfo");
+        }
+        if (res.data.userType === "NORMAL") {
+          ElMessage({
+            message: "账号正常",
+            type: "success",
+          });
+        } else {
+          ElMessage({
+            message: "账号异常",
+            type: "warning",
+          });
         }
         userStore.setLogin(res.data);
         // goTo("home");

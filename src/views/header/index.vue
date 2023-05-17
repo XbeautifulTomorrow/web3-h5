@@ -287,17 +287,23 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    regInfo() {
+      const { regInfo } = this.userStore;
+      return regInfo;
+    },
   },
   methods: {
     closeDialogFun() {
       this.pageType = "";
       this.showConnect = false;
-      //   do something
-      const { userInfo, regInfo } = this.userStore;
-      if (userInfo) {
-        console.log(userInfo);
-      } else if (regInfo) {
-        console.log(regInfo);
+      if (this.userInfo) {
+        console.log(this.userInfo);
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
       }
     },
     changeTypeFun(page) {

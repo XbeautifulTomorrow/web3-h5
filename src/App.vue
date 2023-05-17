@@ -4,11 +4,11 @@
     <div class="gradual-bg"></div>
     <div class="gradual-bg"></div>
     <div class="gradual-bg"></div>
+    <router-view class="font-family" name="Header"></router-view>
+    <router-view class="font-family" name="Currency"></router-view>
+    <router-view class="font-family"></router-view>
+    <router-view class="font-family" name="Footer"></router-view>
   </div>
-  <router-view class="font-family" name="Header"></router-view>
-  <router-view class="font-family" name="Currency"></router-view>
-  <router-view class="font-family"></router-view>
-  <router-view class="font-family" name="Footer"></router-view>
 </template>
 
 <script>
@@ -32,7 +32,6 @@ export default {
   width: 100%;
   min-width: 120rem;
   min-height: 100vh;
-  overflow: hidden;
 }
 
 body {
@@ -44,10 +43,10 @@ body {
 @import url("@/components/lottery/css/dialog.scss");
 
 .bg-panl {
-  width: 120rem;
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 
   &>div:nth-child(1) {
     top: 98.875rem;

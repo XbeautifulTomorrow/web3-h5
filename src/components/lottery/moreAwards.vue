@@ -6,6 +6,7 @@
     top="0"
     class="lottery-moreLuck"
     :close-on-click-modal="false"
+    :close-on-press-escape="false"
   >
     <div class="lottery-moreLuck-content" :style="style">
       <awards-list
@@ -21,9 +22,9 @@
   </el-dialog>
 </template>
 <script>
-import AwardsList from './awardList.vue';
+import AwardsList from "./awardList.vue";
 export default {
-  name: 'MoreAwards',
+  name: "MoreAwards",
   components: { AwardsList },
   props: {
     number: {
@@ -77,7 +78,7 @@ export default {
         return this.showMoreDialog;
       },
       set: function (value) {
-        this.$emit('update:showMoreDialog', value);
+        this.$emit("update:showMoreDialog", value);
       },
     },
   },
@@ -101,7 +102,7 @@ export default {
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
-          this.$emit('closeFun', false, 1000);
+          this.$emit("closeFun", false, 1000);
         }
       }, 1000);
     },
@@ -132,7 +133,7 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
-        this.$emit('closeFun', true);
+        this.$emit("closeFun", true);
       }
     },
   },

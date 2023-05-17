@@ -6,6 +6,8 @@
     :align-center="true"
     class="result-dialog"
     :width="width"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
   >
     <div class="result-dialog-content">
       <h2 class="result-title">Top Blue-chips Box</h2>
@@ -91,8 +93,8 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, onMounted, onUnmounted } from 'vue';
-import { BigNumber } from 'bignumber.js';
+import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
+import { BigNumber } from "bignumber.js";
 
 const props = defineProps({
   result: {
@@ -100,7 +102,7 @@ const props = defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(['chooseLotteryHold', 'inventoryFun']);
+const emit = defineEmits(["chooseLotteryHold", "inventoryFun"]);
 const WIDTH = 375;
 let timer = null;
 const visible = ref(true);
@@ -136,11 +138,11 @@ const clearTimerFun = () => {
   timer = null;
 };
 const chooseLotteryHold = (data) => {
-  emit('chooseLotteryHold', data);
+  emit("chooseLotteryHold", data);
 };
 </script>
 <style lang="scss" scoped>
-@import url('./css/result.scss');
+@import url("./css/result.scss");
 </style>
 <style lang="scss">
 .result-dialog {

@@ -5,6 +5,7 @@
     :show-close="false"
     class="public-dialog"
     width="700"
+    :before-close="closeDialogFun"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">

@@ -2,19 +2,35 @@
   <div class="header">
     <div class="header-main">
       <div class="header-left">
-        <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
+        <img
+          class="header-logo"
+          src="@/assets/img/headerFooter/logo.png"
+          alt="logo"
+          @click="goTo()"
+        />
         <ul class="header-nav">
-          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
+          <li
+            class="header-nav-text"
+            v-for="(item, index) in nav"
+            :key="`nav-${index}`"
+            @click="goTo(item.page)"
+          >
             {{ item.text }}
           </li>
         </ul>
       </div>
       <div class="header-right">
-        <div class="btn-box login">Login</div>
-        <div class="btn-box register">Register</div>
+        <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
+        <div class="btn-box register" @click="changeTypeFun('register')">
+          Register
+        </div>
       </div>
-      <div class="header-button" @click="showConnect = true" v-if="!conncectAddress">
-        {{ conncectAddress ? conncectAddress : 'Connect Wallet' }}
+      <div
+        class="header-button"
+        @click="showConnect = true"
+        v-if="!conncectAddress"
+      >
+        {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
         <!-- <img class="header-wallet-img" src="" alt="" /> -->
@@ -26,12 +42,20 @@
         <span class="boxes-button-text text-ellipsis">
           {{ conncectAddress }}
         </span>
-        <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+        <img
+          class="header-user-down"
+          src="@/assets/img/headerFooter/icon-arrowup.png"
+          alt=""
+        />
         <div class="header-user">
           <div class="header-user-main">
             <ul class="header-user-content">
-              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
-                @click="othersideBoxFun(item)">
+              <li
+                :class="['header-user-list']"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
                 <span :class="['header-user-list-img', item.class]"></span>
                 <span>{{ item.text }}</span>
               </li>
@@ -40,7 +64,11 @@
         </div>
       </div>
     </div>
-    <WalletList v-if="showConnect" @connectWallet="connect" @close="showConnect = false" />
+    <WalletList
+      v-if="showConnect"
+      @connectWallet="connect"
+      @close="closeDialogFun"
+    />
     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
@@ -54,23 +82,43 @@
         <el-input v-model="transferNFTAddress" placeholder="Please input" />
       </span>
       <template v-if="tokenChoose == 3">
-        <div class="header-nft" v-for="(item, index) in transferNFTID" :key="`nft-${index}`">
+        <div
+          class="header-nft"
+          v-for="(item, index) in transferNFTID"
+          :key="`nft-${index}`"
+        >
           <span class="header-nft-wrapper">
             <span class="header-nft-label">NFT token id</span>
-            <el-input class="header-nft-input" v-model="transferNFTID[index]" placeholder="Please input" />
+            <el-input
+              class="header-nft-input"
+              v-model="transferNFTID[index]"
+              placeholder="Please input"
+            />
           </span>
           <span class="header-nft-wrapper">
             <span class="header-nft-label">数量</span>
-            <el-input class="header-nft-input" v-model="amountVal[index]" placeholder="Please amount" />
+            <el-input
+              class="header-nft-input"
+              v-model="amountVal[index]"
+              placeholder="Please amount"
+            />
             <!-- <span   class=""> -->
-            <el-icon v-if="amountVal.length > 1" @click="deleteTransferNFTIDFun(index)" class="header-nft-icon">
+            <el-icon
+              v-if="amountVal.length > 1"
+              @click="deleteTransferNFTIDFun(index)"
+              class="header-nft-icon"
+            >
               <Delete />
             </el-icon>
             <!-- </span> -->
           </span>
         </div>
         <div class="header-nft-add">
-          <el-button class="header-nft-button" type="primary" @click="addTransferNFTIDFun">
+          <el-button
+            class="header-nft-button"
+            type="primary"
+            @click="addTransferNFTIDFun"
+          >
             添加
           </el-button>
         </div>
@@ -83,7 +131,6 @@
         OrderId
         <el-input v-model="orderVal" placeholder="Please orderId" />
       </span>
-
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">Cancel</el-button>
@@ -91,117 +138,142 @@
         </span>
       </template>
     </el-dialog>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
   </div>
 </template>
 
 <script>
-import Web3 from 'web3';
-import transferAbi from '@/config/transfer.json';
-import nftAbi from '@/config/nft.json';
-import nft1155Abi from '@/config/1155.json';
-import erc20Abi from '@/config/erc20.json';
-import { h } from 'vue';
-import { ElNotification } from 'element-plus';
-import { useHeaderStore } from '@/store/header.js';
+import Web3 from "web3";
+import { h } from "vue";
+import { BigNumber } from "bignumber.js";
+import { ElNotification } from "element-plus";
+
+import { useHeaderStore } from "@/store/header.js";
+
+import transferAbi from "@/config/transfer.json";
+import nftAbi from "@/config/nft.json";
+import nft1155Abi from "@/config/1155.json";
+import erc20Abi from "@/config/erc20.json";
+
 import {
   getKey,
   authLogin,
   getTheUserSPayoutAddress,
-} from '@/services/api/user';
+} from "@/services/api/user";
 
-import WalletList from '../login/index.vue';
-import { BigNumber } from 'bignumber.js';
+import WalletList from "../wallet/index.vue";
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
 
 export default {
-  name: 'HeaderCom',
+  name: "HeaderCom",
   components: {
     WalletList,
+    Login,
+    Register,
+    Forgot,
   },
   data() {
     return {
       dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
-      orderVal: '',
-      tokenChoose: '1',
+      orderVal: "",
+      tokenChoose: "1",
       web3: null,
       showConnect: false,
+      pageType: "",
       nav: [
         {
-          text: 'Airdrop',
-          page: 'home',
+          text: "Airdrop",
+          page: "home",
         },
         {
-          text: 'Mystery Box',
-          page: 'MysteryBox',
+          text: "Mystery Box",
+          page: "MysteryBox",
         },
         {
-          text: 'Stake',
-          page: 'Stake',
+          text: "Stake",
+          page: "Stake",
         },
         {
-          text: 'INO',
-          page: 'INO',
+          text: "INO",
+          page: "INO",
         },
         {
-          text: 'Market Place',
-          page: 'MarketPlace',
+          text: "Market Place",
+          page: "MarketPlace",
         },
         {
-          text: 'Whitebook',
-          page: 'Whitebook',
+          text: "Whitebook",
+          page: "Whitebook",
         },
         {
-          text: 'FAQ',
-          page: 'FAQ',
+          text: "FAQ",
+          page: "FAQ",
         },
       ],
       userList: [
         {
-          text: 'My Profile',
-          class: 'myProfile',
+          text: "My Profile",
+          class: "myProfile",
         },
         {
-          text: 'Wallet',
-          class: 'wallet',
+          text: "Wallet",
+          class: "wallet",
         },
         {
-          text: 'Wallet Log',
-          class: 'walletLog',
+          text: "Wallet Log",
+          class: "walletLog",
         },
         {
-          text: 'Competitions',
-          class: 'competitions',
+          text: "Competitions",
+          class: "competitions",
         },
         {
-          text: 'My Collections',
-          class: 'myCollections',
+          text: "My Collections",
+          class: "myCollections",
         },
         {
-          text: 'Create',
-          class: 'create',
+          text: "Create",
+          class: "create",
         },
         {
-          text: 'Referral',
-          class: 'referral',
+          text: "Referral",
+          class: "referral",
         },
         {
-          text: 'Settings',
-          class: 'settings',
+          text: "Settings",
+          class: "settings",
         },
         {
-          text: 'Logout',
-          class: 'logout',
+          text: "Logout",
+          class: "logout",
         },
       ],
-      transferNFTAddress: '',
-      transferNFTID: [''],
-      usdtAddress: '0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535',
-      nftTokenAddress: '0x34630181180e38aFbb4F6c0858f22c75A574e5E0', //nft充值
-      receiver: '0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB', //收款地址
-      transferAddress: '0x927e481e98e01bef13d1486be2fcc23a00761524',
+      transferNFTAddress: "",
+      transferNFTID: [""],
+      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
+      nftTokenAddress: "0x34630181180e38aFbb4F6c0858f22c75A574e5E0", //nft充值
+      receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
+      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
-      lottContractAddress: '0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d', //抽奖合约
+      lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
   mounted() {
@@ -214,8 +286,15 @@ export default {
     },
   },
   methods: {
+    closeDialogFun() {
+      this.pageType = "";
+      this.showConnect = false;
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
     addTransferNFTIDFun() {
-      this.transferNFTID.push('');
+      this.transferNFTID.push("");
       this.amountVal.push(1);
     },
     deleteTransferNFTIDFun(index) {
@@ -234,11 +313,11 @@ export default {
       let web3 = window.web3;
       getKey().then(async (res) => {
         if (res.data) {
-          console.log(web3.eth, 'web3=== ');
+          console.log(web3.eth, "web3=== ");
           this.generateKey = web3.utils.toHex(res.data);
           let msg = this.generateKey;
           const signature = await window.ethereum.request({
-            method: 'personal_sign',
+            method: "personal_sign",
             params: [_that.conncectAddress, msg],
           });
           let loginData = await authLogin({
@@ -246,17 +325,17 @@ export default {
             signature: signature, //钱包签名
             chainId: 5, //链ID
             walletAddress: web3.eth.defaultAccount, //钱包地址
-            walletName: 'METAMASK', //钱包名称(META_MASK,WALLET_CONNECT)
-            inviteCode: '', //邀请码
+            walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
+            inviteCode: "", //邀请码
           });
           if (loginData.data.certificate) {
-            localStorage.setItem('certificate', loginData.data.certificate);
+            localStorage.setItem("certificate", loginData.data.certificate);
           }
           let receiver = await getTheUserSPayoutAddress();
           this.getTheUserBalanceInfo();
-          this.showConnect = false;
+          this.closeDialogFun();
           this.receiver = receiver.data;
-          localStorage.setItem('receiver', this.receiver);
+          localStorage.setItem("receiver", this.receiver);
         }
       });
     },
@@ -264,20 +343,20 @@ export default {
       let web3 = new Web3(window.ethereum);
       const _that = this;
       let ethereum = window.ethereum;
-      if (typeof ethereum === 'undefined') {
+      if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
-        alert('请安装MetaMask');
+        alert("请安装MetaMask");
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum
           .enable()
           .catch(function (reason) {
             //如果用户拒绝了登录请求
-            if (reason === 'User rejected provider access') {
+            if (reason === "User rejected provider access") {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              alert('There was a problem signing you in');
+              alert("There was a problem signing you in");
             }
           })
           .then(async function (accounts) {
@@ -317,17 +396,17 @@ export default {
         contractAddress
       );
       const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
+        method: "eth_requestAccounts",
       });
 
-      const amount = web3.utils.toWei(this.amountVal[0].toString(), 'ether');
+      const amount = web3.utils.toWei(this.amountVal[0].toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
 
       if (this.tokenChoose == 3) {
         const nftAddress =
           this.transferNFTAddress ||
-          '0x2953399124f0cbb46d2cbacd8a89cf0599974963'; //opensea 合约地址
+          "0x2953399124f0cbb46d2cbacd8a89cf0599974963"; //opensea 合约地址
         const nftContract = new web3.eth.Contract(nft1155Abi, nftAddress);
         //0xDD31cFbBF68efae0bf18BCa9cC3c5Fef6F8B04f4
         const nftTransferContract = new web3.eth.Contract(
@@ -349,15 +428,15 @@ export default {
             this.amountVal,
             this.receiver,
             orderId,
-            '0x'
+            "0x"
           )
           .send({ from: accounts[0] });
         return;
       }
       if ((!orderId && this.tokenChoose == 1) || !amount) {
         ElNotification({
-          title: 'Tips',
-          message: h('i', { style: 'color: teal' }, 'Please input info'),
+          title: "Tips",
+          message: h("i", { style: "color: teal" }, "Please input info"),
         });
         return;
       }
@@ -366,7 +445,7 @@ export default {
       let allowance = await erc20Contract.methods
         .allowance(accounts[0], contractAddress)
         .call();
-      if (allowance == '0') {
+      if (allowance == "0") {
         await erc20Contract.methods
           .approve(contractAddress, 10000)
           .send({ from: accounts[0] });
@@ -388,19 +467,19 @@ export default {
           value: amount,
         });
     },
-    goTo(page = 'home') {
+    goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {
       console.log(item);
-      if (item.text == 'Wallet') {
-        this.$router.push({ name: 'User' });
-      } else if (item.text == 'Competitions') {
-        this.$router.push({ name: 'Competitions', query: { type: 'ENTERED' } });
-      } else if (item.text == 'My Collections') {
+      if (item.text == "Wallet") {
+        this.$router.push({ name: "User" });
+      } else if (item.text == "Competitions") {
+        this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
+      } else if (item.text == "My Collections") {
         this.$router.push({
-          name: 'Competitions',
-          query: { type: 'MY_COMPETITIONS' },
+          name: "Competitions",
+          query: { type: "MY_COMPETITIONS" },
         });
       }
     },
@@ -409,5 +488,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('./index.scss');
+@import url("./index.scss");
 </style>

@@ -18,25 +18,25 @@
 
 <script>
 export default {
-  name: 'LinkCom',
+  name: "LinkCom",
   props: {
     text: {
       type: String,
-      default: '',
+      default: "",
     },
     src: {
       type: String,
-      default: '',
+      default: "",
     },
     link: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   methods: {
     goToLink() {
       const { link } = this;
-      if (link.indexOf('http') > -1) {
+      if (link.indexOf("http") > -1) {
         window.open(link);
       } else {
         this.$router.push(`/${link}`);

@@ -6,6 +6,7 @@
     :align-center="true"
     class="public-dialog"
     width="700"
+    :before-close="closeDialogFun"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
@@ -69,14 +70,15 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive, defineEmits } from "vue";
+// import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
-const router = useRouter();
+// const router = useRouter();
 const visible = ref(true);
+const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const type = ref(0);
 const ruleFormRef = ref();
 const title = ref("Forgot password?");
@@ -112,8 +114,12 @@ const changeTypeFun = (_type, data) => {
   }
   type.value = _type;
 };
+const closeDialogFun = () => {
+  emit("closeDialogFun");
+};
 const goTo = (page) => {
-  router.push({ path: `${page}` });
+  //   router.push({ path: `${page}` });
+  emit("changeTypeFun", page);
 };
 const resetFun = async (formEl) => {
   if (!formEl) return;

@@ -7,7 +7,7 @@ import Currency from "../views/virtualCurrency/index.vue";
 
 const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
-const Login = () => import("../views/login/login.vue");
+const Login = () => import("../views/login/index.vue");
 const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
 // const Lottery = () => import('@/components/lottery/index.vue');

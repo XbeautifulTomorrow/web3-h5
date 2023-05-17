@@ -6,6 +6,7 @@
     :align-center="true"
     class="public-dialog"
     width="700"
+    :before-close="closeDialogFun"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
@@ -99,14 +100,15 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
+// import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import { getCaptcha, getReg } from "@/services/api/user";
 
-const router = useRouter();
+// const router = useRouter();
 const userStore = useUserStore();
+const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 let timer = null;
 const visible = ref(true);
 const showRemember = ref(false);
@@ -162,7 +164,9 @@ const rules = reactive({
 onBeforeUnmount(() => {
   clearTimerFun();
 });
-
+const closeDialogFun = () => {
+  emit("closeDialogFun");
+};
 const showRememberFun = () => {
   showRemember.value = !showRemember.value;
 };
@@ -211,7 +215,8 @@ const registerFun = async (formEl) => {
       const res = await getReg(data);
       if (res && res.code === 200) {
         userStore.setReg(res.data);
-        router.push({ path: `login` });
+        // router.push({ path: `login` });
+        emit("changeTypeFun", "login");
       }
     } else {
       console.log("error submit!", fields);
@@ -268,10 +273,10 @@ const registerFun = async (formEl) => {
 <style lang="scss">
 .register-captcha {
   .el-input__wrapper {
-    padding-right: 0;
+    padding-right: 0 !important;
   }
   .el-input__validateIcon {
-    display: none;
+    display: none !important;
   }
 }
 </style>

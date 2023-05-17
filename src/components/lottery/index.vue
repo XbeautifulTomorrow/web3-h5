@@ -145,8 +145,6 @@ import AllSold from "./allSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
 
-// import './css/dialog.scss';
-
 const itemWidth = 220;
 export default {
   name: "LotteryPage",

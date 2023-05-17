@@ -159,6 +159,7 @@
 <script>
 import Web3 from "web3";
 import { h } from "vue";
+import { mapStores } from "pinia";
 import { BigNumber } from "bignumber.js";
 import { ElNotification } from "element-plus";
 
@@ -281,17 +282,10 @@ export default {
     // this.connect();
   },
   computed: {
+    ...mapStores(useUserStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
-    },
-    userInfo() {
-      const userStore = useUserStore();
-      return userStore.userInfo;
-    },
-    regInfo() {
-      const userStore = useUserStore();
-      return userStore.regInfo;
     },
   },
   methods: {
@@ -299,10 +293,11 @@ export default {
       this.pageType = "";
       this.showConnect = false;
       //   do something
-      if (this.userInfo) {
-        console.log(this.userInfo);
-      } else if (this.regInfo) {
-        console.log(this.regInfo);
+      const { userInfo, regInfo } = this.userStore;
+      if (userInfo) {
+        console.log(userInfo);
+      } else if (regInfo) {
+        console.log(regInfo);
       }
     },
     changeTypeFun(page) {

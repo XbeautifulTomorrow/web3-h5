@@ -58,6 +58,8 @@ body {
 }
 
 .home {
+  min-width: 120rem;
+  overflow: hidden;
   padding-bottom: 10.625rem;
 }
 

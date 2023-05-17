@@ -83,8 +83,7 @@ export default {
 }
 
 .footer-container {
-  max-width: 120rem;
-  padding: 0 12.5rem;
+  width: 95rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

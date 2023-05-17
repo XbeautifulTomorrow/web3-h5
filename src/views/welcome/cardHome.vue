@@ -9,35 +9,16 @@
       </div>
       <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
       <div class="bitzing-link">
-        <a
-          class="bitzing-link-svg link-twitter"
-          href="https://twitter.com/Bitzing_io"
-          target="_blank"
-        ></a>
-        <a
-          class="bitzing-link-svg link-discord"
-          href="https://discord.gg/J9KVVtWu"
-          target="_blank"
-        ></a>
+        <a class="bitzing-link-svg link-twitter" href="https://twitter.com/Bitzing_io" target="_blank"></a>
+        <a class="bitzing-link-svg link-discord" href="https://discord.gg/J9KVVtWu" target="_blank"></a>
       </div>
     </div>
-    <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      autoplay="true"
-      class="bitzing-audio"
-    ></audio>
+    <audio id="music" ref="music" preload="auto" webkit-playsinline="true" playsinline="true" autoplay="true"
+      class="bitzing-audio"></audio>
     <div v-show="isShow" class="audio-play" @click="audioAutoPlay('music')">
       <div class="audio-play-main">
         <div class="audio-play-close">
-          <img
-            src="./img/invalid-name.png"
-            class="audio-play-close-img"
-            alt=""
-          />
+          <img src="./img/invalid-name.png" class="audio-play-close-img" alt="" />
         </div>
         <img src="./img/get-ready-badass-d.png" alt="" />
         <button class="audio-play-button">
@@ -116,6 +97,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .bitzing {
   width: 100%;
   height: 100vh;
@@ -124,12 +106,15 @@ export default {
   z-index: 10;
   overflow: hidden;
 }
+
 .container {
   perspective: 30px;
 }
+
 .bitzing-link-twitter {
   margin-right: 20px;
 }
+
 .inner {
   transition: transform 0.5s;
 }
@@ -141,12 +126,14 @@ export default {
 .container:hover {
   cursor: pointer;
 }
+
 .bitzing-iframe {
   width: 90%;
   height: 800px;
   margin: 0 auto;
   /* overflow: hidden; */
 }
+
 .bitzing-main {
   position: relative;
   z-index: 10;
@@ -156,15 +143,18 @@ export default {
   transform-origin: center center;
   transform: translate(-50%, -50%) scale(1);
 }
+
 .bitzing-main-img {
   margin: 20px auto;
 }
+
 .logo {
   width: 387px;
   height: 188px;
   margin: 0 auto 20px;
   position: relative;
 }
+
 .logo-img {
   width: 100%;
   height: 100%;
@@ -172,9 +162,11 @@ export default {
   top: 0;
   left: 0;
 }
+
 .notShow {
   z-index: -1;
 }
+
 .bitzing-link-svg {
   width: 127px;
   height: 120px;
@@ -183,13 +175,16 @@ export default {
   display: inline-block;
   outline: none;
 }
+
 .link-twitter {
   background-image: url('./img/button-twitter-sprite.png');
   margin-right: 20px;
 }
+
 .link-discord {
   background-image: url('./img/button-discord-sprite.png');
 }
+
 .bitzing-link-svg:hover {
   animation-name: sprite;
   animation-duration: 0.2s;
@@ -199,6 +194,7 @@ export default {
   cursor: pointer;
   filter: drop-shadow(0 0 46rem #60dbff);
 }
+
 @keyframes sprite {
   0% {
     background-position: 0 0;
@@ -208,6 +204,7 @@ export default {
     background-position: 100% 0;
   }
 }
+
 .audio-play {
   position: fixed;
   top: 0;
@@ -217,6 +214,7 @@ export default {
   z-index: 20;
   cursor: pointer;
 }
+
 .audio-play-main {
   position: absolute;
   top: 50%;
@@ -232,6 +230,7 @@ export default {
   background-color: rgba(1, 8, 28, 0.95);
   overflow: hidden;
 }
+
 .audio-play-button {
   background: none;
   width: 149px;
@@ -248,6 +247,7 @@ export default {
   justify-content: center;
   margin-top: 60px;
 }
+
 .audio-play-close {
   width: 96px;
   height: 96px;
@@ -257,6 +257,7 @@ export default {
   right: -42px;
   background-color: #00e9ec;
 }
+
 .audio-play-close-img {
   position: absolute;
   bottom: 18px;

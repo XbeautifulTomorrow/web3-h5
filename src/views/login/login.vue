@@ -31,14 +31,17 @@
         :status-icon="true"
         class="public-login"
       >
-        <el-form-item label="Email" prop="email">
+        <el-form-item label="Email" prop="account">
           <!-- SuccessFilled -->
           <!-- CircleCloseFilled -->
-          <el-input v-model="formLogin.email" placeholder="Enter your email" />
-        </el-form-item>
-        <el-form-item label="Password" prop="password">
           <el-input
-            v-model="formLogin.password"
+            v-model="formLogin.account"
+            placeholder="Enter your email"
+          />
+        </el-form-item>
+        <el-form-item label="Password" prop="passWord">
+          <el-input
+            v-model="formLogin.passWord"
             placeholder="Enter your password"
             type="password"
             autocomplete="off"
@@ -48,10 +51,7 @@
       <div class="form-link">
         <div class="form-rember">
           <span class="form-rember-rectangle" @click="showRememberFun">
-            <span
-              v-show="showRemember"
-              class="form-rember-rectangle-fill"
-            ></span>
+            <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
           </span>
           <span class="form-rember-text">Remember me</span>
         </div>
@@ -73,18 +73,22 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/user";
+import { getLogin } from "@/services/api/user";
+
+const userStore = useUserStore();
 const router = useRouter();
 const visible = ref(true);
-const showRemember = ref(false);
+const rememberMe = ref(false);
 const ruleFormRef = ref();
-const formLogin = reactive({
-  email: "",
-  password: "",
+let formLogin = reactive({
+  account: "",
+  passWord: "",
 });
 const rules = reactive({
-  email: [
+  account: [
     {
       type: "email",
       required: true,
@@ -92,7 +96,7 @@ const rules = reactive({
       trigger: ["blur", "change"],
     },
   ],
-  password: [
+  passWord: [
     {
       required: true,
       message: "Password is incorrect, please check and try again.",
@@ -100,17 +104,34 @@ const rules = reactive({
     },
   ],
 });
+onBeforeMount(() => {
+  const _loginInfo = localStorage.getItem("loginInfo");
+  if (_loginInfo) {
+    formLogin = JSON.parse(_loginInfo);
+    rememberMe.value = true;
+  }
+});
+
 const showRememberFun = () => {
-  showRemember.value = !showRemember.value;
+  rememberMe.value = !rememberMe.value;
 };
 const goTo = (page) => {
-  router.push({ path: `/${page}` });
+  router.push({ path: `${page}` });
 };
 const loginFun = async (formEl) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log("submit!");
+      const res = await getLogin(formLogin);
+      if (res && res.code === 200) {
+        if (rememberMe.value) {
+          localStorage.setItem("loginInfo", JSON.stringify(formLogin));
+        } else {
+          localStorage.removeItem("loginInfo");
+        }
+        userStore.setLogin(res.data);
+        goTo("home");
+      }
     } else {
       console.log("error submit!", fields);
     }

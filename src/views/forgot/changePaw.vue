@@ -34,8 +34,16 @@
   </el-form>
 </template>
 <script setup>
-import { ref, reactive, defineEmits } from "vue";
+import { ref, reactive, defineEmits, defineProps } from "vue";
+import { getForgetPasswordtcha } from "@/services/api/user";
+
 const emit = defineEmits(["changeTypeFun"]);
+const props = defineProps({
+  formLogin: {
+    type: Object,
+    requird: true,
+  },
+});
 const ruleFormRef = ref();
 const isSure = ref(false);
 const formForgot = reactive({
@@ -46,9 +54,9 @@ const validatePass = (rule, value, callback) => {
   if (value === "") {
     callback(new Error("Please input the password"));
   } else {
-    if (formForgot.checkPass !== "") {
+    if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField("checkPass", () => null);
+      ruleFormRef.value.validateField("confirm", () => null);
     }
     callback();
   }
@@ -69,9 +77,18 @@ const rules = reactive({
 });
 const forgotFun = async (formEl) => {
   if (!formEl || !isSure.value) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      emit("changeTypeFun", 3);
+      const { password } = formForgot;
+      const formLogin = {
+        email: props.formLogin.email,
+        passWord: password,
+        captcha: props.formLogin.captcha,
+      };
+      const res = await getForgetPasswordtcha(formLogin);
+      if (res && res.code === 200) {
+        emit("changeTypeFun", 3);
+      }
     } else {
       console.log("error submit!", fields);
     }

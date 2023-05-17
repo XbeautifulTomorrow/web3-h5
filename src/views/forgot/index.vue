@@ -47,8 +47,16 @@
           </el-button>
         </div>
       </el-form>
-      <code-popup v-else-if="type === 1" @changeTypeFun="changeTypeFun" />
-      <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" />
+      <code-popup
+        v-else-if="type === 1"
+        @changeTypeFun="changeTypeFun"
+        :email="email"
+      />
+      <change-paw
+        v-else-if="type === 2"
+        @changeTypeFun="changeTypeFun"
+        :formLogin="formLogin"
+      />
       <template v-else>
         <p class="public-dialog-illustrate">
           Your password has been reset, please log in again.
@@ -63,6 +71,8 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
 const router = useRouter();
@@ -70,8 +80,10 @@ const visible = ref(true);
 const type = ref(0);
 const ruleFormRef = ref();
 const title = ref("Forgot password?");
-const formLogin = reactive({
+let formLogin = reactive({
   email: "",
+  passWord: "",
+  captcha: "",
 });
 const rules = reactive({
   email: [
@@ -87,7 +99,7 @@ const rules = reactive({
     },
   ],
 });
-const changeTypeFun = (_type) => {
+const changeTypeFun = (_type, data) => {
   if (_type === 0) {
     title.value = "Forgot password?";
   } else if (_type === 1) {
@@ -95,17 +107,29 @@ const changeTypeFun = (_type) => {
   } else {
     title.value = "Reset password";
   }
+  if (data) {
+    formLogin = { ...formLogin, ...data };
+  }
   type.value = _type;
 };
 const goTo = (page) => {
-  router.push({ path: `/${page}` });
+  router.push({ path: `${page}` });
 };
 const resetFun = async (formEl) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log("submit!");
-      changeTypeFun(1);
+      const res = await getCaptcha({
+        type: "update_password",
+        email: formLogin.email,
+      });
+      if (res && res.code === 200) {
+        ElMessage({
+          message: "验证码发送成功,请前往邮箱查看",
+          type: "success",
+        });
+        changeTypeFun(1);
+      }
     } else {
       console.log("error submit!", fields);
     }

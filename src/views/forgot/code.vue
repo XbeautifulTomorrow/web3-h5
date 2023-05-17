@@ -31,6 +31,8 @@
 </template>
 <script>
 import { reactive, watch, toRefs, onMounted, ref, onBeforeUnmount } from "vue";
+import { ElMessage } from "element-plus";
+import { getCaptcha } from "@/services/api/user";
 import InputNumber from "@/components/input/inputNumber.vue";
 export default {
   name: "CodePage",
@@ -104,9 +106,21 @@ export default {
     const clearFun = () => {
       this.autofocus;
     };
-    const codeFun = () => {
-      if (state.time < 60) return;
-      //   code api
+    const codeFun = async () => {
+      if (state.time < 60 || props.email) return;
+      timerFun();
+      const res = await getCaptcha({
+        type: "update_password",
+        email: props.email,
+      });
+      if (res && res.code === 200) {
+        ElMessage({
+          message: "验证码发送成功,请前往邮箱查看",
+          type: "success",
+        });
+      } else {
+        emit("changeTypeFun", 0);
+      }
     };
     watch(
       () => state.formData.code,
@@ -126,8 +140,7 @@ export default {
             }
           }
         }
-        // do something api
-        emit("changeTypeFun", 2);
+        emit("changeTypeFun", 2, { captcha: state.formData.code.join("") });
       },
       { deep: true }
     );

@@ -451,8 +451,13 @@ export default {
       let _arr = [];
       arr.forEach((item, index) => {
         let _itemArr = [];
+        let num = "";
         item.forEach((_item) => {
-          _itemArr.push(_item[key]);
+          num =_item[key]
+          if(key=='amount'){
+            num = parseInt(_item[key])
+          }
+          _itemArr.push(num);
         });
         _arr[index] = _itemArr;
       });
@@ -473,7 +478,7 @@ export default {
       const amount = web3.utils.toWei(this.amountVal[0].toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
-
+      let nftList = []
       if (this.tokenChoose == 3) {
         this.transferNFTAddress.forEach(async (item) => {
           //多个nft授权
@@ -481,6 +486,7 @@ export default {
             nft1155Abi,
             item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
           );
+          nftList.push(item|| "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c")
           // //授权
           await nftContract.methods
             .setApprovalForAll(this.nftTokenAddress, true)
@@ -491,19 +497,14 @@ export default {
           nftAbi,
           this.nftTokenAddress
         );
-        let tokenIds = [];
-        // transferNFTID.forEach((item, index) => {
-        //   tokenIds[index] = [];
-        //   tokenIds[index];
-        // });
-        let tokenId = this.amountVal;
         const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
         const _amount = this.dataArrFun(this.transferNFTID, "amount");
+        console.log(_tokenid,_amount,nftList)
         await nftTransferContract.methods
           .transfer1155Multi(
-            this.transferNFTAddress,
-            [[this.transferNFTID[0]], [this.transferNFTID[1]]],
-            [[2], [3]],
+            nftList,
+            _tokenid,
+            _amount,
             this.receiver,
             orderId,
             "0x"

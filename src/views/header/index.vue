@@ -221,7 +221,7 @@ export default {
   },
   data() {
     return {
-      dialogVisible: true,
+      dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",

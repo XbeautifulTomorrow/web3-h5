@@ -78,13 +78,23 @@
       <br />
 
       <div v-if="tokenChoose == 3">
-        NFT合约地址
         <div :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
+          <p>
+            <span>NFT合约地址</span>
+            <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
+          </p>
           <el-input
             :key="`nft-input-${index}`"
             v-model="transferNFTAddress[index]"
             placeholder="Please input"
           />
+          <el-icon
+            v-if="transferNFTAddress.length > 1"
+            @click="deleteTransferNFTAddressun(index)"
+            class="header-nft-icon"
+          >
+            <Delete />
+          </el-icon>
           <div
             class="header-nft"
             v-for="(item1, index1) in transferNFTID[index]"
@@ -333,6 +343,11 @@ export default {
       const _last = this.transferNFTID[this.transferNFTID.length - 1];
       const _data = JSON.parse(JSON.stringify(_last));
       this.transferNFTID.push(_data);
+    },
+    deleteTransferNFTAddressun(index) {
+      if (this.transferNFTAddress.length < 2) return;
+      this.transferNFTAddress.splice(index, 1);
+      this.transferNFTID.splice(index, 1);
     },
     addTransferNFTIDFun(index) {
       const _data = JSON.parse(JSON.stringify(this.NFTID));

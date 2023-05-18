@@ -46,7 +46,7 @@
 .header-nav {
   margin-left: 90px;
 
-  &>li+li {
+  & > li + li {
     margin-left: 2.5rem;
   }
 
@@ -55,12 +55,11 @@
   }
 }
 
-
 .header-right {
   display: flex;
   align-items: center;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.875rem;
   }
 
@@ -123,7 +122,8 @@
   height: 40px;
   line-height: 40px;
   border-radius: 20px;
-  background: url('@/assets/img/headerFooter/icon-add.png') no-repeat center center #a896b5;
+  background: url("@/assets/img/headerFooter/icon-add.png") no-repeat center
+    center #a896b5;
 }
 
 .boxes-button {
@@ -165,10 +165,12 @@
   border-radius: 12px;
   border-style: solid;
   border-width: 2px;
-  border-image-source: linear-gradient(to bottom,
-      #6ce1f9,
-      #00669b 48%,
-      #b770f4);
+  border-image-source: linear-gradient(
+    to bottom,
+    #6ce1f9,
+    #00669b 48%,
+    #b770f4
+  );
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #2d1942, #2d1942),
     linear-gradient(to bottom, #6ce1f9, #00669b 48%, #b770f4);
@@ -225,77 +227,77 @@
 .header-user-list {
   &:hover {
     .myProfile {
-      background-image: url('@/assets/img/headerFooter/icon-profile-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-profile-hover.png");
     }
 
     .wallet {
-      background-image: url('@/assets/img/headerFooter/icon-walletdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-walletdefault-hover.png");
     }
 
     .walletLog {
-      background-image: url('@/assets/img/headerFooter/icon-walletlogdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-walletlogdefault-hover.png");
     }
 
     .competitions {
-      background-image: url('@/assets/img/headerFooter/icon-competitionsdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-competitionsdefault-hover.png");
     }
 
     .myCollections {
-      background-image: url('@/assets/img/headerFooter/icon-collectiondefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-collectiondefault-hover.png");
     }
 
     .create {
-      background-image: url('@/assets/img/headerFooter/icon-create-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-create-hover.png");
     }
 
     .referral {
-      background-image: url('@/assets/img/headerFooter/icon-referraldefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-referraldefault-hover.png");
     }
 
     .settings {
-      background-image: url('@/assets/img/headerFooter/icon-settingsdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-settingsdefault-hover.png");
     }
 
     .logout {
-      background-image: url('@/assets/img/headerFooter/icon-logoutdefault-hover.png');
+      background-image: url("@/assets/img/headerFooter/icon-logoutdefault-hover.png");
     }
   }
 }
 
 .myProfile {
-  background-image: url('@/assets/img/headerFooter/icon-profile.png');
+  background-image: url("@/assets/img/headerFooter/icon-profile.png");
 }
 
 .wallet {
-  background-image: url('@/assets/img/headerFooter/icon-walletdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-walletdefault.png");
 }
 
 .walletLog {
-  background-image: url('@/assets/img/headerFooter/icon-walletlogdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-walletlogdefault.png");
 }
 
 .competitions {
-  background-image: url('@/assets/img/headerFooter/icon-competitionsdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-competitionsdefault.png");
 }
 
 .myCollections {
-  background-image: url('@/assets/img/headerFooter/icon-collectiondefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-collectiondefault.png");
 }
 
 .create {
-  background-image: url('@/assets/img/headerFooter/icon-create.png');
+  background-image: url("@/assets/img/headerFooter/icon-create.png");
 }
 
 .referral {
-  background-image: url('@/assets/img/headerFooter/icon-referraldefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-referraldefault.png");
 }
 
 .settings {
-  background-image: url('@/assets/img/headerFooter/icon-settingsdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-settingsdefault.png");
 }
 
 .logout {
-  background-image: url('@/assets/img/headerFooter/icon-logoutdefault.png');
+  background-image: url("@/assets/img/headerFooter/icon-logoutdefault.png");
 }
 
 .header-nft {
@@ -310,19 +312,16 @@
   justify-items: center;
   justify-content: center;
 }
-
+.header-nft-wrapper {
+  flex: 1;
+}
 .header-nft-label {
   display: inline-block;
-  width: 70px;
+  width: 150px;
 }
 
 .header-nft-input {
   flex: 1;
-}
-
-.header-nft-add {
-  margin: 10px auto;
-  width: 100%;
 }
 
 .header-nft-button {
@@ -331,4 +330,19 @@
 
 .header-nft-icon {
   margin-left: 3px;
+}
+.header-nft-add {
+  margin-left: 10px;
+}
+.header-nft-content {
+  margin-bottom: 20px;
+}
+.header-nft-title {
+  margin-bottom: 10px;
+  position: relative;
+}
+.title-icon {
+  position: absolute !important;
+  top: 0;
+  right: 0;
 }

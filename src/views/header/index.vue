@@ -69,7 +69,7 @@
       @connectWallet="connect"
       @close="closeDialogFun"
     />
-    <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+    <el-dialog v-model="dialogVisible" title="Tips" width="50%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
         <el-radio label="2" size="large">USDT</el-radio>
@@ -78,23 +78,28 @@
       <br />
 
       <div v-if="tokenChoose == 3">
-        <div :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
-          <p>
+        <div
+          class="header-nft-content"
+          :key="`add-${index}`"
+          v-for="(item, index) in transferNFTAddress"
+        >
+          <p class="header-nft-title">
             <span>NFT合约地址</span>
             <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
+            <el-icon
+              v-if="transferNFTAddress.length > 1"
+              @click="deleteTransferNFTAddressun(index)"
+              class="header-nft-icon title-icon"
+            >
+              <Delete />
+            </el-icon>
           </p>
           <el-input
             :key="`nft-input-${index}`"
             v-model="transferNFTAddress[index]"
             placeholder="Please input"
           />
-          <el-icon
-            v-if="transferNFTAddress.length > 1"
-            @click="deleteTransferNFTAddressun(index)"
-            class="header-nft-icon"
-          >
-            <Delete />
-          </el-icon>
+
           <div
             class="header-nft"
             v-for="(item1, index1) in transferNFTID[index]"
@@ -442,6 +447,17 @@ export default {
           });
       }
     },
+    dataArrFun(arr, key) {
+      let _arr = [];
+      arr.forEach((item, index) => {
+        let _itemArr = [];
+        item.forEach((_item) => {
+          _itemArr.push(_item[key]);
+        });
+        _arr[index] = _itemArr;
+      });
+      return _arr;
+    },
     async transfer() {
       this.dialogVisible = false;
       const web3 = new Web3(window.ethereum);
@@ -481,6 +497,8 @@ export default {
         //   tokenIds[index];
         // });
         let tokenId = this.amountVal;
+        const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
+        const _amount = this.dataArrFun(this.transferNFTID, "amount");
         await nftTransferContract.methods
           .transfer1155Multi(
             this.transferNFTAddress,

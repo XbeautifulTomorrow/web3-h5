@@ -77,52 +77,68 @@
       </el-radio-group>
       <br />
 
-      <span v-if="tokenChoose == 3">
+      <div v-if="tokenChoose == 3">
         NFT合约地址
-        <el-input v-model="transferNFTAddress" placeholder="Please input" />
-      </span>
-      <template v-if="tokenChoose == 3">
-        <div
-          class="header-nft"
-          v-for="(item, index) in transferNFTID"
-          :key="`nft-${index}`"
-        >
-          <span class="header-nft-wrapper">
-            <span class="header-nft-label">NFT token id</span>
+        <template v-for="(item, index) in transferNFTAddress">
+          <div>
             <el-input
-              class="header-nft-input"
-              v-model="transferNFTID[index]"
+              :key="`nft-input-${index}`"
+              v-model="transferNFTAddress[index]"
               placeholder="Please input"
             />
-          </span>
-          <span class="header-nft-wrapper">
-            <span class="header-nft-label">数量</span>
-            <el-input
-              class="header-nft-input"
-              v-model="amountVal[index]"
-              placeholder="Please amount"
-            />
-            <!-- <span   class=""> -->
-            <el-icon
-              v-if="amountVal.length > 1"
-              @click="deleteTransferNFTIDFun(index)"
-              class="header-nft-icon"
-            >
-              <Delete />
-            </el-icon>
-            <!-- </span> -->
-          </span>
-        </div>
-        <div class="header-nft-add">
-          <el-button
-            class="header-nft-button"
-            type="primary"
-            @click="addTransferNFTIDFun"
-          >
-            添加
-          </el-button>
-        </div>
-      </template>
+
+            <template>
+              <div
+                class="header-nft"
+                v-for="(item1, index1) in transferNFTID"
+                :key="`nft-${index1}`"
+              >
+                <span class="header-nft-wrapper">
+                  <span class="header-nft-label">NFT token id</span>
+                  <el-input
+                    class="header-nft-input"
+                    v-model="transferNFTID[index][index1]"
+                    placeholder="Please input"
+                  />
+                </span>
+                <span class="header-nft-wrapper">
+                  <span class="header-nft-label">数量</span>
+                  <el-input
+                    class="header-nft-input"
+                    v-model="amountVal[index][index1]"
+                    placeholder="Please amount"
+                  />
+                  <el-icon
+                    v-if="amountVal[index].length > 1"
+                    @click="deleteTransferNFTIDFun(index)"
+                    class="header-nft-icon"
+                  >
+                    <Delete />
+                  </el-icon>
+                </span>
+                <div class="header-nft-add">
+                  <el-button
+                    class="header-nft-button"
+                    type="primary"
+                    @click="addTransferNFTIDFun(index)"
+                  >
+                    添加
+                  </el-button>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+
+        <el-button
+          class="header-nft-button"
+          type="primary"
+          @click="addTransferNFTAddressun"
+        >
+          添加
+        </el-button>
+      </div>
+
       <span v-else>
         数量
         <el-input v-model="amountVal[0]" placeholder="Please amount" />
@@ -268,10 +284,10 @@ export default {
           class: "logout",
         },
       ],
-      transferNFTAddress: "",
-      transferNFTID: [""],
+      transferNFTAddress: [""],
+      transferNFTID: [[]],
       usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
-      nftTokenAddress: "0x34630181180e38aFbb4F6c0858f22c75A574e5E0", //nft充值
+      nftTokenAddress: "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931", //nft充值
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
@@ -309,9 +325,12 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
-    addTransferNFTIDFun() {
-      this.transferNFTID.push("");
-      this.amountVal.push(1);
+    addTransferNFTAddressun() {
+      this.transferNFTAddress.push("");
+    },
+    addTransferNFTIDFun(index) {
+      this.transferNFTID[index].push("");
+      this.amountVal[index].push(1);
     },
     deleteTransferNFTIDFun(index) {
       if (this.amountVal.length < 2) return;
@@ -420,28 +439,33 @@ export default {
       const orderId = this.orderVal;
 
       if (this.tokenChoose == 3) {
-        const nftAddress =
-          this.transferNFTAddress ||
-          "0x2953399124f0cbb46d2cbacd8a89cf0599974963"; //opensea 合约地址
-        const nftContract = new web3.eth.Contract(nft1155Abi, nftAddress);
-        //0xDD31cFbBF68efae0bf18BCa9cC3c5Fef6F8B04f4
-        const nftTransferContract = new web3.eth.Contract(
+        this.transferNFTAddress.forEach(async (item) => {
+          //多个nft授权
+          let nftContract = new web3.eth.Contract(
+            nft1155Abi,
+            item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
+          );
+          // //授权
+          await nftContract.methods
+            .setApprovalForAll(this.nftTokenAddress, true)
+            .send({ from: accounts[0] });
+        });
+
+        const nftTransferContract = new web3.eth.Contract( //nft转账合约
           nftAbi,
           this.nftTokenAddress
         );
-        //授权
-        await nftContract.methods
-          .setApprovalForAll(this.nftTokenAddress, true)
-          .send({ from: accounts[0] });
-        // return;
+        let tokenIds = [];
+        // transferNFTID.forEach((item, index) => {
+        //   tokenIds[index] = [];
+        //   tokenIds[index];
+        // });
         let tokenId = this.amountVal;
-        // console.log(new BigNumber(tokenId).toString(),"nftTransferContract=====")
-        //mubai 0x2953399124f0cbb46d2cbacd8a89cf0599974963
         await nftTransferContract.methods
-          .transfer1155(
-            nftAddress,
-            this.transferNFTID,
-            this.amountVal,
+          .transfer1155Multi(
+            this.transferNFTAddress,
+            [[this.transferNFTID[0]], [this.transferNFTID[1]]],
+            [[2], [3]],
             this.receiver,
             orderId,
             "0x"

@@ -79,56 +79,54 @@
 
       <div v-if="tokenChoose == 3">
         NFT合约地址
-        <template v-for="(item, index) in transferNFTAddress">
-          <div>
-            <el-input
-              :key="`nft-input-${index}`"
-              v-model="transferNFTAddress[index]"
-              placeholder="Please input"
-            />
-
-            <template>
-              <div
-                class="header-nft"
-                v-for="(item1, index1) in transferNFTID"
-                :key="`nft-${index1}`"
+        <div :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
+          <el-input
+            :key="`nft-input-${index}`"
+            v-model="transferNFTAddress[index]"
+            placeholder="Please input"
+          />
+          <div
+            class="header-nft"
+            v-for="(item1, index1) in transferNFTID[index]"
+            :key="`nft-${index1}`"
+          >
+            <span class="header-nft-wrapper">
+              <span class="header-nft-label">NFT token id</span>
+              <el-input
+                class="header-nft-input"
+                v-model="transferNFTID[index][index1].tokenid"
+                placeholder="Please input"
+              />
+            </span>
+            <span class="header-nft-wrapper">
+              <span class="header-nft-label">数量</span>
+              <el-input
+                class="header-nft-input"
+                v-model="transferNFTID[index][index1].amount"
+                placeholder="Please amount"
+              />
+              <el-icon
+                v-if="transferNFTID[index].length > 1"
+                @click="deleteTransferNFTIDFun(index, index1)"
+                class="header-nft-icon"
               >
-                <span class="header-nft-wrapper">
-                  <span class="header-nft-label">NFT token id</span>
-                  <el-input
-                    class="header-nft-input"
-                    v-model="transferNFTID[index][index1]"
-                    placeholder="Please input"
-                  />
-                </span>
-                <span class="header-nft-wrapper">
-                  <span class="header-nft-label">数量</span>
-                  <el-input
-                    class="header-nft-input"
-                    v-model="amountVal[index][index1]"
-                    placeholder="Please amount"
-                  />
-                  <el-icon
-                    v-if="amountVal[index].length > 1"
-                    @click="deleteTransferNFTIDFun(index)"
-                    class="header-nft-icon"
-                  >
-                    <Delete />
-                  </el-icon>
-                </span>
-                <div class="header-nft-add">
-                  <el-button
-                    class="header-nft-button"
-                    type="primary"
-                    @click="addTransferNFTIDFun(index)"
-                  >
-                    添加
-                  </el-button>
-                </div>
-              </div>
-            </template>
+                <Delete />
+              </el-icon>
+            </span>
+            <div
+              class="header-nft-add"
+              v-if="index1 === transferNFTID[index].length - 1"
+            >
+              <el-button
+                class="header-nft-button"
+                type="primary"
+                @click="addTransferNFTIDFun(index)"
+              >
+                添加
+              </el-button>
+            </div>
           </div>
-        </template>
+        </div>
 
         <el-button
           class="header-nft-button"
@@ -208,7 +206,7 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
+      dialogVisible: true,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",
@@ -284,8 +282,13 @@ export default {
           class: "logout",
         },
       ],
+      NFTID: {
+        tokenid: "",
+        amount: 1,
+      },
       transferNFTAddress: [""],
-      transferNFTID: [[]],
+      transferNFTID: [[{ tokenid: "", amount: 1 }]],
+      transferAmounts: [],
       usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
       nftTokenAddress: "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931", //nft充值
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
@@ -327,15 +330,17 @@ export default {
     },
     addTransferNFTAddressun() {
       this.transferNFTAddress.push("");
+      const _last = this.transferNFTID[this.transferNFTID.length - 1];
+      const _data = JSON.parse(JSON.stringify(_last));
+      this.transferNFTID.push(_data);
     },
     addTransferNFTIDFun(index) {
-      this.transferNFTID[index].push("");
-      this.amountVal[index].push(1);
+      const _data = JSON.parse(JSON.stringify(this.NFTID));
+      this.transferNFTID[index].push(_data);
     },
-    deleteTransferNFTIDFun(index) {
-      if (this.amountVal.length < 2) return;
-      this.transferNFTID.splice(index, 1);
-      this.amountVal.splice(index, 1);
+    deleteTransferNFTIDFun(index, _index) {
+      if (this.transferNFTID[index].length < 2) return;
+      this.transferNFTID[index].splice(_index, 1);
     },
     getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();

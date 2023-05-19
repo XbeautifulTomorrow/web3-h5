@@ -19,54 +19,58 @@
           </li>
         </ul>
       </div>
-      <div class="header-right" v-if="!userInfo?.id">
-        <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
-        <div class="btn-box register" @click="changeTypeFun('register')">
-          Register
+      <div class="header-login">
+        <div class="header-right" v-if="!userInfo?.id">
+          <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
+          <div class="btn-box register" @click="changeTypeFun('register')">
+            Register
+          </div>
+        </div>
+        <div
+          class="header-button"
+          @click="showConnect = true"
+          v-if="!userInfo?.id && !conncectAddress"
+        >
+          {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
         </div>
       </div>
-      <div
-        class="header-button"
-        @click="showConnect = true"
-        v-if="!conncectAddress"
-      >
-        {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
-      </div>
-      <div class="header-wallet" v-if="conncectAddress">
-        <img
-          class="header-wallet-img"
-          src="@/assets/img/headerFooter/eth_icon.png"
-          alt=""
-        />
-        <span class="header-wallet-money">{{ ethBalance }}</span>
-        <span class="header-wallet-add" @click="dialogVisible = true">+</span>
-      </div>
-      <div class="header-user" v-if="userInfo?.id">
-        <img
-          class="header-user-img"
-          src="@/assets/img/headerFooter/default_avatar.png"
-          alt=""
-        />
-        <span class="header-user-text text-ellipsis">
-          {{ userInfo?.userName || userInfo?.email }}
-        </span>
-        <img
-          class="header-user-down"
-          src="@/assets/img/headerFooter/icon-arrowup.png"
-          alt=""
-        />
-        <div class="header-user-popup">
-          <ul class="header-user-content">
-            <li
-              :class="['header-user-list']"
-              v-for="(item, index) in userList"
-              :key="`box-${index}`"
-              @click="othersideBoxFun(item)"
-            >
-              <span :class="['header-user-list-img', item.class]"></span>
-              <span>{{ item.text }}</span>
-            </li>
-          </ul>
+      <div v-if="userInfo?.id || conncectAddress" class="header-login">
+        <div class="header-wallet">
+          <img
+            class="header-wallet-img"
+            src="@/assets/img/headerFooter/eth_icon.png"
+            alt=""
+          />
+          <span class="header-wallet-money">{{ ethBalance }}</span>
+          <span class="header-wallet-add" @click="dialogVisible = true">+</span>
+        </div>
+        <div class="header-user" v-if="userInfo?.id">
+          <img
+            class="header-user-img"
+            src="@/assets/img/headerFooter/default_avatar.png"
+            alt=""
+          />
+          <span class="header-user-text text-ellipsis">
+            {{ userInfo?.userName || userInfo?.email }}
+          </span>
+          <img
+            class="header-user-down"
+            src="@/assets/img/headerFooter/icon-arrowup.png"
+            alt=""
+          />
+          <div class="header-user-popup">
+            <ul class="header-user-content">
+              <li
+                :class="['header-user-list']"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
+                <span :class="['header-user-list-img', item.class]"></span>
+                <span>{{ item.text }}</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -322,7 +326,7 @@ export default {
     // this.connect();
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -341,7 +345,7 @@ export default {
       this.pageType = "";
       this.showConnect = false;
       if (this.userInfo) {
-        console.log(this.userInfo);
+        this.getTheUserBalanceInfo();
       } else if (this.regInfo) {
         console.log(this.regInfo);
       }

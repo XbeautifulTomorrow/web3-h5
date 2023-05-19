@@ -10,7 +10,7 @@ const Home = () => import("../views/home/index.vue");
 const Login = () => import("../views/login/index.vue");
 const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
-// const Lottery = () => import('@/components/lottery/index.vue');
+const Lottery = () => import("@/components/lottery/index.vue");
 const MysteryBox = () => import("../views/mysteryBox/index.vue");
 const User = () => import("../views/user/index.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
@@ -101,6 +101,16 @@ const routes = [
     name: "Competitions",
     components: {
       default: Competitions,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/lottery",
+    name: "Lottery",
+    components: {
+      default: Lottery,
       Header,
       Footer,
       Currency,

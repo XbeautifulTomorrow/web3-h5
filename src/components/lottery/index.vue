@@ -123,6 +123,15 @@
       :text="warningText"
     />
     <result-list v-if="showResult" :result="awardItem" />
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      :loop="musicLoop"
+      class="bitzing-audio"
+    ></audio>
   </div>
 </template>
 
@@ -134,6 +143,10 @@ import PackBtn from "../pack/index.vue";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
+
+import slipe from "@/assets/music/slipe.mp3";
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
 
 import ResultList from "./resultList.vue";
 import MoreAwards from "./moreAwards.vue";
@@ -184,6 +197,7 @@ export default {
       fiveList: [],
       tenList: [],
       currentItem: undefined,
+      musicLoop: true,
       borStyle: {
         width: `${itemWidth}px`,
         height: `${itemWidth}px`,
@@ -328,12 +342,14 @@ export default {
       } else {
         this.moreLuck = data;
       }
-      this.stopScroll();
+      this.stopScroll(data[0]);
     },
     changeFun(index) {
       this.showIndex = index;
     },
     messageFun(type = "warning", message = "余额不足,请充值!") {
+      const music = this.$refs.music;
+      music.pause();
       ElMessage({
         message,
         type,
@@ -371,15 +387,29 @@ export default {
         }
         this.showMoreDialog = true;
       }
+      this.palyMusic(slipe);
       this.$emit("setBalanceOrder", type);
+    },
+    palyMusic(_music, musicLoop = true, _ref = "music") {
+      this.musicLoop = musicLoop;
+      const music = this.$refs[_ref];
+      music.src = _music;
+      music.play();
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
-    stopScroll() {
+    stopScroll(data) {
       this.autoplay = false;
       const _x = this.getRand(10, itemWidth - 60);
       this.carouselStyle = { transform: `translateX(-${_x}px` };
+      if (data && data.qualityType) {
+        if (data.qualityType === "NORMAL") {
+          this.palyMusic(usually, false);
+        } else {
+          this.palyMusic(advanced, false);
+        }
+      }
     },
     resetBox() {
       this.autoplay = false;

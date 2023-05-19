@@ -19,9 +19,19 @@
         :winData="winData[index]"
       />
     </div>
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      class="bitzing-audio"
+    ></audio>
   </el-dialog>
 </template>
 <script>
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
@@ -97,6 +107,9 @@ export default {
       this.timer = setInterval(() => {
         this.winData.push(data[this.numberTest]);
         this.autoplay[this.numberTest] = false;
+        const music = this.$refs.music;
+        music.src = data[this.numberTest] === "NORMAL" ? usually : advanced;
+        music.play();
         this.numberTest += 1;
         if (this.winData.length >= this.number) {
           this.autoplayFun();

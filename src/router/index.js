@@ -16,6 +16,7 @@ const User = () => import("../views/user/index.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Competitions = () => import("../views/user/competitions.vue");
+const Snapshot = () => import("../views/snapshot/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -111,6 +112,16 @@ const routes = [
     name: "Lottery",
     components: {
       default: Lottery,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/snapshot",
+    name: "Snapshot",
+    components: {
+      default: Snapshot,
       Header,
       Footer,
       Currency,

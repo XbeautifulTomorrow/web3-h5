@@ -19,7 +19,7 @@
           </li>
         </ul>
       </div>
-      <div class="header-right">
+      <div class="header-right" v-if="!userInfo?.id">
         <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
         <div class="btn-box register" @click="changeTypeFun('register')">
           Register
@@ -33,34 +33,40 @@
         {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
       </div>
       <div class="header-wallet" v-if="conncectAddress">
-        <!-- <img class="header-wallet-img" src="" alt="" /> -->
-        <span class="header-wallet-money">{{ ethBalance }}ETH</span>
-        <span class="header-wallet-add" @click="dialogVisible = true"></span>
+        <img
+          class="header-wallet-img"
+          src="@/assets/img/headerFooter/eth_icon.png"
+          alt=""
+        />
+        <span class="header-wallet-money">{{ ethBalance }}</span>
+        <span class="header-wallet-add" @click="dialogVisible = true">+</span>
       </div>
-      <div class="boxes-button" v-if="conncectAddress">
-        <!-- <img class="header-user-img" src="" alt="" /> -->
-        <span class="boxes-button-text text-ellipsis">
-          {{ conncectAddress }}
+      <div class="header-user" v-if="userInfo?.id">
+        <img
+          class="header-user-img"
+          src="@/assets/img/headerFooter/default_avatar.png"
+          alt=""
+        />
+        <span class="header-user-text text-ellipsis">
+          {{ userInfo?.userName || userInfo?.email }}
         </span>
         <img
           class="header-user-down"
           src="@/assets/img/headerFooter/icon-arrowup.png"
           alt=""
         />
-        <div class="header-user">
-          <div class="header-user-main">
-            <ul class="header-user-content">
-              <li
-                :class="['header-user-list']"
-                v-for="(item, index) in userList"
-                :key="`box-${index}`"
-                @click="othersideBoxFun(item)"
-              >
-                <span :class="['header-user-list-img', item.class]"></span>
-                <span>{{ item.text }}</span>
-              </li>
-            </ul>
-          </div>
+        <div class="header-user-popup">
+          <ul class="header-user-content">
+            <li
+              :class="['header-user-list']"
+              v-for="(item, index) in userList"
+              :key="`box-${index}`"
+              @click="othersideBoxFun(item)"
+            >
+              <span :class="['header-user-list-img', item.class]"></span>
+              <span>{{ item.text }}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -261,7 +267,7 @@ export default {
       ],
       userList: [
         {
-          text: "My Profile",
+          text: "Profile",
           class: "myProfile",
         },
         {
@@ -453,9 +459,9 @@ export default {
         let _itemArr = [];
         let num = "";
         item.forEach((_item) => {
-          num =_item[key]
-          if(key=='amount'){
-            num = parseInt(_item[key])
+          num = _item[key];
+          if (key == "amount") {
+            num = parseInt(_item[key]);
           }
           _itemArr.push(num);
         });
@@ -478,7 +484,7 @@ export default {
       const amount = web3.utils.toWei(this.amountVal[0].toString(), "ether");
       const receiver = this.receiver;
       const orderId = this.orderVal;
-      let nftList = []
+      let nftList = [];
       if (this.tokenChoose == 3) {
         this.transferNFTAddress.forEach(async (item) => {
           //多个nft授权
@@ -486,7 +492,7 @@ export default {
             nft1155Abi,
             item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
           );
-          nftList.push(item|| "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c")
+          nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
           // //授权
           await nftContract.methods
             .setApprovalForAll(this.nftTokenAddress, true)
@@ -499,7 +505,7 @@ export default {
         );
         const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
         const _amount = this.dataArrFun(this.transferNFTID, "amount");
-        console.log(_tokenid,_amount,nftList)
+        console.log(_tokenid, _amount, nftList);
         await nftTransferContract.methods
           .transfer1155Multi(
             nftList,
@@ -560,6 +566,8 @@ export default {
           name: "Competitions",
           query: { type: "MY_COMPETITIONS" },
         });
+      } else if (item.text === "Logout") {
+        this.userStore.logoutApi();
       }
     },
   },

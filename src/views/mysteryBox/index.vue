@@ -1,11 +1,20 @@
 <template>
   <div class="blind-detail">
-    <template v-if="blindDetailInfo &&
-      blindDetailInfo.series &&
-      blindDetailInfo.series.length > 0
-      ">
-      <Lottory :lottoList="blindDetailInfo.series" :lottResult="lottResult" :blindDetailInfo="blindDetailInfo"
-        :apiIsError="apiIsError" @setBalanceOrder="setBalanceOrder" @apiIsErrorFun="apiIsErrorFun" />
+    <template
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
+      <Lottory
+        :lottoList="blindDetailInfo.series"
+        :lottResult="lottResult"
+        :blindDetailInfo="blindDetailInfo"
+        :apiIsError="apiIsError"
+        @setBalanceOrder="setBalanceOrder"
+        @apiIsErrorFun="apiIsErrorFun"
+      />
     </template>
     <boxDetails></boxDetails>
   </div>
@@ -30,7 +39,7 @@ export default {
   name: "BlindDetail",
   components: {
     Lottory,
-    boxDetails
+    boxDetails,
   },
   data() {
     return {
@@ -234,9 +243,11 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(228deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0) 62%);
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
 
   &:last-child {
     margin-right: 0;
@@ -272,10 +283,12 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
@@ -285,10 +298,12 @@ body {
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;
@@ -296,5 +311,4 @@ body {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-
 </style>

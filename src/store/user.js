@@ -31,5 +31,9 @@ export const useUserStore = defineStore("user", {
     setReg(data) {
       this.regInfo = data;
     },
+    logoutApi() {
+      this.userInfo = undefined;
+      this.regInfo = undefined;
+    },
   },
 });

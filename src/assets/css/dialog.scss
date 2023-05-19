@@ -3,6 +3,9 @@
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: 0 100%;
+  .el-dialog__body {
+    padding: 30px;
+  }
   &.el-dialog {
     background-color: #20222d;
     border-radius: 20px;
@@ -42,6 +45,8 @@
     background-image: linear-gradient(to bottom, #e3a406, #fbd851);
     border: none;
     margin-top: 60px;
+    height: 60px;
+    font-size: 18px;
   }
   .public-dialog-text {
     font-size: 18px;
@@ -112,5 +117,8 @@
     background-color: #292c36;
     color: #e4e7f5;
     background-image: none;
+  }
+  .el-input--large {
+    height: 70px;
   }
 }

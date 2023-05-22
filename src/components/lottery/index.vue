@@ -50,17 +50,17 @@
       </div>
       <div class="btn-container">
         <!-- <button-com @click="openBox" text="开始" /> -->
-        <pack-btn class="pack-bg" @click="stopScroll">结束</pack-btn>
-        <pack-btn class="pack-bg" @click="resetBox">重置</pack-btn>
-        <pack-btn class="pack-bg" @click="startLott('ONE')">
+        <el-button class="roll-button" @click="stopScroll"> 结束 </el-button>
+        <el-button class="roll-button" @click="resetBox"> 重置 </el-button>
+        <el-button class="roll-button" @click="startLott('ONE')">
           余额抽盲盒(单抽)
-        </pack-btn>
-        <pack-btn class="pack-bg" @click="startLott('FIVE')">
+        </el-button>
+        <el-button class="roll-button" @click="startLott('FIVE')">
           余额抽盲盒(五连抽)
-        </pack-btn>
-        <pack-btn class="pack-bg" @click="startLott('TEN')">
+        </el-button>
+        <el-button class="roll-button" @click="startLott('TEN')">
           余额抽盲盒(十连抽)
-        </pack-btn>
+        </el-button>
       </div>
     </div>
     <div
@@ -87,7 +87,7 @@
     />
     <your-reard
       v-else-if="showDialog === 'yourReard'"
-      :sold="{}"
+      :sold="awardItem[0]"
       @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
@@ -99,20 +99,21 @@
     />
     <been-sold
       v-else-if="showDialog === 'beenSold'"
-      :sold="{}"
+      :soldList="awardItem"
       @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
     />
     <all-sold
       v-else-if="showDialog === 'allSold'"
-      :soldList="[]"
+      :soldList="awardItem"
       @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
     <part-sold
       v-else-if="showDialog === 'partSold'"
-      :reserveList="[]"
-      :soldList="[]"
+      :soldList="awardItem"
+      :chooseIds="chooseIds"
+      :failList="failList"
       @inventoryFun="inventoryFun"
       @closeDialogFun="closeDialogFun"
     />
@@ -122,7 +123,12 @@
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
-    <result-list v-if="showResult" :result="awardItem" />
+    <result-list
+      v-if="showResult"
+      :result="awardItem"
+      @chooseLotteryHold="chooseLotteryHold"
+      @closeDialogFun="closeDialogFun"
+    />
     <audio
       id="music"
       ref="music"
@@ -136,10 +142,10 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { BigNumber } from "bignumber.js";
 import { lotteryHold } from "@/services/api/blindBox";
-import PackBtn from "../pack/index.vue";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
@@ -162,7 +168,6 @@ const itemWidth = 220;
 export default {
   name: "LotteryPage",
   components: {
-    PackBtn,
     ResultList,
     MoreAwards,
     ChooseToken,
@@ -192,6 +197,8 @@ export default {
       itemWidth: itemWidth, //每张卡牌的宽度
       items: [], //滚动的卡片列表
       awardItem: [], //中奖道具
+      chooseIds: [],
+      failList: [],
       awardItemPrice: 0,
       itemList: [],
       fiveList: [],
@@ -217,6 +224,9 @@ export default {
       moreNumber: 5,
       resultWidth: 180 * 5 + 6 * 5 + 40,
     };
+  },
+  computed: {
+    ...mapStores(useHeaderStore),
   },
   watch: {
     lottResult: function (newVal) {
@@ -250,29 +260,66 @@ export default {
     },
   },
   methods: {
-    inventoryFun() {
-      this.closeDialogFun();
+    async inventoryFun() {
+      const { chooseIds, awardItem } = this;
+      let _chooseIds = [];
+      if (chooseIds.length) {
+        _chooseIds = chooseIds;
+      } else {
+        _chooseIds = awardItem.map((item) => item.id);
+      }
+      const _data = {
+        lotteryIds: _chooseIds.join(","),
+        orderId: awardItem[0]?.orderId,
+      };
+      const res = await lotteryHold(_data);
+      if (res && res.code === 200) {
+        if (res.data.length) {
+          this.showDialog = "partSold";
+          this.failList = res.data;
+        } else {
+          this.closeDialogFun();
+        }
+      }
     },
     balanceFun() {
+      this.headerStoreStore.getTheUserBalanceApi();
       this.closeDialogFun();
     },
     closeDialogFun() {
       this.showDialog = "";
-    },
-    async chooseLotteryHold(type) {
-      let data = this.lottoResult.data;
-      let arg = { orderId: data[0].orderId };
-      if (type == "hold") {
-        arg = {
-          lotteryIds: data[0].id,
-        };
-      }
-      await lotteryHold(arg);
+      this.chooseIds = [];
+      this.failList = [];
       this.showResult = false;
       this.awardItemPrice = 0;
       this.resultSecond = 60;
       this.moreLuck = [];
       localStorage.removeItem("awardItem");
+    },
+
+    async chooseLotteryHold(type, _choose) {
+      const { awardItem } = this;
+      if (type === "hold") {
+        if (awardItem.length < 2) {
+          const _data = {
+            lotteryIds: awardItem[0]?.id,
+            orderId: awardItem[0]?.orderId,
+          };
+          const res = await lotteryHold(_data);
+          if (res && res.code === 200) {
+            this.showDialog = "yourReard";
+          }
+        } else {
+          if (_choose.value.length) {
+            this.chooseIds = _choose.value;
+            this.showDialog = "partSold";
+          } else {
+            this.showDialog = "allSold";
+          }
+        }
+      } else {
+        this.showDialog = "beenSold";
+      }
     },
     clearTimerFun() {
       clearTimeout(this.closeTimer);
@@ -358,8 +405,7 @@ export default {
     startLott(type) {
       this.awardItem = [];
       this.moreLuck = [];
-      const headerStore = useHeaderStore();
-      const { balance } = headerStore;
+      const { balance } = this.headerStoreStore;
       const { blindDetailInfo } = this;
       // if (!blindDetailInfo || !balance) {
       //   this.messageFun('error', '请求数据出错，请刷新重新登录！');

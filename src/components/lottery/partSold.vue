@@ -31,38 +31,67 @@
         for, we will be converted to the final value of the NFT directly into
         the ETH transferred to your balance
       </p>
-      <template v-if="reserveList.length">
+      <template v-if="chooseIds.length">
         <h3 class="public-dialog-title-other">NFTs</h3>
         <ul class="public-dialog-lists">
-          <li
-            class="public-dialog-list"
-            v-for="(item, index) in reserveList"
-            :key="`portrait-${index}`"
-          >
-            <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
-          </li>
+          <template v-for="(item, index) in soldList">
+            <li
+              v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
+              class="public-dialog-list"
+              :key="`portrait-${index}`"
+            >
+              <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+            </li>
+          </template>
         </ul>
       </template>
-      <template v-if="soldList.length">
+      <template v-if="chooseIds.length !== soldList.length || failList.length">
         <h3 class="public-dialog-title-other">ETH</h3>
         <ul class="public-dialog-lists">
-          <li
-            class="public-dialog-list"
-            v-for="(item, index) in soldList"
-            :key="`portrait-${index}`"
-          >
-            <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
-            <p class="public-dialog-list-text">
-              <img
-                class="public-dialog-list-img"
-                src="@/assets/img/eth.png"
-                alt=""
-              />
-              <span class="public-dialog-list-number">{{ item.price }}</span>
-            </p>
-            <span class="public-dialog-list-result sold">Sold</span>
-            <span class="public-dialog-list-result refund">Refund</span>
-          </li>
+          <template v-for="(item, index) in soldList">
+            <li
+              v-if="failList.includes(item.id)"
+              class="public-dialog-list"
+              :key="`portrait-${index}`"
+            >
+              <div class="portrait-img">
+                <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+                <span class="public-dialog-list-result refund"> Refund </span>
+              </div>
+              <p class="public-dialog-list-text">
+                <img
+                  class="public-dialog-list-img"
+                  src="@/assets/img/eth.png"
+                  alt=""
+                />
+                <span class="public-dialog-list-number"
+                  >{{ item.price }}{{ item.id }}</span
+                >
+              </p>
+            </li>
+          </template>
+          <template v-for="(item, index) in soldList">
+            <li
+              v-if="!chooseIds.includes(item.id) && !failList.includes(item.id)"
+              class="public-dialog-list"
+              :key="`portrait-${index}`"
+            >
+              <div class="portrait-img">
+                <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+                <span class="public-dialog-list-result sold"> Sold </span>
+              </div>
+              <p class="public-dialog-list-text">
+                <img
+                  class="public-dialog-list-img"
+                  src="@/assets/img/eth.png"
+                  alt=""
+                />
+                <span class="public-dialog-list-number"
+                  >{{ item.price }} {{ item.id }}</span
+                >
+              </p>
+            </li>
+          </template>
         </ul>
       </template>
       <p class="public-dialog-total">
@@ -70,16 +99,24 @@
         <span class="public-dialog-total-number"> {{ total }} ETH </span>
       </p>
       <el-button class="public-button" @click="inventoryFun">
-        Check my inventory
+        {{ props.failList.length ? "Close" : "Check my inventory" }}
       </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
+import {
+  ref,
+  defineEmits,
+  defineProps,
+  onBeforeMount,
+  watchEffect,
+  onUpdated,
+} from "vue";
+import { BigNumber } from "bignumber.js";
 
-defineProps({
-  reserveList: {
+const props = defineProps({
+  chooseIds: {
     type: Object,
     default: () => {
       return [];
@@ -91,25 +128,66 @@ defineProps({
       return [];
     },
   },
+  failList: {
+    type: Object,
+    default: () => {
+      return [];
+    },
+  },
 });
-const emit = defineEmits(["closeDialogFun"]);
+const emit = defineEmits(["inventoryFun", "closeDialogFun"]);
 
 const visible = ref(true);
 const total = ref(0);
+onBeforeMount(() => {
+  totalFun();
+});
+onUpdated(() => {
+  if (props.failList.length) {
+    totalFun();
+  }
+});
+const totalFun = () => {
+  total.value = 0;
+  const { soldList, chooseIds, failList } = props;
+  soldList.forEach((item) => {
+    if (chooseIds.includes(item.id) && !failList.includes(item.id)) {
+      total.value = BigNumber(total.value).plus(Number(item.price));
+    }
+  });
+};
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const inventoryFun = () => {
-  emit("inventoryFun");
+  if (props.failList.length) {
+    closeDialogFun();
+  } else {
+    emit("inventoryFun");
+  }
 };
+watchEffect();
 </script>
 <style lang="scss" scoped>
-.public-dialog-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 20px;
-}
 .public-dialog-total {
   margin-top: 30px;
+}
+.public-dialog-list-text {
+  margin-top: 5px;
+}
+.public-dialog-list-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.public-dialog-list-number {
+  font-size: 20px;
+  color: #e4e7f5;
+}
+.public-dialog-list-result {
+  bottom: 0;
+}
+.portrait-img {
+  position: relative;
 }
 </style>

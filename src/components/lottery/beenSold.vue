@@ -24,15 +24,15 @@
       <h2 class="public-dialog-title">Notice</h2>
       <p class="public-dialog-text">
         Your reward,
-        <span class="public-dialog-special">Mutant Ape Yacht Club # 5154</span>
-        <!-- <span class="public-dialog-special">
-          {{sold.}}
-        </span> -->
+        <span class="public-dialog-special">Mutant Ape Yacht Club # </span>
+        <span class="public-dialog-special">
+          {{ soldList[0]?.orderId }}
+        </span>
         , has been sold and you will receive:
       </p>
       <div class="public-dialog-total">
         <img class="public-dialog-icon" src="@/assets/img/eth.png" alt="" />
-        <span class="public-dialog-total-number">{{ sold.price }}</span>
+        <span class="public-dialog-total-number">{{ total }}</span>
       </div>
       <el-button class="public-button" @click="balanceFun">
         Check balance
@@ -41,17 +41,23 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
+import { ref, defineEmits, defineProps, onBeforeMount } from "vue";
+import { BigNumber } from "bignumber.js";
 
-defineProps({
-  sold: {
-    type: Object,
+const props = defineProps({
+  soldList: {
+    type: Array,
     requird: true,
   },
 });
 const emit = defineEmits(["closeDialogFun", "balanceFun"]);
-
 const visible = ref(true);
+const total = ref(0);
+onBeforeMount(() => {
+  props.soldList.forEach((item) => {
+    total.value = BigNumber(total.value).plus(Number(item.price));
+  });
+});
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };

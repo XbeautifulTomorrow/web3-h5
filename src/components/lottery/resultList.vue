@@ -21,21 +21,54 @@
         ]"
       >
         <li
-          class="result-list"
+          :class="[
+            'result-list',
+            item.qualityType,
+            { 'choose-list': nfts.includes(item.id) },
+            { pointer: result.length > 1 },
+          ]"
           v-for="(item, index) in result"
           :key="`result-${index}`"
+          @click="nftsFun(item)"
         >
           <img class="result-portrait" :src="item.nftImg" alt="" />
-          <div class="result-club">
-            <div class="result-club-title">
-              Bored Ape Yacht Club
-              <el-icon color="#11cde9" size="12"><CircleCheckFilled /></el-icon>
+          <div class="result-club text-ellipsis">
+            <div class="result-club-title text-ellipsis">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="Bored Ape Yacht Club"
+              >
+                <span class="result-club-title-text text-ellipsis">
+                  Bored Ape Yacht Club
+                </span>
+              </el-tooltip>
+              <el-icon color="#11cde9" size="12">
+                <CircleCheckFilled />
+              </el-icon>
             </div>
-            <span class="result-club-serial" v-if="item.tokenId">
-              #&nbsp;{{ item.tokenId }}
+            <span class="result-club-serial text-ellipsis" v-if="item.tokenId">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="`# ${item.tokenId}`"
+              >
+                #&nbsp;{{ item.tokenId }}
+              </el-tooltip>
             </span>
           </div>
-          <p class="result-coin">{{ `${item.price}  ${item.coin}` }}</p>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            :content="`${item.price} ${item.coin}`"
+          >
+            <p class="result-coin">
+              <span class="result-coin-number text-ellipsis">
+                {{ `${item.price}` }}
+              </span>
+              {{ `${item.coin}` }}
+            </p>
+          </el-tooltip>
           <div class="result-one-footer" v-if="result.length < 2">
             <el-button
               class="result-one-button take"
@@ -58,9 +91,20 @@
               At the end of the countdown you will automatically sell all NFT
             </p>
           </div>
-          <div class="result-sell">
+          <div class="result-sell" v-else>
             <span class="result-sell-text">Sell for</span>
-            <span class="result-sell-total">{{ total }}ETH</span>
+            <span class="result-sell-total">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="`${total}${item.coin}`"
+              >
+                <span class="result-sell-total-number text-ellipsis">
+                  {{ total }}
+                </span>
+              </el-tooltip>
+              {{ item.coin }}
+            </span>
           </div>
         </li>
       </ul>
@@ -72,7 +116,7 @@
             round
             @click="chooseLotteryHold('hold')"
           >
-            Take the NFT
+            Take the {{ nfts.length || "" }} NFT{{ nfts.length > 1 ? "s" : "" }}
           </el-button>
           <el-button
             class="result-footer-button sell"
@@ -102,13 +146,18 @@ const props = defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["chooseLotteryHold", "inventoryFun"]);
+const emit = defineEmits([
+  "chooseLotteryHold",
+  "inventoryFun",
+  "closeDialogFun",
+]);
 const WIDTH = 375;
 let timer = null;
 const visible = ref(true);
 let total = ref(0);
 let second = ref(60);
 let width = ref(WIDTH);
+let nfts = ref([]);
 onMounted(() => {
   totalFun();
   timerFun();
@@ -116,6 +165,15 @@ onMounted(() => {
 onUnmounted(() => {
   clearTimerFun();
 });
+const nftsFun = (_data) => {
+  if (props.result.length < 2) return;
+  const _index = nfts.value.findIndex((item) => item === _data.id);
+  if (_index > -1) {
+    nfts.value.splice(_index, 1);
+  } else {
+    nfts.value.push(_data.id);
+  }
+};
 const totalFun = () => {
   const { result } = props;
   if (result.length > 1) {
@@ -129,6 +187,7 @@ const timerFun = () => {
   timer = setInterval(() => {
     second.value--;
     if (second.value < 1) {
+      emit("closeDialogFun");
       clearTimerFun();
     }
   }, 1000);
@@ -138,7 +197,7 @@ const clearTimerFun = () => {
   timer = null;
 };
 const chooseLotteryHold = (data) => {
-  emit("chooseLotteryHold", data);
+  emit("chooseLotteryHold", data, nfts);
 };
 </script>
 <style lang="scss" scoped>

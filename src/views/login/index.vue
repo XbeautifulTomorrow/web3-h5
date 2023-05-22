@@ -136,6 +136,9 @@ const loginFun = async (formEl) => {
         } else {
           localStorage.removeItem("loginInfo");
         }
+        if (res.data.certificate) {
+          localStorage.setItem("certificate", res.data.certificate);
+        }
         if (res.data.userType === "NORMAL") {
           ElMessage({
             message: "账号正常",

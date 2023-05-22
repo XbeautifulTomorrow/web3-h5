@@ -216,6 +216,9 @@ const registerFun = async (formEl) => {
       if (res && res.code === 200) {
         userStore.setReg(res.data);
         // router.push({ path: `login` });
+        if (res.data.certificate) {
+          localStorage.setItem("certificate", res.data.certificate);
+        }
         emit("changeTypeFun", "login");
       }
     } else {

@@ -571,8 +571,6 @@ export default {
           query: { type: "MY_COMPETITIONS" },
         });
       } else if (item.text === "Logout") {
-        sessionStorage.clear();
-        localStorage.clear();
         this.userStore.logoutApi();
       }
     },

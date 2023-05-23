@@ -10,9 +10,22 @@
       :interval="interval"
       :winData="winData[index]"
     />
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      :loop="musicLoop"
+      class="bitzing-audio"
+    ></audio>
   </div>
 </template>
 <script>
+import slipe from "@/assets/music/slipe.mp3";
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
+
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
@@ -66,9 +79,16 @@ export default {
     const _data = this.prizeList.length > 5 ? "TEN" : "FIVE";
     if (!localStorage.getItem(_data)) {
       this.autoplayFun(true);
+      this.playMusicFun(slipe);
     }
   },
   methods: {
+    playMusicFun(_music, musicLoop = true, _ref = "music") {
+      this.musicLoop = musicLoop;
+      const music = this.$refs[_ref];
+      music.src = _music;
+      music.play();
+    },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
@@ -79,9 +99,15 @@ export default {
     stopScroll(data) {
       this.clearTimerFun();
       this.timer = setInterval(() => {
-        this.winData.push(data[this.numberTest]);
-        this.autoplay[this.numberTest] = false;
+        const { numberTest } = this;
+        this.winData.push(data[numberTest]);
+        this.autoplay[numberTest] = false;
         this.numberTest += 1;
+        if (data[numberTest].qualityType === "NORMAL") {
+          this.palyMusic(usually, false);
+        } else {
+          this.palyMusic(advanced, false);
+        }
         if (this.winData.length >= this.prizeList.length) {
           this.autoplayFun();
           this.clearTimerFun();
@@ -113,6 +139,8 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
+        const music = this.$refs.music;
+        music.pause();
       }
     },
   },

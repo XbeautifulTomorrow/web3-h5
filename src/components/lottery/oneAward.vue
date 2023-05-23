@@ -55,11 +55,21 @@
       </el-carousel>
       <div class="list_mask"></div>
     </div>
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      :loop="musicLoop"
+      class="bitzing-audio"
+    ></audio>
   </div>
 </template>
 <script>
-// import advanced from "@/assets/music/advanced.mp3";
-// import usually from "@/assets/music/usually.mp3";
+import slipe from "@/assets/music/slipe.mp3";
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
 
 const itemWidth = 220;
 export default {
@@ -87,6 +97,7 @@ export default {
       interval: 280,
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
       autoplay: false,
+      musicLoop: true,
       itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
         width: `${itemWidth}px`,
@@ -105,9 +116,16 @@ export default {
     }
     if (!localStorage.getItem("ONE")) {
       this.autoplay = true;
+      this.playMusicFun(slipe);
     }
   },
   methods: {
+    playMusicFun(_music, musicLoop = true, _ref = "music") {
+      this.musicLoop = musicLoop;
+      const music = this.$refs[_ref];
+      music.src = _music;
+      music.play();
+    },
     changeFun(index) {
       this.showIndex = index;
     },
@@ -123,13 +141,13 @@ export default {
       localStorage.setItem("awardItem", JSON.stringify(data));
       const _x = this.getRand(10, itemWidth - 60);
       this.carouselStyle = { transform: `translateX(-${_x}px` };
-      //   if (data && data.qualityType) {
-      //     if (data.qualityType === "NORMAL") {
-      //       this.palyMusic(usually, false);
-      //     } else {
-      //       this.palyMusic(advanced, false);
-      //     }
-      //   }
+      if (data && data.qualityType) {
+        if (data.qualityType === "NORMAL") {
+          this.palyMusic(usually, false);
+        } else {
+          this.palyMusic(advanced, false);
+        }
+      }
       this.$emit("showResultFun");
     },
   },
@@ -137,6 +155,8 @@ export default {
     apiIsError: function (newData) {
       if (newData) {
         this.autoplay = false;
+        const music = this.$refs.music;
+        music.pause();
       }
     },
     awardItem: {

@@ -77,18 +77,10 @@
     <result-list
       v-if="showResult"
       :result="awardItem"
+      :localDateTime="localDateTime"
       @chooseLotteryHold="chooseLotteryHold"
       @closeDialogFun="closeDialogFun"
     />
-    <!-- <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      :loop="musicLoop"
-      class="bitzing-audio"
-    ></audio> -->
   </el-dialog>
 </template>
 
@@ -99,8 +91,6 @@ import { lotteryHold } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
-
-import slipe from "@/assets/music/slipe.mp3";
 
 import MoreAwards from "./moreAwards.vue";
 import oneAward from "./oneAward.vue";
@@ -148,9 +138,9 @@ export default {
       showNumber: 0,
       imteImg: [],
       showResult: false,
-      //   lottoResult: "",
       resultSecondTimer: null,
       moreLuck: [],
+      localDateTime: new Date(),
     };
   },
   computed: {
@@ -168,6 +158,7 @@ export default {
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {
         this.awardItem = newVal.data;
+        this.localDateTime = newVal.localDateTime;
         localStorage.setItem(this.rollNumber, JSON.stringify(newVal.data));
       } else {
         this.messageFun("很遗憾您没有中奖");

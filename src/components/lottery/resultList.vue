@@ -140,11 +140,16 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
 import { BigNumber } from "bignumber.js";
+import dayjs from "dayjs";
 
 const props = defineProps({
   result: {
     type: Array,
     requird: true,
+  },
+  localDateTime: {
+    type: String,
+    default: new Date(),
   },
 });
 const emit = defineEmits([
@@ -160,10 +165,25 @@ let nfts = ref([]);
 onMounted(() => {
   totalFun();
   timerFun();
+  secondFun();
 });
 onUnmounted(() => {
   clearTimerFun();
 });
+const secondFun = () => {
+  const { localDateTime } = props;
+  if (!localDateTime) return;
+  let _createTime = props.result[0].createTime;
+  props.result.forEach((item) => {
+    if (new Date(_createTime) < new Date(item.createTime)) {
+      _createTime = item.createTime;
+    }
+  });
+  const _second = dayjs(localDateTime).diff(dayjs(_createTime)) / 1000;
+  if (_second < second.value) {
+    second.value = parseInt(_second);
+  }
+};
 const nftsFun = (_data) => {
   if (props.result.length < 2) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);

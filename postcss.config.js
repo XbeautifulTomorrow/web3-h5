@@ -1,21 +1,21 @@
 module.exports = {
   plugins: {
     // ...
-    'postcss-px-to-viewport': {
+    "postcss-px-to-viewport": {
       viewportWidth: 1920,
       unitPrecision: 3,
-      propList: ['*'],
+      propList: ["*"],
       selectorBlackList: [
-        'bitzing-iframe',
-        'con',
-        'roll_con',
-        'lottery-list',
-        'lottery-list-con',
-        'lottery-list-bor',
-        'list_mask',
+        "bitzing-iframe",
+        "con",
+        "roll_con",
+        "roll-one-list",
+        "roll-one-list-con",
+        "roll-one-list-bor",
+        "list_mask",
       ],
-      viewportUnit: 'rem', // 视口单位转换单位 默认vw
-      fontViewportUnit: 'rem', // 字体转换单位 默认vw
+      viewportUnit: "rem", // 视口单位转换单位 默认vw
+      fontViewportUnit: "rem", // 字体转换单位 默认vw
     },
   },
 };

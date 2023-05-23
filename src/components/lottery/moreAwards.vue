@@ -1,46 +1,23 @@
 <template>
-  <el-dialog
-    v-model="newValue"
-    title="Tips"
-    width="100%"
-    top="0"
-    class="lottery-moreLuck"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-  >
-    <div class="lottery-moreLuck-content" :style="style">
-      <awards-list
-        v-for="(item, index) in prizeList"
-        :key="`moreLuck-${item}`"
-        :height="height"
-        :prizePoolList="item"
-        :autoplay="autoplay[index]"
-        :interval="interval"
-        :winData="winData[index]"
-      />
-    </div>
-    <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      class="bitzing-audio"
-    ></audio>
-  </el-dialog>
+  <div class="lottery-moreLuck">
+    <p class="lottery-moreLuck-line"></p>
+    <awards-list
+      v-for="(item, index) in prizeList"
+      :key="`moreLuck-${item}`"
+      :height="height"
+      :prizePoolList="item"
+      :autoplay="autoplay[index]"
+      :interval="interval"
+      :winData="winData[index]"
+    />
+  </div>
 </template>
 <script>
-import advanced from "@/assets/music/advanced.mp3";
-import usually from "@/assets/music/usually.mp3";
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
   components: { AwardsList },
   props: {
-    number: {
-      type: Number,
-      default: 5,
-    },
     showMoreDialog: {
       type: Boolean,
       default: false,
@@ -51,11 +28,7 @@ export default {
         return [];
       },
     },
-    moreLength: {
-      type: Number,
-      default: 1,
-    },
-    moreLuck: {
+    awardItem: {
       type: Array,
       default: () => {
         return [];
@@ -77,9 +50,6 @@ export default {
       winData: [],
       timer: null,
       numberTest: 0,
-      style: {
-        width: `calc(13vh * ${this.number / 5} + 20px)`,
-      },
     };
   },
   computed: {
@@ -104,27 +74,21 @@ export default {
       this.timer = null;
     },
     stopScroll(data) {
+      this.clearTimerFun();
       this.timer = setInterval(() => {
         this.winData.push(data[this.numberTest]);
         this.autoplay[this.numberTest] = false;
-        const music = this.$refs.music;
-        music.src = data[this.numberTest] === "NORMAL" ? usually : advanced;
-        music.play();
         this.numberTest += 1;
-        if (this.winData.length >= this.number) {
+        if (this.winData.length >= this.prizeList.length) {
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
-          this.$emit("closeFun", false, 1000);
+          this.$emit("showResultFun");
         }
       }, 1000);
     },
-    startLott(e) {
-      if (e) return; // 阻止原生事件
-      this.autoplayFun(true);
-    },
     autoplayFun(data = false) {
-      const { number } = this;
+      const number = this.prizeList.length;
       for (let i = 0; i < number; i++) {
         this.autoplay[i] = data;
       }
@@ -134,7 +98,7 @@ export default {
     this.clearTimerFun();
   },
   watch: {
-    moreLuck: {
+    awardItem: {
       deep: true,
       handler: function (newData) {
         if (newData.length > 0) {
@@ -146,27 +110,13 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
-        this.$emit("closeFun", true);
       }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.lottery-moreLuck-content {
-  --luckBorHeight: 13vh;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: calc(100vh - 20px);
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  padding: 10px 20px;
-}
+@import url("./css/more.scss");
 </style>
 <style lang="scss">
 .lottery-moreLuck {

@@ -1,84 +1,34 @@
 <template>
-  <div class="roll roll-container">
-    <div class="lottery-content">
-      <div class="roll-text public-color-one">
-        <p class="public-color-one">Top Blue-chips Box</p>
-        <p class="roll-text-offcial">An offcial box by Bitzing</p>
-      </div>
-      <div class="con">
-        <el-carousel
-          height="280"
-          :interval="interval"
-          :autoplay="autoplay"
-          :pause-on-hover="false"
-          indicator-position="none"
-          arrow="never"
-          @change="changeFun"
-          ref="carousel"
-        >
-          <el-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="lottery-carousel" :style="carouselStyle">
-              <div
-                v-for="(list, _listIndex) in item"
-                :key="`list-${_listIndex}`"
-                class="lottery-carousel-list"
-              >
-                <div class="lottery-list-bor" ref="light" :style="borStyle">
-                  <img class="lottery-list-img" :src="list.nftImg" />
-                </div>
-                <div class="lottery-list-nftNumber">
-                  #&nbsp;{{ list.tokenId }}
-                </div>
-                <p class="public-color-three lottery-list-seriesName">
-                  {{ list.seriesName }}
-                </p>
-                <div class="lottery-list-text">
-                  <!-- <img class="lottery-list-logo" :src="list.seriesImg" /> -->
-                  <img src="@/assets/img/eth.png" alt="" />
-                  <span class="public-color-two lottery-list-minPrice">
-                    {{ list.price }}
-                  </span>
-                  <span class="public-color-two lottery-list-conin">
-                    {{ list.coin }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </el-carousel-item>
-        </el-carousel>
-        <div class="list_mask"></div>
-      </div>
-      <div class="btn-container">
-        <!-- <button-com @click="openBox" text="开始" /> -->
-        <el-button class="roll-button" @click="stopScroll"> 结束 </el-button>
-        <el-button class="roll-button" @click="resetBox"> 重置 </el-button>
-        <el-button class="roll-button" @click="startLott('ONE')">
-          余额抽盲盒(单抽)
-        </el-button>
-        <el-button class="roll-button" @click="startLott('FIVE')">
-          余额抽盲盒(五连抽)
-        </el-button>
-        <el-button class="roll-button" @click="startLott('TEN')">
-          余额抽盲盒(十连抽)
-        </el-button>
-      </div>
-    </div>
-    <div
-      :style="{
-        display: 'none',
-      }"
-    >
+  <el-dialog
+    v-model="newValue"
+    width="100%"
+    :show-close="false"
+    destroy-on-close
+    :align-center="true"
+    :append-to-body="true"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    class="roll-dialog"
+  >
+    <!-- 预加载图片 -->
+    <div :style="{ display: 'none' }">
       <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
     </div>
+    <!-- 单个中奖 -->
+    <one-award
+      v-if="rollNumber === 1"
+      :awards="oneAwards"
+      :apiIsError="apiIsError"
+      :awardItem="awardItem"
+      @showResultFun="showResultFun"
+    />
     <!-- 多个中奖 -->
     <more-awards
-      v-if="showMoreDialog"
-      :showMoreDialog="showMoreDialog"
-      :prizeList="moreNumber === 5 ? fiveList : tenList"
-      :moreLuck="moreLuck"
-      :number="moreNumber"
+      v-if="rollNumber > 1"
+      :prizeList="rollNumber === 5 ? fiveList : tenList"
       :apiIsError="apiIsError"
-      @closeFun="closeFun"
+      :awardItem="awardItem"
+      @showResultFun="showResultFun"
     />
     <!-- 弹窗 -->
     <choose-token
@@ -123,13 +73,14 @@
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
+    <!-- 中奖列表 -->
     <result-list
       v-if="showResult"
       :result="awardItem"
       @chooseLotteryHold="chooseLotteryHold"
       @closeDialogFun="closeDialogFun"
     />
-    <audio
+    <!-- <audio
       id="music"
       ref="music"
       preload="auto"
@@ -137,25 +88,24 @@
       playsinline="true"
       :loop="musicLoop"
       class="bitzing-audio"
-    ></audio>
-  </div>
+    ></audio> -->
+  </el-dialog>
 </template>
 
 <script>
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
-import { BigNumber } from "bignumber.js";
 import { lotteryHold } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
 
 import slipe from "@/assets/music/slipe.mp3";
-import advanced from "@/assets/music/advanced.mp3";
-import usually from "@/assets/music/usually.mp3";
 
-import ResultList from "./resultList.vue";
 import MoreAwards from "./moreAwards.vue";
+import oneAward from "./oneAward.vue";
+import ResultList from "./resultList.vue";
+
 import ChooseToken from "./chooseToken.vue";
 import YourReard from "./yourReard.vue";
 import ChainDialog from "./chainDialog.vue";
@@ -177,6 +127,7 @@ export default {
     AllSold,
     PartSold,
     TransactionWarning,
+    oneAward,
   },
   props: [
     "lottoList",
@@ -184,6 +135,8 @@ export default {
     "lottResult",
     "blindDetailInfo",
     "apiIsError",
+    "showRoll",
+    "rollNumber",
   ],
   data() {
     return {
@@ -192,70 +145,49 @@ export default {
       // Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.
       // Timeout not paid, this transaction is closed
       warningText: "",
-      slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
-      autoplay: false,
-      itemWidth: itemWidth, //每张卡牌的宽度
-      items: [], //滚动的卡片列表
+      oneAwards: [], //滚动的卡片列表
       awardItem: [], //中奖道具
       chooseIds: [],
       failList: [],
-      awardItemPrice: 0,
       itemList: [],
       fiveList: [],
       tenList: [],
-      currentItem: undefined,
       musicLoop: true,
-      borStyle: {
-        width: `${itemWidth}px`,
-        height: `${itemWidth}px`,
-      },
       showNumber: 0,
-      showIndex: 0,
-      translateX: 0,
       imteImg: [],
-      carouselStyle: { transform: `translateX(-${itemWidth / 2}px)` },
       showResult: false,
-      showMoreDialog: false,
-      lottoResult: "",
-      resultSecond: 60,
+      //   lottoResult: "",
       resultSecondTimer: null,
-      interval: 280,
       moreLuck: [],
-      moreNumber: 5,
-      resultWidth: 180 * 5 + 6 * 5 + 40,
     };
   },
   computed: {
     ...mapStores(useHeaderStore),
+    newValue: {
+      get: function () {
+        return this.showRoll;
+      },
+      set: function (value) {
+        this.$emit("update:showRoll", value);
+      },
+    },
   },
   watch: {
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {
-        this.lottoResult = newVal;
-        const second =
-          this.$dayjs(newVal.localDateTime).diff(
-            this.$dayjs(newVal.data[0].createTime)
-          ) / 1000;
-        if (second < this.resultSecond) {
-          this.resultSecond = parseInt(second);
-        }
-        newVal.data.forEach((item) => {
-          this.awardItemPrice = BigNumber(this.awardItemPrice).plus(
-            Number(item.price)
-          );
-        });
-        this.luckyFun(newVal.data);
+        this.awardItem = newVal.data;
       } else {
         this.messageFun("warning", "很遗憾您没有中奖");
         this.autoplay = false;
-        this.closeFun(true);
       }
     },
     apiIsError: function (newData) {
       if (newData) {
         this.autoplay = false;
         this.$emit("apiIsErrorFun", false);
-        this.messageFun("error", "网络错误，即将停止抽奖");
+        this.showDialog = "transactionWarning";
+        this.warningText =
+          "Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.";
       }
     },
   },
@@ -291,12 +223,12 @@ export default {
       this.chooseIds = [];
       this.failList = [];
       this.showResult = false;
-      this.awardItemPrice = 0;
-      this.resultSecond = 60;
-      this.moreLuck = [];
+      this.$emit("closeRollFun");
       localStorage.removeItem("awardItem");
     },
-
+    showResultFun() {
+      this.showResult = true;
+    },
     async chooseLotteryHold(type, _choose) {
       const { awardItem } = this;
       if (type === "hold") {
@@ -321,79 +253,6 @@ export default {
         this.showDialog = "beenSold";
       }
     },
-    clearTimerFun() {
-      clearTimeout(this.closeTimer);
-      this.closeTimer = null;
-    },
-    closeFun(isTimer, timer = 500) {
-      if (isTimer) {
-        this.closeTimer = setTimeout(() => {
-          this.showMoreDialog = false;
-        }, timer);
-      } else {
-        this.showMoreDialog = false;
-      }
-      const { moreLuck } = this;
-      const _type = Object.prototype.toString.call(moreLuck);
-      if (_type === "[object Array]" && moreLuck && moreLuck.length > 0) {
-        this.showResult = true;
-        this.awardItem = moreLuck;
-      }
-    },
-    luckyFun(_luck) {
-      // itemList
-      const { showIndex, showNumber } = this;
-      const _showNumber = Math.floor(showNumber / 2);
-      // let _arr = [];
-      if (_luck.length < 2) {
-        // const { seriesName } = _luck[0];
-        // _arr = itemList.filter((item) => item.seriesName == seriesName);
-        this.items[showIndex].splice(_showNumber, 1, ..._luck);
-      }
-      // else {
-      //   // _luck.forEach((item) => {
-      //   //   const { seriesName } = item;
-      //   //   const isAward = itemList.filter(
-      //   //     (item) => item.seriesName == seriesName
-      //   //   );
-      //   //   _arr = [..._arr, ...isAward];
-      //   // });
-      //   const _length = _luck.length;
-      //   if (_length < showNumber) {
-      //     this.items[showIndex].splice(
-      //       Math.floor((showNumber - _length) / 2),
-      //       _length,
-      //       ..._luck
-      //     );
-      //   } else {
-      //     this.items[showIndex] = _luck;
-      //   }
-      // }
-      this.awardFun(_luck);
-    },
-    awardFun(data) {
-      if (data.length < 2) {
-        this.awardItem = data;
-        this.showResult = true;
-        localStorage.setItem("awardItem", JSON.stringify(this.lottoResult));
-        if (!this.resultSecondTimer) {
-          this.resultSecondTimer = setInterval(() => {
-            if (this.resultSecond <= 1) {
-              clearInterval(this.resultSecondTimer);
-              this.chooseLotteryHold();
-              this.showResult = false;
-            }
-            this.resultSecond--;
-          }, 1000);
-        }
-      } else {
-        this.moreLuck = data;
-      }
-      this.stopScroll(data[0]);
-    },
-    changeFun(index) {
-      this.showIndex = index;
-    },
     messageFun(type = "warning", message = "余额不足,请充值!") {
       const music = this.$refs.music;
       music.pause();
@@ -402,100 +261,33 @@ export default {
         type,
       });
     },
-    startLott(type) {
-      this.awardItem = [];
-      this.moreLuck = [];
-      const { balance } = this.headerStoreStore;
-      const { blindDetailInfo } = this;
-      // if (!blindDetailInfo || !balance) {
-      //   this.messageFun('error', '请求数据出错，请刷新重新登录！');
-      //   return;
-      // }
-      if (type === "ONE") {
-        if (blindDetailInfo.price > balance) {
-          this.messageFun();
-          return;
-        }
-        this.openBox();
-      } else {
-        if (type === "FIVE") {
-          if (blindDetailInfo.fivePrice * 5 > balance) {
-            this.messageFun();
-            return;
-          }
-          this.moreNumber = 5;
-        } else {
-          if (blindDetailInfo.tenPrice * 10 > balance) {
-            this.messageFun();
-            return;
-          }
-          this.moreNumber = 10;
-        }
-        this.showMoreDialog = true;
-      }
-      this.palyMusic(slipe);
-      this.$emit("setBalanceOrder", type);
-    },
-    palyMusic(_music, musicLoop = true, _ref = "music") {
-      this.musicLoop = musicLoop;
-      const music = this.$refs[_ref];
-      music.src = _music;
-      music.play();
-    },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
-    stopScroll(data) {
-      this.autoplay = false;
-      const _x = this.getRand(10, itemWidth - 60);
-      this.carouselStyle = { transform: `translateX(-${_x}px` };
-      if (data && data.qualityType) {
-        if (data.qualityType === "NORMAL") {
-          this.palyMusic(usually, false);
-        } else {
-          this.palyMusic(advanced, false);
-        }
-      }
-    },
-    resetBox() {
-      this.autoplay = false;
-      this.dataFun();
-    },
-    openBox() {
-      this.autoplay = true;
-    },
-    itemsFun() {
-      const { itemList, showNumber } = this;
+    awardsFun(_showNumber = this.showNumber) {
+      const { itemList } = this;
       let _items = [];
       let _item = [];
       const _itemList = JSON.parse(JSON.stringify(itemList));
       for (;;) {
-        _itemList.forEach((item) => {
-          if (_item.length - 1 >= showNumber) {
-            _items.push(_item);
+        for (let i = 0; i < _showNumber; i++) {
+          if (_item.length >= _showNumber) {
+            _items.push(shuffle(_item));
             _item = [];
-            _item.push(item);
-          } else {
-            _item.push(item);
           }
-        });
-        if (_items.length > 3) {
-          this.items = shuffle(_items);
-          return;
+          _item.push(_itemList[i]);
+          if (_items.length >= 3) {
+            return shuffle(_items);
+          }
         }
       }
     },
-    moreListFun(number = 5) {
-      const { itemList } = this;
+    moreListFun(number = 5, showNumber = 3) {
       let _arr = [];
       for (let i = 0; i < number; i++) {
-        _arr.push(shuffle(JSON.parse(JSON.stringify(itemList))));
+        _arr.push(this.awardsFun(showNumber));
       }
-      if (number === 5) {
-        this.fiveList = _arr;
-      } else if (number === 10) {
-        this.tenList = _arr;
-      }
+      return shuffle(_arr);
     },
     dataFun() {
       const { lottoList } = this;
@@ -515,28 +307,21 @@ export default {
         });
       });
       this.imteImg = _itemImg;
-      this.itemsFun();
-      this.moreListFun();
-      this.moreListFun(10);
+      this.oneAwards = this.awardsFun(this.showNumber + 1);
+      this.fiveList = this.moreListFun(5);
+      this.tenList = this.moreListFun(10);
     },
   },
   mounted() {
     const { clientWidth } = document.body;
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
-    this.interval = Math.ceil(clientWidth / 1920) * this.interval;
-    if (this.interval >= 330) {
-      this.interval = 330;
-    }
     this.dataFun();
-    if (localStorage.getItem("awardItem")) {
-      this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
-      this.awardItemPrice = this.lottoResult.data[0].price;
-      this.awardFun(this.lottoResult.data[0].seriesName);
-    }
-  },
-  beforeUnmount() {
-    this.clearTimerFun();
+
+    // if (localStorage.getItem("awardItem")) {
+    //   this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
+    //   this.awardFun(this.lottoResult.data[0].seriesName);
+    // }
   },
 };
 </script>
@@ -558,7 +343,7 @@ $borWidth: 180px;
 .moreAward {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-oneawards: center;
   align-content: center;
   .lottery-carousel-list {
     background-image: linear-gradient(

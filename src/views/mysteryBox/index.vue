@@ -8,12 +8,17 @@
       "
     >
       <Lottory
+        v-if="showRoll"
+        ref="roll"
+        :rollNumber="rollNumber"
+        :showRoll="showRoll"
         :lottoList="blindDetailInfo.series"
         :lottResult="lottResult"
         :blindDetailInfo="blindDetailInfo"
         :apiIsError="apiIsError"
         @setBalanceOrder="setBalanceOrder"
         @apiIsErrorFun="apiIsErrorFun"
+        @closeRollFun="closeRollFun"
       />
     </template>
     <boxDetails></boxDetails>
@@ -43,6 +48,8 @@ export default {
   },
   data() {
     return {
+      rollNumber: "",
+      showRoll: false,
       boxList: [],
       ticketList: [],
       NFTList: [],
@@ -64,6 +71,16 @@ export default {
     this.getBlindBoxDetail();
   },
   methods: {
+    closeRollFun() {
+      this.showRoll = false;
+      this.rollNumber = "";
+    },
+    rollFun(number) {
+      const roll = this.$refs.roll;
+      if (!roll) return;
+      this.showRoll = true;
+      roll.startLott(number);
+    },
     apiIsErrorFun(data) {
       this.apiIsError = data;
     },
@@ -196,7 +213,6 @@ export default {
       let web3 = window.web3;
       let idStr = this.walletOrderDetail.orderId.toString();
       let str = this.walletOrderDetail.orderNumber;
-      console.log(accountsFromMetaMask, "detail===");
       var lottContract = new web3.eth.Contract(
         lottAbi,
         this.lottContractAddress

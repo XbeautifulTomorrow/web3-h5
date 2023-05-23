@@ -1,21 +1,45 @@
 <template>
-  <div class="slider_wrapper" :style="{ '--slider-items': placeholderImage.length }">
+  <div
+    class="slider_wrapper"
+    :style="{ '--slider-items': placeholderImage.length }"
+  >
     <div class="slider">
       <div class="slider__viewport">
         <div class="slider__viewbox">
-          <div class="slider__container" :style="{ transform: `translateX(-${50 * sliderActive}%)` }">
-            <div class="slider-item" :style="{ left: `${50 * index}%` }"
-              :class="[(index - 1) == sliderActive && 'next', sliderActive == index && 'active', (index + 1) == sliderActive && 'prev']"
-              v-for="(item, index) in placeholderImage" :key="index">
+          <div
+            class="slider__container"
+            :style="{ transform: `translateX(-${50 * sliderActive}%)` }"
+          >
+            <div
+              class="slider-item"
+              :style="{ left: `${50 * index}%` }"
+              :class="[
+                index - 1 == sliderActive && 'next',
+                sliderActive == index && 'active',
+                index + 1 == sliderActive && 'prev',
+              ]"
+              v-for="(item, index) in placeholderImage"
+              :key="index"
+            >
               <div class="slider-item__inner">
-                <div class="slider-item__trigger" @click="sliderActive = index"></div>
-                <a class="card" :style="`--card-image:url('${item.coverUrl}')`" :class="[`series_level_bg_${item.type}`]">
+                <div
+                  class="slider-item__trigger"
+                  @click="sliderActive = index"
+                ></div>
+                <a
+                  class="card"
+                  :style="`--card-image:url('${item.coverUrl}')`"
+                  :class="[`series_level_bg_${item.type}`]"
+                >
                   <div class="card__container">
                     <div class="card__image"></div>
                     <div class="card__content">
                       <div class="card-name">
                         <span>Bored Ape Yacht Club</span>
-                        <img src="@/assets/svg/home/icon_certified.svg" alt="">
+                        <img
+                          src="@/assets/svg/home/icon_certified.svg"
+                          alt=""
+                        />
                       </div>
                       <div class="card-probability">
                         <span>#43425</span>
@@ -38,86 +62,106 @@
 </template>
 <script>
 export default {
-  name: 'boxDetails',
+  name: "boxDetails",
   data() {
     return {
       sliderActive: 0,
       placeholderImage: [
         {
-          title: 'Joker',
+          title: "Joker",
           year: 2019,
           type: 1,
-          duration: '2h 2m',
-          tags: ['Crime', 'Drama', 'Thriller'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY720_.jpg ',
-          description: "A mentally troubled stand-up comedian embarks on a downward spiral that leads to the creation of an iconic villain.",
-          link: 'https://www.imdb.com/title/tt7286456',
-        }, {
-          title: 'Dragon Ball Super: Super Hero',
+          duration: "2h 2m",
+          tags: ["Crime", "Drama", "Thriller"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY720_.jpg ",
+          description:
+            "A mentally troubled stand-up comedian embarks on a downward spiral that leads to the creation of an iconic villain.",
+          link: "https://www.imdb.com/title/tt7286456",
+        },
+        {
+          title: "Dragon Ball Super: Super Hero",
           year: 2022,
           type: 2,
-          duration: '1h 40m',
-          tags: ['Animation', 'Action', 'Adventure'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BYmQ1Y2Y4NmItY2E4Mi00ZmM2LWFiOTEtMGVmMDRhN2ZiODU0XkEyXkFqcGdeQXVyNTkxMzEwMzU@._V1_FMjpg_UY720_.jpg',
-          description: "The Red Ribbon Army from Goku's past has returned with two new androids to challenge him and his friends.",
-          link: 'https://www.imdb.com/title/tt14614892'
-        }, {
-          title: 'Interstellar',
-          duration: '2h 49m',
+          duration: "1h 40m",
+          tags: ["Animation", "Action", "Adventure"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BYmQ1Y2Y4NmItY2E4Mi00ZmM2LWFiOTEtMGVmMDRhN2ZiODU0XkEyXkFqcGdeQXVyNTkxMzEwMzU@._V1_FMjpg_UY720_.jpg",
+          description:
+            "The Red Ribbon Army from Goku's past has returned with two new androids to challenge him and his friends.",
+          link: "https://www.imdb.com/title/tt14614892",
+        },
+        {
+          title: "Interstellar",
+          duration: "2h 49m",
           year: 2014,
           type: 3,
-          tags: ['Action', 'Drama', 'Sci-Fi'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UY720_.jpg',
-          description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-          link: "https://www.imdb.com/title/tt0816692"
-        }, {
-          title: 'Spider-Man: No Way Home',
+          tags: ["Action", "Drama", "Sci-Fi"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UY720_.jpg",
+          description:
+            "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+          link: "https://www.imdb.com/title/tt0816692",
+        },
+        {
+          title: "Spider-Man: No Way Home",
           year: 2021,
           type: 4,
-          duration: '2h 28m',
-          tags: ['Action', 'Adventure', 'Fantasy'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UY720_.jpg',
-          description: "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
-          link: "https://www.imdb.com/title/tt10872600"
-        }, {
-          title: 'The Batman',
+          duration: "2h 28m",
+          tags: ["Action", "Adventure", "Fantasy"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UY720_.jpg",
+          description:
+            "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
+          link: "https://www.imdb.com/title/tt10872600",
+        },
+        {
+          title: "The Batman",
           year: 2022,
           type: 3,
-          duration: '2h 56m',
-          tags: ['Action', 'Crime', 'Drama'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@._V1_FMjpg_UY720_.jpg',
-          description: "When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.",
-          link: "https://www.imdb.com/title/tt1877830/"
-        }, {
-          title: 'Top Gun: Maverick',
-          duration: '2h 10m',
+          duration: "2h 56m",
+          tags: ["Action", "Crime", "Drama"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@._V1_FMjpg_UY720_.jpg",
+          description:
+            "When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.",
+          link: "https://www.imdb.com/title/tt1877830/",
+        },
+        {
+          title: "Top Gun: Maverick",
+          duration: "2h 10m",
           year: 2022,
           type: 2,
-          tags: ['Action', 'Drama'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BOWQwOTA1ZDQtNzk3Yi00ZmVmLWFiZGYtNjdjNThiYjJhNzRjXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_FMjpg_UX988_.jpg',
-          description: "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
-          link: "https://www.imdb.com/title/tt1745960/"
-        }, {
-          title: 'Fight Club',
-          duration: '2h 19m',
+          tags: ["Action", "Drama"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BOWQwOTA1ZDQtNzk3Yi00ZmVmLWFiZGYtNjdjNThiYjJhNzRjXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_FMjpg_UX988_.jpg",
+          description:
+            "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
+          link: "https://www.imdb.com/title/tt1745960/",
+        },
+        {
+          title: "Fight Club",
+          duration: "2h 19m",
           type: 1,
-          tags: ['Drama'],
-          coverUrl: 'https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UY720_.jpg',
+          tags: ["Drama"],
+          coverUrl:
+            "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UY720_.jpg",
           year: 1999,
-          description: 'An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.',
-          link: 'https://www.imdb.com/title/tt0137523/'
-        }
-      ]
+          description:
+            "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+          link: "https://www.imdb.com/title/tt0137523/",
+        },
+      ],
     };
   },
   methods: {
     handleActive(event) {
       console.log(event);
-    }
+    },
   },
   created() {
     this.sliderActive = Math.ceil(this.placeholderImage.length / 2) - 1;
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

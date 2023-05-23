@@ -1,44 +1,45 @@
 <template>
   <el-carousel
     class="award-carousel"
-    :height="`${height}`"
+    :height="`${height * 3}`"
     :interval="interval"
     :autoplay="autoPlay"
     :pause-on-hover="false"
+    :append-to-body="true"
     indicator-position="none"
     arrow="never"
+    direction="vertical"
     ref="carousel"
     @change="changeFun"
-    :style="{ height: `${height}px` }"
+    :style="{ height: `${height * 3}px` }"
   >
     <el-carousel-item
       v-for="(item, index) in poolList"
       :key="`list-${index}`"
       class="lottery-moreLuck-list"
     >
-      <!-- lottery-moreLuck-list -->
-      <div class="lottery-moreLuck-bor">
-        <img class="lottery-list-img" :src="item.nftImg" />
+      <div
+        v-for="(_img, imgIndex) in item"
+        :class="['lottery-moreLuck-list-content', _img.qualityType]"
+        :key="`img-${imgIndex}`"
+      >
+        <img class="lottery-moreLuck-list-img" :src="_img.nftImg" alt="" />
+        <div class="lottery-moreLuck-list-mask"></div>
       </div>
-      <div class="lottery-moreLuck-nftNumber">#&nbsp;{{ item.tokenId }}</div>
-      <p class="public-color-three lottery-moreLuck-seriesName">
-        {{ item.seriesName }}
-      </p>
-      <div class="lottery-moreLuck-text">
-        <img class="lottery-moreLuck-img" src="@/assets/img/eth.png" alt="" />
-        <span class="public-color-two lottery-moreLuck-minPrice">
-          {{ item.price }}
-        </span>
-        <span class="public-color-two lottery-moreLuck-conin">
-          {{ item.coin }}
-        </span>
+      <div
+        :class="['lottery-moreLuck-award', `award-${winData.qualityType}`]"
+        v-if="winData && winData.nftImg"
+      >
+        <img class="lottery-moreLuck-award-img" :src="winData.nftImg" alt="" />
+        <p class="lottery-moreLuck-seriesName">{{ winData.seriesName }}</p>
+        <p class="lottery-moreLuck-tokenId">{{ `#${winData.tokenId}` }}</p>
       </div>
     </el-carousel-item>
   </el-carousel>
 </template>
 <script>
 export default {
-  name: 'AwardsList',
+  name: "AwardsList",
   props: {
     autoplay: {
       type: Boolean,
@@ -56,10 +57,10 @@ export default {
     },
     height: {
       type: Number,
-      default: 300,
+      default: 118,
     },
     winData: {
-      default: '',
+      default: "",
     },
   },
   data() {
@@ -80,7 +81,8 @@ export default {
   watch: {
     winData: function (newData) {
       if (newData) {
-        this.poolList.splice(this.index, 1, newData);
+        this.autoPlay = false;
+        this.poolList[this.index].splice(1, 1, newData);
       }
     },
     autoplay: function (newData) {
@@ -91,43 +93,100 @@ export default {
 </script>
 <style lang="scss" scoped>
 .award-carousel {
-  width: var(--luckBorHeight);
+  height: 118px * 3 !important;
+  transform: rotate(180deg);
+  position: relative;
+  z-index: 1;
 }
-.lottery-moreLuck-list {
-  height: 100%;
+.lottery-moreLuck-list-content {
+  height: 118px;
+  width: 118px;
+  padding: 4px;
+  box-sizing: border-box;
+  transform: rotate(180deg);
+  margin: 0 auto;
+  position: relative;
 }
-.lottery-moreLuck-bor {
-  height: var(--luckBorHeight);
+.LEGEND {
+  background-image: url("@/assets/img/lottery/LEGEND_more.png");
 }
-.lottery-moreLuck-nftNumber {
-  font-size: 12px;
-  top: 5px;
-  left: 5px;
-  padding: 0 6px;
+.EPIC {
+  background-image: url("@/assets/img/lottery/EPIC_more.png");
+}
+.RARE {
+  background-image: url("@/assets/img/lottery/RARE_more.png");
+}
+.NORMAL {
+  background-image: url("@/assets/img/lottery/NORMAL_more.png");
+}
+.lottery-moreLuck-list-mask {
   position: absolute;
-  border-radius: 7px;
-  background-image: linear-gradient(
-    to bottom,
-    #768098 119%,
-    #eceacf 46%,
-    #edbed2
-  );
-  height: 17px;
-  line-height: 20px;
-  color: #2e0d4a;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
 }
-.ottery-moreLuck-seriesName {
-  font-size: 13px;
-  line-height: 13px;
+.lottery-moreLuck-list-img {
+  height: 100%;
+  vertical-align: bottom;
 }
-.lottery-moreLuck-img {
-  width: 15px;
-  height: 15px;
+.lottery-moreLuck-award {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 18px)) rotate(180deg);
+  z-index: 50;
 }
-.lottery-moreLuck-minPrice,
-.lottery-moreLuck-conin {
-  font-size: 14px;
-  line-height: 14px;
+.lottery-moreLuck-award-img {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  padding: 4px;
+  height: 139px;
+  box-sizing: border-box;
+  vertical-align: bottom;
+}
+.award-LEGEND {
+  .lottery-moreLuck-award-img {
+    background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
+  }
+  .lottery-moreLuck-seriesName {
+    color: #ce42ff;
+  }
+}
+.award-EPIC {
+  .lottery-moreLuck-award-img {
+    background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
+  }
+  .lottery-moreLuck-seriesName {
+    color: #ef962e;
+  }
+}
+.award-RARE {
+  .lottery-moreLuck-award-img {
+    background-image: url("@/assets/img/lottery/RARE_more_choose.png");
+  }
+  .lottery-moreLuck-seriesName {
+    color: #31aff0;
+  }
+}
+.award-NORMAL {
+  .lottery-moreLuck-award-img {
+    background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
+  }
+  .lottery-moreLuck-seriesName {
+    color: #4a4d58;
+  }
+}
+.lottery-moreLuck-seriesName {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a4d58;
+}
+.lottery-moreLuck-tokenId {
+  font-size: 12px;
+  color: #0cbb3e;
 }
 </style>
 <style lang="scss">

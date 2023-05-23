@@ -4,6 +4,7 @@
     destroy-on-close
     :show-close="false"
     :align-center="true"
+    :append-to-body="true"
     class="public-dialog"
     width="700"
   >

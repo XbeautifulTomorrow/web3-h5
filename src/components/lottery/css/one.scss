@@ -1,0 +1,125 @@
+.roll-one-content {
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.roll-title {
+  font-weight: bold;
+  font-size: 56px;
+}
+.roll-text-offcial {
+  font-size: 18px;
+  color: #a9a4b4;
+  text-align: center;
+}
+.roll-one-carousel {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+  justify-items: center;
+  position: relative;
+}
+.roll-one-carousel-list {
+  margin: 0 3px;
+  position: relative;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.roll-one-list-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  vertical-align: bottom;
+}
+.roll-one-list-seriesName {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  color: #e4e7f5;
+  margin: 10px 0;
+  max-width: 220px;
+}
+.roll-one-list-seriesName-img {
+  width: 16px;
+  height: 16px;
+}
+.roll-one-list-seriesName-text {
+  display: inline-block;
+  max-width: 100%;
+}
+.roll-one-list-text {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+.roll-one-list-price {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  max-width: calc(220px - 65px);
+  font-size: 20px;
+  font-weight: bold;
+  color: #11cde9;
+}
+.roll-one-list-minPrice {
+  display: inline-block;
+  margin: 0 5px;
+  max-width: 100%;
+}
+.roll-one-list-conin {
+  max-width: 55px;
+}
+.roll-one-list-nftNumber {
+  font-size: 12px;
+  color: #0cbb3e;
+  width: max-content;
+}
+.list_mask {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 65px;
+  height: 396px;
+  transform: translate(-50%, -50%);
+  background: url("../img/list_mask.png") 0 0/100% 100% no-repeat;
+  z-index: 10;
+}
+.con {
+  width: 100%;
+  height: 396px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+.roll-one-list-text img {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  top: 4px;
+  margin-right: 4px;
+}
+.roll-one-list-logo {
+  width: 16px;
+  height: 16px;
+}
+.el-carousel {
+  width: 100%;
+}
+.el-carousel__indicators {
+  display: none;
+}

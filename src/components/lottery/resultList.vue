@@ -4,8 +4,9 @@
     destroy-on-close
     :show-close="false"
     :align-center="true"
+    :append-to-body="true"
     class="result-dialog"
-    :width="width"
+    :width="1920"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
@@ -37,10 +38,10 @@
               <el-tooltip
                 class="box-item"
                 effect="dark"
-                content="Bored Ape Yacht Club"
+                :content="item.seriesName"
               >
                 <span class="result-club-title-text text-ellipsis">
-                  Bored Ape Yacht Club
+                  {{ item.seriesName }}
                 </span>
               </el-tooltip>
               <el-icon color="#11cde9" size="12">
@@ -151,12 +152,10 @@ const emit = defineEmits([
   "inventoryFun",
   "closeDialogFun",
 ]);
-const WIDTH = 375;
 let timer = null;
 const visible = ref(true);
 let total = ref(0);
 let second = ref(60);
-let width = ref(WIDTH);
 let nfts = ref([]);
 onMounted(() => {
   totalFun();
@@ -176,9 +175,6 @@ const nftsFun = (_data) => {
 };
 const totalFun = () => {
   const { result } = props;
-  if (result.length > 1) {
-    width.value = 1920;
-  }
   result.forEach((item) => {
     total.value = BigNumber(total.value).plus(Number(item.price));
   });

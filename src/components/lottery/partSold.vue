@@ -6,6 +6,7 @@
     class="public-dialog"
     width="700"
     :before-close="closeDialogFun"
+    :append-to-body="true"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
@@ -64,9 +65,9 @@
                   src="@/assets/img/eth.png"
                   alt=""
                 />
-                <span class="public-dialog-list-number"
-                  >{{ item.price }}{{ item.id }}</span
-                >
+                <span class="public-dialog-list-number">
+                  {{ item.price }}{{ item.id }}
+                </span>
               </p>
             </li>
           </template>
@@ -86,9 +87,9 @@
                   src="@/assets/img/eth.png"
                   alt=""
                 />
-                <span class="public-dialog-list-number"
-                  >{{ item.price }} {{ item.id }}</span
-                >
+                <span class="public-dialog-list-number">
+                  {{ item.price }} {{ item.id }}
+                </span>
               </p>
             </li>
           </template>

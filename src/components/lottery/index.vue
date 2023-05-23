@@ -16,7 +16,7 @@
     </div>
     <!-- 单个中奖 -->
     <one-award
-      v-if="rollNumber === 1"
+      v-if="rollNumber === 'ONE'"
       :awards="oneAwards"
       :apiIsError="apiIsError"
       :awardItem="awardItem"
@@ -24,8 +24,8 @@
     />
     <!-- 多个中奖 -->
     <more-awards
-      v-if="rollNumber > 1"
-      :prizeList="rollNumber === 5 ? fiveList : tenList"
+      v-else
+      :prizeList="rollNumber === 'FIVE' ? fiveList : tenList"
       :apiIsError="apiIsError"
       :awardItem="awardItem"
       @showResultFun="showResultFun"
@@ -129,15 +129,7 @@ export default {
     TransactionWarning,
     oneAward,
   },
-  props: [
-    "lottoList",
-    "setBalanceOrder",
-    "lottResult",
-    "blindDetailInfo",
-    "apiIsError",
-    "showRoll",
-    "rollNumber",
-  ],
+  props: ["lottoList", "lottResult", "apiIsError", "showRoll", "rollNumber"],
   data() {
     return {
       showDialog: "",
@@ -176,8 +168,9 @@ export default {
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {
         this.awardItem = newVal.data;
+        localStorage.setItem(this.rollNumber, JSON.stringify(newVal.data));
       } else {
-        this.messageFun("warning", "很遗憾您没有中奖");
+        this.messageFun("很遗憾您没有中奖");
         this.autoplay = false;
       }
     },
@@ -206,6 +199,7 @@ export default {
       };
       const res = await lotteryHold(_data);
       if (res && res.code === 200) {
+        localStorage.removeItem(this.rollNumber);
         if (res.data.length) {
           this.showDialog = "partSold";
           this.failList = res.data;
@@ -216,6 +210,7 @@ export default {
     },
     balanceFun() {
       this.headerStoreStore.getTheUserBalanceApi();
+      localStorage.removeItem(this.rollNumber);
       this.closeDialogFun();
     },
     closeDialogFun() {
@@ -224,7 +219,6 @@ export default {
       this.failList = [];
       this.showResult = false;
       this.$emit("closeRollFun");
-      localStorage.removeItem("awardItem");
     },
     showResultFun() {
       this.showResult = true;
@@ -239,6 +233,7 @@ export default {
           };
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
+            localStorage.removeItem(this.rollNumber);
             this.showDialog = "yourReard";
           }
         } else {
@@ -253,12 +248,11 @@ export default {
         this.showDialog = "beenSold";
       }
     },
-    messageFun(type = "warning", message = "余额不足,请充值!") {
-      const music = this.$refs.music;
-      music.pause();
+    messageFun(message = "余额不足,请充值!", type = "warning") {
       ElMessage({
         message,
         type,
+        customClass: "roll-message",
       });
     },
     getRand(start, end) {
@@ -317,11 +311,12 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.dataFun();
-
-    // if (localStorage.getItem("awardItem")) {
-    //   this.lottoResult = JSON.parse(localStorage.getItem("awardItem"));
-    //   this.awardFun(this.lottoResult.data[0].seriesName);
-    // }
+    if (localStorage.getItem(this.rollNumber)) {
+      const _data = localStorage.getItem(this.rollNumber);
+      this.messageFun("上次中奖结果未处理,处理之后才能再次抽奖");
+      this.awardItem = JSON.parse(_data);
+      this.showResultFun();
+    }
   },
 };
 </script>

@@ -63,7 +63,10 @@ export default {
     },
   },
   beforeMount() {
-    this.autoplayFun(true);
+    const _data = this.prizeList.length > 5 ? "TEN" : "FIVE";
+    if (!localStorage.getItem(_data)) {
+      this.autoplayFun(true);
+    }
   },
   methods: {
     getRand(start, end) {

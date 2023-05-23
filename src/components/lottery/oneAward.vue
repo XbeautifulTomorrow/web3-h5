@@ -54,7 +54,6 @@
         </el-carousel-item>
       </el-carousel>
       <div class="list_mask"></div>
-      <img class="test" :src="awardItem[0]?.nftImg" alt="" />
     </div>
   </div>
 </template>
@@ -87,7 +86,7 @@ export default {
     return {
       interval: 280,
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
-      autoplay: true,
+      autoplay: false,
       itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
         width: `${itemWidth}px`,
@@ -103,6 +102,9 @@ export default {
     this.interval = Math.ceil(clientWidth / 1920) * this.interval;
     if (this.interval >= 330) {
       this.interval = 330;
+    }
+    if (!localStorage.getItem("ONE")) {
+      this.autoplay = true;
     }
   },
   methods: {
@@ -150,10 +152,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url("./css/one.scss");
-.test {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100px;
-}
 </style>

@@ -14,14 +14,15 @@
         :showRoll="showRoll"
         :lottoList="blindDetailInfo.series"
         :lottResult="lottResult"
-        :blindDetailInfo="blindDetailInfo"
         :apiIsError="apiIsError"
-        @setBalanceOrder="setBalanceOrder"
         @apiIsErrorFun="apiIsErrorFun"
         @closeRollFun="closeRollFun"
       />
     </template>
-    <boxDetails></boxDetails>
+    <boxDetails
+      :blindDetailInfo="blindDetailInfo"
+      @rollNumberFun="rollNumberFun"
+    ></boxDetails>
   </div>
 </template>
 
@@ -71,6 +72,13 @@ export default {
     this.getBlindBoxDetail();
   },
   methods: {
+    rollNumberFun(number) {
+      this.showRoll = true;
+      this.rollNumber = number;
+      if (!localStorage.getItem(number)) {
+        this.setBalanceOrder(number);
+      }
+    },
     closeRollFun() {
       this.showRoll = false;
       this.rollNumber = "";

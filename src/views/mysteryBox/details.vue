@@ -27,15 +27,17 @@
         </div>
         <div class="lottery_boxs_r">
           <div class="top">
-            <div class="lottery_type">
+            <div class="lottery_type" @click="rollNumberFun('ONE')">
               <div class="lottery_info">
                 <div class="open_text">OPEN</div>
                 <div class="num_text">1</div>
                 <div class="box_text">BOX</div>
               </div>
-              <div class="lottery_btn" >0.3 ETH</div>
+              <div class="lottery_btn">
+                {{ blindDetailInfo.price }} {{ blindDetailInfo.coin }}
+              </div>
             </div>
-            <div class="lottery_type five">
+            <div class="lottery_type five" @click="rollNumberFun('FIVE')">
               <div class="discount">
                 <div class="val">5% OFF</div>
               </div>
@@ -44,10 +46,12 @@
                 <div class="num_text">5</div>
                 <div class="box_text">BOX</div>
               </div>
-              <div class="lottery_btn">0.3 ETH</div>
+              <div class="lottery_btn">
+                {{ blindDetailInfo.fivePrice * 5 }} {{ blindDetailInfo.coin }}
+              </div>
             </div>
           </div>
-          <div class="lottery_type ten">
+          <div class="lottery_type ten" @click="rollNumberFun('TEN')">
             <div class="discount">
               <div class="val">10% OFF</div>
             </div>
@@ -56,7 +60,9 @@
               <div class="num_text">1</div>
               <div class="box_text">BOX</div>
             </div>
-            <div class="lottery_btn">0.3 ETH</div>
+            <div class="lottery_btn">
+              {{ blindDetailInfo.tenPrice * 10 }} {{ blindDetailInfo.coin }}
+            </div>
           </div>
         </div>
       </div>
@@ -164,11 +170,22 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { ElMessage } from "element-plus";
+import { useHeaderStore } from "@/store/header.js";
 import seriesSlider from "./slider.vue";
 export default {
   name: "boxDetails",
   components: {
     seriesSlider,
+  },
+  props: {
+    blindDetailInfo: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -193,7 +210,31 @@ export default {
       nftList: [],
     };
   },
+  computed: {
+    ...mapStores(useHeaderStore),
+  },
   methods: {
+    messageFun(message = "余额不足,请充值!", type = "warning") {
+      ElMessage({
+        message,
+        type,
+      });
+    },
+    rollNumberFun(type) {
+      const { blindDetailInfo } = this;
+      const { balance } = this.headerStoreStore;
+      if (type === "ONE" && blindDetailInfo.price > balance) {
+        this.messageFun();
+        return;
+      } else if (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) {
+        this.messageFun();
+        return;
+      } else if (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance) {
+        this.messageFun();
+        return;
+      }
+      this.$emit("rollNumberFun", type);
+    },
     handleShowNft(event) {
       this.nftList = event;
       this.showSeriesDialog = true;

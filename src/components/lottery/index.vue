@@ -255,15 +255,15 @@ export default {
       let _item = [];
       const _itemList = JSON.parse(JSON.stringify(itemList));
       for (;;) {
-        for (let i = 0; i < _showNumber; i++) {
+        _itemList.forEach((item) => {
           if (_item.length >= _showNumber) {
             _items.push(shuffle(_item));
             _item = [];
           }
-          _item.push(_itemList[i]);
-          if (_items.length >= 3) {
-            return shuffle(_items);
-          }
+          _item.push(item);
+        });
+        if (_items.length >= 3) {
+          return shuffle(_items);
         }
       }
     },

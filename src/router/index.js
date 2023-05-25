@@ -17,6 +17,9 @@ const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Competitions = () => import("../views/user/competitions.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
+const MyProfile = () => import("../views/user/myProfile.vue");
+const Wallet = () => import("../views/user/wallet.vue");
+const Setting = () => import("../views/user/setting.vue");
 
 //2. 路由配置
 const routes = [
@@ -122,6 +125,36 @@ const routes = [
     name: "Snapshot",
     components: {
       default: Snapshot,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/myProfile",
+    name: "MyProfile",
+    components: {
+      default: MyProfile,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/wallet",
+    name: "Wallet",
+    components: {
+      default: Wallet,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/setting",
+    name: "Setting",
+    components: {
+      default: Setting,
       Header,
       Footer,
       Currency,

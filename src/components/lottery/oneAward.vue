@@ -20,7 +20,7 @@
             <div
               v-for="(list, _listIndex) in item"
               :key="`list-${_listIndex}`"
-              class="roll-one-carousel-list"
+              :class="['roll-one-carousel-list', list.qualityType]"
             >
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
                 <img class="roll-one-list-img" :src="list.nftImg" />
@@ -130,8 +130,8 @@ export default {
       this.interval = 330;
     }
     // if (!localStorage.getItem("ONE")) {
-    // this.autoplay = true;
-    // this.playMusicFun(slipe);
+    this.autoplay = true;
+    this.playMusicFun(slipe);
     // }
   },
   methods: {

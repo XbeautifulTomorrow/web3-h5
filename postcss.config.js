@@ -13,6 +13,8 @@ module.exports = {
         "roll-one-list-con",
         "roll-one-list-bor",
         "list_mask",
+        "award-carousel",
+        "lottery-moreLuck-list-img",
       ],
       viewportUnit: "rem", // 视口单位转换单位 默认vw
       fontViewportUnit: "rem", // 字体转换单位 默认vw

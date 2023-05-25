@@ -1,69 +1,71 @@
 <template>
-  <div class="my_wallet_wrapper">
-    <div class="wallet_panel" :style="{
-      backgroundImage: `url(${bg['point']})`,
-      height: '44.3125rem'
-    }">
-      <div class="balance_box">
-        <div class="balance_l">
-          <div class="title_text">BALANCES</div>
-          <div class="num">
-            <img src="@/assets/svg/icon_eth.svg" alt="">
-            <span>0.005 ETH</span>
+  <div class="wrapper_bg">
+    <div class="my_wallet_wrapper">
+      <div class="wallet_panel" :style="{
+        backgroundImage: `url(${bg['point']})`,
+        height: '44.3125rem'
+      }">
+        <div class="balance_box">
+          <div class="balance_l">
+            <div class="title_text">BALANCES</div>
+            <div class="num">
+              <img src="@/assets/svg/icon_eth.svg" alt="">
+              <span>0.005 ETH</span>
+            </div>
+          </div>
+          <div class="balance_r">CASHIER</div>
+        </div>
+        <div class="wallet_interval"></div>
+        <div class="wallet_operating">
+          <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
+          <div class="choose_box">
+            <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="coin = item"
+              :class="coin == item && ['active']">{{ item }}</div>
+            <div class="replenish">Missing contract ETH deposit?</div>
+            <div class="retrieve">Request deposit address sweep</div>
           </div>
         </div>
-        <div class="balance_r">CASHIER</div>
-      </div>
-      <div class="wallet_interval"></div>
-      <div class="wallet_operating">
-        <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
-        <div class="choose_box">
-          <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="coin = item"
-            :class="coin == item && ['active']">{{ item }}</div>
-          <div class="replenish">Missing contract ETH deposit?</div>
-          <div class="retrieve">Request deposit address sweep</div>
+        <el-table :data="logsData" class="table_container" style="width: 100%">
+          <el-table-column prop="log_type" label="LOG TYPE" align="center" />
+          <el-table-column prop="amount" label="Amount" align="center" />
+          <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center" />
+          <el-table-column prop="status" label="STATUS" align="center" />
+          <el-table-column prop="creation_time" label="DATE/TIME" align="center">
+            <template #default="scope">
+              {{ timeFormat(scope.row.creation_time) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="TRANSACTION" align="center">
+            <template #default="scope">
+              {{ timeFormat(scope.row.creation_time) }}
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="more">
+          <span>Show more</span>
+          <img src="@/assets/svg/user/icon_more.svg" alt="">
         </div>
       </div>
-      <el-table :data="logsData" class="table_container" style="width: 100%">
-        <el-table-column prop="log_type" label="LOG TYPE" align="center" />
-        <el-table-column prop="amount" label="Amount" align="center" />
-        <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center" />
-        <el-table-column prop="status" label="STATUS" align="center" />
-        <el-table-column prop="creation_time" label="DATE/TIME" align="center">
-          <template #default="scope">
-            {{ timeFormat(scope.row.creation_time) }}
-          </template>
-        </el-table-column>
-        <el-table-column label="TRANSACTION" align="center">
-          <template #default="scope">
-            {{ timeFormat(scope.row.creation_time) }}
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="more">
-        <span>Show more</span>
-        <img src="@/assets/svg/user/icon_more.svg" alt="">
-      </div>
-    </div>
-    <div class="nft_box">
-      <div class="nft_operating">
-        <div class="title_text">NFTS IN INVENTORY</div>
-        <div class="operating_btns">
-          <div class="operating_item" @click="onDeposit()">DEPOSIT</div>
-          <div class="operating_item" @click="onWithdraw()">WITHDRAW</div>
+      <div class="nft_box">
+        <div class="nft_operating">
+          <div class="title_text">NFTS IN INVENTORY</div>
+          <div class="operating_btns">
+            <div class="operating_item" @click="onDeposit()">DEPOSIT</div>
+            <div class="operating_item" @click="onWithdraw()">WITHDRAW</div>
+          </div>
         </div>
-      </div>
-      <div class="nft_list">
-        <div class="nft_item" @click="createCompetition(item)" v-for="(item, index) in stockNftList" :key="index">
-          <div class="img_box">
-            <div class="tips">#6688</div>
-            <img src="" alt="">
+        <div class="nft_list">
+          <div class="nft_item" @click="createCompetition(item)" v-for="(item, index) in stockNftList" :key="index">
+            <div class="img_box">
+              <div class="tips">#6688</div>
+              <img src="" alt="">
+            </div>
+            <div class="nft_name">Bored Ape Yacht Club</div>
+            <div class="create_btn" v-if="item.type == 1">
+              <span class="create_text">CREATE COMPETITIONS</span>
+            </div>
+            <div class="view_nft" v-else>VIEW COMPETITIONS</div>
           </div>
-          <div class="nft_name">Bored Ape Yacht Club</div>
-          <div class="create_btn" v-if="item.type == 1">
-            <span class="create_text">CREATE COMPETITIONS</span>
-          </div>
-          <div class="view_nft" v-else>VIEW COMPETITIONS</div>
         </div>
       </div>
     </div>
@@ -217,12 +219,18 @@
         </el-form-item>
         <div class="continue_btn" @click="submitCompetition()">CONTINUE</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
-          <p>Once a dollar purchase has been sold it cannot be cancelled and will be automatically opened at the end of the duration, please set a reasonable price, over-estimated prices may result in a loss</p>
-          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make sure you have set the correct price.</P>
+          <p>Once a dollar purchase has been sold it cannot be cancelled and will be automatically opened at the end of
+            the duration, please set a reasonable price, over-estimated prices may result in a loss</p>
+          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make sure
+            you
+            have set the correct price.</P>
         </div>
         <div class="hint-text" v-else>
-          <p>Please set a reasonable price, if all tickets are not sold at the end of the sale time, the sale will fail and a refund will be made automatically for all participating users.</p>
-          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make sure you have set the correct price.</P>
+          <p>Please set a reasonable price, if all tickets are not sold at the end of the sale time, the sale will fail
+            and a refund will be made automatically for all participating users.</p>
+          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make sure
+            you
+            have set the correct price.</P>
         </div>
       </el-form>
     </el-dialog>

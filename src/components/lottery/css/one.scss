@@ -68,7 +68,7 @@
   display: flex;
   align-items: center;
   align-content: center;
-  max-width: calc(220px - 65px);
+  max-width: calc(220px - 75px);
   font-size: 20px;
   font-weight: bold;
   color: #11cde9;
@@ -85,6 +85,7 @@
   font-size: 12px;
   color: #0cbb3e;
   width: max-content;
+  max-width: 65px;
 }
 .list_mask {
   position: absolute;

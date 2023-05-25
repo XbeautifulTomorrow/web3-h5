@@ -39,14 +39,29 @@
                 <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
                 <div class="roll-one-list-price">
                   <span class="roll-one-list-minPrice text-ellipsis">
-                    {{ list.price }}
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`# ${list.price}`"
+                    >
+                      #&nbsp;{{ list.price }}
+                    </el-tooltip>
                   </span>
                   <span class="roll-one-list-conin">
                     {{ list.coin }}
                   </span>
                 </div>
-                <div class="roll-one-list-nftNumber">
-                  #&nbsp;{{ list.tokenId }}
+                <div
+                  class="roll-one-list-nftNumber text-ellipsis"
+                  v-if="item.tokenId"
+                >
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    :content="`# ${item.tokenId}`"
+                  >
+                    #&nbsp;{{ item.tokenId }}
+                  </el-tooltip>
                 </div>
               </div>
             </div>
@@ -115,8 +130,8 @@ export default {
       this.interval = 330;
     }
     // if (!localStorage.getItem("ONE")) {
-    this.autoplay = true;
-    this.playMusicFun(slipe);
+    // this.autoplay = true;
+    // this.playMusicFun(slipe);
     // }
   },
   methods: {

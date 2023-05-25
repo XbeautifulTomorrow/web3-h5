@@ -36,7 +36,7 @@
           <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
         </li>
       </ul>
-      <el-button class="public-button" @click="inventoryFun">
+      <el-button class="public-button" @click="closeDialogFun">
         Check my inventory
       </el-button>
     </div>
@@ -57,9 +57,9 @@ const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
-const inventoryFun = () => {
-  emit("inventoryFun");
-};
+// const inventoryFun = () => {
+//   emit("inventoryFun");
+// };
 </script>
 <style lang="scss" scoped>
 .public-dialog-icon {

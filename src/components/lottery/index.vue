@@ -195,7 +195,11 @@ export default {
           this.showDialog = "partSold";
           this.failList = res.data;
         } else {
-          this.closeDialogFun();
+          if (chooseIds.length) {
+            this.showDialog = "partSold";
+          } else {
+            this.showDialog = "allSold";
+          }
         }
       }
     },
@@ -230,10 +234,8 @@ export default {
         } else {
           if (_choose.value.length) {
             this.chooseIds = _choose.value;
-            this.showDialog = "partSold";
-          } else {
-            this.showDialog = "allSold";
           }
+          this.inventoryFun();
         }
       } else {
         this.showDialog = "beenSold";

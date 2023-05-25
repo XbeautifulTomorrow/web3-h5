@@ -24,7 +24,6 @@
         :key="`img-${imgIndex}`"
       >
         <img class="lottery-moreLuck-list-img" :src="_img.nftImg" alt="" />
-        <div class="lottery-moreLuck-list-mask"></div>
       </div>
       <div
         :class="['lottery-moreLuck-award', `award-${winData.qualityType}`]"
@@ -119,17 +118,10 @@ export default {
 .NORMAL {
   background-image: url("@/assets/img/lottery/NORMAL_more.png");
 }
-.lottery-moreLuck-list-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-}
 .lottery-moreLuck-list-img {
   height: 100%;
   vertical-align: bottom;
+  filter: brightness(50%);
 }
 .lottery-moreLuck-award {
   position: absolute;

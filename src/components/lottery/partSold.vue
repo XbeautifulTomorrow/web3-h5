@@ -99,7 +99,7 @@
         <span class="public-dialog-total-title">Total:</span>
         <span class="public-dialog-total-number"> {{ total }} ETH </span>
       </p>
-      <el-button class="public-button" @click="inventoryFun">
+      <el-button class="public-button" @click="closeDialogFun">
         {{ props.failList.length ? "Close" : "Check my inventory" }}
       </el-button>
     </div>
@@ -160,13 +160,13 @@ const totalFun = () => {
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
-const inventoryFun = () => {
-  if (props.failList.length) {
-    closeDialogFun();
-  } else {
-    emit("inventoryFun");
-  }
-};
+// const inventoryFun = () => {
+//   if (props.failList.length) {
+//     closeDialogFun();
+//   } else {
+//     emit("inventoryFun");
+//   }
+// };
 watchEffect();
 </script>
 <style lang="scss" scoped>

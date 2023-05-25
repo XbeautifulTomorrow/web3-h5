@@ -34,7 +34,7 @@
                 <div class="box_text">BOX</div>
               </div>
               <div class="lottery_btn">
-                {{ blindDetailInfo.price }} {{ blindDetailInfo.coin }}
+                {{ blindDetailInfo?.price }} {{ blindDetailInfo?.coin }}
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -47,7 +47,12 @@
                 <div class="box_text">BOX</div>
               </div>
               <div class="lottery_btn">
-                {{ blindDetailInfo.fivePrice * 5 }} {{ blindDetailInfo.coin }}
+                {{
+                  blindDetailInfo?.fivePrice
+                    ? blindDetailInfo?.fivePrice * 5
+                    : ""
+                }}
+                {{ blindDetailInfo?.coin }}
               </div>
             </div>
           </div>
@@ -57,11 +62,14 @@
             </div>
             <div class="lottery_info">
               <div class="open_text">OPEN</div>
-              <div class="num_text">1</div>
+              <div class="num_text">10</div>
               <div class="box_text">BOX</div>
             </div>
             <div class="lottery_btn">
-              {{ blindDetailInfo.tenPrice * 10 }} {{ blindDetailInfo.coin }}
+              {{
+                blindDetailInfo?.tenPrice ? blindDetailInfo?.tenPrice * 10 : ""
+              }}
+              {{ blindDetailInfo?.coin }}
             </div>
           </div>
         </div>

@@ -63,24 +63,15 @@ export default {
       winData: [],
       timer: null,
       numberTest: 0,
+      musicLoop: true,
     };
   },
-  computed: {
-    newValue: {
-      get: function () {
-        return this.showMoreDialog;
-      },
-      set: function (value) {
-        this.$emit("update:showMoreDialog", value);
-      },
-    },
-  },
-  beforeMount() {
-    const _data = this.prizeList.length > 5 ? "TEN" : "FIVE";
-    if (!localStorage.getItem(_data)) {
-      this.autoplayFun(true);
-      this.playMusicFun(slipe);
-    }
+  mounted() {
+    // const _data = this.prizeList.length > 5 ? "TEN" : "FIVE";
+    // if (!localStorage.getItem(_data)) {
+    this.autoplayFun(true);
+    this.playMusicFun(slipe);
+    // }
   },
   methods: {
     playMusicFun(_music, musicLoop = true, _ref = "music") {
@@ -104,11 +95,16 @@ export default {
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         if (data[numberTest].qualityType === "NORMAL") {
-          this.palyMusic(usually, false);
+          this.playMusicFun(usually, true);
         } else {
-          this.palyMusic(advanced, false);
+          this.playMusicFun(advanced, true);
         }
         if (this.winData.length >= this.prizeList.length) {
+          if (data[numberTest].qualityType === "NORMAL") {
+            this.playMusicFun(usually, false);
+          } else {
+            this.playMusicFun(advanced, false);
+          }
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;

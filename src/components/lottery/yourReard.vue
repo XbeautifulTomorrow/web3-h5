@@ -32,7 +32,7 @@
         <img class="public-dialog-portrait" :src="sold.nftImg" alt="" />
       </div>
       <p class="public-dialog-club">Bored Ape Yacht Club</p>
-      <el-button class="public-button" @click="inventoryFun">
+      <el-button class="public-button" @click="closeDialogFun">
         Check my inventory
       </el-button>
     </div>
@@ -53,9 +53,9 @@ const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
-const inventoryFun = () => {
-  emit("inventoryFun");
-};
+// const inventoryFun = () => {
+//   emit("inventoryFun");
+// };
 </script>
 <style scoped lang="scss">
 .public-dialog-club {

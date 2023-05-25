@@ -75,9 +75,7 @@ export default {
     rollNumberFun(number) {
       this.showRoll = true;
       this.rollNumber = number;
-      if (!localStorage.getItem(number)) {
-        this.setBalanceOrder(number);
-      }
+      this.setBalanceOrder(number);
     },
     closeRollFun() {
       this.showRoll = false;

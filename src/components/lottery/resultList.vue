@@ -32,7 +32,9 @@
           :key="`result-${index}`"
           @click="nftsFun(item)"
         >
-          <img class="result-portrait" :src="item.nftImg" alt="" />
+          <div class="result-portrait">
+            <img class="result-portrait-img" :src="item.nftImg" alt="" />
+          </div>
           <div class="result-club text-ellipsis">
             <div class="result-club-title text-ellipsis">
               <el-tooltip
@@ -175,7 +177,7 @@ const secondFun = () => {
   if (!localDateTime) return;
   let _createTime = props.result[0].createTime;
   props.result.forEach((item) => {
-    if (new Date(_createTime) < new Date(item.createTime)) {
+    if (new Date(_createTime) > new Date(item.createTime)) {
       _createTime = item.createTime;
     }
   });

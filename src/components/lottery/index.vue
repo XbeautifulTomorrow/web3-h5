@@ -159,7 +159,7 @@ export default {
       if (newVal && newVal.data && newVal.data.length) {
         this.awardItem = newVal.data;
         this.localDateTime = newVal.localDateTime;
-        localStorage.setItem(this.rollNumber, JSON.stringify(newVal.data));
+        // localStorage.setItem(this.rollNumber, JSON.stringify(newVal.data));
       } else {
         this.messageFun("很遗憾您没有中奖");
         this.autoplay = false;
@@ -190,7 +190,7 @@ export default {
       };
       const res = await lotteryHold(_data);
       if (res && res.code === 200) {
-        localStorage.removeItem(this.rollNumber);
+        // localStorage.removeItem(this.rollNumber);
         if (res.data.length) {
           this.showDialog = "partSold";
           this.failList = res.data;
@@ -201,7 +201,7 @@ export default {
     },
     balanceFun() {
       this.headerStoreStore.getTheUserBalanceApi();
-      localStorage.removeItem(this.rollNumber);
+      //   localStorage.removeItem(this.rollNumber);
       this.closeDialogFun();
     },
     closeDialogFun() {
@@ -224,7 +224,7 @@ export default {
           };
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
-            localStorage.removeItem(this.rollNumber);
+            // localStorage.removeItem(this.rollNumber);
             this.showDialog = "yourReard";
           }
         } else {
@@ -302,12 +302,12 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.dataFun();
-    if (localStorage.getItem(this.rollNumber)) {
-      const _data = localStorage.getItem(this.rollNumber);
-      this.messageFun("上次中奖结果未处理,处理之后才能再次抽奖");
-      this.awardItem = JSON.parse(_data);
-      this.showResultFun();
-    }
+    // if (localStorage.getItem(this.rollNumber)) {
+    //   const _data = localStorage.getItem(this.rollNumber);
+    //   this.messageFun("上次中奖结果未处理,处理之后才能再次抽奖");
+    //   this.awardItem = JSON.parse(_data);
+    //   this.showResultFun();
+    // }
   },
 };
 </script>

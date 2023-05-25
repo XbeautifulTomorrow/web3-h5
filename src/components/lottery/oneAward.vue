@@ -114,10 +114,10 @@ export default {
     if (this.interval >= 330) {
       this.interval = 330;
     }
-    if (!localStorage.getItem("ONE")) {
-      this.autoplay = true;
-      this.playMusicFun(slipe);
-    }
+    // if (!localStorage.getItem("ONE")) {
+    this.autoplay = true;
+    this.playMusicFun(slipe);
+    // }
   },
   methods: {
     playMusicFun(_music, musicLoop = true, _ref = "music") {
@@ -143,9 +143,9 @@ export default {
       this.carouselStyle = { transform: `translateX(-${_x}px` };
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
-          this.palyMusic(usually, false);
+          this.playMusicFun(usually, false);
         } else {
-          this.palyMusic(advanced, false);
+          this.playMusicFun(advanced, false);
         }
       }
       this.$emit("showResultFun");

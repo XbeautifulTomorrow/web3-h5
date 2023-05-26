@@ -66,7 +66,7 @@
                   alt=""
                 />
                 <span class="public-dialog-list-number">
-                  {{ item.price }}{{ item.id }}
+                  {{ item.price }}
                 </span>
               </p>
             </li>
@@ -88,7 +88,7 @@
                   alt=""
                 />
                 <span class="public-dialog-list-number">
-                  {{ item.price }} {{ item.id }}
+                  {{ item.price }}
                 </span>
               </p>
             </li>

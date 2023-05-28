@@ -1,455 +1,813 @@
+.wrapper_bg {
+  background-image: url("@/assets/img/box/lottery_bg.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
 .ntf_tickets_info_wrapper {
-    padding-top: 20px;
-    color: #fff;
+  margin: 0 auto;
+  width: 95rem;
+  padding: 5rem 0;
 }
 
 .nft_details {
-    width: 75rem;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .nft_details_l {
-    position: relative;
-    display: flex;
+  position: relative;
+  display: flex;
+  width: 38.5rem;
+  height: 41.5rem;
+  border-radius: 0.625rem;
+  overflow: hidden;
 
-    img {
-        width: 30rem;
-        height: auto;
-        display: inline-block;
-        border-radius: 16px;
+  img {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+
+  .tips_round {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: white;
+
+    &.time {
+      background-color: #2761F5;
     }
 
-    .end_time {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 0 32px;
-        height: 36rpx;
-        border-radius: 16px;
-        color: #fff;
-        background-color: rgba(232, 97, 90, 1);
+    &.price {
+      background-color: #BE5432;
     }
+
+    &.finish {
+      background-color: rgba(9, 139, 46, 0.8);
+    }
+
+    &.aborted {
+      background-color: #df4328;
+    }
+  }
+}
+
+.nft_details_r_bg {
+  flex: 1;
+  min-height: 41.5rem;
+  margin-left: 1.875rem;
+}
+
+.border_bg {
+  box-sizing: border-box;
+  padding: 0.0625rem;
+  border-image-source: linear-gradient(120deg,
+      #ff25c2 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0) 75%,
+      #ff25c2 100%, );
+  border-image-slice: 1;
+  border-radius: 0.625rem;
+  background-image: linear-gradient(135deg, #2D1642, #13151F),
+    linear-gradient(120deg,
+      #ff25c2 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0) 75%,
+      #ff25c2 100%, );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 .nft_details_r {
-    flex: 1;
-    color: #fff;
-    text-align: left;
-    padding-left: 48px;
+  color: #fff;
+  text-align: left;
+  padding: 1.875rem;
+  box-sizing: border-box;
 
-    .nft_name {
-        font-size: 48px;
+  .nft_name {
+    font-family: BlenderPro;
+    font-size: 3rem;
+    line-height: 1.25;
+    font-weight: bold;
+    color: white;
+  }
+
+  .nft_activity {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .price {
+      display: flex;
+      align-items: flex-end;
+      color: #FF7200;
+
+      .title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+        color: #a9a4b4;
+      }
+
+      .val,
+      .unit {
+        font-family: Tomorrow;
+        font-size: 3.5rem;
+        font-weight: bold;
+        line-height: 1;
+        text-align: left;
+        color: #11cde9;
+      }
     }
 
-    .nft_activity {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    .time {
+      display: flex;
+      align-items: center;
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.5;
+      color: #fad54d;
 
-        .price {
-            display: flex;
-            align-items: center;
-            color: #FF7200;
-
-            .title {
-                font-size: 36px;
-                line-height: 1;
-            }
-
-            .val,
-            .unit {
-                font-size: 42px;
-                line-height: 1;
-            }
-        }
-
-        .time {
-            display: flex;
-            align-items: center;
-            line-height: 1;
-            font-size: 32px;
-
-            .time-text {
-                padding-left: 8px;
-                padding-top: 8px;
-            }
-        }
-
-        .finish {
-            display: flex;
-            align-items: center;
-            line-height: 1;
-            font-size: 32px;
-
-            .time-text {
-                color: #2D9D00;
-                padding-left: 8px;
-                padding-top: 8px;
-            }
-        }
+      img {
+        width: 1.125rem;
+        height: auto;
+        margin-right: 0.5rem;
+      }
     }
 
-    .creator {
-        display: flex;
-        font-size: 24px;
-        border-bottom: 1px solid #fff;
+    .finish,
+    .aborted {
+      display: flex;
+      align-items: center;
 
-        .created {
-            padding-right: 36px;
-        }
+      img {
+        width: 1.125rem;
+        margin-right: 0.5rem;
+      }
+
+      .time-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.5;
+        color: rgba(9, 139, 46, 0.8);
+      }
     }
 
-    .buy_relevant {
-        margin-top: 24px;
+    .aborted {
+      .time-text {
+        font-size: 1rem;
+        color: #df4328;
+      }
+    }
+  }
 
-        .enter_relevant {
-            &>.title {
-                text-align: center;
-                font-size: 48px;
-            }
+  .creator {
+    padding-top: 1rem;
+    display: flex;
 
-            &>.buy {
-                font-size: 24px;
-                text-align: center;
-            }
-        }
+    &>div {
+      padding-right: 36px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: white;
+
+      .title {
+        text-align: left;
+        color: #a9a4b4;
+        padding-right: 0.5rem;
+      }
+
+      &.created {
+        padding-right: 3.75rem;
+      }
     }
 
-    .buy_box {
-        padding-top: 36px;
 
-        :deep(.buy_input) {
+  }
 
-            .el-input__inner {
-                height: 64px;
-                font-size: 24px;
-            }
+  .buy_relevant {
+    margin-top: 1.875rem;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    backdrop-filter: blur(2.75rem);
+    background-color: rgba(255, 255, 255, 0.05);
+
+    .enter_relevant {
+      &>.title {
+        font-family: BlenderPro;
+        font-size: 2.875rem;
+        font-weight: bold;
+        line-height: 1.3;
+        text-align: center;
+        color: white;
+      }
+
+      &>.buy_tips {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        text-align: center;
+        color: #a9a4b4;
+
+        &>span {
+          font-weight: 500;
+          color: #fad54d;
         }
+      }
+    }
+  }
+
+  .buy_box {
+    padding-top: 1rem;
+
+    .buy_tips {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: left;
+      color: rgba(255, 255, 255, 0.9);
+      padding-bottom: 1.25rem;
     }
 
-    .payment_box {
-        .payment_method {
-            display: flex;
-            align-items: center;
-            padding: 16px 0;
+    :deep(.buy_input) {
+      .el-input__wrapper {
+        height: 4.375rem;
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+        border: solid 1px #363945;
+        background-color: #13151f;
+        box-shadow: none;
 
-            .balance {
-                font-size: 24px;
-                padding-right: 8px;
-            }
+        &>input {
+          font-size: 1.125rem;
+          line-height: 1.6;
+          text-align: left;
+          color: white;
         }
-
-        .submit_payment {
-            height: 64px;
-            font-size: 24px;
-        }
-
-        .buy_hint {
-            padding-top: 8px;
-            text-align: center;
-        }
+      }
     }
+  }
+
+  .payment_box {
+    padding-top: 1.875rem;
+
+    .payment_method {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+
+      .balance {
+        font-size: 1rem;
+        padding-right: 0.5rem;
+      }
+    }
+
+    .submit_payment {
+      height: 4.125rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      border: none;
+      box-shadow: none;
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+
+      font-family: LeagueSpartan;
+      font-size: 1.5rem;
+      line-height: 1;
+      font-weight: bold;
+      color: #13151f;
+    }
+
+    .buy_hint {
+      padding-top: 1rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: center;
+      color: #a9a4b4;
+    }
+  }
 }
 
 .nft_buy_info {
-    width: 75rem;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.875rem;
 }
 
 .nft_buy_info_l {
-    width: 30rem;
+  width: 38.5rem;
+  min-height: 55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 
-    .type-tabs {
+  .type_tabs {
+    margin-top: 1.875rem;
+    padding: 0 1.875rem;
+    --el-tabs-header-height: auto;
+    height: auto !important;
 
-        :deep(.el-tabs__nav) {
-            width: 100%;
-        }
-
-        :deep(.el-tabs__item) {
-            flex: 1;
-            box-sizing: border-box;
-            font-size: 32px;
-            color: #fff;
-
-            &.is-active {
-                color: var(--el-color-primary);
-            }
-        }
+    :deep(.el-tabs__nav) {
+      width: 100%;
     }
+
+    :deep(.el-tabs__header) {
+      margin-bottom: 1.875rem;
+    }
+
+
+    :deep(.el-tabs__nav-wrap::after) {
+      height: 0.125rem;
+      background-color: #1d1f2b;
+    }
+
+    :deep(.el-tabs__active-bar) {
+      height: 0.125rem;
+      border-radius: 0.3125rem;
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+    }
+
+    :deep(.el-tabs__item+.el-tabs__item) {
+      margin-left: 1.875rem;
+    }
+
+    :deep(.el-tabs__item) {
+      flex: 1;
+      height: 4.625rem;
+      line-height: 3.75rem;
+      box-sizing: border-box;
+      font-family: BlenderPro;
+      font-size: 2.875rem;
+      padding: 0 0 0.875rem;
+      color: rgba(169, 164, 180, 0.3);
+      box-sizing: border-box;
+
+      &.is-active {
+        color: #fad54d;
+      }
+    }
+  }
 }
 
-// .buy_list {}
+.buy_list {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.625rem 1.875rem 1.875rem;
+}
 
 .buy_item {
-    margin: 0 16px;
-    padding: 16px;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.0625rem solid #1d1f2b;
+
+  .buy_item_l {
+    display: flex;
+    align-items: center;
+    padding-right: 1rem;
+
+    img {
+      width: 4rem;
+      height: auto;
+      border-radius: 50%;
+    }
+
+
+  }
+
+  .buy_item_r {
+    flex: 1;
+
+    &.participants {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .buy_info,
+  .buy_other {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 
-    .buy_item_l {
-        display: flex;
-        align-items: center;
-        padding-right: 16px;
-
-        img {
-            width: 96px;
-            height: auto;
-        }
+    .buy_name {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: white;
     }
 
-    .buy_item_r {
-        flex: 1;
+    .buy_time {
+      font-size: 1rem;
+      color: #fad54d;
     }
 
-    .buy_info,
-    .buy_other {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 24px;
-
-        .buy_name {
-            font-size: 36px;
-        }
-
-        .buy_val,
-        .buy_time {
-            font-size: 24px;
-            color: var(--el-color-primary);
-        }
-
-        .buy_id {
-            font-size: 16px;
-        }
+    .buy_val {
+      font-size: 0.875rem;
+      color: #fad54d;
     }
+
+    .buy_id {
+      font-size: 0.875rem;
+      color: rgba(169, 164, 180, 0.6);
+    }
+  }
 }
 
 .load_more {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1.875rem;
+
+  .load_btn {
     cursor: pointer;
-    margin-top: 24px;
-    font-size: 36px;
-    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    color: #a9a4b4;
+
+    img {
+      width: 1rem;
+      margin-left: 0.625rem;
+    }
+  }
 }
 
 .nft_buy_info_r {
-    flex: 1;
-    padding-left: 48px;
-    text-align: left;
+  flex: 1;
+  margin-left: 1.875rem;
+  text-align: left;
 
-    .description_text,
-    .traits_text {
-        font-size: 36px;
-        color: rgba(255, 255, 255, 0.6);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  .description_box {
+    padding: 1.875rem;
+    box-sizing: border-box;
+    min-height: 24.625rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .description_text,
+  .traits_text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .nft_info {
+    padding: 1.25rem 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+
+    .nft_name {
+      font-weight: bold;
+      padding-left: 4px;
     }
+  }
 
-    .nft_info {
-        padding: 16px 0px;
-        font-size: 24px;
+  .nft_description {
+    font-size: 1.125rem;
+  }
+}
 
-        .nft_name {
-            font-weight: bold;
-            padding-left: 4px;
-        }
-    }
-
-    .nft_description {
-        font-size: 24px;
-        min-height: 240px;
-    }
+.traits_box {
+  padding: 0 1.875rem 3.75rem;
 }
 
 .traits_list {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
 
-    &>div {
-        margin-right: 0.5rem;
+  &>div+div {
+    margin-left: 1.25rem;
+  }
+
+  &>div:nth-child(n+5) {
+    margin-top: 1.25rem;
+  }
+
+  &>div:nth-child(4n+1) {
+    margin-left: 0px;
+  }
+
+  .traits_item {
+    width: 11.75rem;
+    box-sizing: border-box;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
+    background-color: #1d0f36;
+
+    .traits_item_name {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #a9a4b4;
     }
 
-    &>div:nth-child(n+5) {
-        margin-top: 0.5rem;
+    .traits_item_val {
+      padding-top: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: white;
     }
-
-    &>div:nth-child(4n) {
-        margin-right: 0px;
-    }
-
-    .traits_item {
-        width: 24%;
-        box-sizing: border-box;
-        padding: 8px;
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.2);
-
-        .traits_item_name {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .traits_item_val {
-            font-size: 24px;
-            color: #fff;
-        }
-    }
+  }
 }
 
 .invite_box {
-    margin-top: 24px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.2);
+  margin: 0 1.875rem 1.875rem;
+  border-radius: 0.625rem;
+  background-color: rgba(0, 0, 0, 0.2);
 
-    .invite_text {
-        text-align: center;
-        font-size: 36px;
+  .invite_text {
+    padding: 1.25rem 0 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    color: white;
+  }
+
+  .choose_invite_code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #a9a4b4;
+    padding-bottom: 1.25rem;
+
+    :deep(.el-select) {
+      width: 13.625rem;
+      margin-left: 1.25rem;
+
+      .el-input__wrapper {
+        height: 3.75rem;
+        border: none;
+        outline: none;
+        border-radius: 0.5rem;
+        background-color: #1d0f36;
+        box-shadow: none !important;
+
+        &>input {
+          font-size: 1.125rem;
+          font-weight: 500;
+          line-height: 1.6;
+          text-align: left;
+          color: #fad54d;
+        }
+      }
     }
-
-    .choose_invite_code {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .el-select {
-            width: 160px;
-        }
-
-        :deep(.el-input__wrapper) {
-            border: none;
-            outline: none;
-            background-color: transparent;
-            box-shadow: none !important;
-        }
-
-        :deep(.el-input__inner) {
-            border: none;
-            outline: none;
-        }
-    }
+  }
 }
 
 .ending_soon_box {
-    width: 75rem;
-    margin: 0 auto;
-    padding-top: 48px;
+  margin: 0 auto;
+  padding-top: 10.625rem;
 
-    .ending_soon_text {
-        font-size: 36px;
-        color: rgba(255, 255, 255, 0.6);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    }
+  .ending_soon_text {
+    font-family: Tomorrow;
+    font-size: 3.5rem;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  }
 }
 
 .ending_soon_list {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 3.75rem;
 }
 
 .ending_soon_item {
-    width: 16%;
-    min-height: 360px;
-    background-color: #fff;
-    border-radius: 10px;
-    padding-bottom: 1rem;
+  width: 14.25rem;
+  min-height: 25.375rem;
+  border-radius: 0.625rem;
+  overflow: hidden;
 
-    .image_box {
-        position: relative;
-        display: flex;
-        width: 100%;
-        min-height: 240px;
-        overflow: hidden;
-        box-sizing: border-box;
-        border-radius: 10px;
-
-        .image_tag {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: #fff;
-            padding: 2px 30px;
-            border-radius: 20px;
-            color: #000;
-            line-height: 1;
-        }
-
-        img {
-            width: 100%;
-        }
-
-        .status_tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #fff;
-            padding: 2px 30px;
-            border-radius: 20px;
-            color: #fff;
-            line-height: 1;
-
-            &.time {
-                background-color: rgba(232, 97, 90, 1);
-            }
-
-            &.num {
-                background-color: rgba(191, 90, 196, 1);
-            }
-        }
-    }
-
-    .nft_name {
-        padding: 4px 0;
-        font-size: 40px;
-        color: #000;
-        line-height: 1;
-    }
-
-    .nft_price {
-        color: #000;
-    }
-
-    .buy_btn {
-        margin: 0 20px;
-        background-color: rgba(22, 155, 213, 1);
-        padding: 8px 30px;
-        border-radius: 8px;
-        color: #000;
-        cursor: pointer;
-    }
-
-    .remaining_votes {
-        color: #000;
-    }
-}
-
-.winning_box {
+  .image_box {
+    position: relative;
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 24px 0;
+    width: 100%;
+    height: 13rem;
+    overflow: hidden;
+    box-sizing: border-box;
 
-    .winning_text {
-        font-size: 36px;
-        color: #fff;
-        font-weight: bold;
+    .image_tag {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0.5rem;
+      background-color: #fff;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      color: #0cbb3e;
+      line-height: 1;
+      background-color: rgba(6, 91, 30, 0.8);
     }
 
     img {
-        width: 10rem;
-        height: auto;
-        padding: 8px;
+      width: 100%;
+      height: auto;
     }
+
+    .tips_round {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: white;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 1.125rem;
+        margin-right: 0.25rem;
+      }
+
+      &.time {
+        background-color: #2761f5;
+      }
+
+      &.price {
+        background-color: #BE5432;
+      }
+    }
+  }
+
+  .nft_name {
+    padding: 1.25rem 1.25rem 0;
+    font-family: BlenderPro;
+    font-size: 1.125rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &>span {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    img {
+      margin-left: 0.25rem;
+      width: 1.1875rem;
+      height: auto;
+    }
+  }
+
+  .nft_price {
+    padding: 0 1.25rem;
+    font-family: Tomorrow;
+    font-size: 1.875rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+    color: #11cde9;
+  }
+
+  .buy_btn {
+    margin: 1.25rem 1.25rem 0;
+    height: 2.875rem;
+    line-height: 2.875rem;
+    border-radius: 1.875rem;
+    box-sizing: border-box;
+    padding: 0.125rem;
+    border-image-source: linear-gradient(to bottom,
+        #1e90f9 12%,
+        #e022e3 70%);
+    border-image-slice: 1;
+    background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+      linear-gradient(to bottom,
+        #1e90f9 12%,
+        #e022e3 70%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    cursor: pointer;
+
+    &>span {
+      background-image: linear-gradient(180deg,
+          #1e90f9 0%,
+          #e022e3 100%);
+      font-size: 1.125rem;
+      font-weight: bold;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  .remaining_votes {
+    padding-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #a9a4b4;
+  }
+}
+
+.nft_end {
+  padding-top: 1.875rem;
+
+  .winning_interval {
+    border-bottom: 0.0625rem dotted #293c44;
+  }
+}
+
+.winning_box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1.875rem 0 0;
+
+  .winning_text {
+    padding-top: 2.5rem;
+    display: flex;
+    align-items: center;
+
+    font-family: BlenderPro;
+    font-size: 2.875rem;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+    color: white;
+
+    img {
+      width: 1.5rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .avatar {
+    width: 8rem;
+    height: 8rem;
+    margin: 1.875rem auto 1.25rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #fff;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .user_name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    color: white;
+    padding-bottom: 0.25rem;
+  }
+
+  .tickets_num {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #a9a4b4;
+  }
 }
 
 .return_box {
-    font-size: 24px;
-    color: #fff;
-    font-weight: bold;
+  padding-top: 1.875rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: left;
+  color: #a9a4b4;
+
+  &>span {
+    font-weight: 500;
+    color: white;
+  }
 }

@@ -20,6 +20,8 @@ const Snapshot = () => import("../views/snapshot/index.vue");
 const MyProfile = () => import("../views/user/myProfile.vue");
 const Wallet = () => import("../views/user/wallet.vue");
 const Setting = () => import("../views/user/setting.vue");
+const Invite = () => import("../views/user/invite.vue");
+
 
 //2. 路由配置
 const routes = [
@@ -160,6 +162,17 @@ const routes = [
       Currency,
     },
   },
+  {
+    path: "/invite",
+    name: "Invite",
+    components: {
+      default: Invite,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+
 ];
 
 // 3. 创建路由实例

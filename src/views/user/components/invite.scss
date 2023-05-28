@@ -1,0 +1,329 @@
+.wrapper_bg {
+  background-image: url("@/assets/img/box/lottery_bg.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.my_invite_wrapper {
+  margin: 0 auto;
+  width: 95rem;
+  padding: 5rem 0;
+}
+
+.type_tabs {
+  margin-top: 1.875rem;
+  padding: 0 1.875rem;
+  --el-tabs-header-height: auto;
+  height: auto !important;
+
+  :deep(.el-tabs__nav) {
+    width: 100%;
+  }
+
+  :deep(.el-tabs__header) {
+    margin-bottom: 3.75rem;
+  }
+
+
+  :deep(.el-tabs__nav-wrap::after) {
+    height: 0.125rem;
+    background-color: #110429;
+  }
+
+  :deep(.el-tabs__active-bar) {
+    height: 0.125rem;
+    border-radius: 0.3125rem;
+    background-image: linear-gradient(to top, #e3a406, #fbd851);
+  }
+
+  :deep(.el-tabs__item) {
+    line-height: 1.3;
+    box-sizing: border-box;
+    font-size: 2.875rem;
+    padding-bottom: 0.875rem;
+    color: rgba(169, 164, 180, 0.6);
+
+    &.is-active {
+      color: white;
+    }
+  }
+}
+
+.invite_panel {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title_text {
+  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  font-family: BlenderPro;
+  font-size: 2.875rem;
+  font-weight: bold;
+  line-height: 1.3;
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.invite_description {
+  margin: 0 auto;
+  max-width: 70.5rem;
+  font-size: 1.125rem;
+  font-weight: normal;
+  line-height: 1.6;
+  text-align: center;
+  color: #a9a4b4;
+  padding-top: 1.25rem;
+}
+
+.create_invite_code {
+  padding-top: 3.75rem;
+
+  .create_title {
+    font-family: BlenderPro;
+    font-size: 2.875rem;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+    color: white;
+    padding-bottom: 1.875rem;
+  }
+
+  :deep(.create_input) {
+    width: 43rem;
+
+    .el-input__wrapper {
+      height: 4.375rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      background-color: #13151f;
+      border: 0;
+      box-sizing: border-box;
+      box-shadow: none;
+
+      padding: 0.125rem 0 0.125rem 0.125rem;
+      border-image-source: linear-gradient(to bottom,
+          #1e90f9 12%,
+          #e022e3 70%);
+      border-image-slice: 1;
+      background-image: linear-gradient(to bottom, #13151F, #13151F),
+        linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+      background-origin: border-box;
+      background-clip: content-box, border-box;
+
+
+      &>input {
+        padding: 0 1.25rem;
+        font-size: 1.125rem;
+        line-height: 1.6;
+        text-align: left;
+        color: white;
+        box-sizing: border-box;
+      }
+    }
+
+    .el-input-group__append {
+      width: 12.5rem;
+      height: 4.375rem;
+      background-image: linear-gradient(to bottom, #1e90f9, #e022e3);
+      border-radius: 0 0.5rem 0.5rem 0;
+      border: 0;
+      box-shadow: none;
+
+      font-family: BlenderPro;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: center;
+      color: #e4e7f5;
+    }
+  }
+
+  .create_error {
+    width: 43rem;
+    margin: 0 auto;
+    padding-top: 0.625rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #df4328;
+  }
+}
+
+.statistics_panel {
+  padding-top: 3.75rem;
+
+  .statistics_title {
+    font-family: BlenderPro;
+    font-size: 2.875rem;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+    color: white;
+    padding-bottom: 1.875rem;
+  }
+
+  .statistics_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+  }
+
+  .statistics_item {
+    width: 22.8125rem;
+    box-sizing: border-box;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+
+    .statistics_type {
+      padding-bottom: 1.25rem;
+
+      .title {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: center;
+        color: white;
+      }
+
+      .val {
+        font-family: Tomorrow;
+        font-size: 2.875rem;
+        font-weight: bold;
+        line-height: 1.4;
+        text-align: center;
+        color: #11cde9;
+      }
+    }
+
+    .statistics_time {
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .title {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        text-align: left;
+        color: #a9a4b4;
+      }
+
+      .val {
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: right;
+        color: #fad54d;
+      }
+    }
+  }
+}
+
+:deep(.table_container) {
+
+  .cell {
+    height: 2.875rem;
+    line-height: 2.875rem;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  th {
+    &.el-table__cell {
+      background-color: #191c28;
+      border-bottom-color: #23172A;
+      padding: 0;
+
+      .cell {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  tr {
+    background-color: #151722;
+
+    .el-table__cell {
+      padding: 0;
+    }
+  }
+
+  td {
+    &.el-table__cell {
+      border-bottom-color: #23172A;
+    }
+  }
+
+  .el-table__empty-block {
+    background-color: #151722;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  .el-table__body tr:hover>td {
+    background-color: transparent;
+  }
+
+  .el-table__body {
+    &>tbody {
+      &>.el-table__row:nth-child(2n) {
+        background-color: #281d31;
+      }
+    }
+  }
+
+  .el-table__inner-wrapper::before {
+    display: none;
+  }
+
+  .copy_btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      cursor: pointer;
+    }
+  }
+
+  .claim_box {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.3125rem;
+    background-color: #2761f5;
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    color: white;
+
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin: 0 0.25rem;
+    }
+  }
+
+  .consumption_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin-left: 0.75rem;
+    }
+  }
+}

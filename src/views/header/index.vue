@@ -562,7 +562,7 @@ export default {
     othersideBoxFun(item) {
       console.log(item);
       if (item.text == "Wallet") {
-        this.$router.push({ name: "User" });
+        this.$router.push({ name: "Wallet" });
       } else if (item.text == "Competitions") {
         this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
       } else if (item.text == "My Collections") {

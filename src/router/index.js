@@ -12,7 +12,6 @@ const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
 const Lottery = () => import("@/components/lottery/index.vue");
 const MysteryBox = () => import("../views/mysteryBox/index.vue");
-const User = () => import("../views/user/index.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Competitions = () => import("../views/user/competitions.vue");
@@ -21,7 +20,6 @@ const MyProfile = () => import("../views/user/myProfile.vue");
 const Wallet = () => import("../views/user/wallet.vue");
 const Setting = () => import("../views/user/setting.vue");
 const Invite = () => import("../views/user/invite.vue");
-
 
 //2. 路由配置
 const routes = [
@@ -67,16 +65,6 @@ const routes = [
     name: "MysteryBox",
     components: {
       default: MysteryBox,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/user",
-    name: "User",
-    components: {
-      default: User,
       Header,
       Footer,
       Currency,

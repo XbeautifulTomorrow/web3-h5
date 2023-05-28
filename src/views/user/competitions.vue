@@ -180,7 +180,7 @@
           <span v-if="isCancel">THINK AGAIN</span>
           <span v-else>CLOSED</span>
         </div>
-        <div v-if="isCancel" class="confirm">CANCEL COMPETITION</div>
+        <div v-if="isCancel" class="confirm" @click="onCancel()">CANCEL COMPETITION</div>
       </div>
     </el-dialog>
   </div>
@@ -197,98 +197,7 @@ export default {
   data() {
     return {
       activeType: "ENTERED",
-      enteredList: [
-        {
-          "orderNumber": "PD230426170340", //订单号，有订单号说明参与订单不能提款
-          "orderType": "LIMITED_TIME", //类型
-          "price": 50, //价格
-          "limitDay": 5, //最大天数
-          "limitNum": 800, //最大票数
-          "listingTime": "2023-04-26T17:03:40", //开始时间
-          "endTime": "2023-04-27T17:03:40", //结束时间
-          "seriesName": "3Landers", //系列名
-          "nftImage": "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //nft图片
-          "tokenId": "8079", //nftId
-          "contractAddress": "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //NFT所属的合约
-          "ticketPrice": 0.5, //单票价格
-          "numberOfTicketsSold": 209, //已售数量
-          "sortAndScore": 0,
-          "currentStatus": "DRAWN", //订单状态
-          "winningAddress": null //中奖地址
-        },
-        {
-          "orderNumber": "PD230426170340", //订单号，有订单号说明参与订单不能提款
-          "orderType": "LIMITED_TIME", //类型
-          "price": 50, //价格
-          "limitDay": 5, //最大天数
-          "limitNum": 800, //最大票数
-          "listingTime": "2023-04-26T17:03:40", //开始时间
-          "endTime": "2023-04-27T17:03:40", //结束时间
-          "seriesName": "3Landers", //系列名
-          "nftImage": "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //nft图片
-          "tokenId": "8079", //nftId
-          "contractAddress": "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //NFT所属的合约
-          "ticketPrice": 0.5, //单票价格
-          "numberOfTicketsSold": 209, //已售数量
-          "sortAndScore": 0,
-          "currentStatus": "DRAWN", //订单状态
-          "winningAddress": null //中奖地址
-        },
-        {
-          "orderNumber": "PD230426170340", //订单号，有订单号说明参与订单不能提款
-          "orderType": "LIMITED_TIME", //类型
-          "price": 50, //价格
-          "limitDay": 5, //最大天数
-          "limitNum": 800, //最大票数
-          "listingTime": "2023-04-26T17:03:40", //开始时间
-          "endTime": "2023-04-27T17:03:40", //结束时间
-          "seriesName": "3Landers", //系列名
-          "nftImage": "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //nft图片
-          "tokenId": "8079", //nftId
-          "contractAddress": "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //NFT所属的合约
-          "ticketPrice": 0.5, //单票价格
-          "numberOfTicketsSold": 209, //已售数量
-          "sortAndScore": 0,
-          "currentStatus": "DRAWN", //订单状态
-          "winningAddress": null //中奖地址
-        },
-        {
-          "orderNumber": "PD230426170340", //订单号，有订单号说明参与订单不能提款
-          "orderType": "LIMITED_TIME", //类型
-          "price": 50, //价格
-          "limitDay": 5, //最大天数
-          "limitNum": 800, //最大票数
-          "listingTime": "2023-04-26T17:03:40", //开始时间
-          "endTime": "2023-04-27T17:03:40", //结束时间
-          "seriesName": "3Landers", //系列名
-          "nftImage": "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //nft图片
-          "tokenId": "8079", //nftId
-          "contractAddress": "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //NFT所属的合约
-          "ticketPrice": 0.5, //单票价格
-          "numberOfTicketsSold": 209, //已售数量
-          "sortAndScore": 0,
-          "currentStatus": "DRAWN", //订单状态
-          "winningAddress": null //中奖地址
-        },
-        {
-          "orderNumber": "PD230426170340", //订单号，有订单号说明参与订单不能提款
-          "orderType": "LIMITED_TIME", //类型
-          "price": 50, //价格
-          "limitDay": 5, //最大天数
-          "limitNum": 800, //最大票数
-          "listingTime": "2023-04-26T17:03:40", //开始时间
-          "endTime": "2023-04-27T17:03:40", //结束时间
-          "seriesName": "3Landers", //系列名
-          "nftImage": "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //nft图片
-          "tokenId": "8079", //nftId
-          "contractAddress": "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //NFT所属的合约
-          "ticketPrice": 0.5, //单票价格
-          "numberOfTicketsSold": 209, //已售数量
-          "sortAndScore": 0,
-          "currentStatus": "DRAWN", //订单状态
-          "winningAddress": null //中奖地址
-        }
-      ],
+      enteredList: [],
       showCabcel: false,
       competitionNft: null,
       isCancel: true
@@ -312,10 +221,10 @@ export default {
     },
     // 取消赛事
     cancelOrder(event) {
-      // if (event.numberOfTicketsSold > 0) {
-      //   this.$message.error("该赛事已有用户参与，下架失败");
-      //   return
-      // }
+      if (event.numberOfTicketsSold > 0) {
+        this.$message.error("该赛事已有用户参与，下架失败");
+        return
+      }
 
       this.competitionNft = event;
       this.showCabcel = true;

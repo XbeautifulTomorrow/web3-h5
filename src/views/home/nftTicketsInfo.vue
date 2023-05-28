@@ -216,23 +216,7 @@ export default {
   data() {
     return {
       orderId: null,
-      nftInfo: {
-        img: "https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png", //图片地址
-        price: 50, //价格
-        totalPrice: 500,
-        projectParty: "INO teams or Unnamed",
-        owner: "Dollie Douglas",
-        endTime: "2023-06-27T17:03:40", //结束时间
-        name: "3Landers", //系列类型
-        orderType: "LIMITED_PRICE",
-        tokenId: "8079",
-        contractAddress: "0x6447f7d21f19af6c11824b06e3a6618542cedf33", //合约地址
-        maximumPurchaseQuantity: 609, //最大购买数量
-        numberOfPurchasingUsers: 2, //参与用户数
-        detail: "{\"description\":\"3Landers is a collectible NFT project centered around community, adventure, and collaboration.\",\"image\":\"https://3land.mypinata.cloud/ipfs/QmeXZ2ruhkQ3WRG8em3LWBYbZfGTvtUY8HDzBGdCfRqbFR/8079.png\",\"image_transparent\":\"https://3land.mypinata.cloud/ipfs/QmQHZeFtcfnKks99Eca31xRJWvEG4BJdQGXo4XBnQgGzLn/8079.png\",\"attributes\":[{\"trait_type\":\"Vision\",\"value\":\"Infected\"},{\"trait_type\":\"Head\",\"value\":\"Fren Bowler Hat\"},{\"trait_type\":\"Mouth\",\"value\":\"Unfazed\"},{\"trait_type\":\"Body\",\"value\":\"Teal Sweater\"},{\"trait_type\":\"DNA\",\"value\":\"Human\"},{\"trait_type\":\"DNA Type\",\"value\":\"Sable\"},{\"trait_type\":\"Background\",\"value\":\"Blue\"}]}", //元数据
-        seriesDetail: null,
-        currentStatus: "CLOSED"
-      },
+      nftInfo: {},
       inviteVal: null,
       inviteDrop: [{ code: 1 }, { code: 2 }],
       detailData: null,
@@ -511,7 +495,6 @@ export default {
   created() {
     // 获取一元购 ID
     const { id } = this.$route.query;
-    this.orderId = "PD230426170340" || id;
     this.orderId = id;
     this.fetchOneBuyInfo();
     this.fetchEndingSoon();

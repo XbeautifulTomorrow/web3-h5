@@ -2,19 +2,9 @@
   <div class="header">
     <div class="header-main">
       <div class="header-left">
-        <img
-          class="header-logo"
-          src="@/assets/img/headerFooter/logo.png"
-          alt="logo"
-          @click="goTo()"
-        />
+        <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
         <ul class="header-nav">
-          <li
-            class="header-nav-text"
-            v-for="(item, index) in nav"
-            :key="`nav-${index}`"
-            @click="goTo(item.page)"
-          >
+          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
             {{ item.text }}
           </li>
         </ul>
@@ -26,46 +16,26 @@
             Register
           </div>
         </div>
-        <div
-          class="header-button"
-          @click="showConnect = true"
-          v-if="!userInfo?.id && !conncectAddress"
-        >
+        <div class="header-button" @click="showConnect = true" v-if="!userInfo?.id && !conncectAddress">
           {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
         </div>
       </div>
       <div v-if="userInfo?.id || conncectAddress" class="header-login">
         <div class="header-wallet">
-          <img
-            class="header-wallet-img"
-            src="@/assets/img/headerFooter/eth_icon.png"
-            alt=""
-          />
+          <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
           <span class="header-wallet-add" @click="dialogVisible = true">+</span>
         </div>
         <div class="header-user" v-if="userInfo?.id">
-          <img
-            class="header-user-img"
-            src="@/assets/img/headerFooter/default_avatar.png"
-            alt=""
-          />
+          <img class="header-user-img" src="@/assets/img/headerFooter/default_avatar.png" alt="" />
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
           </span>
-          <img
-            class="header-user-down"
-            src="@/assets/img/headerFooter/icon-arrowup.png"
-            alt=""
-          />
+          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
           <div class="header-user-popup">
             <ul class="header-user-content">
-              <li
-                :class="['header-user-list']"
-                v-for="(item, index) in userList"
-                :key="`box-${index}`"
-                @click="othersideBoxFun(item)"
-              >
+              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
+                @click="othersideBoxFun(item)">
                 <span :class="['header-user-list-img', item.class]"></span>
                 <span>{{ item.text }}</span>
               </li>
@@ -74,11 +44,7 @@
         </div>
       </div>
     </div>
-    <WalletList
-      v-if="showConnect"
-      @connectWallet="connect"
-      @close="closeDialogFun"
-    />
+    <WalletList v-if="showConnect" @connectWallet="connect" @close="closeDialogFun" />
     <el-dialog v-model="dialogVisible" title="Tips" width="50%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
@@ -88,76 +54,41 @@
       <br />
 
       <div v-if="tokenChoose == 3">
-        <div
-          class="header-nft-content"
-          :key="`add-${index}`"
-          v-for="(item, index) in transferNFTAddress"
-        >
+        <div class="header-nft-content" :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
           <p class="header-nft-title">
             <span>NFT合约地址</span>
             <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
-            <el-icon
-              v-if="transferNFTAddress.length > 1"
-              @click="deleteTransferNFTAddressun(index)"
-              class="header-nft-icon title-icon"
-            >
+            <el-icon v-if="transferNFTAddress.length > 1" @click="deleteTransferNFTAddressun(index)"
+              class="header-nft-icon title-icon">
               <Delete />
             </el-icon>
           </p>
-          <el-input
-            :key="`nft-input-${index}`"
-            v-model="transferNFTAddress[index]"
-            placeholder="Please input"
-          />
+          <el-input :key="`nft-input-${index}`" v-model="transferNFTAddress[index]" placeholder="Please input" />
 
-          <div
-            class="header-nft"
-            v-for="(item1, index1) in transferNFTID[index]"
-            :key="`nft-${index1}`"
-          >
+          <div class="header-nft" v-for="(item1, index1) in transferNFTID[index]" :key="`nft-${index1}`">
             <span class="header-nft-wrapper">
               <span class="header-nft-label">NFT token id</span>
-              <el-input
-                class="header-nft-input"
-                v-model="transferNFTID[index][index1].tokenid"
-                placeholder="Please input"
-              />
+              <el-input class="header-nft-input" v-model="transferNFTID[index][index1].tokenid"
+                placeholder="Please input" />
             </span>
             <span class="header-nft-wrapper">
               <span class="header-nft-label">数量</span>
-              <el-input
-                class="header-nft-input"
-                v-model="transferNFTID[index][index1].amount"
-                placeholder="Please amount"
-              />
-              <el-icon
-                v-if="transferNFTID[index].length > 1"
-                @click="deleteTransferNFTIDFun(index, index1)"
-                class="header-nft-icon"
-              >
+              <el-input class="header-nft-input" v-model="transferNFTID[index][index1].amount"
+                placeholder="Please amount" />
+              <el-icon v-if="transferNFTID[index].length > 1" @click="deleteTransferNFTIDFun(index, index1)"
+                class="header-nft-icon">
                 <Delete />
               </el-icon>
             </span>
-            <div
-              class="header-nft-add"
-              v-if="index1 === transferNFTID[index].length - 1"
-            >
-              <el-button
-                class="header-nft-button"
-                type="primary"
-                @click="addTransferNFTIDFun(index)"
-              >
+            <div class="header-nft-add" v-if="index1 === transferNFTID[index].length - 1">
+              <el-button class="header-nft-button" type="primary" @click="addTransferNFTIDFun(index)">
                 添加
               </el-button>
             </div>
           </div>
         </div>
 
-        <el-button
-          class="header-nft-button"
-          type="primary"
-          @click="addTransferNFTAddressun"
-        >
+        <el-button class="header-nft-button" type="primary" @click="addTransferNFTAddressun">
           添加
         </el-button>
       </div>
@@ -177,21 +108,9 @@
         </span>
       </template>
     </el-dialog>
-    <Login
-      v-if="pageType === 'login'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Register
-      v-if="pageType === 'register'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Forgot
-      v-if="pageType === 'forgot'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
   </div>
 </template>
 
@@ -560,8 +479,9 @@ export default {
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {
-      console.log(item);
-      if (item.text == "Wallet") {
+      if (item.text == "Profile") {
+        this.$router.push({ name: "MyProfile" });
+      } else if (item.text == "Wallet") {
         this.$router.push({ name: "Wallet" });
       } else if (item.text == "Competitions") {
         this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
@@ -570,6 +490,10 @@ export default {
           name: "Competitions",
           query: { type: "MY_COMPETITIONS" },
         });
+      } else if (item.text == "Referral") {
+        this.$router.push({ name: "Invite" });
+      } else if (item.text == "Settings") {
+        this.$router.push({ name: "Setting" });
       } else if (item.text === "Logout") {
         this.userStore.logoutApi();
       }

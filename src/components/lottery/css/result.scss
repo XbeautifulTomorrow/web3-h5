@@ -77,7 +77,11 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--white);
-  max-width: 80%;
+  width: 80%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 .result-club-title-text {
   display: inline-block;
@@ -177,4 +181,32 @@
 }
 .NORMAL {
   background-image: url("@/assets/img/lottery/NORMAL.png");
+}
+.more-list {
+  &.LEGEND {
+    background-image: url("@/assets/img/lottery/LEGEND_more.png");
+  }
+  &.EPIC {
+    background-image: url("@/assets/img/lottery/EPIC_more.png");
+  }
+  &.RARE {
+    background-image: url("@/assets/img/lottery/RARE_more.png");
+  }
+  &.NORMAL {
+    background-image: url("@/assets/img/lottery/NORMAL_more.png");
+  }
+}
+.choose-list {
+  &.LEGEND {
+    background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
+  }
+  &.EPIC {
+    background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
+  }
+  &.RARE {
+    background-image: url("@/assets/img/lottery/RARE_more_choose.png");
+  }
+  &.NORMAL {
+    background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
+  }
 }

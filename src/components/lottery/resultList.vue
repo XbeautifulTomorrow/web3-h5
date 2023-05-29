@@ -26,7 +26,7 @@
             'result-list',
             item.qualityType,
             { 'choose-list': nfts.includes(item.id) },
-            { pointer: result.length > 1 },
+            { 'pointer more-list': result.length > 1 },
           ]"
           v-for="(item, index) in result"
           :key="`result-${index}`"
@@ -50,7 +50,10 @@
                 <CircleCheckFilled />
               </el-icon>
             </div>
-            <span class="result-club-serial text-ellipsis" v-if="item.tokenId">
+            <span
+              class="result-club-serial text-ellipsis"
+              v-if="item.tokenId || item.tokenId === 0"
+            >
               <el-tooltip
                 class="box-item"
                 effect="dark"
@@ -167,25 +170,25 @@ let nfts = ref([]);
 onMounted(() => {
   totalFun();
   timerFun();
-  secondFun();
+  //   secondFun();
 });
 onUnmounted(() => {
   clearTimerFun();
 });
-const secondFun = () => {
-  const { localDateTime } = props;
-  if (!localDateTime) return;
-  let _createTime = props.result[0].createTime;
-  props.result.forEach((item) => {
-    if (new Date(_createTime) > new Date(item.createTime)) {
-      _createTime = item.createTime;
-    }
-  });
-  const _second = dayjs(localDateTime).diff(dayjs(_createTime)) / 1000;
-  if (_second < second.value) {
-    second.value = parseInt(_second);
-  }
-};
+// const secondFun = () => {
+//   const { localDateTime } = props;
+//   if (!localDateTime) return;
+//   let _createTime = props.result[0].createTime;
+//   props.result.forEach((item) => {
+//     if (new Date(_createTime) > new Date(item.createTime)) {
+//       _createTime = item.createTime;
+//     }
+//   });
+//   const _second = dayjs(localDateTime).diff(dayjs(_createTime)) / 1000;
+//   if (_second < second.value) {
+//     second.value = parseInt(_second);
+//   }
+// };
 const nftsFun = (_data) => {
   if (props.result.length < 2) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);

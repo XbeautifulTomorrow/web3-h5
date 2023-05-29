@@ -45,7 +45,6 @@
             v-model="formLogin.passWord"
             placeholder="Enter your password"
             type="password"
-            autocomplete="off"
           />
         </el-form-item>
       </el-form>
@@ -110,7 +109,9 @@ const rules = reactive({
 onBeforeMount(() => {
   const _loginInfo = localStorage.getItem("loginInfo");
   if (_loginInfo) {
-    formLogin = JSON.parse(_loginInfo);
+    const { account, passWord } = JSON.parse(_loginInfo);
+    formLogin.account = account;
+    formLogin.passWord = passWord;
     rememberMe.value = true;
   }
 });

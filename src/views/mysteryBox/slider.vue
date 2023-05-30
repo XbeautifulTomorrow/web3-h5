@@ -17,7 +17,7 @@
                     <div class="card__image"></div>
                     <div class="card__content">
                       <div class="card-name">
-                        <span>{{ item.tokenId }}</span>
+                        <span>{{ sName }}</span>
                         <img src="@/assets/svg/home/icon_certified.svg" alt="" />
                       </div>
                       <div class="card-probability">
@@ -49,6 +49,10 @@ export default {
         return [];
       },
     },
+    sName: {
+      type: String,
+      default: null
+    }
   },
   data() {
     return {

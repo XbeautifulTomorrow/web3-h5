@@ -11,11 +11,11 @@
       <div class="nft_list">
         <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
           <div class="img_box">
-            <div class="tips">#6688</div>
-            <img src="" alt="">
+            <div class="tips">{{ `#${item.tokenId}` }}</div>
+            <img :src="item.img" alt="">
           </div>
-          <div class="nft_name">Bored Ape Yacht Club</div>
-          <div class="create_btn" @click="createCompetition(item)" v-if="item.type == 1">
+          <div class="nft_name">{{ item.name }}</div>
+          <div class="create_btn" @click="createCompetition(item)" v-if="!item.orderNumber">
             <span class="create_text">CREATE COMPETITIONS</span>
           </div>
           <div class="view_nft" v-else>VIEW COMPETITIONS</div>
@@ -262,13 +262,7 @@ export default {
         { nft_id: 12 },
       ],
       chooseNft: [],
-      stockNftList: [
-        { name: "Bored Ape Yacht Club Bored Ape Yacht Club", tokenId: "7799", type: 1 },
-        { name: "Bored Ape Yacht Club", tokenId: "7799", type: 1 },
-        { name: "Bored Ape Yacht Club", tokenId: "7799", type: 1 },
-        { name: "Bored Ape Yacht Club", tokenId: "7799", type: 1 },
-        { name: "Bored Ape Yacht Club", tokenId: "7799", type: 1 },
-      ],
+      stockNftList: [],
 
       // 一元购创建
       showCompetition: false,

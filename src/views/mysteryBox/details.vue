@@ -13,16 +13,11 @@
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <img src="@/assets/img/home/icon_box.png" alt="" />
+            <img :src="blindDetailInfo.boxImg" alt="" />
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div class="text">
-              Enter now for a chance to win Mutant Ape Yacht Club #8039. The
-              MUTANT APE YACHT CLUB is a collection of up to 20,000 Mutant Apes
-              that can only be created by exposing an existing Bored Ape to a
-              vial of MUTANT SERUM or by minting a Mutant Ape in the public sale
-            </div>
+            <div class="text"> {{ blindDetailInfo.boxDesc }}</div>
           </div>
         </div>
         <div class="lottery_boxs_r">
@@ -34,7 +29,7 @@
                 <div class="box_text">BOX</div>
               </div>
               <div class="lottery_btn">
-                {{ blindDetailInfo?.price }} {{ blindDetailInfo?.coin }}
+                {{ blindDetailInfo && blindDetailInfo.price }} {{ blindDetailInfo.coin }}
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -48,9 +43,7 @@
               </div>
               <div class="lottery_btn">
                 {{
-                  blindDetailInfo?.fivePrice
-                    ? blindDetailInfo?.fivePrice * 5
-                    : ""
+                  blindDetailInfo && new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
                 }}
                 {{ blindDetailInfo?.coin }}
               </div>
@@ -67,9 +60,9 @@
             </div>
             <div class="lottery_btn">
               {{
-                blindDetailInfo?.tenPrice ? blindDetailInfo?.tenPrice * 10 : ""
+                blindDetailInfo && new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
               }}
-              {{ blindDetailInfo?.coin }}
+              {{ blindDetailInfo.coin }}
             </div>
           </div>
         </div>
@@ -78,30 +71,26 @@
     <div class="nft_series">
       <div class="home-public-title">
         <div class="title_text">NFTS IN THIS BOX</div>
-        <div class="title_description">
-          Amet ornare massa praesent lacus. In mi tristique enim tellus amet
-          semper a. Donec ac congue nunc porta semper auctor enim.
-        </div>
       </div>
-      <div class="nft_series_list">
-        <div
-          class="nft_series_item"
-          :class="[`series_level_bg_${item.type}`]"
-          v-for="(item, index) in seriesList"
-          :key="index"
-        >
-          <div :class="[`series_level_${item.type}`]">
-            <div class="img_box"></div>
+      <div class="nft_series_list" v-if="blindDetailInfo">
+        <div class="nft_series_item" :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series" :key="index">
+          <div :class="[`series_level_${typrFormat(item)}`]">
+            <div class="img_box">
+              <img :src="item.seriesImg" alt="">
+            </div>
             <div class="series_info">
               <div class="series_name">
-                <span>Bored Ape Yacht Club</span>
+                <span>{{ item.seriesName }}</span>
                 <img src="@/assets/svg/home/icon_certified.svg" alt="" />
               </div>
               <div class="series_probability">
-                <span>Range: 1~1</span>
+                <span> {{ `Range:${item.range}` }}</span>
                 <span>ODDS: 0.0005%</span>
               </div>
-              <div class="series_price">68.254 ETH - 71.254ETH</div>
+              <div class="series_price">
+                {{ `${item.minPrice}ETH - ${item.maxPrice}ETH` }}
+              </div>
             </div>
           </div>
           <div class="mask_box">
@@ -119,61 +108,63 @@
         </div>
         <div class="title-box-r">
           <div class="title">Snapshot ID</div>
-          <el-input
-            v-model.number="snapshotId"
-            class="snapshot_input"
-            placeholder="Search by snapshot ID"
-          >
+          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
+            placeholder="Search by snapshot ID">
           </el-input>
         </div>
       </div>
-      <el-table :data="nftData" class="table_container" style="width: 100%">
-        <el-table-column prop="snapshot_id" label="Snapshot ID" align="center">
+      <el-table :data="snapshotData" class="table_container" style="width: 100%">
+        <el-table-column prop="id" label="Snapshot ID" align="center">
+        </el-table-column>
+        <el-table-column prop="boxName" label="Box Name" align="center" />
+        <el-table-column prop="legendNum" label="Legend" align="center">
           <template #default="scope">
-            {{ `#${scope.row.nftId}` }}
+            {{ `${probabilityFormat(scope.row, scope.row.legendNum)}%` }}
           </template>
         </el-table-column>
-        <el-table-column prop="nftName" label="Box Name" align="center" />
-        <el-table-column prop="price" label="Legend" align="center">
+        <el-table-column prop="epicNum" label="Epic" align="center">
+          <template #default="scope">
+            {{ `${probabilityFormat(scope.row, scope.row.epicNum)}%` }}
+          </template>
         </el-table-column>
-        <el-table-column prop="usdtPrice" label="Epic" align="center">
+        <el-table-column prop="rareNum" label="Rare" align="center">
+          <template #default="scope">
+            {{ `${probabilityFormat(scope.row, scope.row.rareNum)}%` }}
+          </template>
         </el-table-column>
-        <el-table-column prop="boxName" label="Rare" align="center" />
-        <el-table-column prop="boxName" label="Common" align="center" />
-        <el-table-column prop="boxName" label="Timestamp" align="center" />
+        <el-table-column prop="normalNum" label="Common" align="center">
+          <template #default="scope">
+            {{ `${probabilityFormat(scope.row, scope.row.normalNum)}%` }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="Timestamp" align="center">
+          <template #default="scope">
+            {{ timeFormat(scope.row.createTime) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="date" label="Action" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img
-                class="nft_info"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info.svg"
-                alt=""
-              />
-              <img
-                class="nft_info_active"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info_active.svg"
-                alt=""
-              />
+              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
+                alt="" />
             </div>
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination-box">
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+      </div>
     </div>
   </div>
-  <el-dialog
-    v-model="showSeriesDialog"
-    class="series_dialog"
-    fullscreen
-    align-center
-  >
+  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider></series-slider>
+    <series-slider :nftParams="nftList"></series-slider>
   </el-dialog>
 </template>
 
@@ -181,7 +172,11 @@
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
+import {
+  getSnapshotList
+} from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
+import bigNumber from "bignumber.js";
 export default {
   name: "boxDetails",
   components: {
@@ -198,30 +193,20 @@ export default {
   data() {
     return {
       snapshotId: null,
-      timestamp: null,
       showSeriesDialog: false,
-      nftData: [11, 2, 2, 2, 2],
-      seriesList: [
-        { type: "1" },
-        { type: "2" },
-        { type: "3" },
-        { type: "4" },
-        { type: "1" },
-        { type: "2" },
-        { type: "3" },
-        { type: "4" },
-        { type: "1" },
-        { type: "2" },
-        { type: "3" },
-        { type: "4" },
-      ],
+      seriesList: [],
+      snapshotData: [],
       nftList: [],
+      page: 1,
+      size: 10,
+      count: 0,
     };
   },
   computed: {
     ...mapStores(useHeaderStore),
   },
   methods: {
+    bigNumber: bigNumber,
     messageFun(message = "余额不足,请充值!", type = "warning") {
       ElMessage({
         message,
@@ -243,14 +228,125 @@ export default {
       }
       this.$emit("rollNumberFun", type);
     },
+    typrFormat(event) {
+      const { boxNftInfos } = event;
+      if (!boxNftInfos.length > 0) return "4";
+      const { qualityType } = boxNftInfos[0];
+      if (qualityType == "LEGEND") {
+        return "1"
+      }
+      if (qualityType == "EPIC") {
+        return "2"
+      }
+      if (qualityType == "RARE") {
+        return "3"
+      } else {
+        return "4"
+      }
+    },
     handleShowNft(event) {
-      this.nftList = event;
+      this.nftList = event.boxNftInfos;
       this.showSeriesDialog = true;
     },
     handleActive(event) {
       this.$router.push({ name: "Snapshot", query: { id: event.id } });
     },
+    handleSearch() {
+      this.page = 1;
+      this.fetchSnapshotList();
+    },
+    async fetchSnapshotList() {
+      const res = await getSnapshotList({
+        snapshotId: this.snapshotId,
+        page: this.page,
+        size: this.size
+      });
+
+      if (res && res.code == 200) {
+        this.snapshotData = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchSnapshotList();
+    },
+    /** 
+     * @description 友好的时间显示
+     * @param string event 时间
+     */
+    timeFormat(event) {
+      if (!event) return "-"
+      const timestamp = new Date(event).getTime() / 1000;
+
+      function zeroize(num) {
+        return (String(num).length == 1 ? '0' : '') + num;
+      }
+
+      let curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
+      let timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
+
+      let curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
+      let tmDate = new Date(timestamp * 1000);  // 参数时间戳转换成的日期对象
+
+      let Y = tmDate.getFullYear(), m = tmDate.getMonth() + 1, d = tmDate.getDate();
+      let H = tmDate.getHours(), i = tmDate.getMinutes();
+      // let s = tmDate.getSeconds();
+
+      if (timestampDiff < 60) { // 一分钟以内
+        return "Just";
+      } else if (timestampDiff < 3600) { // 一小时前之内
+        return Math.floor(timestampDiff / 60) + "minutes ago";
+      } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
+        return 'Today ' + zeroize(H) + ':' + zeroize(i);
+      } else {
+        let newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
+        if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
+          return 'Yesterday ' + zeroize(H) + ':' + zeroize(i);
+        } else if (curDate.getFullYear() == Y) {
+          // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
+          return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
+        } else {
+          // return Y + 'Year' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
+          return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}，${Y}`;
+        }
+      }
+    },
+    /** 
+     * @description 月份转化
+     * @param string event 时间
+     */
+    monthFormat(event) {
+      const monthData = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+      }
+
+      return monthData[parseInt(event)]
+    },
+    /** 
+     * @description 概率计算
+     * @param string event
+     */
+    probabilityFormat(event, num) {
+      const { legendNum, epicNum, rareNum, normalNum } = event;
+      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
+      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
+    }
   },
+  created() {
+    this.fetchSnapshotList();
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -98,9 +98,11 @@
 }
 
 .point_total {
+  height: 5.5rem;
   display: flex;
   align-items: center;
-
+  box-sizing: border-box;
+  border-bottom: 0.125rem solid #1d1f2b;
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.6;
@@ -115,7 +117,7 @@
 }
 
 .point_details {
-  padding-top: 5.125rem;
+  padding-top: 3.75rem;
 
   .point_details_title {
     margin-bottom: 1.875rem;
@@ -201,6 +203,10 @@
   text-align: center;
   color: #fad54d;
 
+  .minus {
+    color: #df4328;
+  }
+
   img {
     width: 1.5rem;
     margin-left: 0.625rem;
@@ -214,6 +220,7 @@
   line-height: 1;
   color: #a9a4b4;
   margin: 1.875rem 0 1.125rem;
+  cursor: pointer;
 
   img {
     width: 1rem;
@@ -223,6 +230,7 @@
 }
 
 .purchase_history_box {
+
   &>div+div {
     margin-top: 1.875rem;
   }
@@ -285,23 +293,32 @@
   }
 
   .nft_list {
+    max-width: 21.125rem;
     display: flex;
     flex-wrap: wrap;
 
-    &>img+img {
+    &>.img_box+.img_box {
       margin-left: 0.625rem;
     }
 
-    &>img:nth-child(6n+1) {
+    &>.img_box:nth-child(n+7) {
       margin-top: 0.5rem;
     }
 
-    &>img:nth-child(6n+1) {
+    &>.img_box:nth-child(6n+1) {
       margin-left: 0;
     }
 
-    &>img {
+    &>.img_box {
       width: 3rem;
+      height: 3rem;
+      overflow: hidden;
+
+      img {
+        width: auto;
+        height: 100%;
+        border-radius: 0.5rem;
+      }
     }
   }
 
@@ -322,6 +339,65 @@
       line-height: 1.6;
       text-align: right;
       color: rgba(169, 164, 180, 0.6);
+    }
+  }
+}
+
+.pagination-box {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.875rem;
+
+  :deep(.el-pagination) {
+    button {
+      background: transparent;
+      color: white;
+      font-family: Tomorrow;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1.5;
+
+      &:disabled {
+        opacity: 0.8;
+      }
+
+      &.btn-prev {
+        margin-right: 1.25rem;
+      }
+
+      &.btn-next {
+        margin-left: 1.25rem;
+      }
+    }
+  }
+
+  :deep(.el-pager) {
+
+    &>li+li {
+      margin-left: 0.75rem;
+    }
+
+    li {
+      width: 3.25rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2.5rem;
+      background-color: transparent;
+      border: solid 1px rgba(146, 148, 156, 0.3);
+
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: #a9a4b4;
+
+      &.is-active,
+      &:hover {
+        background-image: linear-gradient(to top, #e3a406, #fbd851);
+        border-color: transparent;
+        color: #13151f;
+      }
     }
   }
 }

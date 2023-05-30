@@ -24,6 +24,25 @@ const getCaptcha = (params) =>
 const getForgetPasswordtcha = (params) =>
   apiService.post("mystery-web-user/auth/account/forgetPassword", params); //忘记密码
 
+const getAListOfUserPoints = (params) =>
+  apiService.get("mystery-web-user/user/getAListOfUserPoints", params); // 积分列表
+
+const getUserBuyHistory = (params) =>
+  apiService.get("mystery-web-user/box/buy/history", params); // 积分列表
+
+const getRechargeExchangeRate = (params) =>
+  apiService.get("mystery-web-user/index/exchangeRate", params); // 充值汇率
+
+const getWithdrawalExchangeRate = (params) =>
+  apiService.get("mystery-web-user/index/withdrawalExchangeRate", params); // 提款汇率
+
+const withdrawalBalance = (params) =>
+  apiService.post("mystery-web-user/withdrawal/balance", params); // 提款余额
+
+const getWithdrawalHistory = (params) =>
+  apiService.get("mystery-web-user/withdrawal/findList", params); // 充值提款历史
+
+
 export {
   getKey,
   authLogin,
@@ -33,4 +52,10 @@ export {
   getReg,
   getForgetPasswordtcha,
   getCaptcha,
+  getAListOfUserPoints,
+  getUserBuyHistory,
+  getRechargeExchangeRate,
+  getWithdrawalExchangeRate,
+  withdrawalBalance,
+  getWithdrawalHistory
 };

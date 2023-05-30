@@ -2,15 +2,15 @@
   <div class="wrapper_bg">
     <div class="my_profile_wrapper">
       <div class="user_panel" :style="{
-        backgroundImage: `url(${bg[activeType]})`,
-        height: activeType == 'point' ? '44.3125rem' : `63.6875rem`
+        backgroundImage: isMore ? `url(${pointMore})` : `url(${bg[activeType]})`,
+        height: isMore ? '86rem' : activeType == 'point' ? '44.3125rem' : `63.6875rem`
       }">
         <div class="user_info">
           <img src="@/assets/img/user/avatar.png" alt="">
           <div class="user_box">
-            <div class="user_name">User name</div>
-            <div class="user_wallet">
-              <span>0x58484561648546f465s6dfs64d6f54s65d46f4</span>
+            <div class="user_name">{{ userInfo.userName }}</div>
+            <div class="user_wallet" v-if="userInfo.walletAddress">
+              <span>{{ userInfo.walletAddress }}</span>
               <img src="@/assets/svg/user/icon_link.svg" alt="">
             </div>
             <div class="create_time">Joined Mar 2023</div>
@@ -23,53 +23,65 @@
         <div class="point_box" v-if="activeType == 'point'">
           <div class="point_total">
             <img src="@/assets/svg/user/icon_profile.svg" alt="">
-            <span>1231 Point</span>
+            <span>{{ `${userBalance || 0} Point` }}</span>
           </div>
           <div class="point_details">
             <div class="point_details_title">POINT DETAILS</div>
             <el-table :data="pointData" class="table_container" style="width: 100%">
-              <el-table-column prop="snapshot_id" label="TYPE" align="center" />
-              <el-table-column prop="nftName" label="POINT" align="center">
+              <el-table-column prop="source" label="TYPE" align="center" />
+              <el-table-column prop="integral" label="POINT" align="center">
                 <template #default="scope">
                   <div class="point_info">
-                    <span>{{ `+${scope.row.nftId || 0}` }}</span>
+                    <span v-if="scope.row.integral > 0">{{ `+${scope.row.integral || 0}` }}</span>
+                    <span v-else class="minus">{{ `${scope.row.integral || 0}` }}</span>
                     <img src="@/assets/svg/user/icon_copy.svg" alt="">
                   </div>
                 </template>
               </el-table-column>
               <el-table-column prop="usdtPrice" label="ETH AMOUNT" align="center" />
               <el-table-column prop="boxName" label="DETAIL" align="center" />
-              <el-table-column prop="boxName" label="DATE/TIME" align="center">
+              <el-table-column prop="date" label="DATE/TIME" align="center">
                 <template #default="scope">
-                  {{ timeFormat(scope.row.time) }}
+                  {{ timeFormat(scope.row.date) }}
                 </template>
               </el-table-column>
             </el-table>
           </div>
-          <div class="more">
-            <span>Show more</span>
-            <img src="@/assets/svg/user/icon_more.svg" alt="">
-          </div>
         </div>
-        <div class="purchase_history_box" v-if="activeType == 'purchase_history'">
+        <div class="purchase_history_box" :style="{ height: isMore && '62.5rem' }"
+          v-if="activeType == 'purchase_history'">
           <div class="history_item" v-for="(item, index) in purchaseHistory" :key="index">
             <div class="box_info">
               <div class="box_img">
-                <img src="" alt="">
+                <img :src="item.boxImg" alt="">
               </div>
               <div class="box_buy">
-                <div class="box_name">Top Blue-chip Box</div>
-                <div class="box_num">x 10</div>
-                <div class="box_order">ID:123123123213123123</div>
+                <div class="box_name">{{ item.boxName }}</div>
+                <div class="box_num">{{ `x ${item.lottery.length}` }}</div>
+                <div class="box_order">{{ `ID：${item.orderNumber}` }}</div>
               </div>
             </div>
             <div class="nft_info">
-              <div class="nft_list"></div>
+              <div class="nft_list">
+                <div class="img_box" v-for="(event, indexs) in item.lottery" :key="indexs">
+                  <img :src="event.nftImg" alt="">
+                </div>
+              </div>
               <div class="price_box">
-                <div class="price">1.45 ETH</div>
-                <div class="time">2023.1.3 21:21:13</div>
+                <div class="price">{{ `${item.buyPrice} ETH` }}</div>
+                <div class="time">{{ timeFormat(item.createTime) }}</div>
               </div>
             </div>
+          </div>
+        </div>
+        <div v-if="this.count > 4">
+          <div class="more" v-if="!isMore" @click="loadMore()">
+            <span>Show more</span>
+            <img src="@/assets/svg/user/icon_more.svg" alt="">
+          </div>
+          <div class="pagination-box" v-else>
+            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
           </div>
         </div>
       </div>
@@ -77,22 +89,105 @@
   </div>
 </template>    
 <script>
+
+import {
+  getAListOfUserPoints,
+  getUserBuyHistory
+} from "@/services/api/user";
+
+import { mapStores } from "pinia";
+import { useHeaderStore } from "@/store/header.js";
+import { useUserStore } from "@/store/user.js";
 export default {
   name: 'myProfile',
   data() {
     return {
       activeType: "point",
-      pointData: [1, 2, 3, 4],
-      purchaseHistory: [1, 2, 3, 4],
+      userBalance: null, // 余额
+      pointData: [],
+      purchaseHistory: [],
       bg: {
         point: require("@/assets/svg/user/point_bg.svg"),
         purchase_history: require("@/assets/svg/user/purchase_history_bg.svg")
-      }
+      },
+      pointMore: require("@/assets/svg/user/point_more_bg.svg"),
+      isMore: false,
+      page: 1,
+      size: 4,
+      count: 20,
     };
+  },
+  computed: {
+    ...mapStores(useUserStore, useHeaderStore),
+    ethBalance() {
+      const headerStore = useHeaderStore();
+      return headerStore.balance;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    regInfo() {
+      const { regInfo } = this.userStore;
+      return regInfo;
+    },
   },
   methods: {
     handleClick(event) {
-      console.log(event)
+      const { props } = event;
+
+      this.page = 1;
+      this.size = 4;
+      this.count = 4;
+      this.isMore = false;
+      this.pointData = [];
+      this.purchaseHistory = [];
+
+      if (props.name == 'point') {
+        this.fetchUserPoints();
+      } else {
+        this.fetchUserBuyHistory();
+      }
+    },
+    // 获取购买记录
+    async fetchUserBuyHistory() {
+      const res = await getUserBuyHistory({
+        page: this.page,
+        size: this.size
+      });
+      if (res.code == 200) {
+        this.purchaseHistory = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+    // 获取用户积分
+    async fetchUserPoints() {
+      const res = await getAListOfUserPoints({
+        page: this.page,
+        size: this.size
+      });
+      if (res.code == 200) {
+        this.pointData = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+    loadMore() {
+      this.isMore = true;
+      if (this.activeType == "point") {
+        this.size = 20;
+        this.fetchUserPoints();
+      } else {
+        this.size = 5;
+        this.fetchUserBuyHistory();
+      }
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      if (this.activeType == "point") {
+        this.fetchUserPoints();
+      } else {
+        this.fetchUserBuyHistory();
+      }
     },
     /** 
      * @description 友好的时间显示
@@ -121,11 +216,11 @@ export default {
       } else if (timestampDiff < 3600) { // 一小时前之内
         return Math.floor(timestampDiff / 60) + "minutes ago";
       } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
-        return 'Today' + zeroize(H) + ':' + zeroize(i);
+        return 'Today ' + zeroize(H) + ':' + zeroize(i);
       } else {
         let newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
         if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
-          return 'Yesterday' + zeroize(H) + ':' + zeroize(i);
+          return 'Yesterday ' + zeroize(H) + ':' + zeroize(i);
         } else if (curDate.getFullYear() == Y) {
           // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
           return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
@@ -157,6 +252,10 @@ export default {
 
       return monthData[parseInt(event)]
     },
+  },
+  created() {
+    console.log(this.userInfo)
+    this.fetchUserPoints();
   }
 };
 </script>

@@ -4,6 +4,7 @@
     destroy-on-close
     :show-close="false"
     :align-center="true"
+    :append-to-body="true"
     class="public-dialog"
     width="700"
     :before-close="closeDialogFun"
@@ -27,6 +28,9 @@
       </p>
       <el-button class="public-button" @click="balanceFun">
         Check my balance
+      </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
+        Continue
       </el-button>
     </div>
   </el-dialog>

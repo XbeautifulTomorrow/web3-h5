@@ -26,11 +26,10 @@
             'result-list',
             item.qualityType,
             { 'choose-list': nfts.includes(item.id) },
-            { 'pointer more-list': result.length > 1 },
+            { 'more-list': result.length > 1 },
           ]"
           v-for="(item, index) in result"
           :key="`result-${index}`"
-          @click="nftsFun(item)"
         >
           <div class="result-portrait">
             <img class="result-portrait-img" :src="item.nftImg" alt="" />
@@ -77,7 +76,7 @@
           </el-tooltip>
           <div class="result-one-footer" v-if="result.length < 2">
             <el-button
-              class="result-one-button take"
+              :class="['result-one-button take', { 'not-click': isSell }]"
               type="warning"
               round
               @click="chooseLotteryHold('hold')"
@@ -97,27 +96,34 @@
               At the end of the countdown you will automatically sell all NFT
             </p>
           </div>
-          <div class="result-sell" v-else>
-            <span class="result-sell-text">Sell for</span>
-            <span class="result-sell-total">
+          <template v-else>
+            <div
+              class="result-sell pointer"
+              v-if="nfts.includes(item.id)"
+              @click="nftsFun(item)"
+            >
+              <span class="result-sell-text">Sell for</span>
               <el-tooltip
                 class="box-item"
                 effect="dark"
-                :content="`${total}${item.coin}`"
+                :content="`${item.price}${item.coin}`"
               >
-                <span class="result-sell-total-number text-ellipsis">
-                  {{ total }}
+                <span class="result-sell-number text-ellipsis">
+                  {{ item.price }}
                 </span>
               </el-tooltip>
-              {{ item.coin }}
-            </span>
-          </div>
+              <span class="result-sell-coin">
+                {{ item.coin }}
+              </span>
+            </div>
+            <p v-else class="result-sell-get">You get 55.35 ETH</p>
+          </template>
         </li>
       </ul>
       <div class="result-footer" v-if="result.length > 1">
         <div class="resule-footer-buttons">
           <el-button
-            class="result-footer-button take"
+            :class="['result-footer-button take', { 'not-click sell': isSell }]"
             type="warning"
             round
             @click="chooseLotteryHold('hold')"
@@ -137,6 +143,24 @@
         <p class="result-end">
           At the end of the countdown you will automatically sell all NFT
         </p>
+        <div class="result-link">
+          <img class="result-link-img" src="" alt="" />
+          <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
+          <div class="result-link-go">
+            <p class="result-link-go-text">
+              <a
+                class="result-link-go-view"
+                :href="item.src"
+                target="_blank"
+                v-for="(item, index) in link"
+                :key="`link-${index}`"
+              >
+                {{ item.text }}
+              </a>
+            </p>
+            <p class="result-link-go-users">[Advanced Users]</p>
+          </div>
+        </div>
       </div>
     </div>
   </el-dialog>
@@ -145,7 +169,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
 import { BigNumber } from "bignumber.js";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 const props = defineProps({
   result: {
@@ -162,14 +186,20 @@ const emit = defineEmits([
   "inventoryFun",
   "closeDialogFun",
 ]);
+const link = [
+  { src: "", text: "View Faimess" },
+  { src: "", text: "View Snapshot" },
+];
 let timer = null;
 const visible = ref(true);
+const isSell = ref(false);
 let total = ref(0);
 let second = ref(60);
 let nfts = ref([]);
 onMounted(() => {
-  totalFun();
+  //   totalFun();
   timerFun();
+  nftsinitializationFun();
   //   secondFun();
 });
 onUnmounted(() => {
@@ -189,26 +219,40 @@ onUnmounted(() => {
 //     second.value = parseInt(_second);
 //   }
 // };
+const nftsinitializationFun = () => {
+  props.result.forEach((item) => {
+    nfts.value.push(item.id);
+  });
+};
 const nftsFun = (_data) => {
   if (props.result.length < 2) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
     nfts.value.splice(_index, 1);
+    total.value = BigNumber(total.value)
+      .plus(Number(_data.price))
+      .decimalPlaces(4);
   } else {
     nfts.value.push(_data.id);
+    total.value = BigNumber(total.value)
+      .minus(Number(_data.price))
+      .decimalPlaces(4);
   }
 };
-const totalFun = () => {
-  const { result } = props;
-  result.forEach((item) => {
-    total.value = BigNumber(total.value).plus(Number(item.price));
-  });
-};
+// const totalFun = () => {
+//   const { result } = props;
+//   result.forEach((item) => {
+//     total.value = BigNumber(total.value)
+//       .plus(Number(item.price))
+//       .decimalPlaces(4);
+//   });
+// };
 const timerFun = () => {
   timer = setInterval(() => {
     second.value--;
     if (second.value < 1) {
-      emit("closeDialogFun");
+      //   emit("closeDialogFun");
+      isSell.value = true;
       clearTimerFun();
     }
   }, 1000);
@@ -218,6 +262,7 @@ const clearTimerFun = () => {
   timer = null;
 };
 const chooseLotteryHold = (data) => {
+  if (isSell.value && data === "hold") return;
   emit("chooseLotteryHold", data, nfts);
 };
 </script>

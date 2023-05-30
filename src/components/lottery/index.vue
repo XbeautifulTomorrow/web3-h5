@@ -30,6 +30,14 @@
       :awardItem="awardItem"
       @showResultFun="showResultFun"
     />
+    <!-- 中奖列表 -->
+    <result-list
+      v-if="showResult"
+      :result="awardItem"
+      :localDateTime="localDateTime"
+      @chooseLotteryHold="chooseLotteryHold"
+      @closeDialogFun="closeDialogFun"
+    />
     <!-- 弹窗 -->
     <choose-token
       v-if="showDialog === 'chooseToken'"
@@ -72,14 +80,6 @@
       @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
       :text="warningText"
-    />
-    <!-- 中奖列表 -->
-    <result-list
-      v-if="showResult"
-      :result="awardItem"
-      :localDateTime="localDateTime"
-      @chooseLotteryHold="chooseLotteryHold"
-      @closeDialogFun="closeDialogFun"
     />
   </el-dialog>
 </template>
@@ -201,6 +201,7 @@ export default {
             this.showDialog = "allSold";
           }
         }
+        this.balanceFun();
       }
     },
     balanceFun() {

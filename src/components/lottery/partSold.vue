@@ -100,7 +100,10 @@
         <span class="public-dialog-total-number"> {{ total }} ETH </span>
       </p>
       <el-button class="public-button" @click="closeDialogFun">
-        {{ props.failList.length ? "Close" : "Check my inventory" }}
+        Check my inventory
+      </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
+        Continue
       </el-button>
     </div>
   </el-dialog>

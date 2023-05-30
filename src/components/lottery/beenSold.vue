@@ -38,6 +38,9 @@
       <el-button class="public-button" @click="balanceFun">
         Check balance
       </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
+        Continue
+      </el-button>
     </div>
   </el-dialog>
 </template>

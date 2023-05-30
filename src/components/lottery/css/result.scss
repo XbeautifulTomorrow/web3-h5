@@ -126,6 +126,7 @@
 }
 .result-sell {
   width: 100%;
+  height: 46px;
   padding: 10px 0;
   overflow: hidden;
   position: relative;
@@ -138,22 +139,26 @@
   background-image: url("@/assets/svg/lottery/button_border.svg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  box-sizing: border-box;
 }
 .result-sell-text {
   font-size: 14px;
   color: var(--white);
+  min-width: max-content;
 }
-.result-sell-total {
+.result-sell-coin,
+.result-sell-number {
   font-size: 24px;
   font-weight: bold;
   color: #fad54d;
   margin-left: 8px;
-  display: flex;
-  max-width: max-content;
 }
-.result-sell-total-number {
+.result-sell-number {
   display: inline-block;
-  max-width: calc(100% - 55px - 8px);
+  max-width: calc(100% - 150px);
+}
+.result-sell-coin {
+  min-width: max-content;
 }
 .result-footer {
   margin-top: 60px;
@@ -209,4 +214,52 @@
   &.NORMAL {
     background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
   }
+}
+.result-link {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-around;
+  margin: 60px auto;
+  width: 432px;
+  height: 74px;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: solid 1px #25293e;
+  background-color: #110429;
+  font-size: 14px;
+}
+.result-link-img {
+  width: 27.3px;
+  height: 33.3px;
+}
+.result-link-text {
+  width: 153px;
+  color: #a9a4b4;
+  text-align: left;
+}
+.result-link-go-view {
+  color: #fad54d;
+  margin-right: 5px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+.result-link-go-users {
+  color: #e4e7f5;
+}
+.not-click {
+  cursor: default;
+  pointer-events: none;
+  background: #292c36;
+  background-image: none !important;
+  color: #a9a4b4 !important;
+  border: solid 1px rgba(228, 231, 245, 0.15) !important;
+}
+.result-sell-get {
+  color: #a9a4b4;
+  font-size: 14px;
+  height: 46px;
+  line-height: 46px;
 }

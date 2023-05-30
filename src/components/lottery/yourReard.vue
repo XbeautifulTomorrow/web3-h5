@@ -35,6 +35,9 @@
       <el-button class="public-button" @click="closeDialogFun">
         Check my inventory
       </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
+        Continue
+      </el-button>
     </div>
   </el-dialog>
 </template>

@@ -40,6 +40,9 @@
       <el-button class="public-button" @click="balanceFun">
         Check balance
       </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
+        Continue
+      </el-button>
     </div>
   </el-dialog>
 </template>
@@ -52,7 +55,7 @@ defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["closeDialogFun"]);
+const emit = defineEmits(["balanceFun", "closeDialogFun"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {

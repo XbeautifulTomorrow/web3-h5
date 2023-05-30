@@ -37,10 +37,13 @@ const getWithdrawalExchangeRate = (params) =>
   apiService.get("mystery-web-user/index/withdrawalExchangeRate", params); // 提款汇率
 
 const withdrawalBalance = (params) =>
-  apiService.post("mystery-web-user/withdrawal/balance", params); // 提款余额
+  apiService.post("mystery-web-user/withdrawal/balance", params); // 提款ETH余额
+
+const withdrawalNft = (params) =>
+  apiService.post("mystery-web-user/withdrawal/nft", params); // 提款NFT
 
 const getWithdrawalHistory = (params) =>
-  apiService.get("mystery-web-user/withdrawal/findList", params); // 充值提款历史
+  apiService.get("mystery-web-user/withdrawal/pageList", params); // 充值提款历史
 
 
 export {
@@ -57,5 +60,6 @@ export {
   getRechargeExchangeRate,
   getWithdrawalExchangeRate,
   withdrawalBalance,
+  withdrawalNft,
   getWithdrawalHistory
 };

@@ -12,16 +12,16 @@
           <div class="entered_box" v-if="activeType == 'ENTERED'">
             <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
               <div class="image_box">
+                <img :src="item && item.nftImage" alt="">
                 <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                   <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                   <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                  <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${dayLeft(item.endTime)}` }}</span>
+                  <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item.endTime) }}</span>
                   <span v-else>
-                    {{ `${new bigNumber(item.limitNum).minus(item.numberOfTicketsSold)} TICKETS LEFT` }}
+                    {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                   </span>
                 </div>
-                <div class="image_tag">#{{ item && item.tokenId }}</div>
-                <img :src="item && item.nftImage" alt="">
+                <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
               </div>
               <div class="nft_name">
                 <span>{{ item && item.seriesName }}</span>
@@ -42,16 +42,16 @@
             <div class="my_competitions_box">
               <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
                 <div class="image_box">
+                  <img :src="item && item.nftImage" alt="">
                   <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                     <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                     <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                    <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${item.limitDay} DAY LEFT` }}</span>
+                    <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item.endTime) }}</span>
                     <span v-else>
-                      {{ `${new bigNumber(item.limitNum).minus(item.numberOfTicketsSold)} TICKETS LEFT` }}
+                      {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                     </span>
                   </div>
-                  <div class="image_tag">#{{ item && item.tokenId }}</div>
-                  <img :src="item && item.nftImage" alt="">
+                  <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
                 </div>
                 <div class="nft_name">{{ item && item.seriesName }}</div>
                 <div class="nft_price">{{ item && item.price }}ETH</div>
@@ -70,14 +70,14 @@
                 <img src="@/assets/svg/user/icon_closed_interval.svg" alt="">
               </div>
               <div class="my_competitions_box">
-                <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
+                <div class="entered_item" v-for="(item, index) in finishList" :key="index">
                   <div class="image_box">
+                    <img :src="item && item.nftImage" alt="">
                     <div class="tips_round" :class="item.currentStatus == 'CANCELLED' ? 'cancel' : 'sale'">
                       <span v-if="item.currentStatus == 'CANCELLED'">CANCEL</span>
                       <span v-else>SALE</span>
                     </div>
-                    <div class="image_tag">#{{ item && item.tokenId }}</div>
-                    <img :src="item && item.nftImage" alt="">
+                    <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
                   </div>
                   <div class="nft_name">{{ item && item.seriesName }}</div>
                   <div class="nft_price">{{ item && item.price }}ETH</div>
@@ -96,7 +96,7 @@
                   <div class="nft_info">
                     <img :src="scope.row.nftImage" alt="">
                     <div class="info_text">
-                      <div class="name">{{ `${scope.row.seriesName} #${scope.row.tokenId}` }}</div>
+                      <div class="name text-ellipsis">{{ `${scope.row.seriesName} #${scope.row.tokenId}` }}</div>
                       <div class="price">{{ `${scope.row.price} ETH` }}</div>
                     </div>
                   </div>
@@ -105,7 +105,7 @@
               <el-table-column prop="limitNum" label="LIMIT">
                 <template #default="scope">
                   <div v-if="scope.row.orderType == 'LIMITED_TIME'">
-                    {{ `${scope.row.limitDay || 0} Days` }}
+                    {{ dayLeft(item.endTime) }}
                   </div>
                   <div v-else>
                     {{ `${scope.row.limitNum || 0} Tickets` }}
@@ -169,11 +169,11 @@
         </span>
       </div>
       <div class="image_box">
-        <img :src="competitionNft && competitionNft.img" alt="">
+        <img :src="competitionNft && competitionNft.nftImage" alt="">
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft && competitionNft.seriesName }}</div>
-        <div class="nft_id">#{{ competitionNft && competitionNft.tokenId }}</div>
+        <div class="nft_id text-ellipsis">#{{ competitionNft && competitionNft.tokenId }}</div>
       </div>
       <div class="btn-group">
         <div class="cancel" @click="handleClose()">
@@ -198,6 +198,7 @@ export default {
     return {
       activeType: "ENTERED",
       enteredList: [],
+      finishList: [],
       showCabcel: false,
       competitionNft: null,
       isCancel: true
@@ -212,7 +213,21 @@ export default {
     async fetchOneBuyList() {
       const res = await getOneBuyList({ type: this.activeType, page: 1, size: 9999 });
       if (res && res.code == 200) {
-        this.enteredList = res.data.records;
+        const nftTickets = res.data.records;
+        if (this.activeType == "MY_COMPETITIONS") {
+          this.enteredList = [];
+          nftTickets.forEach(element => {
+            if (element.currentStatus == "IN_PROGRESS") {
+              this.enteredList.push(element);
+            } else {
+              this.finishList.push(element);
+            }
+          });
+
+          return
+        }
+
+        this.enteredList = nftTickets;
       }
     },
     // 参加赛事
@@ -235,10 +250,9 @@ export default {
         orderNumber: this.competitionNft.orderNumber
       });
       if (res && res.code == 200) {
-        this.$message.success("Removed successfully");
+        this.$message.success("Cancel successfully");
         this.fetchOneBuyList();
-      } else {
-        this.isCancel = false;
+        this.handleClose();
       }
     },
     // 删除订单
@@ -261,7 +275,7 @@ export default {
         done();
         return
       }
-      this.showCabcel = false
+      this.showCabcel = false;
     },
     dayLeft(event) {
       if (!event) return "ENDED"

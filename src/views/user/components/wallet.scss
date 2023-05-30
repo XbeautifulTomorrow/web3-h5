@@ -303,6 +303,7 @@
       position: absolute;
       top: 0.5rem;
       left: 0.5rem;
+      max-width: 50%;
       padding: 0.375rem 0.625rem;
       border-radius: 0.25rem;
       background-color: rgba(6, 91, 30, 0.8);
@@ -419,9 +420,6 @@
 
 .withdraw_condition {
   width: 70.6875rem;
-  padding: 1.25rem;
-  border-radius: 0.625rem;
-  background-color: #191c28;
   margin: 0.625rem auto 1.25rem;
   box-sizing: border-box;
 
@@ -438,6 +436,9 @@
   }
 
   .condition_item {
+    padding: 1.25rem;
+    border-radius: 0.625rem;
+    background-color: #191c28;
 
     .condition_label {
       display: flex;
@@ -512,7 +513,7 @@
   }
 
   :deep(.nft_input) {
-    width: 36.4375rem;
+    width: 26.5rem;
 
     .el-input__wrapper {
       height: 3.3125rem;
@@ -606,6 +607,18 @@
       padding-left: 8.75rem;
     }
   }
+
+  &.type_box {
+    flex: none;
+    width: 14.6875rem;
+
+    :deep(.nft_type) {
+
+      .el-input__wrapper {
+        padding-left: 5.4375rem;
+      }
+    }
+  }
 }
 
 .choose_nft {
@@ -634,6 +647,7 @@
   &:hover {
     .img_box {
       img {
+        transition: all 0.3s;
         transform: scale(1.15);
       }
     }
@@ -646,6 +660,7 @@
     overflow: hidden;
 
     .tips {
+      max-width: 50%;
       position: absolute;
       top: 0.5rem;
       left: 0.5rem;
@@ -655,11 +670,11 @@
       font-size: 0.875rem;
       line-height: 1.6;
       color: #0cbb3e;
+    }
 
-      img {
-        width: 100%;
-        height: auto;
-      }
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 

@@ -18,7 +18,7 @@
         </div>
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
-            <div class="nft_name">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
+            <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
             <div class="nft_activity">
               <div class="price">
                 <span class="title">value：</span>
@@ -113,7 +113,7 @@
         <div class="nft_buy_info_l border_bg">
           <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
             <el-tab-pane label="ACTIVITY" name="activity"></el-tab-pane>
-            <el-tab-pane label="PARTICIPANTS(50)" name="participants"></el-tab-pane>
+            <el-tab-pane :label="`PARTICIPANTS(${participantsTotal})`" name="participants"></el-tab-pane>
           </el-tabs>
           <div class="buy_list">
             <div class="buy_item" v-for="(item, index) in buyData" :key="index">
@@ -146,7 +146,8 @@
             <div class="description_text">DESCRIPTION</div>
             <div class="nft_info">
               <span>Enter now for a chance to win</span>
-              <span class="nft_name">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</span>
+              <span class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}`
+              }}</span>
             </div>
             <div class="nft_description" v-html="detailData && detailData.description"></div>
           </div>
@@ -227,6 +228,7 @@ export default {
       },
       activeType: "activity",
       buyData: [],
+      participantsTotal: 0,
       page: 1,
       size: 5,
       total: 0,
@@ -275,6 +277,7 @@ export default {
       }
     },
     handleClick() {
+      this.buyData = [];
       this.fetchBuyRecord();
     },
     // 购买一元购门票
@@ -351,6 +354,18 @@ export default {
         }
 
         this.buyData.push.apply(this.buyData, res.data.records);
+      }
+    },
+    // 获取参与者总数
+    async fetchUserBuyRecord() {
+      const { page, size, orderId } = this;
+      const res = await getUserBuyRecord({
+        page: page,
+        size: size,
+        orderNumber: orderId
+      });
+      if (res && res.code == 200) {
+        this.participantsTotal = res.data.total;
       }
     },
     // 加载更多
@@ -499,6 +514,7 @@ export default {
     this.fetchOneBuyInfo();
     this.fetchEndingSoon();
     this.fetchBuyRecord();
+    this.fetchUserBuyRecord();
   }
 };
 </script>

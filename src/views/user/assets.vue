@@ -11,7 +11,7 @@
       <div class="nft_list">
         <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
           <div class="img_box">
-            <div class="tips">{{ `#${item.tokenId}` }}</div>
+            <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
             <img :src="item.img" alt="">
           </div>
           <div class="nft_name">{{ item.name }}</div>
@@ -65,18 +65,6 @@
       </div>
       <div class="operating_tips" v-if="operatingType == 1">Choose a wallet connection method</div>
       <div class="withdraw_condition" v-else>
-        <div class="withdraw_tpis">
-          Please enter the ERC20 wallet address you wish to receive the NFT'S on. Once confirmed,
-          the withdrawal is usually processed within a few minutes.
-        </div>
-        <div class="condition_item">
-          <div class="condition_label">
-            <span>RECEIVING NFT'S ADDRESS</span>
-            <span class="required">*</span>
-          </div>
-          <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
-          </el-input>
-        </div>
         <div class="condition_item">
           <div class="condition_label">
             <span>WITHDRAWAL NETWORK</span>
@@ -84,46 +72,62 @@
           </div>
           <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
             :popper-append-to-body="false">
-            <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
           </el-select>
+          <div class="hint_text">
+            <img src="" alt="">
+            <span>
+              Ensure you've selected the same network for both withdrawal and deposit. Please check if the
+              depositing
+              platform supports the selected network; otherwise, you may lose your assets.
+            </span>
+          </div>
         </div>
-        <div class="hint_text">
-          <img src="" alt="">
-          <span>
-            Ensure you've selected the same network for both withdrawal and deposit. Please check if the
-            depositing
-            platform supports the selected network; otherwise, you may lose your assets.
-          </span>
+        <div class="condition_item">
+          <div class="withdraw_tpis">
+            Please enter the ERC20 wallet address you wish to receive the NFT'S on. Once confirmed,
+            the withdrawal is usually processed within a few minutes.
+          </div>
+          <div class="condition_label">
+            <span>RECEIVING NFT'S ADDRESS</span>
+            <span class="required">*</span>
+          </div>
+          <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
+          </el-input>
         </div>
       </div>
       <div class="choose_panel">
         <div class="search_box">
-          <el-input class="nft_input" v-model="params.nftName" placeholder="Search NFTs">
+          <el-input class="nft_input" v-model="params.nftName" placeholder="Search NFT TokenId">
             <template #prefix>
               <el-icon class="el-input__icon search_icon">
                 <search />
               </el-icon>
             </template>
           </el-input>
-          <el-select v-model="params.type" class="nft_type" placeholder="Select">
-            <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+          <div class="collections_box type_box">
+            <div class="collections_text">Type:</div>
+            <el-select v-model="params.type" class="nft_type" clearable placeholder="All">
+              <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </div>
           <div class="collections_box">
             <div class="collections_text">Collections:</div>
-            <el-select v-model="params.type" class="nft_type" placeholder="Select" :popper-append-to-body="false">
-              <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
+            <el-select v-model="params.collections" class="nft_type" placeholder="All" clearable
+              :popper-append-to-body="false">
+              <el-option v-for="item in collections" :key="item" :label="item" :value="item" />
             </el-select>
           </div>
         </div>
         <c-scrollbar class="choose_nft" width="100%" height="69.8125rem">
           <div class="choose_nft">
-            <div class="choose_nft_item" :class="[nftFind(item.nft_id) > -1 && 'active']" @click="chooseNfts(item)"
+            <div class="choose_nft_item" :class="[nftFind(item.id) > -1 && 'active']" @click="chooseNfts(item)"
               v-for="(item, index) in chooseNftList" :key="index">
               <div class="img_box">
-                <div class="tips">#6688</div>
-                <img src="" alt="">
+                <img :src="item.img" alt="" />
+                <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
               </div>
-              <div class="nft_name">Bored Ape Yacht Club</div>
+              <div class="nft_name">{{ item.name }}</div>
               <div class="mask_box">
                 <img src="@/assets/svg/user/icon_selected.svg" alt="">
               </div>
@@ -131,11 +135,13 @@
           </div>
         </c-scrollbar>
       </div>
-      <div class="confirm_btn">
-        <span v-if="operatingType == 1">{{ `DEPOSIT ${chooseNft.length} NFTs` }}</span>
-        <span v-else>{{ `WITHDRAW ${chooseNft.length} NFTs` }}</span>
+      <div v-if="operatingType == 1" class="confirm_btn">
+        <span>{{ `DEPOSIT ${chooseNft.length} NFTs` }}</span>
       </div>
-      <div class="valuable_text">Withdrawal fee of 0.005 ETH applies.</div>
+      <div v-else class="confirm_btn" @click="onWithdrawalNft()">
+        <span>{{ `WITHDRAW ${chooseNft.length} NFTs` }}</span>
+      </div>
+      <div class="valuable_text">{{ `Withdrawal fee of ${calculatedNftValue} ETH applies.` }}</div>
     </el-dialog>
     <!-- 创建一元购弹窗 -->
     <el-dialog v-model="showCompetition" width="43.75rem" lock-scroll class="dialog_competition"
@@ -229,6 +235,11 @@ import {
   addNftOrder,
   // cancelNftOrder,
 } from "@/services/api/oneBuy";
+
+import {
+  withdrawalNft
+} from "@/services/api/user";
+import bigNumber from "bignumber.js";
 import { CScrollbar } from 'c-scrollbar';
 export default {
   name: 'myWallet',
@@ -240,27 +251,22 @@ export default {
       showLink: false, // 登录链上
       showInventory: false,
       operatingType: 1, // 1 充NFT；2 提NFT；
-      nftTypes: [{ label: "ERC-721", value: "7211" }, { label: "ERC-1155", value: "1155" }],
+      networkList: [
+        { label: "Goerli", value: "goerli" }
+      ],
+      nftTypes: [
+        { label: "ERC-721", value: "ERC721" },
+        { label: "ERC-1155", value: "ERC1155" }
+      ],
+      collections: [],
       params: {
         nftName: null,
         type: null,
+        collections: null,
         wallet: null,
         chain: null
       },
-      chooseNftList: [
-        { nft_id: 1 },
-        { nft_id: 2 },
-        { nft_id: 3 },
-        { nft_id: 4 },
-        { nft_id: 5 },
-        { nft_id: 6 },
-        { nft_id: 7 },
-        { nft_id: 8 },
-        { nft_id: 9 },
-        { nft_id: 10 },
-        { nft_id: 11 },
-        { nft_id: 12 },
-      ],
+      chooseNftData: [],
       chooseNft: [],
       stockNftList: [],
 
@@ -283,24 +289,56 @@ export default {
       },
     };
   },
+  computed: {
+    // Nft条件检索
+    chooseNftList() {
+      const { params: { nftName, type, collections }, chooseNftData } = this;
+      let chooseNfts = []
+      chooseNftData.forEach(element => {
+        if (nftName && !(element.tokenId.indexOf(nftName) > -1)) return
+        if (type && element.contractType != type) return
+        if (collections && element.name != collections) return
+        chooseNfts.push(element);
+      })
+      return chooseNfts
+    },
+    // 计算Nft价值
+    calculatedNftValue() {
+      const { chooseNft } = this;
+      let nftVal = 0;
+
+      if (chooseNft.length > 0) {
+        chooseNft.forEach(element => {
+          nftVal += Number(new bigNumber(nftVal).plus(element.price || 0))
+        })
+        return nftVal
+      }
+
+      return nftVal
+    },
+  },
   methods: {
+    bigNumber: bigNumber,
     onDeposit() {
       this.showLink = true;
       this.operatingType = 1;
     },
     onWithdraw() {
-      this.showLink = true;
       this.operatingType = 2;
+      this.showInventory = true;
+      this.fetchWithdrawalSystemNft();
     },
     linkWallet() {
       this.showInventory = true;
     },
+    // 选择检索
     nftFind(event) {
-      const eindex = this.chooseNft.findIndex(e => e.nft_id == event);
+      const eindex = this.chooseNft.findIndex(e => e.id == event);
       return eindex;
     },
+    // 选择Nft
     chooseNfts(event) {
-      const eindex = this.nftFind(event.nft_id);
+      const eindex = this.nftFind(event.id);
       if (eindex > -1) {
         this.chooseNft.splice(eindex, 1);
       } else {
@@ -309,12 +347,75 @@ export default {
     },
     // 获取系统Nft列表
     async fetchSystemNft() {
-      const { size } = this.wallet;
       const res = await getSystemNft({
-        size: size
+        page: 1,
+        size: 9999
       });
       if (res && res.code == 200) {
-        this.stockNftList = res.data.records;
+        const stockNft = res.data.records;
+        this.stockNftList = [];
+        if (stockNft && !stockNft.length > 0) return
+        stockNft.forEach(element => {
+          if (!element.tokenId) return
+          this.stockNftList.push(element)
+        });
+      }
+    },
+    // 获取系统Nft列表，提取NFT
+    async fetchWithdrawalSystemNft() {
+      const res = await getSystemNft({
+        page: 1,
+        size: 9999
+      });
+      if (res && res.code == 200) {
+        const stockNft = res.data.records;
+        this.chooseNftData = [];
+        if (stockNft && !stockNft.length > 0) return
+        stockNft.forEach(element => {
+          if (!element.tokenId) return
+          this.chooseNftData.push(element);
+        });
+        this.generateCollections();
+      }
+    },
+    // 生成当前已有系列
+    generateCollections() {
+      this.collections = [];
+      this.chooseNftData.forEach(element => {
+        if (this.collectionsFind(element.name)) return
+        this.collections.push(element.name);
+      });
+    },
+    // 检索已有系列
+    collectionsFind(event) {
+      const index = this.collections.findIndex(e => e == event);
+      return index > -1;
+    },
+    // 提取Nft
+    async onWithdrawalNft() {
+      const { params: { wallet }, chooseNft } = this;
+      if (!wallet) {
+        this.$message.error("Please enter wallet address");
+        return
+      }
+
+      if (!chooseNft.length > 0) {
+        this.$message.error("Please select the NFT you want to withdraw");
+        return
+      }
+
+      let knapsackId = [];
+      chooseNft.forEach(element => {
+        knapsackId.push(element.id)
+      })
+      const res = await withdrawalNft({
+        knapsackIds: knapsackId, //背包ID
+        walletAddress: wallet //钱包地址
+      });
+      if (res && res.code == 200) {
+        this.$message.success("Created successfully");
+        this.handleClose();
+        this.fetchSystemNft();
       }
     },
     // 弹出创建弹出
@@ -329,7 +430,7 @@ export default {
           const { activeType, competitionNft } = this;
 
           if (competitionNft.price <= competitionNft.ticketPrice) {
-            this.$message.success("单份价值不能超过总价格");
+            this.$message.success("Single serving value cannot exceed total price");
           }
 
           let ruleForm = {
@@ -342,7 +443,7 @@ export default {
           if (res && res.code == 200) {
             this.handleClose();
             this.$refs["competitionForm"].resetFields();
-            this.$message.success("创建成功！");
+            this.$message.success("Created successfully");
             this.fetchSystemNft();
           }
         } else {
@@ -360,6 +461,18 @@ export default {
         ticketPrice: null, //单次价格
         limitNum: null, //最大数量
       }
+
+      this.operatingType = 1;
+      this.collections = [];
+      this.params = {
+        nftName: null,
+        type: null,
+        collections: null,
+        wallet: null,
+        chain: null
+      };
+      this.chooseNftData = [];
+      this.chooseNft = [];
 
       if (done) {
         done();

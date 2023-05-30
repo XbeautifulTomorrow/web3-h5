@@ -11,10 +11,11 @@
       <template v-for="(item, index) in ticketList">
         <li class="ntf-tickets-list" v-if="index < 5" :key="`tickets-${index}`">
           <div class="img-box">
+            <img class="tickets-boxs-list-img" :src="item.nftImage" alt="" />
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span> {{ `${getDiffDay(item.endTime)} DAY LEFT` }}</span>
+                <span> {{ `${dayLeft(item.endTime)} DAY LEFT` }}</span>
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
@@ -25,7 +26,6 @@
                 </span>
               </div>
             </div>
-            <img class="tickets-boxs-list-img" :src="item.nftImage" alt="" />
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
@@ -40,7 +40,7 @@
           <div class="boxes-button">
             <span class="boxes-button-name" @click="handleTickets(item)">ENTER NOW</span>
           </div>
-          <div class="sold-box">{{ `${item.numberOfTicketsSold} Tickets sold` }}</div>
+          <div class="sold-box">{{ `${item.numberOfTicketsSold || 0} Tickets sold` }}</div>
         </li>
       </template>
     </ul>
@@ -99,18 +99,22 @@ export default {
     openAll() {
       this.$router.push({ name: "NftTicketsList" });
     },
-    getDiffDay(endTime) {
-      // 计算两个日期之间的差值
-      let totalDays, diffDate
-      let myWEndTime = endTime && new Date(endTime) || new Date();
-      let currentTime = new Date();
-      // 将两个日期都转换为毫秒格式，然后做差
-      diffDate = Math.abs(myWEndTime - currentTime) // 取相差毫秒数的绝对值
+    // 剩余天数
+    dayLeft(event) {
+      if (!event) return "ENDED"
+      const setTime = new Date(event).getTime();
+      const nowTime = new Date().getTime();
+      if (nowTime >= setTime) return "ENDED";
 
-      totalDays = Math.floor(diffDate / (1000 * 3600 * 24)) // 向下取整
-
-      return totalDays    // 相差的天数
-    }
+      const seconds = 1000;
+      const minute = seconds * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
+      const days = new bigNumber(restSec).dividedBy(day);
+      // 剩余天数
+      return `${days} DAY LEFT`;
+    },
   }
 };
 </script>

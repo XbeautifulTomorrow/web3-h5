@@ -130,6 +130,15 @@
   padding-bottom: 1.25rem;
   box-sizing: border-box;
 
+  &:hover {
+    .image_box {
+      &>.nft_img {
+        transform: scale(1.15);
+        transition: all 0.3s;
+      }
+    }
+  }
+
   .image_box {
     position: relative;
     display: flex;

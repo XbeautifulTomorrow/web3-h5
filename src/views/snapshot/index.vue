@@ -16,7 +16,7 @@
             <template #default="scope">
               <div class="user_info">
                 <img :src="scope.row.nftImg" alt="">
-                <span>{{ `#${scope.row.tokenId}` }}</span>
+                <span class="text-ellipsis">{{ `#${scope.row.tokenId}` }}</span>
               </div>
             </template>
           </el-table-column>

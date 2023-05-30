@@ -40,7 +40,7 @@
           <el-table-column prop="syncStatus" label="STATUS" align="center" />
           <el-table-column prop="creation_time" label="DATE/TIME" align="center">
             <template #default="scope">
-              {{ timeFormat(scope.row.creation_time) }}
+              {{ timeFormat(scope.row.createTime) }}
             </template>
           </el-table-column>
           <el-table-column label="TRANSACTION" align="center">
@@ -486,11 +486,12 @@ export default {
     async fetchHistory() {
       const res = await getWithdrawalHistory({
         coin: this.coin,
-        limit: 5
+        page: 1,
+        size: 5
       });
 
       if (res && res.code == 200) {
-        this.historyData = res.data;
+        this.historyData = res.data.records;
       }
     },
     /** 
@@ -520,11 +521,11 @@ export default {
       } else if (timestampDiff < 3600) { // 一小时前之内
         return Math.floor(timestampDiff / 60) + "minutes ago";
       } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
-        return 'Today' + zeroize(H) + ':' + zeroize(i);
+        return 'Today ' + zeroize(H) + ':' + zeroize(i);
       } else {
         let newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
         if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
-          return 'Yesterday' + zeroize(H) + ':' + zeroize(i);
+          return 'Yesterday ' + zeroize(H) + ':' + zeroize(i);
         } else if (curDate.getFullYear() == Y) {
           // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
           return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;

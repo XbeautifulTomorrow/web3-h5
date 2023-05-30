@@ -42,6 +42,7 @@
     height: 33.4375rem;
     border-radius: 0.625rem;
     background-color: #1d0f36;
+    overflow: hidden;
 
     &:hover {
         .img-box {
@@ -54,10 +55,9 @@
 
     .img-box {
         width: 100%;
-        min-height: 20.3125rem;
+        height: 20.3125rem;
         position: relative;
         box-sizing: border-box;
-        border-radius: 0.625rem;
         overflow: hidden;
 
         img {

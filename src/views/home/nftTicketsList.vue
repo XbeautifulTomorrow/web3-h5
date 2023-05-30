@@ -31,23 +31,23 @@
       <ul class="boxes-content">
         <li class="ntf-tickets-item" v-for="(item, index) in ticketList" :key="`tickets-${index}`">
           <div class="image_box">
+            <img class="nft_img" :src="item && item.nftImage" alt="">
             <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
               <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
               <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${dayLeft(item.endTime)}` }}</span>
+              <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${dayLeft(item.endTime)} ` }}</span>
               <span v-else>
-                {{ `${new bigNumber(item.limitNum).minus(item.numberOfTicketsSold)} TICKETS LEFT` }}
+                {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
               </span>
             </div>
-            <div class="image_tag">#{{ item && item.tokenId }}</div>
-            <img :src="item && item.nftImage" alt="">
+            <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
           </div>
           <div class="nft_name">
             <span>{{ item && item.seriesName }}</span>
             <img src="@/assets/svg/home/icon_certified.svg" alt="">
           </div>
           <div class="nft_price">{{ item && item.price }}ETH</div>
-          <div class="buy_btn" @click="enterNow(item)">
+          <div class="buy_btn" @click="handleTickets(item)">
             <span>ENTER NOW</span>
           </div>
           <div class="remaining_votes">
@@ -106,6 +106,22 @@ export default {
 
         this.ticketList.push.apply(this.ticketList, res.data.records);
       }
+    },
+    // 剩余天数
+    dayLeft(event) {
+      if (!event) return "ENDED"
+      const setTime = new Date(event).getTime();
+      const nowTime = new Date().getTime();
+      if (nowTime >= setTime) return "ENDED";
+
+      const seconds = 1000;
+      const minute = seconds * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
+      const days = new bigNumber(restSec).dividedBy(day);
+      // 剩余天数
+      return `${days} DAY LEFT`;
     },
     // 加载更多
     nextPage() {

@@ -45,6 +45,9 @@ const withdrawalNft = (params) =>
 const getWithdrawalHistory = (params) =>
   apiService.get("mystery-web-user/withdrawal/pageList", params); // 充值提款历史
 
+const rechargeByHash = (params) =>
+  apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
+
 
 export {
   getKey,
@@ -61,5 +64,6 @@ export {
   getWithdrawalExchangeRate,
   withdrawalBalance,
   withdrawalNft,
-  getWithdrawalHistory
+  getWithdrawalHistory,
+  rechargeByHash
 };

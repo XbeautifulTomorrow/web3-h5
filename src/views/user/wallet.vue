@@ -2,8 +2,8 @@
   <div class="wrapper_bg">
     <div class="my_wallet_wrapper">
       <div class="wallet_panel" :style="{
-        backgroundImage: `url(${bg['point']})`,
-        height: '44.3125rem'
+        backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
+        height: isMore ? '86rem' : '44.3125rem'
       }">
         <div class="balance_box">
           <div class="balance_l">
@@ -49,9 +49,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="more">
-          <span>Show more</span>
-          <img src="@/assets/svg/user/icon_more.svg" alt="">
+        <div v-if="this.count > 5">
+          <div class="more" v-if="!isMore" @click="loadMore()">
+            <span>Show more</span>
+            <img src="@/assets/svg/user/icon_more.svg" alt="">
+          </div>
+          <div class="pagination-box" v-else>
+            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          </div>
         </div>
       </div>
       <assets></assets>
@@ -68,11 +74,11 @@
         <div class="operating_title">
           <span>Enter transaction Id</span>
         </div>
-        <el-input class="wallet_addr" v-model="walletAddr" placeholder="Paste your ERC20 wallet address here">
+        <el-input class="wallet_addr" v-model="transactionId" placeholder="Paste your ERC20 wallet address here">
         </el-input>
         <div class="btns_box">
           <div class="btn_item cancel" @click="handleClose()">Cancel</div>
-          <div class="btn_item submit">Submit</div>
+          <div class="btn_item submit" @click="onRechargeByHash()">Submit</div>
         </div>
       </div>
     </el-dialog>
@@ -238,7 +244,8 @@ import {
   getRechargeExchangeRate,
   getWithdrawalExchangeRate,
   withdrawalBalance,
-  getWithdrawalHistory
+  getWithdrawalHistory,
+  rechargeByHash
 } from "@/services/api/user";
 
 import QRCode from 'qrcodejs2'
@@ -255,14 +262,13 @@ export default {
       coin: "ETH",
       coinList: ["ETH", "USDT", "BTC"],
       historyData: [],
-      bg: {
-        point: require("@/assets/svg/user/point_bg.svg"),
-        purchase_history: require("@/assets/svg/user/purchase_history_bg.svg")
-      },
+      walletBg: require("@/assets/svg/user/point_bg.svg"),
+      walletMore: require("@/assets/svg/user/point_more_bg.svg"),
 
       showRecharge: false,
       walletOperating: 1, // 1 充币；2 提币；
       receiverAddr: null, // 收款地址
+      walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
       exchangeRate: null, // 汇率
       walletAmount: null, // 充币数量
@@ -273,12 +279,17 @@ export default {
       verifys: false, //验证结果
 
       showReplenish: false, // 充值补充
-      walletAddr: null,
+      transactionId: null,
       timer: null,
       rateTimer: null,
 
       walletAddrTips: null,
-      tipsText: null
+      tipsText: null,
+
+      page: 1,
+      size: 5,
+      count: 0,
+      isMore: false,
     };
   },
   computed: {
@@ -431,6 +442,7 @@ export default {
     async onWithdrawalBalance() {
       const { walletAmount, walletAddr, operatingCoin } = this;
       this.onVerify('submit');
+      if (!this.verifys) return
 
       const res = await withdrawalBalance({
         targetCoin: operatingCoin, //目标币种
@@ -440,13 +452,28 @@ export default {
       if (res && res.code == 200) {
         this.handleClose();
         this.renewBalance();
-        this.$message.success("操作成功！");
+        this.$message.success("The application is successful, please check the system transfer later");
       }
     },
     // 更新当前余额
     async renewBalance() {
       const headerStore = useHeaderStore();
       await headerStore.getTheUserBalanceApi();
+    },
+    async onRechargeByHash() {
+      if (!this.transactionId) {
+        this.$message.error("Please enter the on-chain transaction ID");
+        return
+      }
+
+      const res = await rechargeByHash({
+        hash: this.transactionId
+      });
+
+      if (res && res.code == 200) {
+        this.$message.success("The application is successful, please check whether the assets arrive later");
+        this.handleClose();
+      }
     },
     // 关闭创建弹窗
     handleClose(done) {
@@ -459,6 +486,8 @@ export default {
       this.isConvert = true; // 转化类型
       this.walletAddrTips = null;
       this.tipsText = null;
+
+      this.transactionId = null;
 
       if (done) {
         done();
@@ -478,6 +507,7 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       });
     },
+    // 检索历史
     searchHistory(event) {
       this.coin = event;
       this.fetchHistory();
@@ -492,7 +522,18 @@ export default {
 
       if (res && res.code == 200) {
         this.historyData = res.data.records;
+        this.count = res.data.total;
       }
+    },
+    loadMore() {
+      this.isMore = true;
+      this.size = 20;
+      this.fetchHistory();
+
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchHistory();
     },
     /** 
      * @description 友好的时间显示

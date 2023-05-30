@@ -138,7 +138,7 @@ export default {
 
       this.page = 1;
       this.size = 4;
-      this.count = 4;
+      this.count = 0;
       this.isMore = false;
       this.pointData = [];
       this.purchaseHistory = [];

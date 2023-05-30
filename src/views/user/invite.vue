@@ -19,56 +19,58 @@
         </div>
         <div class="create_invite_code">
           <div class="create_title">Set custom referrals code</div>
-          <el-input class="create_input" v-model="inviteCode" placeholder="Set referral code...">
-            <template #append>CREATE</template>
+          <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
+            <template #append>
+              <div class="create_btn" @click="createInvite()">CREATE</div>
+            </template>
           </el-input>
-          <div class="create_error">Must be at least 3 characters</div>
+          <div class="create_error">{{ inviteTips }}</div>
         </div>
         <div class="statistics_panel">
           <div class="statistics_title">YOUR STATISTICS</div>
           <div class="statistics_box">
-            <div class="statistics_item" v-for="(item, index) in statisticsData" :key="index">
+            <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
               <div class="statistics_type">
-                <div class="title">{{ item.title }}</div>
-                <div class="val">1000</div>
+                <div class="title">{{ item.statisticsType }}</div>
+                <div class="val">{{ item.totalData }}</div>
               </div>
               <div class="statistics_time">
                 <div class="title">Today</div>
-                <div class="val">1</div>
+                <div class="val">{{ item.todayData }}</div>
               </div>
               <div class="statistics_time">
                 <div class="title">Yesterday</div>
-                <div class="val">1</div>
+                <div class="val">{{ item.yesterdayData }}</div>
               </div>
               <div class="statistics_time">
                 <div class="title">This month</div>
-                <div class="val">1</div>
+                <div class="val">{{ item.thisMonthData }}</div>
               </div>
               <div class="statistics_time">
                 <div class="title">Last month</div>
-                <div class="val">1</div>
+                <div class="val">{{ item.lastMonthData }}</div>
               </div>
             </div>
           </div>
           <el-table :data="inviteList" class="table_container" style="width: 100%">
-            <el-table-column prop="code" label="CODE" align="center" />
-            <el-table-column prop="amount" label="CLAIMED" align="center" />
-            <el-table-column prop="eth_amount" label="REFS" align="center" />
-            <el-table-column prop="status" label="POINT" align="center" />
-            <el-table-column prop="status" label="TOTAL" align="center" />
-            <el-table-column prop="claim" label="CLAIM" align="center">
+            <el-table-column prop="inviteCode" label="CODE" align="center" />
+            <el-table-column prop="invitePeople" label="CLAIMED" align="center" />
+            <el-table-column prop="traAmount" label="REFS" align="center" />
+            <el-table-column prop="pointAmount" label="POINT" align="center" />
+            <el-table-column prop="totalAmount" label="TOTAL" align="center" />
+            <el-table-column prop="traAmount" label="CLAIM" align="center">
               <template #default="scope">
                 <div class="claim_box">
                   <span>CLAIM</span>
                   <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
-                  <span>{{ scope.row.claim }}</span>
+                  <span>{{ scope.row.traAmount }}</span>
                 </div>
               </template>
             </el-table-column>
             <el-table-column label="COPY" align="center">
               <template #default="scope">
                 <div class="copy_btn">
-                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInvite(scope.row)" alt="">
+                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="onCopy(scope.row.inviteCode)" alt="">
                 </div>
               </template>
             </el-table-column>
@@ -76,7 +78,7 @@
         </div>
       </div>
       <div class="referred_user_box" v-else>
-        <el-table :data="inviteList" class="table_container" style="width: 100%">
+        <el-table :data="detailList" class="table_container" style="width: 100%">
           <el-table-column prop="code" label="REFERRAL CODE" align="center" />
           <el-table-column prop="amount" label="USERNAME" align="center" />
           <el-table-column prop="eth_amount" label="CONSUMPTION" align="center">
@@ -90,43 +92,143 @@
           <el-table-column prop="status" label="POINT" align="center" />
           <el-table-column prop="status" label="REFERRED AT" align="center" />
         </el-table>
+        <div v-if="this.count > 6">
+          <div class="more" v-if="!isMore" @click="loadMore()">
+            <span>Show more</span>
+            <img src="@/assets/svg/user/icon_more.svg" alt="">
+          </div>
+          <div class="pagination-box" v-else>
+            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {
+  userInvateStatistics,
+  rebatesCreateCode,
+  rebatesFindList,
+  rebatesDetailPageList
+} from "@/services/api/invite";
 export default {
   name: 'myInvite',
   data() {
     return {
       activeType: "summary",
+      isMore: false,
       invite: require("@/assets/svg/user/invite_bg.svg"),
+      inviteMore: require("@/assets/svg/user/point_more_bg.svg"),
       inviteCode: null,
+      verifys: false,
+      inviteTips: null,
       statisticsRow: null,
-      inviteList: [
-        { code: "1324", claim: 2.5 },
-        { code: "1324", claim: 2.5 },
-        { code: "1324", claim: 2.5 },
-        { code: "1324", claim: 2.5 }
-      ],
+      inviteList: [],
+      detailList: [],
+      page: 1,
+      size: 6,
+      count: 0,
     };
   },
-  computed: {
-    statisticsData() {
-      const { statisticsRow } = this;
-      console.log(statisticsRow);
-      return [
-        { title: "CLICKS" },
-        { title: "REFERRALS" },
-        { title: "POINTS" },
-        { title: "REVENUE" }
-      ]
-    }
-  },
   methods: {
-    copyInvite(event) {
-      console.log(event);
-    }
+    handleClick(event) {
+      const { props } = event;
+
+      this.page = 1;
+      this.size = 4;
+      this.count = 0;
+      this.isMore = false;
+
+      if (props.name == "summary") {
+        this.fetchInvateStatistics();
+        this.fetchRebatesFindList();
+      } else {
+        this.fetchDetailPageList();
+      }
+    },
+    // 验证
+    onVerify() {
+      const { inviteCode } = this;
+      if (!inviteCode) {
+        this.inviteTips = "Please enter the invitation code here";
+        this.verifys = false;
+        return
+      } else if (inviteCode.length < 3) {
+        this.inviteTips = "Must be at least 3 characters";
+        this.verifys = false;
+        return
+      }
+
+      this.inviteTips = "";
+      this.verifys = true;
+    },
+    // 邀请统计
+    async createInvite() {
+      this.onVerify();
+      if (!this.verifys) return
+      const res = await rebatesCreateCode({
+        code: this.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.inviteCode = null;
+        this.$message.success("Created successfully");
+        this.fetchRebatesFindList();
+      }
+    },
+    // 邀请统计
+    async fetchInvateStatistics() {
+      const res = await userInvateStatistics();
+      if (res && res.code == 200) {
+        this.statisticsRow = res.data;
+      }
+    },
+    // 邀请资产列表
+    async fetchRebatesFindList() {
+      const res = await rebatesFindList();
+      if (res && res.code == 200) {
+        this.inviteList = res.data;
+      }
+    },
+    // 邀请详情列表
+    async fetchDetailPageList() {
+      const res = await rebatesDetailPageList({
+        page: this.page,
+        size: this.size
+      });
+      if (res && res.code == 200) {
+        this.detailList = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+    loadMore() {
+      this.isMore = true;
+      this.size = 20;
+      this.fetchDetailPageList();
+
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchDetailPageList();
+    },
+    /**
+     * @description: Copy
+     */
+    onCopy(event) {
+      const oInput = document.createElement("input");
+      oInput.value = event;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象;
+      console.log(oInput.value);
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      this.$message.success(this.$tc("common.copySuccess"));
+      oInput.remove();
+    },
+  },
+  created() {
+    this.fetchInvateStatistics();
+    this.fetchRebatesFindList();
   }
 };
 </script>

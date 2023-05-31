@@ -144,7 +144,11 @@
           At the end of the countdown you will automatically sell all NFT
         </p>
         <div class="result-link">
-          <img class="result-link-img" src="" alt="" />
+          <img
+            class="result-link-img"
+            src="@/assets/img/lottery/fair.png"
+            alt=""
+          />
           <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
           <div class="result-link-go">
             <p class="result-link-go-text">

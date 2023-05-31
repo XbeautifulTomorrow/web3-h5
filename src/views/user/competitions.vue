@@ -16,7 +16,7 @@
                 <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                   <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                   <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                  <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item.endTime) }}</span>
+                  <span v-if="item.orderType == 'LIMITED_TIME'">{{ dateDiff(item.endTime) }}</span>
                   <span v-else>
                     {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                   </span>
@@ -46,7 +46,7 @@
                   <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                     <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                     <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                    <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item.endTime) }}</span>
+                    <span v-if="item.orderType == 'LIMITED_TIME'">{{ dateDiff(item.endTime) }}</span>
                     <span v-else>
                       {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                     </span>
@@ -105,7 +105,7 @@
               <el-table-column prop="limitNum" label="LIMIT">
                 <template #default="scope">
                   <div v-if="scope.row.orderType == 'LIMITED_TIME'">
-                    {{ dayLeft(item.endTime) }}
+                    {{ dateDiff(item.endTime) }}
                   </div>
                   <div v-else>
                     {{ `${scope.row.limitNum || 0} Tickets` }}
@@ -278,7 +278,7 @@ export default {
       }
       this.showCabcel = false;
     },
-    dayLeft(event) {
+    dateDiff(event) {
       if (!event) return "ENDED"
       const setTime = new Date(event).getTime();
       const nowTime = new Date().getTime();

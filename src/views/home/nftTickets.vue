@@ -15,7 +15,7 @@
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span> {{ dayLeft(item.endTime) }}</span>
+                <span> {{ dateDiff(item.endTime) }}</span>
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
@@ -101,7 +101,7 @@ export default {
       this.$router.push({ name: "NftTicketsList" });
     },
     // 剩余天数
-    dayLeft(event) {
+    dateDiff(event) {
       if (!event) return "ENDED"
       const setTime = new Date(event).getTime();
       const nowTime = new Date().getTime();

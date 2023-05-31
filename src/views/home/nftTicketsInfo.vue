@@ -6,7 +6,10 @@
           <img :src="nftInfo && nftInfo.img" alt="">
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
-            <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">{{ dayLeft(nftInfo && nftInfo.endTime) }}</span>
+            <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
+              {{ dateDiff(nftInfo && nftInfo.endTime) }}
+              <!-- <countDown :time="nftInfo && nftInfo.endTime"></countDown> -->
+            </span>
             <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
           </div>
           <div class="tips_round finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
@@ -84,13 +87,13 @@
               <div class="winning_box" v-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <div class="winning_text">
                   <span>WINNER</span>
-                  <img src="@/assets/svg/home/icon_more.svg" alt="">
+                  <img @click="openLenk(nftInfo.txid)" src="@/assets/svg/home/icon_more.svg" alt="">
                 </div>
                 <div class="avatar">
                   <img :src="drawnInfo && drawnInfo.userImg" alt="">
                 </div>
                 <div class="user_name">
-                  {{ drawnInfo && drawnInfo.userName || drawnInfo && drawnInfo.userId || "USER NAME" }}
+                  {{ drawnInfo && drawnInfo.winningAddress || drawnInfo.winningAddressId }}
                 </div>
                 <div class="tickets_num">
                   {{ `${drawnInfo && drawnInfo.num || 0} Tickets` }}
@@ -179,7 +182,7 @@
               <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                 <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item && item.endTime) }}</span>
+                <span v-if="item.orderType == 'LIMITED_TIME'">{{ dateDiff(item && item.endTime) }}</span>
                 <span v-else>{{ `${item.limitNum} TICKETS LEFT` }}</span>
               </div>
               <div class="image_tag">#{{ item && item.tokenId }}</div>
@@ -214,10 +217,14 @@ import {
   rebatesFindList,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
+// import countDown from '@/components/countDown';
 import { useHeaderStore } from '@/store/header.js';
-import { accurateDecimal } from "@/utils";
+import { openUrl, accurateDecimal } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
+  components: {
+    // countDown
+  },
   data() {
     return {
       orderId: null,
@@ -306,35 +313,6 @@ export default {
         this.fetchBuyRecord();
       }
 
-    },
-    // 剩余天数
-    dayLeft(event) {
-      if (!event) return "ENDED"
-      const setTime = new Date(event).getTime();
-      const nowTime = new Date().getTime();
-      if (nowTime >= setTime) return "ENDED";
-
-      const seconds = 1000;
-      const minute = seconds * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const restSec = Number(new bigNumber(setTime).minus(nowTime));
-      const days = new bigNumber(restSec).dividedBy(day);
-
-      const dayTime = new bigNumber(1).dividedBy(24);
-
-      if (days >= 1) {
-        // 大于等于1天就显示 day
-        return `${Math.floor(days)} DAY LEFT`;
-      } else if (days >= dayTime) {
-        // 大于等于1小时就显示 Hour
-        const hourLeft = new bigNumber(setTime).multipliedBy(24);
-        return `${Math.floor(hourLeft)} Hour LEFT`;
-      } else {
-        // 小于1小时就显示分钟
-        // 剩余天数
-        return `${days} DAY LEFT`;
-      }
     },
     /**
      * 获取时间和当前相距多久
@@ -556,6 +534,12 @@ export default {
       var reg = /^(\S{6})\S+(\S{4})$/;
       return event.replace(reg, "$1...$2");
     },
+    /**
+     * @description: 打开链上
+     */
+    openLenk(event) {
+      openUrl(`https://mumbai.polygonscan.com/tx/${event}`)
+    }
   },
   watch: {
     "buyForm.votes": function (newVal) {

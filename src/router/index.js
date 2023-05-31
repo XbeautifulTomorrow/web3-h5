@@ -169,5 +169,10 @@ const router = createRouter({
   routes,
 });
 
+// 切换页面重置滚动位置
+router.afterEach(() => {
+  window.scrollTo(0, 0);
+})
+
 // 4. 导出router
 export default router;

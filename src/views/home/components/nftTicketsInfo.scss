@@ -18,14 +18,16 @@
 .nft_details_l {
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 38.5rem;
   height: 41.5rem;
   border-radius: 0.625rem;
   overflow: hidden;
 
   img {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
     border-radius: 0.625rem;
     display: inline-block;
   }
@@ -285,14 +287,6 @@
       font-weight: bold;
       color: #13151f;
     }
-
-    .buy_hint {
-      padding-top: 1rem;
-      font-size: 1rem;
-      line-height: 1.6;
-      text-align: center;
-      color: #a9a4b4;
-    }
   }
 }
 
@@ -426,7 +420,6 @@
 }
 
 .load_more {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -609,6 +602,7 @@
   min-height: 25.375rem;
   border-radius: 0.625rem;
   overflow: hidden;
+  background-color: #1d0f36;
 
   .image_box {
     position: relative;
@@ -620,10 +614,10 @@
     border-radius: 0.625rem 0.625rem 0 0;
 
     .image_tag {
+      max-width: 50%;
       position: absolute;
       bottom: 0.5rem;
       left: 0.5rem;
-      background-color: #fff;
       padding: 0.25rem 0.5rem;
       border-radius: 0.25rem;
       font-size: 0.875rem;

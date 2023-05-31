@@ -28,7 +28,7 @@
             <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
             <div class="nft_activity">
               <div class="price">
-                <span class="title">value：</span>
+                <span class="title">Market Value：</span>
                 <span class="val">{{ nftInfo && nftInfo.totalPrice }}</span>
                 <span class="unit">ETH</span>
               </div>
@@ -51,11 +51,11 @@
               </div>
             </div>
             <div class="creator">
-              <div class="created" v-if="nftInfo && nftInfo.projectParty">
+              <div class="created">
                 <span class="title">Created by</span>
-                <span>{{ nftInfo && nftInfo.projectParty }}</span>
+                <span>{{ nftInfo && nftInfo.projectParty || "Unnamed" }}</span>
               </div>
-              <div class="owner" v-if="nftInfo && nftInfo.owner">
+              <div class="owner">
                 <span class="title">Owner：</span>
                 <span>{{ nftInfo && nftInfo.owner }}</span>
               </div>
@@ -83,7 +83,6 @@
                 <el-button style="width: 100%;" class="submit_payment" type="primary" @click="submitPayment()">
                   {{ `${buyPrice} ETH` }}
                 </el-button>
-                <div class="buy_hint">Use the balance to buy without paying GAS</div>
               </div>
             </div>
             <div class="nft_end" v-else>
@@ -181,8 +180,7 @@
       <div class="ending_soon_box">
         <div class="ending_soon_text">ENDING SOON</div>
         <div class="ending_soon_list">
-          <div class="ending_soon_item border_bg" @click="enterNow(item)" v-for="(item, index) in endingSoon"
-            :key="index">
+          <div class="ending_soon_item" @click="enterNow(item)" v-for="(item, index) in endingSoon" :key="index">
             <div class="image_box">
               <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">

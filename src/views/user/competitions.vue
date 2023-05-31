@@ -236,6 +236,7 @@ export default {
         const nftTickets = res.data.records;
         if (this.activeType == "MY_COMPETITIONS") {
           this.enteredList = [];
+          this.finishList = [];
           nftTickets.forEach(element => {
             if (element.currentStatus == "IN_PROGRESS") {
               this.enteredList.push(element);

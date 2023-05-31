@@ -173,7 +173,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="TOTALES" prop="limitNum" v-if="activeType == 'LIMITED_PRICE'">
-          <el-input v-model.number="competitionForm.limitNum" type="number" min="2"></el-input>
+          <el-input readonly="readonly" v-model.number="competitionForm.limitNum" type="number" min="2"></el-input>
         </el-form-item>
         <el-form-item label="TIME DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
           <div class="choose_days">
@@ -188,7 +188,7 @@
           </div>
         </el-form-item>
         <el-form-item label="SINGLE COPY VALUE" prop="ticketPrice">
-          <el-input v-model="competitionForm.ticketPrice" placeholder="">
+          <el-input readonly="readonly" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_eth.svg" alt="">
             </template>
@@ -278,8 +278,8 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: null, //单次价格
-        limitNum: null, //最大数量
+        ticketPrice: 0.0001, //单次价格
+        limitNum: 1000000, //最大数量
       },
       daysData: [7, 14, 30],
       rules: {},
@@ -429,10 +429,6 @@ export default {
         if (valid) {
           const { activeType, competitionNft } = this;
 
-          if (competitionNft.price <= competitionNft.ticketPrice) {
-            this.$message.success("Single serving value cannot exceed total price");
-          }
-
           let ruleForm = {
             ...this.competitionForm,
             orderType: activeType,
@@ -458,8 +454,8 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: null, //单次价格
-        limitNum: null, //最大数量
+        ticketPrice: 0.0001, //单次价格
+        limitNum: 1000000, //最大数量
       }
 
       this.operatingType = 1;
@@ -556,13 +552,13 @@ export default {
     this.fetchSystemNft();
     this.rules = {
       //总价格
-      price: [{ required: true, message: "请输入价格", trigger: ["blur", "change"] }],
+      price: [{ required: true, message: "Please enter a price", trigger: ["blur", "change"] }],
       //天数
-      limitDay: [{ required: true, message: "请输入天数", trigger: ["blur", "change"] }],
+      limitDay: [{ required: true, message: "Please enter the number of days", trigger: ["blur", "change"] }],
       //单份价值
-      ticketPrice: [{ required: true, message: "请输入单份价值", trigger: ["blur", "change"] }],
+      ticketPrice: [{ required: true, message: "Please enter a single serving value", trigger: ["blur", "change"] }],
       //最大数量
-      limitNum: [{ required: true, message: "请输入总票数", trigger: ["blur", "change"] }],
+      limitNum: [{ required: true, message: "Please enter the total number of votes", trigger: ["blur", "change"] }],
     }
   }
 };

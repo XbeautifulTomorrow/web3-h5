@@ -18,7 +18,7 @@
           <div class="create_btn" @click="createCompetition(item)" v-if="!item.orderNumber">
             <span class="create_text">CREATE COMPETITIONS</span>
           </div>
-          <div class="view_nft" v-else>VIEW COMPETITIONS</div>
+          <div class="view_nft" v-else @click="viewNft(item)">VIEW COMPETITIONS</div>
         </div>
       </div>
     </div>
@@ -211,19 +211,19 @@
           <p>Once a dollar purchase has been sold it cannot be cancelled and will be automatically opened at the
             end of
             the duration, please set a reasonable price, over-estimated prices may result in a loss</p>
-          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
+          <p>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
             sure
             you
-            have set the correct price.</P>
+            have set the correct price.</p>
         </div>
         <div class="hint-text" v-else>
           <p>Please set a reasonable price, if all tickets are not sold at the end of the sale time, the sale will
             fail
             and a refund will be made automatically for all participating users.</p>
-          <P>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
+          <p>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
             sure
             you
-            have set the correct price.</P>
+            have set the correct price.</p>
         </div>
       </el-form>
     </el-dialog>
@@ -232,13 +232,13 @@
 <script>
 import {
   getSystemNft,
-  addNftOrder,
-  // cancelNftOrder,
+  addNftOrder
 } from "@/services/api/oneBuy";
 
 import {
   withdrawalNft
 } from "@/services/api/user";
+import { openUrl } from "@/utils";
 import bigNumber from "bignumber.js";
 import { CScrollbar } from 'c-scrollbar';
 export default {
@@ -438,7 +438,6 @@ export default {
           const res = await addNftOrder({ ...ruleForm });
           if (res && res.code == 200) {
             this.handleClose();
-            this.$refs["competitionForm"].resetFields();
             this.$message.success("Created successfully");
             this.fetchSystemNft();
           }
@@ -467,8 +466,10 @@ export default {
         wallet: null,
         chain: null
       };
+
       this.chooseNftData = [];
       this.chooseNft = [];
+      this.$refs["competitionForm"].resetFields();
 
       if (done) {
         done();
@@ -479,6 +480,11 @@ export default {
       this.showReplenish = false;
       this.showLink = false;
       this.showRecharge = false;
+    },
+    // 查看赛事
+    viewNft(event) {
+      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      openUrl(routeData.href)
     },
     // 选择类型
     handleChange(event) {

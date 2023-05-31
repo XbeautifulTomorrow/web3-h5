@@ -7,8 +7,8 @@
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
-              {{ dateDiff(nftInfo && nftInfo.endTime) }}
-              <!-- <countDown :time="nftInfo && nftInfo.endTime"></countDown> -->
+              <!-- {{ dateDiff(nftInfo && nftInfo.endTime) }} -->
+              <countDown :time="nftInfo && nftInfo.endTime"></countDown>
             </span>
             <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
           </div>
@@ -93,10 +93,10 @@
                   <img :src="drawnInfo && drawnInfo.userImg" alt="">
                 </div>
                 <div class="user_name">
-                  {{ drawnInfo && drawnInfo.winningAddress || drawnInfo.winningAddressId }}
+                  {{ drawnInfo && drawnInfo.winningAddress || drawnInfo && drawnInfo.winningAddressId }}
                 </div>
                 <div class="tickets_num">
-                  {{ `${drawnInfo && drawnInfo.num || 0} Tickets` }}
+                  {{ `${drawnInfo && drawnInfo.winningAddressNum || 0} Tickets` }}
                 </div>
               </div>
               <div class="return_box" v-else>
@@ -217,13 +217,13 @@ import {
   rebatesFindList,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-// import countDown from '@/components/countDown';
+import countDown from '@/components/countDown';
 import { useHeaderStore } from '@/store/header.js';
 import { openUrl, accurateDecimal } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
   components: {
-    // countDown
+    countDown
   },
   data() {
     return {
@@ -575,7 +575,7 @@ export default {
     this.fetchOneBuyInfo();
     this.fetchBuyRecord();
     this.fetchEndingSoon();
-    // this.fetchUserBuyRecord();
+    this.fetchUserBuyRecord();
 
     this.fetchRebatesFindList(); // 邀请
   }

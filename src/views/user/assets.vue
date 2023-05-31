@@ -159,7 +159,7 @@
         <div class="nft_name">{{ competitionNft && competitionNft.name }}</div>
         <div class="nft_id">#{{ competitionNft && competitionNft.tokenId }}</div>
       </div>
-      <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
+      <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
         <el-tab-pane label="TIME LIMIT" name="LIMITED_TIME"></el-tab-pane>
         <el-tab-pane label="LIMIT PRICE" name="LIMITED_PRICE"></el-tab-pane>
       </el-tabs>
@@ -485,7 +485,7 @@ export default {
       this.showRecharge = false;
     },
     // 选择类型
-    handleClick(event) {
+    handleChange(event) {
       console.log(event)
     },
     /** 

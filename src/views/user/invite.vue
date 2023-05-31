@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper_bg">
     <div class="my_invite_wrapper">
-      <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
+      <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
         <el-tab-pane label="SUMMARY" name="summary"></el-tab-pane>
         <el-tab-pane label="REFERRED USERS" name="referred_user"></el-tab-pane>
       </el-tabs>
@@ -133,15 +133,14 @@ export default {
     };
   },
   methods: {
-    handleClick(event) {
-      const { props } = event;
+    handleChange(event) {
 
       this.page = 1;
       this.size = 4;
       this.count = 0;
       this.isMore = false;
 
-      if (props.name == "summary") {
+      if (event == "summary") {
         this.fetchInvateStatistics();
         this.fetchRebatesFindList();
       } else {

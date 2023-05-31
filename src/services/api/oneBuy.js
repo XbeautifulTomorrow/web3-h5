@@ -52,13 +52,13 @@ const getOneBuyInfo = (params) =>
 /**
  * @description 获取一元购最新购买记录
  */
-const getLatestBuyRecord = (params) =>
+const getAListOfActivities = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfActivities", params);
 
 /**
  * @description 获取一元购用户购买记录
  */
-const getUserBuyRecord = (params) =>
+const getAListOfParticipants = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants", params);
 
 /**
@@ -97,8 +97,8 @@ export {
   buyNftBalance,
   buyNftWallet,
   getOneBuyInfo,
-  getLatestBuyRecord,
+  getAListOfActivities,
+  getAListOfParticipants,
   getCheckAllOrders,
-  getUserBuyRecord,
   getLottery
 };

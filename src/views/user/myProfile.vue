@@ -16,7 +16,7 @@
             <div class="create_time">Joined Mar 2023</div>
           </div>
         </div>
-        <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
           <el-tab-pane label="Point" name="point"></el-tab-pane>
           <el-tab-pane label="Purchase History" name="purchase_history"></el-tab-pane>
         </el-tabs>
@@ -133,9 +133,7 @@ export default {
     },
   },
   methods: {
-    handleClick(event) {
-      const { props } = event;
-
+    handleChange(event) {
       this.page = 1;
       this.size = 4;
       this.count = 0;
@@ -143,7 +141,7 @@ export default {
       this.pointData = [];
       this.purchaseHistory = [];
 
-      if (props.name == 'point') {
+      if (event == 'point') {
         this.fetchUserPoints();
       } else {
         this.fetchUserBuyHistory();

@@ -54,9 +54,6 @@ export default {
     };
   },
   methods: {
-    handleClick(event) {
-      console.log(event)
-    },
     upload() { },
     /** 
      * @description 友好的时间显示

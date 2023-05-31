@@ -4,7 +4,7 @@
       <div class="competitions_text">COMPETITIONS</div>
       <div class="competitions_panel_bg border_bg">
         <div class="competitions_panel">
-          <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
+          <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
             <el-tab-pane label="ENTERED" name="ENTERED"></el-tab-pane>
             <el-tab-pane label="MY COMPETITIONS" name="MY_COMPETITIONS"></el-tab-pane>
             <el-tab-pane label="HISTORY" name="HISTORY"></el-tab-pane>
@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     bigNumber: bigNumber,
-    handleClick(event) {
+    handleChange(event) {
       console.log(event);
     },
     // 用户相关订单

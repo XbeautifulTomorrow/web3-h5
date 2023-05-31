@@ -42,7 +42,6 @@
                 <img src="@/assets/svg/home/icon_time_aborted.svg" alt="">
                 <div class="time-text">ABORTED</div>
               </div>
-
             </div>
             <div class="creator">
               <div class="created" v-if="nftInfo && nftInfo.projectParty">
@@ -91,7 +90,7 @@
                   <img :src="drawnInfo && drawnInfo.userImg" alt="">
                 </div>
                 <div class="user_name">
-                  {{ drawnInfo && drawnInfo.userName || "USER NAME" }}
+                  {{ drawnInfo && drawnInfo.userName || drawnInfo && drawnInfo.userId || "USER NAME" }}
                 </div>
                 <div class="tickets_num">
                   {{ `${drawnInfo && drawnInfo.num || 0} Tickets` }}
@@ -111,7 +110,7 @@
       </div>
       <div class="nft_buy_info">
         <div class="nft_buy_info_l border_bg">
-          <el-tabs v-model="activeType" class="type_tabs" @tab-click="handleClick">
+          <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
             <el-tab-pane label="ACTIVITY" name="activity"></el-tab-pane>
             <el-tab-pane :label="`PARTICIPANTS(${participantsTotal})`" name="participants"></el-tab-pane>
           </el-tabs>
@@ -122,7 +121,7 @@
               </div>
               <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
                 <div class="buy_info">
-                  <div class="buy_name">{{ item.userName }}</div>
+                  <div class="buy_name">{{ item.userName || item.userId }}</div>
                   <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
                 </div>
                 <div class="buy_other">
@@ -206,8 +205,8 @@ import {
   getOneBuyInfo,
   buyNftBalance,
   buyNftWallet,
-  getLatestBuyRecord,
-  getUserBuyRecord,
+  getAListOfActivities,
+  getAListOfParticipants,
   getEndingSoon,
   getLottery
 } from "@/services/api/oneBuy";
@@ -281,7 +280,7 @@ export default {
         this.endingSoon = res.data.records;
       }
     },
-    handleClick() {
+    handleChange() {
       this.buyData = [];
       this.fetchBuyRecord();
     },
@@ -319,10 +318,62 @@ export default {
       const minute = seconds * 60;
       const hour = minute * 60;
       const day = hour * 24;
-      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
-      // 剩余天数
-      return `${days} DAY LEFT`;
+      const restSec = Number(new bigNumber(setTime).minus(nowTime));
+      const days = new bigNumber(restSec).dividedBy(day);
+
+      const dayTime = new bigNumber(1).dividedBy(24);
+
+      if (days >= 1) {
+        // 大于等于1天就显示 day
+        return `${Math.floor(days)} DAY LEFT`;
+      } else if (days >= dayTime) {
+        // 大于等于1小时就显示 Hour
+        const hourLeft = new bigNumber(setTime).multipliedBy(24);
+        return `${Math.floor(hourLeft)} Hour LEFT`;
+      } else {
+        // 小于1小时就显示分钟
+        // 剩余天数
+        return `${days} DAY LEFT`;
+      }
+    },
+    /**
+     * 获取时间和当前相距多久
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    dateDiff(event) {
+      if (!event) return "ENDED"
+      const setTime = new Date(event).getTime();
+      const nowTime = new Date().getTime();
+      if (nowTime >= setTime) return "ENDED";
+
+      //按照传入的格式生成一个simpledateformate对象
+      let nd = 1000 * 24 * 60 * 60;//一天的毫秒数
+      let nh = 1000 * 60 * 60;//一小时的毫秒数
+      let nm = 1000 * 60;//一分钟的毫秒数
+      let ns = 1000;//一秒钟的毫秒数long diff;
+
+      //获得两个时间的毫秒时间差异
+      let diff;
+      diff = Number(new bigNumber(setTime).minus(nowTime));
+
+      let day = diff / nd;//计算差多少天
+      let hour = diff % nd / nh;//计算差多少小时
+      let min = diff % nd % nh / nm;//计算差多少分钟
+      let sec = diff % nd % nh % nm / ns;//计算差多少秒//输出结果
+
+      if (day > 1) {
+        return "d-" + day;
+      }
+      if (hour > 1) {
+        return "h-" + hour;
+      }
+      if (min > 1) {
+        return "m-" + min;
+      }
+      return "s-" + sec;
     },
     // 最新购买
     async fetchBuyRecord(isSearch = true) {
@@ -336,13 +387,13 @@ export default {
 
       let res = null;
       if (this.activeType == "activity") {
-        res = await getLatestBuyRecord({
+        res = await getAListOfActivities({
           page: _page,
           size: size,
           orderNumber: orderId
         });
       } else {
-        res = await getUserBuyRecord({
+        res = await getAListOfParticipants({
           page: _page,
           size: size,
           orderNumber: orderId
@@ -366,7 +417,7 @@ export default {
     // 获取参与者总数
     async fetchUserBuyRecord() {
       const { page, size, orderId } = this;
-      const res = await getUserBuyRecord({
+      const res = await getAListOfParticipants({
         page: page,
         size: size,
         orderNumber: orderId
@@ -462,11 +513,11 @@ export default {
       } else if (timestampDiff < 3600) { // 一小时前之内
         return Math.floor(timestampDiff / 60) + "minutes ago";
       } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
-        return 'Today' + zeroize(H) + ':' + zeroize(i);
+        return 'Today ' + zeroize(H) + ':' + zeroize(i);
       } else {
         let newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
         if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
-          return 'Yesterday' + zeroize(H) + ':' + zeroize(i);
+          return 'Yesterday ' + zeroize(H) + ':' + zeroize(i);
         } else if (curDate.getFullYear() == Y) {
           // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
           return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
@@ -539,9 +590,9 @@ export default {
     const { id } = this.$route.query;
     this.orderId = id;
     this.fetchOneBuyInfo();
-    this.fetchEndingSoon();
     this.fetchBuyRecord();
-    this.fetchUserBuyRecord();
+    this.fetchEndingSoon();
+    // this.fetchUserBuyRecord();
 
     this.fetchRebatesFindList(); // 邀请
   }

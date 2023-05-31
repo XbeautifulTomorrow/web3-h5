@@ -71,7 +71,6 @@
 
         .type-box {
             position: absolute;
-            max-width: 50%;
             top: 1rem;
             right: 1rem;
 
@@ -136,6 +135,7 @@
         }
 
         .nft-name-r {
+            max-width: 50%;
             font-size: 0.875rem;
             line-height: 1.6;
             text-align: left;

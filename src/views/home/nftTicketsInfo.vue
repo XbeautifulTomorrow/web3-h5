@@ -7,8 +7,11 @@
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
-              <countDown v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
-                {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
+              <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
+                {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
+              </span>
+              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
+                {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
               </countDown>
             </span>
             <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
@@ -183,10 +186,17 @@
               <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                 <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                <span v-if="item.orderType == 'LIMITED_TIME'">{{ dateDiff(item && item.endTime) }}</span>
+                <span v-if="item.orderType == 'LIMITED_TIME'">
+                  <span v-if="dateDiff(item && item.endTime) > 1">
+                    {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
+                  </span>
+                  <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                    {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                  </countDown>
+                </span>
                 <span v-else>{{ `${item.limitNum} TICKETS LEFT` }}</span>
               </div>
-              <div class="image_tag">#{{ item && item.tokenId }}</div>
+              <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
               <img :src="item && item.nftImage" alt="">
             </div>
             <div class="nft_name">
@@ -218,13 +228,13 @@ import {
   rebatesFindList,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-// import countDown from '@/components/countDown';
+import countDown from '@/components/countDown';
 import { useHeaderStore } from '@/store/header.js';
-import { openUrl, accurateDecimal } from "@/utils";
+import { openUrl, dateDiff } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
   components: {
-    // countDown
+    countDown
   },
   data() {
     return {
@@ -258,6 +268,7 @@ export default {
     }
   },
   methods: {
+    dateDiff: dateDiff,
     bigNumber: bigNumber,
     // 获取Nft信息
     async fetchOneBuyInfo() {
@@ -314,46 +325,6 @@ export default {
         this.fetchBuyRecord();
       }
 
-    },
-    /**
-     * 获取时间和当前相距多久
-     *
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @return
-     */
-    dateDiff(event) {
-      if (!event) return "ENDED"
-      const setTime = new Date(event).getTime();
-      const nowTime = new Date().getTime();
-      if (nowTime >= setTime) return "ENDED";
-
-      // 按照传入的格式生成一个simpledateformate对象
-      let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
-      let nh = 1000 * 60 * 60;// 一小时的毫秒数
-      let nm = 1000 * 60; // 一分钟的毫秒数
-      let ns = 1000; // 一秒钟的毫秒数;
-
-      // 获得两个时间的毫秒时间差异
-      let diff;
-      diff = Number(new bigNumber(setTime).minus(nowTime));
-
-      let day = diff / nd;// 计算差多少天
-      let hour = diff % nd / nh;// 计算差多少小时
-      let min = diff % nd % nh / nm;// 计算差多少分钟
-      let sec = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
-
-      if (day > 1) {
-        return `${day} DAY LEFT`;
-      }
-      if (hour > 1) {
-        return "h-" + hour;
-      }
-      if (min > 1) {
-        return "m-" + min;
-      }
-
-      return "s-" + sec;
     },
     // 最新购买
     async fetchBuyRecord(isSearch = true) {

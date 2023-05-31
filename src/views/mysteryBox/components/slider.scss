@@ -379,6 +379,7 @@ body {
 
     &>span:nth-child(1) {
       flex: 1;
+      max-width: 50%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

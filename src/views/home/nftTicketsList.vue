@@ -35,7 +35,14 @@
             <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
               <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
               <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${dateDiff(item.endTime)} ` }}</span>
+              <span v-if="item.orderType == 'LIMITED_TIME'">
+                <span v-if="dateDiff(item && item.endTime) > 1">
+                  {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
+                </span>
+                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                </countDown>
+              </span>
               <span v-else>
                 {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
               </span>
@@ -61,9 +68,13 @@
 <script>
 import { getCheckAllOrders } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
-import { accurateDecimal } from "@/utils";
+import countDown from '@/components/countDown';
+import { dateDiff } from "@/utils";
 export default {
   name: 'ntfTicketsList',
+  components: {
+    countDown
+  },
   data() {
     return {
       searchVal: null,
@@ -78,6 +89,7 @@ export default {
   },
   computed: {},
   methods: {
+    dateDiff: dateDiff,
     bigNumber: bigNumber,
     // 最新购买
     async fetchCheckAllOrders(isSearch = true) {
@@ -107,22 +119,6 @@ export default {
 
         this.ticketList.push.apply(this.ticketList, res.data.records);
       }
-    },
-    // 剩余天数
-    dateDiff(event) {
-      if (!event) return "ENDED"
-      const setTime = new Date(event).getTime();
-      const nowTime = new Date().getTime();
-      if (nowTime >= setTime) return "ENDED";
-
-      const seconds = 1000;
-      const minute = seconds * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
-      // 剩余天数
-      return `${days} DAY LEFT`;
     },
     // 加载更多
     nextPage() {

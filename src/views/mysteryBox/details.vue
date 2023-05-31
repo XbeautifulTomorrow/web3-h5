@@ -73,7 +73,7 @@
         <div class="title_text">NFTS IN THIS BOX</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" :class="[`series_level_bg_${typrFormat(item)}`]"
+        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
           v-for="(item, index) in blindDetailInfo.series" :key="index">
           <div :class="[`series_level_${typrFormat(item)}`]">
             <div class="img_box">
@@ -94,7 +94,7 @@
             </div>
           </div>
           <div class="mask_box">
-            <div class="show_series_btn" @click="handleShowNft(item)">
+            <div class="show_series_btn">
               Show NFTs
             </div>
           </div>

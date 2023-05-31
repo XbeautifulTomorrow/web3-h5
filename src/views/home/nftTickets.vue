@@ -15,7 +15,12 @@
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span> {{ dateDiff(item.endTime) }}</span>
+                <span v-if="dateDiff(item && item.endTime) > 1">
+                  {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
+                </span>
+                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                </countDown>
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
@@ -32,7 +37,7 @@
               <div class="name-text">{{ item.seriesName || "-" }}</div>
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
-            <div class="nft-name-r">{{ `#${item.tokenId}` }}</div>
+            <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="price-box">
             {{ `${item.price} ETH` }}
@@ -53,10 +58,14 @@
 
 <script>
 import bigNumber from "bignumber.js";
-import { accurateDecimal } from "@/utils";
+import countDown from '@/components/countDown';
+import { dateDiff } from "@/utils";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
+  components: {
+    countDown
+  },
   data() {
     return {
       tickets: [
@@ -93,28 +102,13 @@ export default {
     };
   },
   methods: {
+    dateDiff: dateDiff,
     bigNumber: bigNumber,
     handleTickets(event) {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
     openAll() {
       this.$router.push({ name: "NftTicketsList" });
-    },
-    // 剩余天数
-    dateDiff(event) {
-      if (!event) return "ENDED"
-      const setTime = new Date(event).getTime();
-      const nowTime = new Date().getTime();
-      if (nowTime >= setTime) return "ENDED";
-
-      const seconds = 1000;
-      const minute = seconds * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
-      // 剩余天数
-      return `${days} DAY LEFT`;
     },
   }
 };

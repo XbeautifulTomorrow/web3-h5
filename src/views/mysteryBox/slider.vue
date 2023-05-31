@@ -20,7 +20,7 @@
                         <span>{{ sName }}</span>
                         <img src="@/assets/svg/home/icon_certified.svg" alt="" />
                       </div>
-                      <div class="card-probability">
+                      <div class="card-probability text-ellipsis">
                         <span>{{ `#${item.tokenId}` }}</span>
                         <span>{{ `Reward ID：${item.idx}` }}</span>
                       </div>

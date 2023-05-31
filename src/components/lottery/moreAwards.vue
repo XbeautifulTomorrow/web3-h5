@@ -67,11 +67,8 @@ export default {
     };
   },
   mounted() {
-    // const _data = this.prizeList.length > 5 ? "TEN" : "FIVE";
-    // if (!localStorage.getItem(_data)) {
     this.autoplayFun(true);
     this.playMusicFun(slipe);
-    // }
   },
   methods: {
     playMusicFun(_music, musicLoop = true, _ref = "music") {

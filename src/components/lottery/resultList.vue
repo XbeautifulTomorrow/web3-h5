@@ -89,8 +89,8 @@
               @click="chooseLotteryHold"
             >
               <span>Sell for</span>
-              <span class="result-total">{{ total }}ETH</span>
-              <span>({{ second }}s)</span>
+              <span class="result-total">{{ item.price }}ETH</span>
+              <span v-if="second > 0">({{ second }}s)</span>
             </el-button>
             <p class="result-end">
               At the end of the countdown you will automatically sell all NFT
@@ -137,33 +137,33 @@
           >
             <span>Sell for</span>
             <span class="result-total">{{ total }}ETH</span>
-            <span>({{ second }}s)</span>
+            <span v-if="second > 0">({{ second }}s)</span>
           </el-button>
         </div>
         <p class="result-end">
           At the end of the countdown you will automatically sell all NFT
         </p>
-        <div class="result-link">
-          <img
-            class="result-link-img"
-            src="@/assets/img/lottery/fair.png"
-            alt=""
-          />
-          <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
-          <div class="result-link-go">
-            <p class="result-link-go-text">
-              <a
-                class="result-link-go-view"
-                :href="item.src"
-                target="_blank"
-                v-for="(item, index) in link"
-                :key="`link-${index}`"
-              >
-                {{ item.text }}
-              </a>
-            </p>
-            <p class="result-link-go-users">[Advanced Users]</p>
-          </div>
+      </div>
+      <div class="result-link">
+        <img
+          class="result-link-img"
+          src="@/assets/img/lottery/fair.png"
+          alt=""
+        />
+        <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
+        <div class="result-link-go">
+          <p class="result-link-go-text">
+            <a
+              class="result-link-go-view"
+              :href="item.src"
+              target="_blank"
+              v-for="(item, index) in link"
+              :key="`link-${index}`"
+            >
+              {{ item.text }}
+            </a>
+          </p>
+          <p class="result-link-go-users">[Advanced Users]</p>
         </div>
       </div>
     </div>

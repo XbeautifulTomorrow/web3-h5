@@ -81,6 +81,7 @@
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
+    <Loading :loading="loading" />
   </el-dialog>
 </template>
 
@@ -104,6 +105,8 @@ import AllSold from "./allSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
 
+import Loading from "../loading/index.vue";
+
 const itemWidth = 220;
 export default {
   name: "LotteryPage",
@@ -118,10 +121,12 @@ export default {
     PartSold,
     TransactionWarning,
     oneAward,
+    Loading,
   },
   props: ["lottoList", "lottResult", "apiIsError", "showRoll", "rollNumber"],
   data() {
     return {
+      loading: false,
       showDialog: "",
       // warningText
       // Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.
@@ -187,6 +192,7 @@ export default {
         orderId: awardItem[0]?.orderId,
       };
       const res = await lotteryHold(_data);
+      this.loading = false;
       if (res && res.code === 200) {
         localStorage.removeItem("result");
         if (res.data.length) {
@@ -220,6 +226,7 @@ export default {
     async chooseLotteryHold(type, _choose) {
       const { awardItem } = this;
       if (type === "hold") {
+        this.loading = true;
         if (awardItem.length < 2) {
           const _data = {
             lotteryIds: awardItem[0]?.id,
@@ -227,6 +234,7 @@ export default {
           };
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
+            this.loading = false;
             localStorage.removeItem("result");
             this.showDialog = "yourReard";
           }

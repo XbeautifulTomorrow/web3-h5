@@ -64,15 +64,15 @@
               <div class="enter_relevant">
                 <div class="title">Enter competition</div>
                 <div class="buy_tips" :style="nftInfo.orderType == 'LIMITED_TIME' && 'visibility: hidden;'">
-                  You used <span>{{ buyForm.votes || 0 }}</span> of <span>
+                  You used <span>{{ buyVotes || 0 }}</span> of <span>
                     {{ nftInfo && maxBuyNum || 0 }}
                   </span> tickets
                 </div>
               </div>
               <div class="buy_box">
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
-                <el-input :disabled="isBuy" v-model.number="buyForm.votes" style="width: 100%;" class="buy_input"
-                  type="number" min="0" :max="maxBuyNum" :placeholder="nftInfo && nftInfo.orderType == 'LIMITED_TIME'
+                <el-input :disabled="isBuy" v-model.number="buyVotes" style="width: 100%;" class="buy_input" type="number"
+                  min="0" :max="maxBuyNum" :placeholder="nftInfo && nftInfo.orderType == 'LIMITED_TIME'
                     ? 'Please enter'
                     : nftInfo.maximumPurchaseQuantity > 0
                       ? `Please enter 1-${maxBuyNum}`
@@ -252,10 +252,7 @@ export default {
       inviteDrop: [],
       detailData: null,
       endingSoon: [],
-      buyForm: {
-        votes: null,
-        type: "balance"
-      },
+      buyVotes: null,
       activeType: "activity",
       buyData: [],
       participantsTotal: 0,
@@ -269,10 +266,10 @@ export default {
   },
   computed: {
     buyPrice() {
-      const { buyForm: { votes }, nftInfo } = this;
-      if (!votes) return 0;
+      const { buyVotes, nftInfo } = this;
+      if (!buyVotes) return 0;
       if (!nftInfo || !nftInfo.price) return 0;
-      return new bigNumber(votes).multipliedBy(nftInfo.price) || 0;
+      return new bigNumber(buyVotes).multipliedBy(nftInfo.price) || 0;
     },
     isBuy() {
       if (!this.nftInfo) return false;
@@ -339,22 +336,16 @@ export default {
     },
     // 购买一元购门票
     async submitPayment() {
-      const { orderId, buyForm: { votes, type } } = this;
+      const { orderId, buyVotes } = this;
       let res = null;
-      if (type == "balance") {
-        res = await buyNftBalance({
-          orderNumber: orderId,
-          num: votes
-        });
-      } else {
-        res = await buyNftWallet({
-          orderNumber: orderId,
-          num: votes
-        });
-      }
+      res = await buyNftBalance({
+        orderNumber: orderId,
+        num: buyVotes
+      });
 
       if (res && res.code == 200) {
         this.$message.success("购买成功！");
+        this.buyVotes = null;
         this.fetchOneBuyInfo();
         this.fetchBuyRecord();
       }
@@ -540,7 +531,7 @@ export default {
     }
   },
   watch: {
-    "buyForm.votes": function (newVal) {
+    buyVotes: function (newVal) {
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -550,7 +541,7 @@ export default {
 
       this.timer = setTimeout(() => {
         if (newVal > this.maxBuyNum) {
-          this.buyForm.votes = this.maxBuyNum;
+          this.buyVotes = this.maxBuyNum;
         }
 
         this.$forceUpdate();

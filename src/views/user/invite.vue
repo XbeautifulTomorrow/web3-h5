@@ -54,11 +54,11 @@
           </div>
           <el-table :data="inviteList" class="table_container" style="width: 100%">
             <el-table-column prop="inviteCode" label="CODE" align="center" />
-            <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
-            <el-table-column prop="traAmount" label="REFS" align="center" />
+            <el-table-column prop="totalAmount" label="CLAIMED" align="center" />
+            <el-table-column prop="invitePeople" label="REFS" align="center" />
             <el-table-column prop="pointAmount" label="POINT" align="center" />
-            <el-table-column prop="totalAmount" label="CONSUMPTION" align="center" />
-            <el-table-column prop="traAmount" label="CLAIM" align="center">
+            <el-table-column prop="traAmount" label="CONSUMPTION" align="center" />
+            <el-table-column label="CLAIM" align="center">
               <template #default="scope">
                 <div class="claim_box" @click="handleReceive(scope.row)">
                   <span>CLAIM</span>

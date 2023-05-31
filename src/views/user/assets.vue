@@ -165,65 +165,64 @@
       </el-tabs>
       <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
         label-position="top">
-        <el-form-item label="PRICE" prop="price">
+        <el-form-item label="TOTAL PRICE" prop="price">
           <el-input v-model="competitionForm.price" type="number" min="0">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_eth.svg" alt="">
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="TOTALES" prop="limitNum" v-if="activeType == 'LIMITED_PRICE'">
-          <el-input readonly="readonly" v-model.number="competitionForm.limitNum" type="number" min="2"></el-input>
+        <el-form-item label="TOTAL ENTRIES" v-if="activeType == 'LIMITED_PRICE'">
+          <el-input readonly="readonly" v-model.number="limitNum" type="number" min="2"></el-input>
         </el-form-item>
-        <el-form-item label="TIME DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
-          <div class="choose_days">
-            <el-select v-model="competitionForm.limitDay" filterable allow-create :reserve-keyword="false"
-              class="nft_type" placeholder="Time can be selected or entered manually, maximum 30 days"
-              :popper-append-to-body="false">
-              <el-option v-for="(item, index) in daysData" :key="index" :label="item" :value="item">
-                <span>{{ item }}</span>
-              </el-option>
-            </el-select>
+        <el-form-item label="DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
+          <div class="input_days">
+            <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
+              placeholder="Time can be selected or entered manually, maximum 30 days">
+            </el-input>
             <div class="days_text">DAY</div>
           </div>
+          <div class="choose_days">
+            <div class="choose_days_item" v-for="(item, index) in daysData" :key="index"
+              :class="['choose_days_item', competitionForm.limitDay == item && 'active']"
+              @click="competitionForm.limitDay = item">{{ `${item} Days` }}</div>
+          </div>
         </el-form-item>
-        <el-form-item label="SINGLE COPY VALUE" prop="ticketPrice">
+        <el-form-item label="ENTRIES PRICE" prop="ticketPrice">
           <el-input readonly="readonly" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_eth.svg" alt="">
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="SELLING HOURS" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
-          <div class="choose_days">
-            <el-select v-model="competitionForm.limitDay" filterable allow-create :reserve-keyword="false"
-              class="nft_type" placeholder="Time can be selected or entered manually, maximum 30 days"
-              :popper-append-to-body="false">
-              <el-option v-for="(item, index) in daysData" :key="index" :label="item" :value="item">
-                <span>{{ `${item} Days` }}</span>
-              </el-option>
-            </el-select>
+        <el-form-item label="MAX DURATION" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
+          <div class="input_days">
+            <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
+              placeholder="Time can be selected or entered manually, maximum 30 days">
+            </el-input>
             <div class="days_text">DAY</div>
+          </div>
+          <div class="choose_days">
+            <div class="choose_days_item" v-for="(item, index) in daysData" :key="index"
+              :class="['choose_days_item', competitionForm.limitDay == item && 'active']"
+              @click="competitionForm.limitDay = item">{{ `${item} Days` }}</div>
           </div>
         </el-form-item>
         <div class="continue_btn" @click="submitCompetition()">CONTINUE</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
-          <p>Once a dollar purchase has been sold it cannot be cancelled and will be automatically opened at the
-            end of
-            the duration, please set a reasonable price, over-estimated prices may result in a loss</p>
-          <p>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
-            sure
-            you
-            have set the correct price.</p>
+          <p>
+            This mode cannot be cancelled once the contest starts, so please set the price reasonably to avoid losses.
+          </p>
         </div>
         <div class="hint-text" v-else>
-          <p>Please set a reasonable price, if all tickets are not sold at the end of the sale time, the sale will
-            fail
-            and a refund will be made automatically for all participating users.</p>
-          <p>Once a tournament has been created, it cannot be cancelled once a user has participated, please make
-            sure
-            you
-            have set the correct price.</p>
+          <p>
+            Please set a reasonable price, if you do not sell all tickets by the end of the sale time, the sale will fail
+            and all participating users will be refunded automatically.
+          </p>
+          <p>
+            Once a user has participated in the competition, it cannot be cancelled. Please make sure that the price you
+            set is correct.
+          </p>
         </div>
       </el-form>
     </el-dialog>
@@ -278,18 +277,45 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 0.0001, //单次价格
-        limitNum: 1000000, //最大数量
+        ticketPrice: 0.0001 //单次价格
       },
-      daysData: [7, 14, 30],
+      daysData: [1, 7, 14, 30],
       rules: {},
       wallet: {
         page: 1,
         size: 8
       },
+      timer: null
     };
   },
+  watch: {
+    "competitionForm.limitDay"(newV) {
+      const max = 30;
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      if (!newV) return;
+
+      this.timer = setTimeout(() => {
+        if (newV > max) {
+          this.competitionForm.limitDay = max;
+        }
+
+        this.$forceUpdate();
+      }, 300);
+    }
+  },
   computed: {
+    // 总票数
+    limitNum() {
+      const { price, ticketPrice } = this.competitionForm;
+      if (!price) return 0;
+      const maxNum = Number(new bigNumber(price).dividedBy(ticketPrice));
+      if (this.activeType == "LIMITED_TIME") return 0
+      return maxNum;
+    },
     // Nft条件检索
     chooseNftList() {
       const { params: { nftName, type, collections }, chooseNftData } = this;
@@ -429,8 +455,14 @@ export default {
         if (valid) {
           const { activeType, competitionNft } = this;
 
+          if (!competitionNft.price) {
+            this.$message.error("Please enter the correct total price");
+            return
+          }
+
           let ruleForm = {
             ...this.competitionForm,
+            limitNum: this.limitNum,
             orderType: activeType,
             contractAddress: competitionNft.tokenAddress, //合约地址
             tokenId: competitionNft.tokenId //nftId
@@ -453,8 +485,7 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 0.0001, //单次价格
-        limitNum: 1000000, //最大数量
+        ticketPrice: 0.0001 //单次价格
       }
 
       this.operatingType = 1;
@@ -564,7 +595,7 @@ export default {
       //单份价值
       ticketPrice: [{ required: true, message: "Please enter a single serving value", trigger: ["blur", "change"] }],
       //最大数量
-      limitNum: [{ required: true, message: "Please enter the total number of votes", trigger: ["blur", "change"] }],
+      // limitNum: [{ required: true, message: "Please enter the total number of votes", trigger: ["blur", "change"] }],
     }
   }
 };

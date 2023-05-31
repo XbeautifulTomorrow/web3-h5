@@ -867,7 +867,7 @@
     }
   }
 
-  .choose_days {
+  .input_days {
     width: 100%;
     display: flex;
     align-items: center;
@@ -883,6 +883,46 @@
         text-align: left;
         font-size: 0.875rem;
       }
+    }
+  }
+
+  .choose_days {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.625rem;
+
+    .choose_days_item {
+      width: 9.5rem;
+      height: 3.125rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      background-color: #13151f;
+      border: 0.0625rem solid transparent;
+      box-sizing: border-box;
+
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1;
+      color: rgba(169, 164, 180, 0.6);
+
+      &.active,
+      &:hover {
+        background-image: linear-gradient(to top, #e3a406, #fbd851);
+        color: #13151f;
+      }
+
+      // &:hover {
+      //   border-style: solid;
+      //   border-image-source: linear-gradient(to top, #e3a406, #fbd851);
+      //   border-image-slice: 1;
+      //   background-image: linear-gradient(to bottom, #13151f, #13151f), linear-gradient(to top, #e3a406, #fbd851);
+      //   background-origin: border-box;
+      //   background-clip: content-box, border-box;
+      // }
     }
   }
 

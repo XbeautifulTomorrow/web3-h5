@@ -226,7 +226,6 @@
 import {
   getOneBuyInfo,
   buyNftBalance,
-  buyNftWallet,
   getAListOfActivities,
   getAListOfParticipants,
   getEndingSoon,

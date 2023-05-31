@@ -6,8 +6,8 @@
           <img :src="nftInfo && nftInfo.img" alt="">
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
-            <span>{{ dayLeft(nftInfo && nftInfo.endTime) }}</span>
-            <span>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
+            <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">{{ dayLeft(nftInfo && nftInfo.endTime) }}</span>
+            <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
           </div>
           <div class="tips_round finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
             <span>COMPLETED</span>

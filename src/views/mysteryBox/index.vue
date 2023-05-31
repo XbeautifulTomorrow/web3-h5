@@ -75,15 +75,7 @@ export default {
     rollNumberFun(number) {
       this.showRoll = true;
       this.rollNumber = number;
-      const walletOrderInfo = localStorage.getItem("walletOrderInfo");
       const result = localStorage.getItem("result");
-      if (walletOrderInfo) {
-        const _walletOrderInfo = JSON.parse(walletOrderInfo);
-        this.rollNumber = _walletOrderInfo.rollNumber;
-        this.showRoll = true;
-        this.timeOutFun(_walletOrderInfo.walletOrderInfo);
-        return;
-      }
       if (result) {
         const _result = JSON.parse(result);
         this.rollNumber = _result.rollNumber;
@@ -117,13 +109,6 @@ export default {
       await headerStore.getTheUserBalanceApi();
       if (walletOrderInfo.code == 200) {
         this.walletOrderInfo = walletOrderInfo;
-        localStorage.setItem(
-          "walletOrderInfo",
-          JSON.stringify({
-            walletOrderInfo: walletOrderInfo,
-            rollNumber: this.rollNumber,
-          })
-        );
         this.timeOutFun(walletOrderInfo);
       } else {
         this.apiIsError = true;
@@ -145,7 +130,6 @@ export default {
         if (result) {
           if (result.data && result.data.length) {
             this.lottResult = result;
-            localStorage.removeItem("walletOrderInfo");
             localStorage.setItem(
               "result",
               JSON.stringify({ result, rollNumber: this.rollNumber })

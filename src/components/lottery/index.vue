@@ -316,9 +316,8 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.dataFun();
-    const walletOrderInfo = localStorage.getItem("walletOrderInfo");
     const result = localStorage.getItem("result");
-    if (walletOrderInfo || result) {
+    if (result) {
       this.messageFun("上一个订单未处理,请处理后再抽奖");
     }
   },

@@ -861,6 +861,16 @@
       }
     }
 
+    &.disabled {
+      .el-input__wrapper {
+        background-color: #282A34;
+
+        &>input {
+          color: rgba(169, 164, 180, 0.3);
+        }
+      }
+    }
+
     .icon_eth {
       width: 1.875rem;
       height: auto;
@@ -881,7 +891,7 @@
 
       &>input {
         text-align: left;
-        font-size: 0.875rem;
+        font-size: 1.5rem;
       }
     }
   }

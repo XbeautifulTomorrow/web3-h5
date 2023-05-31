@@ -173,12 +173,16 @@
           </el-input>
         </el-form-item>
         <el-form-item label="TOTAL ENTRIES" v-if="activeType == 'LIMITED_PRICE'">
-          <el-input readonly="readonly" v-model.number="limitNum" type="number" min="2"></el-input>
+          <el-input readonly="readonly" class="disabled" v-model.number="limitNum" type="number" min="2">
+            <template #prefix>
+              <img class="icon_eth" src="@/assets/svg/user/icon_tiket.svg" alt="">
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item label="DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
           <div class="input_days">
             <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-              placeholder="Time can be selected or entered manually, maximum 30 days">
+              placeholder="Please enter a number from 1-30">
             </el-input>
             <div class="days_text">DAY</div>
           </div>
@@ -189,7 +193,7 @@
           </div>
         </el-form-item>
         <el-form-item label="ENTRIES PRICE" prop="ticketPrice">
-          <el-input readonly="readonly" v-model="competitionForm.ticketPrice" placeholder="">
+          <el-input readonly="readonly" class="disabled" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_eth.svg" alt="">
             </template>
@@ -198,7 +202,7 @@
         <el-form-item label="MAX DURATION" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
           <div class="input_days">
             <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-              placeholder="Time can be selected or entered manually, maximum 30 days">
+              placeholder="Please enter a number from 1-30">
             </el-input>
             <div class="days_text">DAY</div>
           </div>
@@ -500,7 +504,10 @@ export default {
 
       this.chooseNftData = [];
       this.chooseNft = [];
-      this.$refs["competitionForm"].resetFields();
+
+      if (this.$refs["competitionForm"]) {
+        this.$refs["competitionForm"].resetFields();
+      }
 
       if (done) {
         done();

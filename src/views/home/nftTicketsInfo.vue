@@ -7,8 +7,9 @@
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
-              {{ dateDiff(nftInfo && nftInfo.endTime) }}
-              <!-- <countDown :time="nftInfo && nftInfo.endTime"></countDown> -->
+              <countDown v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
+                {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
+              </countDown>
             </span>
             <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
           </div>
@@ -217,14 +218,13 @@ import {
   rebatesFindList,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-import countDown from '@/components/countDown';
+// import countDown from '@/components/countDown';
 import { useHeaderStore } from '@/store/header.js';
 import { openUrl, accurateDecimal } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    countDown
+    // countDown
   },
   data() {
     return {

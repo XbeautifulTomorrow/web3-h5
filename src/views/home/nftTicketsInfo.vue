@@ -349,23 +349,23 @@ export default {
       const nowTime = new Date().getTime();
       if (nowTime >= setTime) return "ENDED";
 
-      //按照传入的格式生成一个simpledateformate对象
-      let nd = 1000 * 24 * 60 * 60;//一天的毫秒数
-      let nh = 1000 * 60 * 60;//一小时的毫秒数
-      let nm = 1000 * 60;//一分钟的毫秒数
-      let ns = 1000;//一秒钟的毫秒数long diff;
+      // 按照传入的格式生成一个simpledateformate对象
+      let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
+      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nm = 1000 * 60; // 一分钟的毫秒数
+      let ns = 1000; // 一秒钟的毫秒数;
 
-      //获得两个时间的毫秒时间差异
+      // 获得两个时间的毫秒时间差异
       let diff;
       diff = Number(new bigNumber(setTime).minus(nowTime));
 
-      let day = diff / nd;//计算差多少天
-      let hour = diff % nd / nh;//计算差多少小时
-      let min = diff % nd % nh / nm;//计算差多少分钟
-      let sec = diff % nd % nh % nm / ns;//计算差多少秒//输出结果
+      let day = diff / nd;// 计算差多少天
+      let hour = diff % nd / nh;// 计算差多少小时
+      let min = diff % nd % nh / nm;// 计算差多少分钟
+      let sec = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
 
       if (day > 1) {
-        return "d-" + day;
+        return `${day} DAY LEFT`;
       }
       if (hour > 1) {
         return "h-" + hour;
@@ -373,6 +373,7 @@ export default {
       if (min > 1) {
         return "m-" + min;
       }
+
       return "s-" + sec;
     },
     // 最新购买
@@ -429,9 +430,7 @@ export default {
     // 加载更多
     nextPage() {
       this.page++;
-      if (this.activeType == "activity") {
-        this.fetchBuyRecord(false)
-      }
+      this.fetchBuyRecord(false)
     },
     // 邀请资产列表
     async fetchRebatesFindList() {

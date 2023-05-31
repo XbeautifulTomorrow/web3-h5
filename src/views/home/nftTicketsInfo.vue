@@ -4,15 +4,15 @@
       <div class="nft_details">
         <div class="nft_details_l border_bg">
           <img :src="nftInfo && nftInfo.img" alt="">
-          <div class="tips_round" v-if="nftInfo && nftInfo.currentStatus == 'IN_PROGRESS'"
+          <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <span>{{ dayLeft(nftInfo && nftInfo.endTime) }}</span>
             <span>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
           </div>
-          <div class="tips_round finish" v-else-if="nftInfo && nftInfo.currentStatus == 'DRAWN'">
+          <div class="tips_round finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
             <span>COMPLETED</span>
           </div>
-          <div class="tips_round aborted" v-else-if="nftInfo && nftInfo.currentStatus == 'CLOSED'">
+          <div class="tips_round aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
             <span>ABORTED</span>
           </div>
         </div>
@@ -25,7 +25,7 @@
                 <span class="val">{{ nftInfo && nftInfo.totalPrice }}</span>
                 <span class="unit">ETH</span>
               </div>
-              <div class="time" v-if="nftInfo && nftInfo.currentStatus == 'IN_PROGRESS'">
+              <div class="time" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_info_price.svg"
                   alt="">
                 <img v-else src="@/assets/svg/home/icon_info_time.svg" alt="">
@@ -34,7 +34,7 @@
                 </div>
                 <div v-else class="time-text">{{ `CLOSE: ${dateFormat(nftInfo && nftInfo.endTime)}` }}</div>
               </div>
-              <div class="finish" v-else-if="nftInfo && nftInfo.currentStatus == 'DRAWN'">
+              <div class="finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <img src="@/assets/svg/home/icon_time_drawn.svg" alt="">
                 <div class="time-text">COMPLETED</div>
               </div>
@@ -54,10 +54,10 @@
                 <span>{{ nftInfo && nftInfo.owner }}</span>
               </div>
             </div>
-            <div class="buy_relevant" v-if="nftInfo && nftInfo.currentStatus == 'IN_PROGRESS'">
+            <div class="buy_relevant" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
               <div class="enter_relevant">
                 <div class="title">Enter competition</div>
-                <div class="buy_tips">
+                <div class="buy_tips" :style="nftInfo.orderType == 'LIMITED_TIME' && 'visibility: hidden;'">
                   You used <span>0</span> of <span>{{ nftInfo && nftInfo.maximumPurchaseQuantity || 0 }}</span> tickets
                 </div>
               </div>
@@ -65,7 +65,7 @@
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
                 <el-input v-model.number="buyForm.votes" style="width: 100%;" class="buy_input" type="number" min="0"
                   :max="nftInfo && nftInfo.maximumPurchaseQuantity"
-                  :placeholder="`Please enter 1-${nftInfo && nftInfo.maximumPurchaseQuantity || 0}`">
+                  :placeholder="nftInfo.orderType == 'LIMITED_TIME' ? 'Please enter' : `Please enter 1-${nftInfo && nftInfo.maximumPurchaseQuantity || 0}`">
                 </el-input>
               </div>
               <div class="payment_box">
@@ -82,7 +82,7 @@
             </div>
             <div class="nft_end" v-else>
               <div class="winning_interval"></div>
-              <div class="winning_box" v-if="nftInfo && nftInfo.currentStatus == 'DRAWN'">
+              <div class="winning_box" v-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <div class="winning_text">
                   <span>WINNER</span>
                   <img src="@/assets/svg/home/icon_more.svg" alt="">
@@ -260,7 +260,7 @@ export default {
       if (res && res.code == 200) {
         this.nftInfo = res.data;
         this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
-        if (this.nftInfo.currentStatus != 'IN_PROGRESS') {
+        if (this.nftInfo.orderStatus != 'IN_PROGRESS') {
           const userStore = useHeaderStore();
           const { walletAddr } = userStore;
           const resDrawn = await getLottery({

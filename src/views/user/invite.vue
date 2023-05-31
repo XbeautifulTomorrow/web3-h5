@@ -54,16 +54,16 @@
           </div>
           <el-table :data="inviteList" class="table_container" style="width: 100%">
             <el-table-column prop="inviteCode" label="CODE" align="center" />
-            <el-table-column prop="invitePeople" label="CLAIMED" align="center" />
+            <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
             <el-table-column prop="traAmount" label="REFS" align="center" />
             <el-table-column prop="pointAmount" label="POINT" align="center" />
-            <el-table-column prop="totalAmount" label="TOTAL" align="center" />
+            <el-table-column prop="totalAmount" label="CONSUMPTION" align="center" />
             <el-table-column prop="traAmount" label="CLAIM" align="center">
               <template #default="scope">
-                <div class="claim_box">
+                <div class="claim_box" @click="handleReceive(scope.row)">
                   <span>CLAIM</span>
                   <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
-                  <span>{{ scope.row.traAmount }}</span>
+                  <span>{{ new bigNumber(scope.row.totalAmount || 0).minus(scope.row.receiveAmount || 0) }}</span>
                 </div>
               </template>
             </el-table-column>
@@ -79,17 +79,17 @@
       </div>
       <div class="referred_user_box" v-else>
         <el-table :data="detailList" class="table_container" style="width: 100%">
-          <el-table-column prop="code" label="REFERRAL CODE" align="center" />
-          <el-table-column prop="amount" label="USERNAME" align="center" />
-          <el-table-column prop="eth_amount" label="CONSUMPTION" align="center">
+          <el-table-column prop="inviteCode" label="REFERRAL CODE" align="center" />
+          <el-table-column prop="userId" label="USERNAME" align="center" />
+          <el-table-column prop="totalAmount" label="CONSUMPTION" align="center">
             <template #default="scope">
               <div class="consumption_box">
-                <span>{{ scope.row.claim }}</span>
+                <span>{{ scope.row.totalAmount }}</span>
                 <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="POINT" align="center" />
+          <el-table-column prop="pointAmount" label="POINT" align="center" />
           <el-table-column prop="status" label="REFERRED AT" align="center" />
         </el-table>
         <div v-if="this.count > 6">
@@ -111,8 +111,10 @@ import {
   userInvateStatistics,
   rebatesCreateCode,
   rebatesFindList,
+  rebatesReceive,
   rebatesDetailPageList
 } from "@/services/api/invite";
+import bigNumber from "bignumber.js";
 export default {
   name: 'myInvite',
   data() {
@@ -133,6 +135,7 @@ export default {
     };
   },
   methods: {
+    bigNumber: bigNumber,
     handleChange(event) {
 
       this.page = 1;
@@ -201,11 +204,19 @@ export default {
         this.count = res.data.total;
       }
     },
+    async handleReceive(event) {
+      const res = await rebatesReceive({
+        inviteCode: event.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.$message.success("Receive success");
+        this.fetchRebatesFindList();
+      }
+    },
     loadMore() {
       this.isMore = true;
       this.size = 20;
       this.fetchDetailPageList();
-
     },
     handleCurrentChange(page) {
       this.page = page;

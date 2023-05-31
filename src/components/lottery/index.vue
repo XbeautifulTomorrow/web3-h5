@@ -146,6 +146,8 @@ export default {
       resultSecondTimer: null,
       moreLuck: [],
       localDateTime: new Date(),
+      timer: null,
+      second: 60,
     };
   },
   computed: {
@@ -164,15 +166,12 @@ export default {
       if (newVal && newVal.data && newVal.data.length) {
         this.awardItem = newVal.data;
         this.localDateTime = newVal.localDateTime;
-        // localStorage.setItem(this.rollNumber, JSON.stringify(newVal.data));
       } else {
         this.messageFun("很遗憾您没有中奖");
-        this.autoplay = false;
       }
     },
     apiIsError: function (newData) {
       if (newData) {
-        this.autoplay = false;
         this.$emit("apiIsErrorFun", false);
         this.showDialog = "transactionWarning";
         this.warningText =
@@ -181,6 +180,20 @@ export default {
     },
   },
   methods: {
+    timerFun() {
+      this.timer = setInterval(() => {
+        this.second--;
+        if (this.second < 1) {
+          this.messageFun("很遗憾您没有中奖");
+          this.clearInterval();
+          this.closeDialogFun();
+        }
+      }, 1000);
+    },
+    clearTimerFun() {
+      clearInterval(this.timer);
+      this.timer = null;
+    },
     async inventoryFun() {
       const { chooseIds, awardItem } = this;
       if (!chooseIds.length) {
@@ -193,6 +206,7 @@ export default {
       };
       const res = await lotteryHold(_data);
       this.loading = false;
+      this.clearTimerFun();
       if (res && res.code === 200) {
         localStorage.removeItem("result");
         if (res.data.length) {
@@ -227,6 +241,7 @@ export default {
       const { awardItem } = this;
       if (type === "hold") {
         this.loading = true;
+        this.timerFun();
         if (awardItem.length < 2) {
           const _data = {
             lotteryIds: awardItem[0]?.id,
@@ -235,6 +250,7 @@ export default {
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
             this.loading = false;
+            this.clearTimerFun();
             localStorage.removeItem("result");
             this.showDialog = "yourReard";
           }
@@ -320,6 +336,9 @@ export default {
     if (result) {
       this.messageFun("上一个订单未处理,请处理后再抽奖");
     }
+  },
+  beforeUnmount() {
+    this.clearTimerFun();
   },
 };
 </script>

@@ -2,6 +2,7 @@
   <el-dialog
     v-model="visible"
     destroy-on-close
+    :close-on-click-modal="true"
     :show-close="false"
     :align-center="true"
     class="public-dialog"

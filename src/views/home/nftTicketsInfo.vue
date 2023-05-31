@@ -303,6 +303,8 @@ export default {
 
       if (res && res.code == 200) {
         this.$message.success("购买成功！");
+        this.fetchOneBuyInfo();
+        this.fetchBuyRecord();
       }
 
     },

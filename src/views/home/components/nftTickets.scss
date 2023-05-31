@@ -34,7 +34,11 @@
 .boxes-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+
+    li+li {
+        margin-left: 1.875rem;
+    }
 }
 
 .ntf-tickets-list {
@@ -67,6 +71,7 @@
 
         .type-box {
             position: absolute;
+            max-width: 50%;
             top: 1rem;
             right: 1rem;
 

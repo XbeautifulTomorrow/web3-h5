@@ -61,6 +61,7 @@
 <script>
 import { getCheckAllOrders } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
+import { accurateDecimal } from "@/utils";
 export default {
   name: 'ntfTicketsList',
   data() {
@@ -119,7 +120,7 @@ export default {
       const hour = minute * 60;
       const day = hour * 24;
       const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = new bigNumber(restSec).dividedBy(day);
+      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
       // 剩余天数
       return `${days} DAY LEFT`;
     },

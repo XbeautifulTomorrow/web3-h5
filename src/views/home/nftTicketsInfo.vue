@@ -164,8 +164,9 @@
             <div class="invite_text">SHARE THIS COMPETITION</div>
             <div class="choose_invite_code">
               <div>Choose referrals code</div>
-              <el-select v-model="inviteVal">
-                <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.code" :value="item.code" />
+              <el-select v-model="inviteVal" @change="onCopy">
+                <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
+                  :value="item.inviteCode" />
               </el-select>
             </div>
           </div>
@@ -179,7 +180,7 @@
               <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
                 <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-                <span v-if="item.orderType == 'LIMITED_TIME'">{{ `${item.limitDay} DAY LEFT` }}</span>
+                <span v-if="item.orderType == 'LIMITED_TIME'">{{ dayLeft(item && item.endTime) }}</span>
                 <span v-else>{{ `${item.limitNum} TICKETS LEFT` }}</span>
               </div>
               <div class="image_tag">#{{ item && item.tokenId }}</div>
@@ -210,8 +211,12 @@ import {
   getEndingSoon,
   getLottery
 } from "@/services/api/oneBuy";
+import {
+  rebatesFindList,
+} from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import { useHeaderStore } from '@/store/header.js';
+import { accurateDecimal } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
   data() {
@@ -219,7 +224,7 @@ export default {
       orderId: null,
       nftInfo: {},
       inviteVal: null,
-      inviteDrop: [{ code: 1 }, { code: 2 }],
+      inviteDrop: [],
       detailData: null,
       endingSoon: [],
       buyForm: {
@@ -313,7 +318,7 @@ export default {
       const hour = minute * 60;
       const day = hour * 24;
       const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = new bigNumber(restSec).dividedBy(day);
+      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
       // 剩余天数
       return `${days} DAY LEFT`;
     },
@@ -374,6 +379,26 @@ export default {
       if (this.activeType == "activity") {
         this.fetchBuyRecord(false)
       }
+    },
+    // 邀请资产列表
+    async fetchRebatesFindList() {
+      const res = await rebatesFindList();
+      if (res && res.code == 200) {
+        this.inviteDrop = res.data;
+      }
+    },
+    /**
+     * @description: Copy
+     */
+    onCopy(event) {
+      const oInput = document.createElement("input");
+      oInput.value = event;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象;
+      console.log(oInput.value);
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      this.$message.success("Copy successfully");
+      oInput.remove();
     },
     // 参加赛事
     enterNow(event) {
@@ -515,6 +540,8 @@ export default {
     this.fetchEndingSoon();
     this.fetchBuyRecord();
     this.fetchUserBuyRecord();
+
+    this.fetchRebatesFindList(); // 邀请
   }
 };
 </script>

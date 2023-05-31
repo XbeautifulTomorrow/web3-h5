@@ -133,7 +133,7 @@
                 <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                   placeholder="Paste your ERC20 wallet address here">
                   <template #append>
-                    <div class="copy_btn">COPY</div>
+                    <div class="copy_btn" @click="onCopy(receiverAddr)">COPY</div>
                   </template>
                 </el-input>
               </div>
@@ -534,6 +534,19 @@ export default {
     handleCurrentChange(page) {
       this.page = page;
       this.fetchHistory();
+    },
+    /**
+     * @description: Copy
+     */
+    onCopy(event) {
+      const oInput = document.createElement("input");
+      oInput.value = event;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象;
+      console.log(oInput.value);
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      this.$message.success("Copy successfully");
+      oInput.remove();
     },
     /** 
      * @description 友好的时间显示

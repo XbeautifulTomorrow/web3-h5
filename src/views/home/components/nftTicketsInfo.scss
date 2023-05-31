@@ -595,8 +595,12 @@
 
 .ending_soon_list {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   padding-top: 3.75rem;
+
+  &>div+div {
+    margin-left: 1.875rem;
+  }
 }
 
 .ending_soon_item {
@@ -612,6 +616,7 @@
     height: 13rem;
     overflow: hidden;
     box-sizing: border-box;
+    border-radius: 0.625rem 0.625rem 0 0;
 
     .image_tag {
       position: absolute;

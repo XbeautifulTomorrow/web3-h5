@@ -222,7 +222,7 @@ export default {
       oInput.select(); // 选择对象;
       console.log(oInput.value);
       document.execCommand("Copy"); // 执行浏览器复制命令
-      this.$message.success(this.$tc("common.copySuccess"));
+      this.$message.success("Copy successfully");
       oInput.remove();
     },
   },

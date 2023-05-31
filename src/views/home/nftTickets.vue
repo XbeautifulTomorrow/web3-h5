@@ -15,7 +15,7 @@
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span> {{ `${dayLeft(item.endTime)} DAY LEFT` }}</span>
+                <span> {{ dayLeft(item.endTime) }}</span>
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
@@ -53,6 +53,7 @@
 
 <script>
 import bigNumber from "bignumber.js";
+import { accurateDecimal } from "@/utils";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
@@ -111,7 +112,7 @@ export default {
       const hour = minute * 60;
       const day = hour * 24;
       const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = new bigNumber(restSec).dividedBy(day);
+      const days = accurateDecimal(new bigNumber(restSec).dividedBy(day), 2);
       // 剩余天数
       return `${days} DAY LEFT`;
     },

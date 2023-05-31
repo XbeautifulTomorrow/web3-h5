@@ -254,22 +254,17 @@
           color: white;
         }
       }
+
+      &.is-disabled {
+        .el-input__wrapper {
+          background-color: #282A34;
+        }
+      }
     }
   }
 
   .payment_box {
     padding-top: 1.875rem;
-
-    .payment_method {
-      display: flex;
-      align-items: center;
-      padding: 1rem 0;
-
-      .balance {
-        font-size: 1rem;
-        padding-right: 0.5rem;
-      }
-    }
 
     .submit_payment {
       height: 4.125rem;
@@ -286,6 +281,10 @@
       line-height: 1;
       font-weight: bold;
       color: #13151f;
+
+      &.is-disabled {
+        opacity: 0.68
+      }
     }
   }
 }

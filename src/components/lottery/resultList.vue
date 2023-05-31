@@ -65,11 +65,11 @@
           <el-tooltip
             class="box-item"
             effect="dark"
-            :content="`${item.price} ${item.coin}`"
+            :content="`${item.initPrice} ${item.coin}`"
           >
             <p class="result-coin">
               <span class="result-coin-number text-ellipsis">
-                {{ `${item.price}` }}
+                {{ `${item.initPrice}` }}
               </span>
               {{ `${item.coin}` }}
             </p>
@@ -116,7 +116,7 @@
                 {{ item.coin }}
               </span>
             </div>
-            <p v-else class="result-sell-get">You get 55.35 ETH</p>
+            <p v-else class="result-sell-get">You get {{ item.price }} ETH</p>
           </template>
         </li>
       </ul>

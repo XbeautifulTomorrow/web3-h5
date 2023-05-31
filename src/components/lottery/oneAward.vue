@@ -42,9 +42,9 @@
                     <el-tooltip
                       class="box-item"
                       effect="dark"
-                      :content="`# ${list.price}`"
+                      :content="`${list.initPrice}`"
                     >
-                      #&nbsp;{{ list.price }}
+                      &nbsp;{{ list.initPrice }}
                     </el-tooltip>
                   </span>
                   <span class="roll-one-list-conin">

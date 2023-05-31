@@ -31,7 +31,7 @@
       >
         <img class="lottery-moreLuck-award-img" :src="winData.nftImg" alt="" />
         <p class="lottery-moreLuck-seriesName">{{ winData.seriesName }}</p>
-        <p class="lottery-moreLuck-tokenId">{{ `#${winData.tokenId}` }}</p>
+        <!-- <p class="lottery-moreLuck-tokenId">{{ `#${winData.tokenId}` }}</p> -->
       </div>
     </el-carousel-item>
   </el-carousel>

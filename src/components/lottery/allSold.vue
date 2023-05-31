@@ -29,7 +29,7 @@
       <h3 class="public-dialog-title-other">NFTs</h3>
       <ul class="public-dialog-lists">
         <li
-          class="public-dialog-list"
+          :class="['public-dialog-list', item.qualityType]"
           v-for="(item, index) in soldList"
           :key="`portrait-${index}`"
         >
@@ -81,5 +81,23 @@ const closeDialogFun = () => {
 .public-dialog-total-number {
   font-size: 30px;
   color: #11cde9;
+}
+.public-dialog-list {
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+}
+.LEGEND {
+  background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
+}
+.EPIC {
+  background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
+}
+.RARE {
+  background-image: url("@/assets/img/lottery/RARE_more_choose.png");
+}
+.NORMAL {
+  background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
 }
 </style>

@@ -61,12 +61,6 @@
       @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
     />
-    <all-sold
-      v-else-if="showDialog === 'allSold'"
-      :soldList="awardItem"
-      @inventoryFun="inventoryFun"
-      @closeDialogFun="closeDialogFun"
-    />
     <part-sold
       v-else-if="showDialog === 'partSold'"
       :soldList="awardItem"
@@ -101,7 +95,6 @@ import ChooseToken from "./chooseToken.vue";
 import YourReard from "./yourReard.vue";
 import ChainDialog from "./chainDialog.vue";
 import BeenSold from "./beenSold.vue";
-import AllSold from "./allSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
 
@@ -124,7 +117,6 @@ export default {
     YourReard,
     ChainDialog,
     BeenSold,
-    AllSold,
     PartSold,
     TransactionWarning,
     oneAward,
@@ -202,15 +194,9 @@ export default {
       localStorage.removeItem("result");
       if (res && res.code === 200) {
         if (res.data.length) {
-          this.showDialog = "partSold";
           this.failList = res.data;
-        } else {
-          if (chooseIds.length) {
-            this.showDialog = "partSold";
-          } else {
-            this.showDialog = "allSold";
-          }
         }
+        this.showDialog = "partSold";
         this.balanceFun();
       }
     },

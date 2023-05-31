@@ -27,10 +27,7 @@
         out
       </p>
       <p class="public-dialog-illustrate">
-        Prizes have entered your backpack, please go to the backpack to check,
-        due to congestion on the chain, part of the prizes can not be accounted
-        for, we will be converted to the final value of the NFT directly into
-        the ETH transferred to your balance
+        {{ text }}
       </p>
       <template v-if="chooseIds.length">
         <h3 class="public-dialog-title-other">NFTs</h3>
@@ -38,10 +35,14 @@
           <template v-for="(item, index) in soldList">
             <li
               v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
-              class="public-dialog-list"
+              :class="['public-dialog-list', item.qualityType]"
               :key="`portrait-${index}`"
             >
-              <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+              <img
+                :class="['public-dialog-portrait']"
+                :src="item.nftImg"
+                alt=""
+              />
             </li>
           </template>
         </ul>
@@ -55,8 +56,12 @@
               class="public-dialog-list"
               :key="`portrait-${index}`"
             >
-              <div class="portrait-img">
-                <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+              <div :class="['portrait-img', item.qualityType]">
+                <img
+                  :class="['public-dialog-portrait']"
+                  :src="item.nftImg"
+                  alt=""
+                />
                 <span class="public-dialog-list-result refund"> Refund </span>
               </div>
               <p class="public-dialog-list-text">
@@ -77,8 +82,12 @@
               class="public-dialog-list"
               :key="`portrait-${index}`"
             >
-              <div class="portrait-img">
-                <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+              <div :class="['portrait-img', item.qualityType]">
+                <img
+                  :class="['public-dialog-portrait']"
+                  :src="item.nftImg"
+                  alt=""
+                />
                 <span class="public-dialog-list-result sold"> Sold </span>
               </div>
               <p class="public-dialog-list-text">
@@ -95,7 +104,7 @@
           </template>
         </ul>
       </template>
-      <p class="public-dialog-total">
+      <p class="public-dialog-total" v-if="chooseIds.length || failList.length">
         <span class="public-dialog-total-title">Total:</span>
         <span class="public-dialog-total-number"> {{ total }} ETH </span>
       </p>
@@ -139,11 +148,24 @@ const props = defineProps({
     },
   },
 });
+// Prizes have entered your backpack, please go to the backpack to check,
+//         due to congestion on the chain, part of the prizes can not be accounted
+//         for, we will be converted to the final value of the NFT directly into
+//         the ETH transferred to your balance
 const emit = defineEmits(["inventoryFun", "closeDialogFun"]);
 
 const visible = ref(true);
 const total = ref(0);
+const text = ref("");
 onBeforeMount(() => {
+  const { failList } = props;
+  if (failList.length) {
+    text.value =
+      "Prizes have entered your backpack, please go to the backpack to check,due to congestion on the chain, part of the prizes can not be accounted for, we will be converted to the final value of the NFT directly into the ETH transferred to your balance";
+  } else {
+    text.value =
+      "The prize has been transferred to your warehouse, please go to the inventory to check it.";
+  }
   totalFun();
 });
 onUpdated(() => {
@@ -196,5 +218,34 @@ watchEffect();
 }
 .public-dialog-portrait {
   height: auto;
+  border-radius: 5px;
+}
+.LEGEND {
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+  background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
+}
+.EPIC {
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+  background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
+}
+.RARE {
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+  background-image: url("@/assets/img/lottery/RARE_more_choose.png");
+}
+.NORMAL {
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+  background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
 }
 </style>

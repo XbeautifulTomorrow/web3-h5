@@ -155,7 +155,7 @@ const totalFun = () => {
   total.value = 0;
   const { soldList, chooseIds, failList } = props;
   soldList.forEach((item) => {
-    if (chooseIds.includes(item.id) && !failList.includes(item.id)) {
+    if (!chooseIds.includes(item.id) || !failList.includes(item.id)) {
       total.value = BigNumber(total.value).plus(Number(item.price));
     }
   });

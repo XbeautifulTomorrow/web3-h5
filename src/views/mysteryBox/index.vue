@@ -39,7 +39,7 @@ import transferAbi from "@/config/transfer.json";
 import Lottory from "@/components/lottery/index";
 import boxDetails from "./details.vue";
 import { h } from "vue";
-import { ElNotification } from "element-plus";
+import { ElNotification, ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 export default {
   name: "BlindDetail",
@@ -75,6 +75,30 @@ export default {
     rollNumberFun(number) {
       this.showRoll = true;
       this.rollNumber = number;
+      const walletOrderInfo = localStorage.getItem("walletOrderInfo");
+      const result = localStorage.getItem("result");
+      if (walletOrderInfo) {
+        ElMessage({
+          message: "上一个订单未处理,请处理后再抽奖",
+          type: "warning",
+        });
+        const _walletOrderInfo = JSON.parse(walletOrderInfo);
+        this.rollNumber = _walletOrderInfo.rollNumber;
+        this.showRoll = true;
+        this.timeOutFun(_walletOrderInfo);
+        return;
+      }
+      if (result) {
+        ElMessage({
+          message: "上一个订单未处理,请处理后再抽奖",
+          type: "warning",
+        });
+        const _result = JSON.parse(result);
+        this.rollNumber = _result.rollNumber;
+        this.showRoll = true;
+        this.lottResult = _result;
+        return;
+      }
       this.setBalanceOrder(number);
     },
     closeRollFun() {
@@ -101,6 +125,13 @@ export default {
       await headerStore.getTheUserBalanceApi();
       if (walletOrderInfo.code == 200) {
         this.walletOrderInfo = walletOrderInfo;
+        localStorage.setItem(
+          "walletOrderInfo",
+          JSON.stringify({
+            walletOrderInfo: walletOrderInfo,
+            rollNumber: this.rollNumber,
+          })
+        );
         this.timeOutFun(walletOrderInfo);
       } else {
         this.apiIsError = true;
@@ -122,6 +153,11 @@ export default {
         if (result) {
           if (result.data && result.data.length) {
             this.lottResult = result;
+            localStorage.removeItem("walletOrderInfo");
+            localStorage.setItem(
+              "result",
+              JSON.stringify({ result, rollNumber: this.rollNumber })
+            );
             this.clearTimerFun();
           } else {
             this.timeOutFun(walletOrderInfo);

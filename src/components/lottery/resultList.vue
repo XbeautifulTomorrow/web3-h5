@@ -253,6 +253,7 @@ const timerFun = () => {
     if (second.value < 1) {
       //   emit("closeDialogFun");
       isSell.value = true;
+      nfts.value = [];
       clearTimerFun();
     }
   }, 1000);

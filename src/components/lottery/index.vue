@@ -178,19 +178,17 @@ export default {
   methods: {
     async inventoryFun() {
       const { chooseIds, awardItem } = this;
-      let _chooseIds = [];
-      if (chooseIds.length) {
-        _chooseIds = chooseIds;
-      } else {
-        _chooseIds = awardItem.map((item) => item.id);
+      if (!chooseIds.length) {
+        this.showDialog = "partSold";
+        return;
       }
       const _data = {
-        lotteryIds: _chooseIds.join(","),
+        lotteryIds: chooseIds.join(","),
         orderId: awardItem[0]?.orderId,
       };
       const res = await lotteryHold(_data);
       if (res && res.code === 200) {
-        // localStorage.removeItem(this.rollNumber);
+        localStorage.removeItem("result");
         if (res.data.length) {
           this.showDialog = "partSold";
           this.failList = res.data;
@@ -206,7 +204,7 @@ export default {
     },
     balanceFun() {
       this.headerStoreStore.getTheUserBalanceApi();
-      //   localStorage.removeItem(this.rollNumber);
+      localStorage.removeItem("result");
       this.closeDialogFun();
     },
     closeDialogFun() {
@@ -229,7 +227,7 @@ export default {
           };
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
-            // localStorage.removeItem(this.rollNumber);
+            localStorage.removeItem("result");
             this.showDialog = "yourReard";
           }
         } else {
@@ -239,7 +237,12 @@ export default {
           this.inventoryFun();
         }
       } else {
-        this.showDialog = "beenSold";
+        if (awardItem.length < 2) {
+          this.showDialog = "beenSold";
+        } else {
+          this.chooseIds = _choose.value;
+          this.inventoryFun();
+        }
       }
     },
     messageFun(message = "余额不足,请充值!", type = "warning") {

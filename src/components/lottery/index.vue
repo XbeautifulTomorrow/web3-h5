@@ -316,12 +316,11 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.dataFun();
-    // if (localStorage.getItem(this.rollNumber)) {
-    //   const _data = localStorage.getItem(this.rollNumber);
-    //   this.messageFun("上次中奖结果未处理,处理之后才能再次抽奖");
-    //   this.awardItem = JSON.parse(_data);
-    //   this.showResultFun();
-    // }
+    const walletOrderInfo = localStorage.getItem("walletOrderInfo");
+    const result = localStorage.getItem("result");
+    if (walletOrderInfo || result) {
+      this.messageFun("上一个订单未处理,请处理后再抽奖");
+    }
   },
 };
 </script>

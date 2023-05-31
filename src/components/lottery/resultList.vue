@@ -174,6 +174,11 @@
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const props = defineProps({
   result: {
@@ -201,22 +206,20 @@ let total = ref(0);
 let second = ref(60);
 let nfts = ref([]);
 onMounted(() => {
-  //   totalFun();
   timerFun();
-  secondFun();
+  nftsInitializationFun();
+  // secondFun();
 });
 onUnmounted(() => {
   clearTimerFun();
 });
-const secondFun = () => {
-  const { localDateTime } = props;
-  const _time = dayjs().diff(localDateTime, "second");
-  if (_time > 60) {
-    second.value = 0;
-  } else {
-    nftsInitializationFun();
-  }
-};
+// const secondFun = () => {
+//   const { localDateTime } = props;
+//   const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
+//   if (_time < 60) {
+//     second.value = _time;
+//   }
+// };
 const nftsInitializationFun = () => {
   props.result.forEach((item) => {
     nfts.value.push(item.id);
@@ -249,6 +252,7 @@ const timerFun = () => {
   timer = setInterval(() => {
     second.value--;
     if (second.value < 1) {
+      localStorage.removeItem("result");
       //   emit("closeDialogFun");
       isSell.value = true;
       nfts.value = [];

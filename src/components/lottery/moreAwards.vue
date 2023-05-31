@@ -67,8 +67,11 @@ export default {
     };
   },
   mounted() {
-    this.autoplayFun(true);
-    this.playMusicFun(slipe);
+    const result = localStorage.getItem("result");
+    if (!result) {
+      this.autoplayFun(true);
+      this.playMusicFun(slipe);
+    }
   },
   methods: {
     playMusicFun(_music, musicLoop = true, _ref = "music") {

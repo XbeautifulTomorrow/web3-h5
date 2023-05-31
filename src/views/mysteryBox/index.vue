@@ -27,6 +27,10 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
 import {
   balanceOrder,
   lotteryResult,
@@ -41,6 +45,10 @@ import boxDetails from "./details.vue";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export default {
   name: "BlindDetail",
   components: {
@@ -78,10 +86,16 @@ export default {
       const result = localStorage.getItem("result");
       if (result) {
         const _result = JSON.parse(result);
-        this.rollNumber = _result.rollNumber;
-        this.showRoll = true;
-        this.lottResult = _result.result;
-        return;
+        const { localDateTime } = _result.result;
+        const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
+        if (_time > 60) {
+          localStorage.removeItem("result");
+        } else {
+          this.rollNumber = _result.rollNumber;
+          this.showRoll = true;
+          this.lottResult = _result.result;
+          return;
+        }
       }
       this.setBalanceOrder(number);
     },

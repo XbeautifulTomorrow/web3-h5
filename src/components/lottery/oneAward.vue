@@ -129,8 +129,11 @@ export default {
     if (this.interval >= 330) {
       this.interval = 330;
     }
-    this.autoplay = true;
-    this.playMusicFun(slipe);
+    const result = localStorage.getItem("result");
+    if (!result) {
+      this.autoplay = true;
+      this.playMusicFun(slipe);
+    }
   },
   methods: {
     playMusicFun(_music, musicLoop = true, _ref = "music") {

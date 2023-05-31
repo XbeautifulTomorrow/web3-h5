@@ -194,4 +194,7 @@ watchEffect();
 .portrait-img {
   position: relative;
 }
+.public-dialog-portrait {
+  height: auto;
+}
 </style>

@@ -107,6 +107,13 @@ import TransactionWarning from "./transactionWarning.vue";
 
 import Loading from "../loading/index.vue";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const itemWidth = 220;
 export default {
   name: "LotteryPage",
@@ -146,8 +153,6 @@ export default {
       resultSecondTimer: null,
       moreLuck: [],
       localDateTime: new Date(),
-      timer: null,
-      second: 60,
     };
   },
   computed: {
@@ -180,24 +185,12 @@ export default {
     },
   },
   methods: {
-    timerFun() {
-      this.timer = setInterval(() => {
-        this.second--;
-        if (this.second < 1) {
-          this.messageFun("很遗憾您没有中奖");
-          this.clearInterval();
-          this.closeDialogFun();
-        }
-      }, 1000);
-    },
-    clearTimerFun() {
-      clearInterval(this.timer);
-      this.timer = null;
-    },
     async inventoryFun() {
       const { chooseIds, awardItem } = this;
       if (!chooseIds.length) {
+        localStorage.removeItem("result");
         this.showDialog = "partSold";
+        this.balanceFun();
         return;
       }
       const _data = {
@@ -206,9 +199,8 @@ export default {
       };
       const res = await lotteryHold(_data);
       this.loading = false;
-      this.clearTimerFun();
+      localStorage.removeItem("result");
       if (res && res.code === 200) {
-        localStorage.removeItem("result");
         if (res.data.length) {
           this.showDialog = "partSold";
           this.failList = res.data;
@@ -241,7 +233,6 @@ export default {
       const { awardItem } = this;
       if (type === "hold") {
         this.loading = true;
-        this.timerFun();
         if (awardItem.length < 2) {
           const _data = {
             lotteryIds: awardItem[0]?.id,
@@ -250,10 +241,9 @@ export default {
           const res = await lotteryHold(_data);
           if (res && res.code === 200) {
             this.loading = false;
-            this.clearTimerFun();
-            localStorage.removeItem("result");
             this.showDialog = "yourReard";
           }
+          localStorage.removeItem("result");
         } else {
           if (_choose.value.length) {
             this.chooseIds = _choose.value;
@@ -334,11 +324,18 @@ export default {
     this.dataFun();
     const result = localStorage.getItem("result");
     if (result) {
-      this.messageFun("上一个订单未处理,请处理后再抽奖");
+      const _result = JSON.parse(result);
+      const { localDateTime } = _result.result;
+      const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
+      if (_time > 60) {
+        localStorage.removeItem("result");
+      } else {
+        this.messageFun("上一个订单未处理,请处理后再抽奖");
+        this.awardItem = _result.result.data;
+        this.localDateTime = _result.result.localDateTime;
+        this.showResultFun();
+      }
     }
-  },
-  beforeUnmount() {
-    this.clearTimerFun();
   },
 };
 </script>

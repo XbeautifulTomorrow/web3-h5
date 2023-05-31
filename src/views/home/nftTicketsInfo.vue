@@ -181,7 +181,8 @@
       <div class="ending_soon_box">
         <div class="ending_soon_text">ENDING SOON</div>
         <div class="ending_soon_list">
-          <div class="ending_soon_item border_bg" v-for="(item, index) in endingSoon" :key="index">
+          <div class="ending_soon_item border_bg" @click="enterNow(item)" v-for="(item, index) in endingSoon"
+            :key="index">
             <div class="image_box">
               <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
@@ -204,7 +205,7 @@
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
             <div class="nft_price">{{ item && item.price }}ETH</div>
-            <div class="buy_btn" @click="enterNow(item)">
+            <div class="buy_btn">
               <span>ENTER NOW</span>
             </div>
             <div class="remaining_votes">{{ `${item && item.limitNum || 0} TICKETS SOLD` }}</div>
@@ -404,16 +405,8 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
-      this.orderId = event.orderNumber;
-      this.buyForm = {
-        votes: null,
-        type: "balance"
-      };
-      this.activeType = "activity";
-      this.fetchOneBuyInfo();
-      this.fetchEndingSoon();
-      this.fetchBuyRecord();
+      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      openUrl(routeData.href)
     },
     /*
      * 时间戳的 yyyy-MM-dd HH:mm:ss 格式化

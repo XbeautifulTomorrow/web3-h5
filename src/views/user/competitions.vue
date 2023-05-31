@@ -155,7 +155,7 @@
               <el-table-column label="DETAIL">
                 <template #default="scope">
                   <div class="link_box">
-                    <img @click="handleLink(scope.row)" src="@/assets/svg/user/icon_share.svg" alt="">
+                    <img @click="enterNow(scope.row)" src="@/assets/svg/user/icon_share.svg" alt="">
                   </div>
                 </template>
               </el-table-column>
@@ -207,7 +207,7 @@ import {
 } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { dateDiff } from "@/utils";
+import { openUrl, dateDiff } from "@/utils";
 export default {
   name: 'UserCompetitions',
   components: {
@@ -252,7 +252,8 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      openUrl(routeData.href)
     },
     // 取消赛事
     cancelOrder(event) {
@@ -284,10 +285,6 @@ export default {
         this.$message.success("successfully deleted");
         this.fetchOneBuyList();
       }
-    },
-    // 外链
-    handleLink(event) {
-      console.log(event);
     },
     // 关闭弹窗
     handleClose(done) {

@@ -161,7 +161,7 @@ export default {
   watch: {
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {
-        this.awardItem = newVal.data;
+        this.awardItem = shuffle(newVal.data);
         this.localDateTime = newVal.localDateTime;
       } else {
         this.messageFun("很遗憾您没有中奖");
@@ -182,7 +182,7 @@ export default {
       if (!chooseIds.length) {
         localStorage.removeItem("result");
         this.showDialog = "partSold";
-        this.balanceFun();
+        this.headerStoreStore.getTheUserBalanceApi();
         return;
       }
       const _data = {
@@ -197,7 +197,7 @@ export default {
           this.failList = res.data;
         }
         this.showDialog = "partSold";
-        this.balanceFun();
+        this.headerStoreStore.getTheUserBalanceApi();
       }
     },
     balanceFun() {

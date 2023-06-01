@@ -103,11 +103,11 @@
             </li>
           </template>
         </ul>
+        <p class="public-dialog-total">
+          <span class="public-dialog-total-title">Total:</span>
+          <span class="public-dialog-total-number"> {{ total }} ETH </span>
+        </p>
       </template>
-      <p class="public-dialog-total" v-if="chooseIds.length || failList.length">
-        <span class="public-dialog-total-title">Total:</span>
-        <span class="public-dialog-total-number"> {{ total }} ETH </span>
-      </p>
       <el-button class="public-button" @click="closeDialogFun">
         Check my inventory
       </el-button>

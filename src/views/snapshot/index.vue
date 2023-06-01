@@ -16,11 +16,15 @@
             <template #default="scope">
               <div class="user_info">
                 <img :src="scope.row.nftImg" alt="">
-                <span class="text-ellipsis">{{ `#${scope.row.tokenId}` }}</span>
+                <span class="text-ellipsis">{{ `#${scope.row.nftName}` }}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="nftName" label="Collections" align="left" />
+          <el-table-column prop="tokenId" label="TOKEN ID" align="left">
+            <template #default="scope">
+              <span class="text-ellipsis">{{ `#${scope.row.tokenId}` }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="price" label="Price" align="left">
             <template #default="scope">
               {{ `${scope.row.price} ETH` }}

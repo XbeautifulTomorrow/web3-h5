@@ -157,7 +157,7 @@
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft && competitionNft.name }}</div>
-        <div class="nft_id">#{{ competitionNft && competitionNft.tokenId }}</div>
+        <div class="nft_id text-ellipsis">#{{ competitionNft && competitionNft.tokenId }}</div>
       </div>
       <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
         <el-tab-pane label="TIME LIMIT" name="LIMITED_TIME"></el-tab-pane>
@@ -192,7 +192,7 @@
               @click="competitionForm.limitDay = item">{{ `${item} Days` }}</div>
           </div>
         </el-form-item>
-        <el-form-item label="ENTRIES PRICE" prop="ticketPrice">
+        <el-form-item label="ENTRIES PRICE">
           <el-input readonly="readonly" class="disabled" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_eth.svg" alt="">
@@ -459,11 +459,6 @@ export default {
         if (valid) {
           const { activeType, competitionNft } = this;
 
-          if (!competitionNft.price) {
-            this.$message.error("Please enter the correct total price");
-            return
-          }
-
           let ruleForm = {
             ...this.competitionForm,
             limitNum: this.limitNum,
@@ -508,6 +503,8 @@ export default {
       if (this.$refs["competitionForm"]) {
         this.$refs["competitionForm"].resetFields();
       }
+
+      this.$forceUpdate();
 
       if (done) {
         done();
@@ -600,7 +597,7 @@ export default {
       //天数
       limitDay: [{ required: true, message: "Please enter the number of days", trigger: ["blur", "change"] }],
       //单份价值
-      ticketPrice: [{ required: true, message: "Please enter a single serving value", trigger: ["blur", "change"] }],
+      // ticketPrice: [{ required: true, message: "Please enter a single serving value", trigger: ["blur", "change"] }],
       //最大数量
       // limitNum: [{ required: true, message: "Please enter the total number of votes", trigger: ["blur", "change"] }],
     }

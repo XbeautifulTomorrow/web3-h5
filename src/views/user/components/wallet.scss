@@ -332,26 +332,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 1.875rem;
-    padding: 0.0625rem;
-    border-image-source: linear-gradient(to bottom,
-        #1e90f9 100%,
-        #e022e3 0%);
-    border-image-slice: 1;
-    background-image: linear-gradient(to bottom, #1d0f36, #1d0f36),
-      linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
     cursor: pointer;
   }
 
   .create_text {
-    background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
     font-size: 0.875rem;
     font-weight: 500;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: white;
   }
 }
 
@@ -781,6 +769,7 @@
     }
 
     .nft_id {
+      max-width: 50%;
       text-indent: 1rem;
     }
   }

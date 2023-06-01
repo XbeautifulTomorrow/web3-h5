@@ -236,10 +236,10 @@ export default {
       if (qualityType == "LEGEND") {
         return "1"
       }
-      if (qualityType == "EPIC") {
+      if (qualityType == "RARE") {
         return "2"
       }
-      if (qualityType == "RARE") {
+      if (qualityType == "EPIC") {
         return "3"
       } else {
         return "4"

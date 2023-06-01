@@ -2,7 +2,7 @@
   <div class="wrapper_bg">
     <div class="my_setting_wrapper">
       <div class="wallet_panel" :style="{
-        backgroundImage: `url(${bg['point']})`,
+        backgroundImage: `url(${userBg})`,
         height: '44.3125rem'
       }">
         <div class="user_panel">
@@ -44,13 +44,10 @@ export default {
   name: 'myWallet',
   data() {
     return {
-      avatarImg: require("@/assets/img/user/avatar.png"),
+      avatarImg: require("@/assets/svg/user/avatar.svg"),
       username: null,
       communication: false,
-      bg: {
-        point: require("@/assets/svg/user/point_bg.svg"),
-        purchase_history: require("@/assets/svg/user/purchase_history_bg.svg")
-      }
+      userBg: require("@/assets/svg/user/point_bg.svg"),
     };
   },
   methods: {

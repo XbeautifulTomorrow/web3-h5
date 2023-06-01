@@ -10,10 +10,10 @@
           backgroundImage: `url(${invite})`,
           height: '16.125rem'
         }">
-          <div class="title_text">Earn ETH and cent by sharing XXX!</div>
+          <div class="title_text">Earn ETH and cent by sharing BITZING!</div>
           <div class="invite_description">
             Post your unique tracker in your socials, in your Discord and send it to anyone
-            with a passion for NFTs with a little explanation of xxx.
+            with a passion for NFTs with a little explanation of Bitzing.
             You’ll be rewarded handsomely with 2.5% of their Competition entry purchases day after day paid to you in ETH.
           </div>
         </div>
@@ -54,7 +54,7 @@
           </div>
           <el-table :data="inviteList" class="table_container" style="width: 100%">
             <el-table-column prop="inviteCode" label="CODE" align="center" />
-            <el-table-column prop="totalAmount" label="CLAIMED" align="center" />
+            <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
             <el-table-column prop="invitePeople" label="REFS" align="center" />
             <el-table-column prop="pointAmount" label="POINT" align="center" />
             <el-table-column prop="traAmount" label="CONSUMPTION" align="center" />

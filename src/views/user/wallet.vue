@@ -195,7 +195,7 @@
             </div>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
-                <span>RECEIVING ETHEREUM ADDRESS</span>
+                <span>WITHDRAWAL AMOUNT</span>
                 <span class="required">*</span>
               </div>
               <div class="withdraw_convert">

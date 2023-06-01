@@ -3,7 +3,7 @@
     <div class="lottery_panel">
       <div class="home-public-title">
         <div class="title_box">
-          <div class="title_text">TOP BLUE-CHIPS</div>
+          <div class="title_text">{{ blindDetailInfo.boxName }}</div>
           <div class="title_description">An offcial box by Bitzing</div>
         </div>
         <div class="title_btn">

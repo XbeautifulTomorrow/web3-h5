@@ -324,7 +324,7 @@
     color: white;
   }
 
-  .create_btn {
+  .nft_btn {
     margin: 0 auto;
     width: 19.8125rem;
     height: 2.875rem;
@@ -332,28 +332,30 @@
     align-items: center;
     justify-content: center;
     border-radius: 1.875rem;
-    background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
+    border: 0.0625rem solid transparent;
+    box-sizing: border-box;
     cursor: pointer;
-  }
-
-  .create_text {
     font-size: 0.875rem;
     font-weight: 500;
-    color: white;
+
+    &.create {
+      background-image: linear-gradient(to bottom, #1e90f9, #e022e3);
+      color: white;
+    }
+
+    &.view_nft {
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+      color: #13151f;
+    }
+
+    &.withdrawling {
+      border-color: rgba(228, 231, 245, 0.15);
+      background-color: #292c36;
+      color: rgba(169, 164, 180, 0.6);
+      cursor: not-allowed;
+    }
   }
-}
 
-.view_nft {
-  margin: 0 auto;
-  width: 19.8125rem;
-  height: 2.875rem;
-  border-radius: 1.875rem;
-  background-image: linear-gradient(to top, #e3a406, #fbd851);
-
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 2.875rem;
-  color: #13151f;
 }
 
 :deep(.el-dialog) {

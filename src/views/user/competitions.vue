@@ -119,7 +119,7 @@
               <el-table-column prop="limitNum" label="LIMIT">
                 <template #default="scope">
                   <div v-if="scope.row.orderType == 'LIMITED_TIME'">
-                    {{ scope.row.limitDay }}
+                    {{ `${scope.row.limitDay || 0} Days` }}
                   </div>
                   <div v-else>
                     {{ `${scope.row.limitNum || 0} Tickets` }}
@@ -207,7 +207,7 @@ import {
 } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { openUrl, dateDiff } from "@/utils";
+import { openUrl, dateDiff, timeFormat } from "@/utils";
 export default {
   name: 'UserCompetitions',
   components: {
@@ -225,9 +225,12 @@ export default {
   },
   methods: {
     dateDiff: dateDiff,
+    timeFormat: timeFormat,
     bigNumber: bigNumber,
     handleChange(event) {
       console.log(event);
+      this.enteredList = [];
+      this.finishList = [];
     },
     // 用户相关订单
     async fetchOneBuyList() {
@@ -235,8 +238,6 @@ export default {
       if (res && res.code == 200) {
         const nftTickets = res.data.records;
         if (this.activeType == "MY_COMPETITIONS") {
-          this.enteredList = [];
-          this.finishList = [];
           nftTickets.forEach(element => {
             if (element.currentStatus == "IN_PROGRESS") {
               this.enteredList.push(element);
@@ -309,68 +310,6 @@ export default {
       const days = new bigNumber(restSec).dividedBy(day).toString();
       // 剩余天数
       return `${Math.ceil(days)} DAY LEFT`;
-    },
-    /** 
-     * @description 友好的时间显示
-     * @param string event 时间
-     */
-    timeFormat(event) {
-      const timestamp = new Date(event).getTime() / 1000;
-
-      function zeroize(num) {
-        return (String(num).length == 1 ? '0' : '') + num;
-      }
-
-      let curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
-      let timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
-
-      let curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
-      let tmDate = new Date(timestamp * 1000);  // 参数时间戳转换成的日期对象
-
-      let Y = tmDate.getFullYear(), m = tmDate.getMonth() + 1, d = tmDate.getDate();
-      let H = tmDate.getHours(), i = tmDate.getMinutes();
-      // let s = tmDate.getSeconds();
-
-      if (timestampDiff < 60) { // 一分钟以内
-        return "Just";
-      } else if (timestampDiff < 3600) { // 一小时前之内
-        return Math.floor(timestampDiff / 60) + "minutes ago";
-      } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
-        return 'Today' + zeroize(H) + ':' + zeroize(i);
-      } else {
-        let newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
-        if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
-          return 'Yesterday' + zeroize(H) + ':' + zeroize(i);
-        } else if (curDate.getFullYear() == Y) {
-          // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
-          return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
-        } else {
-          // return Y + 'Year' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
-          return `${this.monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}，${Y}`;
-        }
-      }
-    },
-    /** 
-     * @description 月份转化
-     * @param string event 时间
-     */
-    monthFormat(event) {
-      const monthData = {
-        1: "January",
-        2: "February",
-        3: "March",
-        4: "April",
-        5: "May",
-        6: "June",
-        7: "July",
-        8: "August",
-        9: "September",
-        10: "October",
-        11: "November",
-        12: "December"
-      }
-
-      return monthData[parseInt(event)]
     },
     /**
      * @description: 格式化地址

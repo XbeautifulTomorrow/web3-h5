@@ -133,7 +133,7 @@
           <el-button
             class="result-footer-button sell"
             round
-            @click="chooseLotteryHold"
+            @click="chooseLotteryHold()"
           >
             <span>Sell for</span>
             <span class="result-total">{{ total }}ETH</span>
@@ -209,6 +209,7 @@ onMounted(() => {
   timerFun();
   nftsInitializationFun();
   // secondFun();
+  totalFun();
 });
 onUnmounted(() => {
   clearTimerFun();
@@ -240,14 +241,14 @@ const nftsFun = (_data) => {
       .decimalPlaces(4);
   }
 };
-// const totalFun = () => {
-//   const { result } = props;
-//   result.forEach((item) => {
-//     total.value = BigNumber(total.value)
-//       .plus(Number(item.price))
-//       .decimalPlaces(4);
-//   });
-// };
+const totalFun = () => {
+  const { result } = props;
+  result.forEach((item) => {
+    total.value = BigNumber(total.value)
+      .plus(Number(item.price))
+      .decimalPlaces(4);
+  });
+};
 const timerFun = () => {
   timer = setInterval(() => {
     second.value--;
@@ -266,6 +267,9 @@ const clearTimerFun = () => {
 };
 const chooseLotteryHold = (data) => {
   if (isSell.value && data === "hold") return;
+  if (!data) {
+    nfts.value = [];
+  }
   emit("chooseLotteryHold", data, nfts);
 };
 </script>

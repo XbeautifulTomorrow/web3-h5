@@ -110,6 +110,11 @@
           <div class="title">Snapshot ID</div>
           <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
             placeholder="Search by snapshot ID">
+            <template #suffix>
+              <el-icon class="el-input__icon" @click="handleSearch()">
+                <search />
+              </el-icon>
+            </template>
           </el-input>
         </div>
       </div>

@@ -63,7 +63,7 @@
             <div class="buy_relevant" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
               <div class="enter_relevant">
                 <div class="title">Enter competition</div>
-                <div class="buy_tips" :style="nftInfo.orderType == 'LIMITED_TIME' && 'visibility: hidden;'">
+                <div class="buy_tips" :style="!maxBuyNum > 0 && 'visibility: hidden;'">
                   You used <span>{{ buyVotes || 0 }}</span> of <span>
                     {{ nftInfo && maxBuyNum || 0 }}
                   </span> tickets
@@ -71,26 +71,23 @@
               </div>
               <div class="buy_box">
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
-                <el-input :disabled="isBuy" v-model.number="buyVotes" style="width: 100%;" class="buy_input" type="number"
-                  min="0" :max="maxBuyNum" :placeholder="nftInfo && nftInfo.orderType == 'LIMITED_TIME'
-                    ? 'Please enter'
-                    : nftInfo.maximumPurchaseQuantity > 0
-                      ? `Please enter 1-${maxBuyNum}`
-                      : 'Please enter'
-                    ">
+                <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
+                  type="number" min="0" :max="maxBuyNum"
+                  :placeholder="maxBuyNum > 0 ? `Please enter 1-${maxBuyNum}` : 'Please enter'">
                 </el-input>
               </div>
               <div class="payment_box">
-                <el-button v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'" style="width: 100%;"
-                  class="submit_payment" type="primary" @click="submitPayment()">
-                  {{ `${buyPrice} ETH` }}
-                </el-button>
-                <el-button v-else-if="!isBuy" style="width: 100%;" class="submit_payment" type="primary"
+                <el-button v-if="maxBuyNum > 0" style="width: 100%;" class="submit_payment" type="primary"
                   @click="submitPayment()">
                   {{ `${buyPrice} ETH` }}
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
-                  <span>Competition is over, waiting for the results...</span>
+                  <span v-if="Number(nftInfo && nftInfo.maximumPurchaseQuantity) > 0">
+                    Waiting for the result...
+                  </span>
+                  <span v-else>
+                    Competition is over, waiting for the results...
+                  </span>
                 </el-button>
               </div>
             </div>
@@ -283,28 +280,24 @@ export default {
       if (!nftInfo || !nftInfo.price) return 0;
       return new bigNumber(buyVotes).multipliedBy(nftInfo.price) || 0;
     },
-    isBuy() {
-      if (!this.nftInfo) return false;
-      const { orderType, maximumPurchaseQuantity } = this.nftInfo;
-      if (orderType == "LIMITED_TIME") return false
-
-      if (!maximumPurchaseQuantity && maximumPurchaseQuantity < 1) {
-        return true
-      }
-      return false
-    },
     // 计算单次可购买最大票数
     maxBuyNum() {
       if (!this.nftInfo) return 0;
-      const { totalPrice, price, orderType, maximumPurchaseQuantity } = this.nftInfo;
+      const { nftInfo: { totalPrice, price, orderType, maximumPurchaseQuantity }, drawnInfo } = this;
+
       let maxNum = 0; // 单次可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!totalPrice) return 0;
         if (!price) return 0;
-        maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4)));
+        maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
       } else {
         if (!maximumPurchaseQuantity) return 0;
-        maxNum = Number(Math.ceil(new bigNumber(maximumPurchaseQuantity).dividedBy(4)));
+        maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
+
+        // 如果余票不足最大票数，取余票数量
+        if (Number(maxNum) > Number(maximumPurchaseQuantity)) {
+          maxNum = maximumPurchaseQuantity
+        }
       }
 
       return maxNum
@@ -323,18 +316,17 @@ export default {
       if (res && res.code == 200) {
         this.nftInfo = res.data;
         this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
-        if (this.nftInfo.orderStatus != 'IN_PROGRESS') {
-          const userStore = useHeaderStore();
-          const { walletAddr } = userStore;
-          const resDrawn = await getLottery({
-            orderNumber: this.orderId,
-            address: walletAddr || null
-          })
+        const userStore = useHeaderStore();
+        const { walletAddr } = userStore;
+        const resDrawn = await getLottery({
+          orderNumber: this.orderId,
+          address: walletAddr || null
+        })
 
-          if (resDrawn && resDrawn.code == 200) {
-            this.drawnInfo = resDrawn.data;
-          }
+        if (resDrawn && resDrawn.code == 200) {
+          this.drawnInfo = resDrawn.data;
         }
+
       }
     },
     // 获取即将结束的一元购活动

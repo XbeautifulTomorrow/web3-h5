@@ -531,7 +531,6 @@ export default {
       this.isMore = true;
       this.size = 20;
       this.fetchHistory();
-
     },
     handleCurrentChange(page) {
       this.page = page;

@@ -140,9 +140,10 @@
                 <template #default="scope">
                   <div class="winner" v-if="scope.row.currentStatus == 'DRAWN'">
                     <img src="@/assets/svg/user/default_avatar.svg" alt="">
-                    <span>
-                      {{ scope.row.winningAddress && formatAddr(scope.row.winningAddress) || "YUO" }}
+                    <span v-if="userInfo.id != scope.row.winningAddress">
+                      {{ scope.row.winningAddress && formatAddr(scope.row.winningAddress) || "userName" }}
                     </span>
+                    <span v-else>YUO</span>
                   </div>
                   <div class="cancel" v-if="scope.row.currentStatus == 'CANCELLED'">CANCELED</div>
                 </template>
@@ -160,6 +161,10 @@
                 </template>
               </el-table-column>
             </el-table>
+            <div class="pagination-box" v-if="count > 20">
+              <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+                layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +210,10 @@ import {
   cancelNftOrder,
   delNftOrder
 } from "@/services/api/oneBuy";
+
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { openUrl, dateDiff, timeFormat } from "@/utils";
@@ -220,8 +229,18 @@ export default {
       finishList: [],
       showCabcel: false,
       competitionNft: null,
-      isCancel: true
+      isCancel: true,
+      page: 1,
+      size: 5,
+      count: 0,
     };
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
   },
   methods: {
     dateDiff: dateDiff,
@@ -229,15 +248,28 @@ export default {
     bigNumber: bigNumber,
     handleChange(event) {
       console.log(event);
-      this.enteredList = [];
-      this.finishList = [];
     },
     // 用户相关订单
-    async fetchOneBuyList() {
-      const res = await getOneBuyList({ type: this.activeType, page: 1, size: 9999 });
+    async fetchOneBuyList(isSearch = true) {
+      const { size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
+
+      const res = await getOneBuyList({
+        type: this.activeType,
+        page: _page,
+        size: this.activeType == "HISTORY" ? size : 9999
+      });
       if (res && res.code == 200) {
         const nftTickets = res.data.records;
+        this.count = res.data.total;
         if (this.activeType == "MY_COMPETITIONS") {
+          this.enteredList = [];
+          this.finishList = [];
           nftTickets.forEach(element => {
             if (element.currentStatus == "IN_PROGRESS") {
               this.enteredList.push(element);
@@ -296,20 +328,9 @@ export default {
       }
       this.showCabcel = false;
     },
-    dayDiff(event) {
-      if (!event) return "ENDED"
-      const setTime = new Date(event).getTime();
-      const nowTime = new Date().getTime();
-      if (nowTime >= setTime) return "ENDED";
-
-      const seconds = 1000;
-      const minute = seconds * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const restSec = Number(new bigNumber(setTime).minus(nowTime).toFixed(2));
-      const days = new bigNumber(restSec).dividedBy(day).toString();
-      // 剩余天数
-      return `${Math.ceil(days)} DAY LEFT`;
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchOneBuyList(false);
     },
     /**
      * @description: 格式化地址
@@ -326,10 +347,11 @@ export default {
     }
   },
   created() {
-    this.fetchOneBuyList();
-
     // 获取展示类型
     const { type } = this.$route.query;
+    if (!type) {
+      this.fetchOneBuyList();
+    }
     this.activeType = type || "ENTERED";
   }
 };

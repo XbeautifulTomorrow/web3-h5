@@ -243,7 +243,7 @@ import {
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { useHeaderStore } from '@/store/header.js';
+import { useUserStore } from "@/store/user.js";
 import {
   openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
@@ -316,11 +316,11 @@ export default {
       if (res && res.code == 200) {
         this.nftInfo = res.data;
         this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
-        const userStore = useHeaderStore();
-        const { walletAddr } = userStore;
+        const userStore = useUserStore();
+        const { userInfo } = userStore;
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          address: walletAddr || null
+          userId: userInfo.id || null
         })
 
         if (resDrawn && resDrawn.code == 200) {

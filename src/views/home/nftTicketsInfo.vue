@@ -158,9 +158,9 @@
               </div>
             </div>
           </div>
-          <div class="load_more" v-if="!finished" @click="nextPage()">
+          <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
             <div class="load_btn">
-              <span>Load more</span>
+              <span>Show more</span>
               <img src="@/assets/svg/user/icon_more.svg" alt="">
             </div>
           </div>
@@ -268,7 +268,7 @@ export default {
       buyData: [],
       participantsTotal: 0,
       page: 1,
-      size: 5,
+      size: 20,
       total: 0,
       finished: false,
       timer: null,
@@ -391,6 +391,7 @@ export default {
       }
 
       if (res && res.code == 200) {
+        this.total = res.data.total;
 
         if (isSearch) {
           this.buyData = res.data.records;

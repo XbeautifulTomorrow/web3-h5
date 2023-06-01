@@ -23,6 +23,14 @@
       :blindDetailInfo="blindDetailInfo"
       @rollNumberFun="rollNumberFun"
     ></boxDetails>
+    <!-- 预加载图片 -->
+    <div :style="{ display: 'none' }">
+      <img
+        v-for="(item, index) in preloadingImg"
+        :src="item"
+        :key="`img-${index}`"
+      />
+    </div>
   </div>
 </template>
 
@@ -57,6 +65,7 @@ export default {
   },
   data() {
     return {
+      preloadingImg: [],
       rollNumber: "",
       showRoll: false,
       boxList: [],
@@ -169,6 +178,13 @@ export default {
     async getBlindBoxDetail() {
       let detail = await blindBoxDetail({ boxId: this.boxId });
       this.blindDetailInfo = detail.data;
+      detail?.data?.series.forEach((item) => {
+        const { boxNftInfos } = item;
+        this.preloadingImg.push(item.seriesImg);
+        boxNftInfos.forEach((item1) => {
+          this.preloadingImg.push(item1.nftImg);
+        });
+      });
     },
     async transfer(id, coiledType) {
       const web3 = window.web3;

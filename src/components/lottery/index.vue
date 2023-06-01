@@ -10,10 +10,6 @@
     :close-on-press-escape="false"
     class="roll-dialog"
   >
-    <!-- 预加载图片 -->
-    <div :style="{ display: 'none' }">
-      <img v-for="(item, index) in imteImg" :src="item" :key="`img-${index}`" />
-    </div>
     <!-- 单个中奖 -->
     <one-award
       v-if="rollNumber === 'ONE'"
@@ -282,22 +278,41 @@ export default {
     },
     dataFun() {
       const { lottoList } = this;
-      let _itemImg = [];
-      lottoList.forEach((item1) => {
-        item1.boxNftInfos.forEach((item) => {
-          let img = new Image();
-          img.src = item1.seriesImg;
-          _itemImg.push(item1.seriesImg);
-          let _obj = {
-            seriesImg: item1.seriesImg,
-            seriesName: item1.seriesName,
-            tokenId: item1.tokenId,
-          };
-          _obj = { ..._obj, ...item };
-          this.itemList.push(_obj);
-        });
+      let arr = [];
+      let _length = 0;
+      lottoList.forEach((item) => {
+        const { boxNftInfos } = item;
+        if (boxNftInfos.length > _length) {
+          for (let i = _length; i < boxNftInfos.length; i++) {
+            lottoList.forEach((item1) => {
+              if (item1.boxNftInfos[i]) {
+                let _obj = {
+                  seriesImg: item1.seriesImg,
+                  seriesName: item1.seriesName,
+                  tokenId: item1.tokenId,
+                };
+                _obj = { ..._obj, ...item1.boxNftInfos[i] };
+                arr.push(_obj);
+              }
+            });
+          }
+          _length = boxNftInfos.length;
+        }
       });
-      this.imteImg = _itemImg;
+      //   lottoList.forEach((item) => {
+      //     const { boxNftInfos } = item;
+      //     boxNftInfos.forEach((item1) => {
+      //       let _obj = {
+      //         seriesImg: item1.seriesImg,
+      //         seriesName: item1.seriesName,
+      //         tokenId: item1.tokenId,
+      //       };
+      //       _obj = { ..._obj, ...item };
+      //       arr.push(_obj);
+      //     });
+      //   });
+      //    this.itemList = shuffle(arr);
+      this.itemList = shuffle(arr);
       this.oneAwards = this.awardsFun(this.showNumber + 1);
       this.fiveList = this.moreListFun(5);
       this.tenList = this.moreListFun(10);

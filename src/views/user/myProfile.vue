@@ -6,7 +6,7 @@
         height: isMore ? '86rem' : activeType == 'point' ? '44.3125rem' : `63.6875rem`
       }">
         <div class="user_info">
-          <img src="@/assets/svg/user/avatar.svg" alt="">
+          <img src="@/assets/svg/user/default_avatar.svg" alt="">
           <div class="user_box">
             <div class="user_name">{{ userInfo.userName || "userName" }}</div>
             <div class="user_wallet" v-if="userInfo.walletAddress">

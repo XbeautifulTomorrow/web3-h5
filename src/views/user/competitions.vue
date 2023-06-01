@@ -139,7 +139,7 @@
               <el-table-column prop="winningAddress" label="WINNER">
                 <template #default="scope">
                   <div class="winner" v-if="scope.row.currentStatus == 'DRAWN'">
-                    <img src="@/assets/svg/user/icon_winner.svg" alt="">
+                    <img src="@/assets/svg/user/default_avatar.svg" alt="">
                     <span>
                       {{ scope.row.winningAddress && formatAddr(scope.row.winningAddress) || "YUO" }}
                     </span>

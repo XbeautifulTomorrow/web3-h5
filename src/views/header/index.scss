@@ -46,7 +46,7 @@
 .header-nav {
   margin-left: 90px;
 
-  & > li + li {
+  &>li+li {
     margin-left: 2.5rem;
   }
 
@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
 
-  & > div + div {
+  &>div+div {
     margin-left: 1.875rem;
   }
 
@@ -150,8 +150,10 @@
   align-content: center;
   justify-items: center;
   justify-content: center;
+
   &:hover {
     border-radius: 8px 8px 0 0;
+
     .header-user-popup {
       transform: scaleY(1);
       opacity: 1;
@@ -204,16 +206,15 @@
 }
 
 .header-user-img {
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
 }
 
 .header-user-text {
-  max-width: 100px;
-  height: 29px;
-  margin: 0 8px;
+  max-width: 6.25rem;
+  margin: 0 0.625rem 0 0.75rem;
   color: #a9a4b4;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .header-user-down {
@@ -278,9 +279,11 @@
   justify-items: center;
   justify-content: center;
 }
+
 .header-nft-wrapper {
   flex: 1;
 }
+
 .header-nft-label {
   display: inline-block;
   width: 150px;
@@ -297,21 +300,26 @@
 .header-nft-icon {
   margin-left: 3px;
 }
+
 .header-nft-add {
   margin-left: 10px;
 }
+
 .header-nft-content {
   margin-bottom: 20px;
 }
+
 .header-nft-title {
   margin-bottom: 10px;
   position: relative;
 }
+
 .title-icon {
   position: absolute !important;
   top: 0;
   right: 0;
 }
+
 .header-login {
   display: flex;
   align-items: center;

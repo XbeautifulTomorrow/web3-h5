@@ -751,7 +751,6 @@
   padding: 1.875rem 0 0;
 
   .winning_text {
-    padding-top: 2.5rem;
     display: flex;
     align-items: center;
 
@@ -772,7 +771,7 @@
   .avatar {
     width: 8rem;
     height: 8rem;
-    margin: 1.875rem auto 1.25rem;
+    margin: 0.625rem auto 1.25rem;
     border-radius: 50%;
     overflow: hidden;
     border: 1px solid #fff;
@@ -796,6 +795,49 @@
     line-height: 1.6;
     text-align: center;
     color: #a9a4b4;
+  }
+
+  .safety_box {
+    margin-top: 1.875rem;
+    padding: 0.9375rem 1.25rem;
+    box-sizing: border-box;
+    border-radius: 0.625rem;
+    border: solid 0.0625rem #25293e;
+    background-color: #110429;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #a9a4b4;
+    display: flex;
+    align-items: center;
+
+    &>img+div,
+    &>div+div {
+      margin-left: 2.5rem;
+    }
+
+    .safety_img {
+      width: 2.5rem;
+      height: auto;
+    }
+
+    .safety_text {
+      display: flex;
+      flex-direction: column;
+      color: #a9a4b4;
+    }
+
+    .chain_link {
+      display: flex;
+      flex-direction: column;
+      color: white;
+
+      &>span:nth-child(1) {
+        color: #fad54d;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
   }
 }
 

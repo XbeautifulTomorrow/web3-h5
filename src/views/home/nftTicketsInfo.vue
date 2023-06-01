@@ -99,10 +99,9 @@
               <div class="winning_box" v-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <div class="winning_text">
                   <span>WINNER</span>
-                  <img @click="openLenk(nftInfo.txid)" src="@/assets/svg/home/icon_more.svg" alt="">
                 </div>
                 <div class="avatar">
-                  <img :src="drawnInfo && drawnInfo.userImg" alt="">
+                  <img :src="drawnInfo && drawnInfo.userImg || avatarImg" alt="">
                 </div>
                 <div class="user_name">
                   {{ drawnInfo && drawnInfo.winningAddress || drawnInfo && drawnInfo.winningAddressId }}
@@ -110,13 +109,24 @@
                 <div class="tickets_num">
                   {{ `${drawnInfo && drawnInfo.winningAddressNum || 0} Tickets` }}
                 </div>
+                <div class="safety_box">
+                  <img class="safety_img" src="@/assets/svg/home/icon_safety.svg" alt="">
+                  <div class="safety_text">
+                    <span>THIS TRANSACTION IS</span>
+                    <span>PROVABLY FAIR</span>
+                  </div>
+                  <div class="chain_link">
+                    <span @click="openLenk(nftInfo.txid)">Verify Faimess</span>
+                    <span>[Advanced Users]</span>
+                  </div>
+                </div>
               </div>
               <div class="return_box" v-else>
                 The tournament did not reach its sell-out target and your purchased tickets have been refunded to the
                 balance, worth
-                <span>{{ new bigNumber(nftInfo && nftInfo.price ||
-                  0).multipliedBy(drawnInfo &&
-                    drawnInfo.num || 0) }}</span>
+                <span>
+                  {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.num || 0) }}
+                </span>
                 ETH
               </div>
             </div>
@@ -238,7 +248,7 @@ import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { useHeaderStore } from '@/store/header.js';
 import {
-  openUrl, onCopy, dateDiff
+  openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
@@ -262,7 +272,8 @@ export default {
       total: 0,
       finished: false,
       timer: null,
-      drawnInfo: null
+      drawnInfo: null,
+      avatarImg: require("@/assets/svg/user/default_avatar.svg"),
     };
   },
   computed: {
@@ -303,6 +314,7 @@ export default {
     onCopy: onCopy,
     dateDiff: dateDiff,
     bigNumber: bigNumber,
+    timeFormat: timeFormat,
     // 获取Nft信息
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({

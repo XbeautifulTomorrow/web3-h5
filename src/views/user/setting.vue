@@ -44,7 +44,7 @@ export default {
   name: 'myWallet',
   data() {
     return {
-      avatarImg: require("@/assets/svg/user/avatar.svg"),
+      avatarImg: require("@/assets/svg/user/default_avatar.svg"),
       username: null,
       communication: false,
       userBg: require("@/assets/svg/user/point_bg.svg"),

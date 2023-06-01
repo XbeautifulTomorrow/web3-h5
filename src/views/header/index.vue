@@ -27,7 +27,7 @@
           <span class="header-wallet-add" @click="dialogVisible = true">+</span>
         </div>
         <div class="header-user" v-if="userInfo?.id">
-          <img class="header-user-img" src="@/assets/img/headerFooter/default_avatar.png" alt="" />
+          <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
           </span>

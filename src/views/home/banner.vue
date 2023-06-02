@@ -20,7 +20,7 @@
             <div class="level_description_text">
                 Tell your friends about Bitzing to get an extra 20% bonus on sign-up points.
             </div>
-            <div class="invite_button">Total Rewarded: $4.97</div>
+            <div class="invite_button">GO TO INVITATION</div>
         </div>
         <div class="banner_box">
             <img src="@/assets/svg/home/banner.svg" alt="">

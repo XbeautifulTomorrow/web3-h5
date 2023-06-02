@@ -64,7 +64,7 @@
               <div class="enter_relevant">
                 <div class="title">Enter competition</div>
                 <div class="buy_tips" :style="!maxBuyNum > 0 && 'visibility: hidden;'">
-                  You used <span>{{ buyVotes || 0 }}</span> of <span>
+                  You used <span>{{ drawnInfo && drawnInfo.userNum || 0 }}</span> of <span>
                     {{ nftInfo && maxBuyNum || 0 }}
                   </span> tickets
                 </div>
@@ -139,7 +139,7 @@
           <div class="buy_list">
             <div class="buy_item" v-for="(item, index) in buyData" :key="index">
               <div class="buy_item_l">
-                <img :src="item.userImg">
+                <img :src="item.userImg || avatarImg">
               </div>
               <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
                 <div class="buy_info">

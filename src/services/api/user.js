@@ -24,6 +24,9 @@ const getCaptcha = (params) =>
 const getForgetPasswordtcha = (params) =>
   apiService.post("mystery-web-user/auth/account/forgetPassword", params); //忘记密码
 
+const getCheckCaptcha = (params) =>
+  apiService.post("mystery-web-user/auth/check/captcha", params); //校验邮箱验证码
+
 const getAListOfUserPoints = (params) =>
   apiService.get("mystery-web-user/user/getAListOfUserPoints", params); // 积分列表
 
@@ -48,7 +51,6 @@ const getWithdrawalHistory = (params) =>
 const rechargeByHash = (params) =>
   apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
-
 export {
   getKey,
   authLogin,
@@ -58,6 +60,7 @@ export {
   getReg,
   getForgetPasswordtcha,
   getCaptcha,
+  getCheckCaptcha,
   getAListOfUserPoints,
   getUserBuyHistory,
   getRechargeExchangeRate,
@@ -65,5 +68,5 @@ export {
   withdrawalBalance,
   withdrawalNft,
   getWithdrawalHistory,
-  rechargeByHash
+  rechargeByHash,
 };

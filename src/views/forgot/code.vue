@@ -36,7 +36,8 @@
 <script>
 import { reactive, watch, toRefs, onMounted, ref, onBeforeUnmount } from "vue";
 import { ElMessage } from "element-plus";
-import { getCaptcha } from "@/services/api/user";
+
+import { getCaptcha, getCheckCaptcha } from "@/services/api/user";
 import InputNumber from "@/components/input/inputNumber.vue";
 export default {
   name: "CodePage",
@@ -156,6 +157,24 @@ export default {
         emit("changeTypeFun", 0);
       }
     };
+    const checkCaptchaFun = async () => {
+      const code = state.formData.code.join("");
+      const data = {
+        type: "update_password",
+        email: props.email,
+        code,
+      };
+      const res = await getCheckCaptcha(data);
+      if (res && res.code === 200) {
+        emit("changeTypeFun", 2, { captcha: code });
+      } else {
+        ElMessage({
+          message: "验证码错误，请从新输入",
+          type: "error",
+        });
+        initializationFun();
+      }
+    };
     watch(
       () => state.formData.code,
       (newVal) => {
@@ -174,7 +193,7 @@ export default {
             }
           }
         }
-        emit("changeTypeFun", 2, { captcha: state.formData.code.join("") });
+        checkCaptchaFun();
       },
       { deep: true }
     );

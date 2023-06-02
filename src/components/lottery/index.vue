@@ -79,7 +79,8 @@
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 
-import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
+// import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
+import { lotteryHold } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";

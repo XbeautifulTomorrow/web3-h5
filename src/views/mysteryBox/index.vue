@@ -23,6 +23,7 @@
       :blindDetailInfo="blindDetailInfo"
       @rollNumberFun="rollNumberFun"
     ></boxDetails>
+    <Loading :loading="loading" />
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
       <img
@@ -49,6 +50,7 @@ import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import transferAbi from "@/config/transfer.json";
 import Lottory from "@/components/lottery/index";
+import Loading from "@/components/loading/index";
 import boxDetails from "./details.vue";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
@@ -62,9 +64,11 @@ export default {
   components: {
     Lottory,
     boxDetails,
+    Loading,
   },
   data() {
     return {
+      loading: false,
       preloadingImg: [],
       rollNumber: "",
       showRoll: false,
@@ -90,8 +94,6 @@ export default {
   },
   methods: {
     rollNumberFun(number) {
-      this.showRoll = true;
-      this.rollNumber = number;
       const result = localStorage.getItem("result");
       if (result) {
         const _result = JSON.parse(result);
@@ -122,6 +124,10 @@ export default {
       this.apiIsError = data;
     },
     async setBalanceOrder(coiledType) {
+      this.loading = true;
+      await this.getBlindBoxDetail();
+      this.showRoll = true;
+      this.rollNumber = coiledType;
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({
@@ -177,6 +183,7 @@ export default {
     },
     async getBlindBoxDetail() {
       let detail = await blindBoxDetail({ boxId: this.boxId });
+      this.loading = false;
       this.blindDetailInfo = detail.data;
       detail?.data?.series.forEach((item) => {
         const { boxNftInfos } = item;

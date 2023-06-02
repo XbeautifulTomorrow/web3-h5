@@ -126,6 +126,7 @@ const resetFun = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      changeTypeFun(1);
       const res = await getCaptcha({
         type: "update_password",
         email: formLogin.email,
@@ -135,7 +136,6 @@ const resetFun = async (formEl) => {
           message: "验证码发送成功,请前往邮箱查看",
           type: "success",
         });
-        changeTypeFun(1);
       }
     } else {
       console.log("error submit!", fields);

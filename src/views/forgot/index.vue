@@ -51,8 +51,8 @@
       </el-form>
       <code-popup
         v-else-if="type === 1"
+        :email="formLogin.email"
         @changeTypeFun="changeTypeFun"
-        :email="email"
       />
       <change-paw
         v-else-if="type === 2"

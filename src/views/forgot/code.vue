@@ -24,8 +24,12 @@
     <p class="explain-text">
       Please check your email for the verification code
     </p>
-    <el-button class="public-button" @click="codeFun">
-      {{ `Send again (${time})` }}
+    <el-button
+      :class="['public-button', { 'cancel-button': !isAgain }]"
+      @click="codeFun"
+    >
+      Send again
+      <template v-if="!isAgain"> ({{ time }}) </template>
     </el-button>
   </el-form>
 </template>
@@ -39,6 +43,12 @@ export default {
   components: {
     InputNumber,
   },
+  props: {
+    email: {
+      type: String,
+      default: "",
+    },
+  },
   setup(props, { emit }) {
     const state = reactive({
       numberLength: 6,
@@ -47,7 +57,8 @@ export default {
       },
       autofocus: [],
       timer: null,
-      time: 60,
+      time: 59,
+      isAgain: false,
     });
     const codeForm = ref(null);
     const inputref = ref([]);
@@ -57,20 +68,43 @@ export default {
     onMounted(() => {
       initializationFun();
       timerFun();
+      window.addEventListener("paste", addEventListenerFun);
     });
     onBeforeUnmount(() => {
       clearTimerFun();
+      window.removeEventListener("paste", addEventListenerFun);
     });
+    const addEventListenerFun = (event) => {
+      const text = event.clipboardData.getData("text");
+      if (text) {
+        const _text = [...text];
+        let isNumber = true;
+        _text.forEach((item) => {
+          if (item !== "0" && !Number(item)) {
+            isNumber = false;
+          }
+        });
+        if (isNumber) {
+          state.formData.code = _text;
+        } else {
+          initializationFun();
+          timerFun();
+        }
+      }
+    };
     const clearTimerFun = () => {
       clearInterval(state.timer);
       state.timer = null;
     };
     const timerFun = () => {
+      state.isAgain = false;
+      state.time = 59;
       state.timer = setInterval(() => {
         state.time--;
         if (state.time < 1) {
+          state.isAgain = true;
+          state.time = 59;
           clearTimerFun();
-          state.time = 60;
         }
       }, 1000);
     };
@@ -107,7 +141,7 @@ export default {
       this.autofocus;
     };
     const codeFun = async () => {
-      if (state.time < 60 || props.email) return;
+      if (!state.isAgain || !props.email) return;
       timerFun();
       const res = await getCaptcha({
         type: "update_password",

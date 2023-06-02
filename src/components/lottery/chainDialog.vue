@@ -25,16 +25,14 @@
       <h2 class="public-dialog-title">Warning</h2>
       <p class="public-dialog-text">
         Congratulations! We regret that your account at
-        <span class="public-dialog-special">Mutant Ape Yacht Club # 5154</span>
-        <!-- <span class="public-dialog-special">
-          {{sold.}}
-        </span> -->
+        <span class="public-dialog-special">
+          Mutant Ape Yacht Club # {{ sold?.orderId }}
+        </span>
         is not available due to congestion in the chain. To compensate for your
-        loss, we will transfer your balance to you at
-        <span class="public-dialog-special">71.254 ETH</span>
-        <!-- <span class="public-dialog-special">
-          {{ sold. }}
-        </span> -->
+        loss, we will transfer your balance to you append-to-body
+        <span class="public-dialog-special">
+          {{ `${sold?.initPrice} ${sold?.coin}` }}
+        </span>
         at current prices.
       </p>
       <el-button class="public-button" @click="balanceFun">

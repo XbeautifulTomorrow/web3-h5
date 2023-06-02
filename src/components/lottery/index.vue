@@ -47,7 +47,7 @@
     />
     <chain-dialog
       v-else-if="showDialog === 'chainDialog'"
-      :sold="{}"
+      :sold="awardItem[0]"
       @balanceFun="balanceFun"
       @closeDialogFun="closeDialogFun"
     />
@@ -78,7 +78,8 @@
 <script>
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
-import { lotteryHold } from "@/services/api/blindBox";
+
+import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
@@ -174,6 +175,12 @@ export default {
   },
   methods: {
     async inventoryFun() {
+      // const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
+      // if (res && res.code === 200) {
+      //   console.log(res.data);
+      // }
+    },
+    async lotteryHoldApi() {
       const { chooseIds, awardItem } = this;
       if (!chooseIds.length) {
         localStorage.removeItem("result");
@@ -196,9 +203,12 @@ export default {
         this.headerStoreStore.getTheUserBalanceApi();
       }
     },
-    balanceFun() {
+    getTheUserBalanceApiFun() {
       this.headerStoreStore.getTheUserBalanceApi();
+    },
+    balanceFun() {
       localStorage.removeItem("result");
+      this.$router.push({ path: "/wallet" });
       this.closeDialogFun();
     },
     closeDialogFun() {
@@ -221,23 +231,27 @@ export default {
             orderId: awardItem[0]?.orderId,
           };
           const res = await lotteryHold(_data);
+          this.loading = false;
           if (res && res.code === 200) {
-            this.loading = false;
-            this.showDialog = "yourReard";
+            if (res.data.length) {
+              this.showDialog = "chainDialog";
+            } else {
+              this.showDialog = "yourReard";
+            }
           }
           localStorage.removeItem("result");
         } else {
           if (_choose.value.length) {
             this.chooseIds = _choose.value;
           }
-          this.inventoryFun();
+          this.lotteryHoldApi();
         }
       } else {
         if (awardItem.length < 2) {
           this.showDialog = "beenSold";
         } else {
           this.chooseIds = _choose.value;
-          this.inventoryFun();
+          this.lotteryHoldApi();
         }
       }
     },

@@ -190,11 +190,7 @@ const props = defineProps({
     default: new Date(),
   },
 });
-const emit = defineEmits([
-  "chooseLotteryHold",
-  "inventoryFun",
-  "closeDialogFun",
-]);
+const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
 const link = [
   { src: "", text: "View Faimess" },
   { src: "", text: "View Snapshot" },

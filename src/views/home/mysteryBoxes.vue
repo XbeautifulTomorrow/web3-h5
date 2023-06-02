@@ -3,8 +3,7 @@
     <div class="home-public-title">
       <div class="title_text">MYSTERY BOXES</div>
       <div class="title_description">
-        Amet ornare massa praesent lacus. In mi tristique enim tellus amet semper a. Donec ac
-        congue nunc porta semper auctor enim.
+        Verifiable fairness, 100% winning, free choice to withdraw or sell.
       </div>
     </div>
     <ul class="boxes-content">

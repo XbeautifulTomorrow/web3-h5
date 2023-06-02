@@ -3,8 +3,7 @@
     <div class="home-public-title">
       <div class="title_text">COMPETITION</div>
       <div class="title_description">
-        Amet ornare massa praesent lacus. In mi tristique enim tellus amet semper a. Donec ac
-        congue nunc porta semper auctor enim.
+        Enter now for a chance to win a blue chip NFT
       </div>
     </div>
     <ul class="boxes-content">

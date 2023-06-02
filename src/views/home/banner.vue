@@ -14,17 +14,16 @@
                     <span>$10k</span>
                 </div>
             </div>
-            <div class="level_description">INVITE USERS TO</div>
-            <div class="level_description">GET MORE POINTS</div>
+            <div class="level_description">INVITE USERS</div>
+            <div class="level_description">TO GET MORE</div>
             <div class="level_description">REWARDS</div>
             <div class="level_description_text">
-                Amet Ornare Massa Praesent Lacus. In Mi Tristique Enim Tellus Amet Semper A. Donec Ac Congue Nunc Porta
-                Semper Auctor Enim.
+                Tell your friends about Bitzing to get an extra 20% bonus on sign-up points.
             </div>
             <div class="invite_button">Total Rewarded: $4.97</div>
         </div>
         <div class="banner_box">
-            <img src="@/assets/img/home/banner.png" alt="">
+            <img src="@/assets/svg/home/banner.svg" alt="">
             <!-- <swiper class="banner_swiper" :slides-per-view="1" :space-between="50">
                 <swiper-slide>
                     <div class="banner-main">

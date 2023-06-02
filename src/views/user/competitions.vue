@@ -70,7 +70,7 @@
                 <div class="nft_name">{{ item && item.seriesName }}</div>
                 <div class="nft_price">{{ item && item.price }}ETH</div>
                 <div class="cancel_btn" :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">
-                  <span>Take down</span>
+                  <span>CANCEL COMPETITION</span>
                 </div>
                 <div class="remaining_votes">
                   {{ `${item && item.numberOfTicketsSold || 0} TICKETS SOLD` }}

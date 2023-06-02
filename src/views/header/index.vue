@@ -197,22 +197,22 @@ export default {
           text: "Wallet",
           class: "wallet",
         },
-        {
-          text: "Wallet Log",
-          class: "walletLog",
-        },
+        // {
+        //   text: "Wallet Log",
+        //   class: "walletLog",
+        // },
         {
           text: "Competitions",
           class: "competitions",
         },
-        {
-          text: "My Collections",
-          class: "myCollections",
-        },
-        {
-          text: "Create",
-          class: "create",
-        },
+        // {
+        //   text: "My Collections",
+        //   class: "myCollections",
+        // },
+        // {
+        //   text: "Create",
+        //   class: "create",
+        // },
         {
           text: "Referral",
           class: "referral",

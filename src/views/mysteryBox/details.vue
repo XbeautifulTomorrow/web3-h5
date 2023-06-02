@@ -111,7 +111,7 @@
           <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
             placeholder="Search by snapshot ID">
             <template #suffix>
-              <el-icon class="el-input__icon" @click="handleSearch()">
+              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
               </el-icon>
             </template>
@@ -147,7 +147,7 @@
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="Action" align="center">
+        <el-table-column prop="date" label="Details" align="center">
           <template #default="scope">
             <div class="active_btn">
               <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />

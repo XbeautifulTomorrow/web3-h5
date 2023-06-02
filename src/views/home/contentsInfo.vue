@@ -4,8 +4,7 @@
       <div class="title-box-l">
         <div class="title_text">CONTENTS INFORMATION</div>
         <div class="title_description">
-          Amet ornare massa praesent lacus. In mi tristique enim tellus amet semper a. Donec ac congue nunc porta semper
-          auctor enim.
+          All the NFTs shown here are available from the mystery box.
         </div>
       </div>
       <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"

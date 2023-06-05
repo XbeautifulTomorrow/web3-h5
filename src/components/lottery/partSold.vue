@@ -23,8 +23,7 @@
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">Notice</h2>
       <p class="public-dialog-illustrate">
-        The prize is in your backpack. Please go to your backpack and check it
-        out
+        The reward has been transferred to your inventory,
       </p>
       <p class="public-dialog-illustrate">
         {{ text }}
@@ -163,8 +162,7 @@ onBeforeMount(() => {
     text.value =
       "Prizes have entered your backpack, please go to the backpack to check,due to congestion on the chain, part of the prizes can not be accounted for, we will be converted to the final value of the NFT directly into the ETH transferred to your balance";
   } else {
-    text.value =
-      "The prize has been transferred to your warehouse, please go to the inventory to check it.";
+    text.value = "please go to the inventory to check it.";
   }
   totalFun();
 });

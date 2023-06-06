@@ -82,7 +82,7 @@
     <el-dialog
       v-model="dialogVisible"
       destroy-on-close
-      width="50%"
+      width="800"
       class="public-dialog add-coin"
       :show-close="false"
       :align-center="true"
@@ -277,7 +277,7 @@ export default {
   data() {
     return {
       coinItems: ["ETH", "USDT", "NFT-1155", "NFT-721"],
-      dialogVisible: true,
+      dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",

@@ -46,7 +46,7 @@
 .header-nav {
   margin-left: 90px;
 
-  &>li+li {
+  & > li + li {
     margin-left: 2.5rem;
   }
 
@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.875rem;
   }
 
@@ -268,7 +268,11 @@
 }
 
 .header-nft {
-  margin-top: 10px;
+  margin-bottom: 30px;
+  .header-coin-label {
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
 }
 
 .header-nft,
@@ -301,10 +305,6 @@
   margin-left: 3px;
 }
 
-.header-nft-add {
-  margin-left: 10px;
-}
-
 .header-nft-content {
   margin-bottom: 20px;
 }
@@ -317,7 +317,7 @@
 .title-icon {
   position: absolute !important;
   top: 0;
-  right: 0;
+  right: 10px;
 }
 
 .header-login {
@@ -326,4 +326,53 @@
   align-content: center;
   justify-content: center;
   justify-items: center;
+}
+.add-header {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+}
+.add-header-list {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #191c28;
+  font-size: 18px;
+  color: rgba(169, 164, 180, 0.6);
+  margin-right: 10px;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+.choose-list {
+  background-color: #13151f;
+  color: #fad54d;
+}
+
+.dialog-footer {
+  display: flex;
+  align-content: center;
+}
+.header-coin-label {
+  text-align: left;
+  color: #a9a4b4;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  position: relative;
+}
+.header-coin-input {
+  margin-bottom: 30px;
+}
+.nft-input {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 0;
+  flex: 1;
+  &:nth-child(2n) {
+    margin-left: 10px;
+  }
 }

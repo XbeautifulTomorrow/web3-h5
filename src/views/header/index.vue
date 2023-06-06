@@ -2,9 +2,19 @@
   <div class="header">
     <div class="header-main">
       <div class="header-left">
-        <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
+        <img
+          class="header-logo"
+          src="@/assets/img/headerFooter/logo.png"
+          alt="logo"
+          @click="goTo()"
+        />
         <ul class="header-nav">
-          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
+          <li
+            class="header-nav-text"
+            v-for="(item, index) in nav"
+            :key="`nav-${index}`"
+            @click="goTo(item.page)"
+          >
             {{ item.text }}
           </li>
         </ul>
@@ -16,26 +26,46 @@
             Register
           </div>
         </div>
-        <div class="header-button" @click="showConnect = true" v-if="!userInfo?.id && !conncectAddress">
+        <div
+          class="header-button"
+          @click="showConnect = true"
+          v-if="!userInfo?.id && !conncectAddress"
+        >
           {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
         </div>
       </div>
       <div v-if="userInfo?.id || conncectAddress" class="header-login">
         <div class="header-wallet">
-          <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
+          <img
+            class="header-wallet-img"
+            src="@/assets/img/headerFooter/eth_icon.png"
+            alt=""
+          />
           <span class="header-wallet-money">{{ ethBalance }}</span>
           <span class="header-wallet-add" @click="dialogVisible = true">+</span>
         </div>
         <div class="header-user" v-if="userInfo?.id">
-          <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
+          <img
+            class="header-user-img"
+            src="@/assets/svg/user/default_avatar.svg"
+            alt=""
+          />
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
           </span>
-          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+          <img
+            class="header-user-down"
+            src="@/assets/img/headerFooter/icon-arrowup.png"
+            alt=""
+          />
           <div class="header-user-popup">
             <ul class="header-user-content">
-              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
-                @click="othersideBoxFun(item)">
+              <li
+                :class="['header-user-list']"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
                 <span :class="['header-user-list-img', item.class]"></span>
                 <span>{{ item.text }}</span>
               </li>
@@ -44,74 +74,169 @@
         </div>
       </div>
     </div>
-    <WalletList v-if="showConnect" @connectWallet="connect" @close="closeDialogFun" />
-    <el-dialog v-model="dialogVisible" title="Tips" width="50%">
-      <el-radio-group v-model="tokenChoose" class="ml-4">
-        <el-radio label="1" size="large">ETH</el-radio>
-        <el-radio label="2" size="large">USDT</el-radio>
-        <el-radio label="3" size="large">NFT-1155</el-radio>
-        <el-radio label="4" size="large">NFT-721</el-radio>
-      </el-radio-group>
-      <br />
+    <WalletList
+      v-if="showConnect"
+      @connectWallet="connect"
+      @close="closeDialogFun"
+    />
+    <el-dialog
+      v-model="dialogVisible"
+      destroy-on-close
+      width="50%"
+      class="public-dialog add-coin"
+      :show-close="false"
+      :align-center="true"
+      :append-to-body="true"
+    >
+      <template #header="{ close }">
+        <div class="public-dialog-header">
+          <el-icon
+            @click="close"
+            color="#2d313f"
+            size="16"
+            class="public-dialog-header-icon"
+          >
+            <CircleCloseFilled />
+          </el-icon>
+        </div>
+      </template>
+      <ul class="add-header">
+        <li
+          :class="[
+            'add-header-list',
+            {
+              'choose-list': tokenChoose == index + 1,
+            },
+          ]"
+          v-for="(item, index) in coinItems"
+          :key="`coin-${index}`"
+          @click="tokenChoose = index + 1"
+        >
+          {{ item }}
+        </li>
+      </ul>
 
-      <div v-if="tokenChoose == 3||tokenChoose == 4">
-        <div class="header-nft-content" :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
-          <p class="header-nft-title">
-            <span>NFT合约地址</span>
-            <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
-            <el-icon v-if="transferNFTAddress.length > 1" @click="deleteTransferNFTAddressun(index)"
-              class="header-nft-icon title-icon">
-              <Delete />
-            </el-icon>
-          </p>
-          <el-input :key="`nft-input-${index}`" v-model="transferNFTAddress[index]" placeholder="Please input" />
-
-          <div class="header-nft" v-for="(item1, index1) in transferNFTID[index]" :key="`nft-${index1}`">
-            <span class="header-nft-wrapper">
-              <span class="header-nft-label">NFT token id</span>
-              <el-input class="header-nft-input" v-model="transferNFTID[index][index1].tokenid"
-                placeholder="Please input" />
-            </span>
-            <span class="header-nft-wrapper" >
-              <span class="header-nft-label" v-if="tokenChoose!=4">数量</span>
-              <el-input class="header-nft-input" v-if="tokenChoose!=4" v-model="transferNFTID[index][index1].amount"
-                placeholder="Please amount" />
-              <el-icon v-if="transferNFTID[index].length > 1" @click="deleteTransferNFTIDFun(index, index1)"
-                class="header-nft-icon">
+      <div v-if="tokenChoose == 3 || tokenChoose == 4">
+        <div
+          class="header-nft-content"
+          :key="`add-${index}`"
+          v-for="(item, index) in transferNFTAddress"
+        >
+          <div class="header-coin-input">
+            <p class="header-coin-label">
+              <span>NFT合约地址</span>
+              <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
+              <el-icon
+                v-if="transferNFTAddress.length > 1"
+                @click="deleteTransferNFTAddressun(index)"
+                class="header-nft-icon title-icon"
+              >
                 <Delete />
               </el-icon>
-            </span>
-            <div class="header-nft-add" v-if="index1 === transferNFTID[index].length - 1">
-              <el-button class="header-nft-button" type="primary" @click="addTransferNFTIDFun(index)">
-                添加
-              </el-button>
+            </p>
+            <el-input
+              :key="`nft-input-${index}`"
+              v-model="transferNFTAddress[index]"
+              placeholder="Please input"
+            />
+          </div>
+          <div
+            class="header-nft"
+            v-for="(item1, index1) in transferNFTID[index]"
+            :key="`nft-${index1}`"
+          >
+            <div class="header-coin-input nft-input">
+              <p class="header-coin-label">NFT token id</p>
+              <el-input
+                class="header-nft-input"
+                v-model="transferNFTID[index][index1].tokenid"
+                placeholder="Please input"
+              />
+            </div>
+            <div class="header-coin-input nft-input">
+              <p class="header-coin-label" v-if="tokenChoose != 4">数量</p>
+              <el-input
+                class="header-nft-input"
+                v-if="tokenChoose != 4"
+                v-model="transferNFTID[index][index1].amount"
+                placeholder="Please amount"
+              >
+                <template #suffix>
+                  <div
+                    class="header-nft-add"
+                    v-if="index1 === transferNFTID[index].length - 1"
+                  >
+                    <el-button
+                      class="public-button"
+                      type="primary"
+                      @click.stop="addTransferNFTIDFun(index)"
+                    >
+                      添加
+                    </el-button>
+                  </div>
+                </template>
+              </el-input>
+              <el-icon
+                v-if="transferNFTID[index].length > 1"
+                @click="deleteTransferNFTIDFun(index, index1)"
+                class="header-nft-icon"
+              >
+                <Delete />
+              </el-icon>
             </div>
           </div>
         </div>
-
-        <el-button class="header-nft-button" type="primary" @click="addTransferNFTAddressun">
-          添加
-        </el-button>
+        <div class="header-coin-input">
+          <el-button
+            class="public-button"
+            type="primary"
+            @click="addTransferNFTAddressun"
+          >
+            添加
+          </el-button>
+        </div>
       </div>
 
-      <span v-else>
-        数量
+      <div class="header-coin-input" v-else>
+        <p class="header-coin-label">数量</p>
         <el-input v-model="amountVal[0]" placeholder="Please amount" />
-      </span>
-      <span v-if="tokenChoose == 1 || tokenChoose == 3|| tokenChoose == 4">
-        OrderId
+      </div>
+      <div
+        class="header-coin-input"
+        v-if="tokenChoose == 1 || tokenChoose == 3 || tokenChoose == 4"
+      >
+        <p class="header-coin-label">OrderId</p>
         <el-input v-model="orderVal" placeholder="Please orderId" />
-      </span>
+      </div>
       <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="transfer"> Confirm </el-button>
-        </span>
+        <div class="dialog-footer">
+          <el-button
+            class="public-button public-continue"
+            @click="dialogVisible = false"
+          >
+            Cancel
+          </el-button>
+          <el-button class="public-button" type="primary" @click="transfer">
+            Confirm
+          </el-button>
+        </div>
       </template>
     </el-dialog>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
   </div>
 </template>
 
@@ -151,7 +276,8 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
+      coinItems: ["ETH", "USDT", "NFT-1155", "NFT-721"],
+      dialogVisible: true,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",
@@ -429,18 +555,12 @@ export default {
         );
         const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
         const _amount = this.dataArrFun(this.transferNFTID, "amount");
-        console.log(_tokenid, _amount, nftList,"========");
-        if(tokenChoose==4){
+        console.log(_tokenid, _amount, nftList, "========");
+        if (tokenChoose == 4) {
           //721充值
           await nftTransferContract.methods
-          .transferNFTMultti(
-            nftList,
-            _tokenid,
-            this.receiver,
-            orderId,
-            "0x"
-          )
-          .send({ from: accounts[0] });
+            .transferNFTMultti(nftList, _tokenid, this.receiver, orderId, "0x")
+            .send({ from: accounts[0] });
           return;
         }
         //1155充值
@@ -519,4 +639,22 @@ export default {
 
 <style lang="scss" scoped>
 @import url("./index.scss");
+</style>
+<style lang="scss">
+.add-coin {
+  .public-button {
+    flex: 1;
+    width: auto;
+    margin-top: 0 !important;
+  }
+  .el-input__wrapper {
+    border: solid 1px #363945;
+    background-color: #13151f;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  .el-input__inner {
+    color: #a9a4b4;
+  }
+}
 </style>

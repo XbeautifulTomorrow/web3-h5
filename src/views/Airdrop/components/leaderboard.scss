@@ -1,0 +1,222 @@
+.leaderboard_container {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 1.875rem;
+  padding: 1.875rem;
+  border-radius: 0.625rem;
+  background-color: #13151f;
+  box-sizing: border-box;
+}
+
+.statistics_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &>div+div {
+    margin-left: 1.875rem;
+  }
+
+  &>div {
+    flex: 1;
+
+    .statistics_title {
+      font-family: BlenderPro;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: left;
+      color: #a9a4b4;
+      padding-bottom: 0.625rem;
+    }
+  }
+
+  .statistics_content {
+    padding: 1.25rem 1.5625rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>img {
+      height: 5.125rem;
+    }
+
+    .statistics_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .label {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: center;
+        color: white;
+      }
+
+      .val {
+        font-family: Tomorrow;
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1.4;
+        text-align: center;
+        color: #11cde9;
+      }
+    }
+  }
+}
+
+.tabel_container {
+  padding-top: 2.25rem;
+  text-align: left;
+
+  .tabel_thead {
+    display: flex;
+    align-items: center;
+    border-radius: 0.3125rem;
+    background-color: #191c28;
+    padding: 0.625rem 1.25rem;
+
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #a9a4b4;
+  }
+
+  .tabel_item {
+
+    &>div+div {
+      margin-left: 3.875rem;
+    }
+
+    .rank {
+      width: 4.125rem;
+      text-align: center;
+    }
+
+    .user_info {
+      width: 17.75rem;
+    }
+
+    .point {
+      width: 42rem;
+    }
+
+    .date {
+      width: 12.5rem;
+    }
+  }
+
+  .tabel_tbody {
+    margin-top: 0.25rem;
+  }
+
+  .tabel_tbody_item {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    display: flex;
+    align-items: center;
+
+    .rank {
+      font-family: Tomorrow;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.4;
+      color: #11cde9;
+    }
+
+    .user_info {
+      .name_text {
+        font-family: BlenderPro;
+        font-size: 2.875rem;
+        font-weight: bold;
+        line-height: 1;
+        color: white;
+      }
+
+      .wallet_box {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        color: #a9a4b4;
+      }
+    }
+
+    .point {
+      display: flex;
+      align-items: center;
+
+      &>div+div {
+        margin-left: 0.625rem;
+      }
+
+      .point_item {
+        width: 9.875rem;
+        height: 4.625rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.5rem;
+        background-color: #35215c;
+
+        .title {
+          font-size: 1rem;
+          font-weight: 500;
+          line-height: 1.6;
+          text-align: center;
+          color: white;
+        }
+
+        .val {
+          font-family: Tomorrow;
+          font-size: 1.25rem;
+          font-weight: bold;
+          line-height: 1.4;
+          text-align: center;
+          color: #11cde9;
+        }
+
+        &.total {
+          background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
+
+          .val {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .date {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.5;
+      text-align: center;
+      color: white;
+    }
+  }
+}
+
+.not-select {
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
+}
+
+.no-touch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

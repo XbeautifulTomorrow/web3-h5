@@ -10,16 +10,7 @@ const Home = () => import("../views/home/index.vue");
 const Login = () => import("../views/login/index.vue");
 const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
-const Lottery = () => import("@/components/lottery/index.vue");
-const MysteryBox = () => import("../views/mysteryBox/index.vue");
-const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
-const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
-const Competitions = () => import("../views/user/competitions.vue");
-const Snapshot = () => import("../views/snapshot/index.vue");
-const MyProfile = () => import("../views/user/myProfile.vue");
-const Wallet = () => import("../views/user/wallet.vue");
-const Setting = () => import("../views/user/setting.vue");
-const Invite = () => import("../views/user/invite.vue");
+const Airdrop = () => import("../views/Airdrop/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -61,106 +52,15 @@ const routes = [
     },
   },
   {
-    path: "/mysteryBox",
-    name: "MysteryBox",
+    path: "/airdrop",
+    name: "Airdrop",
     components: {
-      default: MysteryBox,
+      default: Airdrop,
       Header,
       Footer,
       Currency,
     },
   },
-  {
-    path: "/nftTicketsInfo",
-    name: "NftTicketsInfo",
-    components: {
-      default: nftTicketsInfo,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/nftTicketsList",
-    name: "NftTicketsList",
-    components: {
-      default: nftTicketsList,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/competitions",
-    name: "Competitions",
-    components: {
-      default: Competitions,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/lottery",
-    name: "Lottery",
-    components: {
-      default: Lottery,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/snapshot",
-    name: "Snapshot",
-    components: {
-      default: Snapshot,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/myProfile",
-    name: "MyProfile",
-    components: {
-      default: MyProfile,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/wallet",
-    name: "Wallet",
-    components: {
-      default: Wallet,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/setting",
-    name: "Setting",
-    components: {
-      default: Setting,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/invite",
-    name: "Invite",
-    components: {
-      default: Invite,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-
 ];
 
 // 3. 创建路由实例

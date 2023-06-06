@@ -16,22 +16,22 @@
             Register
           </div>
         </div>
-        <div class="header-button" @click="showConnect = true" v-if="!userInfo?.id && !conncectAddress">
+        <!-- <div class="header-button" @click="showConnect = true" v-if="!userInfo?.id && !conncectAddress">
           {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
-        </div>
+        </div> -->
       </div>
       <div v-if="userInfo?.id || conncectAddress" class="header-login">
-        <div class="header-wallet">
+        <!-- <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
           <span class="header-wallet-add" @click="dialogVisible = true">+</span>
-        </div>
+        </div> -->
         <div class="header-user" v-if="userInfo?.id">
           <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
           </span>
-          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+          <!-- <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
           <div class="header-user-popup">
             <ul class="header-user-content">
               <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
@@ -40,11 +40,11 @@
                 <span>{{ item.text }}</span>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <WalletList v-if="showConnect" @connectWallet="connect" @close="closeDialogFun" />
+    <!-- <WalletList v-if="showConnect" @connectWallet="connect" @close="closeDialogFun" />
     <el-dialog v-model="dialogVisible" title="Tips" width="50%">
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
@@ -54,7 +54,7 @@
       </el-radio-group>
       <br />
 
-      <div v-if="tokenChoose == 3||tokenChoose == 4">
+      <div v-if="tokenChoose == 3 || tokenChoose == 4">
         <div class="header-nft-content" :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
           <p class="header-nft-title">
             <span>NFT合约地址</span>
@@ -72,9 +72,9 @@
               <el-input class="header-nft-input" v-model="transferNFTID[index][index1].tokenid"
                 placeholder="Please input" />
             </span>
-            <span class="header-nft-wrapper" >
-              <span class="header-nft-label" v-if="tokenChoose!=4">数量</span>
-              <el-input class="header-nft-input" v-if="tokenChoose!=4" v-model="transferNFTID[index][index1].amount"
+            <span class="header-nft-wrapper">
+              <span class="header-nft-label" v-if="tokenChoose != 4">数量</span>
+              <el-input class="header-nft-input" v-if="tokenChoose != 4" v-model="transferNFTID[index][index1].amount"
                 placeholder="Please amount" />
               <el-icon v-if="transferNFTID[index].length > 1" @click="deleteTransferNFTIDFun(index, index1)"
                 class="header-nft-icon">
@@ -98,7 +98,7 @@
         数量
         <el-input v-model="amountVal[0]" placeholder="Please amount" />
       </span>
-      <span v-if="tokenChoose == 1 || tokenChoose == 3|| tokenChoose == 4">
+      <span v-if="tokenChoose == 1 || tokenChoose == 3 || tokenChoose == 4">
         OrderId
         <el-input v-model="orderVal" placeholder="Please orderId" />
       </span>
@@ -108,7 +108,7 @@
           <el-button type="primary" @click="transfer"> Confirm </el-button>
         </span>
       </template>
-    </el-dialog>
+    </el-dialog> -->
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
@@ -144,6 +144,7 @@ import Forgot from "../forgot/index.vue";
 export default {
   name: "HeaderCom",
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     WalletList,
     Login,
     Register,
@@ -160,25 +161,13 @@ export default {
       showConnect: false,
       pageType: "",
       nav: [
-        {
-          text: "Airdrop",
+      {
+          text: "Home",
           page: "home",
         },
         {
-          text: "Mystery Box",
-          page: "MysteryBox",
-        },
-        {
-          text: "Stake",
-          page: "Stake",
-        },
-        {
-          text: "INO",
-          page: "INO",
-        },
-        {
-          text: "Market Place",
-          page: "MarketPlace",
+          text: "Airdrop",
+          page: "Airdrop",
         },
         {
           text: "Whitebook",
@@ -429,18 +418,19 @@ export default {
         );
         const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
         const _amount = this.dataArrFun(this.transferNFTID, "amount");
-        console.log(_tokenid, _amount, nftList,"========");
-        if(tokenChoose==4){
+        console.log(_tokenid, _amount, nftList, "========");
+        // eslint-disable-next-line no-undef
+        if (tokenChoose == 4) {
           //721充值
           await nftTransferContract.methods
-          .transferNFTMultti(
-            nftList,
-            _tokenid,
-            this.receiver,
-            orderId,
-            "0x"
-          )
-          .send({ from: accounts[0] });
+            .transferNFTMultti(
+              nftList,
+              _tokenid,
+              this.receiver,
+              orderId,
+              "0x"
+            )
+            .send({ from: accounts[0] });
           return;
         }
         //1155充值

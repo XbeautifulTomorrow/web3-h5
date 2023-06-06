@@ -42,7 +42,6 @@
             alt=""
           />
           <span class="header-wallet-money">{{ ethBalance }}</span>
-          <span class="header-wallet-add" @click="dialogVisible = true">+</span>
         </div>
         <div class="header-user" v-if="userInfo?.id">
           <img
@@ -79,149 +78,6 @@
       @connectWallet="connect"
       @close="closeDialogFun"
     />
-    <el-dialog
-      v-model="dialogVisible"
-      destroy-on-close
-      width="800"
-      class="public-dialog add-coin"
-      :show-close="false"
-      :align-center="true"
-      :append-to-body="true"
-    >
-      <template #header="{ close }">
-        <div class="public-dialog-header">
-          <el-icon
-            @click="close"
-            color="#2d313f"
-            size="16"
-            class="public-dialog-header-icon"
-          >
-            <CircleCloseFilled />
-          </el-icon>
-        </div>
-      </template>
-      <ul class="add-header">
-        <li
-          :class="[
-            'add-header-list',
-            {
-              'choose-list': tokenChoose == index + 1,
-            },
-          ]"
-          v-for="(item, index) in coinItems"
-          :key="`coin-${index}`"
-          @click="tokenChoose = index + 1"
-        >
-          {{ item }}
-        </li>
-      </ul>
-
-      <div v-if="tokenChoose == 3 || tokenChoose == 4">
-        <div
-          class="header-nft-content"
-          :key="`add-${index}`"
-          v-for="(item, index) in transferNFTAddress"
-        >
-          <div class="header-coin-input">
-            <p class="header-coin-label">
-              <span>NFT合约地址</span>
-              <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
-              <el-icon
-                v-if="transferNFTAddress.length > 1"
-                @click="deleteTransferNFTAddressun(index)"
-                class="header-nft-icon title-icon"
-              >
-                <Delete />
-              </el-icon>
-            </p>
-            <el-input
-              :key="`nft-input-${index}`"
-              v-model="transferNFTAddress[index]"
-              placeholder="Please input"
-            />
-          </div>
-          <div
-            class="header-nft"
-            v-for="(item1, index1) in transferNFTID[index]"
-            :key="`nft-${index1}`"
-          >
-            <div class="header-coin-input nft-input">
-              <p class="header-coin-label">NFT token id</p>
-              <el-input
-                class="header-nft-input"
-                v-model="transferNFTID[index][index1].tokenid"
-                placeholder="Please input"
-              />
-            </div>
-            <div class="header-coin-input nft-input">
-              <p class="header-coin-label" v-if="tokenChoose != 4">数量</p>
-              <el-input
-                class="header-nft-input"
-                v-if="tokenChoose != 4"
-                v-model="transferNFTID[index][index1].amount"
-                placeholder="Please amount"
-              >
-                <template #suffix>
-                  <div
-                    class="header-nft-add"
-                    v-if="index1 === transferNFTID[index].length - 1"
-                  >
-                    <el-button
-                      class="public-button"
-                      type="primary"
-                      @click.stop="addTransferNFTIDFun(index)"
-                    >
-                      添加
-                    </el-button>
-                  </div>
-                </template>
-              </el-input>
-              <el-icon
-                v-if="transferNFTID[index].length > 1"
-                @click="deleteTransferNFTIDFun(index, index1)"
-                class="header-nft-icon"
-              >
-                <Delete />
-              </el-icon>
-            </div>
-          </div>
-        </div>
-        <div class="header-coin-input">
-          <el-button
-            class="public-button"
-            type="primary"
-            @click="addTransferNFTAddressun"
-          >
-            添加
-          </el-button>
-        </div>
-      </div>
-
-      <div class="header-coin-input" v-else>
-        <p class="header-coin-label">数量</p>
-        <el-input v-model="amountVal[0]" placeholder="Please amount" />
-      </div>
-      <div
-        class="header-coin-input"
-        v-if="tokenChoose == 1 || tokenChoose == 3 || tokenChoose == 4"
-      >
-        <p class="header-coin-label">OrderId</p>
-        <el-input v-model="orderVal" placeholder="Please orderId" />
-      </div>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button
-            class="public-button public-continue"
-            @click="dialogVisible = false"
-          >
-            Cancel
-          </el-button>
-          <el-button class="public-button" type="primary" @click="transfer">
-            Confirm
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
     <Login
       v-if="pageType === 'login'"
       @closeDialogFun="closeDialogFun"
@@ -242,18 +98,11 @@
 
 <script>
 import Web3 from "web3";
-import { h } from "vue";
 import { mapStores } from "pinia";
 import { BigNumber } from "bignumber.js";
-import { ElNotification } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-
-import transferAbi from "@/config/transfer.json";
-import nftAbi from "@/config/nft.json";
-import nft1155Abi from "@/config/1155.json";
-import erc20Abi from "@/config/erc20.json";
 
 import {
   getKey,
@@ -276,12 +125,8 @@ export default {
   },
   data() {
     return {
-      coinItems: ["ETH", "USDT", "NFT-1155", "NFT-721"],
-      dialogVisible: false,
+      dialogVisible: true,
       conncectAddress: null,
-      amountVal: [1],
-      orderVal: "",
-      tokenChoose: "1",
       web3: null,
       showConnect: false,
       pageType: "",
@@ -353,19 +198,7 @@ export default {
           class: "logout",
         },
       ],
-      NFTID: {
-        tokenid: "",
-        amount: 1,
-      },
-      transferNFTAddress: [""],
-      transferNFTID: [[{ tokenid: "", amount: 1 }]],
-      transferAmounts: [],
-      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
-      nftTokenAddress: "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931", //nft充值
       receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
-      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
-      // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
-      lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
   },
   mounted() {
@@ -398,25 +231,6 @@ export default {
     },
     changeTypeFun(page) {
       this.pageType = page;
-    },
-    addTransferNFTAddressun() {
-      this.transferNFTAddress.push("");
-      const _last = this.transferNFTID[this.transferNFTID.length - 1];
-      const _data = JSON.parse(JSON.stringify(_last));
-      this.transferNFTID.push(_data);
-    },
-    deleteTransferNFTAddressun(index) {
-      if (this.transferNFTAddress.length < 2) return;
-      this.transferNFTAddress.splice(index, 1);
-      this.transferNFTID.splice(index, 1);
-    },
-    addTransferNFTIDFun(index) {
-      const _data = JSON.parse(JSON.stringify(this.NFTID));
-      this.transferNFTID[index].push(_data);
-    },
-    deleteTransferNFTIDFun(index, _index) {
-      if (this.transferNFTID[index].length < 2) return;
-      this.transferNFTID[index].splice(_index, 1);
     },
     getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
@@ -503,113 +317,6 @@ export default {
           });
       }
     },
-    dataArrFun(arr, key) {
-      let _arr = [];
-      arr.forEach((item, index) => {
-        let _itemArr = [];
-        let num = "";
-        item.forEach((_item) => {
-          num = _item[key];
-          if (key == "amount") {
-            num = parseInt(_item[key]);
-          }
-          _itemArr.push(num);
-        });
-        _arr[index] = _itemArr;
-      });
-      return _arr;
-    },
-    async transfer() {
-      this.dialogVisible = false;
-      const web3 = new Web3(window.ethereum);
-      const contractAddress = this.transferAddress;
-      const transferContract = new web3.eth.Contract(
-        transferAbi,
-        contractAddress
-      );
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      const amount = web3.utils.toWei(this.amountVal[0].toString(), "ether");
-      const receiver = this.receiver;
-      const orderId = this.orderVal;
-      let nftList = [];
-      if (this.tokenChoose == 3) {
-        this.transferNFTAddress.forEach(async (item) => {
-          //多个nft授权
-          let nftContract = new web3.eth.Contract(
-            nft1155Abi,
-            item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
-          );
-          nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
-          // //授权
-          await nftContract.methods
-            .setApprovalForAll(this.nftTokenAddress, true)
-            .send({ from: accounts[0] });
-        });
-
-        const nftTransferContract = new web3.eth.Contract( //nft转账合约
-          nftAbi,
-          this.nftTokenAddress
-        );
-        const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
-        const _amount = this.dataArrFun(this.transferNFTID, "amount");
-        console.log(_tokenid, _amount, nftList, "========");
-        if (tokenChoose == 4) {
-          //721充值
-          await nftTransferContract.methods
-            .transferNFTMultti(nftList, _tokenid, this.receiver, orderId, "0x")
-            .send({ from: accounts[0] });
-          return;
-        }
-        //1155充值
-        await nftTransferContract.methods
-          .transfer1155Multi(
-            nftList,
-            _tokenid,
-            _amount,
-            this.receiver,
-            orderId,
-            "0x"
-          )
-          .send({ from: accounts[0] });
-        return;
-      }
-      if ((!orderId && this.tokenChoose == 1) || !amount) {
-        ElNotification({
-          title: "Tips",
-          message: h("i", { style: "color: teal" }, "Please input info"),
-        });
-        return;
-      }
-
-      const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
-      let allowance = await erc20Contract.methods
-        .allowance(accounts[0], contractAddress)
-        .call();
-      if (allowance == "0") {
-        await erc20Contract.methods
-          .approve(contractAddress, 10000)
-          .send({ from: accounts[0] });
-      }
-      if (this.tokenChoose == 2) {
-        await transferContract.methods
-          .transferToken(this.usdtAddress, amount, receiver, orderId)
-          .send({
-            from: accounts[0],
-            to: contractAddress,
-          });
-        return;
-      }
-      await transferContract.methods
-        .transferETH(amount, receiver, orderId)
-        .send({
-          from: accounts[0],
-          to: contractAddress,
-          value: amount,
-        });
-    },
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },
@@ -639,22 +346,4 @@ export default {
 
 <style lang="scss" scoped>
 @import url("./index.scss");
-</style>
-<style lang="scss">
-.add-coin {
-  .public-button {
-    flex: 1;
-    width: auto;
-    margin-top: 0 !important;
-  }
-  .el-input__wrapper {
-    border: solid 1px #363945;
-    background-color: #13151f;
-    border-radius: 8px;
-    box-shadow: none;
-  }
-  .el-input__inner {
-    color: #a9a4b4;
-  }
-}
 </style>

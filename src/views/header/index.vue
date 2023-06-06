@@ -49,11 +49,12 @@
       <el-radio-group v-model="tokenChoose" class="ml-4">
         <el-radio label="1" size="large">ETH</el-radio>
         <el-radio label="2" size="large">USDT</el-radio>
-        <el-radio label="3" size="large">NFT</el-radio>
+        <el-radio label="3" size="large">NFT-1155</el-radio>
+        <el-radio label="4" size="large">NFT-721</el-radio>
       </el-radio-group>
       <br />
 
-      <div v-if="tokenChoose == 3">
+      <div v-if="tokenChoose == 3||tokenChoose == 4">
         <div class="header-nft-content" :key="`add-${index}`" v-for="(item, index) in transferNFTAddress">
           <p class="header-nft-title">
             <span>NFT合约地址</span>
@@ -71,9 +72,9 @@
               <el-input class="header-nft-input" v-model="transferNFTID[index][index1].tokenid"
                 placeholder="Please input" />
             </span>
-            <span class="header-nft-wrapper">
-              <span class="header-nft-label">数量</span>
-              <el-input class="header-nft-input" v-model="transferNFTID[index][index1].amount"
+            <span class="header-nft-wrapper" >
+              <span class="header-nft-label" v-if="tokenChoose!=4">数量</span>
+              <el-input class="header-nft-input" v-if="tokenChoose!=4" v-model="transferNFTID[index][index1].amount"
                 placeholder="Please amount" />
               <el-icon v-if="transferNFTID[index].length > 1" @click="deleteTransferNFTIDFun(index, index1)"
                 class="header-nft-icon">
@@ -97,7 +98,7 @@
         数量
         <el-input v-model="amountVal[0]" placeholder="Please amount" />
       </span>
-      <span v-if="tokenChoose == 1 || tokenChoose == 3">
+      <span v-if="tokenChoose == 1 || tokenChoose == 3|| tokenChoose == 4">
         OrderId
         <el-input v-model="orderVal" placeholder="Please orderId" />
       </span>
@@ -428,7 +429,21 @@ export default {
         );
         const _tokenid = this.dataArrFun(this.transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
         const _amount = this.dataArrFun(this.transferNFTID, "amount");
-        console.log(_tokenid, _amount, nftList);
+        console.log(_tokenid, _amount, nftList,"========");
+        if(tokenChoose==4){
+          //721充值
+          await nftTransferContract.methods
+          .transferNFTMultti(
+            nftList,
+            _tokenid,
+            this.receiver,
+            orderId,
+            "0x"
+          )
+          .send({ from: accounts[0] });
+          return;
+        }
+        //1155充值
         await nftTransferContract.methods
           .transfer1155Multi(
             nftList,

@@ -41,7 +41,7 @@
         <li
           v-for="(item, index) in coinList"
           :key="`list-${index}`"
-          @click="tokenChoose = index + 1"
+          @click="tokenChooseFun(index)"
           class="recharge-list"
         >
           <img
@@ -81,13 +81,13 @@
         </span>
       </div>
       <qr-code :tokenChoose="tokenChoose" />
-      <div class="recharge-coin-input" v-if="tokenChoose != 4">
+      <div class="recharge-coin-input">
         <p class="recharge-coin-label">数量</p>
         <el-input v-model="amountVal" placeholder="Please amount" />
       </div>
       <div
         class="recharge-coin-input"
-        v-if="tokenChoose == 1 || tokenChoose == 3 || tokenChoose == 4"
+        v-if="tokenChoose == 1 || tokenChoose == 3"
       >
         <p class="recharge-coin-label">OrderId</p>
         <el-input v-model="orderVal" placeholder="Please orderId" />
@@ -106,10 +106,25 @@
         </el-button>
       </div>
     </template>
+    <nft-list
+      v-if="dialogVisible"
+      :dialogVisible="nftDialogVisible"
+      :isDeposit="operateChoose === operateItems[0]"
+      @chooseNftsFun="chooseNftsFun"
+      @closeDialogFun="closeNftDialogFun"
+    />
   </el-dialog>
 </template>
 <script setup>
-import { ref, h, computed, defineProps, defineEmits, onMounted } from "vue";
+import {
+  ref,
+  reactive,
+  h,
+  computed,
+  defineProps,
+  defineEmits,
+  onMounted,
+} from "vue";
 import Web3 from "web3";
 
 import { ElNotification } from "element-plus";
@@ -120,6 +135,7 @@ import nft1155Abi from "@/config/1155.json";
 import erc20Abi from "@/config/erc20.json";
 
 import qrCode from "./qrCode.vue";
+import nftList from "./nftList.vue";
 
 import ETHIcon from "@/assets/img/recharge/ETH.png";
 import USDTIcon from "@/assets/img/recharge/USDT.png";
@@ -140,7 +156,7 @@ const props = defineProps({
 });
 const emit = defineEmits("closeDialogFun");
 const operateItems = ["DEPOSIT", "WITHDRAW"];
-const coinItems = ["ETH", "USDT", "NFT-1155", "NFT-721"];
+const coinItems = ["ETH", "USDT", "NFT"];
 const coinList = [
   {
     text: "Ethereum [ETH]",
@@ -151,11 +167,7 @@ const coinList = [
     url: USDTIcon,
   },
   {
-    text: "NFT-1155",
-    url: "",
-  },
-  {
-    text: "NFT-721",
+    text: "NFT",
     url: "",
   },
 ];
@@ -165,6 +177,8 @@ const operateChoose = ref(operateItems[0]);
 const amountVal = ref(1);
 const orderVal = ref("");
 const transferNFTAddress = ref("");
+let chooseNft = reactive([]);
+const nftDialogVisible = ref(false);
 const usdtAddress = ref("0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535");
 const nftTokenAddress = ref("0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"); //nft充值
 const receiver = "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB"; //收款地址
@@ -190,8 +204,38 @@ onMounted(() => {
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
+const closeNftDialogFun = () => {
+  nftDialogVisible.value = false;
+};
+const tokenChooseFun = (index) => {
+  tokenChoose.value = index + 1;
+  if (index > 1) {
+    nftDialogVisible.value = true;
+  }
+};
 const operateChooseFun = (name) => {
   operateChoose.value = name;
+};
+const chooseNftsFun = (data) => {
+  if (data && data.length > 0) {
+    chooseNft = data;
+  }
+};
+const dataArrFun = (arr, key) => {
+  let _arr = [];
+  arr.forEach((item, index) => {
+    let _itemArr = [];
+    let num = "";
+    item.forEach((_item) => {
+      num = _item[key];
+      if (key == "amount") {
+        num = parseInt(_item[key]);
+      }
+      _itemArr.push(num);
+    });
+    _arr[index] = _itemArr;
+  });
+  return _arr;
 };
 const transfer = async () => {
   closeDialogFun();
@@ -220,16 +264,11 @@ const transfer = async () => {
       .send({ from: accounts[0] });
 
     const nftTransferContract = new web3.eth.Contract(nftAbi, nftTokenAddress); //nft转账合约
+    const _tokenid = dataArrFun(chooseNft, "tokenId");
     if (tokenChoose.value == 4) {
       //721充值
       await nftTransferContract.methods
-        .transferNFTMultti(
-          nftList,
-          [props.nftData.tokenId],
-          receiver,
-          orderId,
-          "0x"
-        )
+        .transferNFTMultti(nftList, _tokenid, receiver, orderId, "0x")
         .send({ from: accounts[0] });
       return;
     }
@@ -237,7 +276,7 @@ const transfer = async () => {
     await nftTransferContract.methods
       .transfer1155Multi(
         nftList,
-        [props.nftData.tokenId],
+        _tokenid,
         [amountVal.value],
         receiver,
         orderId,

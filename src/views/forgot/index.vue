@@ -1,47 +1,23 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog
-    v-model="visible"
-    destroy-on-close
-    :close-on-click-modal="true"
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog"
-    width="700"
-    :before-close="closeDialogFun"
-  >
+  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
+    class="public-dialog" width="700" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
+        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
           <CircleCloseFilled />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
       <h2 class="public-dialog-title">{{ title }}</h2>
-      <el-form
-        v-if="type === 0"
-        ref="ruleFormRef"
-        label-position="top"
-        label-width="max-content"
-        :model="formLogin"
-        :rules="rules"
-        :hide-required-asterisk="true"
-        :status-icon="true"
-        class="public-login"
-      >
+      <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
+        :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-login">
         <el-form-item label="Email" prop="email">
           <el-input v-model="formLogin.email" placeholder="Enter your email" />
         </el-form-item>
         <div class="form-buttons">
-          <el-button
-            class="public-button cancel-button"
-            v-on="{ click: [close, closeDialogFun] }"
-          >
+          <el-button class="public-button cancel-button" v-on="{ click: [close, closeDialogFun] }">
             Cancel
           </el-button>
           <el-button class="public-button" @click="resetFun(ruleFormRef)">
@@ -49,16 +25,8 @@
           </el-button>
         </div>
       </el-form>
-      <code-popup
-        v-else-if="type === 1"
-        :email="formLogin.email"
-        @changeTypeFun="changeTypeFun"
-      />
-      <change-paw
-        v-else-if="type === 2"
-        @changeTypeFun="changeTypeFun"
-        :formLogin="formLogin"
-      />
+      <code-popup v-else-if="type === 1" :email="formLogin.email" @changeTypeFun="changeTypeFun" />
+      <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" :formLogin="formLogin" />
       <template v-else>
         <p class="public-dialog-illustrate">
           Your password has been reset, please log in again.
@@ -133,7 +101,7 @@ const resetFun = async (formEl) => {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "验证码发送成功,请前往邮箱查看",
+          message: "The verification code has been sent successfully, please check your email",
           type: "success",
         });
       }
@@ -148,6 +116,7 @@ const resetFun = async (formEl) => {
   font-size: 16px;
   color: #a9a4b4;
 }
+
 .form-buttons {
   display: flex;
   align-content: center;
@@ -155,6 +124,7 @@ const resetFun = async (formEl) => {
   justify-items: center;
   justify-content: space-between;
 }
+
 .public-dialog-illustrate {
   margin-top: 30px;
 }

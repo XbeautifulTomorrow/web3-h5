@@ -1,33 +1,13 @@
 <template>
-  <el-form
-    :label-width="0"
-    :model="formData"
-    style="max-width: 100%"
-    ref="codeForm"
-    class="code-form"
-    :inline="true"
-  >
-    <el-form-item
-      class="code-list"
-      label=""
-      v-for="(item, index) in formData.code"
-      :key="`code-${index}-${autofocus[index]}`"
-      @keydown.delete="myKeydown"
-    >
-      <input-number
-        v-model.number="formData.code[index]"
-        :autofocus="autofocus[index]"
-        :maxlength="1"
-        :ref="inputEle"
-      />
+  <el-form :label-width="0" :model="formData" style="max-width: 100%" ref="codeForm" class="code-form" :inline="true">
+    <el-form-item class="code-list" label="" v-for="(item, index) in formData.code"
+      :key="`code-${index}-${autofocus[index]}`" @keydown.delete="myKeydown">
+      <input-number v-model.number="formData.code[index]" :autofocus="autofocus[index]" :maxlength="1" :ref="inputEle" />
     </el-form-item>
     <p class="explain-text">
       Please check your email for the verification code
     </p>
-    <el-button
-      :class="['public-button', { 'cancel-button': !isAgain }]"
-      @click="codeFun"
-    >
+    <el-button :class="['public-button', { 'cancel-button': !isAgain }]" @click="codeFun">
       Send again
       <template v-if="!isAgain"> ({{ time }}) </template>
     </el-button>
@@ -150,7 +130,7 @@ export default {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "验证码发送成功,请前往邮箱查看",
+          message: "The verification code has been sent successfully, please check your email",
           type: "success",
         });
       } else {
@@ -169,7 +149,7 @@ export default {
         emit("changeTypeFun", 2, { captcha: code });
       } else {
         ElMessage({
-          message: "验证码错误，请从新输入",
+          message: "Verification code error, please re-enter",
           type: "error",
         });
         initializationFun();
@@ -212,20 +192,25 @@ export default {
 <style lang="scss" scoped>
 .code-form {
   box-sizing: border-box;
+
   * {
     box-sizing: border-box;
   }
 }
+
 .explain-text {
   width: 100%;
 }
+
 .button-item {
   opacity: 1;
 }
+
 .code-list {
   margin-right: 13px;
   margin-top: 30px;
   margin-bottom: 20px;
+
   &:last-child {
     margin-right: 0;
   }
@@ -241,6 +226,7 @@ export default {
     font-size: 24px;
     text-align: center;
   }
+
   .el-input--large .el-input__wrapper {
     padding: 0;
     text-align: center;

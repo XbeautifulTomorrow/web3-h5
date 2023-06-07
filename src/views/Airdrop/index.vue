@@ -59,20 +59,27 @@
         </div>
       </div>
       <div v-else class="content_container">
-        <Point v-if="currentActive == 'point'"></Point>
-        <Leaderboard v-if="currentActive == 'leaderboard'"></Leaderboard>
+        <Point :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
+        <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
         <Referral v-if="currentActive == 'referral'"></Referral>
       </div>
     </div>
     <Connect v-if="showConnect" @connectMetaMask="connectMetaMask" @close="closeDialogFun"></Connect>
   </div>
 </template>
-
 <script>
 import Web3 from "web3";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
+import {
+  getKey
+} from "@/services/api/user";
+
+import {
+  linkWallet,
+  getAirdrop
+} from "@/services/api/airdrop";
 
 import Point from "./point.vue";
 import Leaderboard from "./leaderboard.vue";
@@ -91,7 +98,8 @@ export default {
       currentActive: "point",
       showConnect: false,
       isConnect: false,
-      conncectAddress: null
+      walletAddr: null,
+      airdropData: {}
     };
   },
   computed: {
@@ -99,6 +107,11 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin
+    }
+  },
+  created() {
+    if (this.isLogin) {
+      this.getAirdropData();
     }
   },
   methods: {
@@ -111,13 +124,12 @@ export default {
         return
       }
 
-
       this.showConnect = true;
     },
     // 连接小狐狸
-    connectMetaMask() {
-      let web3 = new Web3(window.ethereum);
+    async connectMetaMask() {
       const _that = this;
+      let web3 = new Web3(window.ethereum);
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
@@ -136,15 +148,57 @@ export default {
             }
           })
           .then(async (accounts) => {
+            //如果用户同意了登录请求，你就可以拿到用户的账号
             web3 = new Web3(window.ethereum);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
             _that.web3 = web3;
-            _that.conncectAddress = accounts[0];
+            _that.walletAddr = accounts[0];
             _that.isConnect = true;
-            this.closeDialogFun();
+            // 绑定钱包
+            _that.bindWallet();
           });
+      }
+    },
+    // 绑定钱包
+    async bindWallet() {
+      const _that = this;
+      let web3 = window.web3;
+      getKey().then(async (res) => {
+        if (res.data) {
+          console.log(web3.eth, "web3=== ");
+          this.generateKey = web3.utils.toHex(res.data);
+          let msg = this.generateKey;
+          const signature = await window.ethereum.request({
+            method: "personal_sign",
+            params: [_that.walletAddr, msg],
+          });
+
+          const bindRes = await linkWallet({
+            key: res.data, //登录临时key
+            signature: signature, //钱包签名
+            chainId: 5, //链ID
+            walletAddress: web3.eth.defaultAccount, //钱包地址
+          });
+          if (bindRes && bindRes.code == 200) {
+            // 关闭弹窗
+            this.closeDialogFun();
+            this.getAirdropData();
+          }
+        }
+      });
+    },
+    // 获取空投数据
+    async getAirdropData() {
+      const res = await getAirdrop();
+      if (res && res.code == 200) {
+        if (!res.data) {
+          return
+        }
+
+        this.airdropData = res.data;
+        this.isConnect = true;
       }
     },
     closeDialogFun() {

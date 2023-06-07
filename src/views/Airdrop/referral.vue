@@ -41,12 +41,16 @@
       <el-table-column prop="inviteCode" label="CODE" align="center" />
       <el-table-column prop="invitePeople" label="REFS" align="center" />
       <el-table-column prop="pointAmount" label="REGIST POINT" align="center" />
-      <el-table-column prop="traAmount" label="%" align="center" />
+      <el-table-column prop="traAmount" label="%" align="center">
+        <template #default>
+          {{ commissionrate }}
+        </template>
+      </el-table-column>
       <el-table-column label="EXTRA POINT" align="center"></el-table-column>
       <el-table-column label="COPY" align="center">
         <template #default="scope">
           <div class="copy_btn">
-            <img src="@/assets/svg/user/icon_invite_copy.svg" @click="onCopy(scope.row.inviteCode)" alt="">
+            <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
           </div>
         </template>
       </el-table-column>
@@ -86,6 +90,14 @@
 </template>
   
 <script>
+import {
+  userInvateStatistics,
+  rebatesCreateCode,
+  rebatesFindList,
+  getSetting
+} from "@/services/api/invite";
+import { onCopy } from "@/utils";
+import bigNumber from "bignumber.js";
 export default {
   name: 'AirdropReferral',
   data() {
@@ -93,30 +105,26 @@ export default {
       inviteCode: null,
       verifys: false,
       inviteTips: null,
+      inviteList: [],
+      statisticsRow: [],
+      setting: {
+        downCommissionRate: 0,
+        withdrawalFees: 0
+      },
       page: 1,
       size: 6,
       count: 0,
     };
   },
   computed: {
-    statisticsRow() {
-      return [
-        {
-          statisticsType: "UNISWAP POINT",
-          totalData: 10000
-        },
-        {
-          statisticsType: "OPENSEA POINT",
-          totalData: 10000
-        },
-        {
-          statisticsType: "REFERRALS",
-          totalData: 10000
-        }
-      ]
-    },
+    commissionrate() {
+      const { downCommissionRate } = this.setting;
+      const rateVal = new bigNumber(downCommissionRate).multipliedBy(100)
+      return `${rateVal}%`
+    }
   },
   methods: {
+    bigNumber: bigNumber,
     // 验证
     onVerify() {
       const { inviteCode } = this;
@@ -137,18 +145,29 @@ export default {
     async createInvite() {
       this.onVerify();
       if (!this.verifys) return
-
-      // const res = await rebatesCreateCode({
-      //   code: this.inviteCode
-      // });
-      // if (res && res.code == 200) {
-      //   this.inviteCode = null;
-      //   this.fetchInviteRecord();
-      //   this.$message.success("Created successfully");
-      // }
+      const res = await rebatesCreateCode({
+        code: this.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.inviteCode = null;
+        this.$message.success("Created successfully");
+        this.fetchRebatesFindList();
+      }
     },
-    // 检索邀请码列表
-    async fetchInviteRecord(isSearch = true) {
+    // 邀请统计
+    async fetchInvateStatistics() {
+      const res = await userInvateStatistics();
+      if (res && res.code == 200) {
+        const invites = res.data;
+        if (invites.length > 3) {
+          invites.splice(3, 1);
+        }
+
+        this.statisticsRow = invites;
+      }
+    },
+    // 邀请资产列表
+    async fetchRebatesFindList(isSearch = true) {
       const { size } = this;
       let _page = this.page;
       if (isSearch) {
@@ -156,14 +175,40 @@ export default {
         this.page = 1;
         _page = 1;
       }
-
-      console.log(_page, size)
+      const res = await rebatesFindList({
+        page: _page,
+        size: size
+      });
+      if (res && res.code == 200) {
+        this.inviteList = res.data;
+      }
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH"
+      });
+      if (res && res.code == 200) {
+        this.setting = res.data;
+      }
+    },
+    // 复制邀请链接
+    copyInviteLink(event) {
+      const currentLink = window.location;
+      const link = currentLink.origin + "/home?code=" + event;
+      onCopy(link);
+    },
+    // 翻页
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchInviteRecord();
+      this.fetchRebatesFindList();
     }
   },
+  created() {
+    this.fetchInvateStatistics();
+    this.fetchRebatesFindList();
+    this.fetchSetting();
+  }
 };
 </script>
   

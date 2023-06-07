@@ -1,89 +1,47 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog
-    v-model="visible"
-    destroy-on-close
-    :close-on-click-modal="false"
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog"
-    width="700"
-    :before-close="closeDialogFun"
-  >
+  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+    class="public-dialog" width="700" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
+        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
           <CircleCloseFilled />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
       <h2 class="public-dialog-title">Welcome</h2>
-      <el-form
-        ref="ruleFormRef"
-        label-position="top"
-        label-width="max-content"
-        :model="formRegister"
-        :rules="rules"
-        :hide-required-asterisk="true"
-        :status-icon="true"
-        class="public-login"
-      >
+      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
+        :hide-required-asterisk="true" :status-icon="true" class="public-login">
         <el-form-item label="Email" prop="email">
-          <el-input
-            v-model="formRegister.email"
-            placeholder="Enter your email"
-          />
+          <el-input v-model="formRegister.email" placeholder="Enter your email" />
         </el-form-item>
         <el-form-item label="Password" prop="passWord">
-          <el-input
-            v-model="formRegister.passWord"
-            placeholder="Enter your password"
-            type="password"
-            show-password
-          />
+          <el-input v-model="formRegister.passWord" placeholder="Enter your password" type="password" show-password />
         </el-form-item>
         <el-form-item label="Confirm password" prop="confirm">
-          <el-input
-            v-model="formRegister.confirm"
-            placeholder="Enter your password again"
-            type="password"
-            show-password
-          />
+          <el-input v-model="formRegister.confirm" placeholder="Enter your password again" type="password"
+            show-password />
         </el-form-item>
         <el-form-item class="register-captcha" label="Captcha" prop="captcha">
-          <el-input
-            v-model="formRegister.captcha"
-            placeholder="Enter your captcha"
-          >
+          <el-input v-model="formRegister.captcha" placeholder="Enter your captcha">
             <template #suffix>
-              <el-button
-                type="warning"
-                @click.stop="getCaptchaApi(ruleFormRef)"
-              >
-                {{ time < 60 ? `${time}s` : "发送验证码" }}
-              </el-button>
+              <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
+                {{ time < 60 ? `${time}s` : "Send" }} </el-button>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="InviteCode (Not Required)">
+        <!-- <el-form-item label="InviteCode (Not Required)">
           <el-input
             v-model="formRegister.inviteCode"
             placeholder="Enter your inviteCode"
           />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div class="form-link">
         <div class="form-rember">
           <span class="form-rember-rectangle" @click="showRememberFun">
-            <span
-              v-show="showRemember"
-              class="form-rember-rectangle-fill"
-            ></span>
+            <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
           </span>
           <span class="form-rember-text">
             By creating your account, you confirm that you are at least 18 years
@@ -91,10 +49,7 @@
           </span>
         </div>
       </div>
-      <el-button
-        class="public-button form-button"
-        @click="registerFun(ruleFormRef)"
-      >
+      <el-button class="public-button form-button" @click="registerFun(ruleFormRef)">
         Complete Registration
       </el-button>
     </div>
@@ -106,6 +61,7 @@ import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import { getCaptcha, getReg } from "@/services/api/user";
+import { getSessionStore } from "@/utils";
 
 // const router = useRouter();
 const userStore = useUserStore();
@@ -192,7 +148,7 @@ const getCaptchaApi = async (formEl) => {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "验证码发送成功,请前往邮箱查看",
+          message: "The verification code has been sent successfully, please check your email",
           type: "success",
         });
       }
@@ -207,16 +163,23 @@ const registerFun = async (formEl) => {
     if (valid) {
       if (!showRemember.value) {
         ElMessage({
-          message: "请同意条款",
+          message: "Please agree to the terms",
           type: "warning",
         });
         return;
       }
+      // eslint-disable-next-line no-unused-vars
       const { confirm, ...data } = formRegister;
+
+      // 如果有则填入邀请码
+      const inviteCode = getSessionStore("invateCode") || null;
+      if (inviteCode) {
+        data.inviteCode = inviteCode;
+      }
+
       const res = await getReg(data);
       if (res && res.code === 200) {
         userStore.setReg(res.data);
-        // router.push({ path: `login` });
         if (res.data.certificate) {
           localStorage.setItem("certificate", res.data.certificate);
         }
@@ -233,6 +196,7 @@ const registerFun = async (formEl) => {
   font-size: 16px;
   color: #a9a4b4;
 }
+
 .form-rember-rectangle {
   display: flex;
   align-content: center;
@@ -247,6 +211,7 @@ const registerFun = async (formEl) => {
   border: solid 1px #a9a4b4;
   cursor: pointer;
 }
+
 .form-rember-rectangle-fill {
   display: inline-block;
   width: 8px;
@@ -255,6 +220,7 @@ const registerFun = async (formEl) => {
   border-radius: 2px;
   background-color: #fad54d;
 }
+
 .form-rember {
   display: flex;
   align-content: center;
@@ -262,14 +228,17 @@ const registerFun = async (formEl) => {
   font-size: 16px;
   text-align: left;
 }
+
 .form-forgot,
 .form-register-link {
   color: #11cde9;
   cursor: pointer;
 }
+
 .form-register-link {
   margin-left: 20px;
 }
+
 .form-button {
   margin: 40px auto 20px;
 }
@@ -279,6 +248,7 @@ const registerFun = async (formEl) => {
   .el-input__wrapper {
     padding-right: 0 !important;
   }
+
   .el-input__validateIcon {
     display: none !important;
   }

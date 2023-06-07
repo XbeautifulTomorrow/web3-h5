@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { statisticsClick } from "@/services/api/user";
+import { setSessionStore } from "@/utils";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
@@ -70,7 +72,14 @@ const router = createRouter({
 });
 
 // 切换页面重置滚动位置
-router.afterEach(() => {
+router.afterEach((to) => {
+  const { query } = to;
+  if (query && query.code) {
+    // 保存邀请码到本地存储
+    setSessionStore("invateCode", query.code);
+    // 统计邀请链接打开数量
+    statisticsClick({ code: query.code });
+  }
   window.scrollTo(0, 0);
 })
 

@@ -44,6 +44,7 @@
     }
 
     .statistics_item {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -112,6 +113,10 @@
 
   .tabel_tbody {
     margin-top: 0.25rem;
+
+    &>div+div {
+      margin-top: 0.25rem;
+    }
   }
 
   .tabel_tbody_item {
@@ -196,6 +201,74 @@
       line-height: 1.5;
       text-align: center;
       color: white;
+    }
+  }
+}
+
+.pagination_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.875rem;
+
+  .total_box {
+    font-family: Tomorrow;
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: white;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+
+    .prev,
+    .next {
+      width: 2.375rem;
+      height: 2.375rem;
+      font-size: 1.25rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      background-image: linear-gradient(-135deg, #1e90f9 0%, #e022e3 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.disabled {
+        background-color: #1d0f36;
+        background-image: none;
+        cursor: not-allowed;
+      }
+    }
+
+    .page_box {
+      display: flex;
+      align-items: center;
+      padding: 0 1.25rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: left;
+      color: #a9a4b4;
+
+      &>span:nth-child(1) {
+        display: inline-block;
+        width: 5rem;
+        height: 2.375rem;
+        box-sizing: border-box;
+        margin-right: 0.25rem;
+        border-radius: 0.25rem;
+        border: solid 1px rgba(228, 231, 245, 0.3);
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 2.375rem;
+        text-align: center;
+        color: #a9a4b4;
+      }
+
     }
   }
 }

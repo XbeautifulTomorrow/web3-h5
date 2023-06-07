@@ -175,7 +175,7 @@ export function timeForStr(time, str) {
  * @param string event 时间
  */
 export function timeFormat(event) {
-  if (!event) return "-"
+  if (!event) return "--"
   const timestamp = new Date(event).getTime() / 1000;
 
   function zeroize(num) {

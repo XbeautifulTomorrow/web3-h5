@@ -111,19 +111,13 @@ const loginFun = async (formEl) => {
         if (res.data.certificate) {
           localStorage.setItem("certificate", res.data.certificate);
         }
-        if (res.data.userType === "NORMAL") {
+        if (res.data.userType !== "NORMAL") {
           ElMessage({
-            message: "账号正常",
-            type: "success",
-          });
-        } else {
-          ElMessage({
-            message: "账号异常",
+            message: "Abnormal account",
             type: "warning",
           });
         }
         userStore.setLogin(res.data);
-        // goTo("home");
         closeDialogFun();
       }
     } else {

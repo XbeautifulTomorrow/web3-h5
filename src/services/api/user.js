@@ -51,6 +51,9 @@ const getWithdrawalHistory = (params) =>
 const rechargeByHash = (params) =>
   apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
+const statisticsClick = params => // 统计点击次数
+  apiService.get('mystery-web-user/user/invite', params)
+
 export {
   getKey,
   authLogin,
@@ -69,4 +72,5 @@ export {
   withdrawalNft,
   getWithdrawalHistory,
   rechargeByHash,
+  statisticsClick
 };

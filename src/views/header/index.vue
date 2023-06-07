@@ -66,11 +66,6 @@
         </div>
       </div>
     </div>
-    <WalletList
-      v-if="showConnect"
-      @connectWallet="connect"
-      @close="closeDialogFun"
-    />
     <Login
       v-if="pageType === 'login'"
       @closeDialogFun="closeDialogFun"
@@ -95,7 +90,6 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import WalletList from "../wallet/index.vue";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
@@ -103,14 +97,12 @@ import Forgot from "../forgot/index.vue";
 export default {
   name: "HeaderCom",
   components: {
-    WalletList,
     Login,
     Register,
     Forgot,
   },
   data() {
     return {
-      showConnect: false,
       pageType: "",
       nav: [
         {
@@ -180,7 +172,6 @@ export default {
           class: "logout",
         },
       ],
-      receiver: "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB", //收款地址
     };
   },
   mounted() {

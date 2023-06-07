@@ -25,169 +25,65 @@
         :class="[
           'recharge-menu-list',
           {
-            'choose-list': tokenChoose == index + 1,
+            'choose-list': operateChoose == item,
           },
         ]"
-        v-for="(item, index) in coinItems"
+        v-for="(item, index) in operateItems"
         :key="`coin-${index}`"
-        @click="tokenChooseFun(index)"
+        @click="operateChooseFun(item)"
       >
         {{ item }}
       </li>
     </ul>
-    <div class="recharge-title">
-      <el-icon @click="closeDialogFun" color="#e4e7f5" size="32">
-        <ArrowLeft />
-      </el-icon>
-      <img
-        v-if="tokenChoose == 1"
-        class="recharge-title-icon"
-        src="@/assets/img/recharge/ETH.png"
-        alt=""
-      />
-      <img
-        v-else-if="tokenChoose == 2"
-        class="recharge-title-icon"
-        src="@/assets/img/recharge/USDT.png"
-        alt=""
-      />
-      <span class="recharge-title-text">
-        {{ `${title} ${coinItems[tokenChoose - 1]}` }}
-      </span>
-    </div>
-    <div class="recharge-address">
-      <div class="recharge-address-qr">
-        <!-- <img
-          class="recharge-address-qr-img"
-          src="@/assets/img/recharge/USDT.png"
-          alt=""
-        /> -->
-        <div class="recharge-address-qr-img" ref="qrCodeDiv"></div>
-        <div class="recharge-address-input">
-          <p class="recharge-text">
-            Send the amount of Ethereum of your choice to the following address
-            to receive the equivalent in Coins.
-          </p>
-          <el-input
-            v-model="address"
-            placeholder="Paste your Ethereum wallet address here"
-          >
-            <template #suffix>
-              <div class="recharge-add">
-                <el-button
-                  class="public-button"
-                  type="primary"
-                  @click.stop="copyFun"
-                >
-                  COPY
-                </el-button>
-              </div>
-            </template>
-          </el-input>
-        </div>
-      </div>
-      <div class="recharge-warning">
-        <div class="recharge-warning-first">
+    <template v-if="tokenChoose === 0">
+      <h2 class="recharge-title">{{ operateChoose }} OPTIONS</h2>
+      <ul class="recharge-logos">
+        <li
+          v-for="(item, index) in coinList"
+          :key="`list-${index}`"
+          @click="tokenChoose = index + 1"
+          class="recharge-list"
+        >
           <img
-            class="recharge-warning-img"
-            src="@/assets/img/recharge/warning.png"
+            v-if="item.url"
+            class="recharge-list-img"
+            :src="item.url"
             alt=""
           />
-          <p class="recharge-text warning-text">
-            Only deposit over the ETH network. Do not use BNB or BSC networks.
-            Also do not use third-party smart contracts for transfers.
-          </p>
-        </div>
-        <p v-show="tokenChoose == 1" class="recharge-text warning-text">
-          Do NOT send NFT's to this ETH deposit address. In order to recover
-          NFTs deposited to this address an administrative fee will be charged.
-        </p>
-      </div>
-    </div>
-    <div class="recharge-add-input">
-      <div v-if="tokenChoose == 3 || tokenChoose == 4">
-        <div
-          class="recharge-content"
-          :key="`recharge-${index}`"
-          v-for="(item, index) in transferNFTAddress"
+          <p class="recharge-list-text">{{ item.text }}</p>
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <div class="recharge-title-back">
+        <el-icon
+          class="pointer"
+          @click="tokenChoose = 0"
+          color="#e4e7f5"
+          size="32"
         >
-          <div class="recharge-coin-input">
-            <p class="recharge-coin-label">
-              <span>NFT合约地址</span>
-              <span v-if="transferNFTAddress.length > 1">{{ index + 1 }}</span>
-              <el-icon
-                v-if="transferNFTAddress.length > 1"
-                @click="deleteTransferNFTAddressun(index)"
-                class="recharge-icon title-icon"
-              >
-                <Delete />
-              </el-icon>
-            </p>
-            <el-input
-              :key="`nft-input-${index}`"
-              v-model="transferNFTAddress[index]"
-              placeholder="Please input"
-            />
-          </div>
-          <div
-            class="recharge"
-            v-for="(item1, index1) in transferNFTID[index]"
-            :key="`nft-${index1}`"
-          >
-            <div class="recharge-coin-input nft-input">
-              <p class="recharge-coin-label">NFT token id</p>
-              <el-input
-                class="recharge-input"
-                v-model="transferNFTID[index][index1].tokenid"
-                placeholder="Please input"
-              />
-            </div>
-            <div class="recharge-coin-input nft-input">
-              <p class="recharge-coin-label" v-if="tokenChoose != 4">数量</p>
-              <el-input
-                class="recharge-input"
-                v-if="tokenChoose != 4"
-                v-model="transferNFTID[index][index1].amount"
-                placeholder="Please amount"
-              >
-                <template #suffix>
-                  <div
-                    class="recharge-add"
-                    v-if="index1 === transferNFTID[index].length - 1"
-                  >
-                    <el-button
-                      class="public-button"
-                      type="primary"
-                      @click.stop="addTransferNFTIDFun(index)"
-                    >
-                      添加
-                    </el-button>
-                  </div>
-                </template>
-              </el-input>
-              <el-icon
-                v-if="transferNFTID[index].length > 1"
-                @click="deleteTransferNFTIDFun(index, index1)"
-                class="recharge-icon"
-              >
-                <Delete />
-              </el-icon>
-            </div>
-          </div>
-        </div>
-        <div class="recharge-coin-input">
-          <el-button
-            class="public-button"
-            type="primary"
-            @click="addTransferNFTAddressun"
-          >
-            添加
-          </el-button>
-        </div>
+          <ArrowLeft />
+        </el-icon>
+        <img
+          v-if="tokenChoose == 1"
+          class="recharge-title-icon"
+          :src="ETHIcon"
+          alt=""
+        />
+        <img
+          v-else-if="tokenChoose == 2"
+          class="recharge-title-icon"
+          :src="USDTIcon"
+          alt=""
+        />
+        <span class="recharge-title-text">
+          {{ `${operateChoose} ${coinItems[tokenChoose - 1]}` }}
+        </span>
       </div>
-      <div class="recharge-coin-input" v-else>
+      <qr-code :tokenChoose="tokenChoose" />
+      <div class="recharge-coin-input" v-if="tokenChoose != 4">
         <p class="recharge-coin-label">数量</p>
-        <el-input v-model="amountVal[0]" placeholder="Please amount" />
+        <el-input v-model="amountVal" placeholder="Please amount" />
       </div>
       <div
         class="recharge-coin-input"
@@ -196,8 +92,8 @@
         <p class="recharge-coin-label">OrderId</p>
         <el-input v-model="orderVal" placeholder="Please orderId" />
       </div>
-    </div>
-    <template #footer>
+    </template>
+    <template v-if="tokenChoose > 0" #footer>
       <div class="dialog-footer">
         <el-button
           class="public-button public-continue"
@@ -213,57 +109,66 @@
   </el-dialog>
 </template>
 <script setup>
-import {
-  ref,
-  reactive,
-  h,
-  computed,
-  defineProps,
-  defineEmits,
-  onMounted,
-  onUnmounted,
-} from "vue";
+import { ref, h, computed, defineProps, defineEmits, onMounted } from "vue";
 import Web3 from "web3";
 
-import { ElNotification, ElMessage } from "element-plus";
-import QRCode from "qrcodejs2";
+import { ElNotification } from "element-plus";
 
 import transferAbi from "@/config/transfer.json";
 import nftAbi from "@/config/nft.json";
 import nft1155Abi from "@/config/1155.json";
 import erc20Abi from "@/config/erc20.json";
 
+import qrCode from "./qrCode.vue";
+
+import ETHIcon from "@/assets/img/recharge/ETH.png";
+import USDTIcon from "@/assets/img/recharge/USDT.png";
+
 const props = defineProps({
   dialogVisible: {
     type: Boolean,
     default: false,
   },
-  title: {
-    type: String,
-    default: "DEPOSIT",
+  isDeposit: {
+    type: Boolean,
+    default: true,
+  },
+  nftData: {
+    type: Object,
+    default: () => {},
   },
 });
 const emit = defineEmits("closeDialogFun");
-
+const operateItems = ["DEPOSIT", "WITHDRAW"];
 const coinItems = ["ETH", "USDT", "NFT-1155", "NFT-721"];
-const NFTID = {
-  tokenid: "",
-  amount: 1,
-};
-const qrCodeDiv = ref(null);
-let timer = ref(null);
-// let title = ref("DEPOSIT");
-const qrText = ref("https://github.com/");
-let qrcode = ref(null);
-const tokenChoose = ref(1);
-const amountVal = reactive([1]);
-const address = ref("");
+const coinList = [
+  {
+    text: "Ethereum [ETH]",
+    url: ETHIcon,
+  },
+  {
+    text: "USDT",
+    url: USDTIcon,
+  },
+  {
+    text: "NFT-1155",
+    url: "",
+  },
+  {
+    text: "NFT-721",
+    url: "",
+  },
+];
+
+const tokenChoose = ref(0);
+const operateChoose = ref(operateItems[0]);
+const amountVal = ref(1);
 const orderVal = ref("");
-let transferNFTID = reactive([[{ tokenid: "", amount: 1 }]]);
-const transferNFTAddress = reactive([""]);
+const transferNFTAddress = ref("");
 const usdtAddress = ref("0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535");
 const nftTokenAddress = ref("0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"); //nft充值
-const transferAddress = ref("0x927e481e98e01bef13d1486be2fcc23a00761524");
+const receiver = "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB"; //收款地址
+// const transferAddress = ref("0x927e481e98e01bef13d1486be2fcc23a00761524");
 // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
 // const lottContractAddress = ref("0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d"); //抽奖合约
 
@@ -277,145 +182,67 @@ const dialogVisible = computed({
 });
 
 onMounted(() => {
-  timer.value = setTimeout(() => {
-    createQrcode();
-  }, 10);
-});
-onUnmounted(() => {
-  clearTimerFun();
+  if (!props.isDeposit) {
+    operateChoose.value = operateItems[1];
+  }
 });
 
-const clearTimerFun = () => {
-  clearTimeout(timer.value);
-  timer.value = null;
-  timer = null;
-};
-const tokenChooseFun = (index) => {
-  tokenChoose.value = index + 1;
-  qrText.value = "http://www.google.com/";
-  qrcode.value.makeCode(qrText.value);
-};
-const createQrcode = () => {
-  if (qrCodeDiv?.value) {
-    qrcode.value = new QRCode(qrCodeDiv.value, {
-      text: qrText.value,
-      width: 150,
-      height: 150,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H,
-    });
-  }
-};
-const copyFun = () => {
-  //   navigator.clipboard
-  //     .writeText(address.value)
-  //     .then(() => {
-  //       ElMessage({
-  //         message: "内容复制成功",
-  //         type: "success",
-  //       });
-  //     })
-  //     .catch(() => {
-  //       ElMessage({
-  //         message: "内容复制失败",
-  //         type: "warning",
-  //       });
-  //     });
-  navigator.clipboard
-    .readText()
-    .then((clipText) => {
-      address.value = clipText;
-      ElMessage({
-        message: "内容粘贴成功",
-        type: "success",
-      });
-    })
-    .catch(() => {
-      ElMessage({
-        message: "内容粘贴失败",
-        type: "warning",
-      });
-    });
-};
-const dataArrFun = (arr, key) => {
-  let _arr = [];
-  arr.forEach((item, index) => {
-    let _itemArr = [];
-    let num = "";
-    item.forEach((_item) => {
-      num = _item[key];
-      if (key == "amount") {
-        num = parseInt(_item[key]);
-      }
-      _itemArr.push(num);
-    });
-    _arr[index] = _itemArr;
-  });
-  return _arr;
-};
-const addTransferNFTAddressun = () => {
-  transferNFTAddress.push("");
-  const _last = transferNFTID[transferNFTID.length - 1];
-  const _data = JSON.parse(JSON.stringify(_last));
-  transferNFTID.push(_data);
-};
-const deleteTransferNFTAddressun = (index) => {
-  if (transferNFTAddress.length < 2) return;
-  transferNFTAddress.splice(index, 1);
-  transferNFTID.splice(index, 1);
-};
-const addTransferNFTIDFun = (index) => {
-  const _data = JSON.parse(JSON.stringify(NFTID));
-  transferNFTID[index].push(_data);
-};
-const deleteTransferNFTIDFun = (index, _index) => {
-  if (transferNFTID[index].length < 2) return;
-  transferNFTID[index].splice(_index, 1);
-};
 const closeDialogFun = () => {
   emit("closeDialogFun");
+};
+const operateChooseFun = (name) => {
+  operateChoose.value = name;
 };
 const transfer = async () => {
   closeDialogFun();
   const web3 = new Web3(window.ethereum);
-  const contractAddress = transferAddress;
+  const { contractAddress = "0x927e481e98e01bef13d1486be2fcc23a00761524" } =
+    props;
   const transferContract = new web3.eth.Contract(transferAbi, contractAddress);
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
 
-  const amount = web3.utils.toWei(amountVal[0].toString(), "ether");
-  const receiver = receiver;
+  const amount = web3.utils.toWei(amountVal.value.toString(), "ether");
   const orderId = orderVal;
   let nftList = [];
   if (tokenChoose.value == 3) {
-    transferNFTAddress.forEach(async (item) => {
-      //多个nft授权
-      let nftContract = new web3.eth.Contract(
-        nft1155Abi,
-        item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
-      );
-      nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
-      // //授权
-      await nftContract.methods
-        .setApprovalForAll(nftTokenAddress, true)
-        .send({ from: accounts[0] });
-    });
+    let nftContract = new web3.eth.Contract(
+      nft1155Abi,
+      transferNFTAddress.value || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
+    );
+    nftList.push(
+      transferNFTAddress.value || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
+    );
+    // //授权
+    await nftContract.methods
+      .setApprovalForAll(nftTokenAddress, true)
+      .send({ from: accounts[0] });
 
     const nftTransferContract = new web3.eth.Contract(nftAbi, nftTokenAddress); //nft转账合约
-    const _tokenid = dataArrFun(transferNFTID, "tokenid"); // [[tokenid1,tokenid2], [tokenid1,tokenid2]]
-    const _amount = dataArrFun(transferNFTID, "amount");
     if (tokenChoose.value == 4) {
       //721充值
       await nftTransferContract.methods
-        .transferNFTMultti(nftList, _tokenid, receiver, orderId, "0x")
+        .transferNFTMultti(
+          nftList,
+          [props.nftData.tokenId],
+          receiver,
+          orderId,
+          "0x"
+        )
         .send({ from: accounts[0] });
       return;
     }
     //1155充值
     await nftTransferContract.methods
-      .transfer1155Multi(nftList, _tokenid, _amount, receiver, orderId, "0x")
+      .transfer1155Multi(
+        nftList,
+        [props.nftData.tokenId],
+        [amountVal.value],
+        receiver,
+        orderId,
+        "0x"
+      )
       .send({ from: accounts[0] });
     return;
   }
@@ -457,6 +284,8 @@ const transfer = async () => {
 </style>
 <style lang="scss">
 .recharge-coin {
+  box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.05) !important;
+  background-image: none !important;
   .public-button {
     flex: 1;
     width: auto;

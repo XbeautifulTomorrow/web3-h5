@@ -1,26 +1,41 @@
 <template>
-  <div class="login">
-    <popup-page
-      :model-value="test"
-      title="Connect wallet"
-      @closePopup="closePopup"
-    >
-      <p class="explain-text">Choose a wallet connection method</p>
-      <Link
-        class="login-margin-top"
-        :src="require('@/assets/img/login/icon-metamask.png')"
-        text="MetaMask"
-        link="home"
-        @click="connectParent"
-      />
-      <Link
-        class="login-margin-top"
-        :src="require('@/assets/img/login/icon-walletconnect.png')"
-        text="WalletConnect"
-        link="https://translate.google.com"
-      />
-    </popup-page>
-  </div>
+  <el-dialog
+    v-model="newValue"
+    destroy-on-close
+    width="800"
+    class="public-dialog recharge-coin"
+    :show-close="false"
+    :align-center="true"
+    :append-to-body="true"
+  >
+    <template #header="{ close }">
+      <div class="public-dialog-header">
+        <el-icon
+          v-on="{ click: [close, closeDialogFun] }"
+          color="#2d313f"
+          size="16"
+          class="public-dialog-header-icon"
+        >
+          <CircleCloseFilled />
+        </el-icon>
+      </div>
+    </template>
+    <h2 class="wallet-title">{{ title }} NFT'S</h2>
+    <p class="wallet-text">Choose a wallet connection method</p>
+    <Link
+      class="login-margin-top"
+      :src="require('@/assets/img/login/icon-metamask.png')"
+      text="MetaMask"
+      link="home"
+      @click="connectParent"
+    />
+    <Link
+      class="login-margin-top"
+      :src="require('@/assets/img/login/icon-walletconnect.png')"
+      text="WalletConnect"
+      link="https://translate.google.com"
+    />
+  </el-dialog>
 </template>
 <script>
 import Web3 from "web3";
@@ -34,18 +49,24 @@ import {
 } from "@/services/api/user";
 import { useHeaderStore } from "@/store/header.js";
 
-import PopupPage from "@/components/popup/index.vue";
 import Link from "./link.vue";
 export default {
   name: "LoginPage",
   components: {
-    PopupPage,
     Link,
   },
-  props: ["connect", "close"],
+  props: {
+    title: {
+      type: String,
+      default: "Deposit",
+    },
+    dialogVisible: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
-      test: true,
       web3: null,
     };
   },
@@ -62,6 +83,14 @@ export default {
     regInfo() {
       const { regInfo } = this.userStore;
       return regInfo;
+    },
+    newValue: {
+      get: function () {
+        return this.dialogVisible;
+      },
+      set: function (value) {
+        this.$emit("update:modelValue", value);
+      },
     },
   },
   methods: {
@@ -112,6 +141,11 @@ export default {
           });
       }
     },
+    getTheUserBalanceInfo() {
+      this.headerStoreStore.getTheUserBalanceApi();
+      // let res = await getTheUserBalance();
+      // this.ethBalance = res.data[0].balance;
+    },
     async login() {
       let web3 = window.web3;
       getKey().then(async (res) => {
@@ -134,30 +168,29 @@ export default {
             localStorage.setItem("certificate", loginData.data.certificate);
           }
           let receiver = await getTheUserSPayoutAddress();
-          this.getTheUserBalanceInfo();
-          this.closeDialogFun();
           this.receiver = receiver.data;
           localStorage.setItem("receiver", this.receiver);
+          this.$emit("linkWallet");
+          this.getTheUserBalanceInfo();
+          this.closeDialogFun();
         }
       });
     },
-    closePopup() {
-      this.test = false;
-      this.$emit("close");
+    closeDialogFun() {
+      this.$emit("closeDialogFun");
     },
   },
 };
 </script>
-<style lang="scss" scoped></style>
 <style lang="scss" scoped>
-.popup {
-  z-index: 999;
+.wallet-title {
+  font-size: 64px;
+  color: #e4e7f5;
+  font-weight: normal;
 }
-.explain-text {
+.wallet-text {
+  color: #a9a4b4;
   font-size: 18px;
-  color: #a896b5;
-}
-.login-margin-top {
-  margin-top: 16px;
+  margin-top: 10px;
 }
 </style>

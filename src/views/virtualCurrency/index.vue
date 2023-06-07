@@ -81,7 +81,7 @@
           </span>
         </li>
         <li class="popup-list-button">
-          <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
+          <div class="mystery-box-button">
             Go to Mystery Box
           </div>
         </li>

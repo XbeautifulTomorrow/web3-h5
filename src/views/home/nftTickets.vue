@@ -8,7 +8,7 @@
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in ticketList">
-        <li class="ntf-tickets-list" @click="handleTickets(item)" v-if="index < 5" :key="`tickets-${index}`">
+        <li class="ntf-tickets-list" v-if="index < 5" :key="`tickets-${index}`">
           <div class="img-box">
             <img class="tickets-boxs-list-img" :src="item.nftImage" alt="" />
             <div class="type-box">
@@ -48,7 +48,7 @@
         </li>
       </template>
     </ul>
-    <div class="ntf-tickets-all" @click="openAll()">
+    <div class="ntf-tickets-all">
       <span>View all competition</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>

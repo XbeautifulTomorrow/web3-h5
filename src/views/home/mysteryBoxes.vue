@@ -8,8 +8,7 @@
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in boxList">
-        <li class="mystery-boxes-item" v-if="index < 4" :key="`mystery-${index}`"
-          @click="$router.push('mysteryBox?boxId=' + item.id)">
+        <li class="mystery-boxes-item" v-if="index < 4" :key="`mystery-${index}`">
           <div class="img_box">
             <img class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
           </div>

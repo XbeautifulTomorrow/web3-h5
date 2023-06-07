@@ -31,7 +31,7 @@
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
           </span>
-          <!-- <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
           <div class="header-user-popup">
             <ul class="header-user-content">
               <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
@@ -40,7 +40,7 @@
                 <span>{{ item.text }}</span>
               </li>
             </ul>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -161,7 +161,7 @@ export default {
       showConnect: false,
       pageType: "",
       nav: [
-      {
+        {
           text: "Home",
           page: "home",
         },
@@ -179,38 +179,6 @@ export default {
         },
       ],
       userList: [
-        {
-          text: "Profile",
-          class: "myProfile",
-        },
-        {
-          text: "Wallet",
-          class: "wallet",
-        },
-        // {
-        //   text: "Wallet Log",
-        //   class: "walletLog",
-        // },
-        {
-          text: "Competitions",
-          class: "competitions",
-        },
-        // {
-        //   text: "My Collections",
-        //   class: "myCollections",
-        // },
-        // {
-        //   text: "Create",
-        //   class: "create",
-        // },
-        {
-          text: "Referral",
-          class: "referral",
-        },
-        {
-          text: "Settings",
-          class: "settings",
-        },
         {
           text: "Logout",
           class: "logout",

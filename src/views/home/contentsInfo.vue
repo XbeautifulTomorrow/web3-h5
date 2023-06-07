@@ -35,9 +35,9 @@
       </el-table-column>
       <el-table-column prop="boxName" label="Recommended" />
       <el-table-column prop="date" label="Action" align="right">
-        <template #default="scope">
+        <template #default>
           <div class="active_btn">
-            <img @click="handleActive(scope.row)" src="@/assets/svg/home/icon_active.svg" alt="">
+            <img src="@/assets/svg/home/icon_active.svg" alt="">
           </div>
         </template>
       </el-table-column>

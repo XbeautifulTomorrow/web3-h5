@@ -26,15 +26,8 @@
             Register
           </div>
         </div>
-        <div
-          class="header-button"
-          @click="showConnect = true"
-          v-if="!userInfo?.id && !conncectAddress"
-        >
-          {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
-        </div>
       </div>
-      <div v-if="userInfo?.id || conncectAddress" class="header-login">
+      <div v-if="userInfo?.id" class="header-login">
         <div class="header-wallet">
           <img
             class="header-wallet-img"
@@ -97,18 +90,10 @@
 </template>
 
 <script>
-import Web3 from "web3";
 import { mapStores } from "pinia";
-import { BigNumber } from "bignumber.js";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-
-import {
-  getKey,
-  authLogin,
-  getTheUserSPayoutAddress,
-} from "@/services/api/user";
 
 import WalletList from "../wallet/index.vue";
 import Login from "../login/index.vue";
@@ -125,9 +110,6 @@ export default {
   },
   data() {
     return {
-      dialogVisible: true,
-      conncectAddress: null,
-      web3: null,
       showConnect: false,
       pageType: "",
       nav: [
@@ -222,7 +204,6 @@ export default {
   methods: {
     closeDialogFun() {
       this.pageType = "";
-      this.showConnect = false;
       if (this.userInfo) {
         this.getTheUserBalanceInfo();
       } else if (this.regInfo) {
@@ -238,85 +219,7 @@ export default {
       // let res = await getTheUserBalance();
       // this.ethBalance = res.data[0].balance;
     },
-    async login() {
-      const _that = this;
-      let web3 = window.web3;
-      getKey().then(async (res) => {
-        if (res.data) {
-          console.log(web3.eth, "web3=== ");
-          this.generateKey = web3.utils.toHex(res.data);
-          let msg = this.generateKey;
-          const signature = await window.ethereum.request({
-            method: "personal_sign",
-            params: [_that.conncectAddress, msg],
-          });
-          let loginData = await authLogin({
-            key: res.data, //登录临时key
-            signature: signature, //钱包签名
-            chainId: 5, //链ID
-            walletAddress: web3.eth.defaultAccount, //钱包地址
-            walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
-            inviteCode: "", //邀请码
-          });
-          if (loginData.data.certificate) {
-            localStorage.setItem("certificate", loginData.data.certificate);
-          }
-          let receiver = await getTheUserSPayoutAddress();
-          this.getTheUserBalanceInfo();
-          this.closeDialogFun();
-          this.receiver = receiver.data;
-          localStorage.setItem("receiver", this.receiver);
-        }
-      });
-    },
-    async connect() {
-      let web3 = new Web3(window.ethereum);
-      const _that = this;
-      let ethereum = window.ethereum;
-      if (typeof ethereum === "undefined") {
-        //没安装MetaMask钱包进行弹框提示
-        alert("请安装MetaMask");
-      } else {
-        //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
-        ethereum
-          .enable()
-          .catch(function (reason) {
-            //如果用户拒绝了登录请求
-            if (reason === "User rejected provider access") {
-              // 用户拒绝登录后执行语句；
-            } else {
-              // 本不该执行到这里，但是真到这里了，说明发生了意外
-              alert("There was a problem signing you in");
-            }
-          })
-          .then(async function (accounts) {
-            // 判断是否连接以太
-            // if (ethereum.networkVersion !== desiredNetwork) {
-            // }
-            // let web3Provider = new Web3.providers.HttpProvider(
-            //   "https://eth.llamarpc.com"
-            // );
-            // web3 = new Web3("https://goerli.infura.io/v3/60e51d66a38e4624bfb90643cff08d0b");
-            web3 = new Web3(window.ethereum);
-            //如果用户同意了登录请求，你就可以拿到用户的账号
-            web3.eth.defaultAccount = accounts[0];
-            window.web3 = web3;
-            _that.web3 = web3;
-            _that.conncectAddress = accounts[0];
-            const headerStore = useHeaderStore();
-            const _ethBalance = new BigNumber(
-              await _that.web3.eth.getBalance(accounts[0])
-            )
-              .div(1e18)
-              .toFixed(4);
-            headerStore.setBalance(_ethBalance);
-            headerStore.setWallet(accounts[0]);
-            _that.login();
-            //这里返回用户钱包地址
-            // callback(accounts[0]);
-          });
-      }
-    },
+
     goTo(page = "home") {
       this.$router.push({ path: `/${page}` });
     },

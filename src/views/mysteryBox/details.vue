@@ -17,7 +17,7 @@
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div class="text"> {{ blindDetailInfo.boxDesc }}</div>
+            <div class="text">{{ blindDetailInfo.boxDesc }}</div>
           </div>
         </div>
         <div class="lottery_boxs_r">
@@ -29,7 +29,8 @@
                 <div class="box_text">BOX</div>
               </div>
               <div class="lottery_btn">
-                {{ blindDetailInfo && blindDetailInfo.price }} {{ blindDetailInfo.coin }}
+                {{ blindDetailInfo && blindDetailInfo.price }}
+                {{ blindDetailInfo.coin }}
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -43,7 +44,8 @@
               </div>
               <div class="lottery_btn">
                 {{
-                  blindDetailInfo && new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
+                  blindDetailInfo &&
+                  new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
                 }}
                 {{ blindDetailInfo?.coin }}
               </div>
@@ -60,7 +62,8 @@
             </div>
             <div class="lottery_btn">
               {{
-                blindDetailInfo && new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
+                blindDetailInfo &&
+                new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
               }}
               {{ blindDetailInfo.coin }}
             </div>
@@ -73,11 +76,16 @@
         <div class="title_text">NFTS IN THIS BOX</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series" :key="index">
+        <div
+          class="nft_series_item"
+          @click="handleShowNft(item)"
+          :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series"
+          :key="index"
+        >
           <div :class="[`series_level_${typrFormat(item)}`]">
             <div class="img_box">
-              <img :src="item.seriesImg" alt="">
+              <img :src="item.seriesImg" alt="" />
             </div>
             <div class="series_info">
               <div class="series_name">
@@ -94,9 +102,7 @@
             </div>
           </div>
           <div class="mask_box">
-            <div class="show_series_btn">
-              Show NFTs
-            </div>
+            <div class="show_series_btn">Show NFTs</div>
           </div>
         </div>
       </div>
@@ -108,17 +114,28 @@
         </div>
         <div class="title-box-r">
           <div class="title">Snapshot ID</div>
-          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
-            placeholder="Search by snapshot ID">
+          <el-input
+            v-model.number="snapshotId"
+            @keyup.enter="handleSearch()"
+            class="snapshot_input"
+            placeholder="Search by snapshot ID"
+          >
             <template #suffix>
-              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
+              <el-icon
+                class="search_btn el-input__icon"
+                @click="handleSearch()"
+              >
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
       </div>
-      <el-table :data="snapshotData" class="table_container" style="width: 100%">
+      <el-table
+        :data="snapshotData"
+        class="table_container"
+        style="width: 100%"
+      >
         <el-table-column prop="id" label="Snapshot ID" align="center">
         </el-table-column>
         <el-table-column prop="boxName" label="Box Name" align="center" />
@@ -150,20 +167,42 @@
         <el-table-column prop="date" label="Details" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
-                alt="" />
+              <img
+                class="nft_info"
+                @click="handleActive(scope.row)"
+                src="@/assets/svg/box/icon_info.svg"
+                alt=""
+              />
+              <img
+                class="nft_info_active"
+                @click="handleActive(scope.row)"
+                src="@/assets/svg/box/icon_info_active.svg"
+                alt=""
+              />
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        <el-pagination
+          v-model="page"
+          :page-size="size"
+          @current-change="handleCurrentChange"
+          :pager-count="7"
+          layout="prev, pager, next"
+          :total="count"
+          prev-text="Pre"
+          next-text="Next"
+        />
       </div>
     </div>
   </div>
-  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
+  <el-dialog
+    v-model="showSeriesDialog"
+    class="series_dialog"
+    fullscreen
+    align-center
+  >
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
@@ -177,9 +216,8 @@
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
-import {
-  getSnapshotList
-} from "@/services/api/blindBox";
+import { useUserStore } from "@/store/user.js";
+import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
 import { timeFormat } from "@/utils";
@@ -211,7 +249,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore),
+    ...mapStores(useHeaderStore, useUserStore),
   },
   methods: {
     timeFormat: timeFormat,
@@ -225,6 +263,11 @@ export default {
     rollNumberFun(type) {
       const { blindDetailInfo } = this;
       const { balance } = this.headerStoreStore;
+      const { userInfo } = this.userStore;
+      if (!userInfo) {
+        this.messageFun("您还未登录,请登录后重试!");
+        return;
+      }
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
         return;
@@ -242,15 +285,15 @@ export default {
       if (!boxNftInfos.length > 0) return "4";
       const { qualityType } = boxNftInfos[0];
       if (qualityType == "LEGEND") {
-        return "1"
+        return "1";
       }
       if (qualityType == "RARE") {
-        return "2"
+        return "2";
       }
       if (qualityType == "EPIC") {
-        return "3"
+        return "3";
       } else {
-        return "4"
+        return "4";
       }
     },
     handleShowNft(event) {
@@ -269,7 +312,7 @@ export default {
       const res = await getSnapshotList({
         snapshotId: this.snapshotId,
         page: this.page,
-        size: this.size
+        size: this.size,
       });
 
       if (res && res.code == 200) {
@@ -281,19 +324,24 @@ export default {
       this.page = page;
       this.fetchSnapshotList();
     },
-    /** 
+    /**
      * @description 概率计算
      * @param string event
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
-      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
-    }
+      const numTotal = Number(
+        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
+      );
+      return new bigNumber(num)
+        .dividedBy(numTotal)
+        .multipliedBy(100)
+        .toFixed(4);
+    },
   },
   created() {
     this.fetchSnapshotList();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

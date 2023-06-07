@@ -241,7 +241,7 @@ export default {
   },
   data() {
     return {
-      rechargeDialog: true,
+      rechargeDialog: false,
       title: "Deposit",
       showLink: false, // 登录链上
       operatingType: 1, // 1 充NFT；2 提NFT；

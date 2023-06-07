@@ -1,51 +1,25 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog
-    v-model="visible"
-    destroy-on-close
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog"
-    width="700"
-    :before-close="closeDialogFun"
-  >
+  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="700"
+    :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
+        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
           <CircleCloseFilled />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
       <h2 class="public-dialog-title">Login</h2>
-      <el-form
-        ref="ruleFormRef"
-        label-position="top"
-        label-width="max-content"
-        :model="formLogin"
-        :rules="rules"
-        :hide-required-asterisk="true"
-        :status-icon="true"
-        class="public-login"
-      >
+      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
+        :hide-required-asterisk="true" :status-icon="true" class="public-login">
         <el-form-item label="Email" prop="account">
           <!-- SuccessFilled -->
           <!-- CircleCloseFilled -->
-          <el-input
-            v-model="formLogin.account"
-            placeholder="Enter your email"
-          />
+          <el-input v-model="formLogin.account" placeholder="Enter your email" />
         </el-form-item>
         <el-form-item label="Password" prop="passWord">
-          <el-input
-            v-model="formLogin.passWord"
-            placeholder="Enter your password"
-            type="password"
-          />
+          <el-input v-model="formLogin.passWord" placeholder="Enter your password" type="password" />
         </el-form-item>
       </el-form>
       <div class="form-link">
@@ -57,10 +31,7 @@
         </div>
         <div class="form-forgot" @click="goTo('forgot')">Forgot password?</div>
       </div>
-      <el-button
-        class="public-button form-button"
-        @click="loginFun(ruleFormRef)"
-      >
+      <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
         Login
       </el-button>
       <p class="form-register">
@@ -166,6 +137,7 @@ const loginFun = async (formEl) => {
   font-size: 16px;
   color: #a9a4b4;
 }
+
 .form-rember-rectangle {
   display: flex;
   align-content: center;
@@ -180,6 +152,7 @@ const loginFun = async (formEl) => {
   border: solid 1px #a9a4b4;
   cursor: pointer;
 }
+
 .form-rember-rectangle-fill {
   display: inline-block;
   width: 8px;
@@ -188,6 +161,7 @@ const loginFun = async (formEl) => {
   border-radius: 2px;
   background-color: #fad54d;
 }
+
 .form-link,
 .form-rember {
   display: flex;
@@ -197,14 +171,17 @@ const loginFun = async (formEl) => {
   justify-content: space-between;
   font-size: 16px;
 }
+
 .form-forgot,
 .form-register-link {
   color: #11cde9;
   cursor: pointer;
 }
+
 .form-register-link {
   margin-left: 20px;
 }
+
 .form-button {
   margin: 40px auto 20px;
 }

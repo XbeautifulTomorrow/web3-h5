@@ -1,4 +1,7 @@
 import { defineStore } from "pinia";
+import {
+  getLocalStore,
+} from "@/utils";
 
 // const cookiesStorage = {
 //     setItem (key, state) {
@@ -16,7 +19,11 @@ import { defineStore } from "pinia";
 // }
 
 export const useUserStore = defineStore("user", {
-  state: () => ({ userInfo: undefined, regInfo: undefined }),
+  state: () => ({
+    userInfo: undefined,
+    regInfo: undefined,
+    isLogin: getLocalStore("certificate") ? true : false
+  }),
   persist: {
     enabled: true,
     strategies: [

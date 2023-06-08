@@ -42,7 +42,8 @@
       </div>
       <div class="connect_wallet" v-if="!isConnect">
         <div class="connect_wallet_l">
-          <img src="@/assets/svg/user/default_avatar.svg" alt="" />
+          <img v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
+          <img v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
             <div class="username_text">Nobody</div>
             <div class="tips_text">
@@ -52,7 +53,8 @@
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_btn" v-if="isLogin" @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_btn" v-else @click="pageType = 'login'">Login</div>
           <div class="connect_tips">
             The wallet will not be replaced when it is connected.
           </div>
@@ -65,6 +67,31 @@
       </div>
     </div>
     <Connect v-if="showConnect" @connectMetaMask="connectMetaMask" @close="closeDialogFun"></Connect>
+
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+
+    <el-dialog class="dialog_airdrop" v-model="showTest" width="43.75rem" lock-scroll :close-on-click-modal="false"
+      :before-close="handleClose">
+      <div class="close_btn" @click="handleClose()">
+        <el-icon>
+          <Close />
+        </el-icon>
+      </div>
+      <div class="link_box">
+        <div class="operating_title">
+          <span>Test Connect Wallet</span>
+        </div>
+        <div class="operating_tips">Enter test wallet address</div>
+        <el-input class="wallet_addr" v-model="walletAddr" placeholder="Enter test wallet address">
+        </el-input>
+        <div class="btns_box">
+          <div class="btn_item cancel" @click="handleClose()">Cancel</div>
+          <div class="btn_item submit" @click="bindTestWallet()">Submit</div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -85,22 +112,41 @@ import Point from "./point.vue";
 import Leaderboard from "./leaderboard.vue";
 import Referral from "./referral.vue";
 import Connect from "./connect.vue";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
 export default {
   name: "AirdropX",
   components: {
     Point,
     Leaderboard,
     Referral,
-    Connect
+    Connect,
+    Login,
+    Register,
+    Forgot,
   },
   data() {
     return {
+      pageType: null,
       currentActive: "point",
       showConnect: false,
       isConnect: false,
       walletAddr: null,
-      airdropData: {}
+      airdropData: {},
+      showTest: false,
+      isTest: true // 测试模式
     };
+  },
+  watch: {
+    isLogin(newV) {
+      if (!newV) {
+        this.isConnect = false;
+      } else {
+        this.getAirdropData();
+      }
+    }
   },
   computed: {
     ...mapStores(useUserStore),
@@ -115,6 +161,13 @@ export default {
     }
   },
   methods: {
+    closeDialogFun() {
+      this.pageType = "";
+      this.showConnect = false;
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
     handleChange(event) {
       this.currentActive = event;
     },
@@ -189,6 +242,20 @@ export default {
         }
       });
     },
+    // 测试绑定钱包
+    async bindTestWallet() {
+      const bindRes = await linkWallet({
+        key: null, //登录临时key
+        signature: null, //钱包签名
+        chainId: 5, //链ID
+        walletAddress: this.walletAddr, //钱包地址
+      });
+      if (bindRes && bindRes.code == 200) {
+        // 关闭弹窗
+        this.handleClose();
+        this.getAirdropData();
+      }
+    },
     // 获取空投数据
     async getAirdropData() {
       const res = await getAirdrop();
@@ -201,9 +268,13 @@ export default {
         this.isConnect = true;
       }
     },
-    closeDialogFun() {
-      this.showConnect = false;
-    },
+    handleClose(done) {
+      if (done) {
+        done();
+        return
+      }
+      this.showTest = false;
+    }
   },
 };
 </script>

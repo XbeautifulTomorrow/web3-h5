@@ -195,7 +195,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = window.location;
-      const link = currentLink.origin + "/home?code=" + event;
+      const link = currentLink.origin + "/Airdrop?code=" + event;
       onCopy(link);
     },
     // 翻页

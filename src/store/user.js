@@ -34,6 +34,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     setLogin(data) {
       this.userInfo = data;
+      this.isLogin = true;
     },
     setReg(data) {
       this.regInfo = data;
@@ -41,6 +42,7 @@ export const useUserStore = defineStore("user", {
     logoutApi() {
       sessionStorage.clear();
       localStorage.removeItem("certificate");
+      this.isLogin = false;
       this.userInfo = undefined;
       this.regInfo = undefined;
     },

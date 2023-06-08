@@ -59,8 +59,7 @@ const routes = [
     components: {
       default: Airdrop,
       Header,
-      Footer,
-      Currency,
+      Footer
     },
   },
 ];

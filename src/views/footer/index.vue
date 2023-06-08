@@ -50,16 +50,16 @@ export default {
           page: 'home',
         },
         {
-          text: 'About Us',
-          page: 'AboutUs',
+          text: 'Airdrop',
+          page: 'Airdrop',
         },
         {
-          text: 'Collection',
-          page: 'Collection',
+          text: 'Whitebook',
+          page: 'Whitebook',
         },
         {
-          text: 'Artist',
-          page: 'Artist',
+          text: 'FAQ',
+          page: 'FAQ',
         },
       ],
     };

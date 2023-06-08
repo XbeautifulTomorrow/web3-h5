@@ -19,7 +19,7 @@
       <div class="user_info_r">
         <div class="data_item">
           <div class="item_label">RANK</div>
-          <div class="item_data rank">{{ accountPoint ? airdrop.rankIndex : "--" }}</div>
+          <div class="item_data rank">{{ accountPoint ? airdrop.rankIndex || "--" : "--" }}</div>
         </div>
         <div class="data_item">
           <div class="item_label">ACCOUNT POINTS</div>
@@ -36,20 +36,22 @@
         <div class="statistics_type">
           <div class="title">{{ item.statisticsType }}</div>
           <div class="val">
-            <span>{{ accountPoint ? item.totalPoint : "--" }}</span>
+            <span>{{ accountPoint ? item.totalPoint || "--" : "--" }}</span>
             <el-tooltip popper-class="tips_box" effect="dark" placement="top">
               <template #content>
+                <span v-if="item.tips.tips" class="tips_title">{{ item.tips.tips }}</span>
+                <br v-if="item.tips.tips" />
                 <span v-if="item.tips.title" class="tips_title">{{ item.tips.title }}</span>
                 <br v-if="item.tips.title" />
                 <span v-if="item.tips.detail" class="tips_text">{{ item.tips.detail }}</span>
               </template>
-              <img v-show="!accountPoint" src="@/assets/svg/airdrop/icon_help.svg" alt="">
+              <img src="@/assets/svg/airdrop/icon_help.svg" alt="">
             </el-tooltip>
           </div>
         </div>
         <div class="statistics_time" v-for="(event, key, i) in item.detail" :key="i">
           <div class="title">{{ key }}</div>
-          <div class="val">{{ accountPoint ? event : "--" }}</div>
+          <div class="val">{{ accountPoint ? event || "--" : "--" }}</div>
         </div>
       </div>
       <div class="details_item list">
@@ -68,7 +70,7 @@
               </div>
               <div class="time_box">
                 <img src="@/assets/svg/airdrop/icon_time.svg" alt="">
-                <span>Length of holding:</span>
+                <span>Holding Time:</span>
                 <span>{{ `${timeDiff(item.time)} D` }}</span>
               </div>
             </div>
@@ -106,6 +108,7 @@ import {
 } from "@/services/api/oneBuy";
 
 import {
+  accurateDecimal,
   timeFormat
 } from "@/utils";
 import bigNumber from "bignumber.js";
@@ -136,36 +139,51 @@ export default {
         {
           statisticsType: "UNISWAP POINT",
           tips: {
+            tips: "Only ETH's transactions will be involved in the statistics.The formula is as follows:",
             title: "Only ETH's transactions will be involved in the statistics.The formula is as follows:",
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)*2*FACTOR"
+            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)/365*2*FACTOR"
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
-            Duration: airdrop.uniswapDay, //uniwap刚链接的瞬间的使用天数
+            Duration: `${airdrop.uniswapDay} Day`, //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
-            "Total Amount": airdrop.uniswapExchangeAmount, //uniwap兑换总额
-            "Total Gas": airdrop.uniswapExpendGas, //uniwapGas支出
+            "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 8)} ETH`, //uniwap兑换总额
+            "Total Gas": `${accurateDecimal(airdrop.uniswapExpendGas || 0, 8)} ETH`, //uniwapGas支出
           }
         },
         {
           statisticsType: "OPENSEA POINT",
           tips: {
             title: "The opensea points formula is as follows:",
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)*2*FACTOR"
+            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)/180*2*FACTOR"
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
-            Duration: airdrop.openseaDay, //opensea刚链接的瞬间的使用天数
+            Duration: `${airdrop.openseaDay} Day`, //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
-            "Total purchases": airdrop.openseaBuyAmount, //opensea购买金额
-            "Total Sale": airdrop.openseaSellAmount, //opensea售卖金额
+            "Total purchases": airdrop.openseaBuyAmount && `${accurateDecimal(airdrop.openseaBuyAmount || 0, 8)} ETH` || null, //opensea购买金额
+            "Total Sale": `${accurateDecimal(airdrop.openseaSellAmount || 0, 8)} ETH`, //opensea售卖金额
+          }
+        },
+        {
+          statisticsType: "WALLET POINT",
+          tips: {
+            title: "The Wallet point formula is as follows:",
+            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*355/(365+DU)/365*2*FACTOR"
+          },
+          totalPoint: airdrop.walletPoint,
+          detail: {
+            Duration: `${airdrop.walletDay} Day`, //钱包使用天数
+            "Total NFT": airdrop.walletHoldNft, //持有NFT数量
+            "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
+            "Max Holding Time": `${airdrop.walletLongestDay} Day`, //钱包最长天数
           }
         },
         {
           statisticsType: "REFERRALS",
           tips: {
-            title: "",
-            detail: "After inviting one user to sign up for Connect Wallet and earn points, you will receive an extra 10% bonus."
+            title: "After inviting one user to sign up for Connect Wallet and earn points, you will receive an extra 10% bonus.",
+            detail: ""
           },
           totalPoint: airdrop.invatePoint,
           detail: {
@@ -173,20 +191,6 @@ export default {
             Referrals: airdrop.regNumber, //注册人数
             "This month Point": airdrop.thisMonthPoint, //这个月积分
             "Last month Point": airdrop.lastMonthPoint, //上个月积分
-          }
-        },
-        {
-          statisticsType: "WALLET POINT",
-          tips: {
-            title: "The Wallet point formula is as follows:",
-            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*355/(365+DU)*2*FACTOR"
-          },
-          totalPoint: airdrop.walletPoint,
-          detail: {
-            Duration: airdrop.walletDay, //钱包使用天数
-            "Total NFT": airdrop.walletHoldNft, //持有NFT数量
-            "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": airdrop.walletLongestDay, //钱包最长天数
           }
         },
       ]
@@ -248,7 +252,8 @@ export default {
       const res = await getWalletNft({
         address: this.airdrop.walletAddress,
         cursor: this.pageList[_page],
-        size: size
+        size: size,
+        chatId: 1
       });
       if (res && res.code == 200) {
         this.nftList = res.data.records;

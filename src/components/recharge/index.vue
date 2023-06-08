@@ -241,7 +241,7 @@ const transfer = async () => {
     method: "eth_requestAccounts",
   });
   const amount = web3.utils.toWei(amountVal.value.toString(), "ether");
-  const orderId = orderVal;
+  const orderId = orderVal.value;
   let nftList = [];
   if (tokenChoose.value == 3) {
     chooseNft.forEach(async (item) => {
@@ -289,7 +289,7 @@ const transfer = async () => {
     return;
   }
 
-  const erc20Contract = new web3.eth.Contract(erc20Abi, usdtAddress);
+  const erc20Contract = new web3.eth.Contract(erc20Abi, usdtAddress.value);
   let allowance = await erc20Contract.methods
     .allowance(accounts[0], contractAddress)
     .call();
@@ -300,18 +300,20 @@ const transfer = async () => {
   }
   if (tokenChoose.value == 2) {
     await transferContract.methods
-      .transferToken(usdtAddress, amount, receiver, orderId)
+      .transferToken(usdtAddress.value, amount, receiver.value, orderId)
       .send({
         from: accounts[0],
         to: contractAddress,
       });
     return;
   }
-  await transferContract.methods.transferETH(amount, receiver, orderId).send({
-    from: accounts[0],
-    to: contractAddress,
-    value: amount,
-  });
+  await transferContract.methods
+    .transferETH(amount, receiver.value, orderId)
+    .send({
+      from: accounts[0],
+      to: contractAddress,
+      value: amount,
+    });
 };
 </script>
 <style lang="scss" scoped>

@@ -225,10 +225,11 @@
   </div>
 </template>
 <script>
+import bigNumber from "bignumber.js";
+
 import { addNftOrder, getSystemNft } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
-import bigNumber from "bignumber.js";
 
 import wallet from "../wallet/index.vue";
 import recharge from "@/components/recharge/index.vue";
@@ -299,8 +300,8 @@ export default {
     onDeposit() {
       this.title = "Deposit";
       this.operatingType = 1;
-      const awardItem = localStorage.getItem("awardItem");
-      if (awardItem) {
+      const defaultAccount = window?.web3?.eth?.defaultAccount || "";
+      if (defaultAccount) {
         this.linkWallet();
       } else {
         this.showLink = true;
@@ -312,8 +313,8 @@ export default {
     onWithdraw() {
       this.title = "Withdraw";
       this.operatingType = 2;
-      const awardItem = localStorage.getItem("awardItem");
-      if (awardItem) {
+      const defaultAccount = window?.web3?.eth?.defaultAccount || "";
+      if (defaultAccount) {
         this.linkWallet();
       } else {
         this.showLink = true;

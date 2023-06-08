@@ -71,16 +71,25 @@ const router = createRouter({
 });
 
 // 切换页面重置滚动位置
-router.afterEach((to) => {
-  const { query } = to;
-  if (query && query.code) {
-    // 保存邀请码到本地存储
-    setSessionStore("invateCode", query.code);
-    // 统计邀请链接打开数量
-    statisticsClick({ code: query.code });
-  }
+router.afterEach(() => {
   window.scrollTo(0, 0);
 })
+
+router.beforeEach((to, from, next) => {
+  const { path } = to;
+  if (path && path.indexOf("/Airdrop/") > -1) {
+    const code = path.replace("/Airdrop/", "")
+    // 保存邀请码到本地存储
+    setSessionStore("invateCode", code);
+    // 统计邀请链接打开数量
+    statisticsClick({ code: code });
+
+    next({ name: "Airdrop" });
+  } else {
+    next();
+  }
+
+});
 
 // 4. 导出router
 export default router;

@@ -112,7 +112,7 @@ export default {
         withdrawalFees: 0
       },
       page: 1,
-      size: 6,
+      size: 10,
       count: 0,
     };
   },
@@ -195,7 +195,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = window.location;
-      const link = currentLink.origin + "/Airdrop?code=" + event;
+      const link = currentLink.origin + "/Airdrop/" + event;
       onCopy(link);
     },
     // 翻页

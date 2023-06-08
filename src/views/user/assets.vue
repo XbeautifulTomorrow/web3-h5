@@ -401,6 +401,7 @@ export default {
       this.showReplenish = false;
       this.showLink = false;
       this.showRecharge = false;
+      this.rechargeDialog = false;
     },
     // 查看赛事
     viewNft(event) {

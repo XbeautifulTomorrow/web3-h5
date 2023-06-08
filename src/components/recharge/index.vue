@@ -183,8 +183,9 @@ const orderVal = ref("");
 let chooseNft = reactive([]);
 const nftDialogVisible = ref(false);
 const usdtAddress = ref("0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535");
-const nftTokenAddress = ref("0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"); //nft充值
-const receiver = "0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB"; //收款地址
+const nftTokenAddress = "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"; //nft充值
+const receiver = ref("0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB"); //收款地址
+const contractAddress = "0x927e481e98e01bef13d1486be2fcc23a00761524";
 // const transferAddress = ref("0x927e481e98e01bef13d1486be2fcc23a00761524");
 // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
 // const lottContractAddress = ref("0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d"); //抽奖合约
@@ -209,6 +210,7 @@ const closeDialogFun = () => {
 };
 const closeNftDialogFun = () => {
   nftDialogVisible.value = false;
+  tokenChoose.value = 0;
 };
 const tokenChooseFun = (index) => {
   tokenChoose.value = index + 1;
@@ -229,18 +231,15 @@ const dataArrFun = (arr, key) => {
   arr.forEach((item) => {
     _arr.push(item[key]);
   });
-  return _arr;
+  return [_arr];
 };
 const transfer = async () => {
   closeDialogFun();
   const web3 = new Web3(window.ethereum);
-  const { contractAddress = "0x927e481e98e01bef13d1486be2fcc23a00761524" } =
-    props;
   const transferContract = new web3.eth.Contract(transferAbi, contractAddress);
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
-
   const amount = web3.utils.toWei(amountVal.value.toString(), "ether");
   const orderId = orderVal;
   let nftList = [];
@@ -265,7 +264,7 @@ const transfer = async () => {
     if (tokenChoose.value == 4) {
       //721充值
       await nftTransferContract.methods
-        .transferNFTMultti(nftList, _tokenid, receiver, orderId, "0x")
+        .transferNFTMultti(nftList, _tokenid, receiver.value, orderId, "0x")
         .send({ from: accounts[0] });
       return;
     }
@@ -274,8 +273,8 @@ const transfer = async () => {
       .transfer1155Multi(
         nftList,
         _tokenid,
-        [amountVal.value],
-        receiver,
+        [[amountVal.value]],
+        receiver.value,
         orderId,
         "0x"
       )

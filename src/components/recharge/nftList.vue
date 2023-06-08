@@ -1,13 +1,13 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    destroy-on-close
+    :destroy-on-close="true"
     width="78.125rem"
-    lock-scroll
     :append-to-body="true"
     :show-close="false"
     :align-center="true"
     :before-close="handleClose"
+    :close-on-click-modal="false"
     class="public-dialog recharge-coin"
   >
     <template #header="{ close }">
@@ -151,6 +151,7 @@
     <div class="valuable_text">
       {{ `Withdrawal fee of ${calculatedNftValue} ETH applies.` }}
     </div>
+    <Loading :loading="loading" />
   </el-dialog>
 </template>
 <script setup>
@@ -168,6 +169,8 @@ import { ElMessage } from "element-plus";
 
 import { withdrawalNft } from "@/services/api/user";
 import { getSystemNft, getWalletNft } from "@/services/api/oneBuy";
+
+import Loading from "@/components/loading/index";
 
 const props = defineProps({
   dialogVisible: {
@@ -200,6 +203,7 @@ onMounted(() => {
   }
   getWalletNftApi();
 });
+
 const chooseNftList = computed(() => {
   const { nftName, type, collections } = params;
   let chooseNfts = [];
@@ -213,14 +217,12 @@ const chooseNftList = computed(() => {
 });
 const calculatedNftValue = computed(() => {
   let nftVal = 0;
-
   if (chooseNft.length > 0) {
     chooseNft.forEach((element) => {
       nftVal += Number(new bigNumber(nftVal).plus(element.price || 0));
     });
     return nftVal;
   }
-
   return nftVal;
 });
 
@@ -234,8 +236,9 @@ const params = reactive({
 });
 let chooseNftData = reactive([]);
 let collections = reactive([]);
-const chooseNft = reactive([]);
+let chooseNft = reactive([]);
 let stockNftList = reactive([]);
+const loading = ref(false);
 
 const handleClose = () => {
   emit("closeDialogFun");
@@ -340,6 +343,7 @@ const collectionsFind = (event) => {
 };
 
 const getWalletNftApi = async () => {
+  loading.value = true;
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
@@ -348,8 +352,13 @@ const getWalletNftApi = async () => {
       address: accounts[0],
       size: 999,
     });
+    loading.value = false;
     if (res && res.code === 200) {
-      chooseNftData = res.data.records;
+      const data = JSON.parse(JSON.stringify(res.data.records));
+      data.forEach((item, index) => {
+        chooseNftData[index] = item;
+      });
+      //   chooseNftData = [...data];
     }
   }
 };

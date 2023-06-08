@@ -244,9 +244,13 @@ export default {
     },
     // 测试绑定钱包
     async bindTestWallet() {
+      if (!this.walletAddr) {
+        ElMessage.error("Please enter wallet address");
+        return
+      }
       const bindRes = await linkWallet({
-        key: null, //登录临时key
-        signature: null, //钱包签名
+        key: "xyz", //登录临时key
+        signature: "xyz", //钱包签名
         chainId: 5, //链ID
         walletAddress: this.walletAddr, //钱包地址
       });

@@ -6,10 +6,7 @@
         <div class="user_box">
           <div class="username_text">
             <div class="name_text">{{ airdrop.userName }}</div>
-            <div class="tips_text" v-if="!accountPoint">
-              <span>Please wait for data synchronization.</span>
-            </div>
-            <div class="title_btn" v-else>
+            <div class="title_btn" v-if="!accountPoint">
               <span class="title_btn_text">Please wait for data synchronization.</span>
             </div>
           </div>
@@ -41,7 +38,11 @@
           <div class="val">
             <span>{{ accountPoint ? item.totalPoint : "--" }}</span>
             <el-tooltip popper-class="tips_box" effect="dark" placement="top">
-              <template #content>{{ item.tips.title }}<br />{{ item.tips.detail }}</template>
+              <template #content>
+                <span v-if="item.tips.title" class="tips_title">{{ item.tips.title }}</span>
+                <br v-if="item.tips.title" />
+                <span v-if="item.tips.detail" class="tips_text">{{ item.tips.detail }}</span>
+              </template>
               <img v-show="!accountPoint" src="@/assets/svg/airdrop/icon_help.svg" alt="">
             </el-tooltip>
           </div>
@@ -163,8 +164,8 @@ export default {
         {
           statisticsType: "REFERRALS",
           tips: {
-            title: "After inviting one user to sign up for Connect Wallet and earn points, you will receive an extra 10% bonus.",
-            detail: ""
+            title: "",
+            detail: "After inviting one user to sign up for Connect Wallet and earn points, you will receive an extra 10% bonus."
           },
           totalPoint: airdrop.invatePoint,
           detail: {
@@ -307,6 +308,22 @@ export default {
 </style>
 <style lang="scss">
 .tips_box {
-  width: 16.25rem;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 0.3125rem;
+  background-color: #2c115b !important;
+
+  .tips_title {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: left;
+    color: #a9a4b4;
+  }
+
+  .tips_text {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: left;
+    color: white;
+  }
 }
 </style>

@@ -346,6 +346,7 @@ const getWalletNftApi = async () => {
   if (accounts && accounts[0]) {
     const res = await getWalletNft({
       address: accounts[0],
+      size: 999,
     });
     if (res && res.code === 200) {
       chooseNftData = res.data.records;

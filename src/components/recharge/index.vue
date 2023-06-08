@@ -224,6 +224,7 @@ const operateChooseFun = (name) => {
 const chooseNftsFun = (data) => {
   if (data && data.length > 0) {
     chooseNft = data;
+    nftDialogVisible.value = false;
   }
 };
 const dataArrFun = (arr, key) => {

@@ -259,7 +259,6 @@ const chooseNfts = (event) => {
 };
 const onDepositNftFun = () => {
   emit("chooseNftsFun", chooseNft);
-  handleClose();
 };
 // 提取Nft
 const onWithdrawalNft = async () => {

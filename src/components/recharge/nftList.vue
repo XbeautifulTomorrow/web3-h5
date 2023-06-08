@@ -2,11 +2,12 @@
   <el-dialog
     v-model="dialogVisible"
     destroy-on-close
-    width="800"
+    width="78.125rem"
     lock-scroll
     :append-to-body="true"
     :show-close="false"
     :align-center="true"
+    :before-close="handleClose"
     class="public-dialog recharge-coin"
   >
     <template #header="{ close }">
@@ -141,7 +142,7 @@
         </div>
       </c-scrollbar>
     </div>
-    <div v-if="isDeposit" class="confirm_btn">
+    <div v-if="isDeposit" class="confirm_btn" @click="onDepositNftFun">
       <span>{{ `DEPOSIT ${chooseNft.length} NFTs` }}</span>
     </div>
     <div v-else class="confirm_btn" @click="onWithdrawalNft()">
@@ -241,7 +242,7 @@ const handleClose = () => {
 };
 // 选择检索
 const nftFind = (event) => {
-  const eindex = chooseNft.value.findIndex((e) => e.id == event);
+  const eindex = chooseNft.findIndex((e) => e.id == event);
   return eindex;
 };
 // 选择Nft
@@ -252,6 +253,10 @@ const chooseNfts = (event) => {
   } else {
     chooseNft.push(event);
   }
+};
+const onDepositNftFun = () => {
+  emit("chooseNftsFun", chooseNft);
+  handleClose();
 };
 // 提取Nft
 const onWithdrawalNft = async () => {
@@ -268,11 +273,6 @@ const onWithdrawalNft = async () => {
       message: "Please select the NFT you want to withdraw",
       type: "error",
     });
-    return;
-  }
-  if (props.isDeposit) {
-    emit("chooseNftsFun", chooseNft);
-    handleClose();
     return;
   }
   let knapsackId = [];
@@ -340,16 +340,19 @@ const collectionsFind = (event) => {
 };
 
 const getWalletNftApi = async () => {
-  const awardItem = localStorage.getItem("awardItem");
-  if (awardItem) {
-    const _awardItem = JSON.parse(awardItem);
-    const { contractAddress } = _awardItem;
-    const res = await getWalletNft({ contractAddress });
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  if (accounts && accounts[0]) {
+    const res = await getWalletNft({
+      address: accounts[0],
+    });
     if (res && res.code === 200) {
       chooseNftData = res.data.records;
     }
-  } else {
-    this.onDeposit();
   }
 };
 </script>
+<style lang="scss">
+@import url("./nftList.scss");
+</style>

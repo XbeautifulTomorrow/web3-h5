@@ -1,0 +1,172 @@
+.wrapper_bg {
+  background-image: url("@/assets/img/box/lottery_bg.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.FAQ_wrapper {
+  margin: 0 auto;
+  width: 95rem;
+  padding: 5rem 0;
+}
+
+.FAQ_title {
+  margin: 0 auto;
+  font-family: Tomorrow;
+  font-size: 4rem;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+}
+
+.FAQ_description {
+  margin: 0 auto;
+  padding-top: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: center;
+  color: #a9a4b4;
+}
+
+.FAQ_list {
+  display: flex;
+  flex-direction: column;
+
+  &>div+div {
+    margin-top: 0.625rem;
+  }
+}
+
+.FAQ_item {
+  box-sizing: border-box;
+  display: flex;
+  padding: 0 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #1d0f36;
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: hidden;
+
+  .FAQ_item_l {
+    padding: 1.25rem 1.25rem 1.25rem 0;
+    box-sizing: border-box;
+    font-family: Tomorrow;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #a9a4b4;
+  }
+
+  .FAQ_item_r {
+    flex: 1;
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .FAQ_content {
+    flex: 1;
+
+    .FAQ_content_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.25rem;
+      transition: all 0.3s;
+
+      .text {
+        flex: 1;
+        font-family: BlenderPro;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.4;
+        text-align: left;
+        color: #a9a4b4;
+      }
+
+      .close {
+        margin-left: 0.875rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        border: solid 0.03125rem #2d313f;
+        background-color: #2a2d36;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #a9a4b4;
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: all 0.3s;
+      }
+    }
+
+    .FAQ_content_description {
+      visibility: hidden;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      text-align: left;
+      color: #a9a4b4;
+      transition: all 0.3s;
+    }
+  }
+
+
+
+  &.active {
+    max-height: none;
+    height: auto;
+
+    .FAQ_item_l {
+      color: #11cde9;
+    }
+
+    .FAQ_content {
+      .FAQ_content_title {
+        padding-bottom: 0;
+
+        .text {
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+        }
+
+        .close {
+          transform: rotate(45deg);
+        }
+      }
+
+      .FAQ_content_description {
+        visibility: initial;
+      }
+    }
+  }
+}
+
+.not-select {
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
+}
+
+.no-touch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

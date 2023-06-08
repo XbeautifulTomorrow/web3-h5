@@ -5,7 +5,6 @@ import { setSessionStore } from "@/utils";
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
-import Currency from "../views/virtualCurrency/index.vue";
 
 const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
@@ -13,6 +12,7 @@ const Login = () => import("../views/login/index.vue");
 const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
 const Airdrop = () => import("../views/Airdrop/index.vue");
+const FAQ = () => import("../views/FAQ/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -61,6 +61,16 @@ const routes = [
       Footer
     },
   },
+  {
+    path: "/FAQ",
+    name: "FAQ",
+    components: {
+      default: FAQ,
+      Header,
+      Footer
+    },
+  },
+
 ];
 
 // 3. 创建路由实例

@@ -7,7 +7,7 @@
           <div class="username_text">
             <div class="name_text">{{ airdrop.userName }}</div>
             <div class="title_btn" v-if="!accountPoint">
-              <span class="title_btn_text">Please wait for data synchronization.</span>
+              <span class="title_btn_text">Waiting for data synchronization...</span>
             </div>
           </div>
           <div class="tips_text">

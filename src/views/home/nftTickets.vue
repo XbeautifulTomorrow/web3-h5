@@ -79,7 +79,7 @@ export default {
           seriesName: 'Mutant Ape Yacht Club',
           price: '11.11',
           currency: 'ETH',
-          numberOfTicketsSold: 1952
+          numberOfTicketsSold: 0
         },
         {
           nftImage: require("@/assets/img/airdrop/nft_2.png"),
@@ -87,7 +87,7 @@ export default {
           seriesName: 'Bored Ape Yacht Club',
           price: '62.5',
           currency: 'ETH',
-          numberOfTicketsSold: 885
+          numberOfTicketsSold: 0
         },
         {
           nftImage: require("@/assets/img/airdrop/nft_3.png"),
@@ -95,7 +95,7 @@ export default {
           seriesName: 'Azuki',
           price: '80',
           currency: 'ETH',
-          numberOfTicketsSold: 2059
+          numberOfTicketsSold: 0
         },
         {
           nftImage: require("@/assets/img/airdrop/nft_4.png"),
@@ -103,7 +103,7 @@ export default {
           seriesName: 'Bored Ape Yacht Club',
           price: '66',
           currency: 'ETH',
-          numberOfTicketsSold: 1048
+          numberOfTicketsSold: 0
         },
       ],
     };

@@ -20,7 +20,7 @@
             <div class="level_description_text">
                 Tell your friends about Bitzing to get an extra 10% bonus on sign-up points.
             </div>
-            <div class="invite_button">GO TO INVITATION</div>
+            <div class="invite_button" @click="goAirdrop()">GO TO AIRDROP</div>
         </div>
         <div class="banner_box">
             <img src="@/assets/svg/home/banner.svg" alt="">
@@ -46,6 +46,11 @@ export default {
     data() {
         return {};
     },
+    methods: {
+        goAirdrop() {
+            this.$router.push({ name: "Airdrop" });
+        },
+    }
 };
 </script>
   

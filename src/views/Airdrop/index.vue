@@ -6,7 +6,7 @@
           <div class="operation">CONNECT WALLET FOR</div>
           <div class="title">GET AIRDROP</div>
           <div class="description">
-            Connect your usual wallets to earn points rewards, the transaction
+            Connect your wallets to earn points rewards, the transaction
             history of your wallet will determine the rewards you can earn.
           </div>
         </div>
@@ -40,7 +40,7 @@
           <span>MY REFERRAL LINK</span>
         </div>
       </div>
-      <div class="connect_wallet" v-if="!isConnect">
+      <div class="connect_wallet" v-if="!isConnect || !userInfo.id">
         <div class="connect_wallet_l">
           <img v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <img v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" v-if="isLogin" @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_btn" v-if="isLogin && userInfo && userInfo.id" @click="handleConnect()">Connect Wallet</div>
           <div class="connect_btn" v-else @click="pageType = 'login'">Login</div>
           <div class="connect_tips">
             The wallet will not be replaced when it is connected.
@@ -146,14 +146,25 @@ export default {
       } else {
         this.getAirdropData();
       }
-    }
+    },
+    userInfo(newV) {
+      if (!newV) {
+        this.isConnect = false;
+      } else {
+        this.getAirdropData();
+      }
+    },
   },
   computed: {
     ...mapStores(useUserStore),
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin
-    }
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
   },
   created() {
     if (this.isLogin) {
@@ -208,7 +219,6 @@ export default {
             window.web3 = web3;
             _that.web3 = web3;
             _that.walletAddr = accounts[0];
-            _that.isConnect = true;
             // 绑定钱包
             _that.bindWallet();
           });

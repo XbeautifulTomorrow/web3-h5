@@ -28,6 +28,33 @@
         <img src="@/assets/svg/airdrop/icon_arrow.svg" alt="">
       </div>
     </div>
+    <div class="statistics_panel">
+      <div class="statistics_title">YOUR STATISTICS</div>
+      <div class="statistics_box">
+        <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
+          <div class="statistics_type">
+            <div class="title">{{ item.statisticsType }}</div>
+            <div class="val">{{ item.totalData }}</div>
+          </div>
+          <div class="statistics_time">
+            <div class="title">Today</div>
+            <div class="val">{{ item.todayData }}</div>
+          </div>
+          <div class="statistics_time">
+            <div class="title">Yesterday</div>
+            <div class="val">{{ item.yesterdayData }}</div>
+          </div>
+          <div class="statistics_time">
+            <div class="title">This month</div>
+            <div class="val">{{ item.thisMonthData }}</div>
+          </div>
+          <div class="statistics_time">
+            <div class="title">Last month</div>
+            <div class="val">{{ item.lastMonthData }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="create_invite_code">
       <div class="create_title">SET CUSTOM REFERRALS CODE</div>
       <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
@@ -59,33 +86,6 @@
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
         layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
     </div> -->
-    <div class="statistics_panel">
-      <div class="statistics_title">YOUR STATISTICS</div>
-      <div class="statistics_box">
-        <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
-          <div class="statistics_type">
-            <div class="title">{{ item.statisticsType }}</div>
-            <div class="val">{{ item.totalData }}</div>
-          </div>
-          <div class="statistics_time">
-            <div class="title">Today</div>
-            <div class="val">{{ item.todayData }}</div>
-          </div>
-          <div class="statistics_time">
-            <div class="title">Yesterday</div>
-            <div class="val">{{ item.yesterdayData }}</div>
-          </div>
-          <div class="statistics_time">
-            <div class="title">This month</div>
-            <div class="val">{{ item.thisMonthData }}</div>
-          </div>
-          <div class="statistics_time">
-            <div class="title">Last month</div>
-            <div class="val">{{ item.lastMonthData }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
   

@@ -164,7 +164,7 @@ export default {
             walletName: "METAMASK", //钱包名称(META_MASK,WALLET_CONNECT)
             inviteCode: "", //邀请码
           });
-          if (loginData.data.certificate) {
+          if (loginData?.data?.certificate) {
             localStorage.setItem("certificate", loginData.data.certificate);
           }
           let receiver = await getTheUserSPayoutAddress();

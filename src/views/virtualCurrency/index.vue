@@ -81,7 +81,7 @@
           </span>
         </li>
         <li class="popup-list-button">
-          <div class="mystery-box-button">
+          <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
             Go to Mystery Box
           </div>
         </li>
@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import { ElMessage } from "element-plus";
 import { getTicketList } from '@/services/api/index';
 export default {
   name: 'VirtualCurrency',
@@ -134,6 +135,9 @@ export default {
       };
     },
     handleMysteryBox(event) {
+      ElMessage.warning("Comming soon");
+      return
+      // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
     },
     search() {

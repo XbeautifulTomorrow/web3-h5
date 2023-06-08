@@ -7,27 +7,29 @@
       </div>
     </div>
     <ul class="boxes-content">
-      <template v-for="(item, index) in ticketList">
-        <li class="ntf-tickets-list" v-if="index < 5" :key="`tickets-${index}`">
+      <template v-for="(item, index) in tickets">
+        <li class="ntf-tickets-list" @click="handleTickets(item)" v-if="index < 5" :key="`tickets-${index}`">
           <div class="img-box">
             <img class="tickets-boxs-list-img" :src="item.nftImage" alt="" />
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span v-if="dateDiff(item && item.endTime) > 1">
+                <span>Comming soon</span>
+                <!-- <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
                 <countDown v-else v-slot="timeObj" :time="item && item.endTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
-                </countDown>
+                </countDown> -->
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
-                <span>
+                <span>Comming soon</span>
+                <!-- <span>
                   {{
                     `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0).toString()} TICKETS LEFT`
                   }}
-                </span>
+                </span> -->
               </div>
             </div>
           </div>
@@ -59,43 +61,49 @@
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
+import { ElMessage } from "element-plus";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     countDown
   },
   data() {
     return {
       tickets: [
         {
-          url: '',
+          nftImage: require("@/assets/img/airdrop/nft_1.png"),
+          tokenId: "24336",
           orderType: "LIMITED_TIME",
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          seriesName: 'Mutant Ape Yacht Club',
+          price: '11.11',
           currency: 'ETH',
+          numberOfTicketsSold: 1952
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_2.png"),
+          tokenId: "6492",
+          seriesName: 'Bored Ape Yacht Club',
+          price: '62.5',
           currency: 'ETH',
+          numberOfTicketsSold: 885
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_3.png"),
+          tokenId: '8518',
+          seriesName: 'Azuki',
+          price: '80',
           currency: 'ETH',
+          numberOfTicketsSold: 2059
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_4.png"),
+          tokenId: '9643',
+          seriesName: 'Bored Ape Yacht Club',
+          price: '66',
           currency: 'ETH',
+          numberOfTicketsSold: 1048
         },
       ],
     };
@@ -104,6 +112,9 @@ export default {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
     handleTickets(event) {
+      ElMessage.warning("Comming soon");
+      return
+      // eslint-disable-next-line no-unreachable
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
     openAll() {

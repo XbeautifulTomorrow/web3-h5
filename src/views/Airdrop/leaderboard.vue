@@ -173,7 +173,7 @@ export default {
     accountPoint() {
       const { uniswapPoint, openseaPoint, walletPoint } = this.airdrop;
       if (uniswapPoint == null || openseaPoint == null || walletPoint == null) return false;
-      const point = Number(new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0));
+      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).toString();
       return point
     }
   },

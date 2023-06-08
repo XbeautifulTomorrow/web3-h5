@@ -46,7 +46,7 @@
           {{ commissionrate }}
         </template>
       </el-table-column>
-      <el-table-column label="EXTRA POINT" align="center"></el-table-column>
+      <el-table-column prop="extraPointAmount" label="EXTRA POINT" align="center"></el-table-column>
       <el-table-column label="COPY" align="center">
         <template #default="scope">
           <div class="copy_btn">
@@ -55,10 +55,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pagination-box">
+    <!-- <div class="pagination-box">
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
         layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
-    </div>
+    </div> -->
     <div class="statistics_panel">
       <div class="statistics_title">YOUR STATISTICS</div>
       <div class="statistics_box">

@@ -170,10 +170,10 @@ const coinList = [
     text: "NFT721",
     url: "",
   },
-  {
-    text: "NFT1155",
-    url: "",
-  },
+  // {
+  //   text: "NFT1155",
+  //   url: "",
+  // },
 ];
 
 const tokenChoose = ref(0);
@@ -244,6 +244,7 @@ const transfer = async () => {
   const amount = web3.utils.toWei(amountVal.value.toString(), "ether");
   const orderId = orderVal.value;
   let nftList = [];
+  
   if (tokenChoose.value == 3) {
     chooseNft.forEach(async (item) => {
       //多个nft授权
@@ -262,13 +263,13 @@ const transfer = async () => {
 
     const nftTransferContract = new web3.eth.Contract(nftAbi, nftTokenAddress); //nft转账合约
     const _tokenid = dataArrFun(chooseNft, "tokenId");
-    if (tokenChoose.value == 4) {
+    console.log(nftList,_tokenid,receiver.value,chooseNft,".value====")
       //721充值
       await nftTransferContract.methods
-        .transferNFTMultti(nftList, _tokenid, receiver.value, orderId, "0x")
+        .transferNFTMultti(nftList, _tokenid, receiver.value, orderId)
         .send({ from: accounts[0] });
       return;
-    }
+    return;
     //1155充值
     await nftTransferContract.methods
       .transfer1155Multi(

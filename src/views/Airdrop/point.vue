@@ -22,7 +22,7 @@
           <div class="item_data rank">{{ accountPoint ? airdrop.rankIndex || "--" : "--" }}</div>
         </div>
         <div class="data_item">
-          <div class="item_label">ACCOUNT POINTS</div>
+          <div class="item_label">TOTAL POINT</div>
           <div class="item_data">{{ accountPoint ? accountPoint : "--" }}</div>
         </div>
         <div class="data_item">
@@ -51,7 +51,7 @@
         </div>
         <div class="statistics_time" v-for="(event, key, i) in item.detail" :key="i">
           <div class="title">{{ key }}</div>
-          <div class="val">{{ accountPoint ? event || "--" : "--" }}</div>
+          <div class="val">{{ accountPoint ? event : "--" }}</div>
         </div>
       </div>
       <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
@@ -234,9 +234,9 @@ export default {
       }
     },
     accountPoint() {
-      const { uniswapPoint, openseaPoint, walletPoint } = this.airdrop;
+      const { uniswapPoint, openseaPoint, walletPoint, invatePoint } = this.airdrop;
       if (uniswapPoint == null || openseaPoint == null || walletPoint == null) return false;
-      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).toString();
+      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).plus(invatePoint || 0).toString();
       return point
     }
   },

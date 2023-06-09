@@ -171,9 +171,9 @@ export default {
       }
     },
     accountPoint() {
-      const { uniswapPoint, openseaPoint, walletPoint } = this.airdrop;
+      const { uniswapPoint, openseaPoint, walletPoint, invatePoint } = this.airdrop;
       if (uniswapPoint == null || openseaPoint == null || walletPoint == null) return false;
-      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).toString();
+      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).plus(invatePoint || 0).toString();
       return point
     }
   },

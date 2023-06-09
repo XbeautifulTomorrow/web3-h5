@@ -234,6 +234,13 @@ const dataArrFun = (arr, key) => {
   });
   return [_arr];
 };
+const dataArrSevenFun = (arr, key) => {
+  let _arr = [];
+  arr.forEach((item) => {
+    _arr.push([item[key]]);
+  });
+  return _arr;
+};
 const transfer = async () => {
   closeDialogFun();
   const web3 = new Web3(window.ethereum);
@@ -262,12 +269,13 @@ const transfer = async () => {
     });
 
     const nftTransferContract = new web3.eth.Contract(nftAbi, nftTokenAddress); //nft转账合约
-    const _tokenid = dataArrFun(chooseNft, "tokenId");
+    const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
     //721充值
     await nftTransferContract.methods
-      .transferNFTMultti(nftList, _tokenid, receiver.value, orderId)
+      .transferNFTMultti(nftList, _tokenidSeven, receiver.value)
       .send({ from: accounts[0] });
     return;
+    // const _tokenid = dataArrFun(chooseNft, "tokenId");
     //1155充值
     // await nftTransferContract.methods
     //   .transfer1155Multi(

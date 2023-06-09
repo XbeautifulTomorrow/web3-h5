@@ -40,7 +40,7 @@
           <span>MY REFERRAL LINK</span>
         </div>
       </div>
-      <div class="connect_wallet" v-if="!isConnect || !userInfo.id">
+      <div class="connect_wallet" v-if="!isConnect || !userInfo?.id">
         <div class="connect_wallet_l">
           <img v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <img v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" v-if="isLogin && userInfo && userInfo.id" @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_btn" v-if="isLogin && userInfo?.id" @click="handleConnect()">Connect Wallet</div>
           <div class="connect_btn" v-else @click="pageType = 'login'">Login</div>
           <div class="connect_tips">
             The wallet will not be replaced when it is connected.

@@ -10,7 +10,7 @@
         </ul>
       </div>
       <div class="header-login">
-        <div class="header-right" v-if="!userInfo?.id">
+        <div class="header-right" v-if="!isLogin || !userInfo?.id">
           <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
           <div class="btn-box register" @click="changeTypeFun('register')">
             Register
@@ -20,13 +20,13 @@
           {{ conncectAddress ? conncectAddress : "Connect Wallet" }}
         </div> -->
       </div>
-      <div v-if="userInfo?.id || conncectAddress" class="header-login">
+      <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
         <!-- <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
           <span class="header-wallet-add" @click="dialogVisible = true">+</span>
         </div> -->
-        <div class="header-user" v-if="userInfo?.id">
+        <div class="header-user" v-if="isLogin && userInfo?.id">
           <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <span class="header-user-text text-ellipsis">
             {{ userInfo?.userName || userInfo?.email }}
@@ -212,6 +212,10 @@ export default {
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
     },
     regInfo() {
       const { regInfo } = this.userStore;

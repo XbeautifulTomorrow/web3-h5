@@ -179,11 +179,12 @@ const registerFun = async (formEl) => {
 
       const res = await getReg(data);
       if (res && res.code === 200) {
-        userStore.setLogin(res.data);
-        userStore.setReg(res.data);
         if (res.data.certificate) {
           localStorage.setItem("certificate", res.data.certificate);
         }
+
+        userStore.setLogin(res.data);
+        userStore.setReg(res.data);
         closeDialogFun();
       }
     } else {

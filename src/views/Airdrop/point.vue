@@ -36,7 +36,7 @@
         <div class="statistics_type">
           <div class="title">{{ item.statisticsType }}</div>
           <div class="val">
-            <span>{{ accountPoint ? item.totalPoint || "--" : "--" }}</span>
+            <span>{{ accountPoint ? item.totalPoint : "--" }}</span>
             <el-tooltip popper-class="tips_box" effect="dark" placement="top">
               <template #content>
                 <span v-if="item.tips.tips" class="tips_title">{{ item.tips.tips }}</span>
@@ -142,7 +142,7 @@ export default {
           tips: {
             tips: "Only ETH's transactions will be involved in the statistics.",
             title: "The formula is as follows:",
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)*2*FACTOR"
+            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
@@ -170,7 +170,7 @@ export default {
           statisticsType: "WALLET POINT",
           tips: {
             title: "The Wallet point formula is as follows:",
-            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*355/(365+DU)*2*FACTOR"
+            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.walletPoint,
           detail: {

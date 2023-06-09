@@ -181,6 +181,7 @@ export default {
     },
     handleChange(event) {
       this.currentActive = event;
+      this.getAirdropData();
     },
     handleConnect() {
       if (!this.isLogin) {
@@ -272,9 +273,11 @@ export default {
     },
     // 获取空投数据
     async getAirdropData() {
+      this.airdropData = {};
       const res = await getAirdrop();
       if (res && res.code == 200) {
         if (!res.data) {
+          this.isConnect = false;
           return
         }
 

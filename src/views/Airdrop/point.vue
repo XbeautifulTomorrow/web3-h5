@@ -162,7 +162,7 @@ export default {
           detail: {
             Duration: `${airdrop.openseaDay} Days`, //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
-            "Total purchases": airdrop.openseaBuyAmount && `${accurateDecimal(airdrop.openseaBuyAmount || 0, 8)} ETH` || null, //opensea购买金额
+            "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 8)} ETH`, //opensea购买金额
             "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 8)} ETH`, //opensea售卖金额
           }
         },

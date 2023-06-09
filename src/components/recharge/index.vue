@@ -227,13 +227,13 @@ const chooseNftsFun = (data) => {
     nftDialogVisible.value = false;
   }
 };
-const dataArrFun = (arr, key) => {
-  let _arr = [];
-  arr.forEach((item) => {
-    _arr.push(item[key]);
-  });
-  return [_arr];
-};
+// const dataArrFun = (arr, key) => {
+//   let _arr = [];
+//   arr.forEach((item) => {
+//     _arr.push(item[key]);
+//   });
+//   return [_arr];
+// };
 const dataArrSevenFun = (arr, key) => {
   let _arr = [];
   arr.forEach((item) => {

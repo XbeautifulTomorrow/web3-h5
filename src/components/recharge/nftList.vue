@@ -87,7 +87,7 @@
             </el-icon>
           </template>
         </el-input>
-        <div class="collections_box type_box">
+        <!-- <div class="collections_box type_box">
           <div class="collections_text">Type:</div>
           <el-select
             v-model="params.type"
@@ -102,7 +102,7 @@
               :value="item.value"
             />
           </el-select>
-        </div>
+        </div> -->
         <div class="collections_box">
           <div class="collections_text">Collections:</div>
           <el-select
@@ -185,10 +185,10 @@ const props = defineProps({
 const emit = defineEmits("closeDialogFun", "chooseNftsFun");
 
 const networkList = [{ label: "Goerli", value: "goerli" }];
-const nftTypes = [
-  { label: "ERC-721", value: "ERC721" },
-  { label: "ERC-1155", value: "ERC1155" },
-];
+// const nftTypes = [
+//   { label: "ERC-721", value: "ERC721" },
+//   { label: "ERC-1155", value: "ERC1155" },
+// ];
 const dialogVisible = computed({
   get: function () {
     return props.dialogVisible;
@@ -229,7 +229,7 @@ const calculatedNftValue = computed(() => {
 const title = ref(props.isDeposit ? "Deposit" : "Withdraw");
 const params = reactive({
   nftName: null,
-  type: null,
+  type: "ERC721",
   collections: null,
   wallet: null,
   chain: null,

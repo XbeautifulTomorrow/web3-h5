@@ -50,10 +50,13 @@
         <div class="tabel_tbody_item tabel_item" v-for="(item, index) in rankList" :key="index">
           <div class="rank">{{ item.rankIndex }}</div>
           <div class="user_info">
-            <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
-            <div class="wallet_box text-ellipsis">
-              <span>Wallet address:</span>
-              <span>{{ item.walletAddress && formatAddr(item.walletAddress) || "--" }}</span>
+            <img src="@/assets/svg/user/default_avatar.svg" alt="" />
+            <div class="user_box">
+              <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
+              <div class="wallet_box text-ellipsis">
+                <span>Wallet address:</span>
+                <span>{{ item.walletAddress || "--" }}</span>
+              </div>
             </div>
           </div>
           <div class="point">
@@ -178,8 +181,6 @@ export default {
     }
   },
   created() {
-    // 如果未同步就不加载Nft列表
-    if (!this.accountPoint) return;
     this.fetchStatistics();
     this.fetchRankList();
   },
@@ -226,13 +227,6 @@ export default {
       if (!event) return "";
       var reg = /^(\S{7})\S+(\S{5})$/;
       return event.replace(reg, "$1...$2");
-    }
-  },
-  watch: {
-    accountPoint(newV) {
-      if (!newV) return
-      this.fetchStatistics();
-      this.fetchRankList();
     }
   }
 };

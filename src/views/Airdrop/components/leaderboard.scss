@@ -135,6 +135,21 @@
     }
 
     .user_info {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      img {
+        width: 3.75rem;
+        height: 3.75rem;
+        margin-right: 0.625rem;
+      }
+
+      .user_box {
+        flex: 1;
+        overflow: hidden;
+      }
+
       .name_text {
         font-family: BlenderPro;
         font-size: 2.875rem;

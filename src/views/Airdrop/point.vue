@@ -51,7 +51,7 @@
         </div>
         <div class="statistics_time" v-for="(event, key, i) in item.detail" :key="i">
           <div class="title">{{ key }}</div>
-          <div class="val">{{ accountPoint ? event : "--" }}</div>
+          <div class="val">{{ accountPoint ? event == null ? "--" : event : "--" }}</div>
         </div>
       </div>
       <div class="details_item list" v-loading="loading" element-loading-text="Loading...">

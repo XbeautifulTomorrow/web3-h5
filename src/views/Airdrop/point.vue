@@ -149,7 +149,7 @@ export default {
             Duration: `${airdrop.uniswapDay} Days`, //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
             "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 8)} ETH`, //uniwap兑换总额
-            "Total Gas": `${accurateDecimal(this.toNonExponential(airdrop.uniswapExpendGas) || 0, 8)} ETH`, //uniwapGas支出
+            "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
           }
         },
         {

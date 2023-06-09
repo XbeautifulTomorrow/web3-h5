@@ -181,6 +181,7 @@ const operateChoose = ref(operateItems[0]);
 const amountVal = ref(1);
 const orderVal = ref("");
 let chooseNft = reactive([]);
+let chooseNftAddress = reactive([]);
 const nftDialogVisible = ref(false);
 const usdtAddress = ref("0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535");
 const nftTokenAddress = "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"; //nft充值
@@ -224,6 +225,11 @@ const operateChooseFun = (name) => {
 const chooseNftsFun = (data) => {
   if (data && data.length > 0) {
     chooseNft = data;
+    data.forEach((item) => {
+      if (!chooseNftAddress.includes(item.contractAddress)) {
+        chooseNftAddress.push(item.contractAddress);
+      }
+    });
     nftDialogVisible.value = false;
   }
 };
@@ -237,7 +243,13 @@ const chooseNftsFun = (data) => {
 const dataArrSevenFun = (arr, key) => {
   let _arr = [];
   arr.forEach((item) => {
-    _arr.push([item[key]]);
+    const _index = chooseNftAddress.indexOf(item.contractAddress);
+    if (_arr[_index]) {
+      _arr[_index].push([item[key]]);
+    } else {
+      _arr[_index] = [];
+      _arr[_index].push([item[key]]);
+    }
   });
   return _arr;
 };
@@ -253,15 +265,13 @@ const transfer = async () => {
   let nftList = [];
 
   if (tokenChoose.value == 3) {
-    chooseNft.forEach(async (item) => {
+    chooseNftAddress.forEach(async (item) => {
       //多个nft授权
       let nftContract = new web3.eth.Contract(
         nft1155Abi,
-        item.contractAddress || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
+        item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
       );
-      nftList.push(
-        item.contractAddress || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
-      );
+      nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
       // //授权
       await nftContract.methods
         .setApprovalForAll(nftTokenAddress, true)
@@ -272,7 +282,7 @@ const transfer = async () => {
     const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
     //721充值
     await nftTransferContract.methods
-      .transferNFTMultti(nftList, _tokenidSeven, receiver.value)
+      .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
       .send({ from: accounts[0] });
     return;
     // const _tokenid = dataArrFun(chooseNft, "tokenId");

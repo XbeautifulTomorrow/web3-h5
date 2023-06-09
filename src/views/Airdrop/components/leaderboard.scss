@@ -253,22 +253,6 @@
       line-height: 1.6;
       text-align: left;
       color: #a9a4b4;
-
-      &>span:nth-child(1) {
-        display: inline-block;
-        width: 5rem;
-        height: 2.375rem;
-        box-sizing: border-box;
-        margin-right: 0.25rem;
-        border-radius: 0.25rem;
-        border: solid 1px rgba(228, 231, 245, 0.3);
-        font-size: 1.125rem;
-        font-weight: 500;
-        line-height: 2.375rem;
-        text-align: center;
-        color: #a9a4b4;
-      }
-
     }
   }
 }

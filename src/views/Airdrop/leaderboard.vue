@@ -77,7 +77,7 @@
           <div class="date">{{ timeFormat(item.regTime) }}</div>
         </div>
       </div>
-      <div class="pagination_box" v-if="accountPoint">
+      <div class="pagination_box">
         <div class="total_box">
           {{ `${startNum}-${endNum} of ${count}` }}
         </div>
@@ -178,7 +178,6 @@ export default {
     }
   },
   created() {
-    if (!this.accountPoint) return
     this.fetchStatistics();
     this.fetchRankList();
   },

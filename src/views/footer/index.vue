@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { openUrl } from "@/utils";
 export default {
   name: 'FooterCom',
   components: {},
@@ -66,6 +67,11 @@ export default {
   },
   methods: {
     goTo(page = 'home') {
+      if (page === "Whitebook") {
+        openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+        return
+      }
+
       this.$router.push({ path: `/${page}` });
     },
   },

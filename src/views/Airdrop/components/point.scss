@@ -177,6 +177,11 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
+    :deep(.el-loading-mask) {
+      background-color: rgba(29, 15, 54, 1);
+      border-radius: 0.5rem;
+    }
   }
 }
 
@@ -287,18 +292,21 @@
       justify-content: space-between;
 
       &>span:nth-child(1) {
-        max-width: 50%;
+        flex: 1;
         display: inline-block;
         font-family: BlenderPro;
         font-size: 1.25rem;
         font-weight: bold;
+        text-align: left;
         line-height: 1.5;
         color: white;
       }
 
       &>span:last-child {
+        margin-left: 0.75rem;
         display: inline-block;
-        max-width: 50%;
+        text-align: right;
+        flex: 1;
         font-size: 1rem;
         font-weight: 500;
         line-height: 1.6;
@@ -374,22 +382,6 @@
       line-height: 1.6;
       text-align: left;
       color: #a9a4b4;
-
-      &>span:nth-child(1) {
-        display: inline-block;
-        width: 5rem;
-        height: 2.375rem;
-        box-sizing: border-box;
-        margin-right: 0.25rem;
-        border-radius: 0.25rem;
-        border: solid 1px rgba(228, 231, 245, 0.3);
-        font-size: 1.125rem;
-        font-weight: 500;
-        line-height: 2.375rem;
-        text-align: center;
-        color: #a9a4b4;
-      }
-
     }
   }
 }

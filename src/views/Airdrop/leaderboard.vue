@@ -48,7 +48,7 @@
       </div>
       <div class="tabel_tbody">
         <div class="tabel_tbody_item tabel_item" v-for="(item, index) in rankList" :key="index">
-          <div class="rank">1</div>
+          <div class="rank">{{ item.rankIndex }}</div>
           <div class="user_info">
             <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
             <div class="wallet_box text-ellipsis">
@@ -225,7 +225,7 @@ export default {
       if (!event) return "";
       var reg = /^(\S{7})\S+(\S{5})$/;
       return event.replace(reg, "$1...$2");
-    },
+    }
   },
 };
 </script>

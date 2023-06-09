@@ -140,6 +140,7 @@ import WalletList from "../wallet/index.vue";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
+import { openUrl } from "@/utils";
 
 export default {
   name: "HeaderCom",
@@ -449,6 +450,10 @@ export default {
         });
     },
     goTo(page = "home") {
+      if (page === "Whitebook") {
+        openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+        return
+      }
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {

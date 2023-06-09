@@ -54,7 +54,7 @@
           <div class="val">{{ accountPoint ? event || "--" : "--" }}</div>
         </div>
       </div>
-      <div class="details_item list">
+      <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
         <div class="no_date" v-if="!accountPoint || !nftList.length > 0">
           <div class="tips_text">NFT data synchronization in...</div>
         </div>
@@ -130,6 +130,7 @@ export default {
       page: 0,
       size: 9,
       count: 0,
+      loading: false
     };
   },
   computed: {
@@ -139,44 +140,44 @@ export default {
         {
           statisticsType: "UNISWAP POINT",
           tips: {
-            tips: "Only ETH's transactions will be involved in the statistics.The formula is as follows:",
-            title: "Only ETH's transactions will be involved in the statistics.The formula is as follows:",
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)/365*2*FACTOR"
+            tips: "Only ETH's transactions will be involved in the statistics.",
+            title: "The formula is as follows:",
+            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
-            Duration: `${airdrop.uniswapDay} Day`, //uniwap刚链接的瞬间的使用天数
+            Duration: `${airdrop.uniswapDay} Days`, //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
             "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 8)} ETH`, //uniwap兑换总额
-            "Total Gas": `${accurateDecimal(airdrop.uniswapExpendGas || 0, 8)} ETH`, //uniwapGas支出
+            "Total Gas": `${accurateDecimal(this.toNonExponential(airdrop.uniswapExpendGas) || 0, 8)} ETH`, //uniwapGas支出
           }
         },
         {
           statisticsType: "OPENSEA POINT",
           tips: {
             title: "The opensea points formula is as follows:",
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*350/(365+DU)/180*2*FACTOR"
+            detail: "TXN*20/(20+TXN)*10+PUR^2/(PUR+SALE)*2*DU*180/(180+DU)*2*FACTOR"
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
-            Duration: `${airdrop.openseaDay} Day`, //opensea刚链接的瞬间的使用天数
+            Duration: `${airdrop.openseaDay} Days`, //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
             "Total purchases": airdrop.openseaBuyAmount && `${accurateDecimal(airdrop.openseaBuyAmount || 0, 8)} ETH` || null, //opensea购买金额
-            "Total Sale": `${accurateDecimal(airdrop.openseaSellAmount || 0, 8)} ETH`, //opensea售卖金额
+            "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 8)} ETH`, //opensea售卖金额
           }
         },
         {
           statisticsType: "WALLET POINT",
           tips: {
             title: "The Wallet point formula is as follows:",
-            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*355/(365+DU)/365*2*FACTOR"
+            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*355/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.walletPoint,
           detail: {
-            Duration: `${airdrop.walletDay} Day`, //钱包使用天数
+            Duration: `${airdrop.walletDay} Days`, //钱包使用天数
             "Total NFT": airdrop.walletHoldNft, //持有NFT数量
             "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": `${airdrop.walletLongestDay} Day`, //钱包最长天数
+            "Max Holding Time": `${airdrop.walletLongestDay} Days`, //钱包最长天数
           }
         },
         {
@@ -242,6 +243,7 @@ export default {
   methods: {
     timeFormat: timeFormat,
     async fetchWalletNft(isSearch = true) {
+      this.loading = true;
       const { size } = this;
       let _page = this.page;
       if (isSearch) {
@@ -258,6 +260,7 @@ export default {
       if (res && res.code == 200) {
         this.nftList = res.data.records;
         this.count = res.data.total;
+        this.loading = false;
         if (!res.data.cursor) return;
         this.pageList.push(res.data.cursor);
       }
@@ -298,6 +301,16 @@ export default {
       let sec = Number(new bigNumber(diff).mod(nd).mod(nh).mod(nm).div(ns));// 计算差多少秒//输出结果
 
       return Math.floor(day);
+    },
+    /**
+     * @description: 科学计数法修正
+     */
+    toNonExponential(num) {
+      if (!num) return 0
+      var m = Number(num)
+        .toExponential()
+        .match(/\d(?:\.(\d*))?e([+-]\d+)/);
+      return Number(num).toFixed(Math.max(0, (m[1] || "").length - m[2]));
     }
   },
   created() {

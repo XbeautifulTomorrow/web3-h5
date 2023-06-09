@@ -178,6 +178,8 @@ export default {
     }
   },
   created() {
+    // 如果未同步就不加载Nft列表
+    if (!this.accountPoint) return;
     this.fetchStatistics();
     this.fetchRankList();
   },
@@ -226,6 +228,13 @@ export default {
       return event.replace(reg, "$1...$2");
     }
   },
+  watch: {
+    accountPoint(newV) {
+      if (!newV) return
+      this.fetchStatistics();
+      this.fetchRankList();
+    }
+  }
 };
 </script>
   

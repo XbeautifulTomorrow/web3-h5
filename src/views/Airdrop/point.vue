@@ -317,6 +317,12 @@ export default {
     // 如果未同步就不加载Nft列表
     if (!this.accountPoint) return;
     this.fetchWalletNft();
+  },
+  watch: {
+    accountPoint(newV) {
+      if (!newV) return
+      this.fetchWalletNft();
+    }
   }
 };
 </script>

@@ -5,7 +5,8 @@ import { useUserStore } from "@/store/user.js";
 
 const axiosInstance = axios.create({
   // baseURL: 'http://localhost:3000/',
-  baseURL: "http://221.236.31.34:6599",
+  // baseURL: "http://221.236.31.34:6599",
+  baseURL: "  http://103.1.35.66:23080",
   withCredentials: true,
   timeout: 300000,
 });

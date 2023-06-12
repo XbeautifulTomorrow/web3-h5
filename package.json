@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build --mode pro",
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service build --mode development",
+    "pre": "vue-cli-service build --mode pre"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

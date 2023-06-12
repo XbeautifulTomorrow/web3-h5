@@ -1,12 +1,13 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
+import config from './env';
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
   // baseURL: 'http://localhost:3000/',
   // baseURL: "http://221.236.31.34:6599",
-  baseURL: "  http://103.1.35.66:23080",
+  baseURL: config.api,
   withCredentials: true,
   timeout: 300000,
 });
@@ -47,7 +48,7 @@ const handleRes = ({ type, url, data }) => {
         type: "warning",
       });
     }
-    
+
     const { logoutApi } = useUserStore();
     logoutApi();
 

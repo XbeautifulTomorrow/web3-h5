@@ -1,15 +1,15 @@
 const config = {
   dev: {
-    api: 'http://221.236.31.34:6599/mystery-web-admin',
+    api: 'http://221.236.31.34:6599/mystery-web-user',
   },
   test: {
-    api: 'http://221.236.31.34:6599/mystery-web-admin',
+    api: 'http://221.236.31.34:6599/mystery-web-user',
   },
   pre: {
-    api: '/mystery-web-admin',
+    api: '/mystery-web-user',
   },
   pro: {
-    api: '/mystery-web-admin',
+    api: '/mystery-web-user',
   },
 };
 

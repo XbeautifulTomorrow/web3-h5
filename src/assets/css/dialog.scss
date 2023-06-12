@@ -1,68 +1,150 @@
 .public-dialog {
   background-image: url("@/assets/img/public/popup_bg.png") !important;
-  background-repeat: no-repeat;
+  background-color: #20222d;
+  background-repeat: no-repeat !important;
   background-size: 100% auto;
-  background-position: 0 100%;
+  background-position-y: bottom !important;
   text-align: center;
+
   .el-dialog__body {
-    padding: 30px;
+    padding: 1.875rem;
   }
+
+  .el-dialog__header {
+    padding: 0 !important;
+    margin: 0 auto !important;
+  }
+
   &.el-dialog {
     background-color: #20222d;
     border-radius: 20px;
     color: #a9a4b4;
   }
+
+  .close_btn {
+    position: absolute;
+    top: 1.6875rem;
+    right: 1.875rem;
+    width: 2.8125rem;
+    height: 2.8125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 0.0625rem #2d313f;
+    background-color: #2a2d36;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #a9a4b4;
+  }
+
   .public-dialog-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
   }
-  .public-dialog-header-icon {
-    background-color: #a9a4b4;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    top: 10px;
-  }
+
   .public-dialog-content {
-    padding-bottom: 40px;
+    padding: 1.875rem 0;
   }
+
   .public-dialog-title {
-    font-size: 64px;
-    color: #e4e7f5;
+    font-family: BlenderPro;
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    color: white;
   }
+
+  .public-form {
+    .el-form-item {
+      margin-bottom: 2.25rem;
+    }
+
+    .el-form-item__label {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: left;
+      color: white;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .el-form-item__error {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: left;
+      color: #df4328;
+    }
+  }
+
+  .public-input {
+    .el-input__wrapper {
+      height: 4.375rem;
+      box-sizing: border-box;
+      border: solid 0.0625rem #363945;
+      background-color: #13151f;
+      border-radius: 0.5rem;
+      padding-left: 1.25rem;
+      box-shadow: none;
+      outline: none;
+
+      .el-input__inner {
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: left;
+        color: white;
+      }
+    }
+
+    .el-input__suffix-inner {
+      font-size: 1rem;
+    }
+  }
+
   .public-dialog-illustrate {
     font-size: 18px;
   }
+
   .public-dialog-title-other {
     font-size: 46px;
     margin: 30px 0 10px;
   }
+
   .public-dialog-portrait {
     width: 100%;
     height: 118px;
   }
+
   .public-button {
     width: 100%;
-    border-radius: 8px;
-    color: #13151f;
+    border-radius: 0.5rem;
     background-image: linear-gradient(to bottom, #e3a406, #fbd851);
     border: none;
-    margin-top: 60px;
-    height: 60px;
-    font-size: 18px;
+    height: 3.75rem;
+
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.6;
+    text-align: left;
+    color: #13151f !important;
   }
+
   .public-dialog-text {
     font-size: 18px;
   }
+
   .public-dialog-special {
     color: #e4e7f5;
     margin: 0 5px;
   }
+
   .public-dialog-lists {
     display: flex;
     flex-wrap: wrap;
   }
+
   .public-dialog-list {
     margin-right: 10px;
     margin-bottom: 10px;
@@ -70,13 +152,16 @@
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+
     &:nth-child(5n) {
       margin-right: 0;
     }
+
     &:last-child {
       margin-right: 0;
     }
   }
+
   .public-dialog-list-text {
     display: flex;
     align-items: center;
@@ -85,6 +170,7 @@
     justify-content: center;
     height: 30px;
   }
+
   .public-dialog-list-result {
     position: absolute;
     left: 0;
@@ -96,35 +182,46 @@
     border-radius: 0 0 8px 8px;
     font-size: 20px;
   }
+
   .sold {
     background-color: rgba(12, 187, 62, 0.9);
   }
+
   .refund {
     background-color: rgba(250, 213, 77, 0.9);
   }
+
   .public-dialog-total {
     text-align: left;
   }
+
   .public-dialog-total-title {
     display: inline-block;
     font-size: 18px;
     height: 36px;
   }
+
   .public-dialog-total-number {
     font-size: 30px;
     color: #11cde9;
     font-weight: 700;
     margin-left: 10px;
   }
+
   .cancel-button {
-    border: solid 1px rgba(228, 231, 245, 0.15);
-    background-color: #292c36;
-    color: #e4e7f5;
+    border: solid 0.0625rem rgba(228, 231, 245, 0.15) !important;
+    background-color: #292c36 !important;
+    color: white !important;
     background-image: none;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
   }
-  .el-input--large {
-    height: 70px;
+
+  .public-button+.public-button {
+    margin-left: 1.25rem;
   }
+
   .public-continue {
     color: #a9a4b4 !important;
     font-size: 18px;

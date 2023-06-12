@@ -6,6 +6,10 @@ const getKey = (params) =>
 const authLogin = (params) =>
   apiService.post("mystery-web-user/auth/login", params);
 
+const updateUserInfo = (params) =>
+  apiService.post("mystery-web-user/user/updateInfo", params);
+
+
 const getTheUserSPayoutAddress = (params) =>
   apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params); //收款地址
 
@@ -57,6 +61,7 @@ const statisticsClick = params => // 统计点击次数
 export {
   getKey,
   authLogin,
+  updateUserInfo,
   getTheUserSPayoutAddress,
   getTheUserBalance,
   getLogin,

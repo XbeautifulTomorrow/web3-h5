@@ -5,7 +5,10 @@
         <img src="@/assets/svg/user/default_avatar.svg" alt="" />
         <div class="user_box">
           <div class="username_text">
-            <div class="name_text">{{ airdrop.userName }}</div>
+            <div class="name_text">
+              <span>{{ airdrop.userName }}</span>
+              <img @click="showModify = true" src="@/assets/svg/user/icon_modify.svg" alt="">
+            </div>
             <div class="title_btn" v-if="!accountPoint">
               <span class="title_btn_text">Waiting for data synchronization...</span>
             </div>
@@ -99,19 +102,43 @@
         </div>
       </div>
     </div>
+    <el-dialog v-model="showModify" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
+      class="public-dialog" width="840" :before-close="handleClose">
+      <template #header>
+        <div class="close_btn" @click="handleClose()">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">Please enter the user name</p>
+        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
+          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+          <el-form-item prop="email">
+            <el-input class="public-input" v-model="formUser.name" placeholder="Please enter 8-32 characters" />
+          </el-form-item>
+          <div class="form-buttons">
+            <el-button class="public-button cancel-button" @click="handleClose()">
+              Cancel
+            </el-button>
+            <el-button class="public-button" @click="resetUserName('ruleFormRef')">
+              Reset password
+            </el-button>
+          </div>
+        </el-form>
+      </div>
+    </el-dialog>
   </div>
 </template>
   
 <script>
-import {
-  getWalletNft
-} from "@/services/api/oneBuy";
+import { getWalletNft } from "@/services/api/oneBuy";
+import { updateUserInfo } from "@/services/api/user";
 
-import {
-  accurateDecimal,
-  timeFormat
-} from "@/utils";
+import { accurateDecimal, timeFormat } from "@/utils";
 import bigNumber from "bignumber.js";
+
 export default {
   name: 'AirdropPoint',
   props: {
@@ -130,7 +157,12 @@ export default {
       page: 0,
       size: 9,
       count: 0,
-      loading: false
+      loading: false,
+      showModify: false,
+      formUser: {
+        name: null
+      },
+      rules: {}
     };
   },
   computed: {
@@ -270,6 +302,24 @@ export default {
       this.page += event;
       this.fetchWalletNft(false);
     },
+    // 更改用户名
+    async resetUserName(formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          let res = await updateUserInfo({
+            "userName": this.formUser.name, //用户名
+          });
+          if (res) {
+            this.$emit("omModify");
+            this.handleClose();
+            this.$message.success('Operation succeeded!');
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
     /**
      * 获取时间和当前相距多久
      *
@@ -311,9 +361,28 @@ export default {
         .toExponential()
         .match(/\d(?:\.(\d*))?e([+-]\d+)/);
       return Number(num).toFixed(Math.max(0, (m[1] || "").length - m[2]));
-    }
+    },
+    // 关闭创建弹窗
+    handleClose(done) {
+      this.formUser = {
+        name: null
+      }
+
+      if (done) {
+        done();
+        return
+      }
+      this.showModify = false;
+    },
   },
   created() {
+    this.rules = {
+      name: [
+        { required: true, message: "please enter user name", trigger: ["blur", "change"] },
+        { min: 8, max: 20, message: 'Username must be 8-32 characters', trigger: ["blur", "change"] }
+      ]
+    }
+
     // 如果未同步就不加载Nft列表
     if (!this.accountPoint) return;
     this.fetchWalletNft();

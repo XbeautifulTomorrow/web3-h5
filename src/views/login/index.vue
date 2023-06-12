@@ -3,23 +3,23 @@
   <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="700"
     :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
-          <CircleCloseFilled />
+      <div class="close_btn">
+        <el-icon v-on="{ click: [close, closeDialogFun] }">
+          <Close />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">Login</h2>
+      <p class="public-dialog-title">Login</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
-        :hide-required-asterisk="true" :status-icon="true" class="public-login">
+        :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item label="Email" prop="account">
           <!-- SuccessFilled -->
           <!-- CircleCloseFilled -->
-          <el-input v-model="formLogin.account" placeholder="Enter your email" />
+          <el-input class="public-input" v-model="formLogin.account" placeholder="Enter your email" />
         </el-form-item>
         <el-form-item label="Password" prop="passWord">
-          <el-input v-model="formLogin.passWord" placeholder="Enter your password" type="password" />
+          <el-input class="public-input" v-model="formLogin.passWord" placeholder="Enter your password" type="password" />
         </el-form-item>
       </el-form>
       <div class="form-link">
@@ -127,56 +127,5 @@ const loginFun = async (formEl) => {
 };
 </script>
 <style lang="scss" scoped>
-.form-content {
-  font-size: 16px;
-  color: #a9a4b4;
-}
-
-.form-rember-rectangle {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-grow: 0;
-  margin-right: 12px;
-  border-radius: 3px;
-  border: solid 1px #a9a4b4;
-  cursor: pointer;
-}
-
-.form-rember-rectangle-fill {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  flex-grow: 0;
-  border-radius: 2px;
-  background-color: #fad54d;
-}
-
-.form-link,
-.form-rember {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-}
-
-.form-forgot,
-.form-register-link {
-  color: #11cde9;
-  cursor: pointer;
-}
-
-.form-register-link {
-  margin-left: 20px;
-}
-
-.form-button {
-  margin: 40px auto 20px;
-}
+@import "./index.scss";
 </style>

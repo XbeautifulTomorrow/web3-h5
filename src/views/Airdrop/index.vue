@@ -61,10 +61,10 @@
         </div>
       </div>
       <div v-else class="content_container">
-        <Point :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
-        <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
+        <Point @omModify="fetchAirdropData()" :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
         <Referral v-if="currentActive == 'referral'"></Referral>
       </div>
+      <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
     </div>
     <Connect v-if="showConnect" @connectMetaMask="connectMetaMask" @close="closeDialogFun"></Connect>
 
@@ -144,14 +144,14 @@ export default {
       if (!newV) {
         this.isConnect = false;
       } else {
-        this.getAirdropData();
+        this.fetchAirdropData();
       }
     },
     userInfo(newV) {
       if (!newV) {
         this.isConnect = false;
       } else {
-        this.getAirdropData();
+        this.fetchAirdropData();
       }
     },
   },
@@ -168,7 +168,7 @@ export default {
   },
   created() {
     if (this.isLogin) {
-      this.getAirdropData();
+      this.fetchAirdropData();
     }
   },
   methods: {
@@ -181,7 +181,7 @@ export default {
     },
     handleChange(event) {
       this.currentActive = event;
-      this.getAirdropData();
+      this.fetchAirdropData();
     },
     handleConnect() {
       if (!this.isLogin) {
@@ -248,7 +248,7 @@ export default {
           if (bindRes && bindRes.code == 200) {
             // 关闭弹窗
             this.closeDialogFun();
-            this.getAirdropData();
+            this.fetchAirdropData();
           }
         }
       });
@@ -268,11 +268,11 @@ export default {
       if (bindRes && bindRes.code == 200) {
         // 关闭弹窗
         this.handleClose();
-        this.getAirdropData();
+        this.fetchAirdropData();
       }
     },
     // 获取空投数据
-    async getAirdropData() {
+    async fetchAirdropData() {
       this.airdropData = {};
       const res = await getAirdrop();
       if (res && res.code == 200) {

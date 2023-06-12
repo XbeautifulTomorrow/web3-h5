@@ -191,33 +191,44 @@ export default {
 </script>
 <style lang="scss" scoped>
 .code-form {
+  display: inline-block;
   box-sizing: border-box;
+  padding-top: 1.875rem;
 
   * {
     box-sizing: border-box;
   }
-}
 
-.explain-text {
-  width: 100%;
-}
-
-.button-item {
-  opacity: 1;
-}
-
-.code-list {
-  margin-right: 13px;
-  margin-top: 30px;
-  margin-bottom: 20px;
-
-  &:last-child {
+  .code-list {
     margin-right: 0;
+
+    :deep(.el-input__wrapper) {
+      border-radius: 0.5rem;
+      width: 3.375rem;
+      padding: 0px;
+      border: solid 0.0625rem #363945;
+      background-color: #13151f;
+      box-shadow: none;
+      outline: none;
+
+      input {
+        font-family: LeagueSpartan;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+      }
+    }
+
+    .public-input-com {
+      width: auto;
+    }
   }
-}
-</style>
-<style lang="scss">
-.code-form {
+
+  .code-list+.code-list {
+    margin-left: 1.25rem;
+  }
+
   .el-input__inner {
     height: 56px;
     line-height: 56px;
@@ -232,5 +243,14 @@ export default {
     text-align: center;
     box-shadow: none;
   }
+}
+
+.explain-text {
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+.button-item {
+  opacity: 1;
 }
 </style>

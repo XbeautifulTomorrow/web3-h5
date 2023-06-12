@@ -1,34 +1,15 @@
 <template>
-  <el-form
-    ref="ruleFormRef"
-    label-position="top"
-    label-width="max-content"
-    :model="formForgot"
-    :rules="rules"
-    :hide-required-asterisk="true"
-    :status-icon="true"
-    class="public-login"
-  >
+  <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
+    :hide-required-asterisk="true" :status-icon="true" class="public-form">
     <el-form-item prop="password">
-      <el-input
-        v-model="formForgot.password"
-        placeholder="New Password"
-        type="password"
-        show-password
-      />
+      <el-input v-model="formForgot.password" placeholder="New Password" class="public-input" type="password"
+        show-password />
     </el-form-item>
     <el-form-item prop="confirm">
-      <el-input
-        v-model="formForgot.confirm"
-        placeholder="Confirm password"
-        type="password"
-        show-password
-      />
+      <el-input v-model="formForgot.confirm" placeholder="Confirm password" class="public-input" type="password"
+        show-password />
     </el-form-item>
-    <el-button
-      :class="['public-button form-button', { 'cancel-button': !isSure }]"
-      @click="forgotFun(ruleFormRef)"
-    >
+    <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
       Reset password
     </el-button>
   </el-form>

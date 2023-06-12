@@ -3,21 +3,21 @@
   <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
     class="public-dialog" width="700" :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
-          <CircleCloseFilled />
+      <div class="close_btn">
+        <el-icon v-on="{ click: [close, closeDialogFun] }">
+          <Close />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">{{ title }}</h2>
+      <p class="public-dialog-title">{{ title }}</p>
       <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
-        :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-login">
+        :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item label="Email" prop="email">
-          <el-input v-model="formLogin.email" placeholder="Enter your email" />
+          <el-input class="public-input" v-model="formLogin.email" placeholder="Enter your email" />
         </el-form-item>
         <div class="form-buttons">
-          <el-button class="public-button cancel-button" v-on="{ click: [close, closeDialogFun] }">
+          <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
             Cancel
           </el-button>
           <el-button class="public-button" @click="resetFun(ruleFormRef)">
@@ -113,7 +113,7 @@ const resetFun = async (formEl) => {
 </script>
 <style lang="scss" scoped>
 .form-content {
-  font-size: 16px;
+  font-size: 1rem;
   color: #a9a4b4;
 }
 
@@ -126,6 +126,6 @@ const resetFun = async (formEl) => {
 }
 
 .public-dialog-illustrate {
-  margin-top: 30px;
+  margin-top: 1.875rem;
 }
 </style>

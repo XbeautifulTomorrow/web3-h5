@@ -77,7 +77,11 @@ const forgotFun = async (formEl) => {
 };
 </script>
 <style lang="scss" scoped>
+.public-form {
+  margin-top: 1.875rem;
+}
+
 .form-button {
-  margin: 40px auto 20px;
+  margin: 0.625rem auto 0;
 }
 </style>

@@ -99,7 +99,10 @@
     }
 
     .el-input__suffix-inner {
-      font-size: 1rem;
+
+      .el-icon {
+        font-size: 1rem ;
+      }
 
       .el-button {
         width: 6.25rem;

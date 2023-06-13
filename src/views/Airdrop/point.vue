@@ -103,7 +103,7 @@
       </div>
     </div>
     <el-dialog v-model="showModify" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-      class="public-dialog" width="840" :before-close="handleClose">
+      class="public-dialog" width="890" :before-close="handleClose">
       <template #header>
         <div class="close_btn" @click="handleClose()">
           <el-icon>
@@ -112,7 +112,7 @@
         </div>
       </template>
       <div class="public-dialog-content form-content">
-        <p class="public-dialog-title">Please enter the user name</p>
+        <p class="public-dialog-title">PLEASE ENTER THE USER NAME</p>
         <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
           :hide-required-asterisk="true" :status-icon="true" class="public-form">
           <el-form-item prop="email">
@@ -120,10 +120,10 @@
           </el-form-item>
           <div class="form-buttons">
             <el-button class="public-button cancel-button" @click="handleClose()">
-              Cancel
+              CANCEL
             </el-button>
             <el-button class="public-button" @click="resetUserName('ruleFormRef')">
-              Reset password
+              SUBMIT
             </el-button>
           </div>
         </el-form>
@@ -153,26 +153,26 @@ export default {
     return {
       isSync: false,
       nftList: [{
-        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      },{
-        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }, {
+        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
       }],
       pageList: [""],
       page: 0,

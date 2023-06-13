@@ -29,7 +29,7 @@ const getForgetPasswordtcha = (params) =>
   apiService.post("mystery-web-user/auth/account/forgetPassword", params); //忘记密码
 
 const getCheckCaptcha = (params) =>
-  apiService.post("mystery-web-user/auth/check/captcha", params); //校验邮箱验证码
+  apiService.get("mystery-web-user/auth/check/captcha", params); //校验邮箱验证码
 
 const getAListOfUserPoints = (params) =>
   apiService.get("mystery-web-user/user/getAListOfUserPoints", params); // 积分列表

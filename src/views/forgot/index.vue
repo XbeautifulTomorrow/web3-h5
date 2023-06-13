@@ -126,6 +126,6 @@ const resetFun = async (formEl) => {
 }
 
 .public-dialog-illustrate {
-  margin-top: 1.875rem;
+  margin: 1.875rem 0;
 }
 </style>

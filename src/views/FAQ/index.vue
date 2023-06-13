@@ -1,19 +1,25 @@
 <template>
   <div class="wrapper_bg">
     <div class="FAQ_wrapper">
-      <div class="FAQ_title">FREQUENTLY ASKED QUESTIONS</div>
+      <div class="FAQ_title">
+        <span>FREQUENTLY&nbsp;</span>
+        <span>ASKED&nbsp;</span>
+        <span>QUESTIONS</span>
+      </div>
       <div class="FAQ_description">
         <p>If you have any questions to which you didn’t find the answer for, ask our</p>
         <p>helpful community on Discord or send us a support ticket. We’re here to help!</p>
       </div>
       <div class="FAQ_list">
         <div :class="['FAQ_item', item.isExpand && 'active']" v-for="(item, index) in FAQList"
-          @click="getQueryRect(item, index)" :style="{ height: item.isExpand ? item.height : '4.625rem' }" :key="index">
+          @click="getQueryRect(index)" :style="{ height: item.isExpand ? item.height : item.minHeight }" :key="index">
           <div class="FAQ_item_l">{{ index + 1 }}</div>
           <div class="FAQ_item_r">
             <div class="FAQ_content">
               <div class="FAQ_content_title">
-                <div class="text">{{ item.title }}</div>
+                <div class="text" :id="`text-${index}`">
+                  <span v-for="(sp, i) in formatText(item.title)" :key="i">{{ sp }}&nbsp;</span>
+                </div>
                 <div class="close">
                   <el-icon class="close_icon">
                     <Plus />
@@ -30,22 +36,51 @@
 </template>
 
 <script>
+import { handleWindowResize } from "@/utils"
 import bigNumber from "bignumber.js";
 export default {
   name: 'FAQ',
   components: {},
   data() {
     return {
+      screenWidth: null,
       FAQList: []
     }
   },
   methods: {
-    getQueryRect(event, index) {
+    getHeight(index) {
+      let paddingV = 20;
+      window.screenWidth = document.body.clientWidth;
+      this.screenWidth = window.screenWidth;
+
+      const textHeight = document.getElementById(`text-${index}`);
+      if (this.screenWidth < 950) {
+        paddingV = 8;
+      }
+
+      const heightV = new bigNumber(textHeight && textHeight.clientHeight).plus(paddingV).plus(paddingV).div(16);
+      this.FAQList[index].minHeight = `${heightV}rem`;
+    },
+    getQueryRect(index) {
+      let paddingV = 20;
+      window.screenWidth = document.body.clientWidth;
+      this.screenWidth = window.screenWidth;
+
+      const textHeight = document.getElementById(`text-${index}`).clientHeight;
+      if (this.screenWidth < 950) {
+        paddingV = 8;
+      }
+
+      const heightV = new bigNumber(textHeight).plus(paddingV).plus(paddingV);
+
       const height = document.getElementById(`FAQ-${index}`).clientHeight;
-      const totalHeight = new bigNumber(74).plus(height).div(16).toString();
+      let totalHeight = new bigNumber(heightV).plus(height).div(16).toString();
       this.FAQList[index].height = `${totalHeight}rem`;
       this.FAQList[index].isExpand = !this.FAQList[index].isExpand;
       console.log(this.FAQList[index].height)
+    },
+    formatText(event) {
+      return event.split(" ");
     }
   },
   created() {
@@ -57,7 +92,8 @@ export default {
           circles to enter the marketplace by providing a more humanized and entertaining experience, to expanding 
           the liquidity of NFT and crypto assets trading as a whole.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "What are NFTs?",
@@ -68,7 +104,8 @@ export default {
         BITZING is excited to offer various NFT features including NFT Mystery Box (the World's first NFT Mystery Box marketplace)
          and Competition, ability to deposit and withdraw NFTs and a gas-less NFT marketplace.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "What is Bitzing Mystery Box?",
@@ -80,7 +117,8 @@ export default {
         If you are not satisfied with the NFT you receive, you can resell it at its current value for a small percentage fee and 
         the proceeds from the sale will be credited to your account immediately.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How to purchase a Mystery box?",
@@ -89,7 +127,8 @@ export default {
         <br><br>
         We currently only support ETH and USDT, but will support more cryptocurrencies in the future.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How do i view the NFT I have unboxed?",
@@ -100,7 +139,8 @@ export default {
         the 'Wallet' tab on the website). Here you can view all the NFTs you currently have and you can withdraw them to 
         your wallet at any time.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How to withdraw NFT to my wallet?",
@@ -108,7 +148,8 @@ export default {
         You can withdraw your NFTs to your wallet by clicking on the Withdraw button below the NFT and paying a certain GAS 
         fee. To save on GAS fees, we recommend that you withdraw multiple NFTs at once rather than one by one.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "Crypto deposit and withdrawal.",
@@ -119,7 +160,8 @@ export default {
         <br><br>
         Note that the crypto withdrawals will incur a processing fee discounted after your request.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "Do I get rewarded for telling my friends about BITZING?",
@@ -127,7 +169,8 @@ export default {
         in the NFT community, or even just a few friends you’d like to share the website with. Send your referral link to your friends, 
         and for each purchase they make, you get a commission. Click on your profile and navigate to the Referral section to learn more.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How do I open a mystery box?",
@@ -135,7 +178,8 @@ export default {
         cost of the box you’re looking to open. After that, click on the box, and you’ll be led to the unboxing window. Finally, click 
         the “Unbox” button to open the box.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How do I open a mystery box?",
@@ -143,14 +187,16 @@ export default {
         cost of the box you’re looking to open. After that, click on the box, and you’ll be led to the unboxing window. Finally, click 
         the “Unbox” button to open the box.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How many mystery boxes can I open at once?",
         description: `You can open up to 10 boxes at once. They will all open at the same time, so if you want to open multiple boxes 
         of the same kind, this can save you a lot of time.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "Why the contents of the mystery box changed?",
@@ -165,7 +211,8 @@ export default {
         <br><br>
         If you want to hold NFTs for later play, we would recommend reselling them as they have a fixed value.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How do we ensure fairness?",
@@ -177,7 +224,8 @@ export default {
         lottery results on the chain, and compare the results with the reward IDs of the individual NFTs in the snapshot to ensure transparency 
         and openness of the lottery.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "What is Competition?",
@@ -195,7 +243,8 @@ export default {
         <br>
         -Once the winner has been selected, BITZING will automatically process the transfer of the prize to the winner.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How to create a Competition?",
@@ -221,7 +270,8 @@ export default {
         The proceeds from the sale of admission tickets will be reduced by only 5% of the technical service fee, and the rest 
         will be the proceeds from the sale of the Competition creator.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "How can I participate in Competition?",
@@ -232,13 +282,15 @@ export default {
         To ensure fairness, we limit the number of tickets a single user can purchase in each Competition to 
         "<span style="color:white">Total Price/0.0001ETH/4/span>".`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "Will someone definitely win the NFT in every competition?",
         description: `Yes. There will always be a guaranteed winner for the NFT draws.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "The Competition I entered isn’t full yet, when will it draw?",
@@ -246,16 +298,36 @@ export default {
         <br>
         Criteria can be timed or  max entries.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
       {
         title: "What are the odds of winning the Competition NFT?",
         description: `No, you are purchasing an entry ticket for the free prize draw. The entry ticket is an NFT that is 
         stored in your personal account and can be transferred out to your wallet.`,
         isExpand: false,
-        height: null
+        height: null,
+        minHeight: null
       },
     ]
+  },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    // 加载完成后调整高度
+    for (let i = 0; i < this.FAQList.length; i++) {
+      this.getHeight(i)
+    }
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+      for (let i = 0; i < this.FAQList.length; i++) {
+        this.getHeight(i)
+      }
+    })
   }
 };
 </script>

@@ -37,6 +37,15 @@ export default {
 body {
   background-color: #110429;
 }
+
+
+@media screen and (max-width: 950px) {
+  #app {
+    width: 100%;
+    min-width: auto;
+    min-height: auto;
+  }
+}
 </style>
 <style lang="scss">
 @import url("@/assets/css/index.scss");
@@ -48,7 +57,7 @@ body {
   position: relative;
   overflow: hidden;
 
-  & > div:nth-child(1) {
+  &>div:nth-child(1) {
     top: 98.875rem;
     left: -9.6875rem;
     position: absolute;
@@ -59,7 +68,7 @@ body {
     filter: blur(16.5625rem);
   }
 
-  & > div:nth-child(2) {
+  &>div:nth-child(2) {
     top: 122.625rem;
     right: -10.0625rem;
     position: absolute;
@@ -69,7 +78,7 @@ body {
     background-color: #ed21b4;
   }
 
-  & > div:nth-child(3) {
+  &>div:nth-child(3) {
     top: 206.4375rem;
     left: -18.9375rem;
     position: absolute;
@@ -80,7 +89,7 @@ body {
     background-color: #ed21b4;
   }
 
-  & > div:nth-child(4) {
+  &>div:nth-child(4) {
     top: 242.25rem;
     right: -24.125rem;
     position: absolute;

@@ -75,7 +75,7 @@
 
 .border_bg {
   box-sizing: border-box;
-  padding: 0.0625rem;
+  padding: 1px;
   border-image-source: linear-gradient(145deg,
       #ff25c2 0%,
       rgba(0, 0, 0, 0) 30%,
@@ -232,7 +232,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 0.0625rem #2d313f;
+  border: solid 1px #2d313f;
   background-color: #2a2d36;
   border-radius: 50%;
   cursor: pointer;
@@ -269,7 +269,7 @@
       background-color: #13151f;
       box-shadow: none !important;
       padding: 0 1.25rem;
-      border: solid 0.0625rem #363945;
+      border: solid 1px #363945;
       background-color: #13151f;
 
       &>input {

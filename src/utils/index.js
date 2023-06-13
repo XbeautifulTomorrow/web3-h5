@@ -119,6 +119,28 @@ export function onCopy(event) {
   }
 }
 
+function debounce(fn, delay) {
+  let timer;
+  return function () {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn();
+    }, delay);
+  };
+}
+
+/**
+ * @description:  resize事件监听窗口变化
+ * @param {object} callback
+ * @return {*}
+ */
+export function handleWindowResize(callback) {
+  const cancalDebounce = debounce(callback, 300);
+  window.addEventListener("resize", cancalDebounce);
+}
+
 /**
  * @description:  时间格式化
  * @param {Date} time

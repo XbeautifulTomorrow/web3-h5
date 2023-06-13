@@ -206,7 +206,7 @@ export default {
       border-radius: 0.5rem;
       width: 3.375rem;
       padding: 0px;
-      border: solid 0.0625rem #363945;
+      border: solid 1px #363945;
       background-color: #13151f;
       box-shadow: none;
       outline: none;

@@ -211,7 +211,7 @@ const registerFun = async (formEl) => {
   flex-grow: 0;
   margin-right: 0.75rem;
   border-radius: 0.1875rem;
-  border: solid 0.0625rem #a9a4b4;
+  border: solid 1px #a9a4b4;
   cursor: pointer;
 }
 

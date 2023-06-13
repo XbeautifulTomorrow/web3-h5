@@ -15,19 +15,20 @@
   font-family: Tomorrow;
   font-size: 4rem;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.2;
-  letter-spacing: normal;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+
+  &>span {
+    display: inline-block;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  }
 }
 
 .FAQ_description {
   margin: 0 auto;
-  padding-top: 1rem;
+  padding: 1rem 0 3.75rem;
   font-size: 1.125rem;
   line-height: 1.6;
   text-align: center;
@@ -88,6 +89,11 @@
         line-height: 1.4;
         text-align: left;
         color: #a9a4b4;
+        word-spacing: 0.25rem;
+
+        &>span {
+          display: inline-block;
+        }
       }
 
       .close {
@@ -104,6 +110,7 @@
         cursor: pointer;
         font-size: 0.75rem;
         transition: all 0.3s;
+        box-sizing: border-box;
       }
     }
 
@@ -132,10 +139,12 @@
         padding-bottom: 0;
 
         .text {
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+          &>span {
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+          }
         }
 
         .close {
@@ -169,4 +178,58 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media screen and (max-width: 950px) {
+  .FAQ_wrapper {
+    width: auto;
+    margin: 0 1.5rem;
+    padding: 0;
+  }
+
+  .FAQ_title {
+    font-size: 2rem;
+  }
+
+  .FAQ_description {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .FAQ_item {
+    padding: 0 0.5rem;
+
+    .FAQ_item_l {
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .FAQ_item_r {
+      padding: 0.5rem 0 0;
+    }
+
+    .FAQ_content {
+
+      .FAQ_content_title {
+        align-items: flex-start;
+        padding-bottom: 0.5rem;
+
+        .text {
+          font-size: 1rem;
+        }
+
+        .close {
+          width: 1.375rem;
+          height: 1.375rem;
+        }
+      }
+
+      .FAQ_content_description {
+        font-size: 0.75rem;
+      }
+    }
+  }
 }

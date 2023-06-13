@@ -81,7 +81,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 0.0625rem #2d313f;
+  border: solid 1px #2d313f;
   background-color: #2a2d36;
   border-radius: 50%;
   cursor: pointer;
@@ -116,7 +116,7 @@ export default {
   .operating_item {
     height: 4.375rem;
     border-radius: 0.5rem;
-    border: solid 0.0625rem #363945;
+    border: solid 1px #363945;
     background-color: #13151f;
     padding: 0 1.25rem;
     display: flex;

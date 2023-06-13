@@ -1,24 +1,30 @@
 :root {
   --el-overlay-color-lighter: rgba(19, 7, 27, 0.45);
 }
+
 .el-overlay {
   backdrop-filter: blur(5px);
 }
+
 .el-input__wrapper {
   background: none;
 }
+
 .public-login {
   margin-top: 30px;
+
   .el-input__wrapper {
     background-color: #13151f;
     border: solid 1px #363945;
     box-shadow: none;
   }
+
   .el-input__inner {
     color: #fff;
     font-size: 18px;
   }
 }
+
 .roll-message {
   z-index: 10000 !important;
 }

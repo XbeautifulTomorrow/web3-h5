@@ -152,29 +152,8 @@ export default {
   data() {
     return {
       isSync: false,
-      nftList: [{
-        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        name: "dasssssssssssssssssssssssssssssssssssssssssssssss",
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }, {
-        tokenId: "daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
-      }],
-      pageList: [""],
+      nftList: [],
+      pageList: [],
       page: 0,
       size: 9,
       count: 0,
@@ -311,7 +290,7 @@ export default {
         chatId: 1
       });
       if (res && res.code == 200) {
-        // this.nftList = res.data.records;
+        this.nftList = res.data.records;
         this.count = res.data.total;
         this.loading = false;
         if (!res.data.cursor) return;

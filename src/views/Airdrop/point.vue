@@ -152,7 +152,28 @@ export default {
   data() {
     return {
       isSync: false,
-      nftList: [],
+      nftList: [{
+        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        name:"dasssssssssssssssssssssssssssssssssssssssssssssss",
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      },{
+        tokenId:"daswdasdssssssssssssssssssssssssssssssssasdwadasdddddddddddd"
+      }],
       pageList: [""],
       page: 0,
       size: 9,
@@ -222,8 +243,8 @@ export default {
           detail: {
             Clicks: airdrop.clickNumber, //点击次数
             Referrals: airdrop.regNumber, //注册人数
-            "This month Point": airdrop.thisMonthPoint, //这个月积分
-            "Last month Point": airdrop.lastMonthPoint, //上个月积分
+            "This month": airdrop.thisMonthPoint, //这个月积分
+            "Last month": airdrop.lastMonthPoint, //上个月积分
           }
         },
       ]
@@ -290,7 +311,7 @@ export default {
         chatId: 1
       });
       if (res && res.code == 200) {
-        this.nftList = res.data.records;
+        // this.nftList = res.data.records;
         this.count = res.data.total;
         this.loading = false;
         if (!res.data.cursor) return;

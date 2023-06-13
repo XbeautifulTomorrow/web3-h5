@@ -252,7 +252,7 @@
 }
 
 .nft_box {
-  height: 18.25rem;
+  max-height: 18.25rem;
   display: flex;
   flex-wrap: wrap;
 
@@ -277,6 +277,7 @@
     padding: 0.625rem;
     border-radius: 0.5rem;
     background-color: #1d0f36;
+    overflow: hidden;
 
     .nft_img {
       width: 4rem;
@@ -292,6 +293,7 @@
 
     .nft_info {
       flex: 1;
+      max-width: calc(100% - 1.25rem);
     }
 
     .name_box {

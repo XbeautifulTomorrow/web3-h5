@@ -3,28 +3,29 @@
   <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
     class="public-dialog" width="700" :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon v-on="{ click: [close, closeDialogFun] }" color="#2d313f" size="16" class="public-dialog-header-icon">
-          <CircleCloseFilled />
+      <div class="close_btn">
+        <el-icon v-on="{ click: [close, closeDialogFun] }">
+          <Close />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
       <h2 class="public-dialog-title">Welcome</h2>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
-        :hide-required-asterisk="true" :status-icon="true" class="public-login">
+        :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item label="Email" prop="email">
-          <el-input v-model="formRegister.email" placeholder="Enter your email" />
+          <el-input v-model="formRegister.email" class="public-input" placeholder="Enter your email" />
         </el-form-item>
         <el-form-item label="Password" prop="passWord">
-          <el-input v-model="formRegister.passWord" placeholder="Enter your password" type="password" show-password />
-        </el-form-item>
-        <el-form-item label="Confirm password" prop="confirm">
-          <el-input v-model="formRegister.confirm" placeholder="Enter your password again" type="password"
+          <el-input v-model="formRegister.passWord" class="public-input" placeholder="Enter your password" type="password"
             show-password />
         </el-form-item>
+        <el-form-item label="Confirm password" prop="confirm">
+          <el-input v-model="formRegister.confirm" class="public-input" placeholder="Enter your password again"
+            type="password" show-password />
+        </el-form-item>
         <el-form-item class="register-captcha" label="Captcha" prop="captcha">
-          <el-input v-model="formRegister.captcha" placeholder="Enter your captcha">
+          <el-input v-model="formRegister.captcha" class="public-input" placeholder="Enter your captcha">
             <template #suffix>
               <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : "Send" }} </el-button>
@@ -205,21 +206,21 @@ const registerFun = async (formEl) => {
   align-items: center;
   justify-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   flex-grow: 0;
-  margin-right: 12px;
-  border-radius: 3px;
-  border: solid 1px #a9a4b4;
+  margin-right: 0.75rem;
+  border-radius: 0.1875rem;
+  border: solid 0.0625rem #a9a4b4;
   cursor: pointer;
 }
 
 .form-rember-rectangle-fill {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   flex-grow: 0;
-  border-radius: 2px;
+  border-radius: 0.125rem;
   background-color: #fad54d;
 }
 
@@ -227,8 +228,12 @@ const registerFun = async (formEl) => {
   display: flex;
   align-content: center;
   align-items: flex-start;
-  font-size: 16px;
+  font-size: 1rem;
   text-align: left;
+}
+
+.form-rember-text {
+  flex: 1;
 }
 
 .form-forgot,
@@ -238,21 +243,10 @@ const registerFun = async (formEl) => {
 }
 
 .form-register-link {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .form-button {
-  margin: 40px auto 20px;
-}
-</style>
-<style lang="scss">
-.register-captcha {
-  .el-input__wrapper {
-    padding-right: 0 !important;
-  }
-
-  .el-input__validateIcon {
-    display: none !important;
-  }
+  margin: 2.5rem 0 0;
 }
 </style>

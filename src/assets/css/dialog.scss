@@ -100,6 +100,13 @@
 
     .el-input__suffix-inner {
       font-size: 1rem;
+
+      .el-button {
+        width: 6.25rem;
+        height: 3rem;
+        border-radius: 0.5rem;
+        font-size: 1.25rem;
+      }
     }
   }
 

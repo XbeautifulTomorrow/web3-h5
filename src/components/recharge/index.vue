@@ -265,7 +265,8 @@ const transfer = async () => {
   let nftList = [];
 
   if (tokenChoose.value == 3) {
-    chooseNftAddress.forEach(async (item) => {
+    const _length = chooseNftAddress.length;
+    chooseNftAddress.forEach(async (item, index) => {
       //多个nft授权
       let nftContract = new web3.eth.Contract(
         nft1155Abi,
@@ -276,14 +277,18 @@ const transfer = async () => {
       await nftContract.methods
         .setApprovalForAll(nftTokenAddress, true)
         .send({ from: accounts[0] });
+      if (index === _length - 1) {
+        const nftTransferContract = new web3.eth.Contract(
+          nftAbi,
+          nftTokenAddress
+        ); //nft转账合约
+        const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
+        //721充值
+        await nftTransferContract.methods
+          .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
+          .send({ from: accounts[0] });
+      }
     });
-
-    const nftTransferContract = new web3.eth.Contract(nftAbi, nftTokenAddress); //nft转账合约
-    const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
-    //721充值
-    await nftTransferContract.methods
-      .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
-      .send({ from: accounts[0] });
     return;
     // const _tokenid = dataArrFun(chooseNft, "tokenId");
     //1155充值

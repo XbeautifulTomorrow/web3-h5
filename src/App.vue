@@ -100,4 +100,14 @@ body {
     background-color: #a21ae2;
   }
 }
+
+@media screen and (max-width: 950px) {
+
+  .bg-panl {
+
+    &>.gradual-bg {
+      display: none;
+    }
+  }
+}
 </style>

@@ -292,3 +292,174 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+
+@media screen and (max-width: 950px) {
+  .leaderboard_container {
+    margin-top: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 0;
+  }
+
+  .statistics_box {
+    flex-direction: column;
+
+    &>div+div {
+      margin-left: 0;
+      margin-top: 0.75rem;
+    }
+
+    &>div {
+      width: 100%;
+
+      .statistics_title {
+        font-size: 0.875rem;
+        padding-bottom: 0.25rem;
+      }
+    }
+
+    .statistics_content {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+
+      &>img {
+        height: 3.75rem;
+      }
+
+      .statistics_item {
+
+        .label {
+          font-size: 0.5rem;
+        }
+
+        .val {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .tabel_container {
+    padding-top: 0.75rem;
+    text-align: left;
+
+    .tabel_thead {
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      font-size: 0.5rem;
+    }
+
+    .tabel_item {
+
+      &>div+div {
+        margin-left: 1rem;
+      }
+
+      .rank {
+        width: 1.5rem;
+        text-align: center;
+      }
+
+      .user_info {
+        width: 7.8125rem;
+      }
+
+      .point {
+        width: 3.875rem;
+      }
+
+      .date {
+        width: 2rem;
+      }
+    }
+
+    .tabel_tbody_item {
+      padding: 0.5rem;
+
+      .rank {
+        font-size: 0.75rem;
+      }
+
+      .user_info {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        img {
+          width: 2rem;
+          height: 2rem;
+          margin-right: 0.25rem;
+        }
+
+        .name_text {
+          font-size: 1rem;
+        }
+
+        .wallet_box {
+          font-size: 0.75rem;
+        }
+      }
+
+      .point {
+
+        &>div+div {
+          margin-left: 0;
+        }
+
+        &>div:nth-child(n+2) {
+          display: none;
+        }
+
+        .point_item {
+          width: 3.875rem;
+          height: auto;
+          border-radius: 0.25rem;
+          padding: 0.25rem;
+          align-items: flex-start;
+
+          .title {
+            font-size: 0.5rem;
+            line-height: 1.2;
+            text-align: left;
+          }
+
+          .val {
+            font-size: 0.625rem;
+            line-height: 1.2;
+            text-align: left;
+          }
+        }
+      }
+
+      .date {
+        font-size: 0.5rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .pagination_box {
+    padding-top: 0.75rem;
+
+    .total_box {
+      font-size: 0.875rem;
+    }
+
+    .pagination {
+
+      .prev,
+      .next {
+        width: 1.625rem;
+        height: 1.625rem;
+        font-size: 0.875rem;
+        border-radius: 0.25rem;
+      }
+
+      .page_box {
+        padding: 0 1rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

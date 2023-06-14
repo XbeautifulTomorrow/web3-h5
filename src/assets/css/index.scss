@@ -93,3 +93,39 @@ input[type="number"] {
 .pointer {
   cursor: pointer;
 }
+
+/*<950px的设备*/
+@media (max-width: 950px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/*>=1366的设备*/
+@media (min-width: 1366px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/*>=1440的设备*/
+@media (min-width: 1440px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+
+/*>=1680的设备*/
+@media (min-width: 1680px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/*>= 1920的设备*/
+@media (min-width: 1920px) {
+  html {
+    font-size: 16px;
+  }
+}

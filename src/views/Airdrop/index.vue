@@ -72,8 +72,8 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
 
-    <el-dialog class="dialog_airdrop" v-model="showTest" width="43.75rem" lock-scroll :close-on-click-modal="false"
-      :before-close="handleClose">
+    <el-dialog class="dialog_airdrop" v-model="showTest" width="700" :close-on-click-modal="false" :align-center="true"
+      lock-scroll :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />

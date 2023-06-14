@@ -181,6 +181,8 @@ export default {
     },
     handleChange(event) {
       this.currentActive = event;
+
+      if (!this.isLogin) return
       this.fetchAirdropData();
     },
     handleConnect() {

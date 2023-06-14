@@ -3,8 +3,8 @@
   <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="700"
     :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="close_btn">
-        <el-icon v-on="{ click: [close, closeDialogFun] }">
+      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+        <el-icon>
           <Close />
         </el-icon>
       </div>

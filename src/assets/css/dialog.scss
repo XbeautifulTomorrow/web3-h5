@@ -101,7 +101,7 @@
     .el-input__suffix-inner {
 
       .el-icon {
-        font-size: 1rem ;
+        font-size: 1rem;
       }
 
       .el-button {
@@ -139,6 +139,12 @@
     line-height: 1.6;
     text-align: left;
     color: #13151f !important;
+
+    &.disabled {
+      background-image: none;
+      background-color: #a9a4b4;
+      cursor: not-allowed;
+    }
   }
 
   .public-dialog-text {

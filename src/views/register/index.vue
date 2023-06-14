@@ -3,8 +3,8 @@
   <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
     class="public-dialog" width="700" :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="close_btn">
-        <el-icon v-on="{ click: [close, closeDialogFun] }">
+      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+        <el-icon>
           <Close />
         </el-icon>
       </div>
@@ -50,7 +50,10 @@
           </span>
         </div>
       </div>
-      <el-button class="public-button form-button" @click="registerFun(ruleFormRef)">
+      <el-button v-if="!showRemember" class="public-button form-button disabled">
+        Complete Registration
+      </el-button>
+      <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
         Complete Registration
       </el-button>
     </div>

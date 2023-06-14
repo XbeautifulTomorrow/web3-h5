@@ -67,13 +67,13 @@
     <el-table :data="inviteList" class="table_container" style="width: 100%">
       <el-table-column prop="inviteCode" label="CODE" align="center" />
       <el-table-column prop="invitePeople" label="REFS" align="center" />
-      <el-table-column prop="pointAmount" label="REGIST POINT" align="center" />
+      <el-table-column prop="pointAmount" label="REGST" align="center" />
       <el-table-column prop="traAmount" label="%" align="center">
         <template #default>
           {{ commissionrate }}
         </template>
       </el-table-column>
-      <el-table-column prop="extraPointAmount" label="EXTRA POINT" align="center"></el-table-column>
+      <el-table-column prop="extraPointAmount" label="BONUS" align="center"></el-table-column>
       <el-table-column label="COPY" align="center">
         <template #default="scope">
           <div class="copy_btn">

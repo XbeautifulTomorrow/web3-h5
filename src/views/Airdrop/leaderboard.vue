@@ -54,7 +54,7 @@
             <div class="user_box">
               <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
               <div class="wallet_box text-ellipsis">
-                <span>Wallet address:</span>
+                <img src="@/assets/svg/airdrop/icon_eth.svg" alt="">
                 <span>{{ item.walletAddress || "--" }}</span>
               </div>
             </div>

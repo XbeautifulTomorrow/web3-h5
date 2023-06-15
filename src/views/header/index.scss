@@ -28,9 +28,19 @@
   line-height: 1;
   letter-spacing: normal;
   color: #92949c;
+  padding: 0.5rem 0;
 
-  &:active {
+  &:hover {
     color: #fff;
+  }
+
+  &:active,
+  &.active {
+    color: #fff;
+    background-image: url("@/assets/svg/home/icon_nav_active.svg");
+    background-size: 1.71875rem auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
   }
 }
 
@@ -346,7 +356,7 @@
 
   .header-right {
 
-    &>div+div {
+    div+div {
       margin-left: 0.5rem;
     }
 

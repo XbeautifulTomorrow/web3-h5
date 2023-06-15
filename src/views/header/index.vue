@@ -4,7 +4,8 @@
       <div class="header-left">
         <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
         <ul class="header-nav">
-          <li class="header-nav-text" v-for="(item, index) in nav" :key="`nav-${index}`" @click="goTo(item.page)">
+          <li :class="['header-nav-text', active == item.text && 'active']" v-for="(item, index) in nav"
+            :key="`nav-${index}`" @click="goTo(item.page)">
             {{ item.text }}
           </li>
         </ul>
@@ -148,6 +149,7 @@ export default {
   },
   data() {
     return {
+      active: "",
       dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
@@ -197,6 +199,9 @@ export default {
   },
   mounted() {
     // this.connect();
+  },
+  created() {
+    this.active = this.$route.name;
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
@@ -476,9 +481,19 @@ export default {
       }
     },
   },
+  // 监听,当路由发生变化的时候执行
+  watch: {
+    $route: {
+      handler: function (newV) {
+        this.active = newV.name;
+      },
+      // 深度观察监听
+      deep: true
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import url("./index.scss");
+@import "./index.scss";
 </style>

@@ -48,8 +48,8 @@ body {
 }
 </style>
 <style lang="scss">
-@import url("@/assets/css/index.scss");
-@import url("@/assets/css/dialog.scss");
+@import "@/assets/css/index.scss";
+@import "@/assets/css/dialog.scss";
 
 .bg-panl {
   margin: 0 auto;

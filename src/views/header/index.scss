@@ -151,18 +151,7 @@
   justify-items: center;
   justify-content: center;
 
-  &:hover {
-    border-radius: 0.5rem 0.5rem 0 0;
 
-    .header-user-popup {
-      transform: scaleY(1);
-      opacity: 1;
-    }
-
-    .header-user-down {
-      transform: rotate(0);
-    }
-  }
 }
 
 .header-user-popup {
@@ -229,6 +218,19 @@
   margin-right: 0.75rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+.header-user:hover {
+  border-radius: 0.5rem 0.5rem 0 0;
+
+  .header-user-popup {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  .header-user-down {
+    transform: rotate(0);
+  }
 }
 
 .myProfile {

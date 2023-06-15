@@ -456,6 +456,7 @@
   }
 
   .user_info_l {
+    width: 100%;
     display: flex;
     align-items: center;
 
@@ -505,9 +506,9 @@
 
     .tips_text {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       font-size: 0.5rem;
-      line-height: 1.2;
+      line-height: 1.6;
       color: white;
 
       img {
@@ -518,6 +519,7 @@
   }
 
   .user_info_r {
+    width: 100%;
     display: flex;
     align-items: center;
     padding-top: 1.5rem;
@@ -527,7 +529,7 @@
     }
 
     &>div:last-child {
-      width: 6.875rem;
+      min-width: 6.875rem;
     }
 
     .data_item {
@@ -539,7 +541,7 @@
       }
 
       .item_data {
-        min-width: 5.75rem;
+        min-width: auto;
         height: auto;
         padding: 0.5rem 0.25rem;
         border-radius: 0.5rem;
@@ -667,12 +669,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-  
+
         &>span:nth-child(1) {
           font-size: 0.75rem;
           line-height: 1.4;
         }
-  
+
         &>span:last-child {
           margin-left: 0.5rem;
           font-size: 0.5rem;

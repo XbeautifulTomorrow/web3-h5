@@ -68,15 +68,15 @@
     font-size: 1.125rem;
     border-radius: 3.75rem;
     cursor: pointer;
+  }
 
-    &.login {
-      color: #fad54d;
-    }
+  .login {
+    color: #fad54d;
+  }
 
-    &.register {
-      background-color: #fad54d;
-      color: #13151f;
-    }
+  .register {
+    background-color: #fad54d;
+    color: #13151f;
   }
 }
 
@@ -321,12 +321,8 @@
   right: 0;
 }
 
-/**
-@media screen and (max-width: 950px) {
-  html {
-    font-size: 16px;
-  }
 
+@media screen and (max-width: 950px) {
   .header {
     height: auto;
     margin: 0.5rem 1.5rem;
@@ -402,5 +398,3 @@
     }
   }
 }
-
-**/

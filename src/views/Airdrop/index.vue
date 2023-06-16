@@ -167,7 +167,7 @@ export default {
     },
   },
   created() {
-    if (this.isLogin) {
+    if (this.isLogin && this.userInfo?.id) {
       this.fetchAirdropData();
     }
   },
@@ -182,7 +182,7 @@ export default {
     handleChange(event) {
       this.currentActive = event;
 
-      if (!this.isLogin) return
+      if (!this.isLogin || !this.userInfo?.id) return
       this.fetchAirdropData();
     },
     handleConnect() {

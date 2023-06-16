@@ -53,3 +53,40 @@
 .form-button {
   margin: 2.5rem auto 1.25rem;
 }
+
+@media (max-width: 950px) {
+
+  .form-rember-rectangle {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.5rem;
+  }
+
+  .form-rember {
+    font-size: 0.75rem;
+  }
+
+  .form-rember-text {
+    font-size: 0.75rem;
+  }
+
+  .form-forgot,
+  .form-register-link {
+    font-size: 0.75rem;
+    color: #11cde9;
+    cursor: pointer;
+  }
+
+  .form-register {
+    font-size: 0.75rem;
+  }
+
+  .form-register-link {
+    margin-left: 0.5rem;
+  }
+
+  .form-button {
+    margin: 0.875rem 0;
+  }
+
+}

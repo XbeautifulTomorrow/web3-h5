@@ -77,7 +77,6 @@ export default {
       let totalHeight = new bigNumber(heightV).plus(height).div(16).toString();
       this.FAQList[index].height = `${totalHeight}rem`;
       this.FAQList[index].isExpand = !this.FAQList[index].isExpand;
-      console.log(this.FAQList[index].height)
     },
     formatText(event) {
       return event.split(" ");

@@ -51,10 +51,10 @@
         </div>
       </div>
       <el-button v-if="!showRemember" class="public-button form-button disabled">
-        Complete Registration
+        COMPLETE REGISTRATION
       </el-button>
       <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
-        Complete Registration
+        COMPLETE REGISTRATION
       </el-button>
     </div>
   </el-dialog>
@@ -251,5 +251,37 @@ const registerFun = async (formEl) => {
 
 .form-button {
   margin: 2.5rem 0 0;
+}
+
+@media (max-width: 950px) {
+
+  .form-rember-rectangle {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.5rem;
+  }
+
+  .form-rember {
+    font-size: 0.75rem;
+  }
+
+  .form-rember-text {
+    flex: 1;
+  }
+
+  .form-forgot,
+  .form-register-link {
+    color: #11cde9;
+    cursor: pointer;
+  }
+
+  .form-register-link {
+    margin-left: 1.25rem;
+  }
+
+  .form-button {
+    margin: 0.875rem 0 0;
+  }
+
 }
 </style>

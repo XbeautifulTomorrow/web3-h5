@@ -55,7 +55,7 @@
               <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
               <div class="wallet_box text-ellipsis">
                 <img src="@/assets/svg/airdrop/icon_eth.svg" alt="">
-                <span>{{ item.walletAddress || "--" }}</span>
+                <span>{{ formatAddr(item.walletAddress) || "--" }}</span>
               </div>
             </div>
           </div>
@@ -225,8 +225,9 @@ export default {
      */
     formatAddr(event) {
       if (!event) return "";
-      var reg = /^(\S{7})\S+(\S{5})$/;
-      return event.replace(reg, "$1...$2");
+      let textSer = event.replace("0x", "");
+      var reg = /^(\S{6})\S+(\S{4})$/;
+      return textSer.replace(reg, "$1...$2");
     }
   }
 };

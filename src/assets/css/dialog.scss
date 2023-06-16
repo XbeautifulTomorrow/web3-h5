@@ -17,7 +17,7 @@
 
   &.el-dialog {
     background-color: #20222d;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     color: #a9a4b4;
   }
 
@@ -45,7 +45,7 @@
   }
 
   .public-dialog-content {
-    padding: 1.875rem 0;
+    padding: 1.875rem 0 0;
   }
 
   .public-dialog-title {
@@ -136,7 +136,7 @@
 
     font-size: 1.125rem;
     font-weight: 500;
-    line-height: 1.6;
+    line-height: 1;
     text-align: left;
     color: #13151f !important;
 
@@ -246,5 +246,86 @@
     background-image: none !important;
     margin-top: 10px;
     margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 950px) {
+  .public-dialog {
+
+    .el-dialog__body {
+      padding: 1.5rem;
+    }
+
+    &.el-dialog {
+      border-radius: 0px;
+    }
+
+    .close_btn {
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .public-dialog-content {
+      padding: 1rem 0;
+    }
+
+    .public-dialog-title {
+      font-size: 2rem;
+    }
+
+    .public-form {
+      .el-form-item {
+        margin-bottom: 1.5rem;
+      }
+
+      .el-form-item__label {
+        font-size: 0.75rem;
+        line-height: 1.2;
+        margin-bottom: 0.5rem !important;
+      }
+
+      .el-form-item__error {
+        font-size: 0.75rem;
+        line-height: 1.6;
+        text-align: left;
+        color: #df4328;
+      }
+    }
+
+    .public-input {
+      .el-input__wrapper {
+        height: 3rem;
+        padding: 0 0.5rem;
+
+        .el-input__inner {
+          font-size: 0.75rem;
+          line-height: 1;
+        }
+      }
+
+      .el-input__suffix-inner {
+        display: flex;
+
+        .el-icon {
+          font-size: 1rem;
+        }
+
+        .el-button {
+          width: 4rem;
+          height: 2rem;
+          border-radius: 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    .public-button {
+      height: 2.5rem;
+      font-size: 0.75rem;
+    }
   }
 }

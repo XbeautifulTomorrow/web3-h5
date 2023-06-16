@@ -74,7 +74,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="extraPointAmount" label="BONUS" align="center"></el-table-column>
-      <el-table-column label="COPY" align="center">
+      <el-table-column label="COPY" align="center" fixed="right">
         <template #default="scope">
           <div class="copy_btn">
             <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">

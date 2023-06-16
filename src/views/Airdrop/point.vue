@@ -180,7 +180,7 @@ export default {
           detail: {
             Duration: `${airdrop.uniswapDay} Days`, //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
-            "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 8)} ETH`, //uniwap兑换总额
+            "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 4)} ETH`, //uniwap兑换总额
             "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
           }
         },
@@ -194,8 +194,8 @@ export default {
           detail: {
             Duration: `${airdrop.openseaDay} Days`, //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
-            "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 8)} ETH`, //opensea购买金额
-            "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 8)} ETH`, //opensea售卖金额
+            "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 4)} ETH`, //opensea购买金额
+            "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 4)} ETH`, //opensea售卖金额
           }
         },
         {

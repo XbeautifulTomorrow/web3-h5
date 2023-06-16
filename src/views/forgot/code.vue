@@ -43,6 +43,7 @@ export default {
     });
     const codeForm = ref(null);
     const inputref = ref([]);
+    let timer = ref(null);
     const inputEle = (el) => {
       inputref.value.push(el);
     };
@@ -138,22 +139,28 @@ export default {
       }
     };
     const checkCaptchaFun = async () => {
-      const code = state.formData.code.join("");
-      const data = {
-        type: "update_password",
-        email: props.email,
-        code,
-      };
-      const res = await getCheckCaptcha(data);
-      if (res && res.code === 200) {
-        emit("changeTypeFun", 2, { captcha: code });
-      } else {
-        ElMessage({
-          message: "Verification code error, please re-enter",
-          type: "error",
-        });
-        initializationFun();
+      if (timer.value) {
+        clearTimeout(timer.value);
       }
+
+      timer.value = setTimeout(async () => {
+        const code = state.formData.code.join("");
+        const data = {
+          type: "update_password",
+          email: props.email,
+          code,
+        };
+        const res = await getCheckCaptcha(data);
+        if (res && res.code === 200) {
+          emit("changeTypeFun", 2, { captcha: code });
+        } else {
+          ElMessage({
+            message: "Verification code error, please re-enter",
+            type: "error",
+          });
+          initializationFun();
+        }
+      }, 0.3);
     };
     watch(
       () => state.formData.code,
@@ -228,29 +235,68 @@ export default {
   .code-list+.code-list {
     margin-left: 1.25rem;
   }
-
-  .el-input__inner {
-    height: 56px;
-    line-height: 56px;
-    color: transparent;
-    text-shadow: 0 0 0 #fff;
-    font-size: 24px;
-    text-align: center;
-  }
-
-  .el-input--large .el-input__wrapper {
-    padding: 0;
-    text-align: center;
-    box-shadow: none;
-  }
 }
 
 .explain-text {
+
+  font-size: 1rem;
   width: 100%;
   margin-bottom: 2.5rem;
 }
 
 .button-item {
   opacity: 1;
+}
+
+@media screen and (max-width: 950px) {
+  .code-form {
+    display: inline-block;
+    box-sizing: border-box;
+    padding-top: 0.875rem;
+
+    .el-form-item {
+      margin-bottom: 0.875rem;
+    }
+
+    .code-list {
+      margin-right: 0;
+
+      :deep(.el-input__wrapper) {
+        border-radius: 0.5rem;
+        width: 2rem;
+        padding: 0px;
+        border: solid 1px #363945;
+        background-color: #13151f;
+        box-shadow: none;
+        outline: none;
+
+        input {
+          font-family: LeagueSpartan;
+          font-size: 0.75rem;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+        }
+      }
+
+      .public-input-com {
+        width: auto;
+      }
+    }
+
+    .code-list+.code-list {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .explain-text {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .button-item {
+    opacity: 1;
+  }
 }
 </style>

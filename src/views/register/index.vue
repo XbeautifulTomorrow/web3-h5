@@ -83,9 +83,13 @@ const formRegister = reactive({
   inviteCode: "",
 });
 const validatePass = (rule, value, callback) => {
+  const expStr = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))([a-zA-Z0-9]){10,16}$/
   if (value === "") {
     callback(new Error("Please input the password"));
-  } else {
+  } else if (!expStr.test(value)) {
+    callback(new Error("Password must contain uppercase and lowercase letters and numbers"));
+  }
+  else {
     if (formRegister.confirm !== "") {
       if (!ruleFormRef.value) return;
       ruleFormRef.value.validateField("confirm", () => null);

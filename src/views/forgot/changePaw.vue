@@ -31,9 +31,13 @@ const formForgot = reactive({
   password: "",
   confirm: "",
 });
+
 const validatePass = (rule, value, callback) => {
+  const expStr = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))([a-zA-Z0-9]){10,16}$/
   if (value === "") {
     callback(new Error("Please input the password"));
+  } else if (!expStr.test(value)) {
+    callback(new Error("Password must contain uppercase and lowercase letters and numbers"));
   } else {
     if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -42,6 +46,7 @@ const validatePass = (rule, value, callback) => {
     callback();
   }
 };
+
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error("Please input the password again"));

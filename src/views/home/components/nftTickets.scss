@@ -162,12 +162,26 @@
 }
 
 .boxes-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 19.875rem;
   height: 2.875rem;
   border-radius: 1.875rem;
+  padding: 1px;
   margin: 0 auto;
   margin-top: 1.25rem;
-  background-image: linear-gradient(to bottom, #1b082b, #1b082b), linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+    linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  padding: 0.125rem;
+  border-image-source: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
+  border-image-slice: 1;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  cursor: pointer;
 
   &:hover {
     background-image: linear-gradient(to top, #e3a406, #fbd851);
@@ -185,11 +199,9 @@
 .boxes-button-name {
   font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1;
   text-align: center;
-  background-image: linear-gradient(to bottom,
-      #1e90f9 12%,
-      #e022e3 70%);
+  background-image: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -212,4 +224,181 @@
     height: auto;
     margin-left: 0.625rem;
   }
+}
+
+
+@media screen and (max-width: 950px) {
+  .ntf-tickets {
+    width: 100%;
+    padding: 0 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .home-public-title {
+    margin: 0 0 1.5rem 0;
+
+    .title_text {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .title_description {
+      padding-top: 0.5rem;
+      width: 80%;
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+  }
+
+  .boxes-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &>li+li {
+      margin-left: 0.5rem;
+    }
+
+    &>li:nth-child(n+3) {
+      margin-top: 0.5rem;
+    }
+
+    &>li:nth-child(2n+1) {
+      margin-left: 0;
+    }
+  }
+
+  .ntf-tickets-list {
+    flex: 1;
+    width: auto;
+    min-width: 40%;
+    height: auto;
+    border-radius: 0.25rem;
+    background-color: #1d0f36;
+    overflow: hidden;
+
+    &:hover {
+      .img-box {
+        &>img {
+          transform: scale(1.15);
+          transition: all 0.3s;
+        }
+      }
+    }
+
+    .img-box {
+      width: 100%;
+      height: 9.125rem;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      .type-box {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+
+        &>div {
+          height: auto;
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+
+          font-size: 0.75rem;
+          font-weight: 500;
+          line-height: 1.2;
+          text-align: right;
+          color: #e4e7f5;
+        }
+      }
+
+      .time {
+        border: solid 0.5px rgba(255, 255, 255, 0.1);
+        background-color: #2761f5;
+
+        img {
+          width: 0.75rem;
+          margin-right: 0.25rem;
+        }
+      }
+
+      .price {
+        border: solid 0.5px rgba(255, 255, 255, 0.1);
+        background-color: rgba(187, 54, 12, 0.8);
+
+        img {
+          width: 0.75rem;
+          margin-right: 0.25rem;
+        }
+      }
+    }
+
+    .nft-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.5rem 0;
+
+      .nft-name-l {
+        max-width: 60%;
+        font-size: 0.75rem;
+        line-height: 1.6;
+
+        img {
+          width: 0.75rem;
+          height: auto;
+          margin: 0 0.25rem;
+        }
+      }
+
+      .nft-name-r {
+        max-width: 30%;
+        font-size: 0.75rem;
+        line-height: 1.6;
+      }
+    }
+
+    .price-box {
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #11cde9;
+      padding: 0 0.5rem;
+    }
+
+    .sold-box {
+      padding-top: 0.5rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: #a9a4b4;
+    }
+  }
+
+  .boxes-button {
+    width: 80%;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+  }
+
+  .boxes-button-name {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  .ntf-tickets-all {
+    margin-top: 2rem;
+    font-size: 1rem;
+
+    img {
+      width: 1rem;
+      height: auto;
+      margin-left: 0.5rem;
+    }
+  }
+
 }

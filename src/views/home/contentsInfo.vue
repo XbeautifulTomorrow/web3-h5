@@ -14,7 +14,7 @@
       </el-select>
     </div>
     <el-table :data="nftData" class="table_container" style="width: 100%">
-      <el-table-column prop="nftId" label="NFT">
+      <el-table-column prop="nftId" label="NFT" min-width="120">
         <template #default="scope">
           <div class="user_info">
             <img :src="scope.row.nftImg" alt="">
@@ -22,18 +22,18 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" label="Collections" />
+      <el-table-column prop="nftName" label="Collections" min-width="120" />
       <el-table-column prop="price" label="Price">
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" label="USD Price">
+      <el-table-column prop="usdtPrice" label="USD Price" min-width="100">
         <template #default="scope">
           {{ `$${scope.row.usdtPrice}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" label="Recommended" />
+      <el-table-column prop="boxName" label="Recommended" min-width="120" />
       <el-table-column prop="date" label="Action" align="right">
         <template #default>
           <div class="active_btn">

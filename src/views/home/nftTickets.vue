@@ -35,7 +35,7 @@
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
-              <div class="name-text">{{ item.seriesName || "-" }}</div>
+              <div class="name-text text-ellipsis">{{ item.seriesName || "-" }}</div>
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
             <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>

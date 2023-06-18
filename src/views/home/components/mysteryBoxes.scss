@@ -56,7 +56,6 @@
 .mystery-boxes-item {
   width: 22.375rem;
   height: 29.5625rem;
-  border-radius: 0.5rem;
   overflow: hidden;
   background-image: url("@/assets/svg/home/box_bg.svg");
   background-repeat: no-repeat;
@@ -103,6 +102,11 @@
       text-align: left;
       color: #e4e7f5;
     }
+
+    img {
+      width: 2.1875rem;
+      height: auto;
+    }
   }
 
   .box-price {
@@ -122,14 +126,7 @@
       color: #11cde9;
     }
 
-    .sale {
-      font-family: BlenderPro;
-      font-size: 1.25rem;
-      font-weight: bold;
-      line-height: 1.5;
-      text-align: right;
-      color: #e4e7f5;
-    }
+
   }
 
   .other {
@@ -138,11 +135,13 @@
     align-items: center;
     justify-content: space-between;
 
-    .buy {
-      font-size: 0.875rem;
-      line-height: 1.6;
-      text-align: left;
-      color: #e4e7f5;
+    .sale {
+      font-family: BlenderPro;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: right;
+      color: white;
     }
 
     .sale-val {
@@ -155,13 +154,26 @@
 }
 
 .boxes-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 19.875rem;
   height: 2.875rem;
   border-radius: 1.875rem;
+  padding: 1px;
   margin: 0 auto;
   margin-top: 1.25rem;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  padding: 0.125rem;
+  border-image-source: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
+  border-image-slice: 1;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  cursor: pointer;
 
   &:hover {
     background-image: linear-gradient(to top, #e3a406, #fbd851);
@@ -179,10 +191,139 @@
 .boxes-button-name {
   font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1;
   text-align: center;
   background-image: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+
+@media screen and (max-width: 950px) {
+  .mystery-boxes {
+    width: 100%;
+    padding: 0 1.5rem;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+  }
+
+  .home-public-title {
+    margin: 0 0 1.5rem 0;
+
+    .title_text {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .title_description {
+      padding-top: 0.5rem;
+      width: 80%;
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+  }
+
+  .boxes-content {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &>li+li {
+      margin-left: 0.5rem;
+    }
+
+    &>li:nth-child(n+3) {
+      margin-top: 0.5rem;
+    }
+
+    &>li:nth-child(2n+1) {
+      margin-left: 0;
+    }
+  }
+
+  .mystery-boxes-item {
+    min-width: 40%;
+    width: auto;
+    flex: 1;
+    height: auto;
+
+    &:hover {
+      .mystery-boxs-list-img {
+        transform: scale(1.15);
+        transition: all 0.3s;
+      }
+    }
+
+    .img_box {
+      width: 100%;
+      height: 6rem;
+    }
+
+    .mystery-boxs-list-img {
+      width: auto;
+      height: 6rem;
+    }
+
+    .mystery-boxs-title {
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+      align-items: center;
+
+      .box-name {
+        font-size: 0.75rem;
+        line-height: 0.8;
+      }
+
+      img {
+        width: 0.75rem;
+        height: auto;
+      }
+    }
+
+    .box-price {
+      padding: 0.5rem 0.5rem 0;
+
+      .price-box {
+        font-size: 1rem;
+        line-height: 1.2;
+      }
+    }
+
+    .other {
+      padding: 0 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .sale {
+        font-size: 0.75rem;
+        font-weight: bold;
+        line-height: 1.2;
+        color: white;
+      }
+
+      .sale-val {
+        font-size: 0.75rem;
+        line-height: 1.2;
+        text-align: right;
+        color: #a9a4b4;
+      }
+    }
+  }
+
+  .boxes-button {
+    width: 80%;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .boxes-button-name {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
 }

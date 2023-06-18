@@ -14,17 +14,16 @@
           </div>
           <div class="mystery-boxs-title text-ellipsis">
             <div class="box-name">{{ item.boxName }}</div>
-            <img src="@/assets/svg/icon_eth.svg" alt="">
+            <img src="@/assets/svg/box/icon_eth.svg" alt="">
           </div>
           <div class="box-price">
             <div class="price-box">
               <div class="val">{{ item.price }}</div>
               <div class="unit">{{ item.coin }}</div>
             </div>
-            <div class="sale">Sale</div>
           </div>
           <div class="other">
-            <div class="buy">Purchase Now</div>
+            <div class="sale">Sale</div>
             <div class="sale-val">{{ item.sales }}</div>
           </div>
           <p class="mystery-boxs-text text-ellipsis">

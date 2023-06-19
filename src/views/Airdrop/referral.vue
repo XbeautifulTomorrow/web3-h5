@@ -90,6 +90,8 @@
 </template>
   
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
 import {
   userInvateStatistics,
   rebatesCreateCode,
@@ -117,11 +119,20 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useUserStore),
     commissionrate() {
       const { downCommissionRate } = this.setting;
       const rateVal = new bigNumber(downCommissionRate).multipliedBy(100)
       return `${rateVal}%`
-    }
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
   },
   methods: {
     bigNumber: bigNumber,
@@ -205,6 +216,7 @@ export default {
     }
   },
   created() {
+    if (!this.isLogin || !this.userInfo?.id) return
     this.fetchInvateStatistics();
     this.fetchRebatesFindList();
     this.fetchSetting();

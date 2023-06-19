@@ -232,7 +232,7 @@
     flex-wrap: wrap;
 
     &>li+li {
-      margin-left: 0.5rem;
+      margin-left: 0.4375rem;
     }
 
     &>li:nth-child(n+3) {
@@ -245,10 +245,8 @@
   }
 
   .mystery-boxes-item {
-    min-width: 40%;
-    width: auto;
-    flex: 1;
-    height: auto;
+    width: 10rem;
+    height: 13.1875rem;
 
     &:hover {
       .mystery-boxs-list-img {

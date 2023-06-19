@@ -139,20 +139,18 @@ export default {
       }
     };
     const checkCaptchaFun = async () => {
-      if (timer.value) {
-        clearTimeout(timer.value);
-      }
+      if (timer.value) return
+      const codeV = state.formData.code.join("");
 
       timer.value = setTimeout(async () => {
-        const code = state.formData.code.join("");
         const data = {
           type: "update_password",
           email: props.email,
-          code,
+          code: codeV,
         };
         const res = await getCheckCaptcha(data);
         if (res && res.code === 200) {
-          emit("changeTypeFun", 2, { captcha: code });
+          emit("changeTypeFun", 2, { captcha: codeV });
         } else {
           ElMessage({
             message: "Verification code error, please re-enter",
@@ -160,7 +158,7 @@ export default {
           });
           initializationFun();
         }
-      }, 0.3);
+      }, 300);
     };
     watch(
       () => state.formData.code,

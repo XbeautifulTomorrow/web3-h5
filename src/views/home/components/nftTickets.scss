@@ -256,7 +256,7 @@
     flex-wrap: wrap;
 
     &>li+li {
-      margin-left: 0.5rem;
+      margin-left: 0.4375rem;
     }
 
     &>li:nth-child(n+3) {
@@ -269,9 +269,7 @@
   }
 
   .ntf-tickets-list {
-    flex: 1;
-    width: auto;
-    min-width: 40%;
+    width: 10rem;
     height: auto;
     border-radius: 0.25rem;
     background-color: #1d0f36;

@@ -33,11 +33,20 @@ const formForgot = reactive({
 });
 
 const validatePass = (rule, value, callback) => {
-  const expStr = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))([a-zA-Z0-9]){10,16}$/
+  const upperStr = /^(?=.*[A-Z]).{8,}$/
+  const lowerStr = /^(?=.*[a-z]).{8,}$/
+  const numStr = /^(?=.*[0-9]).{8,}$/
+
   if (value === "") {
     callback(new Error("Please input the password"));
-  } else if (!expStr.test(value)) {
-    callback(new Error("Password must contain uppercase and lowercase letters and numbers"));
+  } else if (value && value.length < 8) {
+    callback(new Error("Password must be longer than 8 characters"));
+  } else if (!upperStr.test(value)) {
+    callback(new Error("Password must contain at least 1 upper case character"));
+  } else if (!lowerStr.test(value)) {
+    callback(new Error("Password must contain at least 1 lower case character"));
+  } else if (!numStr.test(value)) {
+    callback(new Error("Password must contain at least 1 number"));
   } else {
     if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;

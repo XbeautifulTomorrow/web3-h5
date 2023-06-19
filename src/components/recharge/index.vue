@@ -107,7 +107,7 @@
       </div>
     </template>
     <nft-list
-      v-if="dialogVisible"
+      v-if="nftDialogVisible"
       :dialogVisible="nftDialogVisible"
       :isDeposit="operateChoose === operateItems[0]"
       @chooseNftsFun="chooseNftsFun"

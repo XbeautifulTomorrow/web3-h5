@@ -64,7 +64,7 @@
         <Point @omModify="fetchAirdropData()" :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
       </div>
       <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
-      <Referral v-if="currentActive == 'referral'"></Referral>
+      <Referral v-if="isLogin && userInfo?.id && currentActive == 'referral'"></Referral>
     </div>
     <Connect v-if="showConnect" @connectMetaMask="connectMetaMask" @close="closeDialogFun"></Connect>
 

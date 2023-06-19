@@ -22,19 +22,19 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" label="Collections" min-width="120" />
-      <el-table-column prop="price" label="Price">
+      <el-table-column prop="nftName" label="Collections" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="price" label="Price" show-overflow-tooltip>
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" label="USD Price" min-width="100">
+      <el-table-column prop="usdtPrice" label="USD Price" min-width="100" show-overflow-tooltip>
         <template #default="scope">
           {{ `$${scope.row.usdtPrice}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" label="Recommended" min-width="120" />
-      <el-table-column prop="date" label="Action" align="right">
+      <el-table-column prop="boxName" label="Recommended" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="date" label="Action" align="right" fixed="right">
         <template #default>
           <div class="active_btn">
             <img src="@/assets/svg/home/icon_active.svg" alt="">

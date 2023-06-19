@@ -6,7 +6,7 @@
     <div class="gradual-bg"></div>
     <router-view class="font-family" name="Header"></router-view>
     <router-view class="font-family" name="Currency"></router-view>
-    <router-view class="font-family"></router-view>
+    <router-view class="wrapper_panel font-family"></router-view>
     <router-view class="font-family" name="Footer"></router-view>
   </div>
 </template>
@@ -39,11 +39,12 @@ body {
 }
 
 
+
+
 @media screen and (max-width: 950px) {
   #app {
     width: 100%;
     min-width: auto;
-    min-height: auto;
   }
 }
 </style>
@@ -52,10 +53,10 @@ body {
 @import "@/assets/css/dialog.scss";
 
 .bg-panl {
-  margin: 0 auto;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 
   &>div:nth-child(1) {
     top: 98.875rem;
@@ -99,14 +100,22 @@ body {
     border-radius: 50%;
     background-color: #a21ae2;
   }
+
+
 }
 
 @media screen and (max-width: 950px) {
 
   .bg-panl {
+    display: flex;
+    flex-direction: column;
 
     &>.gradual-bg {
       display: none;
+    }
+
+    .wrapper_panel {
+      flex: 1;
     }
   }
 }

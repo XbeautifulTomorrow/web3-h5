@@ -241,12 +241,28 @@
       font-size: 0.75rem;
       line-height: 1.2;
       color: #a9a4b4;
+      white-space: pre;
     }
 
     .el-table__empty-block {
       background-color: #151722;
       font-size: 0.75rem;
       color: #a9a4b4;
+    }
+
+    tr {
+      background-color: #151722;
+
+      .el-table__cell {
+        background-color: #191c28;
+        padding: 0.5rem 0;
+      }
+    }
+
+    td {
+      &.el-table__cell {
+        border-bottom-color: #23172A;
+      }
     }
 
     .user_info {

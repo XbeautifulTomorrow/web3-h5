@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-dialog v-model="show" width="43.75rem" lock-scroll :close-on-click-modal="false" :before-close="closePopup">
+    <el-dialog v-model="show" width="43.75rem" lock-scroll :align-center="true" :close-on-click-modal="false"
+      :before-close="closePopup">
       <div class="close_btn" @click="closePopup()">
         <el-icon>
           <Close />
@@ -11,19 +12,19 @@
           <span>Connect Wallet</span>
         </div>
         <div class="operating_tips">Choose a wallet connection method</div>
-        <div class="operating_item" @click="connectMetaMask()">
+        <div class="operating_item" @click="connectWallet(1)">
           <div class="item_l">
             <img src="@/assets/svg/user/meta_mask.svg" alt="" srcset="">
             <span>MetaMask</span>
           </div>
-          <img src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img class="item_r" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
         </div>
-        <div class="operating_item">
+        <div class="operating_item" @click="connectWallet(2)">
           <div class="item_l">
             <img src="@/assets/svg/user/wallet_connect.svg" alt="" srcset="">
             <span>WalletConnect</span>
           </div>
-          <img src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img class="item_r" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
         </div>
       </div>
     </el-dialog>
@@ -35,17 +36,16 @@ export default {
   props: ["connect", "close"],
   data() {
     return {
-      show: true,
+      show: true
     };
   },
   methods: {
-    connectMetaMask() {
-      this.$emit("connectMetaMask");
+    connectWallet(event) {
+      this.$emit("connectWallet", event);
     },
     closePopup(done) {
       this.show = false;
       this.$emit("close");
-
 
       if (done) {
         done();
@@ -142,6 +142,74 @@ export default {
 
     .item_r {
       width: 1.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  :deep(.el-dialog) {
+    border-radius: 0rem;
+
+    .el-dialog__body {
+      padding: 0;
+      position: relative;
+      padding: 1.5rem 0;
+    }
+  }
+
+  .close_btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  .operating_title {
+    font-size: 2rem;
+  }
+
+  .link_box {
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+
+    .operating_tips {
+      font-size: 0.75rem;
+      line-height: 1.6;
+      text-align: center;
+      color: #a9a4b4;
+      padding-bottom: 1.5rem;
+    }
+
+    .operating_item+.operating_item {
+      margin-top: 0.75rem;
+    }
+
+    .operating_item {
+      height: 3rem;
+      border-radius: 0.25rem;
+      padding: 0 1.5rem;
+
+      .item_l {
+        display: flex;
+        align-items: center;
+        font-size: 0.75rem;
+        line-height: 1.6;
+        color: #a9a4b4;
+
+        img {
+          width: 1.5rem;
+        }
+
+        &>span {
+          padding-left: 0.5rem;
+        }
+      }
+
+      .item_r {
+        width: 1rem;
+      }
     }
   }
 }

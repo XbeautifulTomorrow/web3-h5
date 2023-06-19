@@ -17,7 +17,7 @@
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div class="text"> {{ blindDetailInfo.boxDesc }}</div>
+            <div class="text" v-html="blindDetailInfo.boxDesc"></div>
           </div>
         </div>
         <div class="lottery_boxs_r">
@@ -86,7 +86,7 @@
               </div>
               <div class="series_probability">
                 <span> {{ `Range:${item.range}` }}</span>
-                <span>ODDS: 0.0005%</span>
+                <span>{{ `ODDS: ${nftProbabilityFormat(item.nftNumber)}%` }}</span>
               </div>
               <div class="series_price">
                 {{ `${item.minPrice}ETH - ${item.maxPrice}ETH` }}
@@ -293,7 +293,20 @@ export default {
       const { legendNum, epicNum, rareNum, normalNum } = event;
       const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
       return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
-    }
+    },
+    /** 
+    * @description Nft概率计算
+    * @param string event
+    */
+    nftProbabilityFormat(event) {
+      const { blindDetailInfo: { series } } = this;
+      let numTotal = 0;
+      for (let i = 0; i < series.length; i++) {
+        numTotal += +series[i].nftNumber;
+      }
+
+      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
+    },
   },
   created() {
     this.fetchSnapshotList();

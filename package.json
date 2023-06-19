@@ -19,6 +19,7 @@
     "dayjs": "^1.11.7",
     "element-plus": "^2.3.0",
     "ethers": "^6.3.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^8.0.0",
     "p5": "^1.6.0",
     "pinia": "^2.0.35",

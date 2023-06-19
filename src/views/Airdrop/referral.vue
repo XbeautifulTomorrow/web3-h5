@@ -121,8 +121,8 @@ export default {
   computed: {
     ...mapStores(useUserStore),
     commissionrate() {
-      const { downCommissionRate } = this.setting;
-      const rateVal = new bigNumber(downCommissionRate).multipliedBy(100)
+      const { downPointRate } = this.setting;
+      const rateVal = new bigNumber(downPointRate || 0).multipliedBy(100)
       return `${rateVal}%`
     },
     isLogin() {

@@ -7,14 +7,17 @@
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
-        <ul class="footer-nav">
+        <div class="footer-nav-items">
           <li class="footer-nav-text active">
-            Menu
+            MENU
           </li>
-          <li class="footer-nav-text " v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
-            {{ item.text }}
-          </li>
-        </ul>
+          <ul class="footer-nav">
+            <li class="footer-nav-text " v-for="(item, index) in nav" :key="`footer-nav-${index}`"
+              @click="goTo(item.page)">
+              {{ item.text }}
+            </li>
+          </ul>
+        </div>
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
       </div>
       <div class="link_box">

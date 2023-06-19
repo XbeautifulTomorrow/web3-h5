@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
-import { setSessionStore } from "@/utils";
+import { setSessionStore, isFromChinaIP } from "@/utils";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
@@ -14,6 +14,7 @@ const Register = () => import("../views/register/index.vue");
 const Forgot = () => import("../views/forgot/index.vue");
 const Airdrop = () => import("../views/Airdrop/index.vue");
 const FAQ = () => import("../views/FAQ/index.vue");
+const toIntercept = () => import("../views/1020/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -80,7 +81,13 @@ const routes = [
       Footer
     },
   },
-
+  {
+    path: "/1020",
+    name: "1020",
+    components: {
+      default: toIntercept
+    },
+  },
 ];
 
 // 3. 创建路由实例
@@ -95,6 +102,9 @@ router.afterEach(() => {
 })
 
 router.beforeEach((to, from, next) => {
+  isFromChinaIP(() => {
+    next({ name: "1020" });
+  });
   const { path } = to;
   if (path && path.indexOf("/Airdrop/") > -1) {
     const code = path.replace("/Airdrop/", "")

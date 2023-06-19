@@ -2,7 +2,7 @@
   <div class="wrapper_bg">
     <div class="airdrop_container">
       <div class="banner_container">
-        <div class="banner_l">
+        <div class="banner_l" @click="showConnect = true">
           <div class="operation">CONNECT WALLET FOR</div>
           <div class="title">GET AIRDROP</div>
           <div class="description">
@@ -66,7 +66,9 @@
       <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
       <Referral v-if="isLogin && userInfo?.id && currentActive == 'referral'"></Referral>
     </div>
-    <Connect v-if="showConnect" @connectMetaMask="connectMetaMask" @close="closeDialogFun"></Connect>
+
+    <!-- <Connect @connectWallet="onConnectType" @close="closeDialogFun"></Connect> -->
+    <Connect v-if="showConnect" @connectWallet="onConnectType" @close="closeDialogFun"></Connect>
 
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
@@ -92,10 +94,30 @@
         </div>
       </div>
     </el-dialog>
+    <el-dialog class="dialog_airdrop public-dialog" v-model="showSucceess" width="700" :close-on-click-modal="false"
+      :align-center="true" lock-scroll :before-close="handleClose">
+      <div class="close_btn" @click="handleClose()">
+        <el-icon>
+          <Close />
+        </el-icon>
+      </div>
+      <div class="link_box">
+        <div class="operating_title">
+          <span>Connect Wallet</span>
+        </div>
+        <p class="public-dialog-illustrate">
+          Synchronizing wallet transaction data, please refresh this page after 10 minutes.
+        </p>
+        <el-button class="public-button cancel" @click="handleClose()">
+          CONFIRM
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Web3 from "web3";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
@@ -116,6 +138,8 @@ import Connect from "./connect.vue";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
+
+
 export default {
   name: "AirdropX",
   components: {
@@ -135,8 +159,11 @@ export default {
       isConnect: false,
       walletAddr: null,
       airdropData: {},
+      connectType: 1,
+      connectProvider: null,
+      showSucceess: false,
       showTest: false,
-      isTest: true // 测试模式
+      isTest: true, // 测试模式
     };
   },
   watch: {
@@ -193,6 +220,16 @@ export default {
 
       this.showConnect = true;
     },
+    // 连接类型
+    onConnectType(event) {
+      this.connectType = event;
+
+      if (event == 1) {
+        this.connectMetaMask();
+      } else {
+        this.connectWallet();
+      }
+    },
     // 连接小狐狸
     async connectMetaMask() {
       const _that = this;
@@ -227,19 +264,58 @@ export default {
           });
       }
     },
+    // 二维码连接钱包
+    async connectWallet() {
+      const _that = this;
+      //  Create WalletConnect Provider
+      this.connectProvider = new WalletConnectProvider({
+        infuraId: "ae25803f3d394a5da4c863280b651037",
+      });
+      //  Enable session (triggers QR Code modal)
+      await this.connectProvider.enable().catch((reason) => {
+        //如果用户拒绝了登录请求
+        if (reason === "User rejected provider access") {
+          // 用户拒绝登录后执行语句；
+        } else {
+          // 本不该执行到这里，但是真到这里了，说明发生了意外
+          ElMessage.error("There was a problem signing you in");
+        }
+      })
+        .then(async (accounts) => {
+          const web3 = new Web3(this.connectProvider);
+          //如果用户同意了登录请求，你就可以拿到用户的账号
+          web3.eth.defaultAccount = accounts[0];
+          window.web3 = web3;
+          _that.web3 = web3;
+          _that.walletAddr = accounts[0];
+          // 绑定钱包
+          _that.bindWallet();
+        });;
+    },
     // 绑定钱包
     async bindWallet() {
       const _that = this;
       let web3 = window.web3;
       getKey().then(async (res) => {
         if (res.data) {
-          console.log(web3.eth, "web3=== ");
-          this.generateKey = web3.utils.toHex(res.data);
           let msg = this.generateKey;
-          const signature = await window.ethereum.request({
-            method: "personal_sign",
-            params: [_that.walletAddr, msg],
-          });
+          let signature = null;
+          if (this.connectType == 1) {
+
+
+            console.log(web3.eth, "web3=== ");
+            this.generateKey = web3.utils.toHex(res.data);
+            signature = await window.ethereum.request({
+              method: "personal_sign",
+              params: [_that.walletAddr, msg],
+            });
+          }
+          else {
+            signature = await this.connectProvider.request({
+              method: "personal_sign",
+              params: [_that.walletAddr, msg],
+            });
+          }
 
           const bindRes = await linkWallet({
             key: res.data, //登录临时key
@@ -250,6 +326,7 @@ export default {
           if (bindRes && bindRes.code == 200) {
             // 关闭弹窗
             this.closeDialogFun();
+            this.showSucceess = true;
             this.fetchAirdropData();
           }
         }
@@ -270,6 +347,7 @@ export default {
       if (bindRes && bindRes.code == 200) {
         // 关闭弹窗
         this.handleClose();
+        this.showSucceess = true;
         this.fetchAirdropData();
       }
     },
@@ -292,6 +370,8 @@ export default {
         done();
         return
       }
+
+      this.showSucceess = false;
       this.showTest = false;
     }
   },

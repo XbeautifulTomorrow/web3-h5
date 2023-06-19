@@ -31,7 +31,7 @@ const debounce = (fn, delay) => {
 }
 
 const _ResizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
+window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   constructor(callback) {
     callback = debounce(callback, 16);
     super(callback);

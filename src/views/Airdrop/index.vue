@@ -404,8 +404,7 @@ export default {
         if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
           this.isConnect = false;
         } else {
-          // this.isConnect = true;
-          this.isConnect = false;
+          this.isConnect = true;
         }
       }
     },
@@ -419,8 +418,7 @@ export default {
         if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
           this.isConnect = false;
         } else {
-          // this.isConnect = true;
-          this.isConnect = false;
+          this.isConnect = true;
         }
       }
     },

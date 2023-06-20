@@ -12,7 +12,7 @@
             MENU
           </li>
           <ul class="footer-nav">
-            <li class="footer-nav-text " v-for="(item, index) in nav" :key="`footer-nav-${index}`"
+            <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`"
               @click="goTo(item.page)">
               {{ item.text }}
             </li>

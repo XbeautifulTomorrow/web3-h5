@@ -3,6 +3,7 @@
   width: 95rem;
   margin: 0 auto;
   margin-top: 10.625rem;
+  padding-bottom: 4rem;
 }
 
 .home-public-title {
@@ -91,6 +92,10 @@
 
   tr {
     background-color: #151722;
+
+    .el-table__cell {
+      background-color: #191c28;
+    }
   }
 
   td {
@@ -203,11 +208,12 @@
   .contents-info {
     box-sizing: border-box;
     width: 100%;
-    padding: 0 1.5rem;
+    padding: 4rem 1.5rem;
     margin-top: 1.5rem;
   }
 
   .home-public-title {
+    justify-content: center;
     margin: 0 0 1.5rem 0;
   }
 

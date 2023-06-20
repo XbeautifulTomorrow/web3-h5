@@ -335,7 +335,62 @@
   }
 }
 
+.countdown {
+  padding: 1px;
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: 1px;
+  border-image-source: linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  border-image-slice: 1;
+  background-image: linear-gradient(to bottom, #1d0f36, #1d0f36), linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 
+  .content {
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+.countdown_tips {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: white;
+  margin-right: 1.875rem;
+
+  &.external {
+    display: none;
+  }
+
+  &.internal {
+    display: block;
+  }
+}
+
+.countdown_time_box {
+  display: flex;
+  align-items: flex-start;
+
+  .countdown_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .val {
+      font-family: Tomorrow;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: white;
+    }
+
+    .text {
+      font-size: 0.625rem;
+      line-height: 1.2;
+      color: #a9a4b4;
+    }
+  }
+}
 
 @media screen and (max-width: 950px) {
   .airdrop_container {
@@ -457,7 +512,7 @@
     }
   }
 
-  :deep(.el-dialog) {
+  :deep(.dialog_airdrop) {
     border-radius: 0rem;
 
     .el-dialog__body {
@@ -487,6 +542,43 @@
       font-size: 1rem;
       color: white;
       padding: 1.5rem 0;
+    }
+  }
+
+  .countdown {
+
+    .content {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 0.125rem 0.25rem;
+    }
+  }
+
+  .countdown_tips {
+    font-size: 0.625rem;
+    margin-right: 0;
+    text-align: left;
+
+    &.external {
+      display: block;
+    }
+
+    &.internal {
+      display: none;
+    }
+  }
+
+  .countdown_time_box {
+
+    .countdown_item {
+
+      .val {
+        font-size: 1.125rem;
+      }
+
+      .text {
+        font-size: 0.625rem;
+      }
     }
   }
 }

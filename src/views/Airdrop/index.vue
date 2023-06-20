@@ -53,9 +53,44 @@
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" v-if="isLogin && userInfo?.id" @click="handleConnect()">Connect Wallet</div>
-          <div class="connect_btn" v-else @click="pageType = 'login'">Login</div>
-          <div class="connect_tips">
+          <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">Login</div>
+          <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
+            <div class="countdown_tips external">START IN</div>
+            <div class="countdown">
+              <countDown v-slot="timeObj" @onEnd="fetchSetting()" :end="setting.regCountdownTime">
+                <div class="countdown_tips internal">START IN</div>
+                <div class="countdown_time_box">
+                  <div class="countdown_item">
+                    <div class="val">{{ timeObj.d }}</div>
+                    <div class="text">DAYS</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">:</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">{{ timeObj.hh }}</div>
+                    <div class="text">HRS</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">:</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">{{ timeObj.mm }}</div>
+                    <div class="text">MINS</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">:</div>
+                  </div>
+                  <div class="countdown_item">
+                    <div class="val">{{ timeObj.ss }}</div>
+                    <div class="text">SECS</div>
+                  </div>
+                </div>
+              </countDown>
+            </div>
+          </div>
+          <div class="connect_btn" v-else @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime) == 'ENDED'">
             The wallet will not be replaced when it is connected.
           </div>
         </div>
@@ -66,13 +101,7 @@
       <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
       <Referral v-if="isLogin && userInfo?.id && currentActive == 'referral'"></Referral>
     </div>
-
-    <!-- <Connect @connectWallet="onConnectType" @close="closeDialogFun"></Connect> -->
     <Connect v-if="showConnect" @connectWallet="onConnectType" @close="closeDialogFun"></Connect>
-
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
 
     <el-dialog class="dialog_airdrop" v-model="showTest" width="700" :close-on-click-modal="false" :align-center="true"
       lock-scroll :before-close="handleClose">
@@ -113,6 +142,10 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
   </div>
 </template>
 <script>
@@ -139,7 +172,10 @@ import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 
+import { getSetting } from "@/services/api/invite";
+import { dateDiff } from "@/utils";
 
+import countDown from '@/components/countDown';
 export default {
   name: "AirdropX",
   components: {
@@ -150,10 +186,11 @@ export default {
     Login,
     Register,
     Forgot,
+    countDown
   },
   data() {
     return {
-      pageType: null,
+      pageType: "",
       currentActive: "point",
       showConnect: false,
       isConnect: false,
@@ -164,6 +201,8 @@ export default {
       showSucceess: false,
       showTest: false,
       isTest: true, // 测试模式
+      setting: {},
+      timer: null
     };
   },
   watch: {
@@ -194,11 +233,13 @@ export default {
     },
   },
   created() {
+    this.fetchSetting();
     if (this.isLogin && this.userInfo?.id) {
       this.fetchAirdropData();
     }
   },
   methods: {
+    dateDiff: dateDiff,
     closeDialogFun() {
       this.pageType = "";
       this.showConnect = false;
@@ -299,9 +340,9 @@ export default {
       getKey().then(async (res) => {
         if (res.data) {
           let signature = null;
+          this.generateKey = web3.utils.toHex(res.data);
           if (this.connectType == 1) {
             console.log(web3.eth, "web3=== ");
-            this.generateKey = web3.utils.toHex(res.data);
             signature = await window.ethereum.request({
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
@@ -309,7 +350,6 @@ export default {
           }
           else {
             console.log(web3.eth, "web3=== ");
-            this.generateKey = web3.utils.toHex(res.data);
             signature = await this.connectProvider.request({
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
@@ -361,7 +401,27 @@ export default {
         }
 
         this.airdropData = res.data;
-        this.isConnect = true;
+        if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
+          this.isConnect = false;
+        } else {
+          // this.isConnect = true;
+          this.isConnect = false;
+        }
+      }
+    },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH"
+      });
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
+          this.isConnect = false;
+        } else {
+          // this.isConnect = true;
+          this.isConnect = false;
+        }
       }
     },
     handleClose(done) {

@@ -12,7 +12,7 @@
 export default {
   name: "countDown",
   data: () => ({
-    days: '0',
+    days: '00',
     hours: '00',
     mins: '00',
     seconds: '00',
@@ -84,7 +84,9 @@ export default {
     },
     getTime(time) {
       this.timer && clearTimeout(this.timer);
-      if (time < 0) {
+      if (time <= 0) {
+        // 计时结束
+        this.$emit("onEnd")
         return;
       }
       // eslint-disable-next-line object-curly-newline

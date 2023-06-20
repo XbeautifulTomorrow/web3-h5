@@ -18,7 +18,7 @@
                 <!-- <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                <countDown v-else v-slot="timeObj" :end="item && item.endTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown> -->
               </div>

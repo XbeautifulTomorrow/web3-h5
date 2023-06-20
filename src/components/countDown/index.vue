@@ -87,7 +87,7 @@ export default {
     },
     getTime(time) {
       this.timer && clearTimeout(this.timer);
-      if (time <= 0) {
+      if (time <= 1000) {
         // 计时结束
         this.$emit("onEnd")
         return;

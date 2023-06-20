@@ -57,7 +57,7 @@
           <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
             <div class="countdown_tips external">START IN</div>
             <div class="countdown">
-              <countDown v-slot="timeObj" @onEnd="fetchSetting()" :time="setting.regCountdownTime" :end="true">
+              <countDown v-slot="timeObj" @onEnd="fetchAirdropData()" :time="setting.regCountdownTime" :end="true">
                 <div class="countdown_tips internal">START IN</div>
                 <div class="countdown_time_box">
                   <div class="countdown_item">
@@ -201,7 +201,9 @@ export default {
       showSucceess: false,
       showTest: false,
       isTest: true, // 测试模式
-      setting: {},
+      setting: {
+        regCountdownTime: null
+      },
       timer: null
     };
   },
@@ -233,8 +235,8 @@ export default {
     },
   },
   created() {
-    this.fetchSetting();
     if (this.isLogin && this.userInfo?.id) {
+      this.fetchSetting();
       this.fetchAirdropData();
     }
   },
@@ -401,11 +403,6 @@ export default {
         }
 
         this.airdropData = res.data;
-        if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
-          this.isConnect = false;
-        } else {
-          this.isConnect = true;
-        }
       }
     },
     // 设置
@@ -415,11 +412,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.setting = res.data;
-        if (dateDiff(this.setting.regCountdownTime) != 'ENDED') {
-          this.isConnect = false;
-        } else {
-          this.isConnect = true;
-        }
+        this.$forceUpdate();
       }
     },
     handleClose(done) {

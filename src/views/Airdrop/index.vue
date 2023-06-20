@@ -57,11 +57,11 @@
           <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
             <div class="countdown_tips external">START IN</div>
             <div class="countdown">
-              <countDown v-slot="timeObj" @onEnd="fetchSetting()" :end="setting.regCountdownTime">
+              <countDown v-slot="timeObj" @onEnd="fetchSetting()" :time="setting.regCountdownTime" :end="true">
                 <div class="countdown_tips internal">START IN</div>
                 <div class="countdown_time_box">
                   <div class="countdown_item">
-                    <div class="val">{{ timeObj.d }}</div>
+                    <div class="val">{{ timeObj.dd }}</div>
                     <div class="text">DAYS</div>
                   </div>
                   <div class="countdown_item">

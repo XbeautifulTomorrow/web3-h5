@@ -347,6 +347,8 @@
   background-clip: content-box, border-box;
 
   .content {
+    box-sizing: border-box;
+    justify-content: space-between;
     padding: 0.625rem 1.25rem;
   }
 }
@@ -370,6 +372,10 @@
 .countdown_time_box {
   display: flex;
   align-items: flex-start;
+
+  &>div:nth-child(2n+1) {
+    width: 3.75rem;
+  }
 
   .countdown_item {
     display: flex;
@@ -569,6 +575,9 @@
   }
 
   .countdown_time_box {
+    &>div:nth-child(2n+1) {
+      width: 1.75rem;
+    }
 
     .countdown_item {
 

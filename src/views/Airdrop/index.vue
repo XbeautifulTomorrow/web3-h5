@@ -282,15 +282,21 @@ export default {
         }
       })
         .then(async (accounts) => {
+          console.log(accounts)
+          let accountList = accounts;
           const web3 = new Web3(this.connectProvider);
+          if (!accounts) {
+            //如果不能直接取到地址就手动获取
+            accountList = await web3.eth.getAccounts();
+          }
           //如果用户同意了登录请求，你就可以拿到用户的账号
-          web3.eth.defaultAccount = accounts[0];
+          web3.eth.defaultAccount = accountList[0];
           window.web3 = web3;
           _that.web3 = web3;
-          _that.walletAddr = accounts[0];
+          _that.walletAddr = accountList[0];
           // 绑定钱包
           _that.bindWallet();
-        });;
+        });
     },
     // 绑定钱包
     async bindWallet() {
@@ -301,8 +307,6 @@ export default {
           let msg = this.generateKey;
           let signature = null;
           if (this.connectType == 1) {
-
-
             console.log(web3.eth, "web3=== ");
             this.generateKey = web3.utils.toHex(res.data);
             signature = await window.ethereum.request({

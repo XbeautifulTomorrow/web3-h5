@@ -402,6 +402,7 @@ export function isFromChinaIP(callback) {
   loader.defer = true;
   loader.setAttribute('type', 'text/javascript');
   loader.onload = function () {
+    console.log(window.remote_ip_info)
     if (window.remote_ip_info && window.remote_ip_info.country === '中国') {
       callback(window.remote_ip_info);
     }

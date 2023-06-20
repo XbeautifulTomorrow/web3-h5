@@ -88,8 +88,11 @@
                 <span> {{ `Range:${item.range}` }}</span>
                 <span>{{ `ODDS: ${nftProbabilityFormat(item.nftNumber)}%` }}</span>
               </div>
-              <div class="series_price">
+              <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
                 {{ `${item.minPrice}ETH - ${item.maxPrice}ETH` }}
+              </div>
+              <div v-else class="series_price">
+                {{ `${item.maxPrice}ETH` }}
               </div>
             </div>
           </div>

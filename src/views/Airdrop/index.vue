@@ -400,6 +400,7 @@ export default {
           if (bindRes && bindRes.code == 200) {
             // 关闭弹窗
             this.closeDialogFun();
+            this.handleClose();
             this.showSucceess = true;
             this.fetchAirdropData();
           }
@@ -420,6 +421,7 @@ export default {
       });
       if (bindRes && bindRes.code == 200) {
         // 关闭弹窗
+        this.closeDialogFun();
         this.handleClose();
         this.showSucceess = true;
         this.fetchAirdropData();

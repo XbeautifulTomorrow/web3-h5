@@ -435,7 +435,7 @@ export default {
           return
         }
 
-        // this.isConnect = true;
+        this.isConnect = true;
         this.airdropData = res.data;
       }
     },

@@ -24,16 +24,13 @@
         <p class="footer-social">Social Media</p>
         <ul class="footer-link">
           <li class="footer-link-icon">
-            <img src="@/assets/svg/twitter.svg" alt="" />
+            <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
           </li>
           <li class="footer-link-icon">
-            <img src="@/assets/svg/youtube.svg" alt="" />
+            <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
           </li>
           <li class="footer-link-icon">
-            <img src="@/assets/svg/facebook.svg" alt="" />
-          </li>
-          <li class="footer-link-icon">
-            <img src="@/assets/svg/telegram.svg" alt="" />
+            <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
           </li>
         </ul>
       </div>
@@ -77,6 +74,18 @@ export default {
 
       this.$router.push({ path: `/${page}` });
     },
+    goLink(event) {
+      if (event === 1) {
+        openUrl("https://twitter.com/Bitzing_io");
+        return
+      } else if (event === 2) {
+        openUrl("t.me/bitzing_io");
+        return
+      } else if (event === 3) {
+        openUrl("https://discord.gg/eN9e22Q2cN");
+        return
+      }
+    }
   },
 };
 </script>

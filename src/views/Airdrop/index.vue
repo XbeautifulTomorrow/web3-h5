@@ -240,6 +240,10 @@ export default {
       this.fetchAirdropData();
     }
   },
+  beforeUnmount() {
+    if(!this.connectProvider) return
+    this.connectProvider.disconnect();
+  },
   methods: {
     dateDiff: dateDiff,
     closeDialogFun() {

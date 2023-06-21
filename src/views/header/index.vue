@@ -108,6 +108,7 @@
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
@@ -136,6 +137,7 @@ import WalletList from "../wallet/index.vue";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 import { openUrl } from "@/utils";
 
 export default {
@@ -146,6 +148,7 @@ export default {
     Login,
     Register,
     Forgot,
+    Modify
   },
   data() {
     return {

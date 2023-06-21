@@ -201,7 +201,7 @@ const registerFun = async (formEl) => {
 
         userStore.setLogin(res.data);
         userStore.setReg(res.data);
-        closeDialogFun();
+        emit("changeTypeFun", "modify")
       }
     } else {
       console.log("error submit!", fields);

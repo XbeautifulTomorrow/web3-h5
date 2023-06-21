@@ -12,7 +12,7 @@
       <p class="public-dialog-title">PLEASE ENTER THE USER NAME</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item prop="email">
+        <el-form-item prop="name">
           <el-input class="public-input" v-model="formUser.name" placeholder="Please enter 8-32 characters" />
         </el-form-item>
         <div class="form-buttons">
@@ -30,6 +30,8 @@
     
 <script>
 import { updateUserInfo } from "@/services/api/user";
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
 
 export default {
   name: 'modifyName',
@@ -42,6 +44,9 @@ export default {
       rules: {}
     };
   },
+  computed: {
+    ...mapStores(useUserStore)
+  },
   methods: {
     // 更改用户名
     async resetUserName(formName) {
@@ -52,6 +57,12 @@ export default {
           });
           if (res) {
             this.$emit("onModify");
+            const { userInfo } = this.userStore;
+            const users = {
+              ...userInfo,
+              userName: this.formUser.name
+            }
+            this.userStore.setLogin(users);
             this.handleClose();
             this.$message.success('Operation succeeded!');
           }

@@ -146,7 +146,28 @@
         </el-button>
       </div>
     </el-dialog>
-
+    <el-dialog class="dialog_airdrop public-dialog" v-model="showSend" width="700" :close-on-click-modal="false"
+      :align-center="true" lock-scroll :before-close="handleClose">
+      <div class="close_btn" @click="handleClose()">
+        <el-icon>
+          <Close />
+        </el-icon>
+      </div>
+      <div class="link_box">
+        <div class="operating_title">
+          <span>Verify your account</span>
+        </div>
+        <p class="public-dialog-illustrate">
+          To finish connecting, you must sign a message in your wallet to verify that you are the owner of this account.
+        </p>
+        <el-button class="public-button" @click="bindWallet()">
+          Send message
+        </el-button>
+        <el-button class="public-button cancel" @click="handleClose()">
+          Cancel
+        </el-button>
+      </div>
+    </el-dialog>
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
@@ -206,6 +227,7 @@ export default {
       connectType: 1,
       connectProvider: null,
       showSucceess: false,
+      showSend: false, // 验证
       showTest: false,
       isTest: true, // 测试模式
       setting: {
@@ -310,7 +332,8 @@ export default {
             _that.web3 = web3;
             _that.walletAddr = accounts[0];
             // 绑定钱包
-            _that.bindWallet();
+            // _that.bindWallet();
+            _that.showSend = true;
           });
       }
     },
@@ -339,7 +362,8 @@ export default {
           _that.web3 = web3;
           _that.walletAddr = accounts[0];
           // 绑定钱包
-          _that.bindWallet();
+          // _that.bindWallet();
+          _that.showSend = true;
         });
     },
     // 绑定钱包
@@ -411,7 +435,7 @@ export default {
           return
         }
 
-        this.isConnect = true;
+        // this.isConnect = true;
         this.airdropData = res.data;
       }
     },
@@ -425,7 +449,11 @@ export default {
         this.$forceUpdate();
       }
     },
-    handleClose(done) {
+    async handleClose(done) {
+      if (this.connectProvider) {
+        this.connectProvider.disconnect();
+      }
+
       if (done) {
         done();
         return
@@ -433,6 +461,7 @@ export default {
 
       this.showSucceess = false;
       this.showTest = false;
+      this.showSend = false;
     }
   },
 };

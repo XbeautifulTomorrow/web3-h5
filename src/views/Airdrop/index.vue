@@ -241,7 +241,7 @@ export default {
     }
   },
   beforeUnmount() {
-    if(!this.connectProvider) return
+    if (!this.connectProvider) return
     this.connectProvider.disconnect();
   },
   methods: {
@@ -406,6 +406,7 @@ export default {
           return
         }
 
+        this.isConnect = true;
         this.airdropData = res.data;
       }
     },

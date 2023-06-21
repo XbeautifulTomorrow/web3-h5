@@ -3,11 +3,11 @@
     <div class="airdrop_container">
       <div class="banner_container">
         <div class="banner_l" @click="showConnect = true">
-          <div class="operation">CONNECT WALLET FOR</div>
+          <div class="operation">CONNECT YOUR WALLET TO</div>
           <div class="title">CLAIM YOUR AIRDROP</div>
           <div class="description">
-            Connect your wallets to earn point rewards. The rewards you can earn will
-            be determined by the transaction history of your wallet.
+            To earn point rewards, connect your wallets. The rewards you can earn
+            will be determined by the transaction history of your wallet.
           </div>
         </div>
         <div class="banner_r">

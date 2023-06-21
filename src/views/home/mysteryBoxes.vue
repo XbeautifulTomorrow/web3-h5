@@ -2,9 +2,7 @@
   <div class="mystery-boxes">
     <div class="home-public-title">
       <div class="title_text">MYSTERY BOXES</div>
-      <div class="title_description">
-        Verifiable fairness, 100% winning, free choice to withdraw or sell.
-      </div>
+      <div class="title_description">Verify fairness, 100% wins, choose to withdraw or sell.</div>
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in boxList">

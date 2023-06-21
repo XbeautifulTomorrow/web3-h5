@@ -240,10 +240,6 @@ export default {
       this.fetchAirdropData();
     }
   },
-  beforeUnmount() {
-    if (!this.connectProvider) return
-    this.connectProvider.disconnect();
-  },
   methods: {
     dateDiff: dateDiff,
     closeDialogFun() {
@@ -360,6 +356,8 @@ export default {
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
             });
+
+            await this.connectProvider.disconnect();
           }
 
           const bindRes = await linkWallet({

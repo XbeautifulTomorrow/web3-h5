@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="level_description">INVITE USERS</div>
-            <div class="level_description">TO GET MORE</div>
+            <div class="level_description">TO EARN MORE</div>
             <div class="level_description">REWARDS</div>
             <div class="level_description_text">
                 Tell your friends about Bitzing to get an extra 10% bonus on sign-up points.

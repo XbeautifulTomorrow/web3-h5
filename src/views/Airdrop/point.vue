@@ -59,7 +59,8 @@
       </div>
       <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
         <div class="no_date" v-if="!accountPoint || !nftList.length > 0">
-          <div class="tips_text">NFT data synchronization in...</div>
+          <div class="tips_text" v-if="!accountPoint">NFT data synchronization in...</div>
+          <div class="tips_text" v-else>NO NFT FOUND</div>
         </div>
         <div class="nft_box" v-if="accountPoint && nftList.length > 0">
           <div class="nft_item" v-for="(item, index) in nftList" :key="index">

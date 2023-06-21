@@ -3,11 +3,11 @@
     <div class="airdrop_container">
       <div class="banner_container">
         <div class="banner_l" @click="showConnect = true">
-          <div class="operation">CLAIM YOUR AIRDROP</div>
-          <div class="title">CONNECT YOUR WALLET NOW!</div>
+          <div class="operation">CONNECT WALLET FOR</div>
+          <div class="title">CLAIM YOUR AIRDROP</div>
           <div class="description">
-            Connect your wallets to earn point rewards. The rewards you can earn will be determined by the transaction
-            history of your wallet.
+            Connect your wallets to earn point rewards. The rewards you can earn will
+            be determined by the transaction history of your wallet.
           </div>
         </div>
         <div class="banner_r">
@@ -42,10 +42,14 @@
       </div>
       <div class="connect_wallet" v-if="!isConnect || !userInfo?.id">
         <div class="connect_wallet_l">
-          <img v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
-          <img v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
+          <img class="default_avatar" v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg"
+            alt="" />
+          <img class="default_avatar" v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
-            <div class="username_text">Nobody</div>
+            <div class="username_text">
+              <span class="text-ellipsis">{{ userInfo?.id ? airdropData.userName : 'Nobody' }}</span>
+              <img v-if="userInfo?.id" @click="pageType = 'modify'" src="@/assets/svg/user/icon_modify.svg" alt="">
+            </div>
             <div class="tips_text">
               <img src="@/assets/svg/airdrop/icon_wallet.svg" alt="" />
               <span>Wallet is not connected.</span>
@@ -96,7 +100,7 @@
         </div>
       </div>
       <div v-else class="content_container">
-        <Point @omModify="fetchAirdropData()" :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
+        <Point @onModify="fetchAirdropData()" :airdrop="airdropData" v-if="currentActive == 'point'"></Point>
       </div>
       <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
       <Referral v-if="isLogin && userInfo?.id && currentActive == 'referral'"></Referral>
@@ -146,6 +150,7 @@
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="fetchAirdropData" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 <script>
@@ -171,6 +176,7 @@ import Connect from "./connect.vue";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
+import Modify from "./components/modify.vue";
 
 import { getSetting } from "@/services/api/invite";
 import { dateDiff } from "@/utils";
@@ -186,7 +192,8 @@ export default {
     Login,
     Register,
     Forgot,
-    countDown
+    countDown,
+    Modify
   },
   data() {
     return {

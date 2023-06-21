@@ -26,6 +26,7 @@
 }
 
 .banner_l {
+  z-index: 2;
   text-align: left;
 
   &>div {
@@ -62,6 +63,7 @@
 }
 
 .banner_r {
+  z-index: 1;
   position: relative;
   height: 100%;
 
@@ -145,7 +147,7 @@
     display: flex;
     align-items: center;
 
-    img {
+    .default_avatar {
       width: 4rem;
       margin-right: 1rem;
     }
@@ -160,10 +162,18 @@
       }
 
       .username_text {
+        display: flex;
+        align-items: center;
         font-size: 1.25rem;
         font-weight: 500;
         line-height: 1.6;
         color: white;
+
+        img {
+          width: 1rem;
+          margin-left: 0.625rem;
+          cursor: pointer;
+        }
       }
 
       .tips_text {
@@ -425,7 +435,7 @@
     }
 
     .title {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
     }
 
     .description {
@@ -476,12 +486,13 @@
       display: flex;
       align-items: center;
 
-      img {
+      .default_avatar {
         width: 2rem;
         margin-right: 0.75rem;
       }
 
       .user_box {
+        max-width: 7.5rem;
 
         &>div {
           margin-top: 0;

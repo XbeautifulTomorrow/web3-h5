@@ -7,8 +7,8 @@
         <span>QUESTIONS</span>
       </div>
       <div class="FAQ_description">
-        <p>If you have any questions to which you didn’t find the answer for, ask our</p>
-        <p>helpful community on Discord or send us a support ticket. We’re here to help!</p>
+        <p>If you have any questions for which you couldn't find an answer, you can ask our helpful community on Discord
+          or submit a support ticket. We are here to assist you!</p>
       </div>
       <div class="FAQ_list">
         <div :class="['FAQ_item', item.isExpand && 'active']" v-for="(item, index) in FAQList"
@@ -86,105 +86,94 @@ export default {
     this.FAQList = [
       {
         title: "What is BITZING?",
-        description: `We are a  Web3 mystery box lottery ecommerce platform focusing on crypto assets where you 
-          can unbox insane NFT prizes at an unbelievably low cost. Which aim to stimulate more people from non-NFT 
-          circles to enter the marketplace by providing a more humanized and entertaining experience, to expanding 
-          the liquidity of NFT and crypto assets trading as a whole.`,
+        description: `We are a Web3 mystery box lottery ecommerce platform that focuses on crypto assets. Here, you can 
+        unbox incredible NFT prizes at an unbelievably low cost. Our aim is to stimulate more people from non-NFT circles 
+        to enter the marketplace by providing a humanized and entertaining experience. This, in turn, expands the liquidity 
+        of NFT and crypto asset trading as a whole.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "What are NFTs?",
-        description: `Non-Fungible Tokens (or NFTs) are cryptocurrency tokens that represent scarce, digital collectibles 
-        which are also indivisible and unique. The term ‘non-fungible’ just means that the tokens are distinguishable from 
-        each other and cannot be interchanged.
+        description: `Non-Fungible Tokens (NFTs) are cryptocurrency tokens that represent scarce, digital collectibles which are also 
+        indivisible and unique. The term ‘non-fungible’ just means that the tokens are distinguishable from each other and cannot be 
+        interchanged..
         <br><br>
-        BITZING is excited to offer various NFT features including NFT Mystery Box (the World's first NFT Mystery Box marketplace)
-         and Competition, ability to deposit and withdraw NFTs and a gas-less NFT marketplace.`,
+        BITZING is excited to offer various NFT features, including the NFT Mystery Box (the world's first NFT Mystery Box marketplace) 
+        and Competitions. We also provide the ability to deposit and withdraw NFTs, along with a gas-less NFT marketplace.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "What is Bitzing Mystery Box?",
-        description: `Mystery Box is one of Bitzing's main ways of selling NFT，Each mystery box has a set probability of 
-        containing NFTs from exclusive brands such as Mutant Ape Yacht Club.Every time you open a new mystery box, a random 
-        spinner will determine which NFT you get. After you unbox your NFT , it’s added to your account inventory! These items 
-        are real, and you can claim them to your wallet at any time.
+        description: `Mystery Box is one of Bitzing's primary methods of selling NFTs. Each mystery box has a predetermined probability 
+        of containing NFTs from exclusive brands, such as Mutant Ape Yacht Club. Every time you open a new mystery box, a random spinner 
+        will determine which NFT you receive. After unboxing your NFT, it is added to your account inventory. These items are authentic, 
+        and you can claim them to your wallet at any time.
         <br><br>
-        If you are not satisfied with the NFT you receive, you can resell it at its current value for a small percentage fee and 
-        the proceeds from the sale will be credited to your account immediately.`,
+        If you are not satisfied with the NFT you receive, you can resell it at its current value for a small percentage fee, 
+        and the proceeds from the sale will be credited to your account immediately.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How to purchase a Mystery box?",
-        description: `You will need to transfer cryptocurrencies to your account balance first, then use your balance to make purchases 
-        for a better out-of-the-box experience, and your account balance can be withdrawn to your wallet at any time.
+        description: `To enhance your out-of-the-box experience, you need to transfer cryptocurrencies to your account balance first. 
+        You can then use your balance to make purchases. Your account balance can be withdrawn to your wallet at any time.
         <br><br>
-        We currently only support ETH and USDT, but will support more cryptocurrencies in the future.`,
+        Currently, we only support ETH and USDT, but we plan to support more cryptocurrencies in the future.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How do i view the NFT I have unboxed?",
-        description: `Once you have opened the box, you have 60 seconds to decide whether to take the NFT or sell it 
-        immediately(If you do not make a decision within 60s, we will sell the NFT for you by default). If you sell it, 
-        we will transfer the remaining amount to your balance after deducting a percentage of the royalties and service 
-        charges. If you choose to take the NFT, it will be automatically added to your account inventory (accessible via 
-        the 'Wallet' tab on the website). Here you can view all the NFTs you currently have and you can withdraw them to 
-        your wallet at any time.`,
+        description: `Once you have opened the box, you have 60 seconds to decide whether to keep the NFT or sell it immediately. If no 
+        decision is made within 60 seconds, we will automatically sell the NFT on your behalf. If you choose to sell it, we will deduct 
+        a percentage for royalties and service charges, and transfer the remaining amount to your balance. If you decide to keep the NFT, 
+        it will be automatically added to your account inventory, which you can access through the 'Wallet' tab on the website. From there, 
+        you can view all the NFTs you currently own and withdraw them to your wallet at any time.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How to withdraw NFT to my wallet?",
-        description: `Click on your profile picture and click on "Wallet". Here you can see all the NFTs in your account. 
-        You can withdraw your NFTs to your wallet by clicking on the Withdraw button below the NFT and paying a certain GAS 
-        fee. To save on GAS fees, we recommend that you withdraw multiple NFTs at once rather than one by one.`,
+        description: `Click on your profile picture and select "Wallet". Here, you can view all the NFTs in your account. To withdraw your 
+        NFTs to your wallet, click on the "Withdraw" button located below each NFT and proceed with the payment of the applicable gas fee. 
+        To optimize your gas fees, we recommend withdrawing multiple NFTs simultaneously instead of doing it one by one.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "Crypto deposit and withdrawal.",
-        description: `If you don't like your unboxed NFT, you can sell it after unboxing and after deducting a percentage of 
-        the royalty and service fee, the remaining amount will be transferred to your balance. When you want to withdraw your 
-        cryptocurrency, click on your profile picture and click on "Wallet". Here you can see your account balance, click on the 
-        withdraw button to withdraw the balance to your wallet.
+        description: `If you are dissatisfied with your unboxed NFT, you have the option to sell it. After deducting a percentage for royalties 
+        and service fees, the remaining amount will be transferred to your balance. To withdraw your cryptocurrency, navigate to your profile 
+        picture and select ""Wallet"". From there, you can view your account balance and initiate a withdrawal by clicking on the corresponding button. 
         <br><br>
-        Note that the crypto withdrawals will incur a processing fee discounted after your request.`,
+        Please note that crypto withdrawals are subject to a processing fee, which will be discounted after your request.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "Do I get rewarded for telling my friends about BITZING?",
-        description: `Definitely. Bitzing has a competitive Referral Program which allows you to earn money if you’ve got a reach 
-        in the NFT community, or even just a few friends you’d like to share the website with. Send your referral link to your friends, 
-        and for each purchase they make, you get a commission. Click on your profile and navigate to the Referral section to learn more.`,
+        description: `Certainly! Bitzing offers a competitive Referral Program that allows you to earn money if you have influence within the 
+        NFT community or simply want to share the website with a few friends. By sending your referral link to your friends, you can earn a 
+        commission for each purchase they make. To learn more, click on your profile and navigate to the Referral section.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How do I open a mystery box?",
-        description: `First, make sure you have a sufficient balance in your account.. Your account balance should be higher than the 
-        cost of the box you’re looking to open. After that, click on the box, and you’ll be led to the unboxing window. Finally, click 
-        the “Unbox” button to open the box.`,
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: "How do I open a mystery box?",
-        description: `First, make sure you have a sufficient balance in your account.. Your account balance should be higher than the 
-        cost of the box you’re looking to open. After that, click on the box, and you’ll be led to the unboxing window. Finally, click 
-        the “Unbox” button to open the box.`,
+        description: `First, ensure that you have a sufficient balance in your account. Your account balance should be greater than or equal 
+        to the cost of the box you wish to open. Once you have confirmed your balance, click on the desired box, and you will be directed to 
+        the unboxing window. Finally, click the "Unbox" button to open the box.`,
         isExpand: false,
         height: null,
         minHeight: null
@@ -199,87 +188,85 @@ export default {
       },
       {
         title: "Why the contents of the mystery box changed?",
-        description: `BITZING is always reviewing the value of each NFT and keeping them up to date. However, some NFTs are constantly 
-        changing due to their volatility and this will affect the value of the products inside the box, so the contents of the box will 
-        constantly change.
+        description: `BITZING constantly reviews the value of each NFT and ensures they are kept up to date. However, the value of certain 
+        NFTs can be volatile, resulting in fluctuations in the contents of the box.
         <br><br>
-        The product you open a box for at BITZING follows a "value acquired" rule. If you acquire an item worth 1 ETH, then if its price 
-        goes up by more than 1 ETH, you will not succeed in getting it, but we will refund 100% of the value of the item at the time you 
-        acquired it as compensation. However, if the price drops, you may suffer a loss, so we do not recommend keeping NFT as an asset, 
-        and the best option is to exchange and remove it as soon as possible to avoid losing value!
+        At BITZING, the value of the item you acquire from a box follows the ""value acquired"" rule. If you acquire an item worth 1 ETH and 
+        its price increases by more than 1 ETH, you will not be able to obtain it. However, we will compensate you by refunding 100% of the 
+        value of the item at the time of acquisition. It is important to note that holding NFTs as assets may carry risks, as their value can 
+        decrease. Therefore, we recommend exchanging and selling them promptly to avoid potential losses.
         <br><br>
-        If you want to hold NFTs for later play, we would recommend reselling them as they have a fixed value.`,
+        If you wish to hold NFTs for future use, we advise reselling them as they maintain a fixed value.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How do we ensure fairness?",
-        description: `Since the contents of the Mystery Box change, we take a snapshot of the contents of the Mystery Box each time they 
-        change. At the bottom of the Mystery Box details page, you can see all snapshot information for a seven-day period. By viewing the 
-        snapshot details you can find out the NFTs contained in the Mystery Boxes and their reward IDs for each time period.
+        description: `To ensure transparency and openness, BITZING takes a snapshot of the Mystery Box contents whenever they change. On the 
+        Mystery Box details page, you can find the snapshot information for a seven-day period. By reviewing the snapshot details, you can 
+        discover the NFTs included in the Mystery Boxes and their corresponding reward IDs for each specific time period.
         <br><br>
-        BITZING's lottery algorithm will be executed through a smart contract, so you can see the exact logic of the smart contract and the 
-        lottery results on the chain, and compare the results with the reward IDs of the individual NFTs in the snapshot to ensure transparency 
-        and openness of the lottery.`,
+        BITZING utilizes a lottery algorithm executed through a smart contract. This allows you to examine the precise logic of the smart 
+        contract and verify the lottery results on the blockchain. You can compare the results with the reward IDs of the individual NFTs 
+        in the snapshot, ensuring a transparent and accountable lottery process.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "What is Competition?",
-        description: `Competition is BITZING's first new NFT sales model, unlike the traditional NFT marketplace with its one-price and auction 
-        sales model, the competition model can greatly reduce the purchase cost of buyers, making it possible for buyers to obtain epic NFTs for 
-        a fraction of the cost, and easier for NFT holders to sell their NFT holdings.
+        description: `Competition is BITZING's innovative NFT sales model, which sets it apart from the traditional marketplace that relies 
+        on fixed-price and auction sales. The competition model offers a unique approach that significantly lowers the purchase costs for 
+        buyers, enabling them to acquire extraordinary NFTs at a fraction of their original value. Additionally, this model provides a 
+        more accessible avenue for NFT holders to sell their NFT holdings.
         <br><br>
-        Competition exists entirely on the blockchain and uses smart contract technology.
+        Unlike the conventional methods, the competition model leverages a different mechanism:
         <br>
-        -Users can use their balance to purchase tickets
+        - Users can participate in the competition by purchasing tickets using their account balance.
         <br>
-        -Purchase of tickets will result in a lottery number
+        - Each ticket purchase assigns a unique lottery number
         <br>
-        -Once the Competition's draw conditions are met, the Competition will stop selling tickets and the smart contract will automatically draw a winner.
+        - Once the competition's predetermined draw conditions are met, ticket sales conclude, and a winner is automatically selected through the smart contract.
         <br>
-        -Once the winner has been selected, BITZING will automatically process the transfer of the prize to the winner.`,
+        - BITZING's platform facilitates the seamless transfer of the prize to the winner.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How to create a Competition?",
-        description: `As long as you have any one of the BITZING certified NFT series, you can create a Competition.
+        description: `As long as you have any of the BITZING certified NFT series, you can create a Competition.
         <br><br>
-        Because of the special mechanism of Competitions, first you need to transfer your NFT to your BITZING account, 
-        then check your transferred NFT on the Wallet page under your account and click on the Create Competition button 
-        to start creating a Competition.
+        To create a Competition, you need to transfer your NFT to your BITZING account. Once the transfer is complete, you can check 
+        your transferred NFT on the Wallet page within your account. From there, click on the ""Create Competition"" button to start 
+        the process.
         <br><br>
-        BITZING supports two competition modes, limited time and limited quantity:
+        BITZING supports two competition modes: limited time and limited quantity.
         <br><br>
-        <span style="color:white">Limited Time Mode:</span> Set the total price and sale time, the system will generate 
-        the entry ticket at a unit price of 0.0001ETH, purchase the entry ticket to get a free lottery number, when the 
-        sale time is over, according to the sold entry ticket for the lottery, the user with the winning number lottery 
-        ticket will get the NFT for free as a reward.
+        <span style="color:white">Limited Time Mode:</span>  In this mode, you can set the total price and sale time. The system will 
+        generate entry tickets at a unit price of 0.0001 ETH. Participants can purchase these entry tickets to receive a free lottery 
+        number. When the sale time concludes, a lottery will be conducted based on the number of entry tickets sold. The user possessing 
+        the winning lottery ticket number will receive the NFT as a free reward.
         <br><br>
-        <span style="color:white">Limited ticket mode:</span> Set the total price and maximum sale time, the system will 
-        generate the corresponding number of tickets according to the "total price/0.0001 ETH", when all tickets are sold, 
-        the system will automatically conduct a lottery, and the NFT will be awarded according to the winning ID. It should 
-        be noted that when the maximum sale time is reached, if the tickets are not sold out, BITZING will suspend the sale 
-        and refund all purchasers.
+        <span style="color:white">Limited Quantity Mode:</span> In this mode, you can set the total price and maximum sale time. The 
+        system will generate a corresponding number of tickets calculated as ""total price/0.0001 ETH"". Once all tickets are sold, the 
+        system will automatically conduct a lottery, and the NFT will be awarded based on the winning ticket ID. Please note that if the 
+        maximum sale time is reached without all tickets being sold, BITZING will suspend the sale and refund all purchasers.
         <br><br>
-        The proceeds from the sale of admission tickets will be reduced by only 5% of the technical service fee, and the rest 
-        will be the proceeds from the sale of the Competition creator.`,
+        The proceeds from the sale of admission tickets will only incur a 5% deduction as the technical service fee, while the remaining 
+        amount will serve as the proceeds for the Competition creator.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "How can I participate in Competition?",
-        description: `First of all, you need to make sure you have sufficient balance under your account, then go to any 
-        Competition details page, enter the number of tickets you want to buy, click on buy and finish the purchase of tickets, 
-        you can also see the lottery number you have on the right side of the details page.
-        <br><br>
-        To ensure fairness, we limit the number of tickets a single user can purchase in each Competition to 
-        "<span style="color:white">Total Price/0.0001ETH/4/span>".`,
+        description: `First of all, please ensure that you have a sufficient balance in your account. Then, navigate to the details page 
+        of any Competition. Enter the desired number of tickets you wish to purchase, click on ""Buy,"" and proceed to complete the ticket 
+        purchase. On the right side of the details page, you can view the lottery number assigned to you.
+        <br><br>To maintain fairness, we have implemented a limit on the number of tickets a single user can purchase in each Competition. The limit is calculated as 
+        "<span style="color:white">Total Price/0.0001ETH/4<span>".`,
         isExpand: false,
         height: null,
         minHeight: null
@@ -295,15 +282,15 @@ export default {
         title: "The Competition I entered isn’t full yet, when will it draw?",
         description: `All competitions will draw automatically when the required criteria are met.
         <br>
-        Criteria can be timed or  max entries.`,
+        The criteria can be based on timing or the maximum number of entries.`,
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
         title: "What are the odds of winning the Competition NFT?",
-        description: `No, you are purchasing an entry ticket for the free prize draw. The entry ticket is an NFT that is 
-        stored in your personal account and can be transferred out to your wallet.`,
+        description: `You are purchasing an entry ticket for the free prize draw. The entry ticket is an NFT that is stored in your 
+        personal account and can be transferred to your wallet.`,
         isExpand: false,
         height: null,
         minHeight: null

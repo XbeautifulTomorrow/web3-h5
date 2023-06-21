@@ -2,15 +2,15 @@
   <div class="leaderboard_container">
     <div class="statistics_box">
       <div>
-        <div class="statistics_title">VERIFIED USER</div>
+        <div class="statistics_title">VERIFIED USERS</div>
         <div class="statistics_content">
           <div class="statistics_item">
-            <div class="label">TOTAL USER</div>
+            <div class="label">TOTAL USERS</div>
             <div class="val">{{ statistics && statistics.totalUser }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">TOTAL POINT</div>
+            <div class="label">TOTAL POINTS</div>
             <div class="val">{{ statistics && statistics.totalPoint }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">

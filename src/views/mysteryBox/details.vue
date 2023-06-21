@@ -39,7 +39,7 @@
               <div class="lottery_info">
                 <div class="open_text">OPEN</div>
                 <div class="num_text">5</div>
-                <div class="box_text">BOX</div>
+                <div class="box_text">BOXES</div>
               </div>
               <div class="lottery_btn">
                 {{
@@ -56,7 +56,7 @@
             <div class="lottery_info">
               <div class="open_text">OPEN</div>
               <div class="num_text">10</div>
-              <div class="box_text">BOX</div>
+              <div class="box_text">BOXES</div>
             </div>
             <div class="lottery_btn">
               {{

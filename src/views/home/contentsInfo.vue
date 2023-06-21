@@ -2,7 +2,7 @@
   <div class="contents-info">
     <div class="home-public-title">
       <div class="title-box-l">
-        <div class="title_text">CONTENTS INFORMATION</div>
+        <div class="title_text">COMPETITION DETAILS</div>
         <div class="title_description">
           All the NFTs shown here are available from the mystery box.
         </div>
@@ -22,7 +22,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" label="Collections" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="nftName" label="Collection" min-width="120" show-overflow-tooltip />
       <el-table-column prop="price" label="Price" show-overflow-tooltip>
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}

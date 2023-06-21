@@ -3,11 +3,11 @@
     <div class="airdrop_container">
       <div class="banner_container">
         <div class="banner_l" @click="showConnect = true">
-          <div class="operation">CONNECT WALLET FOR</div>
-          <div class="title">GET AIRDROP</div>
+          <div class="operation">CLAIM YOUR AIRDROP</div>
+          <div class="title">CONNECT YOUR WALLET NOW!</div>
           <div class="description">
-            Connect your wallets to earn points rewards, the transaction
-            history of your wallet will determine the rewards you can earn.
+            Connect your wallets to earn point rewards. The rewards you can earn will be determined by the transaction
+            history of your wallet.
           </div>
         </div>
         <div class="banner_r">
@@ -21,7 +21,7 @@
           currentActive == 'point' && 'active',
         ]" @click="handleChange('point')">
           <img src="@/assets/svg/airdrop/icon_point_active.svg" alt="" />
-          <span>MY POINT</span>
+          <span>MY POINTS</span>
         </div>
         <div :class="[
           'taps_item',

@@ -2,9 +2,7 @@
   <div class="ntf-tickets">
     <div class="home-public-title">
       <div class="title_text">COMPETITION</div>
-      <div class="title_description">
-        Enter now for a chance to win a blue chip NFT
-      </div>
+      <div class="title_description">Enter now for a chance to win a blue-chip NFT.</div>
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in tickets">
@@ -46,12 +44,14 @@
           <div class="boxes-button">
             <span class="boxes-button-name">ENTER NOW</span>
           </div>
-          <div class="sold-box">{{ `${item.numberOfTicketsSold || 0} Tickets sold` }}</div>
+          <div class="sold-box">
+            {{ `${item.numberOfTicketsSold || 0} Ticket${(item.numberOfTicketsSold || 0) > 1 ? 's' : ''} sold` }}
+          </div>
         </li>
       </template>
     </ul>
     <div class="ntf-tickets-all">
-      <span>View all competition</span>
+      <span>View all competitions</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
   </div>

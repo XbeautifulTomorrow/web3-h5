@@ -339,7 +339,7 @@ export function getDifferent(jsons, contrast) {
 
   for (const keys in a) {
     if (typeof a[keys] != "object" || b[keys] == undefined) {
-      console.log("出错！json属性不一致");
+      console.log("error! Inconsistent json attributes");
       console.log(a);
       console.log(b);
       return;

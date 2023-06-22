@@ -113,7 +113,7 @@ export default {
         this.awardItem = shuffle(newVal.data);
         this.localDateTime = newVal.localDateTime;
       } else {
-        this.messageFun("很遗憾您没有中奖");
+        this.messageFun("Sorry you didn't win");
       }
     },
     apiIsError: function (newData) {
@@ -297,7 +297,7 @@ export default {
       if (_time > 60) {
         localStorage.removeItem("result");
       } else {
-        this.messageFun("上一个订单未处理,请处理后再抽奖");
+        this.messageFun("The previous order has not been processed, please process it before drawing a prize");
         this.awardItem = _result.result.data;
         this.localDateTime = _result.result.localDateTime;
         this.showResultFun();

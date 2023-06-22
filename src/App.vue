@@ -75,6 +75,7 @@ body {
     position: absolute;
     width: 29.875rem;
     height: 33.8125rem;
+    pointer-events: none;
     filter: blur(18.75rem);
     background-color: #ed21b4;
   }
@@ -85,6 +86,7 @@ body {
     position: absolute;
     width: 29.875rem;
     height: 33.8125rem;
+    pointer-events: none;
     filter: blur(18.75rem);
     border-radius: 50%;
     background-color: #ed21b4;
@@ -96,6 +98,7 @@ body {
     position: absolute;
     width: 29.875rem;
     height: 33.8125rem;
+    pointer-events: none;
     filter: blur(18.75rem);
     border-radius: 50%;
     background-color: #a21ae2;

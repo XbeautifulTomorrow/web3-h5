@@ -79,7 +79,7 @@ export default {
         openUrl("https://twitter.com/Bitzing_io");
         return
       } else if (event === 2) {
-        openUrl("t.me/bitzing_io");
+        openUrl("https://t.me/bitzing_io");
         return
       } else if (event === 3) {
         openUrl("https://discord.gg/eN9e22Q2cN");

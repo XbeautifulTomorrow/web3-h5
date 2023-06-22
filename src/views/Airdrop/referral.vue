@@ -67,7 +67,7 @@
     <el-table :data="inviteList" class="table_container" style="width: 100%">
       <el-table-column prop="inviteCode" label="CODE" align="center" />
       <el-table-column prop="invitePeople" label="REFS" align="center" />
-      <el-table-column prop="pointAmount" label="REGST" align="center" />
+      <el-table-column prop="pointAmount" label="REGIST" align="center" />
       <el-table-column prop="traAmount" label="%" align="center">
         <template #default>
           {{ commissionrate }}

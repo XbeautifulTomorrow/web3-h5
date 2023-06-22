@@ -327,7 +327,7 @@ export default {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error("There was a problem signing you in");
+              ElMessage.error("Connection to wallet failed");
             }
           })
           .then(async (accounts) => {
@@ -358,7 +358,7 @@ export default {
           // 用户拒绝登录后执行语句；
         } else {
           // 本不该执行到这里，但是真到这里了，说明发生了意外
-          ElMessage.error("There was a problem signing you in");
+          ElMessage.error("Connection to wallet failed");
         }
       })
         .then(async (accounts) => {

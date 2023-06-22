@@ -54,6 +54,10 @@
       <span>View all competitions</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div> -->
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
@@ -62,15 +66,28 @@ import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
 import { ElMessage } from "element-plus";
+
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
   components: {
+    Login,
+    Register,
+    Forgot,
+    Modify,
     // eslint-disable-next-line vue/no-unused-components
     countDown
   },
   data() {
     return {
+      pageType: null,
       tickets: [
         {
           nftImage: require("@/assets/img/airdrop/nft_1.png"),
@@ -108,17 +125,44 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapStores(useUserStore),
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+  },
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
     handleTickets(event) {
-      ElMessage.warning("Comming soon");
-      return
-      // eslint-disable-next-line no-unreachable
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      if (this.isLogin && this.userInfo?.id) {
+        ElMessage.warning("Comming soon");
+        return
+        // eslint-disable-next-line no-unreachable
+        this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      } else {
+        this.changeTypeFun('login');
+      }
     },
     openAll() {
       this.$router.push({ name: "NftTicketsList" });
+    },
+    closeDialogFun() {
+      this.pageType = "";
+      this.showConnect = false;
+      if (this.userInfo) {
+        this.getTheUserBalanceInfo();
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
+      }
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
     },
   }
 };

@@ -7,7 +7,7 @@ import { authIp } from '@/services/api/index';
 import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
 
-const welcome = () => import("../views/welcome/index.vue");
+// const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
 const MysteryBox = () => import("../views/mysteryBox/index.vue");
 const Login = () => import("../views/login/index.vue");
@@ -107,6 +107,7 @@ router.beforeEach(async (to, from, next) => {
   if (res && res.code == 200) {
     if (res.data && !(path && path.indexOf("/1020") > -1)) {
       next({ name: "1020" });
+      next();
       return
     } else {
       if (path && path.indexOf("/Airdrop/") > -1) {

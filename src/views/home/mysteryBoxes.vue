@@ -31,16 +31,34 @@
         </li>
       </template>
     </ul>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 export default {
   name: 'MysteryBoxes',
   // props: ['boxList'],
+  components: {
+    Login,
+    Register,
+    Forgot,
+    Modify
+  },
   data() {
     return {
+      pageType: null,
       boxList: [{
         boxImg: require("@/assets/img/home/win_bayc.png"),
         boxName: "Win BAYC for 0.01 ETH",
@@ -68,12 +86,39 @@ export default {
       }]
     };
   },
+  computed: {
+    ...mapStores(useUserStore),
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+  },
   methods: {
     handleMysteryBoxes(event) {
-      ElMessage.warning("Comming soon");
-      return
-      // eslint-disable-next-line no-unreachable
-      this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
+      if (this.isLogin && this.userInfo?.id) {
+        ElMessage.warning("Comming soon");
+        return
+        // eslint-disable-next-line no-unreachable
+        this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
+      } else {
+        this.changeTypeFun('login');
+      }
+    },
+    closeDialogFun() {
+      this.pageType = "";
+      this.showConnect = false;
+      if (this.userInfo) {
+        this.getTheUserBalanceInfo();
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
+      }
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
     },
   }
 };

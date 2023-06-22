@@ -417,10 +417,14 @@
   align-items: center;
 }
 
-.public-dialog-title {
-  font-size: 3rem;
-  padding-bottom: 1.875rem;
+.public-dialog {
+  .public-dialog-title {
+    font-size: 3.25rem;
+    padding-bottom: 1.875rem;
+  }
 }
+
+
 
 .not-select {
   -moz-user-select: none;
@@ -738,8 +742,10 @@
     margin-top: 1rem;
   }
 
-  .public-dialog-title {
-    font-size: 1.75rem;
-    padding-bottom: 0.5rem;
+  .public-dialog {
+    .public-dialog-title {
+      font-size: 1.75rem;
+      padding-bottom: 0.5rem;
+    }
   }
 }

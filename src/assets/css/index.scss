@@ -95,36 +95,44 @@ input[type="number"] {
 }
 
 /*<950px的设备*/
-@media (max-width: 950px) {
+@media screen and (max-width: 950px) {
   html {
     font-size: 16px;
+  }
+
+  #app {
+    min-width: auto;
   }
 }
 
 /*>=1366的设备*/
-@media (min-width: 1366px) {
+@media screen and (min-width: 950px) {
+  html {
+    font-size: 10px;
+  }
+
+  #app {
+    min-width: 1000px;
+  }
+}
+
+/*>=1366的设备*/
+@media screen and (min-width: 1366px) {
   html {
     font-size: 12px;
   }
 }
 
 /*>=1440的设备*/
-@media (min-width: 1440px) {
+@media screen and (min-width: 1440px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 
 /*>=1680的设备*/
-@media (min-width: 1680px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-/*>= 1920的设备*/
-@media (min-width: 1920px) {
+@media screen and (min-width: 1520px) {
   html {
     font-size: 16px;
   }

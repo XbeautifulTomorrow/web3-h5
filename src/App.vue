@@ -30,16 +30,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
-  min-width: 120rem;
+  /* min-width: 120rem; */
   min-height: 100vh;
 }
 
 body {
   background-color: #110429;
 }
-
-
-
 
 @media screen and (max-width: 950px) {
   #app {

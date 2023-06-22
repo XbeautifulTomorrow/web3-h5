@@ -58,7 +58,7 @@
         </div>
         <div class="connect_wallet_r">
           <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">Login</div>
-          <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
+          <div v-else-if="dateDiff(setting.regCountdownTime, currentTime) != 'ENDED'">
             <div class="countdown_tips external">START IN</div>
             <div class="countdown">
               <countDown v-slot="timeObj" @onEnd="fetchAirdropData()" :time="setting.regCountdownTime" :end="currentTime">
@@ -94,7 +94,7 @@
             </div>
           </div>
           <div class="connect_btn" v-else @click="handleConnect()">Connect Wallet</div>
-          <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime) == 'ENDED'">
+          <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime, currentTime) == 'ENDED'">
             The wallet will not be replaced when it is connected.
           </div>
         </div>

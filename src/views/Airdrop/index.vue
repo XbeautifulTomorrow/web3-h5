@@ -38,7 +38,7 @@
           currentActive == 'referral' && 'border_bg',
           currentActive == 'referral' && 'active',
         ]" @click="handleChange('referral')">
-          <img v-if="currentActive == 'leaderboard'" src="@/assets/svg/airdrop/icon_referral_active.svg" alt="" />
+          <img v-if="currentActive == 'referral'" src="@/assets/svg/airdrop/icon_referral_active.svg" alt="" />
           <img v-else src="@/assets/svg/airdrop/icon_referral.svg" alt="" />
           <span>MY REFERRAL LINK</span>
         </div>

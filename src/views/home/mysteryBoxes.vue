@@ -38,9 +38,35 @@
 import { ElMessage } from "element-plus";
 export default {
   name: 'MysteryBoxes',
-  props: ['boxList'],
+  // props: ['boxList'],
   data() {
-    return {};
+    return {
+      boxList: [{
+        boxImg: require("@/assets/img/home/win_bayc.png"),
+        boxName: "Win BAYC for 0.01 ETH",
+        price: 0.01,
+        coin: "ETH",
+        sales: "0"
+      }, {
+        boxImg: require("@/assets/img/home/teamazuki_collections.png"),
+        boxName: "TeamAzuki Collections",
+        price: 0.05,
+        coin: "ETH",
+        sales: "0"
+      }, {
+        boxImg: require("@/assets/img/home/yugalabs_collections.png"),
+        boxName: "Yugalabs Collections",
+        price: 0.1,
+        coin: "ETH",
+        sales: "0"
+      }, {
+        boxImg: require("@/assets/img/home/blue_chip_package.png"),
+        boxName: "Blue-Chip Package",
+        price: 0.2,
+        coin: "ETH",
+        sales: "0"
+      }]
+    };
   },
   methods: {
     handleMysteryBoxes(event) {

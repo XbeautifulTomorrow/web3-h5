@@ -47,7 +47,7 @@
           <img class="default_avatar" v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
             <div class="username_text">
-              <span class="text-ellipsis">{{ userInfo?.id ? airdropData.userName : 'Nobody' }}</span>
+              <span class="text-ellipsis">{{ userInfo?.id ? userInfo.userName : 'Nobody' }}</span>
               <img v-if="userInfo?.id" @click="pageType = 'modify'" src="@/assets/svg/user/icon_modify.svg" alt="">
             </div>
             <div class="tips_text">

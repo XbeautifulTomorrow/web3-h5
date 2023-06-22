@@ -108,7 +108,21 @@ router.beforeEach(async (to, from, next) => {
     if (res.data && !(path && path.indexOf("/1020") > -1)) {
       next({ name: "1020" });
       return
+    } else {
+      if (path && path.indexOf("/Airdrop/") > -1) {
+        const code = path.replace("/Airdrop/", "")
+        // 保存邀请码到本地存储
+        setSessionStore("invateCode", code);
+        // 统计邀请链接打开数量
+        statisticsClick({ code: code });
+
+        next({ name: "Airdrop" });
+      } else {
+        next();
+      }
     }
+
+    return
   }
 
   if (path && path.indexOf("/Airdrop/") > -1) {

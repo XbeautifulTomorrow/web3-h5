@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --mode test",
     "serve:pro": "vue-cli-service serve --mode pro",
     "build": "vue-cli-service build --mode pro",
     "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service build --mode development",
-    "pre": "vue-cli-service build --mode pre"
+    "build:dev": "vue-cli-service build --mode dev",
+    "build:pro": "vue-cli-service build --mode pro"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

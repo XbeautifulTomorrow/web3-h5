@@ -1,12 +1,9 @@
 const config = {
   dev: {
-    api: 'http://221.236.31.34:6599/',
+    api: '/',
   },
   test: {
     api: 'http://221.236.31.34:6599/',
-  },
-  pre: {
-    api: '/',
   },
   pro: {
     api: '/',

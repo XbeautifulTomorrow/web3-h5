@@ -20,8 +20,8 @@
           currentActive == 'point' && 'border_bg',
           currentActive == 'point' && 'active',
         ]" @click="handleChange('point')">
-          <img v-if="currentActive == 'point'" src="@/assets/svg/airdrop/icon_point_active.svg" alt="" />
-          <img v-else src="@/assets/svg/airdrop/icon_point.svg" alt="" />
+          <img v-show="currentActive == 'point'" src="@/assets/svg/airdrop/icon_point_active.svg" alt="" />
+          <img v-show="currentActive != 'point'" src="@/assets/svg/airdrop/icon_point.svg" alt="" />
           <span>MY POINTS</span>
         </div>
         <div :class="[
@@ -29,8 +29,8 @@
           currentActive == 'leaderboard' && 'border_bg',
           currentActive == 'leaderboard' && 'active',
         ]" @click="handleChange('leaderboard')">
-          <img v-if="currentActive == 'leaderboard'" src="@/assets/svg/airdrop/icon_leaderboard_active.svg" alt="" />
-          <img v-else src="@/assets/svg/airdrop/icon_leaderboard.svg" alt="" />
+          <img v-show="currentActive == 'leaderboard'" src="@/assets/svg/airdrop/icon_leaderboard_active.svg" alt="" />
+          <img v-show="currentActive != 'leaderboard'" src="@/assets/svg/airdrop/icon_leaderboard.svg" alt="" />
           <span>LEADERBOARD</span>
         </div>
         <div :class="[
@@ -38,8 +38,8 @@
           currentActive == 'referral' && 'border_bg',
           currentActive == 'referral' && 'active',
         ]" @click="handleChange('referral')">
-          <img v-if="currentActive == 'referral'" src="@/assets/svg/airdrop/icon_referral_active.svg" alt="" />
-          <img v-else src="@/assets/svg/airdrop/icon_referral.svg" alt="" />
+          <img v-show="currentActive == 'referral'" src="@/assets/svg/airdrop/icon_referral_active.svg" alt="" />
+          <img v-show="currentActive != 'referral'" src="@/assets/svg/airdrop/icon_referral.svg" alt="" />
           <span>MY REFERRAL LINK</span>
         </div>
       </div>

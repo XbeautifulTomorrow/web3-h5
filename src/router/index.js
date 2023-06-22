@@ -21,9 +21,8 @@ const routes = [
   //redirect 重定向也是通过 routes 配置来完成，下面就是从 / 重定向到 /home
   {
     path: "/",
-    redirect: "/welcome",
+    redirect: "/home",
   },
-  { path: "/welcome", component: welcome },
   {
     path: "/home",
     name: "Home",

@@ -43,8 +43,7 @@ export default {
       if (this.end) {
         const endstamp = new Date(this.time).getTime();
         let end = String(endstamp).length >= 13 ? +endstamp : +endstamp * 1000;
-        end -= new Date().getTime();
-        console.log(end)
+        end -= new Date(this.end).getTime();
         return end;
       }
 

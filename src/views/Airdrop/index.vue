@@ -4,7 +4,7 @@
       <div class="banner_container">
         <div class="banner_l">
           <div class="operation">CONNECT YOUR WALLET TO</div>
-          <div class="title">CLAIM YOUR AIRDROP</div>
+          <div class="title">CLAIM AIRDROP</div>
           <div class="description">
             To earn point rewards, connect your wallets. The rewards you can earn
             will be determined by the transaction history of your wallet.
@@ -61,7 +61,7 @@
           <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
             <div class="countdown_tips external">START IN</div>
             <div class="countdown">
-              <countDown v-slot="timeObj" @onEnd="fetchAirdropData()" :time="setting.regCountdownTime" :end="true">
+              <countDown v-slot="timeObj" @onEnd="fetchAirdropData()" :time="setting.regCountdownTime" :end="currentTime">
                 <div class="countdown_tips internal">START IN</div>
                 <div class="countdown_time_box">
                   <div class="countdown_item">
@@ -234,6 +234,7 @@ export default {
       setting: {
         regCountdownTime: null
       },
+      currentTime: null,
       timer: null
     };
   },
@@ -365,8 +366,7 @@ export default {
           _that.web3 = web3;
           _that.walletAddr = accounts[0];
           // 绑定钱包
-          // _that.bindWallet();
-          _that.showSend = true;
+          _that.bindWallet();
         });
     },
     // 绑定钱包
@@ -449,6 +449,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.setting = res.data;
+        this.currentTime = res.localDateTime;
         this.$forceUpdate();
       }
     },

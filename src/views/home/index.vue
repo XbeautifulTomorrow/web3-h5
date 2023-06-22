@@ -22,6 +22,7 @@ export default {
     Banner,
     MysteryBoxes,
     NftTickets,
+    // eslint-disable-next-line vue/no-unused-components
     ContentsInfo,
   },
   data() {

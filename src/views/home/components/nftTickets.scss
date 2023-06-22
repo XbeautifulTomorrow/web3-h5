@@ -1,8 +1,8 @@
 .ntf-tickets {
   width: 95rem;
   box-sizing: border-box;
-  margin: 0 auto;
-  margin-top: 10.625rem;
+  margin: 10.625rem auto;
+  /* margin-top: 10.625rem; */
 }
 
 .home-public-title {
@@ -231,7 +231,7 @@
   .ntf-tickets {
     width: 100%;
     padding: 0 1.5rem;
-    margin-top: 1.5rem;
+    margin: 1.5rem auto 4rem;
   }
 
   .home-public-title {

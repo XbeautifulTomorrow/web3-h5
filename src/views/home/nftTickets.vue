@@ -50,10 +50,10 @@
         </li>
       </template>
     </ul>
-    <div class="ntf-tickets-all">
+    <!-- <div class="ntf-tickets-all">
       <span>View all competitions</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
-    </div>
+    </div> -->
   </div>
 </template>
 

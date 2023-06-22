@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
-import { setSessionStore, isFromChinaIP } from "@/utils";
+import { setSessionStore } from "@/utils";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
@@ -102,9 +102,6 @@ router.afterEach(() => {
 })
 
 router.beforeEach((to, from, next) => {
-  isFromChinaIP(() => {
-    next({ name: "1020" });
-  });
   const { path } = to;
   if (path && path.indexOf("/Airdrop/") > -1) {
     const code = path.replace("/Airdrop/", "")

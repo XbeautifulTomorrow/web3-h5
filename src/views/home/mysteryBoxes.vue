@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { ElMessage } from "element-plus";
 export default {
   name: 'MysteryBoxes',
   props: ['boxList'],
@@ -43,6 +44,9 @@ export default {
   },
   methods: {
     handleMysteryBoxes(event) {
+      ElMessage.warning("Comming soon");
+      return
+      // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
     },
   }

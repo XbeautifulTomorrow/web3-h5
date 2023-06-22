@@ -2,11 +2,16 @@
   <div class="contents-info">
     <div class="home-public-title">
       <div class="title-box-l">
-        <div class="title_text">COMPETITION DETAILS</div>
+        <div class="title_text">NFT DETAILS</div>
         <div class="title_description">
           All the NFTs shown here are available from the mystery box.
         </div>
       </div>
+      <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
+        effect="dark">
+        <el-option label="ALL" value="" />
+        <el-option v-for="(item, index) in boxList" :key="index" :label="item.boxName" :value="item.id" />
+      </el-select>
       <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
         effect="dark">
         <el-option label="ALL" value="" />

@@ -387,8 +387,6 @@ export default {
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
             });
-
-            await this.connectProvider.disconnect();
           }
 
           const bindRes = await linkWallet({

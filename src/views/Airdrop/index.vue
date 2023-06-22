@@ -98,7 +98,7 @@
           </div>
           <div class="connect_btn" v-else @click="handleConnect()">Connect Wallet</div>
           <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime, currentTime) == 'ENDED'">
-            The wallet will not be replaced when it is connected.
+            The wallet cannot be modified after it is connected.
           </div>
         </div>
       </div>

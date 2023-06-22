@@ -8,5 +8,7 @@ const getTicketList = params =>//首页盲盒抽奖列表
 
 const getNFTList = params =>//首页盲盒NFT分页查询
   apiService.get('mystery-web-user/index/contentsInfo', params)
+const authIp = params =>//首页盲盒NFT分页查询
+  apiService.get('mystery-web-user/auth/getIp', params)
 
-export { getBoxList,getTicketList,getNFTList }
+export { getBoxList, getTicketList, getNFTList, authIp }

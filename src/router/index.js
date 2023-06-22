@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
 import { setSessionStore } from "@/utils";
+import { authIp } from '@/services/api/index';
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
@@ -100,8 +101,16 @@ router.afterEach(() => {
   window.scrollTo(0, 0);
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const { path } = to;
+  const res = await authIp();
+  if (res && res.code == 200) {
+    if (res.data && !(path && path.indexOf("/1020") > -1)) {
+      next({ name: "1020" });
+      return
+    }
+  }
+
   if (path && path.indexOf("/Airdrop/") > -1) {
     const code = path.replace("/Airdrop/", "")
     // 保存邀请码到本地存储

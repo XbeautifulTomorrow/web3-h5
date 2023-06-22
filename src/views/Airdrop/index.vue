@@ -2,7 +2,7 @@
   <div class="wrapper_bg">
     <div class="airdrop_container">
       <div class="banner_container">
-        <div class="banner_l" @click="showConnect = true">
+        <div class="banner_l">
           <div class="operation">CONNECT YOUR WALLET TO</div>
           <div class="title">CLAIM YOUR AIRDROP</div>
           <div class="description">
@@ -44,7 +44,7 @@
         <div class="connect_wallet_l">
           <img class="default_avatar" v-if="isTest" @click="showTest = true" src="@/assets/svg/user/default_avatar.svg"
             alt="" />
-          <img class="default_avatar" v-else @click="showTest = true" src="@/assets/svg/user/default_avatar.svg" alt="" />
+          <img class="default_avatar" v-else src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
             <div class="username_text">
               <span class="text-ellipsis">{{ userInfo?.id ? userInfo.userName : 'Nobody' }}</span>
@@ -200,6 +200,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "./components/modify.vue";
 
 import { getSetting } from "@/services/api/invite";
+import config from "@/services/env";
 import { dateDiff } from "@/utils";
 
 import countDown from '@/components/countDown';
@@ -229,7 +230,7 @@ export default {
       showSucceess: false,
       showSend: false, // 验证
       showTest: false,
-      isTest: true, // 测试模式
+      isTest: false, // 测试模式
       setting: {
         regCountdownTime: null
       },
@@ -264,6 +265,8 @@ export default {
     },
   },
   created() {
+    this.isTest = config.ENV == "dev";
+
     if (this.isLogin && this.userInfo?.id) {
       this.fetchSetting();
       this.fetchAirdropData();

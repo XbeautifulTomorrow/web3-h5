@@ -12,11 +12,6 @@
         <el-option label="ALL" value="" />
         <el-option v-for="(item, index) in boxList" :key="index" :label="item.boxName" :value="item.id" />
       </el-select>
-      <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
-        effect="dark">
-        <el-option label="ALL" value="" />
-        <el-option v-for="(item, index) in boxList" :key="index" :label="item.boxName" :value="item.id" />
-      </el-select>
     </div>
     <el-table :data="nftData" class="table_container" style="width: 100%">
       <el-table-column prop="nftId" label="NFT" min-width="120">

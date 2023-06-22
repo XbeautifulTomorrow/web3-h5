@@ -270,9 +270,9 @@ export default {
   },
   created() {
     this.isTest = config.ENV == "dev";
+    this.fetchSetting();
 
     if (this.isLogin && this.userInfo?.id) {
-      this.fetchSetting();
       this.fetchAirdropData();
     }
   },

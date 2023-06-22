@@ -116,7 +116,25 @@ export default {
       page: 1,
       size: 10,
       count: 0,
+      timer: null
     };
+  },
+  watch: {
+    inviteCode(newV) {
+      const numStr = /^(?=.*[\u4e00-\u9fa5]).{1,}$/
+      const reg = /[\u4e00-\u9fa5]/g;
+      if (!newV) return
+
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+
+      this.timer = setTimeout(() => {
+        if (numStr.test(newV)) {
+          this.inviteCode = newV.replace(reg, "");
+        }
+      }, 300);
+    }
   },
   computed: {
     ...mapStores(useUserStore),

@@ -2,7 +2,7 @@
   background-image: url("@/assets/img/public/popup_bg.png") !important;
   background-color: #20222d;
   background-repeat: no-repeat !important;
-  background-size: 100% auto;
+  background-size: 100% auto !important;
   background-position-y: bottom !important;
   text-align: center;
 
@@ -79,7 +79,7 @@
   }
 
   .public-input {
-    width: auto !important;
+    width: 100% !important;
 
     .el-input__wrapper {
       height: 4.375rem;

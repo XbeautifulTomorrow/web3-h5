@@ -79,6 +79,8 @@
   }
 
   .public-input {
+    width: auto !important;
+
     .el-input__wrapper {
       height: 4.375rem;
       box-sizing: border-box;

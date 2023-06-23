@@ -260,20 +260,10 @@ export default {
       margin-right: 0;
 
       :deep(.el-input__wrapper) {
-        border-radius: 0.5rem;
         width: 2rem;
-        padding: 0px;
-        border: solid 1px #363945;
-        background-color: #13151f;
-        box-shadow: none;
-        outline: none;
 
         input {
-          font-family: LeagueSpartan;
           font-size: 0.75rem;
-          font-weight: bold;
-          text-align: center;
-          color: white;
         }
       }
 

@@ -128,4 +128,11 @@ const resetFun = async (formEl) => {
 .public-dialog-illustrate {
   margin: 1.875rem 0;
 }
+
+
+@media screen and (max-width: 950px) {
+  .form-buttons {
+    margin-top: 1rem;
+  }
+}
 </style>

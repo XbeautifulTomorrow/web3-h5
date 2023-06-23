@@ -121,7 +121,7 @@ export default {
   },
   watch: {
     inviteCode(newV) {
-      const reg = /[^(A-Za-z0-9)]/g;
+      const reg = /[^A-Za-z0-9]/g;
       if (!newV) return
 
       if (this.timer) {

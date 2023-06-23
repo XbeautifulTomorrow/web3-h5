@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
-const notMessage = ["mystery-web-user/auth/check/captcha"];
+const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp"];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
@@ -37,6 +37,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+// eslint-disable-next-line no-unused-vars
 const handleRes = ({ type, url, data }) => {
   if (data.code === 200) {
     return data;

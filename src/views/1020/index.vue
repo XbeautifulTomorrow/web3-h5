@@ -91,6 +91,15 @@ export default {
   },
 };
 </script>
+<style>
+body {
+  background-color: white;
+}
+
+#app {
+  text-align: left;
+}
+</style>
 <style lang="scss" scoped>
 .container {
   width: 100%;
@@ -271,7 +280,6 @@ export default {
 }
 
 .p-0 {
-  text-align: left;
   padding: 0;
 }
 
@@ -315,15 +323,6 @@ export default {
 
 .text-center {
   text-align: center;
-}
-
-.text-black-light {
-  color: white;
-}
-
-.text-p-light {
-  color: white;
-  opacity: 0.8;
 }
 
 .text-black-dark {

@@ -121,8 +121,7 @@ export default {
   },
   watch: {
     inviteCode(newV) {
-      const numStr = /^(?=.*[\u4e00-\u9fa5]).{1,}$/
-      const reg = /[\u4e00-\u9fa5]/g;
+      const reg = /[^(A-Za-z0-9)]/g;
       if (!newV) return
 
       if (this.timer) {
@@ -130,9 +129,7 @@ export default {
       }
 
       this.timer = setTimeout(() => {
-        if (numStr.test(newV)) {
-          this.inviteCode = newV.replace(reg, "");
-        }
+        this.inviteCode = newV.replace(reg, "").slice(0, 45);
       }, 300);
     }
   },

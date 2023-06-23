@@ -1,21 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
-import { setSessionStore } from "@/utils";
+import { setSessionStore, getSessionStore } from "@/utils";
 import { authIp } from '@/services/api/index';
+import config from "@/services/env";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
 
 // const welcome = () => import("../views/welcome/index.vue");
-const Home = () => import("../views/home/index.vue");
-const MysteryBox = () => import("../views/mysteryBox/index.vue");
-const Login = () => import("../views/login/index.vue");
-const Register = () => import("../views/register/index.vue");
-const Forgot = () => import("../views/forgot/index.vue");
-const Airdrop = () => import("../views/Airdrop/index.vue");
-const FAQ = () => import("../views/FAQ/index.vue");
-const toIntercept = () => import("../views/1020/index.vue");
+const Home = () => import(/* webpackChunkName: "home" */ "../views/home/index.vue");
+const MysteryBox = () => import(/* webpackChunkName: "mysteryBox" */ "../views/mysteryBox/index.vue");
+const Login = () => import(/* webpackChunkName: "login" */ "../views/login/index.vue");
+const Register = () => import(/* webpackChunkName: "register" */ "../views/register/index.vue");
+const Forgot = () => import(/* webpackChunkName: "forgot" */ "../views/forgot/index.vue");
+const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
+const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
+const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -103,10 +104,32 @@ router.afterEach(() => {
 
 router.beforeEach(async (to, from, next) => {
   const { path } = to;
-  const res = await authIp();
+  let res = null;
+
+  if (config.ENV == "dev" || config.ENV == "test") {
+    res = {
+      code: 200,
+      data: false
+    }
+  } else {
+    res = await authIp();
+  }
+
   if (res && res.code == 200) {
-    if (res.data && !(path && path.indexOf("/1020") > -1)) {
+    const isShield = res.data;
+    if (isShield && !(path && path.indexOf("/1020") > -1)) {
+      setSessionStore("referrer", path)
       next({ name: "1020" });
+      return
+    } else if (!isShield && path && path.indexOf("/1020") > -1) {
+      const referrer = getSessionStore("referrer");
+      if (!referrer) {
+        next({ name: "Home" });
+      } else {
+        sessionStorage.removeItem("referrer");
+        next({ path: referrer });
+      }
+
       return
     }
   }

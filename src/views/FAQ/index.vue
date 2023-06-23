@@ -44,42 +44,55 @@ export default {
   data() {
     return {
       screenWidth: null,
+      screenSize: null,
       FAQList: []
     }
   },
   methods: {
     getHeight(index) {
-      let paddingV = 20;
-      window.screenWidth = document.body.clientWidth;
-      this.screenWidth = window.screenWidth;
+      let paddingV = new bigNumber(this.screenSize).multipliedBy(1.25);
 
       const textHeight = document.getElementById(`text-${index}`);
-      if (this.screenWidth < 950) {
+      if (this.screenWidth <= 950) {
         paddingV = 8;
       }
 
-      const heightV = new bigNumber(textHeight && textHeight.clientHeight).plus(paddingV).plus(paddingV).div(16);
+      const heightV = new bigNumber(textHeight && textHeight.clientHeight).plus(paddingV).plus(paddingV).div(this.screenSize);
       this.FAQList[index].minHeight = `${heightV}rem`;
     },
     getQueryRect(index) {
-      let paddingV = 20;
+      let paddingV = new bigNumber(this.screenSize).multipliedBy(1.25);
       window.screenWidth = document.body.clientWidth;
       this.screenWidth = window.screenWidth;
 
       const textHeight = document.getElementById(`text-${index}`).clientHeight;
-      if (this.screenWidth < 950) {
+      if (this.screenWidth <= 950) {
         paddingV = 8;
       }
 
       const heightV = new bigNumber(textHeight).plus(paddingV).plus(paddingV);
 
       const height = document.getElementById(`FAQ-${index}`).clientHeight;
-      let totalHeight = new bigNumber(heightV).plus(height).div(16).toString();
+      let totalHeight = new bigNumber(heightV).plus(height).div(this.screenSize).toString();
       this.FAQList[index].height = `${totalHeight}rem`;
       this.FAQList[index].isExpand = !this.FAQList[index].isExpand;
     },
     formatText(event) {
       return event.split(" ");
+    },
+    getSize(event) {
+      const widths = +event;
+      if (widths <= 950) {
+        this.screenSize = 16;
+      } else if (widths > 950 && widths < 1366) {
+        this.screenSize = 10;
+      } else if (widths > 1366 && widths < 1440) {
+        this.screenSize = 12;
+      } else if (widths > 1440 && widths < 1520) {
+        this.screenSize = 14;
+      } else if (widths > 1520) {
+        this.screenSize = 16;
+      }
     }
   },
   created() {
@@ -301,6 +314,7 @@ export default {
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
+    this.getSize(that.screenWidth);
 
     // 加载完成后调整高度
     for (let i = 0; i < this.FAQList.length; i++) {
@@ -310,6 +324,8 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
+      this.getSize(that.screenWidth);
+
       for (let i = 0; i < this.FAQList.length; i++) {
         this.getHeight(i)
       }

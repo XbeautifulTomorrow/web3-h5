@@ -39,6 +39,7 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { mapStores } from "pinia";
 
 import {
   balanceOrder,
@@ -55,6 +56,7 @@ import boxDetails from "./details.vue";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
+import { useWalletStore } from "@/store/wallet.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -87,6 +89,9 @@ export default {
       apiIsError: false,
       resultTimer: null,
     };
+  },
+  computed: {
+    ...mapStores(useHeaderStore, useWalletStore),
   },
   mounted() {
     this.boxId = this.$route.query.boxId;
@@ -194,7 +199,8 @@ export default {
       });
     },
     async transfer(id, coiledType) {
-      const web3 = window.web3;
+      const web3 = this.walletStore.web3;
+      if (!web3) return;
       let amountVal = 1;
       if (coiledType == "ONE") {
         amountVal = this.blindDetailInfo.price;
@@ -265,7 +271,8 @@ export default {
       var accountsFromMetaMask = await window.ethereum.send(
         "eth_requestAccounts"
       );
-      let web3 = window.web3;
+      let web3 = this.walletStore.web3;
+      if (!web3) return;
       let idStr = this.walletOrderDetail.orderId.toString();
       let str = this.walletOrderDetail.orderNumber;
       var lottContract = new web3.eth.Contract(

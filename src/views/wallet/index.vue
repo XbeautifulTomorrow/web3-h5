@@ -48,6 +48,7 @@ import {
   getTheUserSPayoutAddress,
 } from "@/services/api/user";
 import { useHeaderStore } from "@/store/header.js";
+import { useWalletStore } from "@/store/wallet.js";
 
 import Link from "./link.vue";
 export default {
@@ -71,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore),
+    ...mapStores(useHeaderStore, useWalletStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -125,7 +126,7 @@ export default {
             web3 = new Web3(window.ethereum);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
-            window.web3 = web3;
+            _that.walletStore.setWeb3(web3);
             _that.web3 = web3;
             const headerStore = useHeaderStore();
             const _ethBalance = new BigNumber(
@@ -147,7 +148,8 @@ export default {
       // this.ethBalance = res.data[0].balance;
     },
     async login() {
-      let web3 = window.web3;
+      let web3 = this.walletStore.web3;
+      if (!web3) return;
       getKey().then(async (res) => {
         if (res.data) {
           this.generateKey = web3.utils.toHex(res.data);

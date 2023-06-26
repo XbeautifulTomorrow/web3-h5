@@ -275,13 +275,13 @@ const transfer = async () => {
       nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
       // 授权判断
       let isApproved = await nftContract.methods
-          .isApprovalForAll(accounts[0], nftTokenAddress)
-          .call();
+        .isApprovalForAll(accounts[0], nftTokenAddress)
+        .call();
       if (!isApproved) {
-       // //授权
-       await nftContract.methods
-        .setApprovalForAll(nftTokenAddress, true)
-        .send({ from: accounts[0] });
+        // //授权
+        await nftContract.methods
+          .setApprovalForAll(nftTokenAddress, true)
+          .send({ from: accounts[0] });
       }
       if (index === _length - 1) {
         const nftTransferContract = new web3.eth.Contract(

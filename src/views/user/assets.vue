@@ -226,10 +226,13 @@
 </template>
 <script>
 import bigNumber from "bignumber.js";
+import { mapStores } from "pinia";
 
 import { addNftOrder, getSystemNft } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
+
+import { useWalletStore } from "@/store/wallet.js";
 
 import wallet from "../wallet/index.vue";
 import recharge from "@/components/recharge/index.vue";
@@ -285,6 +288,7 @@ export default {
     },
   },
   computed: {
+    ...mapStores(useWalletStore),
     // 总票数
     limitNum() {
       const { price, ticketPrice } = this.competitionForm;
@@ -300,7 +304,8 @@ export default {
     onDeposit() {
       this.title = "Deposit";
       this.operatingType = 1;
-      const defaultAccount = window?.web3?.eth?.defaultAccount || "";
+      const { web3 } = this.walletStore;
+      const defaultAccount = web3?.eth?.defaultAccount || "";
       if (defaultAccount) {
         this.linkWallet();
       } else {
@@ -313,7 +318,8 @@ export default {
     onWithdraw() {
       this.title = "Withdraw";
       this.operatingType = 2;
-      const defaultAccount = window?.web3?.eth?.defaultAccount || "";
+      const { web3 } = this.walletStore;
+      const defaultAccount = web3?.eth?.defaultAccount || "";
       if (defaultAccount) {
         this.linkWallet();
       } else {

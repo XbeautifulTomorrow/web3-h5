@@ -131,7 +131,8 @@ import { ElNotification } from "element-plus";
 
 import transferAbi from "@/config/transfer.json";
 import nftAbi from "@/config/nft.json";
-import nft1155Abi from "@/config/1155.json";
+// import nft1155Abi from "@/config/1155.json";
+import nft721Abi from "@/config/721.json";
 import erc20Abi from "@/config/erc20.json";
 
 import qrCode from "./qrCode.vue";
@@ -269,16 +270,16 @@ const transfer = async () => {
     chooseNftAddress.forEach(async (item, index) => {
       //多个nft授权
       let nftContract = new web3.eth.Contract(
-        nft1155Abi,
+        nft721Abi,
         item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
       );
       nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
       // 授权判断
       let isApproved = await nftContract.methods
-        .isApprovalForAll(accounts[0], nftTokenAddress)
+        .isApprovedForAll(accounts[0], nftTokenAddress)
         .call();
       if (!isApproved) {
-        // //授权
+        //授权
         await nftContract.methods
           .setApprovalForAll(nftTokenAddress, true)
           .send({ from: accounts[0] });

@@ -246,10 +246,10 @@ const dataArrSevenFun = (arr, key) => {
   arr.forEach((item) => {
     const _index = chooseNftAddress.indexOf(item.contractAddress);
     if (_arr[_index]) {
-      _arr[_index].push([item[key]]);
+      _arr[_index].push(item[key]);
     } else {
       _arr[_index] = [];
-      _arr[_index].push([item[key]]);
+      _arr[_index].push(item[key]);
     }
   });
   return _arr;
@@ -278,6 +278,7 @@ const transfer = async () => {
       let isApproved = await nftContract.methods
         .isApprovedForAll(accounts[0], nftTokenAddress)
         .call();
+      
       if (!isApproved) {
         //授权
         await nftContract.methods
@@ -290,7 +291,7 @@ const transfer = async () => {
           nftTokenAddress
         ); //nft转账合约
         const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
-        //721充值
+       //721充值
         await nftTransferContract.methods
           .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
           .send({ from: accounts[0] });

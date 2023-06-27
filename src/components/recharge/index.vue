@@ -185,7 +185,7 @@ let chooseNft = reactive([]);
 let chooseNftAddress = reactive([]);
 const nftDialogVisible = ref(false);
 const usdtAddress = ref("0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535");
-const nftTokenAddress = "0x74dA78c4A6cEf9809FeaC2Cd557778b848EDC931"; //nft充值
+const nftTokenAddress = "0x11443575e9e65b1e2b388059ff321515d5dde439"; //nft充值
 const receiver = ref("0x7ef9873d3D85724A59aC2C56c1C7Ae0d1D27dACB"); //收款地址
 const contractAddress = "0x927e481e98e01bef13d1486be2fcc23a00761524";
 // const transferAddress = ref("0x927e481e98e01bef13d1486be2fcc23a00761524");
@@ -291,6 +291,11 @@ const transfer = async () => {
           nftTokenAddress
         ); //nft转账合约
         const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
+      //   console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
+      //  return
+      //  nftList = ['0x6447f7d21f19af6c11824b06e3a6618542cedf33',"0xb1fac5b5b535fbdb4323aa7a0aac6039ce731c7f"]
+      //  _tokenidSeven = [['7973','8081'],['10598']]
+       console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
        //721充值
         await nftTransferContract.methods
           .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)

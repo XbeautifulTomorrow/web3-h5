@@ -1,8 +1,8 @@
 <template>
   <div class="mystery-boxes">
     <div class="home-public-title">
-      <div class="title_text">MYSTERY BOXES</div>
-      <div class="title_description">Verify fairness, 100% wins, choose to withdraw or sell.</div>
+      <div class="title_text">{{ $t("home.boxTitle") }}</div>
+      <div class="title_description">{{ $t("home.boxTips") }}</div>
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in boxList">
@@ -20,13 +20,13 @@
             </div>
           </div>
           <div class="other">
-            <div class="sale">Sale</div>
+            <div class="sale">{{ $t("home.sale") }}</div>
             <div class="sale-val">{{ item.sales }}</div>
           </div>
           <p class="mystery-boxs-text text-ellipsis">
           </p>
           <div class="boxes-button buy-btn text-ellipsis">
-            <span class="boxes-button-name">Unbox Now</span>
+            <span class="boxes-button-name">{{ $t("home.buyBtn") }}</span>
           </div>
         </li>
       </template>
@@ -100,7 +100,7 @@ export default {
   methods: {
     handleMysteryBoxes(event) {
       if (this.isLogin && this.userInfo?.id) {
-        ElMessage.warning("Comming soon");
+        ElMessage.warning(this.$t("common.tipsText"));
         return
         // eslint-disable-next-line no-unreachable
         this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });

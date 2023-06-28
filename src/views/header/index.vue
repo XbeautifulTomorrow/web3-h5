@@ -161,30 +161,8 @@ export default {
       web3: null,
       showConnect: false,
       pageType: "",
-      nav: [
-        {
-          text: "Home",
-          page: "home",
-        },
-        {
-          text: "Airdrop",
-          page: "Airdrop",
-        },
-        {
-          text: "Whitebook",
-          page: "Whitebook",
-        },
-        {
-          text: "FAQ",
-          page: "FAQ",
-        },
-      ],
-      userList: [
-        {
-          text: "Logout",
-          class: "logout",
-        },
-      ],
+      nav: [],
+      userList: [],
       NFTID: {
         tokenid: "",
         amount: 1,
@@ -205,6 +183,32 @@ export default {
   },
   created() {
     this.active = this.$route.name;
+
+    this.nav = [
+      {
+        text: this.$t("header.home"),
+        page: "home",
+      },
+      {
+        text: this.$t("header.airdrop"),
+        page: "Airdrop",
+      },
+      {
+        text: this.$t("header.whitebook"),
+        page: "Whitebook",
+      },
+      {
+        text: this.$t("header.faq"),
+        page: "FAQ",
+      },
+    ]
+
+    this.userList = [
+      {
+        text: this.$t("header.logout"),
+        class: "logout",
+      },
+    ]
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),

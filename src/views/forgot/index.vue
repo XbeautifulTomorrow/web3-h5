@@ -13,15 +13,15 @@
       <p class="public-dialog-title">{{ title }}</p>
       <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
         :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item label="Email" prop="email">
-          <el-input class="public-input" v-model="formLogin.email" placeholder="Enter your email" />
+        <el-form-item :label="$t('login.email')" prop="email">
+          <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
         </el-form-item>
         <div class="form-buttons">
           <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
-            Cancel
+            {{ $t("common.cancel") }}
           </el-button>
           <el-button class="public-button" @click="resetFun(ruleFormRef)">
-            Reset password
+            {{ $t("login.resetPwd") }}
           </el-button>
         </div>
       </el-form>
@@ -29,10 +29,10 @@
       <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" :formLogin="formLogin" />
       <template v-else>
         <p class="public-dialog-illustrate">
-          Your password has been reset, please log in again.
+          {{ $t("login.resetSuccess") }}
         </p>
         <el-button class="public-button" @click="goTo('login')">
-          Login
+          {{ $t("common.login") }}
         </el-button>
       </template>
     </div>
@@ -45,12 +45,15 @@ import { ElMessage } from "element-plus";
 import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
+import { setSessionStore } from "@/utils";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 // const router = useRouter();
 const visible = ref(true);
 const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const type = ref(0);
 const ruleFormRef = ref();
-const title = ref("Forgot password?");
+const title = ref(t("login.forgotTitle1"));
 let formLogin = reactive({
   email: "",
   passWord: "",
@@ -60,23 +63,24 @@ const rules = reactive({
   email: [
     {
       required: true,
-      message: "Email is a required field",
+      message: t("login.forgotEmailErr1"),
       trigger: "blur",
     },
     {
       type: "email",
-      message: "Email must be a valid email",
+      message: t("login.forgotEmailErr2"),
       trigger: ["blur", "change"],
     },
   ],
 });
 const changeTypeFun = (_type, data) => {
   if (_type === 0) {
-    title.value = "Forgot password?";
+    title.value = t("login.forgotTitle1");
   } else if (_type === 1) {
-    title.value = "Verification code";
+    setSessionStore("email", formLogin.email);
+    title.value = t("login.forgotTitle2");
   } else {
-    title.value = "Reset password";
+    title.value = t("login.forgotTitle3");
   }
   if (data) {
     formLogin = { ...formLogin, ...data };
@@ -101,7 +105,7 @@ const resetFun = async (formEl) => {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "The verification code has been sent successfully, please check your email",
+          message: t("login.sendHint"),
           type: "success",
         });
       }

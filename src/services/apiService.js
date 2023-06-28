@@ -2,6 +2,8 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
 import config from './env';
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
@@ -45,7 +47,7 @@ const handleRes = ({ type, url, data }) => {
 
     if (!notMessage.includes(url)) {
       ElMessage({
-        message: data.message,
+        message: t("errorTips." + data.messageKey),
         type: "warning",
       });
     }
@@ -57,7 +59,7 @@ const handleRes = ({ type, url, data }) => {
   } else {
     if (!notMessage.includes(url)) {
       ElMessage({
-        message: data.message,
+        message: t("errorTips." + data.messageKey),
         type: "warning",
       });
     }

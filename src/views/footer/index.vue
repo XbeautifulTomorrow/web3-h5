@@ -3,13 +3,13 @@
     <div class="footer-container">
       <div class="footer-logo">
         <img src="@/assets/img/headerFooter/footer_logo.png" alt="logo" />
-        <span>Copyright © 2023 Bitzing.io. All rights reserved.</span>
+        <span>{{ $t("footer.copyright", { year: year }) }}</span>
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
         <div class="footer-nav-items">
           <li class="footer-nav-text active">
-            MENU
+            {{ $t("footer.menu") }}
           </li>
           <ul class="footer-nav">
             <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`"
@@ -21,7 +21,7 @@
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
       </div>
       <div class="link_box">
-        <p class="footer-social">Social Media</p>
+        <p class="footer-social">{{ $t("footer.link") }}</p>
         <ul class="footer-link">
           <li class="footer-link-icon">
             <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
@@ -45,24 +45,8 @@ export default {
   components: {},
   data() {
     return {
-      nav: [
-        {
-          text: 'Home',
-          page: 'home',
-        },
-        {
-          text: 'Airdrop',
-          page: 'Airdrop',
-        },
-        {
-          text: 'Whitebook',
-          page: 'Whitebook',
-        },
-        {
-          text: 'FAQ',
-          page: 'FAQ',
-        },
-      ],
+      nav: [],
+      year: null
     };
   },
   methods: {
@@ -87,6 +71,28 @@ export default {
       }
     }
   },
+  created() {
+    this.nav = [
+      {
+        text: this.$t("header.home"),
+        page: "home",
+      },
+      {
+        text: this.$t("header.airdrop"),
+        page: "Airdrop",
+      },
+      {
+        text: this.$t("header.whitebook"),
+        page: "Whitebook",
+      },
+      {
+        text: this.$t("header.faq"),
+        page: "FAQ",
+      },
+    ];
+
+    this.year = new Date().getUTCFullYear();
+  }
 };
 </script>
 

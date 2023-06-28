@@ -3,12 +3,9 @@
     <div class="airdrop_container">
       <div class="banner_container">
         <div class="banner_l">
-          <div class="operation">CONNECT YOUR WALLET TO</div>
-          <div class="title">CLAIM AIRDROP</div>
-          <div class="description">
-            To earn point rewards, connect your wallets. The rewards you can earn
-            will be determined by the transaction history of your wallet.
-          </div>
+          <div class="operation">{{ $t("airdrop.airdropText1") }}</div>
+          <div class="title">{{ $t("airdrop.airdropText2") }}</div>
+          <div class="description">{{ $t("airdrop.airdropTips") }}</div>
         </div>
         <div class="banner_r">
           <img src="@/assets/svg/airdrop/banner.svg" alt="" />
@@ -22,7 +19,7 @@
         ]" @click="handleChange('point')">
           <img v-show="currentActive == 'point'" src="@/assets/svg/airdrop/icon_point_active.svg" alt="" />
           <img v-show="currentActive != 'point'" src="@/assets/svg/airdrop/icon_point.svg" alt="" />
-          <span>MY POINTS</span>
+          <span>{{ $t("airdrop.tabText1") }}</span>
         </div>
         <div :class="[
           'taps_item',
@@ -31,7 +28,7 @@
         ]" @click="handleChange('leaderboard')">
           <img v-show="currentActive == 'leaderboard'" src="@/assets/svg/airdrop/icon_leaderboard_active.svg" alt="" />
           <img v-show="currentActive != 'leaderboard'" src="@/assets/svg/airdrop/icon_leaderboard.svg" alt="" />
-          <span>LEADERBOARD</span>
+          <span>{{ $t("airdrop.tabText2") }}</span>
         </div>
         <div :class="[
           'taps_item',
@@ -40,7 +37,7 @@
         ]" @click="handleChange('referral')">
           <img v-show="currentActive == 'referral'" src="@/assets/svg/airdrop/icon_referral_active.svg" alt="" />
           <img v-show="currentActive != 'referral'" src="@/assets/svg/airdrop/icon_referral.svg" alt="" />
-          <span>MY REFERRAL LINK</span>
+          <span>{{ $t("airdrop.tabText3") }}</span>
         </div>
       </div>
       <div class="connect_wallet" v-if="!isConnect || !userInfo?.id">
@@ -50,55 +47,55 @@
           <img class="default_avatar" v-else src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
             <div class="username_text">
-              <span class="text-ellipsis">{{ userInfo?.id ? userInfo.userName : 'Nobody' }}</span>
+              <span class="text-ellipsis">{{ userInfo?.id ? userInfo.userName : $t("airdrop.defaultName") }}</span>
               <img v-if="userInfo?.id" @click="pageType = 'modify'" src="@/assets/svg/user/icon_modify.svg" alt="">
             </div>
             <div class="tips_text">
               <img src="@/assets/svg/airdrop/icon_wallet.svg" alt="" />
-              <span>Wallet is not connected.</span>
+              <span>{{ $t("airdrop.walletTips") }}</span>
             </div>
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">Login</div>
+          <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">{{ $t("common.login") }}</div>
           <div v-else-if="dateDiff(setting.regCountdownTime, currentTime) != 'ENDED'">
-            <div class="countdown_tips external">START IN</div>
+            <div class="countdown_tips external">{{ $t("airdrop.timeTips") }}</div>
             <div class="countdown">
               <countDown v-slot="timeObj" @onEnd="fetchAirdropData()" :time="setting.regCountdownTime" :end="currentTime">
-                <div class="countdown_tips internal">START IN</div>
+                <div class="countdown_tips internal">{{ $t("airdrop.timeTips") }}</div>
                 <div class="countdown_time_box">
                   <div class="countdown_item">
                     <div class="val">{{ timeObj.dd }}</div>
-                    <div class="text">DAYS</div>
+                    <div class="text">{{ $t("airdrop.day") }}</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">:</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">{{ timeObj.hh }}</div>
-                    <div class="text">HRS</div>
+                    <div class="text">{{ $t("airdrop.hour") }}</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">:</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">{{ timeObj.mm }}</div>
-                    <div class="text">MINS</div>
+                    <div class="text">{{ $t("airdrop.minutes") }}</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">:</div>
                   </div>
                   <div class="countdown_item">
                     <div class="val">{{ timeObj.ss }}</div>
-                    <div class="text">SECS</div>
+                    <div class="text">{{ $t("airdrop.seconds") }}</div>
                   </div>
                 </div>
               </countDown>
             </div>
           </div>
-          <div class="connect_btn" v-else @click="handleConnect()">Connect Wallet</div>
+          <div class="connect_btn" v-else @click="handleConnect()">{{ $t("airdrop.connectBtn") }}</div>
           <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime, currentTime) == 'ENDED'">
-            The wallet cannot be modified after it is connected.
+            {{ $t("airdrop.connectTips") }}
           </div>
         </div>
       </div>
@@ -139,13 +136,13 @@
       </div>
       <div class="link_box">
         <div class="operating_title">
-          <span>Connect Wallet</span>
+          <span>{{ $t("airdrop.connectBtn") }}</span>
         </div>
         <p class="public-dialog-illustrate">
-          Synchronizing wallet transaction data, please refresh this page after 10 minutes.
+          {{ $t("airdrop.syncTips") }}
         </p>
         <el-button class="public-button cancel" @click="handleClose()">
-          CONFIRM
+          {{ $t("airdrop.confirm") }}
         </el-button>
       </div>
     </el-dialog>
@@ -158,16 +155,16 @@
       </div>
       <div class="link_box">
         <div class="operating_title">
-          <span>Verify your account</span>
+          <span>{{ $t("airdrop.verifyTips") }}</span>
         </div>
         <p class="public-dialog-illustrate">
-          To finish connecting, you must sign a message in your wallet to verify that you are the owner of this account.
+          {{ $t("airdrop.verifyText") }}
         </p>
         <el-button class="public-button" @click="bindWallet()">
-          Send message
+          {{ $t("airdrop.verifyBtn") }}
         </el-button>
         <el-button class="public-button cancel" @click="handleClose()">
-          Cancel
+          {{ $t("common.cancel") }}
         </el-button>
       </div>
     </el-dialog>
@@ -293,7 +290,7 @@ export default {
     },
     handleConnect() {
       if (!this.isLogin) {
-        ElMessage.error("Please log in and try again.");
+        ElMessage.error(this.$t("airdrop.loginText"));
         return
       }
 
@@ -316,7 +313,7 @@ export default {
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
-        ElMessage.error("Please install MetaMask");
+        ElMessage.error(this.$t("airdrop.installTips"));
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum
@@ -327,7 +324,7 @@ export default {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error("Connection to wallet failed");
+              ElMessage.error(this.$t("airdrop.failedTips"));
             }
           })
           .then(async (accounts) => {
@@ -358,7 +355,7 @@ export default {
           // 用户拒绝登录后执行语句；
         } else {
           // 本不该执行到这里，但是真到这里了，说明发生了意外
-          ElMessage.error("Connection to wallet failed");
+          ElMessage.error(this.$t("airdrop.failedTips"));
         }
       })
         .then(async (accounts) => {
@@ -414,7 +411,7 @@ export default {
     // 测试绑定钱包
     async bindTestWallet() {
       if (!this.walletAddr) {
-        ElMessage.error("Please enter wallet address");
+        ElMessage.error(this.$t("airdrop.enterTips"));
         return
       }
       const bindRes = await linkWallet({

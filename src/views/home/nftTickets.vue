@@ -1,8 +1,8 @@
 <template>
   <div class="ntf-tickets">
     <div class="home-public-title">
-      <div class="title_text">COMPETITION</div>
-      <div class="title_description">Enter now for a chance to win a blue-chip NFT.</div>
+      <div class="title_text">{{ $t("home.nftTicketTitle") }}</div>
+      <div class="title_description">{{ $t("home.nftTicketTips") }}</div>
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in tickets">
@@ -12,7 +12,7 @@
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span>Comming soon</span>
+                <span>{{ $t("common.tipsText") }}</span>
                 <!-- <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
@@ -22,7 +22,7 @@
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
-                <span>Comming soon</span>
+                <span>{{ $t("common.tipsText") }}</span>
                 <!-- <span>
                   {{
                     `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0).toString()} TICKETS LEFT`
@@ -42,7 +42,7 @@
             {{ `${item.price} ETH` }}
           </div>
           <div class="boxes-button">
-            <span class="boxes-button-name">ENTER NOW</span>
+            <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
           </div>
           <div class="sold-box">
             {{ `${item.numberOfTicketsSold || 0} Ticket${(item.numberOfTicketsSold || 0) > 1 ? 's' : ''} sold` }}
@@ -141,7 +141,7 @@ export default {
     bigNumber: bigNumber,
     handleTickets(event) {
       if (this.isLogin && this.userInfo?.id) {
-        ElMessage.warning("Comming soon");
+        ElMessage.warning(this.$t("common.tipsText"));
         return
         // eslint-disable-next-line no-unreachable
         this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });

@@ -10,16 +10,17 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">Login</p>
+      <p class="public-dialog-title">{{ $t("common.login") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item label="Email" prop="account">
+        <el-form-item :label="$t('login.email')" prop="account">
           <!-- SuccessFilled -->
           <!-- CircleCloseFilled -->
-          <el-input class="public-input" v-model="formLogin.account" placeholder="Enter your email" />
+          <el-input class="public-input" v-model="formLogin.account" :placeholder="$t('login.emailHint')" />
         </el-form-item>
-        <el-form-item label="Password" prop="passWord">
-          <el-input class="public-input" v-model="formLogin.passWord" placeholder="Enter your password" type="password" />
+        <el-form-item :label="$t('login.password')" prop="passWord">
+          <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')"
+            type="password" />
         </el-form-item>
       </el-form>
       <div class="form-link">
@@ -27,17 +28,17 @@
           <span class="form-rember-rectangle" @click="showRememberFun">
             <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
           </span>
-          <span class="form-rember-text">Remember me</span>
+          <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
         </div>
-        <div class="form-forgot" @click="goTo('forgot')">Forgot password?</div>
+        <div class="form-forgot" @click="goTo('forgot')">{{ $t("login.goForgot") }}</div>
       </div>
       <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
-        Login
+        {{ $t("common.login") }}
       </el-button>
       <p class="form-register">
-        <span>Not registered yet?</span>
+        <span>{{ $t("common.notRegisteredHint") }}</span>
         <span class="form-register-link" @click="goTo('register')">
-          REGISTER
+          {{ $t("common.registerUpper") }}
         </span>
       </p>
     </div>
@@ -49,6 +50,8 @@ import { ElMessage } from "element-plus";
 // import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
 import { getLogin } from "@/services/api/user";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const userStore = useUserStore();
 // const router = useRouter();
@@ -65,14 +68,14 @@ const rules = reactive({
     {
       type: "email",
       required: true,
-      message: "Email is incorrect, please check and try again.",
+      message: t("login.emailErr"),
       trigger: ["blur", "change"],
     },
   ],
   passWord: [
     {
       required: true,
-      message: "Password is incorrect, please check and try again.",
+      message: t("login.passwordErr"),
       trigger: ["blur", "change"],
     },
   ],
@@ -113,7 +116,7 @@ const loginFun = async (formEl) => {
         }
         if (res.data.userType !== "NORMAL") {
           ElMessage({
-            message: "Abnormal account",
+            message: t("common.abnormal"),
             type: "warning",
           });
         }

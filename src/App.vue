@@ -1,19 +1,30 @@
 <template>
-  <div class="bg-panl">
-    <div class="gradual-bg"></div>
-    <div class="gradual-bg"></div>
-    <div class="gradual-bg"></div>
-    <div class="gradual-bg"></div>
-    <router-view class="font-family" name="Header"></router-view>
-    <router-view class="font-family" name="Currency"></router-view>
-    <router-view class="wrapper_panel font-family"></router-view>
-    <router-view class="font-family" name="Footer"></router-view>
-  </div>
+  <el-config-provider :locale="locale">
+    <div class="bg-panl">
+      <div class="gradual-bg"></div>
+      <div class="gradual-bg"></div>
+      <div class="gradual-bg"></div>
+      <div class="gradual-bg"></div>
+      <router-view class="font-family" name="Header"></router-view>
+      <router-view class="font-family" name="Currency"></router-view>
+      <router-view class="wrapper_panel font-family"></router-view>
+      <router-view class="font-family" name="Footer"></router-view>
+    </div>
+  </el-config-provider>
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
 export default {
   name: "App",
+  computed: {
+    ...mapStores(useUserStore),
+    locale() {
+      const { locale } = this.userStore;
+      return locale
+    }
+  }
 };
 </script>
 

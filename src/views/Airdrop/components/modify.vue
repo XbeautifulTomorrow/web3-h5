@@ -9,18 +9,18 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">PLEASE ENTER THE USER NAME</p>
+      <p class="public-dialog-title">{{ $t("airdrop.pleaseNameTitle") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item prop="name">
-          <el-input class="public-input" v-model="formUser.name" placeholder="Please enter 8-32 characters" />
+          <el-input class="public-input" v-model="formUser.name" :placeholder="$t('airdrop.nameHint')" />
         </el-form-item>
         <div class="form-buttons">
           <el-button class="public-button cancel-button" @click="handleClose()">
-            CANCEL
+            {{ $t("common.cancelUpper") }}
           </el-button>
           <el-button class="public-button" @click="resetUserName('ruleFormRef')">
-            SUBMIT
+            {{ $t("common.submit") }}
           </el-button>
         </div>
       </el-form>
@@ -64,7 +64,7 @@ export default {
             }
             this.userStore.setLogin(users);
             this.handleClose();
-            this.$message.success('Operation succeeded!');
+            this.$message.success(this.$t("common.operationTips"));
           }
         } else {
           console.log('error submit!!');
@@ -89,8 +89,8 @@ export default {
   created() {
     this.rules = {
       name: [
-        { required: true, message: "please enter user name", trigger: ["blur", "change"] },
-        { min: 8, max: 20, message: 'Username must be 8-32 characters', trigger: ["blur", "change"] }
+        { required: true, message: this.$t("airdrop.pleaseName"), trigger: ["blur", "change"] },
+        { min: 8, max: 20, message: this.$t("airdrop.nameTips"), trigger: ["blur", "change"] }
       ]
     }
   }

@@ -10,25 +10,25 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">Welcome</h2>
+      <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item label="Email" prop="email">
-          <el-input v-model="formRegister.email" class="public-input" placeholder="Enter your email" />
+        <el-form-item label="Email" :prop="$t('login.email')">
+          <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
         </el-form-item>
-        <el-form-item label="Password" prop="passWord">
-          <el-input v-model="formRegister.passWord" class="public-input" placeholder="Enter your password" type="password"
-            show-password />
-        </el-form-item>
-        <el-form-item label="Confirm password" prop="confirm">
-          <el-input v-model="formRegister.confirm" class="public-input" placeholder="Enter your password again"
+        <el-form-item :label="$t('login.password')" prop="passWord">
+          <el-input v-model="formRegister.passWord" class="public-input" :placeholder="$t('login.passwordHint')"
             type="password" show-password />
         </el-form-item>
-        <el-form-item class="register-captcha" label="Captcha" prop="captcha">
-          <el-input v-model="formRegister.captcha" class="public-input" placeholder="Enter your captcha">
+        <el-form-item :label="$t('login.confirmPwd')" prop="confirm">
+          <el-input v-model="formRegister.confirm" class="public-input" :placeholder="$t('login.confirmPwdHint')"
+            type="password" show-password />
+        </el-form-item>
+        <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
+          <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
             <template #suffix>
               <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
-                {{ time < 60 ? `${time}s` : "Send" }} </el-button>
+                {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
             </template>
           </el-input>
         </el-form-item>
@@ -39,24 +39,25 @@
           />
         </el-form-item> -->
       </el-form>
+      <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
       <div class="form-link">
         <div class="form-rember">
           <span class="form-rember-rectangle" @click="showRememberFun">
             <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
           </span>
           <span class="form-rember-text">
-            By creating your account, you confirm that you are at least 18 years
-            old and agree to our terms and Conditions
+            {{ $t("login.termsText") }}
           </span>
         </div>
       </div>
       <el-button v-if="!showRemember" class="public-button form-button disabled">
-        COMPLETE REGISTRATION
+        {{ $t("login.completeUpper") }}
       </el-button>
       <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
-        COMPLETE REGISTRATION
+        {{ $t("login.completeUpper") }}
       </el-button>
     </div>
+    <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
   </el-dialog>
 </template>
 <script setup>
@@ -64,14 +65,18 @@ import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
+import errorTips from "./errorTips.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
-import { getSessionStore } from "@/utils";
+import { getSessionStore, setSessionStore } from "@/utils";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 // const router = useRouter();
 const userStore = useUserStore();
 const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 let timer = null;
 const visible = ref(true);
+const showErr = ref(false);
 const showRemember = ref(false);
 const ruleFormRef = ref();
 const time = ref(60);
@@ -88,15 +93,15 @@ const validatePass = (rule, value, callback) => {
   const numStr = /^(?=.*[0-9]).{8,}$/
 
   if (value === "") {
-    callback(new Error("Please input the password"));
+    callback(new Error(t("login.passwordErrText1")));
   } else if (value && value.length < 8) {
-    callback(new Error("Password must be longer than 8 characters"));
+    callback(new Error(t("login.passwordErrText2")));
   } else if (!upperStr.test(value)) {
-    callback(new Error("Password must contain at least 1 upper case character"));
+    callback(new Error(t("login.passwordErrText3")));
   } else if (!lowerStr.test(value)) {
-    callback(new Error("Password must contain at least 1 lower case character"));
+    callback(new Error(t("login.passwordErrText4")));
   } else if (!numStr.test(value)) {
-    callback(new Error("Password must contain at least 1 number"));
+    callback(new Error(t("login.passwordErrText5")));
   } else {
     if (formRegister.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -107,26 +112,27 @@ const validatePass = (rule, value, callback) => {
 };
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
-    callback(new Error("Please input the password again"));
+    callback(new Error(t("login.captchaErrText1")));
   } else if (value !== formRegister.passWord) {
-    callback(new Error("Two inputs don't match!"));
+    callback(new Error(t("login.captchaErrText2")));
   } else {
     callback();
   }
 };
+
 const rules = reactive({
   email: [
     {
       type: "email",
       required: true,
-      message: "Email is incorrect, please check and try again.",
+      message: t("login.emailErr"),
       trigger: ["blur", "change"],
     },
   ],
   captcha: [
     {
       required: true,
-      message: "captcha is incorrect, please check and try again.",
+      message: t("login.captchaErrText3"),
       trigger: "blur",
     },
   ],
@@ -143,6 +149,28 @@ const closeDialogFun = () => {
 const showRememberFun = () => {
   showRemember.value = !showRemember.value;
 };
+const changeTypePage = () => {
+  emit("changeTypeFun", "login")
+};
+
+const showDialog = () => {
+  if (!formRegister.email) {
+    ElMessage({
+      message: t("login.emailHint"),
+      type: "error",
+    });
+
+    return
+  }
+
+  setSessionStore("email", formRegister.email);
+  showErr.value = true;
+}
+const handleClose = () => {
+  showErr.value = false
+}
+
+
 const clearTimerFun = () => {
   clearInterval(timer);
   timer = null;
@@ -164,7 +192,7 @@ const getCaptchaApi = async (formEl) => {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "The verification code has been sent successfully, please check your email",
+          message: t("login.sendHint"),
           type: "success",
         });
       }
@@ -179,7 +207,7 @@ const registerFun = async (formEl) => {
     if (valid) {
       if (!showRemember.value) {
         ElMessage({
-          message: "Please agree to the terms",
+          message: t("login.termsHint"),
           type: "warning",
         });
         return;
@@ -265,6 +293,10 @@ const registerFun = async (formEl) => {
   margin: 2.5rem 0 0;
 }
 
+.tips_btn {
+  padding-bottom: 1.875rem;
+}
+
 @media (max-width: 950px) {
 
   .form-rember-rectangle {
@@ -295,5 +327,8 @@ const registerFun = async (formEl) => {
     margin: 0.875rem 0 0;
   }
 
+  .tips_btn {
+    padding: 0.75rem;
+  }
 }
 </style>

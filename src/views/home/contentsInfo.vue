@@ -2,9 +2,9 @@
   <div class="contents-info">
     <div class="home-public-title">
       <div class="title-box-l">
-        <div class="title_text">NFT DETAILS</div>
+        <div class="title_text">{{ $t("home.contentsInfoTitle") }}</div>
         <div class="title_description">
-          All the NFTs shown here are available from the mystery box.
+          {{ $t("home.contentsInfoTips") }}
         </div>
       </div>
       <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
@@ -22,19 +22,19 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" label="Collection" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="price" label="Price" show-overflow-tooltip>
+      <el-table-column prop="nftName" :label="$t('home.tabelText1')" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="price" :label="$t('home.tabelText2')" show-overflow-tooltip>
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" label="USD Price" min-width="100" show-overflow-tooltip>
+      <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" min-width="100" show-overflow-tooltip>
         <template #default="scope">
           {{ `$${scope.row.usdtPrice}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" label="Recommended" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="date" label="Action" align="right" fixed="right">
+      <el-table-column prop="boxName" :label="$t('home.tabelText4')" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="date" :label="$t('home.tabelText5')" align="right" fixed="right">
         <template #default>
           <div class="active_btn">
             <img src="@/assets/svg/home/icon_active.svg" alt="">
@@ -44,7 +44,7 @@
     </el-table>
     <div class="pagination-box">
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-        layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
   </div>
 </template>

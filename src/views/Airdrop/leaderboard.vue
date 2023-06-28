@@ -2,20 +2,20 @@
   <div class="leaderboard_container">
     <div class="statistics_box">
       <div>
-        <div class="statistics_title">VERIFIED USERS</div>
+        <div class="statistics_title">{{ $t("airdrop.verifiedUser") }}</div>
         <div class="statistics_content">
           <div class="statistics_item">
-            <div class="label">TOTAL USERS</div>
+            <div class="label">{{ $t("airdrop.totalUsers") }}</div>
             <div class="val">{{ statistics && statistics.totalUser }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">TOTAL POINTS</div>
+            <div class="label">{{ $t("airdrop.totalPoints") }}</div>
             <div class="val">{{ statistics && statistics.totalPoint }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">TOTAL NFTS</div>
+            <div class="label">{{ $t("airdrop.totalNft") }}</div>
             <div class="val">{{ statistics && statistics.totalNft }}</div>
           </div>
         </div>
@@ -28,12 +28,12 @@
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">TOTAL POINT</div>
+            <div class="label">{{ $t("airdrop.totalPoint") }}</div>
             <div class="val">{{ accountPoint && accountPoint || "--" }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">TOTAL NFTS</div>
+            <div class="label">{{ $t("airdrop.totalNft") }}</div>
             <div class="val">{{ accountPoint ? airdrop.walletHoldNft : "--" }}</div>
           </div>
         </div>
@@ -41,10 +41,10 @@
     </div>
     <div class="tabel_container">
       <div class="tabel_thead tabel_item">
-        <div class="rank">RANK</div>
-        <div class="user_info">USER INFO</div>
-        <div class="point">POINT</div>
-        <div class="date">DATE</div>
+        <div class="rank">{{ $t("airdrop.ranking") }}</div>
+        <div class="user_info">{{ $t("airdrop.userInfo") }}</div>
+        <div class="point">{{ $t("airdrop.point") }}</div>
+        <div class="date">{{ $t("airdrop.date") }}</div>
       </div>
       <div class="tabel_tbody">
         <div class="tabel_tbody_item tabel_item" v-for="(item, index) in rankList" :key="index">
@@ -52,7 +52,7 @@
           <div class="user_info">
             <img src="@/assets/svg/user/default_avatar.svg" alt="" />
             <div class="user_box">
-              <div class="name_text text-ellipsis">{{ item.userName || "Nobody" }}</div>
+              <div class="name_text text-ellipsis">{{ item.userName || $t("airdrop.defaultName") }}</div>
               <div class="wallet_box text-ellipsis">
                 <img src="@/assets/svg/airdrop/icon_eth.svg" alt="">
                 <span>{{ formatAddr(item.walletAddress) || "--" }}</span>
@@ -61,19 +61,19 @@
           </div>
           <div class="point">
             <div class="point_item total">
-              <div class="title">TOTAL</div>
+              <div class="title">{{ $t("airdrop.total") }}</div>
               <div class="val">{{ pointCalculation(item) }}</div>
             </div>
             <div class="point_item">
-              <div class="title">WALLET POINT</div>
+              <div class="title">{{ $t("airdrop.walletPoint") }}</div>
               <div class="val">{{ item.walletPoint }}</div>
             </div>
             <div class="point_item">
-              <div class="title">UNISWAP POINT</div>
+              <div class="title">{{ $t("airdrop.uniswapPoint") }}</div>
               <div class="val">{{ item.uniswapPoint }}</div>
             </div>
             <div class="point_item">
-              <div class="title">OPENSEA POINT</div>
+              <div class="title">{{ $t("airdrop.openSeaPoint") }}</div>
               <div class="val">{{ item.openseaPoint }}</div>
             </div>
           </div>

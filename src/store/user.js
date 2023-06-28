@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
-import {
-  getLocalStore,
-} from "@/utils";
+import { getLocalStore } from "@/utils";
+
+import localeZH from 'element-plus/lib/locale/lang/zh-tw';
+import localeEN from 'element-plus/lib/locale/lang/en';
+import { getLang } from "@/locales";
 
 // const cookiesStorage = {
 //     setItem (key, state) {
@@ -20,6 +22,7 @@ import {
 
 export const useUserStore = defineStore("user", {
   state: () => ({
+    locale: getLang() == "en" ? localeEN : localeZH,
     userInfo: undefined,
     regInfo: undefined,
     isLogin: getLocalStore("certificate") ? true : false
@@ -38,6 +41,9 @@ export const useUserStore = defineStore("user", {
     },
     setReg(data) {
       this.regInfo = data;
+    },
+    setLocale(data) {
+      this.locale = data == "en" ? localeEN : localeZH;
     },
     logoutApi() {
       sessionStorage.clear();

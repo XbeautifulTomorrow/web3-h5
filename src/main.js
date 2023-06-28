@@ -4,6 +4,7 @@ import App from './App.vue';
 import dayjs from 'dayjs';
 import ElementPlus from 'element-plus';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+import { i18n } from "@/locales";
 
 import store from './store/index';
 
@@ -38,6 +39,7 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   }
 }
 
+app.use(i18n);
 app.use(store);
 app.use(dayjs);
 app.use(ElementPlus, { size: 'large', zIndex: 3000 });

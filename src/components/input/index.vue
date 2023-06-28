@@ -22,7 +22,7 @@ export default {
   name: 'InputCom',
   props: {
     modelValue: {
-      type: Number
+      type: Number,
     },
     placeholder: {
       type: String,

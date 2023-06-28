@@ -10,7 +10,7 @@
               <img @click="showModify = true" src="@/assets/svg/user/icon_modify.svg" alt="">
             </div>
             <div class="title_btn" v-if="!accountPoint">
-              <span class="title_btn_text">Waiting for data synchronization...</span>
+              <span class="title_btn_text">{{ $t("airdrop.syncText") }}</span>
             </div>
           </div>
           <div class="tips_text">
@@ -21,15 +21,15 @@
       </div>
       <div class="user_info_r">
         <div class="data_item">
-          <div class="item_label">RANK</div>
+          <div class="item_label">{{ $t("airdrop.ranking") }}</div>
           <div class="item_data rank">{{ accountPoint ? airdrop.rankIndex || "--" : "--" }}</div>
         </div>
         <div class="data_item">
-          <div class="item_label">TOTAL POINT</div>
+          <div class="item_label">{{ $t("airdrop.totalPoint") }}</div>
           <div class="item_data">{{ accountPoint ? accountPoint : "--" }}</div>
         </div>
         <div class="data_item">
-          <div class="item_label">REGISTRATION TIME</div>
+          <div class="item_label">{{ $t("airdrop.registrationTime") }}</div>
           <div class="item_data">{{ timeFormat(airdrop.regTime) }}</div>
         </div>
       </div>
@@ -53,14 +53,14 @@
           </div>
         </div>
         <div class="statistics_time" v-for="(event, key, i) in item.detail" :key="i">
-          <div class="title">{{ key }}</div>
+          <div class="title">{{ $t("airdrop." + key) }}</div>
           <div class="val">{{ accountPoint ? event == null ? "--" : event : "--" }}</div>
         </div>
       </div>
       <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
         <div class="no_date" v-if="!accountPoint || !nftList.length > 0">
-          <div class="tips_text" v-if="!accountPoint">NFT data synchronization in...</div>
-          <div class="tips_text" v-else>NO NFT FOUND</div>
+          <div class="tips_text" v-if="!accountPoint">{{ $t("airdrop.syncNft") }}</div>
+          <div class="tips_text" v-else>{{ $t("airdrop.noData") }}</div>
         </div>
         <div class="nft_box" v-if="accountPoint && nftList.length > 0">
           <div class="nft_item" v-for="(item, index) in nftList" :key="index">
@@ -139,8 +139,7 @@ export default {
       showModify: false,
       formUser: {
         name: null
-      },
-      rules: {}
+      }
     };
   },
   computed: {
@@ -148,52 +147,52 @@ export default {
       const { airdrop } = this;
       return [
         {
-          statisticsType: "UNISWAP POINT",
+          statisticsType: this.$t("airdrop.uniswapPoint"),
           tips: {
-            tips: "Only ETH's transactions will be involved in the statistics.",
-            title: "The formula is as follows:",
+            tips: this.$t("airdrop.uniswapTitle"),
+            title: this.$t("airdrop.uniswapTips"),
             detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
-            Duration: `${airdrop.uniswapDay} Days`, //uniwap刚链接的瞬间的使用天数
+            Duration: this.$t("airdrop.dayNum", { days: airdrop.uniswapDay }), //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
             "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 4)} ETH`, //uniwap兑换总额
             "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
           }
         },
         {
-          statisticsType: "OPENSEA POINT",
+          statisticsType: this.$t("airdrop.openSeaPoint"),
           tips: {
-            title: "The opensea points formula is as follows:",
+            title: this.$t("airdrop.openSeaTitle"),
             detail: "TXN*20/(20+TXN)*10+PUR^2/(PUR+SALE)*2*DU*180/(180+DU)*2*FACTOR"
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
-            Duration: `${airdrop.openseaDay} Days`, //opensea刚链接的瞬间的使用天数
+            Duration: this.$t("airdrop.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
             "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 4)} ETH`, //opensea购买金额
             "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 4)} ETH`, //opensea售卖金额
           }
         },
         {
-          statisticsType: "WALLET POINT",
+          statisticsType: this.$t("airdrop.walletPoint"),
           tips: {
-            title: "The Wallet point formula is as follows:",
+            title: this.$t("airdrop.walletTitle"),
             detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.walletPoint,
           detail: {
-            Duration: `${airdrop.walletDay} Days`, //钱包使用天数
+            Duration: this.$t("airdrop.dayNum", { days: airdrop.walletDay }), //钱包使用天数
             "Total NFT": airdrop.walletHoldNft, //持有NFT数量
             "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": `${airdrop.walletLongestDay} Days`, //钱包最长天数
+            "Max Holding Time": this.$t("airdrop.dayNum", { days: airdrop.walletLongestDay }), //钱包最长天数
           }
         },
         {
-          statisticsType: "REFERRALS",
+          statisticsType: this.$t("airdrop.referrals"),
           tips: {
-            title: "After inviting one user to sign up for Connect Wallet and earn points, you will receive an extra 10% bonus.",
+            title: this.$t("airdrop.referralsTitle"),
             detail: ""
           },
           totalPoint: airdrop.invatePoint,
@@ -324,13 +323,6 @@ export default {
     },
   },
   created() {
-    this.rules = {
-      name: [
-        { required: true, message: "please enter user name", trigger: ["blur", "change"] },
-        { min: 8, max: 20, message: 'Username must be 8-32 characters', trigger: ["blur", "change"] }
-      ]
-    }
-
     // 如果未同步就不加载Nft列表
     if (!this.accountPoint) return;
     this.fetchWalletNft();

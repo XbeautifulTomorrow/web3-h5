@@ -14,13 +14,13 @@
                     <span>$10k</span>
                 </div>
             </div>
-            <div class="level_description">INVITE USERS</div>
-            <div class="level_description">TO EARN MORE</div>
-            <div class="level_description">REWARDS</div>
+            <div class="level_description">{{ $t("home.bannerText1") }}</div>
+            <div class="level_description">{{ $t("home.bannerText2") }}</div>
+            <div class="level_description">{{ $t("home.bannerText3") }}</div>
             <div class="level_description_text">
-                Tell your friends about Bitzing to get an extra 10% bonus on sign-up points.
+                {{ $t('home.bannerTips') }}
             </div>
-            <div class="invite_button" @click="goAirdrop()">GO TO AIRDROP</div>
+            <div class="invite_button" @click="goAirdrop()">{{ $t("home.bannerBtn") }}</div>
         </div>
         <div class="banner_box">
             <img src="@/assets/svg/home/banner.svg" alt="">

@@ -5,12 +5,14 @@
       <input-number v-model.number="formData.code[index]" :autofocus="autofocus[index]" :maxlength="1" :ref="inputEle" />
     </el-form-item>
     <p class="explain-text">
-      Please check your email for the verification code
+      {{ $t("login.verificationHint") }}
     </p>
     <el-button :class="['public-button', { 'cancel-button': !isAgain }]" @click="codeFun">
-      Send again
+      {{ $t("login.sendAgain") }}
       <template v-if="!isAgain"> ({{ time }}) </template>
     </el-button>
+    <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
+    <error-tips v-if="showErr" :isReturn="false" @closeFun="handleClose()"></error-tips>
   </el-form>
 </template>
 <script>
@@ -19,10 +21,12 @@ import { ElMessage } from "element-plus";
 
 import { getCaptcha, getCheckCaptcha } from "@/services/api/user";
 import InputNumber from "@/components/input/inputNumber.vue";
+import errorTips from "../register/errorTips.vue";
 export default {
   name: "CodePage",
   components: {
     InputNumber,
+    errorTips
   },
   props: {
     email: {
@@ -41,12 +45,21 @@ export default {
       time: 59,
       isAgain: false,
     });
+    const showErr = ref(false);
     const codeForm = ref(null);
     const inputref = ref([]);
     let timer = ref(null);
     const inputEle = (el) => {
       inputref.value.push(el);
     };
+
+    const showDialog = () => {
+      showErr.value = true;
+    }
+    const handleClose = () => {
+      showErr.value = false
+    }
+
     onMounted(() => {
       initializationFun();
       timerFun();
@@ -108,10 +121,15 @@ export default {
       const inputElement = document.getElementsByClassName("el-input__inner");
       const Length = code.length;
       for (let i = Length - 1; i > -1; i--) {
-        const value = code[i].toString();
+        let value;
+        try {
+          value = code[i].toString();
+        } catch (error) {
+          value = "";
+        }
         if (value) {
           inputElement[i].focus();
-          state.formData.code[i] = "";
+          state.formData.code[i] = null;
           return;
         }
       }
@@ -131,7 +149,7 @@ export default {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: "The verification code has been sent successfully, please check your email",
+          message: this.$t("login.sendHint"),
           type: "success",
         });
       } else {
@@ -139,7 +157,10 @@ export default {
       }
     };
     const checkCaptchaFun = async () => {
-      if (timer.value) return
+      if (timer.value) {
+        clearTimeout(timer.value);
+      }
+
       const codeV = state.formData.code.join("");
 
       timer.value = setTimeout(async () => {
@@ -153,7 +174,7 @@ export default {
           emit("changeTypeFun", 2, { captcha: codeV });
         } else {
           ElMessage({
-            message: "Verification code error, please re-enter",
+            message: this.$t("login.sendAgainErr"),
             type: "error",
           });
           initializationFun();
@@ -166,7 +187,12 @@ export default {
         const Length = newVal.length;
         const inputElement = document.getElementsByClassName("el-input__inner");
         for (let i = 0; i < Length; i++) {
-          const value = newVal[i].toString();
+          let value;
+          try {
+            value = newVal[i].toString();
+          } catch (error) {
+            value = "";
+          }
           if (!value) {
             if (inputElement[i]) {
               inputElement[i].focus();
@@ -174,6 +200,10 @@ export default {
             return;
           } else {
             if (value.length > 0) {
+              if (value.length > 1) {
+                state.formData.code[i] = Number(value.charAt(0));
+                return
+              }
               state.formData.code[i] = Number(value.charAt(value.length - 1));
             }
           }
@@ -184,6 +214,9 @@ export default {
     );
     return {
       ...toRefs(state),
+      showErr,
+      showDialog,
+      handleClose,
       closePopup,
       clearFun,
       codeFun,
@@ -246,6 +279,10 @@ export default {
   opacity: 1;
 }
 
+.tips_btn {
+  padding-top: 1.875rem;
+}
+
 @media screen and (max-width: 950px) {
   .code-form {
     display: inline-block;
@@ -285,6 +322,10 @@ export default {
 
   .button-item {
     opacity: 1;
+  }
+
+  .tips_btn {
+    padding-top: 0.75rem;
   }
 }
 </style>

@@ -1,26 +1,26 @@
 <template>
   <div class="referral_container">
-    <div class="referral_title">MY BIGZING AIRDROP REFERRAL LINK</div>
+    <div class="referral_title">{{ $t("airdrop.referralsTitles") }}</div>
     <div class="step_box">
       <div class="step_item">
         <img src="@/assets/svg/airdrop/icon_connect_wallet.svg" alt="">
         <div class="dots">1</div>
-        <div class="description">Connect wallet and copy your referral link below</div>
+        <div class="description">{{ $t("airdrop.referralsText1") }}</div>
       </div>
       <div class="step_item">
         <img src="@/assets/svg/airdrop/icon_share_link.svg" alt="">
         <div class="dots">2</div>
-        <div class="description">Send the link to your friend or share in your socials</div>
+        <div class="description">{{ $t("airdrop.referralsText2") }}</div>
       </div>
       <div class="step_item">
         <img src="@/assets/svg/airdrop/icon_successfully_invited.svg" alt="">
         <div class="dots">3</div>
-        <div class="description">Any user connect wallet and sign in with your link.</div>
+        <div class="description">{{ $t("airdrop.referralsText3") }}</div>
       </div>
       <div class="step_item">
         <img src="@/assets/svg/airdrop/icon_calculate_income.svg" alt="">
-        <div class="dots">4 </div>
-        <div class="description">As the referrer, you will get 10% points as rewards from each verified user.</div>
+        <div class="dots">4</div>
+        <div class="description">{{ $t("airdrop.referralsText4") }}</div>
       </div>
       <div class="interval_box">
         <img src="@/assets/svg/airdrop/icon_arrow.svg" alt="">
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="statistics_panel">
-      <div class="statistics_title">YOUR STATISTICS</div>
+      <div class="statistics_title">{{ $t("airdrop.yourStatistics") }}</div>
       <div class="statistics_box">
         <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
           <div class="statistics_type">
@@ -37,43 +37,43 @@
             <div class="val">{{ item.totalData }}</div>
           </div>
           <div class="statistics_time">
-            <div class="title">Today</div>
+            <div class="title">{{ $t("airdrop.toDay") }}</div>
             <div class="val">{{ item.todayData }}</div>
           </div>
           <div class="statistics_time">
-            <div class="title">Yesterday</div>
+            <div class="title">{{ $t("airdrop.yesterday") }}</div>
             <div class="val">{{ item.yesterdayData }}</div>
           </div>
           <div class="statistics_time">
-            <div class="title">This month</div>
+            <div class="title">{{ $t("airdrop.thisMonth") }}</div>
             <div class="val">{{ item.thisMonthData }}</div>
           </div>
           <div class="statistics_time">
-            <div class="title">Last month</div>
+            <div class="title">{{ $t("airdrop.lastMonth") }}</div>
             <div class="val">{{ item.lastMonthData }}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="create_invite_code">
-      <div class="create_title">SET CUSTOM REFERRALS CODE</div>
+      <div class="create_title">{{ $t("airdrop.setCodeTips") }}</div>
       <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
         <template #append>
-          <div class="create_btn" @click="createInvite()">CREATE</div>
+          <div class="create_btn" @click="createInvite()">{{ $t("airdrop.createBtn") }}</div>
         </template>
       </el-input>
       <div class="create_error">{{ inviteTips }}</div>
     </div>
     <el-table :data="inviteList" class="table_container" style="width: 100%">
-      <el-table-column prop="inviteCode" label="CODE" align="center" />
-      <el-table-column prop="invitePeople" label="REFS" align="center" />
-      <el-table-column prop="pointAmount" label="REGIST" align="center" />
+      <el-table-column prop="inviteCode" :label="$t('airdrop.code')" align="center" />
+      <el-table-column prop="invitePeople" :label="$t('airdrop.refs')" align="center" />
+      <el-table-column prop="pointAmount" :label="$t('airdrop.regist')" align="center" />
       <el-table-column prop="traAmount" label="%" align="center">
         <template #default>
           {{ commissionrate }}
         </template>
       </el-table-column>
-      <el-table-column prop="extraPointAmount" label="BONUS" align="center"></el-table-column>
+      <el-table-column prop="extraPointAmount" :label="$t('airdrop.bonus')" align="center"></el-table-column>
       <el-table-column label="COPY" align="center" fixed="right">
         <template #default="scope">
           <div class="copy_btn">
@@ -155,11 +155,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = "Please enter the invitation code here";
+        this.inviteTips = this.$t("airdrop.enterCodeHint");
         this.verifys = false;
         return
       } else if (inviteCode.length < 3) {
-        this.inviteTips = "Must be at least 3 characters";
+        this.inviteTips = this.$t("airdrop.enterCodeNum");
         this.verifys = false;
         return
       }
@@ -176,7 +176,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteCode = null;
-        this.$message.success("Created successfully");
+        this.$message.success(this.$t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },

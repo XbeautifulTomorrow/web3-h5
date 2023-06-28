@@ -1,15 +1,18 @@
 <template>
   <div class="wrapper_bg">
     <div class="my_wallet_wrapper">
-      <div class="wallet_panel" :style="{
-        backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
-        height: isMore ? '86rem' : '44.3125rem'
-      }">
+      <div
+        class="wallet_panel"
+        :style="{
+          backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
+          height: isMore ? '86rem' : '44.3125rem',
+        }"
+      >
         <div class="balance_box">
           <div class="balance_l">
             <div class="title_text">BALANCES</div>
             <div class="num">
-              <img src="@/assets/svg/icon_eth.svg" alt="">
+              <img src="@/assets/svg/icon_eth.svg" alt="" />
               <span>{{ ethBalance }} ETH</span>
             </div>
           </div>
@@ -19,13 +22,26 @@
         <div class="wallet_operating">
           <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
           <div class="choose_box">
-            <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
-              :class="coin == item && ['active']">{{ item }}</div>
+            <div
+              class="coin_item"
+              v-for="(item, index) in coinList"
+              :key="index"
+              @click="searchHistory(item)"
+              :class="coin == item && ['active']"
+            >
+              {{ item }}
+            </div>
             <div class="replenish">Missing contract ETH deposit?</div>
-            <div class="retrieve" @click="showReplenish = true">Request deposit address sweep</div>
+            <div class="retrieve" @click="showReplenish = true">
+              Request deposit address sweep
+            </div>
           </div>
         </div>
-        <el-table :data="historyData" class="table_container" style="width: 100%">
+        <el-table
+          :data="historyData"
+          class="table_container"
+          style="width: 100%"
+        >
           <el-table-column prop="logType" label="LOG TYPE" align="center" />
           <el-table-column prop="amount" label="Amount" align="center">
             <template #default="scope">
@@ -38,7 +54,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="syncStatus" label="STATUS" align="center" />
-          <el-table-column prop="creation_time" label="DATE/TIME" align="center">
+          <el-table-column
+            prop="creation_time"
+            label="DATE/TIME"
+            align="center"
+          >
             <template #default="scope">
               {{ timeFormat(scope.row.createTime) }}
             </template>
@@ -52,19 +72,32 @@
         <div v-if="this.count > 5">
           <div class="more" v-if="!isMore" @click="loadMore()">
             <span>Show more</span>
-            <img src="@/assets/svg/user/icon_more.svg" alt="">
+            <img src="@/assets/svg/user/icon_more.svg" alt="" />
           </div>
           <div class="pagination-box" v-else>
-            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+            <el-pagination
+              v-model="page"
+              :page-size="size"
+              @current-change="handleCurrentChange"
+              :pager-count="7"
+              layout="prev, pager, next"
+              :total="count"
+              prev-text="Pre"
+              next-text="Next"
+            />
           </div>
         </div>
       </div>
       <assets></assets>
     </div>
     <!-- 查询补足余额 -->
-    <el-dialog v-model="showReplenish" width="50rem" lock-scroll :close-on-click-modal="false"
-      :before-close="handleClose">
+    <el-dialog
+      v-model="showReplenish"
+      width="50rem"
+      lock-scroll
+      :close-on-click-modal="false"
+      :before-close="handleClose"
+    >
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -74,7 +107,11 @@
         <div class="operating_title">
           <span>Enter transaction Id</span>
         </div>
-        <el-input class="wallet_addr" v-model="transactionId" placeholder="Paste your ERC20 wallet address here">
+        <el-input
+          class="wallet_addr"
+          v-model="transactionId"
+          placeholder="Paste your ERC20 wallet address here"
+        >
         </el-input>
         <div class="btns_box">
           <div class="btn_item cancel" @click="handleClose()">Cancel</div>
@@ -83,7 +120,13 @@
       </div>
     </el-dialog>
     <!-- 充值ETH USDT -->
-    <el-dialog v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog
+      v-model="showRecharge"
+      width="50rem"
+      lock-scroll
+      :close-on-click-modal="false"
+      :before-close="handleClose"
+    >
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -91,8 +134,19 @@
       </div>
       <div class="recharge_box">
         <div class="operating_box">
-          <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">DEPOST</div>
-          <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">WITHDRAW
+          <div
+            class="operating_btn"
+            :class="[walletOperating == 1 && 'active']"
+            @click="handleOperating(1)"
+          >
+            DEPOST
+          </div>
+          <div
+            class="operating_btn"
+            :class="[walletOperating == 2 && 'active']"
+            @click="handleOperating(2)"
+          >
+            WITHDRAW
           </div>
         </div>
         <div class="choose_operating" v-if="operatingCoin == null">
@@ -102,11 +156,11 @@
           </div>
           <div class="wallet_operating">
             <div class="wallet_operating_item" @click="handleChoose('ETH')">
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
               <span>Ethereum [ETH]</span>
             </div>
             <div class="wallet_operating_item" @click="handleChoose('USDT')">
-              <img src="@/assets/svg/user/icon_usdt.svg" alt="">
+              <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
               <span>Tether [USDT]</span>
             </div>
           </div>
@@ -116,10 +170,16 @@
             <el-icon class="icon_arrow" @click="operatingCoin = null">
               <ArrowLeftBold />
             </el-icon>
-            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-            <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="">
+            <img
+              v-if="operatingCoin == 'ETH'"
+              src="@/assets/svg/user/icon_ethereum.svg"
+              alt=""
+            />
+            <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
             <div class="recharge_title_text">
-              <span v-if="walletOperating == 1">{{ `DEPOSIT ${operatingCoin}` }}</span>
+              <span v-if="walletOperating == 1">{{
+                `DEPOSIT ${operatingCoin}`
+              }}</span>
               <span v-else>{{ `WITHDRAW ${operatingCoin}` }}</span>
             </div>
           </div>
@@ -128,12 +188,19 @@
               <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
               <div class="wallet_addr">
                 <div class="tips_text">
-                  Send the amount of Ethereum of your choice to the following address to receive the equivalent in Coins.
+                  Send the amount of Ethereum of your choice to the following
+                  address to receive the equivalent in Coins.
                 </div>
-                <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
-                  placeholder="Paste your ERC20 wallet address here">
+                <el-input
+                  class="wallet_addr_input"
+                  readonly="readonly"
+                  v-model="receiverAddr"
+                  placeholder="Paste your ERC20 wallet address here"
+                >
                   <template #append>
-                    <div class="copy_btn" @click="onCopy(receiverAddr)">COPY</div>
+                    <div class="copy_btn" @click="onCopy(receiverAddr)">
+                      COPY
+                    </div>
                   </template>
                 </el-input>
               </div>
@@ -141,54 +208,81 @@
             <div class="recharge_hint_box">
               <div class="hint_item">
                 <div class="hint_l">
-                  <img src="@/assets/svg/user/icon_warning.svg" alt="">
+                  <img src="@/assets/svg/user/icon_warning.svg" alt="" />
                 </div>
                 <div class="hint_r">
-                  Only deposit over the Ethereum network. Do not use BNB or BSC networks. Also do not use third-party
-                  smart contracts for transfers.
+                  Only deposit over the Ethereum network. Do not use BNB or BSC
+                  networks. Also do not use third-party smart contracts for
+                  transfers.
                 </div>
               </div>
               <div class="hint_item">
                 <div class="hint_l">
-                  <img style="visibility: hidden;" src="@/assets/svg/user/icon_warning.svg" alt="">
+                  <img
+                    style="visibility: hidden"
+                    src="@/assets/svg/user/icon_warning.svg"
+                    alt=""
+                  />
                 </div>
                 <div class="hint_r">
-                  Do NOT send NFT's to this ETH deposit address. In order to recover NFTs deposited to this address an
-                  administrative fee will be charged.
+                  Do NOT send NFT's to this ETH deposit address. In order to
+                  recover NFTs deposited to this address an administrative fee
+                  will be charged.
                 </div>
               </div>
             </div>
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
             <div class="price_convert">
-              <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
+              <el-input
+                class="price_input"
+                @focus="isConvert = true"
+                v-model="walletAmount"
+                type="number"
+              >
                 <template #prefix>
-                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-                  <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="">
+                  <img
+                    v-if="operatingCoin == 'ETH'"
+                    src="@/assets/svg/user/icon_ethereum.svg"
+                    alt=""
+                  />
+                  <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
               <div class="convert_interval">~</div>
-              <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
+              <el-input
+                class="price_input"
+                @focus="isConvert = false"
+                v-model="ethNum"
+                type="number"
+              >
                 <template #prefix>
-                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 </template>
               </el-input>
             </div>
-            <div class="price_convert_text">The value of ETH may change between now and the time we receive your payment
+            <div class="price_convert_text">
+              The value of ETH may change between now and the time we receive
+              your payment
             </div>
           </div>
           <div class="withdraw_relevant" v-else>
             <div class="withdraw_tips_text">
-              Please enter the Ethereum wallet address you wish to receive the funds on. Once confirmed, the withdrawal is
-              usually processed within a few minutes.
+              Please enter the Ethereum wallet address you wish to receive the
+              funds on. Once confirmed, the withdrawal is usually processed
+              within a few minutes.
             </div>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
                 <span>RECEIVING ETHEREUM ADDRESS</span>
                 <span class="required">*</span>
               </div>
-              <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
-                placeholder="Paste your Ethereum wallet address here"></el-input>
+              <el-input
+                class="withdraw_addr_input"
+                v-model="walletAddr"
+                @blur="onVerify('address')"
+                placeholder="Paste your Ethereum wallet address here"
+              ></el-input>
               <div class="withdraw_item_error">
                 {{ walletAddrTips }}
               </div>
@@ -200,33 +294,63 @@
               </div>
               <div class="withdraw_convert">
                 <div class="price_convert">
-                  <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')"
-                    v-model="walletAmount" type="number">
+                  <el-input
+                    class="price_input"
+                    @focus="isConvert = true"
+                    @blur="onVerify('amount')"
+                    v-model="walletAmount"
+                    type="number"
+                  >
                     <template #prefix>
-                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-                      <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="">
+                      <img
+                        v-if="operatingCoin == 'ETH'"
+                        src="@/assets/svg/user/icon_ethereum.svg"
+                        alt=""
+                      />
+                      <img
+                        v-else
+                        src="@/assets/svg/user/icon_usdt.svg"
+                        alt=""
+                      />
                     </template>
                   </el-input>
                   <div class="convert_interval">~</div>
-                  <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
-                    type="number">
+                  <el-input
+                    class="price_input"
+                    @focus="isConvert = false"
+                    @blur="onVerify('amount')"
+                    v-model="ethNum"
+                    type="number"
+                  >
                     <template #prefix>
-                      <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                      <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                     </template>
                   </el-input>
                 </div>
-                <div class="withdraw_btn" @click="onWithdrawalBalance()">REQUEST WITHDRAW</div>
+                <div class="withdraw_btn" @click="onWithdrawalBalance()">
+                  REQUEST WITHDRAW
+                </div>
               </div>
               <div class="withdraw_fee">
-                {{ `Network fee: ${operatingCoin == 'ETH' ? ethFee : usdtFee} ${operatingCoin}` }}
+                {{
+                  `Network fee: ${
+                    operatingCoin == "ETH" ? ethFee : usdtFee
+                  } ${operatingCoin}`
+                }}
               </div>
               <div class="withdraw_item_error">
                 {{ tipsText }}
               </div>
             </div>
             <div class="withdraw_hint">
-              <p>*You will receive the specified Ethereum amount to your withdrawal address</p>
-              <p>*The value subtracted from your balance may vary between now and the time we process your withdrawal</p>
+              <p>
+                *You will receive the specified Ethereum amount to your
+                withdrawal address
+              </p>
+              <p>
+                *The value subtracted from your balance may vary between now and
+                the time we process your withdrawal
+              </p>
             </div>
           </div>
         </div>
@@ -245,17 +369,17 @@ import {
   getWithdrawalExchangeRate,
   withdrawalBalance,
   getWithdrawalHistory,
-  rechargeByHash
+  rechargeByHash,
 } from "@/services/api/user";
 
-import QRCode from 'qrcodejs2'
+import QRCode from "qrcodejs2";
 import Assets from "./assets.vue";
 import bigNumber from "bignumber.js";
 import { onCopy, accurateDecimal, timeFormat } from "@/utils";
 export default {
-  name: 'myWallet',
+  name: "myWallet",
   components: {
-    Assets
+    Assets,
   },
   data() {
     return {
@@ -314,14 +438,17 @@ export default {
       this.rateTimer = setTimeout(() => {
         if (!newV) {
           this.ethNum = newV;
-          return
+          return;
         }
         if (operatingCoin == "ETH") {
           this.ethNum = newV;
-          return
+          return;
         }
 
-        this.ethNum = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8);
+        this.ethNum = accurateDecimal(
+          new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
+          8
+        );
       }, 300);
     },
     ethNum(newV) {
@@ -330,14 +457,17 @@ export default {
       this.rateTimer = setTimeout(() => {
         if (!newV) {
           this.walletAmount = newV;
-          return
+          return;
         }
         if (operatingCoin == "ETH") {
           this.walletAmount = newV;
-          return
+          return;
         }
 
-        this.walletAmount = accurateDecimal(new bigNumber(newV || 0).multipliedBy(exchangeRate || 0), 8);
+        this.walletAmount = accurateDecimal(
+          new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
+          8
+        );
       }, 300);
     },
   },
@@ -384,13 +514,13 @@ export default {
       const res = await getTheUserSPayoutAddress();
       if (res && res.code == 200) {
         this.receiverAddr = res.data;
-        localStorage.setItem("receiver", this.receiver);
+        localStorage.setItem("receiver", res.data);
       }
     },
     // 充值汇率
     async fetchRechargeExchangeRate() {
       const res = await getRechargeExchangeRate({
-        coinName: "ETH"
+        coinName: "ETH",
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -399,7 +529,7 @@ export default {
     // 提款汇率
     async fetchWithdrawalExchangeRate() {
       const res = await getWithdrawalExchangeRate({
-        coinName: "ETH"
+        coinName: "ETH",
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -409,31 +539,35 @@ export default {
     onVerify(type) {
       const { ethFee, usdtFee, walletAmount, walletAddr, operatingCoin } = this;
       const withdrawalFee = operatingCoin == "ETH" ? ethFee : usdtFee;
-      if (type == 'submit' || type == 'address') {
+      if (type == "submit" || type == "address") {
         if (!walletAddr) {
-          this.walletAddrTips = "please enter your Ethereum wallet address here";
+          this.walletAddrTips =
+            "please enter your Ethereum wallet address here";
           this.verifys = false;
-          return
+          return;
         }
 
         this.walletAddrTips = "";
         this.verifys = true;
       }
 
-      if (type == 'submit' || type == 'amount') {
-
+      if (type == "submit" || type == "amount") {
         if (!walletAmount) {
           this.tipsText = "Please enter the withdrawal amount";
           this.verifys = false;
-          return
+          return;
         } else if (Number(walletAmount) > Number(this.ethBalance)) {
           this.tipsText = "Insufficient balance";
           this.verifys = false;
-          return
-        } else if ((Number(this.walletAmount) + Number(withdrawalFee)) > Number(this.ethBalance)) {
-          this.tipsText = "The amount is not enough to cover the withdrawal fee";
+          return;
+        } else if (
+          Number(this.walletAmount) + Number(withdrawalFee) >
+          Number(this.ethBalance)
+        ) {
+          this.tipsText =
+            "The amount is not enough to cover the withdrawal fee";
           this.verifys = false;
-          return
+          return;
         }
 
         this.tipsText = "";
@@ -443,18 +577,20 @@ export default {
     // 提款余额
     async onWithdrawalBalance() {
       const { walletAmount, walletAddr, operatingCoin } = this;
-      this.onVerify('submit');
-      if (!this.verifys) return
+      this.onVerify("submit");
+      if (!this.verifys) return;
 
       const res = await withdrawalBalance({
         targetCoin: operatingCoin, //目标币种
         walletAddress: walletAddr, //钱包地址
-        amount: walletAmount //扣除的ETH金额
+        amount: walletAmount, //扣除的ETH金额
       });
       if (res && res.code == 200) {
         this.handleClose();
         this.renewBalance();
-        this.$message.success("The application is successful, please check the system transfer later");
+        this.$message.success(
+          "The application is successful, please check the system transfer later"
+        );
       }
     },
     // 更新当前余额
@@ -465,15 +601,17 @@ export default {
     async onRechargeByHash() {
       if (!this.transactionId) {
         this.$message.error("Please enter the on-chain transaction ID");
-        return
+        return;
       }
 
       const res = await rechargeByHash({
-        hash: this.transactionId
+        hash: this.transactionId,
       });
 
       if (res && res.code == 200) {
-        this.$message.success("The application is successful, please check whether the assets arrive later");
+        this.$message.success(
+          "The application is successful, please check whether the assets arrive later"
+        );
         this.handleClose();
       }
     },
@@ -493,7 +631,7 @@ export default {
 
       if (done) {
         done();
-        return
+        return;
       }
 
       this.showReplenish = false;
@@ -506,7 +644,7 @@ export default {
         height: 142,
         colorDark: "#000000",
         colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
+        correctLevel: QRCode.CorrectLevel.H,
       });
     },
     // 检索历史
@@ -519,7 +657,7 @@ export default {
       const res = await getWithdrawalHistory({
         coin: this.coin,
         page: 1,
-        size: 5
+        size: 5,
       });
 
       if (res && res.code == 200) {
@@ -535,13 +673,13 @@ export default {
     handleCurrentChange(page) {
       this.page = page;
       this.fetchHistory();
-    }
+    },
   },
   created() {
     this.renewBalance();
     this.fetchHistory();
     this.fetchReceivingAddr();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

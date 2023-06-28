@@ -171,7 +171,7 @@ export default {
           }
           let receiver = await getTheUserSPayoutAddress();
           this.receiver = receiver.data;
-          localStorage.setItem("receiver", this.receiver);
+          localStorage.setItem("receiver", receiver.data);
           this.getTheUserBalanceInfo();
           this.closeDialogFun();
           this.$emit("linkWallet");

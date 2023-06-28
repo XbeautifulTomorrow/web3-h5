@@ -127,6 +127,8 @@ import {
 } from "vue";
 import Web3 from "web3";
 
+import { getTheUserSPayoutAddress } from "@/services/api/user";
+
 import { ElNotification } from "element-plus";
 
 import transferAbi from "@/config/transfer.json";
@@ -205,8 +207,18 @@ onMounted(() => {
   if (!props.isDeposit) {
     operateChoose.value = operateItems[1];
   }
+  getTheUserSPayoutAddressApi();
 });
 
+const getTheUserSPayoutAddressApi = async () => {
+  const res = getTheUserSPayoutAddress();
+  if (res && res.code == 200) {
+    receiver.value = res.data;
+    localStorage.setItem("receiver", res.data);
+  } else {
+    receiver.value = localStorage.getItem("receiver");
+  }
+};
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
@@ -278,7 +290,7 @@ const transfer = async () => {
       let isApproved = await nftContract.methods
         .isApprovedForAll(accounts[0], nftTokenAddress)
         .call();
-      
+
       if (!isApproved) {
         //授权
         await nftContract.methods
@@ -291,12 +303,19 @@ const transfer = async () => {
           nftTokenAddress
         ); //nft转账合约
         const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
-      //   console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
-      //  return
-      //  nftList = ['0x6447f7d21f19af6c11824b06e3a6618542cedf33',"0xb1fac5b5b535fbdb4323aa7a0aac6039ce731c7f"]
-      //  _tokenidSeven = [['7973','8081'],['10598']]
-       console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
-       //721充值
+        //   console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
+        //  return
+        //  nftList = ['0x6447f7d21f19af6c11824b06e3a6618542cedf33',"0xb1fac5b5b535fbdb4323aa7a0aac6039ce731c7f"]
+        //  _tokenidSeven = [['7973','8081'],['10598']]
+        console.log(
+          isApproved,
+          nftList,
+          _tokenidSeven,
+          receiver.value,
+          orderId,
+          "isApproved===="
+        );
+        //721充值
         await nftTransferContract.methods
           .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
           .send({ from: accounts[0] });

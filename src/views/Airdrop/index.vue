@@ -8,7 +8,8 @@
           <div class="description">{{ $t("airdrop.airdropTips") }}</div>
         </div>
         <div class="banner_r">
-          <img src="@/assets/svg/airdrop/banner.svg" alt="" />
+          <img v-if="isTest" @click="handleConnect()" src="@/assets/svg/airdrop/banner.svg" alt="" />
+          <img v-else src="@/assets/svg/airdrop/banner.svg" alt="" />
         </div>
       </div>
       <div class="taps_box">
@@ -176,7 +177,7 @@
 </template>
 <script>
 import Web3 from "web3";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
@@ -201,7 +202,7 @@ import Modify from "./components/modify.vue";
 
 import { getSetting } from "@/services/api/invite";
 import config from "@/services/env";
-import { dateDiff } from "@/utils";
+import { dateDiff, handleWindowResize } from "@/utils";
 
 import countDown from '@/components/countDown';
 export default {
@@ -221,7 +222,7 @@ export default {
     return {
       pageType: "",
       currentActive: "point",
-      showConnect: true,
+      showConnect: false,
       isConnect: false,
       walletAddr: null,
       airdropData: {},
@@ -235,7 +236,8 @@ export default {
         regCountdownTime: null
       },
       currentTime: null,
-      timer: null
+      timer: null,
+      screenWidth: null, // 媒体宽度
     };
   },
   watch: {
@@ -266,7 +268,15 @@ export default {
     },
   },
   created() {
-    this.isTest = config.ENV == "dev";
+    console.log(config.ENV)
+    if (config.ENV == "dev") {
+      this.isTest = true;
+    }
+
+    if (config.ENV == "test") {
+      this.isTest = true;
+    }
+
     this.fetchSetting();
 
     if (this.isLogin && this.userInfo?.id) {
@@ -291,6 +301,11 @@ export default {
     handleConnect() {
       if (!this.isLogin) {
         ElMessage.error(this.$t("airdrop.loginText"));
+        return
+      }
+
+      if (this.screenWidth <= 950) {
+        this.connectWallet();
         return
       }
 
@@ -324,7 +339,7 @@ export default {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error(this.$t("airdrop.failedTips"));
+              ElMessage.error(_that.$t("airdrop.failedTips"));
             }
           })
           .then(async (accounts) => {
@@ -345,29 +360,37 @@ export default {
     async connectWallet() {
       const _that = this;
       //  Create WalletConnect Provider
-      this.connectProvider = new WalletConnectProvider({
-        infuraId: "ae25803f3d394a5da4c863280b651037",
+      this.connectProvider = await EthereumProvider.init({
+        projectId: process.env.VUE_APP_PROJECT_ID,
+        chains: [1],
+        showQrModal: true,
+        qrModalOptions: {
+          themeMode: 'dark',
+          themeVariables: {
+            "--wcm-z-index": 3100
+          }
+        }
       });
+
       //  Enable session (triggers QR Code modal)
-      await this.connectProvider.enable().catch((reason) => {
+      await this.connectProvider.enable().then(async (accounts) => {
+        const web3 = new Web3(this.connectProvider);
+        //如果用户同意了登录请求，你就可以拿到用户的账号
+        web3.eth.defaultAccount = accounts[0];
+        window.web3 = web3;
+        _that.web3 = web3;
+        _that.walletAddr = accounts[0];
+        // 绑定钱包
+        _that.bindWallet();
+      }).catch((reason) => {
         //如果用户拒绝了登录请求
         if (reason === "User rejected provider access") {
           // 用户拒绝登录后执行语句；
         } else {
           // 本不该执行到这里，但是真到这里了，说明发生了意外
-          ElMessage.error(this.$t("airdrop.failedTips"));
+          ElMessage.error(_that.$t("airdrop.failedTips"));
         }
       })
-        .then(async (accounts) => {
-          const web3 = new Web3(this.connectProvider);
-          //如果用户同意了登录请求，你就可以拿到用户的账号
-          web3.eth.defaultAccount = accounts[0];
-          window.web3 = web3;
-          _that.web3 = web3;
-          _that.walletAddr = accounts[0];
-          // 绑定钱包
-          _that.bindWallet();
-        });
     },
     // 绑定钱包
     async bindWallet() {
@@ -464,10 +487,19 @@ export default {
       }
 
       this.showSucceess = false;
-      this.showTest = false;
       this.showSend = false;
     }
   },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
+  }
 };
 </script>
 

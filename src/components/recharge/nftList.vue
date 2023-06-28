@@ -103,7 +103,7 @@
             />
           </el-select>
         </div> -->
-        <div class="collections_box">
+        <!-- <div class="collections_box">
           <div class="collections_text">Collections:</div>
           <el-select
             v-model="params.collections"
@@ -119,7 +119,7 @@
               :value="item"
             />
           </el-select>
-        </div>
+        </div> -->
       </div>
       <c-scrollbar class="choose_nft" width="100%" height="69.8125rem">
         <div class="choose_nft">
@@ -198,9 +198,7 @@ const dialogVisible = computed({
   },
 });
 onMounted(() => {
-  if (!props.isDeposit) {
-    fetchWithdrawalSystemNft();
-  }
+  //   fetchWithdrawalSystemNft();
   getWalletNftApi();
 });
 
@@ -235,7 +233,7 @@ const params = reactive({
   chain: null,
 });
 let chooseNftData = reactive([]);
-let collections = reactive([]);
+// let collections = reactive([]);
 let chooseNft = reactive([]);
 let stockNftList = reactive([]);
 const loading = ref(false);
@@ -310,36 +308,59 @@ const fetchSystemNft = async () => {
     });
   }
 };
-// 获取系统Nft列表，提取NFT
-const fetchWithdrawalSystemNft = async () => {
-  const res = await getSystemNft({
-    page: 1,
-    size: 9999,
-  });
-  if (res && res.code == 200) {
-    const stockNft = res.data.records;
-    chooseNftData = [];
-    if (stockNft && !stockNft.length > 0) return;
-    stockNft.forEach((element) => {
-      if (!element.tokenId) return;
-      chooseNftData.push(element);
-    });
-    generateCollections();
-  }
-};
-// 生成当前已有系列
-const generateCollections = () => {
-  collections = [];
-  chooseNftData.forEach((element) => {
-    if (collectionsFind(element.name)) return;
-    collections.push(element.name);
-  });
-};
-// 检索已有系列
-const collectionsFind = (event) => {
-  const index = collections.findIndex((e) => e == event);
-  return index > -1;
-};
+// // 获取系统Nft列表，提取NFT
+// const fetchWithdrawalSystemNft = async () => {
+//   const res = await getSystemNft({
+//     page: 1,
+//     size: 9999,
+//   });
+//   if (res && res.code == 200) {
+//     const stockNft = res.data.records;
+//     chooseNftData = [];
+//     if (stockNft && !stockNft.length > 0) return;
+//     stockNft.forEach((element) => {
+//       if (element.tokenId) {
+//         chooseNftData.push(element);
+//       }
+//     });
+//     generateCollections();
+//   }
+// };
+// // 生成当前已有系列
+// const generateCollections = () => {
+//   collections = [];
+//   chooseNftData.forEach((element) => {
+//     if (!collectionsFind(element.name)) {
+//       collections.push(element.name);
+//     }
+//   });
+// };
+// // 检索已有系列
+// const collectionsFind = (event) => {
+//   const index = collections.findIndex((e) => e == event);
+//   return index > -1;
+// };
+
+// const getWalletNftApi = async () => {
+//   loading.value = true;
+//   const accounts = await window.ethereum.request({
+//     method: "eth_requestAccounts",
+//   });
+//   if (accounts && accounts[0]) {
+//     const res = await getWalletNft({
+//       address: accounts[0],
+//       size: 999,
+//     });
+//     loading.value = false;
+//     if (res && res.code === 200) {
+//       const data = JSON.parse(JSON.stringify(res.data.records));
+//       data.forEach((item, index) => {
+//         chooseNftData[index] = item;
+//       });
+//       //   chooseNftData = [...data];
+//     }
+//   }
+// };
 
 const getWalletNftApi = async () => {
   loading.value = true;
@@ -347,18 +368,41 @@ const getWalletNftApi = async () => {
     method: "eth_requestAccounts",
   });
   if (accounts && accounts[0]) {
-    const res = await getWalletNft({
-      address: accounts[0],
-      size: 999,
+    Promise.all([
+      await getWalletNft({
+        address: accounts[0],
+        size: 999,
+      }),
+      getSystemNft({
+        page: 1,
+        size: 9999,
+      }),
+    ]).then((res) => {
+      if (
+        res &&
+        res[0] &&
+        res[1] &&
+        res[0].code === 200 &&
+        res[1].code === 200 &&
+        res[0].data &&
+        res[1].data
+      ) {
+        loading.value = false;
+        const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
+        const systemNft = JSON.parse(JSON.stringify(res[1].data.records));
+        const _data = walletNft.filter((item) => {
+          const _nameArr = systemNft.map((item1) => {
+            return item1.tokenId && item1.name;
+          });
+          return !_nameArr.includes(item.name);
+        });
+        _data.forEach((item, index) => {
+          chooseNftData[index] = item;
+        });
+      } else {
+        getWalletNftApi();
+      }
     });
-    loading.value = false;
-    if (res && res.code === 200) {
-      const data = JSON.parse(JSON.stringify(res.data.records));
-      data.forEach((item, index) => {
-        chooseNftData[index] = item;
-      });
-      //   chooseNftData = [...data];
-    }
   }
 };
 </script>

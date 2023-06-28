@@ -123,4 +123,14 @@ export default {
     display: none;
   }
 }
+
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+    }
+  }
+}
 </style>

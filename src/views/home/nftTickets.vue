@@ -44,8 +44,11 @@
           <div class="boxes-button">
             <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
           </div>
-          <div class="sold-box">
-            {{ `${item.numberOfTicketsSold || 0} Ticket${(item.numberOfTicketsSold || 0) > 1 ? 's' : ''} sold` }}
+          <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
+            {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
+          </div>
+          <div class="sold-box" v-else>
+            {{ $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 }) }}
           </div>
         </li>
       </template>

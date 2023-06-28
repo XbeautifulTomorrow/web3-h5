@@ -32,7 +32,7 @@
             <ul class="header-user-content">
               <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
                 @click="othersideBoxFun(item)">
-                <span :class="['header-user-list-img', item.class]"></span>
+                <span :class="['header-user-list-img', item.page]"></span>
                 <span>{{ item.text }}</span>
               </li>
             </ul>
@@ -187,7 +187,7 @@ export default {
     this.nav = [
       {
         text: this.$t("header.home"),
-        page: "home",
+        page: "Home",
       },
       {
         text: this.$t("header.airdrop"),
@@ -206,7 +206,7 @@ export default {
     this.userList = [
       {
         text: this.$t("header.logout"),
-        class: "logout",
+        page: "logout",
       },
     ]
   },
@@ -468,22 +468,22 @@ export default {
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {
-      if (item.text == "Profile") {
+      if (item.page == "Profile") {
         this.$router.push({ name: "MyProfile" });
-      } else if (item.text == "Wallet") {
+      } else if (item.page == "Wallet") {
         this.$router.push({ name: "Wallet" });
-      } else if (item.text == "Competitions") {
+      } else if (item.page == "Competitions") {
         this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
-      } else if (item.text == "My Collections") {
+      } else if (item.page == "My Collections") {
         this.$router.push({
           name: "Competitions",
           query: { type: "MY_COMPETITIONS" },
         });
-      } else if (item.text == "Referral") {
+      } else if (item.page == "Referral") {
         this.$router.push({ name: "Invite" });
-      } else if (item.text == "Settings") {
+      } else if (item.page == "Settings") {
         this.$router.push({ name: "Setting" });
-      } else if (item.text === "Logout") {
+      } else if (item.page === "logout") {
         this.userStore.logoutApi();
       }
     },

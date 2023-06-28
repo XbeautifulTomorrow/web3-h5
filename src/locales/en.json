@@ -71,7 +71,8 @@
     "resetSuccess": "Your password has been reset, please log in again.",
     "verificationHint": "Please check your email for the verification code",
     "sendAgain": "Send again",
-    "sendAgainErr": "Verification code error, please re-enter"
+    "sendAgainErr": "Verification code error, please re-enter",
+    "ok": "OK"
   },
   "home": {
     "bannerText1": "INVITE USERS",
@@ -92,7 +93,11 @@
     "tabelText2": "Price",
     "tabelText3": "USD Price",
     "tabelText4": "Recommended",
-    "tabelText5": "Action"
+    "tabelText5": "Action",
+    "dayLeft": "{day} DAY LEFT",
+    "ticketsLeft": "{num} TICKETS LEFT",
+    "ticketSold": "{num} Ticket sold",
+    "ticketsSold": "{num} Tickets sold"
   },
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",
@@ -178,7 +183,9 @@
     "regist": "REGIST",
     "bonus": "BONUS",
     "enterCodeHint": "Please enter the invitation code here",
-    "enterCodeNum": "Must be at least 3 characters"
+    "enterCodeNum": "Must be at least 3 characters",
+    "connectWalletTips": "Choose a wallet connection method",
+    "setCodeHint": "Set referral code..."
   },
   "faq": {
     "faqTitle1": "FREQUENTLY",
@@ -220,7 +227,9 @@
     "faqQuestion17": "The Competition I entered isn’t full yet, when will it draw?",
     "faqAnswer17": "All competitions will draw automatically when the required criteria are met.<br>The criteria can be based on timing or the maximum number of entries.",
     "faqQuestion18": "What are the odds of winning the Competition NFT?",
-    "faqAnswer18": "You are purchasing an entry ticket for the free prize draw. The entry ticket is an NFT that is stored in your personal account and can be transferred to your wallet."
+    "faqAnswer18": "The odds of winning depend on the number of entries purchased.",
+    "faqQuestion19": "Do I get my ETH back if I don't win a Competition?",
+    "faqAnswer19": "You are purchasing an entry ticket for the free prize draw. The entry ticket is an NFT that is stored in your personal account and can be transferred to your wallet."
   },
   "errorTips": {
     "no_access": "Access limited.",

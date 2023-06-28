@@ -57,7 +57,7 @@
     </div>
     <div class="create_invite_code">
       <div class="create_title">{{ $t("airdrop.setCodeTips") }}</div>
-      <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
+      <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" :placeholder="$t('airdrop.setCodeHint')">
         <template #append>
           <div class="create_btn" @click="createInvite()">{{ $t("airdrop.createBtn") }}</div>
         </template>

@@ -9,9 +9,9 @@
       </div>
       <div class="link_box">
         <div class="operating_title">
-          <span>Connect Wallet</span>
+          <span>{{ $t("airdrop.connectBtn") }}</span>
         </div>
-        <div class="operating_tips">Choose a wallet connection method</div>
+        <div class="operating_tips">{{ $t("airdrop.connectWalletTips") }}</div>
         <div class="operating_item" @click="connectWallet(1)">
           <div class="item_l">
             <img src="@/assets/svg/user/meta_mask.svg" alt="" srcset="">

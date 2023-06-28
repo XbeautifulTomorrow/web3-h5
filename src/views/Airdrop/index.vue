@@ -221,7 +221,7 @@ export default {
     return {
       pageType: "",
       currentActive: "point",
-      showConnect: false,
+      showConnect: true,
       isConnect: false,
       walletAddr: null,
       airdropData: {},

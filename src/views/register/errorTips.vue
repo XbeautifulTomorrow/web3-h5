@@ -25,7 +25,7 @@
         </li>
       </ul>
       <el-button class="public-button form-button" @click="closeFun()">
-        OK
+        {{ $t("login.ok") }}
       </el-button>
     </div>
   </el-dialog>

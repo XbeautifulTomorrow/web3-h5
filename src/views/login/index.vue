@@ -36,9 +36,9 @@
         {{ $t("common.login") }}
       </el-button>
       <p class="form-register">
-        <span>{{ $t("common.notRegisteredHint") }}</span>
+        <span>{{ $t("login.notRegisteredHint") }}</span>
         <span class="form-register-link" @click="goTo('register')">
-          {{ $t("common.registerUpper") }}
+          {{ $t("login.registerUpper") }}
         </span>
       </p>
     </div>

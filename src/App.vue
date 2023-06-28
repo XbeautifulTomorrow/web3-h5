@@ -1,6 +1,6 @@
 <template>
   <el-config-provider :locale="locale">
-    <div class="bg-panl">
+    <div class="bg-panl" v-if="isRouterAlive">
       <div class="gradual-bg"></div>
       <div class="gradual-bg"></div>
       <div class="gradual-bg"></div>
@@ -18,13 +18,32 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 export default {
   name: "App",
+  provide() {
+    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
+    return {
+      reload: this.reload,
+    };
+  },
+  data() {
+    return {
+      isRouterAlive: true, //控制视图是否显示的变量
+    };
+  },
   computed: {
     ...mapStores(useUserStore),
     locale() {
       const { locale } = this.userStore;
       return locale
     }
-  }
+  },
+  methods: {
+    reload() {
+      this.isRouterAlive = false; //先关闭，
+      this.$nextTick(function () {
+        this.isRouterAlive = true; //再打开
+      });
+    }
+  },
 };
 </script>
 

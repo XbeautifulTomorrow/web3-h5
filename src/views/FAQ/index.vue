@@ -221,6 +221,13 @@ export default {
         height: null,
         minHeight: null
       },
+      {
+        title: this.$t("faq.faqQuestion19"),
+        description: this.$t("faq.faqAnswer19"),
+        isExpand: false,
+        height: null,
+        minHeight: null
+      },
     ]
   },
   mounted() {

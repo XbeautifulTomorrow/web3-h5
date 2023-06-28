@@ -155,7 +155,7 @@ export default {
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
-            Duration: this.$t("airdrop.dayNum", { days: airdrop.uniswapDay }), //uniwap刚链接的瞬间的使用天数
+            Duration: this.$t("common.dayNum", { days: airdrop.uniswapDay || 0 }), //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
             "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 4)} ETH`, //uniwap兑换总额
             "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
@@ -169,7 +169,7 @@ export default {
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
-            Duration: this.$t("airdrop.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
+            Duration: this.$t("common.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
             "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 4)} ETH`, //opensea购买金额
             "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 4)} ETH`, //opensea售卖金额
@@ -183,10 +183,10 @@ export default {
           },
           totalPoint: airdrop.walletPoint,
           detail: {
-            Duration: this.$t("airdrop.dayNum", { days: airdrop.walletDay }), //钱包使用天数
+            Duration: this.$t("common.dayNum", { days: airdrop.walletDay || 0 }), //钱包使用天数
             "Total NFT": airdrop.walletHoldNft, //持有NFT数量
             "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": this.$t("airdrop.dayNum", { days: airdrop.walletLongestDay }), //钱包最长天数
+            "Max Holding Time": this.$t("common.dayNum", { days: airdrop.walletLongestDay || 0 }), //钱包最长天数
           }
         },
         {

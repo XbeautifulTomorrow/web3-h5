@@ -118,7 +118,7 @@
     "connectTips": "錢包連接後將不能修改。",
     "syncTips": "正在同步錢包數據，請在10分鐘後刷新此頁面。",
     "confirm": "確認密碼",
-    "verifyTips": "驗證您的賬戶。",
+    "verifyTips": "驗證您的賬戶",
     "verifyText": "為了完成連接，您必鬚髮送一條消息來驗證您是錢包的擁有者。",
     "verifyBtn": "發送消息",
     "loginText": "請登錄後再試一次。",

@@ -329,6 +329,7 @@ export default {
       let web3 = new Web3(window.ethereum);
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
+        _that.connectType = 0;
         //没安装MetaMask钱包进行弹框提示
         if (this.screenWidth <= 950) {
           ElMessage.error(t("airdrop.connectHint"));
@@ -379,6 +380,12 @@ export default {
         }
       });
 
+      this.connectProvider.on('disconnect', (event) => {
+        console.log(event);
+        _that.showSend = false;
+        _that.connectType = 0;
+      })
+
       //  Enable session (triggers QR Code modal)
       await this.connectProvider.enable().then(async (accounts) => {
         const web3 = new Web3(this.connectProvider);
@@ -425,14 +432,13 @@ export default {
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
             }).catch(error => {
-              console.error(error)
+              console.error(error);
               return
             });
           }
 
           if (!signature) {
             this.connectType = 0;
-
             return
           }
 

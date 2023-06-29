@@ -12,6 +12,11 @@ const getWalletNft = (params) =>
  */
 const getSystemNft = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getWalletNftSystem", params);
+/**
+ * @description 获取外部系列
+ */
+const getTheExternalNFTSeries = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/getTheExternalNFTSeries", params);
 
 /**
  * @description 添加一元购活动订单
@@ -35,7 +40,10 @@ const delNftOrder = (params) =>
  * @description 获取用户相关nft订单
  */
 const getOneBuyList = (params) =>
-  apiService.get(serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders", params);
+  apiService.get(
+    serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders",
+    params
+  );
 
 /**
  * @description 获取即将结束的nft订单
@@ -53,13 +61,19 @@ const getOneBuyInfo = (params) =>
  * @description 获取一元购最新购买记录
  */
 const getAListOfActivities = (params) =>
-  apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfActivities", params);
+  apiService.get(
+    serviceUrl + "/oneNftLotteryOrders/getAListOfActivities",
+    params
+  );
 
 /**
  * @description 获取一元购用户购买记录
  */
 const getAListOfParticipants = (params) =>
-  apiService.get(serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants", params);
+  apiService.get(
+    serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants",
+    params
+  );
 
 /**
  * @description 获取一元购用户购买记录
@@ -85,7 +99,6 @@ const buyNftBalance = (params) =>
 const buyNftWallet = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/onChainPurchases", params);
 
-
 export {
   getWalletNft,
   getSystemNft,
@@ -100,5 +113,6 @@ export {
   getAListOfActivities,
   getAListOfParticipants,
   getCheckAllOrders,
-  getLottery
+  getLottery,
+  getTheExternalNFTSeries,
 };

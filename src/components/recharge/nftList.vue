@@ -125,7 +125,7 @@
         <div class="choose_nft">
           <div
             class="choose_nft_item"
-            :class="[nftFind(item.id) > -1 && 'active']"
+            :class="[nftFind(item.seriesName) > -1 && 'active']"
             @click="chooseNfts(item)"
             v-for="(item, index) in chooseNftList"
             :key="index"
@@ -168,7 +168,11 @@ import bigNumber from "bignumber.js";
 import { ElMessage } from "element-plus";
 
 import { withdrawalNft } from "@/services/api/user";
-import { getSystemNft, getWalletNft } from "@/services/api/oneBuy";
+import {
+  getSystemNft,
+  //   getWalletNft,
+  getTheExternalNFTSeries,
+} from "@/services/api/oneBuy";
 
 import Loading from "@/components/loading/index";
 
@@ -199,18 +203,19 @@ const dialogVisible = computed({
 });
 onMounted(() => {
   //   fetchWithdrawalSystemNft();
-  getWalletNftApi();
+  //   getWalletNftApi();
+  getTheExternalNFTSeriesApi();
 });
-
 const chooseNftList = computed(() => {
-  const { nftName, type, collections } = params;
+  const { nftName } = params;
   let chooseNfts = [];
-  chooseNftData.forEach((element) => {
-    if (nftName && !(element.tokenId.indexOf(nftName) > -1)) return;
-    if (type && element.contractType != type) return;
-    if (collections && element.name != collections) return;
-    chooseNfts.push(element);
-  });
+  if (nftName) {
+    chooseNftData.forEach((element) => {
+      if (`${element.tokenId}`.indexOf(nftName) > -1) chooseNfts.push(element);
+    });
+  } else {
+    chooseNfts = JSON.parse(JSON.stringify(chooseNftData));
+  }
   return chooseNfts;
 });
 const calculatedNftValue = computed(() => {
@@ -243,12 +248,12 @@ const handleClose = () => {
 };
 // 选择检索
 const nftFind = (event) => {
-  const eindex = chooseNft.findIndex((e) => e.id == event);
+  const eindex = chooseNft.findIndex((e) => e.seriesName == event);
   return eindex;
 };
 // 选择Nft
 const chooseNfts = (event) => {
-  const eindex = nftFind(event.id);
+  const eindex = nftFind(event.seriesName);
   if (eindex > -1) {
     chooseNft.splice(eindex, 1);
   } else {
@@ -277,7 +282,7 @@ const onWithdrawalNft = async () => {
   }
   let knapsackId = [];
   chooseNft.forEach((element) => {
-    knapsackId.push(element.id);
+    knapsackId.push(element.seriesName);
   });
   const res = await withdrawalNft({
     knapsackIds: knapsackId, //背包ID
@@ -361,50 +366,60 @@ const fetchSystemNft = async () => {
 //     }
 //   }
 // };
-
-const getWalletNftApi = async () => {
+const getTheExternalNFTSeriesApi = async () => {
   loading.value = true;
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-  if (accounts && accounts[0]) {
-    Promise.all([
-      await getWalletNft({
-        address: accounts[0],
-        size: 999,
-      }),
-      getSystemNft({
-        page: 1,
-        size: 9999,
-      }),
-    ]).then((res) => {
-      if (
-        res &&
-        res[0] &&
-        res[1] &&
-        res[0].code === 200 &&
-        res[1].code === 200 &&
-        res[0].data &&
-        res[1].data
-      ) {
-        loading.value = false;
-        const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
-        const systemNft = JSON.parse(JSON.stringify(res[1].data.records));
-        const _data = walletNft.filter((item) => {
-          const _nameArr = systemNft.map((item1) => {
-            return item1.tokenId && item1.name;
-          });
-          return !_nameArr.includes(item.name);
-        });
-        _data.forEach((item, index) => {
-          chooseNftData[index] = item;
-        });
-      } else {
-        getWalletNftApi();
-      }
+  const res = await getTheExternalNFTSeries();
+  loading.value = false;
+  if (res && res.code === 200) {
+    const records = JSON.parse(JSON.stringify(res.data));
+    records.forEach((item, index) => {
+      chooseNftData[index] = item;
     });
   }
 };
+// const getWalletNftApi = async () => {
+//   loading.value = true;
+//   const accounts = await window.ethereum.request({
+//     method: "eth_requestAccounts",
+//   });
+//   if (accounts && accounts[0]) {
+//     Promise.all([
+//       await getWalletNft({
+//         address: accounts[0],
+//         size: 999,
+//       }),
+//       getSystemNft({
+//         page: 1,
+//         size: 9999,
+//       }),
+//     ]).then((res) => {
+//       if (
+//         res &&
+//         res[0] &&
+//         res[1] &&
+//         res[0].code === 200 &&
+//         res[1].code === 200 &&
+//         res[0].data &&
+//         res[1].data
+//       ) {
+//         loading.value = false;
+//         const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
+//         const systemNft = JSON.parse(JSON.stringify(res[1].data.records));
+//         const _data = walletNft.filter((item) => {
+//           const _nameArr = systemNft.map((item1) => {
+//             return item1.tokenId && item1.name;
+//           });
+//           return !_nameArr.includes(item.name);
+//         });
+//         // _data.forEach((item, index) => {
+//         //   chooseNftData[index] = item;
+//         // });
+//       } else {
+//         getWalletNftApi();
+//       }
+//     });
+//   }
+// };
 </script>
 <style lang="scss">
 @import url("./nftList.scss");

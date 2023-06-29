@@ -290,7 +290,6 @@ const transfer = async () => {
       let isApproved = await nftContract.methods
         .isApprovedForAll(accounts[0], nftTokenAddress)
         .call();
-
       if (!isApproved) {
         //授权
         await nftContract.methods

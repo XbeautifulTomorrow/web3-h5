@@ -502,6 +502,8 @@ export default {
         this.connectProvider.disconnect();
       }
 
+      this.closeDialogFun();
+
       if (done) {
         done();
         return

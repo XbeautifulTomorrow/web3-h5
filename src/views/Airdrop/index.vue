@@ -356,8 +356,7 @@ export default {
             _that.web3 = web3;
             _that.walletAddr = accounts[0];
             // 绑定钱包
-            // _that.bindWallet();
-            _that.showSend = true;
+            _that.bindWallet();
           });
       }
     },
@@ -386,7 +385,8 @@ export default {
         _that.web3 = web3;
         _that.walletAddr = accounts[0];
         // 绑定钱包
-        _that.bindWallet();
+        // _that.bindWallet();
+        _that.showSend = true;
       }).catch((reason) => {
         //如果用户拒绝了登录请求
         if (reason === "User rejected provider access") {

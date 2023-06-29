@@ -178,7 +178,7 @@
 </template>
 <script>
 import Web3 from "web3";
-import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import { EthereumProvider } from '@walletconnect/ethereum-provider'
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";

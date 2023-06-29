@@ -328,7 +328,12 @@ export default {
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
-        ElMessage.error(this.$t("airdrop.installTips"));
+        if (this.screenWidth <= 950) {
+          ElMessage.error(_that.$t("airdrop.connectHint"));
+          return
+        }
+
+        ElMessage.error(_that.$t("airdrop.installTips"));
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum

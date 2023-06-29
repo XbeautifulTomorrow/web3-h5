@@ -185,7 +185,8 @@
     "enterCodeHint": "Please enter the invitation code here",
     "enterCodeNum": "Must be at least 3 characters",
     "connectWalletTips": "Choose a wallet connection method",
-    "setCodeHint": "Set referral code..."
+    "setCodeHint": "Set referral code...",
+    "connectHint": "Please open this site in MetaMask"
   },
   "faq": {
     "faqTitle1": "FREQUENTLY",

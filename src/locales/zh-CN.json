@@ -185,7 +185,8 @@
     "enterCodeHint": "請輸入你的邀請碼",
     "enterCodeNum": "邀請碼長度必須大於3個字符",
     "connectWalletTips": "选择钱包连接方式",
-    "setCodeHint": "设置邀请码..."
+    "setCodeHint": "设置邀请码...",
+    "connectHint": "请在 MetaMask 中打开此网站"
   },
   "faq": {
     "faqTitle1": "",

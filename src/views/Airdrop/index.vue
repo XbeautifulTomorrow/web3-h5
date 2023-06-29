@@ -106,7 +106,8 @@
       <Leaderboard :airdrop="airdropData" v-if="currentActive == 'leaderboard'"></Leaderboard>
       <Referral v-if="isLogin && userInfo?.id && currentActive == 'referral'"></Referral>
     </div>
-    <Connect v-if="showConnect" @connectWallet="onConnectType" @close="closeDialogFun"></Connect>
+    <Connect v-if="showConnect" @connectWallet="onConnectType" :loadingType="connectType" @close="closeDialogFun">
+    </Connect>
 
     <el-dialog class="dialog_airdrop" v-model="showTest" width="700" :close-on-click-modal="false" :align-center="true"
       lock-scroll :before-close="handleClose">
@@ -181,9 +182,9 @@ import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
-import {
-  getKey
-} from "@/services/api/user";
+import { getKey } from "@/services/api/user";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import {
   linkWallet,
@@ -226,7 +227,7 @@ export default {
       isConnect: false,
       walletAddr: null,
       airdropData: {},
-      connectType: 1,
+      connectType: 0,
       connectProvider: null,
       showSucceess: false,
       showSend: false, // 验证
@@ -287,6 +288,7 @@ export default {
     dateDiff: dateDiff,
     closeDialogFun() {
       this.pageType = "";
+      this.connectType = 0;
       this.showConnect = false;
     },
     changeTypeFun(page) {
@@ -300,7 +302,7 @@ export default {
     },
     handleConnect() {
       if (!this.isLogin) {
-        ElMessage.error(this.$t("airdrop.loginText"));
+        ElMessage.error(t("airdrop.loginText"));
         return
       }
 
@@ -329,24 +331,15 @@ export default {
       if (typeof ethereum === "undefined") {
         //没安装MetaMask钱包进行弹框提示
         if (this.screenWidth <= 950) {
-          ElMessage.error(_that.$t("airdrop.connectHint"));
+          ElMessage.error(t("airdrop.connectHint"));
           return
         }
 
-        ElMessage.error(_that.$t("airdrop.installTips"));
+        ElMessage.error(t("airdrop.installTips"));
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum
           .enable()
-          .catch((reason) => {
-            //如果用户拒绝了登录请求
-            if (reason === "User rejected provider access") {
-              // 用户拒绝登录后执行语句；
-            } else {
-              // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error(_that.$t("airdrop.failedTips"));
-            }
-          })
           .then(async (accounts) => {
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3 = new Web3(window.ethereum);
@@ -357,6 +350,16 @@ export default {
             _that.walletAddr = accounts[0];
             // 绑定钱包
             _that.bindWallet();
+          })
+          .catch((reason) => {
+            //如果用户拒绝了登录请求
+            this.connectType = 0;
+            if (reason === "User rejected provider access") {
+              // 用户拒绝登录后执行语句；
+            } else {
+              // 本不该执行到这里，但是真到这里了，说明发生了意外
+              ElMessage.error(t("airdrop.failedTips"));
+            }
           });
       }
     },
@@ -388,12 +391,13 @@ export default {
         // _that.bindWallet();
         _that.showSend = true;
       }).catch((reason) => {
+        this.connectType = 0;
         //如果用户拒绝了登录请求
         if (reason === "User rejected provider access") {
           // 用户拒绝登录后执行语句；
         } else {
           // 本不该执行到这里，但是真到这里了，说明发生了意外
-          ElMessage.error(_that.$t("airdrop.failedTips"));
+          ElMessage.error(t("airdrop.failedTips"));
         }
       })
     },
@@ -410,6 +414,9 @@ export default {
             signature = await window.ethereum.request({
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
+            }).catch(error => {
+              console.error(error)
+              return
             });
           }
           else {
@@ -417,7 +424,16 @@ export default {
             signature = await this.connectProvider.request({
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
+            }).catch(error => {
+              console.error(error)
+              return
             });
+          }
+
+          if (!signature) {
+            this.connectType = 0;
+
+            return
           }
 
           const bindRes = await linkWallet({

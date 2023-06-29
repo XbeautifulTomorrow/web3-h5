@@ -11,9 +11,9 @@
         </ul>
       </div>
       <div class="header-right" v-if="!isLogin || !userInfo?.id">
-        <div class="btn-box login" @click="changeTypeFun('login')">Login</div>
+        <div class="btn-box login" @click="changeTypeFun('login')">{{ $t("common.login") }}</div>
         <div class="btn-box register" @click="changeTypeFun('register')">
-          Register
+          {{ $t("common.register") }}
         </div>
       </div>
       <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">

@@ -77,8 +77,8 @@ const nav = computed(() => {
 
 const year = ref(new Date().getUTCFullYear());
 const langDrop = reactive([
-  { name: "繁体中文", key: "zh_CN" },
   { name: "English", key: "en_US" },
+  { name: "繁体中文", key: "zh_CN" },
 ]);
 
 const languageChange = (event) => {

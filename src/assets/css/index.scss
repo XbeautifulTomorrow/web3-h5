@@ -103,6 +103,10 @@ input[type="number"] {
   #app {
     min-width: auto;
   }
+
+  .el-message {
+    width: 90% !important;
+  }
 }
 
 /*>=951的设备*/

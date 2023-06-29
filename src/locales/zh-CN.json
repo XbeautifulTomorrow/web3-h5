@@ -13,7 +13,8 @@
     "operationTips": "操作成功！",
     "createdTips": "創建成功",
     "abnormal": "賬戶異常",
-    "returnText": "回到登錄"
+    "returnText": "回到登錄",
+    "register": "注册"
   },
   "header": {
     "home": "首頁",

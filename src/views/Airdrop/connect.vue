@@ -12,19 +12,19 @@
           <span>{{ $t("airdrop.connectBtn") }}</span>
         </div>
         <div class="operating_tips">{{ $t("airdrop.connectWalletTips") }}</div>
-        <div class="operating_item" @click="connectWallet(1)">
+        <div class="operating_item" v-loading="loadingType == 1" @click="connectWallet(1)">
           <div class="item_l">
             <img src="@/assets/svg/user/meta_mask.svg" alt="" srcset="">
             <span>MetaMask</span>
           </div>
-          <img class="item_r" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img class="item_r" v-show="loadingType != 1" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
         </div>
-        <div class="operating_item" @click="connectWallet(2)">
+        <div class="operating_item" v-loading="loadingType == 2" @click="connectWallet(2)">
           <div class="item_l">
             <img src="@/assets/svg/user/wallet_connect.svg" alt="" srcset="">
             <span>WalletConnect</span>
           </div>
-          <img class="item_r" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img class="item_r" v-show="loadingType != 2" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
         </div>
       </div>
     </el-dialog>
@@ -33,7 +33,12 @@
 <script>
 export default {
   name: "connectDialog",
-  props: ["connect", "close"],
+  props: {
+    loadingType: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       show: true
@@ -41,6 +46,7 @@ export default {
   },
   methods: {
     connectWallet(event) {
+      if (this.loadingType) return;
       this.$emit("connectWallet", event);
     },
     closePopup(done) {
@@ -143,6 +149,22 @@ export default {
     .item_r {
       width: 1.5rem;
     }
+
+    :deep(.el-loading-mask) {
+      background-color: rgba(29, 15, 54, 0.4);
+      border-radius: 0.5rem;
+      cursor: not-allowed;
+
+      .el-loading-spinner {
+        text-align: right;
+        padding-right: 1.25rem;
+        box-sizing: border-box;
+
+        .circular {
+          width: 1.5rem;
+        }
+      }
+    }
   }
 }
 
@@ -189,7 +211,7 @@ export default {
     .operating_item {
       height: 3rem;
       border-radius: 0.25rem;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
 
       .item_l {
         display: flex;
@@ -209,6 +231,17 @@ export default {
 
       .item_r {
         width: 1rem;
+      }
+
+      :deep(.el-loading-mask) {
+
+        .el-loading-spinner {
+          padding-right: 1rem;
+
+          .circular {
+            width: 1.5rem;
+          }
+        }
       }
     }
   }

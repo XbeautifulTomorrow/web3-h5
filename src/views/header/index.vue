@@ -113,6 +113,8 @@
 </template>
 
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import Web3 from "web3";
 import { h } from "vue";
 import { mapStores } from "pinia";
@@ -186,26 +188,26 @@ export default {
 
     this.nav = [
       {
-        text: this.$t("header.home"),
+        text: t("header.home"),
         page: "Home",
       },
       {
-        text: this.$t("header.airdrop"),
+        text: t("header.airdrop"),
         page: "Airdrop",
       },
       {
-        text: this.$t("header.whitebook"),
+        text: t("header.whitebook"),
         page: "Whitebook",
       },
       {
-        text: this.$t("header.faq"),
+        text: t("header.faq"),
         page: "FAQ",
       },
     ]
 
     this.userList = [
       {
-        text: this.$t("header.logout"),
+        text: t("header.logout"),
         page: "logout",
       },
     ]

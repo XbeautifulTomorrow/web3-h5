@@ -455,7 +455,7 @@ export default {
     // 测试绑定钱包
     async bindTestWallet() {
       if (!this.walletAddr) {
-        ElMessage.error(this.$t("airdrop.enterTips"));
+        ElMessage.error(t("airdrop.enterTips"));
         return
       }
       const bindRes = await linkWallet({

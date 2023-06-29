@@ -29,6 +29,8 @@
 </template>
     
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import { updateUserInfo } from "@/services/api/user";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
@@ -64,7 +66,7 @@ export default {
             }
             this.userStore.setLogin(users);
             this.handleClose();
-            this.$message.success(this.$t("common.operationTips"));
+            this.$message.success(t("common.operationTips"));
           }
         } else {
           console.log('error submit!!');
@@ -89,8 +91,8 @@ export default {
   created() {
     this.rules = {
       name: [
-        { required: true, message: this.$t("airdrop.pleaseName"), trigger: ["blur", "change"] },
-        { min: 8, max: 20, message: this.$t("airdrop.nameTips"), trigger: ["blur", "change"] }
+        { required: true, message: t("airdrop.pleaseName"), trigger: ["blur", "change"] },
+        { min: 8, max: 20, message: t("airdrop.nameTips"), trigger: ["blur", "change"] }
       ]
     }
   }

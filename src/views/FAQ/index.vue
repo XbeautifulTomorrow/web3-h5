@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import { handleWindowResize } from "@/utils"
 import bigNumber from "bignumber.js";
 export default {
@@ -96,134 +98,134 @@ export default {
   created() {
     this.FAQList = [
       {
-        title: this.$t("faq.faqQuestion1"),
-        description: this.$t("faq.faqAnswer1"),
+        title: t("faq.faqQuestion1"),
+        description: t("faq.faqAnswer1"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion2"),
-        description: this.$t("faq.faqAnswer2"),
+        title: t("faq.faqQuestion2"),
+        description: t("faq.faqAnswer2"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion3"),
-        description: this.$t("faq.faqAnswer3"),
+        title: t("faq.faqQuestion3"),
+        description: t("faq.faqAnswer3"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion4"),
-        description: this.$t("faq.faqAnswer4"),
+        title: t("faq.faqQuestion4"),
+        description: t("faq.faqAnswer4"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion5"),
-        description: this.$t("faq.faqAnswer5"),
+        title: t("faq.faqQuestion5"),
+        description: t("faq.faqAnswer5"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion6"),
-        description: this.$t("faq.faqAnswer6"),
+        title: t("faq.faqQuestion6"),
+        description: t("faq.faqAnswer6"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion7"),
-        description: this.$t("faq.faqAnswer7"),
+        title: t("faq.faqQuestion7"),
+        description: t("faq.faqAnswer7"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion8"),
-        description: this.$t("faq.faqAnswer8"),
+        title: t("faq.faqQuestion8"),
+        description: t("faq.faqAnswer8"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion9"),
-        description: this.$t("faq.faqAnswer9"),
+        title: t("faq.faqQuestion9"),
+        description: t("faq.faqAnswer9"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion10"),
-        description: this.$t("faq.faqAnswer10"),
+        title: t("faq.faqQuestion10"),
+        description: t("faq.faqAnswer10"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion11"),
-        description: this.$t("faq.faqAnswer11"),
+        title: t("faq.faqQuestion11"),
+        description: t("faq.faqAnswer11"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion12"),
-        description: this.$t("faq.faqAnswer12"),
+        title: t("faq.faqQuestion12"),
+        description: t("faq.faqAnswer12"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion13"),
-        description: this.$t("faq.faqAnswer13"),
+        title: t("faq.faqQuestion13"),
+        description: t("faq.faqAnswer13"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion14"),
-        description: this.$t("faq.faqAnswer14"),
+        title: t("faq.faqQuestion14"),
+        description: t("faq.faqAnswer14"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion15"),
-        description: this.$t("faq.faqAnswer15"),
+        title: t("faq.faqQuestion15"),
+        description: t("faq.faqAnswer15"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion16"),
-        description: this.$t("faq.faqAnswer16"),
+        title: t("faq.faqQuestion16"),
+        description: t("faq.faqAnswer16"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion17"),
-        description: this.$t("faq.faqAnswer17"),
+        title: t("faq.faqQuestion17"),
+        description: t("faq.faqAnswer17"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion18"),
-        description: this.$t("faq.faqAnswer18"),
+        title: t("faq.faqQuestion18"),
+        description: t("faq.faqAnswer18"),
         isExpand: false,
         height: null,
         minHeight: null
       },
       {
-        title: this.$t("faq.faqQuestion19"),
-        description: this.$t("faq.faqAnswer19"),
+        title: t("faq.faqQuestion19"),
+        description: t("faq.faqAnswer19"),
         isExpand: false,
         height: null,
         minHeight: null

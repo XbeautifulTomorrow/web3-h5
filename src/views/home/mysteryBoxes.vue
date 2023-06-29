@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
@@ -100,7 +102,7 @@ export default {
   methods: {
     handleMysteryBoxes(event) {
       if (this.isLogin && this.userInfo?.id) {
-        ElMessage.warning(this.$t("common.tipsText"));
+        ElMessage.warning(t("common.tipsText"));
         return
         // eslint-disable-next-line no-unreachable
         this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });

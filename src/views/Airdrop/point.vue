@@ -108,6 +108,8 @@
 </template>
   
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import { getWalletNft } from "@/services/api/oneBuy";
 
 import { accurateDecimal, timeFormat } from "@/utils";
@@ -147,52 +149,52 @@ export default {
       const { airdrop } = this;
       return [
         {
-          statisticsType: this.$t("airdrop.uniswapPoint"),
+          statisticsType: t("airdrop.uniswapPoint"),
           tips: {
-            tips: this.$t("airdrop.uniswapTitle"),
-            title: this.$t("airdrop.uniswapTips"),
+            tips: t("airdrop.uniswapTitle"),
+            title: t("airdrop.uniswapTips"),
             detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
-            Duration: this.$t("common.dayNum", { days: airdrop.uniswapDay || 0 }), //uniwap刚链接的瞬间的使用天数
+            Duration: t("common.dayNum", { days: airdrop.uniswapDay || 0 }), //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
             "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 4)} ETH`, //uniwap兑换总额
             "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
           }
         },
         {
-          statisticsType: this.$t("airdrop.openSeaPoint"),
+          statisticsType: t("airdrop.openSeaPoint"),
           tips: {
-            title: this.$t("airdrop.openSeaTitle"),
+            title: t("airdrop.openSeaTitle"),
             detail: "TXN*20/(20+TXN)*10+PUR^2/(PUR+SALE)*2*DU*180/(180+DU)*2*FACTOR"
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
-            Duration: this.$t("common.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
+            Duration: t("common.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
             "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 4)} ETH`, //opensea购买金额
             "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 4)} ETH`, //opensea售卖金额
           }
         },
         {
-          statisticsType: this.$t("airdrop.walletPoint"),
+          statisticsType: t("airdrop.walletPoint"),
           tips: {
-            title: this.$t("airdrop.walletTitle"),
+            title: t("airdrop.walletTitle"),
             detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*365/(365+DU)*2*FACTOR"
           },
           totalPoint: airdrop.walletPoint,
           detail: {
-            Duration: this.$t("common.dayNum", { days: airdrop.walletDay || 0 }), //钱包使用天数
+            Duration: t("common.dayNum", { days: airdrop.walletDay || 0 }), //钱包使用天数
             "Total NFT": airdrop.walletHoldNft, //持有NFT数量
             "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": this.$t("common.dayNum", { days: airdrop.walletLongestDay || 0 }), //钱包最长天数
+            "Max Holding Time": t("common.dayNum", { days: airdrop.walletLongestDay || 0 }), //钱包最长天数
           }
         },
         {
-          statisticsType: this.$t("airdrop.referrals"),
+          statisticsType: t("airdrop.referrals"),
           tips: {
-            title: this.$t("airdrop.referralsTitle"),
+            title: t("airdrop.referralsTitle"),
             detail: ""
           },
           totalPoint: airdrop.invatePoint,

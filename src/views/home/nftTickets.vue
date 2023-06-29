@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
@@ -144,7 +146,7 @@ export default {
     bigNumber: bigNumber,
     handleTickets(event) {
       if (this.isLogin && this.userInfo?.id) {
-        ElMessage.warning(this.$t("common.tipsText"));
+        ElMessage.warning(t("common.tipsText"));
         return
         // eslint-disable-next-line no-unreachable
         this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });

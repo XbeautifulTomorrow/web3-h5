@@ -231,10 +231,11 @@ export default {
     shareInviteLink(event) {
       const currentLink = window.location;
       let link = currentLink.origin + "/Airdrop/" + event;
-      const inviteText = this.setting.inviteText.replace(",", "\n");
+      const inviteText = this.setting.inviteText.replace(/,/g, "\n");
+      console.log(inviteText)
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(inviteText + link);
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },

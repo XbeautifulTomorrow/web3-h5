@@ -30,8 +30,8 @@ export const useUserStore = defineStore("user", {
   persist: {
     enabled: true,
     strategies: [
-      { key: "userInfo", storage: sessionStorage, paths: ["userInfo"] },
-      { key: "regInfo", storage: sessionStorage, paths: ["regInfo"] },
+      { key: "userInfo", storage: localStorage, paths: ["userInfo"] },
+      { key: "regInfo", storage: localStorage, paths: ["regInfo"] },
     ],
   },
   actions: {
@@ -47,6 +47,8 @@ export const useUserStore = defineStore("user", {
     },
     logoutApi() {
       sessionStorage.clear();
+      localStorage.removeItem("regInfo");
+      localStorage.removeItem("userInfo");
       localStorage.removeItem("certificate");
       this.isLogin = false;
       this.userInfo = undefined;

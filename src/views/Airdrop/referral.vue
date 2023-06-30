@@ -232,7 +232,6 @@ export default {
       const currentLink = window.location;
       let link = currentLink.origin + "/Airdrop/" + event;
       const inviteText = this.setting.inviteText.replace(/,/g, "\n");
-      console.log(inviteText)
 
       // 构建推特的分享链接
       var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;

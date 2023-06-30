@@ -119,7 +119,7 @@
     "seconds": "SECS",
     "connectBtn": "Connect Wallet",
     "connectTips": "The wallet cannot be modified after it is connected.",
-    "syncTips": "Synchronizing wallet transaction data, please refresh this page after 10 minutes.",
+    "syncTips": "Synchronizing wallet transaction data, please refresh this page after 2-10 minutes.",
     "confirm": "CONFIRM",
     "verifyTips": "Verify your account",
     "verifyText1": "To finish connecting, you must sign a message in your wallet to verify that you are the owner of this account.",

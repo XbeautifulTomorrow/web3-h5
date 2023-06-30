@@ -160,7 +160,9 @@
           <span>{{ $t("airdrop.verifyTips") }}</span>
         </div>
         <p class="public-dialog-illustrate">
-          {{ $t("airdrop.verifyText") }}
+          <span v-html="$t('airdrop.verifyText1')"></span>
+          <br><br>
+          <span v-html="$t('airdrop.verifyText2', { address: walletAddr })"></span>
         </p>
         <el-button class="public-button" @click="bindWallet()">
           {{ $t("airdrop.verifyBtn") }}
@@ -416,11 +418,9 @@ export default {
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
             }).catch(error => {
-              console.error(error)
+              console.error(error.message)
               return
             });
-
-
           }
           else {
             console.log(web3.eth, "web3=== ");
@@ -428,10 +428,12 @@ export default {
               method: "personal_sign",
               params: [_that.walletAddr, this.generateKey],
             }).catch(error => {
-              console.error(error);
+              console.error(error.message);
               return
             });
           }
+
+          if (!signature) return
 
           this.connectType = 0;
           const bindRes = await linkWallet({

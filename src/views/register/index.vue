@@ -13,7 +13,7 @@
       <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item label="Email" :prop="$t('login.email')">
+        <el-form-item :label="$t('login.email')" prop="email">
           <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
         </el-form-item>
         <el-form-item :label="$t('login.password')" prop="passWord">
@@ -184,18 +184,19 @@ const getCaptchaApi = async (formEl) => {
   if (!formEl || time.value < 60) return;
   await formEl.validateField("email", async (valid, fields) => {
     if (valid) {
-      timer = setInterval(() => {
-        time.value--;
-        if (time.value < 1) {
-          time.value = 60;
-          clearTimerFun();
-        }
-      }, 1000);
+
       const res = await getCaptcha({
         type: "register",
         email: formRegister.email,
       });
       if (res && res.code === 200) {
+        timer = setInterval(() => {
+          time.value--;
+          if (time.value < 1) {
+            time.value = 60;
+            clearTimerFun();
+          }
+        }, 1000);
         ElMessage({
           message: t("login.sendHint"),
           type: "success",

@@ -178,7 +178,8 @@
 </template>
 <script>
 import Web3 from "web3";
-import { EthereumProvider } from '@walletconnect/ethereum-provider'
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import { MetaMaskSDK } from '@metamask/sdk';
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
@@ -203,7 +204,7 @@ import Modify from "./components/modify.vue";
 
 import { getSetting } from "@/services/api/invite";
 import config from "@/services/env";
-import { dateDiff, handleWindowResize } from "@/utils";
+import { dateDiff, handleWindowResize, openUrl } from "@/utils";
 
 import countDown from '@/components/countDown';
 export default {
@@ -332,7 +333,12 @@ export default {
         _that.connectType = 0;
         //没安装MetaMask钱包进行弹框提示
         if (this.screenWidth <= 950) {
-          ElMessage.error(t("airdrop.connectHint"));
+          const MMSDK = new MetaMaskSDK({
+            injectProvider: false,
+            communicationLayerPreference: 'webrtc',
+          });
+          const ethereums = MMSDK.getProvider(); // You can also access via window.ethereum
+          ethereums.request({ method: 'eth_requestAccounts', params: [] });
           return
         }
 

@@ -69,8 +69,8 @@ import { useUserStore } from "@/store/user";
 import errorTips from "./errorTips.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 import { getSessionStore, setSessionStore, openUrl } from "@/utils";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 // const router = useRouter();
 const userStore = useUserStore();

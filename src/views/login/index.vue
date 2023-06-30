@@ -14,8 +14,6 @@
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item :label="$t('login.email')" prop="account">
-          <!-- SuccessFilled -->
-          <!-- CircleCloseFilled -->
           <el-input class="public-input" v-model="formLogin.account" :placeholder="$t('login.emailHint')" />
         </el-form-item>
         <el-form-item :label="$t('login.password')" prop="passWord">
@@ -50,8 +48,8 @@ import { ElMessage } from "element-plus";
 // import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
 import { getLogin } from "@/services/api/user";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 const userStore = useUserStore();
 // const router = useRouter();

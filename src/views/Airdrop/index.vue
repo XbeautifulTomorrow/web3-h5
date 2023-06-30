@@ -330,13 +330,8 @@ export default {
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         _that.connectType = 0;
-        //没安装MetaMask钱包进行弹框提示
-        if (this.screenWidth <= 950) {
-          openUrl(`https://metamask.app.link/dapp/${window.location.origin} `);
-          return
-        }
-
-        ElMessage.error(t("airdrop.installTips"));
+        //没安装MetaMask钱包打开MetaMask链接
+        openUrl(`https://metamask.app.link/dapp/${window.location.origin}`);
       } else {
         //如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
         ethereum

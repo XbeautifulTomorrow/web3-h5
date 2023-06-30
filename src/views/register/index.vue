@@ -46,7 +46,8 @@
             <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
           </span>
           <span class="form-rember-text">
-            {{ $t("login.termsText") }}
+            <span>{{ $t("login.termsText") }}</span>
+            <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
           </span>
         </div>
       </div>
@@ -67,7 +68,7 @@ import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import errorTips from "./errorTips.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
-import { getSessionStore, setSessionStore } from "@/utils";
+import { getSessionStore, setSessionStore, openUrl } from "@/utils";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
@@ -139,6 +140,10 @@ const rules = reactive({
   passWord: [{ validator: validatePass, trigger: ["blur", "change"] }],
   confirm: [{ validator: validatePass2, trigger: ["blur", "change"] }],
 });
+
+const onOpenUrl = () => {
+  openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/legal/terms-and-conditions")
+}
 
 onBeforeUnmount(() => {
   clearTimerFun();
@@ -277,6 +282,12 @@ const registerFun = async (formEl) => {
 
 .form-rember-text {
   flex: 1;
+}
+
+.user_agreement {
+  color: #fad54d;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .form-forgot,

@@ -46,8 +46,8 @@
     "captchaHint": "請輸入您的驗證碼",
     "send": "發送",
     "notReceived": "沒有收到郵件？",
-    "termsText": "我已滿18歲並同意用戶條款。",
-    "completeUpper": "完成註冊",
+    "termsText": "我已滿18歲並同意",
+    "userAgreement": "用戶條款",
     "passwordErrText1": "請輸入密碼",
     "passwordErrText2": "密碼必須大於8個字符",
     "passwordErrText3": "密碼必須包含一個大寫字母",
@@ -73,7 +73,8 @@
     "verificationHint": "請檢查您的電子郵箱以查看驗證碼",
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
-    "ok": "好"
+    "ok": "好",
+    "completeUpper": "完成注册"
   },
   "home": {
     "bannerText1": "邀請他人",

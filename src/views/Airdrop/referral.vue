@@ -78,6 +78,7 @@
         <template #default="scope">
           <div class="copy_btn">
             <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
+            <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(scope.row.inviteCode)" alt="">
           </div>
         </template>
       </el-table-column>
@@ -100,7 +101,7 @@ import {
   rebatesFindList,
   getSetting
 } from "@/services/api/invite";
-import { onCopy } from "@/utils";
+import { onCopy, openUrl } from "@/utils";
 import bigNumber from "bignumber.js";
 export default {
   name: 'AirdropReferral',
@@ -224,14 +225,18 @@ export default {
     copyInviteLink(event) {
       const currentLink = window.location;
       let link = currentLink.origin + "/Airdrop/" + event;
+      onCopy(link);
+    },
+    // 分享邀请链接到推特
+    shareInviteLink(event) {
+      const currentLink = window.location;
+      let link = currentLink.origin + "/Airdrop/" + event;
       const inviteText = this.setting.inviteText.replace(",", "\n");
 
       // 构建推特的分享链接
       var twitterUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(inviteText + link);
-
-      onCopy(twitterUrl);
       // 在新窗口中打开推特分享链接
-      window.open(twitterUrl);
+      openUrl(twitterUrl);
     },
     // 翻页
     handleCurrentChange(page) {

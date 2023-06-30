@@ -326,14 +326,12 @@ export default {
     // 连接小狐狸
     async connectMetaMask() {
       const _that = this;
-      console.log(window.location.origin);
       let web3 = new Web3(window.ethereum);
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         _that.connectType = 0;
         //没安装MetaMask钱包进行弹框提示
         if (this.screenWidth <= 950) {
-          console.log(window.location.origin);
           openUrl(`https://metamask.app.link/dapp/${window.location.origin} `);
           return
         }

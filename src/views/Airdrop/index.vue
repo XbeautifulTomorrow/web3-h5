@@ -269,7 +269,6 @@ export default {
     },
   },
   created() {
-    console.log(config.ENV)
     if (config.ENV == "dev") {
       this.isTest = true;
     }

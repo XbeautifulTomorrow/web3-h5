@@ -223,8 +223,15 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = window.location;
-      const link = currentLink.origin + "/Airdrop/" + event;
-      onCopy(link);
+      let link = currentLink.origin + "/Airdrop/" + event;
+      const inviteText = this.setting.inviteText.replace(",", "\n");
+
+      // 构建推特的分享链接
+      var twitterUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(inviteText + link);
+
+      onCopy(twitterUrl);
+      // 在新窗口中打开推特分享链接
+      window.open(twitterUrl);
     },
     // 翻页
     handleCurrentChange(page) {

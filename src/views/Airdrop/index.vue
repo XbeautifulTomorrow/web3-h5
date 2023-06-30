@@ -179,7 +179,6 @@
 <script>
 import Web3 from "web3";
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
-import { MetaMaskSDK } from '@metamask/sdk';
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
@@ -327,18 +326,15 @@ export default {
     // 连接小狐狸
     async connectMetaMask() {
       const _that = this;
+      console.log(window.location.origin);
       let web3 = new Web3(window.ethereum);
       let ethereum = window.ethereum;
       if (typeof ethereum === "undefined") {
         _that.connectType = 0;
         //没安装MetaMask钱包进行弹框提示
         if (this.screenWidth <= 950) {
-          const MMSDK = new MetaMaskSDK({
-            injectProvider: false,
-            communicationLayerPreference: 'webrtc',
-          });
-          const ethereums = MMSDK.getProvider(); // You can also access via window.ethereum
-          ethereums.request({ method: 'eth_requestAccounts', params: [] });
+          console.log(window.location.origin);
+          openUrl(`https://metamask.app.link/dapp/${window.location.origin} `);
           return
         }
 
@@ -431,6 +427,8 @@ export default {
               console.error(error)
               return
             });
+
+
           }
           else {
             console.log(web3.eth, "web3=== ");
@@ -443,17 +441,14 @@ export default {
             });
           }
 
-          if (!signature) {
-            this.connectType = 0;
-            return
-          }
-
+          this.connectType = 0;
           const bindRes = await linkWallet({
             key: res.data, //登录临时key
             signature: signature, //钱包签名
             chainId: 5, //链ID
             walletAddress: web3.eth.defaultAccount, //钱包地址
           });
+
           if (bindRes && bindRes.code == 200) {
             // 关闭弹窗
             this.closeDialogFun();

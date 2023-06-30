@@ -99,7 +99,9 @@
     "dayLeft": "还剩{day}天",
     "ticketsLeft": "还剩{num}票",
     "ticketsSold": "{num}张门票已售出",
-    "ticketSold": "{num}门票已售出"
+    "ticketSold": "{num}门票已售出",
+    "bannerCopywriting1": "體驗公平競爭，快速提現，輕鬆成為BAYC持有者。",
+    "bannerCopywriting2": "即刻體驗、0%滑點， 0 Gas。"
   },
   "airdrop": {
     "airdropText1": "連接你的錢包以",
@@ -118,7 +120,7 @@
     "connectBtn": "連接錢包",
     "connectTips": "錢包連接後將不能修改。",
     "syncTips": "正在同步錢包數據，請在10分鐘後刷新此頁面。",
-    "confirm": "確認密碼",
+    "confirm": "確認",
     "verifyTips": "驗證您的賬戶",
     "verifyText1": "為了完成連接，您必須發送一條消息來驗證您是錢包的擁有者。",
     "verifyText2": "在此之前，請確認您要連接的錢包是<span style=\"color:white\">{address}</span>，完成簽名後將無法更換其他錢包。",
@@ -189,7 +191,11 @@
     "enterCodeNum": "邀請碼長度必須大於3個字符",
     "connectWalletTips": "选择钱包连接方式",
     "setCodeHint": "设置邀请码...",
-    "connectHint": "请在 MetaMask 中打开此网站"
+    "connectHint": "请在 MetaMask 中打开此网站",
+    "share": "分享",
+    "CLICKS":"點擊",
+    "REFERRALS":"邀請",
+    "POINT":"積分"
   },
   "faq": {
     "faqTitle1": "",

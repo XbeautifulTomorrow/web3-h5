@@ -99,7 +99,9 @@
     "dayLeft": "{day} DAY LEFT",
     "ticketsLeft": "{num} TICKETS LEFT",
     "ticketSold": "{num} Ticket sold",
-    "ticketsSold": "{num} Tickets sold"
+    "ticketsSold": "{num} Tickets sold",
+    "bannerCopywriting1": "Experience fair play, fast withdrawals, and easily become a BAYC holder.",
+    "bannerCopywriting2": "Instant execution, 0% slippage, and 0 gas fees."
   },
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",
@@ -189,7 +191,10 @@
     "enterCodeNum": "Must be at least 3 characters",
     "connectWalletTips": "Choose a wallet connection method",
     "setCodeHint": "Set referral code...",
-    "connectHint": "Please open this site in MetaMask"
+    "connectHint": "Please open this site in MetaMask",
+    "CLICKS": "CLICKS",
+    "REFERRALS": "REFERRALS",
+    "POINT": "POINT"
   },
   "faq": {
     "faqTitle1": "FREQUENTLY",

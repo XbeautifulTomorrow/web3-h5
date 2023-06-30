@@ -33,7 +33,7 @@
       <div class="statistics_box">
         <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
           <div class="statistics_type">
-            <div class="title">{{ item.statisticsType }}</div>
+            <div class="title">{{ $t("airdrop." + item.statisticsType) }}</div>
             <div class="val">{{ item.totalData }}</div>
           </div>
           <div class="statistics_time">
@@ -74,7 +74,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="extraPointAmount" :label="$t('airdrop.bonus')" align="center"></el-table-column>
-      <el-table-column label="COPY" align="center" fixed="right">
+      <el-table-column :label="$t('airdrop.share')" align="center" fixed="right">
         <template #default="scope">
           <div class="copy_btn">
             <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">

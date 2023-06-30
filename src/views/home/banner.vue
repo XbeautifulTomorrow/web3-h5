@@ -23,7 +23,10 @@
             <div class="invite_button" @click="goAirdrop()">{{ $t("home.bannerBtn") }}</div>
         </div>
         <div class="banner_box">
-            <img src="@/assets/svg/home/banner.svg" alt="">
+            <img src="@/assets/svg/home/banner_small.svg" alt="">
+            <div class="introduce">{{ $t("home.bannerCopywriting1") }}</div>
+            <div class="introduce_details">{{ $t("home.bannerCopywriting2") }}</div>
+            <div class="round"></div>
             <!-- <swiper class="banner_swiper" :slides-per-view="1" :space-between="50">
                 <swiper-slide>
                     <div class="banner-main">

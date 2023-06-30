@@ -99,7 +99,9 @@
     "dayLeft": "剩餘 {day} 天",
     "ticketsLeft": "剩餘 {num} 票",
     "ticketSold": "已售出 {num} 張",
-    "ticketsSold": "已售出 {num} 張"
+    "ticketsSold": "已售出 {num} 張",
+    "bannerCopywriting1": "體驗公平競爭，快速提現，輕鬆成為BAYC持有者。",
+    "bannerCopywriting2": "即刻體驗、0%滑點， 0 Gas。"
   },
   "airdrop": {
     "airdropText1": "連結你的錢包以",
@@ -118,7 +120,7 @@
     "connectBtn": "連接錢包",
     "connectTips": "錢包連接後將不能修改。",
     "syncTips": "正在同步錢包數據，請在10分鐘後刷新此頁面。",
-    "confirm": "確認密碼",
+    "confirm": "確認",
     "verifyTips": "驗證您的賬戶。",
     "verifyText1": "為了完成連接，您必須發送一條消息來驗證您是錢包的擁有者。",
     "verifyText2": "在此之前，請確認您要連接的錢包是<span style=\"color:white\">{address}</span>，完成簽名後將無法更換其他錢包。",
@@ -154,8 +156,8 @@
     "referralsTitle": "成功邀請新用戶註冊並連接錢包獲得積分後，您將獲得其積分的10%作為獎勵。",
     "Clicks": "點擊量",
     "Referrals": "註冊數",
-    "This month": "這個月",
-    "Last month": "下個月",
+    "This month": "本月",
+    "Last month": "上月",
     "pleaseName": "請輸入暱稱",
     "nameTips": "暱稱必須為8-32個字符",
     "pleaseNameTitle": "請輸入暱稱",
@@ -177,8 +179,8 @@
     "yourStatistics": "您的統計數據",
     "toDay": "今天",
     "yesterday": "昨天",
-    "thisMonth": "這個月",
-    "lastMonth": "上個月",
+    "thisMonth": "本月",
+    "lastMonth": "上月",
     "setCodeTips": "創建我的邀請碼",
     "createBtn": "創建",
     "code": "邀請碼",
@@ -189,7 +191,11 @@
     "enterCodeNum": "邀請碼長度必須大於3個字符",
     "connectWalletTips": "選擇錢包連接方式",
     "setCodeHint": "設置邀請碼",
-    "connectHint": "請在 MetaMask 中打開此網站"
+    "connectHint": "請在 MetaMask 中打開此網站",
+    "share": "分享",
+    "CLICKS":"點擊",
+    "REFERRALS":"邀請",
+    "POINT":"積分"
   },
   "faq": {
     "faqTitle1": " ",

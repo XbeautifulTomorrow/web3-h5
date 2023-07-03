@@ -225,9 +225,8 @@ export default {
      */
     formatAddr(event) {
       if (!event) return "";
-      let textSer = event.replace("0x", "");
       var reg = /^(\S{6})\S+(\S{4})$/;
-      return textSer.replace(reg, "$1...$2");
+      return event.replace(reg, "$1...$2");
     }
   }
 };

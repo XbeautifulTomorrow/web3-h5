@@ -21,19 +21,19 @@
         </div>
       </div>
       <div>
-        <div class="statistics_title">YOUR RANKING</div>
+        <div class="statistics_title">{{ $t("airdrop.yourRanking") }}</div>
         <div class="statistics_content">
           <div class="statistics_item">
             <div class="val">{{ accountPoint ? airdrop.rankIndex : "--" }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">{{ $t("airdrop.totalPoint") }}</div>
+            <div class="label">{{ $t("airdrop.yourPoint") }}</div>
             <div class="val">{{ accountPoint && accountPoint || "--" }}</div>
           </div>
           <img src="@/assets/svg/airdrop/icon_interval.svg" alt="">
           <div class="statistics_item">
-            <div class="label">{{ $t("airdrop.totalNft") }}</div>
+            <div class="label">{{ $t("airdrop.yourNfts") }}</div>
             <div class="val">{{ accountPoint ? airdrop.walletHoldNft : "--" }}</div>
           </div>
         </div>

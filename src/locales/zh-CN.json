@@ -193,9 +193,11 @@
     "setCodeHint": "设置邀请码...",
     "connectHint": "请在 MetaMask 中打开此网站",
     "share": "分享",
-    "CLICKS":"點擊",
-    "REFERRALS":"邀請",
-    "POINT":"積分"
+    "CLICKS": "點擊",
+    "REFERRALS": "邀請",
+    "POINT": "積分",
+    "yourPoint": "您的積分",
+    "yourNfts": "您的NFT"
   },
   "faq": {
     "faqTitle1": "",

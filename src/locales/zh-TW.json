@@ -163,7 +163,7 @@
     "pleaseNameTitle": "請輸入暱稱",
     "nameHint": "請輸入8-32個字符",
     "verifiedUser": "已驗證用戶數",
-    "totalUsers": "總用戶數",
+    "totalUsers": "已驗證用戶",
     "totalPoints": "總積分",
     "totalNft": "NFT總數",
     "yourRanking": "您的排名",
@@ -193,9 +193,11 @@
     "setCodeHint": "設置邀請碼",
     "connectHint": "請在 MetaMask 中打開此網站",
     "share": "分享",
-    "CLICKS":"點擊",
-    "REFERRALS":"邀請",
-    "POINT":"積分"
+    "CLICKS": "點擊",
+    "REFERRALS": "邀請",
+    "POINT": "積分",
+    "yourPoint": "您的積分",
+    "yourNfts": "您的NFT"
   },
   "faq": {
     "faqTitle1": " ",

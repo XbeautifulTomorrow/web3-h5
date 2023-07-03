@@ -19,7 +19,7 @@
   "header": {
     "home": "Home",
     "airdrop": "Airdrop",
-    "whitebook": "Whitebook",
+    "whitebook": "Whitepaper",
     "faq": "FAQ",
     "logout": "Logout"
   },
@@ -194,7 +194,9 @@
     "connectHint": "Please open this site in MetaMask",
     "CLICKS": "CLICKS",
     "REFERRALS": "REFERRALS",
-    "POINT": "POINT"
+    "POINT": "POINT",
+    "yourPoint": "YOUR POINTS",
+    "yourNfts": "YOUR NFTS"
   },
   "faq": {
     "faqTitle1": "FREQUENTLY",

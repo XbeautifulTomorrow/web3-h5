@@ -170,7 +170,7 @@ import { ElMessage } from "element-plus";
 import { withdrawalNft } from "@/services/api/user";
 import {
   getSystemNft,
-  //   getWalletNft,
+  getWalletNft,
   getTheExternalNFTSeries,
 } from "@/services/api/oneBuy";
 
@@ -203,8 +203,8 @@ const dialogVisible = computed({
 });
 onMounted(() => {
   //   fetchWithdrawalSystemNft();
-  //   getWalletNftApi();
-  getTheExternalNFTSeriesApi();
+  getWalletNftApi();
+  //   getTheExternalNFTSeriesApi();
 });
 const chooseNftList = computed(() => {
   const { nftName } = params;
@@ -366,60 +366,57 @@ const fetchSystemNft = async () => {
 //     }
 //   }
 // };
-const getTheExternalNFTSeriesApi = async () => {
-  loading.value = true;
-  const res = await getTheExternalNFTSeries();
-  loading.value = false;
-  if (res && res.code === 200) {
-    const records = JSON.parse(JSON.stringify(res.data));
-    records.forEach((item, index) => {
-      chooseNftData[index] = item;
-    });
-  }
-};
-// const getWalletNftApi = async () => {
+// const getTheExternalNFTSeriesApi = async () => {
 //   loading.value = true;
-//   const accounts = await window.ethereum.request({
-//     method: "eth_requestAccounts",
-//   });
-//   if (accounts && accounts[0]) {
-//     Promise.all([
-//       await getWalletNft({
-//         address: accounts[0],
-//         size: 999,
-//       }),
-//       getSystemNft({
-//         page: 1,
-//         size: 9999,
-//       }),
-//     ]).then((res) => {
-//       if (
-//         res &&
-//         res[0] &&
-//         res[1] &&
-//         res[0].code === 200 &&
-//         res[1].code === 200 &&
-//         res[0].data &&
-//         res[1].data
-//       ) {
-//         loading.value = false;
-//         const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
-//         const systemNft = JSON.parse(JSON.stringify(res[1].data.records));
-//         const _data = walletNft.filter((item) => {
-//           const _nameArr = systemNft.map((item1) => {
-//             return item1.tokenId && item1.name;
-//           });
-//           return !_nameArr.includes(item.name);
-//         });
-//         // _data.forEach((item, index) => {
-//         //   chooseNftData[index] = item;
-//         // });
-//       } else {
-//         getWalletNftApi();
-//       }
+//   const res = await getTheExternalNFTSeries();
+//   loading.value = false;
+//   if (res && res.code === 200) {
+//     const records = JSON.parse(JSON.stringify(res.data));
+//     records.forEach((item, index) => {
+//       chooseNftData[index] = item;
 //     });
 //   }
 // };
+const getWalletNftApi = async () => {
+  loading.value = true;
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  if (accounts && accounts[0]) {
+    Promise.all([
+      getWalletNft({
+        address: accounts[0],
+        size: 999,
+      }),
+      getTheExternalNFTSeries(),
+    ]).then((res) => {
+      if (
+        res &&
+        res[0] &&
+        res[1] &&
+        res[0].code === 200 &&
+        res[1].code === 200 &&
+        res[0].data &&
+        res[1].data
+      ) {
+        loading.value = false;
+        const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
+        const systemNft = JSON.parse(JSON.stringify(res[1].data));
+        const _nameArr = systemNft.map((item1) => {
+          return item1.tokenId && item1.seriesName;
+        });
+        const _data = walletNft.filter((item) => {
+          return _nameArr.includes(item.name);
+        });
+        _data.forEach((item, index) => {
+          chooseNftData[index] = item;
+        });
+      } else {
+        getWalletNftApi();
+      }
+    });
+  }
+};
 </script>
 <style lang="scss">
 @import url("./nftList.scss");

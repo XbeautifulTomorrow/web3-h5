@@ -26,6 +26,7 @@
     "p5": "^1.6.0",
     "pinia": "^2.0.35",
     "pinia-plugin-persist": "^1.0.0",
+    "protobufjs": "^7.2.4",
     "qrcodejs2": "^0.0.2",
     "qs": "^6.11.1",
     "sass-loader": "^13.2.2",

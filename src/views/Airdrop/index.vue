@@ -109,8 +109,8 @@
     <Connect v-if="showConnect" @connectWallet="onConnectType" :loadingType="connectType" @close="closeDialogFun">
     </Connect>
 
-    <el-dialog class="dialog_airdrop" v-model="showTest" width="43.75rem" :close-on-click-modal="false" :align-center="true"
-      lock-scroll :before-close="handleClose">
+    <el-dialog class="dialog_airdrop" v-model="showTest" width="43.75rem" :close-on-click-modal="false"
+      :align-center="true" lock-scroll :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -367,6 +367,7 @@ export default {
       this.connectProvider = await EthereumProvider.init({
         projectId: process.env.VUE_APP_PROJECT_ID,
         chains: [1],
+        optionalMethods: ["eth_signTypedData_v4"],
         showQrModal: true,
         qrModalOptions: {
           themeMode: 'dark',
@@ -411,22 +412,58 @@ export default {
       getKey().then(async (res) => {
         if (res.data) {
           let signature = null;
-          this.generateKey = web3.utils.toHex(res.data);
+          this.generateKey = res.data;
+
+          // Let's assume we're signing an email message
+          const message = {
+            Description: "Welcom to Bitzing! This request will not trigger a blockchain transaction or cost any gas fees.",
+            Contents: this.generateKey
+          };
+
+          // Our domain will include details about our app
+          const domain = {
+            name: 'Ether Mail',
+            version: '1',
+            chainId: 1,
+          };
+
+          // Here we define the different types our message uses
+          const types = {
+            EIP712Domain: [
+              { name: 'name', type: 'string' },
+              { name: 'version', type: 'string' },
+              { name: 'chainId', type: 'uint256' },
+            ],
+            Mail: [
+              { name: 'Description', type: 'string' },
+              { name: 'Contents', type: 'string' }
+            ],
+          };
+
+          const msgParams = JSON.stringify({
+            domain: domain,
+            primaryType: "Mail",
+            message: message,
+            types: types
+          });
+
           if (this.connectType == 1) {
             console.log(web3.eth, "web3=== ");
             signature = await window.ethereum.request({
-              method: "personal_sign",
-              params: [_that.walletAddr, this.generateKey],
+              method: "eth_signTypedData_v4",
+              params: [_that.walletAddr, msgParams],
+              from: _that.walletAddr,
             }).catch(error => {
-              console.error(error.message)
+              console.error(error.message);
               return
-            });
+            })
           }
           else {
             console.log(web3.eth, "web3=== ");
             signature = await this.connectProvider.request({
-              method: "personal_sign",
-              params: [_that.walletAddr, this.generateKey],
+              method: "eth_signTypedData_v4",
+              params: [_that.walletAddr, msgParams],
+              from: _that.walletAddr,
             }).catch(error => {
               console.error(error.message);
               return
@@ -439,7 +476,7 @@ export default {
           const bindRes = await linkWallet({
             key: res.data, //登录临时key
             signature: signature, //钱包签名
-            chainId: 5, //链ID
+            chainId: 1, //链ID
             walletAddress: web3.eth.defaultAccount, //钱包地址
           });
 

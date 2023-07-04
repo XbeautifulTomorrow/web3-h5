@@ -9,12 +9,16 @@
     "register": "注册",
     "cancel": "取消",
     "cancelUpper": "取消",
+    "confirm": "確認",
     "submit": "提交",
     "dayNum": "{days}天",
     "operationTips": "操作成功！",
     "createdTips": "創建成功",
     "abnormal": "賬戶異常",
-    "returnText": "回到登錄"
+    "returnText": "回到登錄",
+    "verifyHint": "驗證碼將發送至",
+    "refresh":"換一個",
+    "verifyEnter":"請輸入圖形驗證碼"
   },
   "header": {
     "home": "首頁",

@@ -9,12 +9,16 @@
     "register": "Register",
     "cancel": "Cancel",
     "cancelUpper": "CANCEL",
+    "confirm": "Confirm",
     "submit": "SUBMIT",
     "dayNum": "{days} Days",
     "operationTips": "Operation succeeded!",
     "createdTips": "Created successfully",
     "abnormal": "Abnormal account",
-    "returnText": "Go back to log in"
+    "returnText": "Go back to log in",
+    "verifyHint": "The verification code will be sent to",
+    "refresh": "Refresh",
+    "verifyEnter": "Please enter the graphic verification code"
   },
   "header": {
     "home": "Home",

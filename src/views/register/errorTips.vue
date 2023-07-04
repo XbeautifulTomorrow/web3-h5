@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <el-dialog v-model="showError" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="700" :before-close="closeFun">
+    class="public-dialog" width="43.75rem" :before-close="closeFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeFun] }">
         <el-icon>

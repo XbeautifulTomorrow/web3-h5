@@ -7,12 +7,13 @@
     <p class="explain-text">
       {{ $t("login.verificationHint") }}
     </p>
-    <el-button :class="['public-button', { 'cancel-button': !isAgain }]" @click="codeFun">
+    <el-button :class="['public-button', { 'cancel-button': !isAgain }]" v-loading="loading" @click="sendVerify()">
       {{ $t("login.sendAgain") }}
       <template v-if="!isAgain"> ({{ time }}) </template>
     </el-button>
     <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
     <error-tips v-if="showErr" :isReturn="false" @closeFun="handleClose()"></error-tips>
+    <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="codeFun" @closeFun="handleClose()"></imgVerify>
   </el-form>
 </template>
 <script>
@@ -24,11 +25,13 @@ import { ElMessage } from "element-plus";
 import { getCaptcha, getCheckCaptcha } from "@/services/api/user";
 import InputNumber from "@/components/input/inputNumber.vue";
 import errorTips from "../register/errorTips.vue";
+import imgVerify from "../register/imgVerify.vue";
 export default {
   name: "CodePage",
   components: {
     InputNumber,
-    errorTips
+    errorTips,
+    imgVerify
   },
   props: {
     email: {
@@ -47,7 +50,9 @@ export default {
       time: 59,
       isAgain: false,
     });
+    const loading = ref(false);
     const showErr = ref(false);
+    const showVerify = ref(false);
     const codeForm = ref(null);
     const inputref = ref([]);
     let timer = ref(null);
@@ -55,11 +60,17 @@ export default {
       inputref.value.push(el);
     };
 
+    const sendVerify = async () => {
+      if (!state.isAgain || !props.email || loading.value) return;
+      showVerify.value = true;
+    };
+
     const showDialog = () => {
       showErr.value = true;
     }
     const handleClose = () => {
       showErr.value = false
+      showVerify.value = false;
     }
 
     onMounted(() => {
@@ -142,21 +153,26 @@ export default {
     const clearFun = () => {
       this.autofocus;
     };
-    const codeFun = async () => {
-      if (!state.isAgain || !props.email) return;
-      timerFun();
+    const codeFun = async (code) => {
+      handleClose();
+      loading.value = true;
       const res = await getCaptcha({
         type: "update_password",
         email: props.email,
+        code: code
       });
       if (res && res.code === 200) {
         ElMessage({
           message: t("login.sendHint"),
           type: "success",
         });
+
+        timerFun();
       } else {
         emit("changeTypeFun", 0);
       }
+
+      loading.value = false;
     };
     const checkCaptchaFun = async () => {
       if (timer.value) {
@@ -171,6 +187,7 @@ export default {
           email: props.email,
           code: codeV,
         };
+
         const res = await getCheckCaptcha(data);
         if (res && res.code === 200) {
           emit("changeTypeFun", 2, { captcha: codeV });
@@ -216,7 +233,9 @@ export default {
     );
     return {
       ...toRefs(state),
+      loading,
       showErr,
+      showVerify,
       showDialog,
       handleClose,
       closePopup,
@@ -225,6 +244,7 @@ export default {
       codeForm,
       inputEle,
       myKeydown,
+      sendVerify
     };
   },
 };
@@ -275,6 +295,12 @@ export default {
   font-size: 1rem;
   width: 100%;
   margin-bottom: 2.5rem;
+}
+
+:deep(.el-loading-mask) {
+  background-color: rgba(29, 15, 54, 0.4);
+  border-radius: 0.5rem;
+  cursor: not-allowed;
 }
 
 .button-item {

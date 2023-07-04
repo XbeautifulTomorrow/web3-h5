@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="700"
+  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="43.75rem"
     :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">

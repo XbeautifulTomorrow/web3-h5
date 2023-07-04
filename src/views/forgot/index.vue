@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-    class="public-dialog" width="700" :before-close="closeDialogFun">
+    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
         <el-icon>
@@ -16,11 +16,18 @@
         <el-form-item :label="$t('login.email')" prop="email">
           <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
         </el-form-item>
+        <el-form-item :label="$t('login.captcha')" prop="code">
+          <div class="auth_code">
+            <el-input v-model="formLogin.code" class="public-input" :placeholder="$t('common.verifyEnter')" />
+            <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
+            <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
+          </div>
+        </el-form-item>
         <div class="form-buttons">
           <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
             {{ $t("common.cancel") }}
           </el-button>
-          <el-button class="public-button" @click="resetFun(ruleFormRef)">
+          <el-button class="public-button" @click="resetFun(ruleFormRef)" v-loading="loading">
             {{ $t("login.resetPwd") }}
           </el-button>
         </div>
@@ -39,9 +46,10 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive, defineEmits } from "vue";
+import { ref, reactive, defineEmits, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
+import { getAuthimage } from "@/services/api";
 import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
@@ -54,10 +62,15 @@ const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const type = ref(0);
 const ruleFormRef = ref();
 const title = ref(t("login.forgotTitle1"));
+const loading = ref(false);
+
+const codeImg = ref("");
+
 let formLogin = reactive({
   email: "",
   passWord: "",
   captcha: "",
+  code: ""
 });
 const rules = reactive({
   email: [
@@ -72,7 +85,26 @@ const rules = reactive({
       trigger: ["blur", "change"],
     },
   ],
+  code: [{
+    required: true,
+    message: t("common.verifyEnter"),
+    trigger: "blur",
+  },]
 });
+
+const refreshAuthimage = async () => {
+  const res = await getAuthimage();
+  if (res) {
+    sessionStorage.setItem('verify', res.headers.verify);
+
+    let blob = new Blob([res.data], {
+      type: res.headers.contentType
+    });
+
+    codeImg.value = window.URL.createObjectURL(blob);
+  }
+}
+
 const changeTypeFun = (_type, data) => {
   if (_type === 0) {
     title.value = t("login.forgotTitle1");
@@ -87,28 +119,42 @@ const changeTypeFun = (_type, data) => {
   }
   type.value = _type;
 };
+
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
+
 const goTo = (page) => {
   //   router.push({ path: `${page}` });
   emit("changeTypeFun", page);
 };
+
+onMounted(() => {
+  refreshAuthimage();
+});
+
 const resetFun = async (formEl) => {
-  if (!formEl) return;
+  if (!formEl || loading.value) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      changeTypeFun(1);
+      loading.value = true;
       const res = await getCaptcha({
         type: "update_password",
         email: formLogin.email,
+        code: formLogin.code
       });
+
       if (res && res.code === 200) {
+        changeTypeFun(1);
         ElMessage({
           message: t("login.sendHint"),
           type: "success",
         });
+      } else {
+        refreshAuthimage();
       }
+
+      loading.value = false;
     } else {
       console.log("error submit!", fields);
     }
@@ -129,6 +175,38 @@ const resetFun = async (formEl) => {
   justify-content: space-between;
 }
 
+.auth_code {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .public-input {
+    flex: 1;
+  }
+
+  .verify_img {
+    width: auto;
+    height: 4.375rem;
+    border: solid 1px #363945;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    margin-left: 1rem;
+  }
+
+  .refresh_btn {
+    margin-left: 1rem;
+    font-size: 1.25rem;
+    color: #fad54d;
+    text-decoration: underline;
+  }
+}
+
+:deep(.el-loading-mask) {
+  background-color: rgba(29, 15, 54, 0.4);
+  border-radius: 0.5rem;
+  cursor: not-allowed;
+}
+
 .public-dialog-illustrate {
   margin: 1.875rem 0;
 }
@@ -137,6 +215,28 @@ const resetFun = async (formEl) => {
 @media screen and (max-width: 950px) {
   .form-buttons {
     margin-top: 1rem;
+  }
+
+  .auth_code {
+
+    .public-input {
+      flex: 1;
+    }
+
+    .verify_img {
+      width: auto;
+      height: 3rem;
+      border: solid 1px #363945;
+      border-radius: 0.25rem;
+      box-sizing: border-box;
+      margin-left: 0.5rem;
+    }
+
+    .refresh_btn {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      color: #fad54d;
+    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="700" :before-close="closeDialogFun">
+    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
         <el-icon>
@@ -27,7 +27,10 @@
         <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
           <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
             <template #suffix>
-              <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
+              <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
+                {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
+
+              <el-button type="warning" @click.stop="sendVerify(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
             </template>
           </el-input>
@@ -59,6 +62,7 @@
       </el-button>
     </div>
     <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
+    <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
   </el-dialog>
 </template>
 <script setup>
@@ -67,7 +71,9 @@ import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import errorTips from "./errorTips.vue";
+import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
+
 import { getSessionStore, setSessionStore, openUrl } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
@@ -78,6 +84,7 @@ const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 let timer = null;
 const visible = ref(true);
 const showErr = ref(false);
+const showVerify = ref(false);
 const showRemember = ref(false);
 const ruleFormRef = ref();
 const time = ref(60);
@@ -87,6 +94,7 @@ const formRegister = reactive({
   confirm: "",
   captcha: "",
   inviteCode: "",
+  code: ""
 });
 const validatePass = (rule, value, callback) => {
   const upperStr = /^(?=.*[A-Z]).{8,}$/
@@ -158,6 +166,18 @@ const changeTypePage = () => {
   emit("changeTypeFun", "login")
 };
 
+const sendVerify = async (formEl) => {
+  if (!ruleFormRef.value || time.value < 60) return;
+  await formEl.validateField("email", async (valid, fields) => {
+    if (valid) {
+      setSessionStore("email", formRegister.email);
+      showVerify.value = true;
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+
 const showDialog = () => {
   if (!formRegister.email) {
     ElMessage({
@@ -171,23 +191,25 @@ const showDialog = () => {
   setSessionStore("email", formRegister.email);
   showErr.value = true;
 }
-const handleClose = () => {
-  showErr.value = false
-}
 
+const handleClose = () => {
+  showErr.value = false;
+  showVerify.value = false;
+}
 
 const clearTimerFun = () => {
   clearInterval(timer);
   timer = null;
 };
-const getCaptchaApi = async (formEl) => {
-  if (!formEl || time.value < 60) return;
-  await formEl.validateField("email", async (valid, fields) => {
+const getCaptchaApi = async (code) => {
+  handleClose();
+  await ruleFormRef.value.validateField("email", async (valid, fields) => {
     if (valid) {
 
       const res = await getCaptcha({
         type: "register",
         email: formRegister.email,
+        code: code
       });
       if (res && res.code === 200) {
         timer = setInterval(() => {

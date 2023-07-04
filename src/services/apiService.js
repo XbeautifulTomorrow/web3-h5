@@ -13,11 +13,19 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
-const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp"];
+const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "/mystery-web-user/auth/getCode"];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
       config.headers.certificate = localStorage.getItem("certificate");
+    }
+
+    if (sessionStorage.getItem("verify")) {
+      config.headers.verify = sessionStorage.getItem("verify");
+    }
+
+    if (config.url.indexOf("/mystery-web-user/auth/getCode") > -1) {
+      config.responseType = "blob"
     }
     return config;
   },
@@ -40,7 +48,7 @@ axiosInstance.interceptors.response.use(
 );
 
 // eslint-disable-next-line no-unused-vars
-const handleRes = ({ type, url, data }) => {
+const handleRes = ({ headers, url, data }) => {
   if (data.code === 200) {
     return data;
   } else if (data.code === 20011) {
@@ -63,7 +71,12 @@ const handleRes = ({ type, url, data }) => {
         type: "warning",
       });
     }
-    return [false, data.code, data];
+
+    if (notMessage.includes("/mystery-web-user/auth/getCode")) {
+      return headers;
+    } else {
+      return [false, data.code, data];
+    }
   }
 };
 
@@ -71,7 +84,7 @@ export async function post(url, params, config = {}) {
   try {
     const res = await axiosInstance.post(url, params, config);
     return handleRes({
-      type: "post",
+      headers: res,
       url,
       data: res.data,
     });
@@ -89,7 +102,7 @@ export async function get(url, params) {
   try {
     const res = await axiosInstance.get(url, { params });
     return handleRes({
-      type: "get",
+      headers: res,
       url,
       data: res.data,
     });

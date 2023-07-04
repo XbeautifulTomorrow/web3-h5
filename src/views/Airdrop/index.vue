@@ -109,7 +109,7 @@
     <Connect v-if="showConnect" @connectWallet="onConnectType" :loadingType="connectType" @close="closeDialogFun">
     </Connect>
 
-    <el-dialog class="dialog_airdrop" v-model="showTest" width="700" :close-on-click-modal="false" :align-center="true"
+    <el-dialog class="dialog_airdrop" v-model="showTest" width="43.75rem" :close-on-click-modal="false" :align-center="true"
       lock-scroll :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
@@ -129,7 +129,7 @@
         </div>
       </div>
     </el-dialog>
-    <el-dialog class="dialog_airdrop public-dialog" v-model="showSucceess" width="700" :close-on-click-modal="false"
+    <el-dialog class="dialog_airdrop public-dialog" v-model="showSucceess" width="43.75rem" :close-on-click-modal="false"
       :align-center="true" lock-scroll :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
@@ -148,7 +148,7 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog class="dialog_airdrop public-dialog" v-model="showSend" width="700" :close-on-click-modal="false"
+    <el-dialog class="dialog_airdrop public-dialog" v-model="showSend" width="43.75rem" :close-on-click-modal="false"
       :align-center="true" lock-scroll :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
@@ -492,6 +492,7 @@ export default {
       const res = await getSetting({
         coin: "ETH"
       });
+
       if (res && res.code == 200) {
         this.setting = res.data;
         this.currentTime = res.localDateTime;

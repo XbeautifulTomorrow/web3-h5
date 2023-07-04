@@ -18,7 +18,8 @@
     "returnText": "Go back to log in",
     "verifyHint": "The verification code will be sent to",
     "refresh": "Refresh",
-    "verifyEnter": "Please enter the graphic verification code"
+    "verifyEnter": "Please enter the graphic verification code",
+    "captcha": "Verification Code"
   },
   "header": {
     "home": "Home",

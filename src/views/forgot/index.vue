@@ -16,7 +16,7 @@
         <el-form-item :label="$t('login.email')" prop="email">
           <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
         </el-form-item>
-        <el-form-item :label="$t('common.captcha')" prop="code">
+        <el-form-item prop="code">
           <div class="auth_code">
             <el-input v-model="formLogin.code" class="public-input" :placeholder="$t('common.verifyEnter')" />
             <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />

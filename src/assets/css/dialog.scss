@@ -287,7 +287,7 @@
 
     .public-form {
       .el-form-item {
-        margin-bottom: 0.25rem;
+        margin-bottom: 1.25rem;
       }
 
       .el-form-item__label {
@@ -297,7 +297,6 @@
       }
 
       .el-form-item__error {
-        position: static;
         font-size: 0.75rem;
         line-height: 1.2;
         text-align: left;

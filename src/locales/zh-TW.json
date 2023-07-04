@@ -17,8 +17,8 @@
     "abnormal": "帳戶異常",
     "returnText": "回到登錄",
     "verifyHint": "驗證碼將發送至",
-    "refresh":"換一個",
-    "verifyEnter":"請輸入圖形驗證碼",
+    "refresh": "換一個",
+    "verifyEnter": "請輸入圖形驗證碼",
     "captcha": "驗證碼"
   },
   "header": {
@@ -309,6 +309,7 @@
     "failed_to_purchase_nft": "NFT購買失敗",
     "The_wallet_is_already_bound_by_other_users": "錢包已被其他用戶綁定",
     "not_open_time": "活動尚未開始",
+    "the_invitation_code_exceeds_the_limit": "邀請碼超出限制",
     "": "服務器繁忙，請稍後重試",
     "null": "服務器繁忙，請稍後重試",
     "undefined": "服務器繁忙，請稍後重試"

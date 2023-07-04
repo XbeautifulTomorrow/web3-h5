@@ -16,7 +16,7 @@
     "createdTips": "創建成功",
     "abnormal": "帳戶異常",
     "returnText": "回到登錄",
-    "verifyHint": "驗證碼將發送至",
+    "verifyHint": "驗證碼將發送至：",
     "refresh": "換一個",
     "verifyEnter": "請輸入圖形驗證碼",
     "captcha": "驗證碼"

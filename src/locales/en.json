@@ -16,7 +16,7 @@
     "createdTips": "Created successfully",
     "abnormal": "Abnormal account",
     "returnText": "Go back to log in",
-    "verifyHint": "The verification code will be sent to",
+    "verifyHint": "The verification code will be sent to:",
     "refresh": "Refresh",
     "verifyEnter": "Please enter the CAPTCHA",
     "captcha": "CAPTCHA"

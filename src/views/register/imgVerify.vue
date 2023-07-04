@@ -11,8 +11,8 @@
     </template>
     <div class="public-dialog-content form-content">
       <div class="verify_text">
-        <span>{{ $t("common.verifyHint") }}</span>
-        <span class="email">&nbsp;{{ email }}</span>
+        <div>{{ $t("common.verifyHint") }}</div>
+        <div class="email">&nbsp;{{ email }}</div>
       </div>
       <div class="auth_code">
         <el-input v-model="codeVerify" class="public-input" :placeholder="$t('common.verifyEnter')" />

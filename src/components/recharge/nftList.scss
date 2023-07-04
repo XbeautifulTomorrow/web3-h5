@@ -632,6 +632,7 @@
     background-color: #1d0f36;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
 
     &:hover {
       .img_box {
@@ -695,6 +696,10 @@
       .mask_box {
         display: flex;
       }
+    }
+    &.disabled {
+      background-color: #13151f;
+      cursor: default;
     }
   }
 

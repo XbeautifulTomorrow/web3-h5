@@ -14,6 +14,7 @@ const getSystemNft = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getWalletNftSystem", params);
 /**
  * @description 获取外部系列
+ * 全部-ALL；平台-PLATFORM，外部-EXTERNAL，不传默认外部
  */
 const getTheExternalNFTSeries = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getTheExternalNFTSeries", params);

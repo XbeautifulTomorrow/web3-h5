@@ -125,7 +125,10 @@
         <div class="choose_nft">
           <div
             class="choose_nft_item"
-            :class="[nftFind(item.seriesName) > -1 && 'active']"
+            :class="[
+              nftFind(item.id) > -1 && 'active',
+              { disabled: NFTSeries.includes(item.name) },
+            ]"
             @click="chooseNfts(item)"
             v-for="(item, index) in chooseNftList"
             :key="index"
@@ -229,6 +232,7 @@ const calculatedNftValue = computed(() => {
   return nftVal;
 });
 
+const NFTSeries = reactive([]);
 const title = ref(props.isDeposit ? "Deposit" : "Withdraw");
 const params = reactive({
   nftName: null,
@@ -248,12 +252,13 @@ const handleClose = () => {
 };
 // 选择检索
 const nftFind = (event) => {
-  const eindex = chooseNft.findIndex((e) => e.seriesName == event);
+  const eindex = chooseNft.findIndex((e) => e.id == event);
   return eindex;
 };
 // 选择Nft
 const chooseNfts = (event) => {
-  const eindex = nftFind(event.seriesName);
+  if (NFTSeries.values.includes(event.name)) return;
+  const eindex = nftFind(event.id);
   if (eindex > -1) {
     chooseNft.splice(eindex, 1);
   } else {
@@ -405,10 +410,11 @@ const getWalletNftApi = async () => {
         const _nameArr = systemNft.map((item1) => {
           return item1.tokenId && item1.seriesName;
         });
-        const _data = walletNft.filter((item) => {
-          return _nameArr.includes(item.name);
-        });
-        _data.forEach((item, index) => {
+        NFTSeries.values = _nameArr;
+        // const _data = walletNft.filter((item) => {
+        //   return _nameArr.includes(item.name);
+        // });
+        walletNft.forEach((item, index) => {
           chooseNftData[index] = item;
         });
       } else {

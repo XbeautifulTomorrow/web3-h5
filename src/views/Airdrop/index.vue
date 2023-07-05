@@ -228,6 +228,7 @@ export default {
       showConnect: false,
       isConnect: false,
       walletAddr: null,
+      currentChainId: null,
       airdropData: {},
       connectType: 0,
       connectProvider: null,
@@ -338,13 +339,13 @@ export default {
         ethereum
           .enable()
           .then(async (accounts) => {
-            //如果用户同意了登录请求，你就可以拿到用户的账号
             web3 = new Web3(window.ethereum);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
             window.web3 = web3;
             _that.web3 = web3;
             _that.walletAddr = accounts[0];
+
             // 绑定钱包
             _that.bindWallet();
           })
@@ -381,7 +382,7 @@ export default {
         console.log(event);
         _that.showSend = false;
         _that.connectType = 0;
-      })
+      });
 
       //  Enable session (triggers QR Code modal)
       await this.connectProvider.enable().then(async (accounts) => {
@@ -409,6 +410,12 @@ export default {
     async bindWallet() {
       const _that = this;
       let web3 = window.web3;
+      this.currentChainId = await web3.eth.getChainId();
+      if (this.currentChainId != 1) {
+        ElMessage.error(t("airdrop.chainErr"));
+        this.connectType = 0;
+        return
+      }
       getKey().then(async (res) => {
         if (res.data) {
           let signature = null;
@@ -455,6 +462,7 @@ export default {
               from: _that.walletAddr,
             }).catch(error => {
               console.error(error.message);
+              this.connectType = 0;
               return
             })
           }
@@ -466,6 +474,7 @@ export default {
               from: _that.walletAddr,
             }).catch(error => {
               console.error(error.message);
+              this.connectType = 0;
               return
             });
           }

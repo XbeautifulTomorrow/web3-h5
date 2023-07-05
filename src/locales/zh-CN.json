@@ -202,7 +202,8 @@
     "REFERRALS": "邀請",
     "POINT": "積分",
     "yourPoint": "您的積分",
-    "yourNfts": "您的NFT"
+    "yourNfts": "您的NFT",
+    "chainErr": "不支持當前網絡，請切換至Ethereum"
   },
   "faq": {
     "faqTitle1": "",

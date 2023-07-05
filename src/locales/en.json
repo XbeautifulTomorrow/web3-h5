@@ -201,7 +201,8 @@
     "REFERRALS": "REFERRALS",
     "POINT": "POINT",
     "yourPoint": "YOUR POINTS",
-    "yourNfts": "YOUR NFTS"
+    "yourNfts": "YOUR NFTS",
+    "chainErr": "The current network is not supported, please switch to Ethereum."
   },
   "faq": {
     "faqTitle1": "FREQUENTLY",

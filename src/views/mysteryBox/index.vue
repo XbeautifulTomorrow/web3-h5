@@ -15,6 +15,7 @@
         :lottoList="blindDetailInfo.series"
         :lottResult="lottResult"
         :apiIsError="apiIsError"
+        :errorText="errorText"
         @apiIsErrorFun="apiIsErrorFun"
         @closeRollFun="closeRollFun"
       />
@@ -88,6 +89,7 @@ export default {
       lottResult: "",
       apiIsError: false,
       resultTimer: null,
+      errorText: undefined,
     };
   },
   computed: {
@@ -127,6 +129,7 @@ export default {
     },
     apiIsErrorFun(data) {
       this.apiIsError = data;
+      this.errorText = undefined;
     },
     async setBalanceOrder(coiledType) {
       this.loading = true;
@@ -146,6 +149,7 @@ export default {
         this.timeOutFun(walletOrderInfo);
       } else {
         this.apiIsError = true;
+        this.errorText = walletOrderInfo;
       }
       // this.walletOrderDetail = walletOrderInfo.data;
       // this.transfer(this.walletOrderDetail.orderId, coiledType);
@@ -174,6 +178,7 @@ export default {
           }
         } else {
           this.apiIsError = true;
+          this.errorText = result;
           this.clearTimerFun();
         }
       }, 2000);

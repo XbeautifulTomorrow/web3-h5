@@ -120,7 +120,14 @@ export default {
     oneAward,
     Loading,
   },
-  props: ["lottoList", "lottResult", "apiIsError", "showRoll", "rollNumber"],
+  props: [
+    "lottoList",
+    "lottResult",
+    "apiIsError",
+    "errorText",
+    "showRoll",
+    "rollNumber",
+  ],
   data() {
     return {
       loading: false,
@@ -167,10 +174,13 @@ export default {
     },
     apiIsError: function (newData) {
       if (newData) {
+        const { errorText } = this;
         this.$emit("apiIsErrorFun", false);
         this.showDialog = "transactionWarning";
         this.warningText =
-          "Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.";
+          errorText && errorText[2] && errorText[2].message
+            ? errorText[2].message
+            : "Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.";
       }
     },
   },

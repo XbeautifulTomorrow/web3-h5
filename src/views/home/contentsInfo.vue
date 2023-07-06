@@ -2,9 +2,9 @@
   <div class="contents-info">
     <div class="home-public-title">
       <div class="title-box-l">
-        <div class="title_text">CONTENTS INFORMATION</div>
+        <div class="title_text">{{ $t("home.contentsInfoTitle") }}</div>
         <div class="title_description">
-          All the NFTs shown here are available from the mystery box.
+          {{ $t("home.contentsInfoTips") }}
         </div>
       </div>
       <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
@@ -14,7 +14,7 @@
       </el-select>
     </div>
     <el-table :data="nftData" class="table_container" style="width: 100%">
-      <el-table-column prop="nftId" label="NFT">
+      <el-table-column prop="nftId" label="NFT" min-width="120">
         <template #default="scope">
           <div class="user_info">
             <img :src="scope.row.nftImg" alt="">
@@ -22,29 +22,29 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" label="Collections" />
-      <el-table-column prop="price" label="Price">
+      <el-table-column prop="nftName" :label="$t('home.tabelText1')" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="price" :label="$t('home.tabelText2')" show-overflow-tooltip>
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" label="USD Price">
+      <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" min-width="100" show-overflow-tooltip>
         <template #default="scope">
           {{ `$${scope.row.usdtPrice}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" label="Recommended" />
-      <el-table-column prop="date" label="Action" align="right">
-        <template #default="scope">
+      <el-table-column prop="boxName" :label="$t('home.tabelText4')" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="date" :label="$t('home.tabelText5')" align="right" fixed="right">
+        <template #default>
           <div class="active_btn">
-            <img @click="handleActive(scope.row)" src="@/assets/svg/home/icon_active.svg" alt="">
+            <img src="@/assets/svg/home/icon_active.svg" alt="">
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination-box">
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-        layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
   </div>
 </template>
@@ -121,6 +121,16 @@ export default {
 
   .el-popper__arrow {
     display: none;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+    }
   }
 }
 </style>

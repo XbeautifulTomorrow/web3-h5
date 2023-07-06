@@ -119,6 +119,28 @@ export function onCopy(event) {
   }
 }
 
+function debounce(fn, delay) {
+  let timer;
+  return function () {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn();
+    }, delay);
+  };
+}
+
+/**
+ * @description:  resize事件监听窗口变化
+ * @param {object} callback
+ * @return {*}
+ */
+export function handleWindowResize(callback) {
+  const cancalDebounce = debounce(callback, 300);
+  window.addEventListener("resize", cancalDebounce);
+}
+
 /**
  * @description:  时间格式化
  * @param {Date} time
@@ -175,7 +197,7 @@ export function timeForStr(time, str) {
  * @param string event 时间
  */
 export function timeFormat(event) {
-  if (!event) return "-"
+  if (!event) return "--"
   const timestamp = new Date(event).getTime() / 1000;
 
   function zeroize(num) {
@@ -256,10 +278,10 @@ function monthFormat(event) {
  * @param endTime   结束时间
  * @return
  */
-export function dateDiff(event) {
+export function dateDiff(event, end = new Date()) {
   if (!event) return "ENDED"
   const setTime = new Date(event).getTime();
-  const nowTime = new Date().getTime();
+  const nowTime = new Date(end).getTime();
   if (nowTime >= setTime) return "ENDED";
 
   // 按照传入的格式生成一个simpledateformate对象
@@ -317,7 +339,7 @@ export function getDifferent(jsons, contrast) {
 
   for (const keys in a) {
     if (typeof a[keys] != "object" || b[keys] == undefined) {
-      console.log("出错！json属性不一致");
+      console.log("error! Inconsistent json attributes");
       console.log(a);
       console.log(b);
       return;

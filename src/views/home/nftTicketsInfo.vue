@@ -350,7 +350,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.$message.success("购买成功！");
+        this.$message.success("Successful purchase!");
         this.buyVotes = null;
         this.fetchOneBuyInfo();
         this.fetchBuyRecord();

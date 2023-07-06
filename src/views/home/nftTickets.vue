@@ -1,10 +1,8 @@
 <template>
   <div class="ntf-tickets">
     <div class="home-public-title">
-      <div class="title_text">COMPETITION</div>
-      <div class="title_description">
-        Enter now for a chance to win a blue chip NFT
-      </div>
+      <div class="title_text">{{ $t("home.nftTicketTitle") }}</div>
+      <div class="title_description">{{ $t("home.nftTicketTips") }}</div>
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in ticketList">
@@ -17,7 +15,7 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                <countDown v-else v-slot="timeObj" :time="currentTime" :end="item && item.endTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown>
               </div>
@@ -33,7 +31,7 @@
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
-              <div class="name-text">{{ item.seriesName || "-" }}</div>
+              <div class="name-text text-ellipsis">{{ item.seriesName || "-" }}</div>
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
             <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>
@@ -42,16 +40,25 @@
             {{ `${item.price} ETH` }}
           </div>
           <div class="boxes-button">
-            <span class="boxes-button-name">ENTER NOW</span>
+            <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
           </div>
-          <div class="sold-box">{{ `${item.numberOfTicketsSold || 0} Tickets sold` }}</div>
+          <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
+            {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
+          </div>
+          <div class="sold-box" v-else>
+            {{ $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 }) }}
+          </div>
         </li>
       </template>
     </ul>
     <div class="ntf-tickets-all" @click="openAll()">
-      <span>View all competition</span>
+      <span>View all competitions</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
@@ -59,55 +66,113 @@
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
+
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+import { getSetting } from "@/services/api/invite";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
   components: {
+    Login,
+    Register,
+    Forgot,
+    Modify,
+    // eslint-disable-next-line vue/no-unused-components
     countDown
   },
   data() {
     return {
+      pageType: null,
       tickets: [
         {
-          url: '',
+          nftImage: require("@/assets/img/airdrop/nft_1.png"),
+          tokenId: "24336",
           orderType: "LIMITED_TIME",
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          seriesName: 'Mutant Ape Yacht Club',
+          price: '6.9',
           currency: 'ETH',
+          numberOfTicketsSold: 0
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_2.png"),
+          tokenId: "6492",
+          seriesName: 'Bored Ape Yacht Club',
+          price: '48.99',
           currency: 'ETH',
+          numberOfTicketsSold: 0
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_3.png"),
+          tokenId: '8518',
+          seriesName: 'Azuki',
+          price: '10.0275',
           currency: 'ETH',
+          numberOfTicketsSold: 0
         },
         {
-          url: '',
-          seriesName: 'Bored Ape Yacht Club Box',
-          sale: 'Sale: 1234',
-          price: '69.84',
+          nftImage: require("@/assets/img/airdrop/nft_4.png"),
+          tokenId: '9643',
+          seriesName: 'Bored Ape Yacht Club',
+          price: '38.027',
           currency: 'ETH',
+          numberOfTicketsSold: 0
         },
       ],
+      currentTime: null
     };
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
   },
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH"
+      });
+
+      if (res && res.code == 200) {
+        this.currentTime = res.localDateTime;
+        this.$forceUpdate();
+      }
+    },
     handleTickets(event) {
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      if (this.isLogin && this.userInfo?.id) {
+        this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      } else {
+        this.changeTypeFun('login');
+      }
     },
     openAll() {
       this.$router.push({ name: "NftTicketsList" });
+    },
+    closeDialogFun() {
+      this.pageType = "";
+      this.showConnect = false;
+      if (this.userInfo) {
+        this.getTheUserBalanceInfo();
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
+      }
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
     },
   }
 };

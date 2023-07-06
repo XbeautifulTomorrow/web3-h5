@@ -292,7 +292,7 @@ export default {
     // 取消赛事
     cancelOrder(event) {
       if (event.numberOfTicketsSold > 0) {
-        this.$message.error("该赛事已有用户参与，下架失败");
+        this.$message.error("There are already users participating in this event, but the removal failed");
         return
       }
 

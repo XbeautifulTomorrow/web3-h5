@@ -1,24 +1,10 @@
 <template>
   <div class="lottery-moreLuck">
     <p class="lottery-moreLuck-line"></p>
-    <awards-list
-      v-for="(item, index) in prizeList"
-      :key="`moreLuck-${item}`"
-      :height="height"
-      :prizePoolList="item"
-      :autoplay="autoplay[index]"
-      :interval="interval"
-      :winData="winData[index]"
-    />
-    <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      :loop="musicLoop"
-      class="bitzing-audio"
-    ></audio>
+    <awards-list v-for="(item, index) in prizeList" :key="`moreLuck-${item}`" :height="height" :prizePoolList="item"
+      :autoplay="autoplay[index]" :interval="interval" :winData="winData[index]" />
+    <audio id="music" ref="music" preload="auto" webkit-playsinline="true" playsinline="true" :loop="musicLoop"
+      class="bitzing-audio"></audio>
   </div>
 </template>
 <script>
@@ -143,13 +129,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./css/more.scss");
+@import "./css/more.scss";
 </style>
 <style lang="scss">
 .lottery-moreLuck {
   .el-carousel__container {
     height: 100%;
   }
+
   .el-dialog__body {
     padding: 0;
   }

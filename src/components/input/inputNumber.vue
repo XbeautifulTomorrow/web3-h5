@@ -1,21 +1,10 @@
 <template>
-  <div
-    :class="[
-      'public-input-com number-input',
-      { showBorder: isShowBorder || newValue || newValue === 0 },
-    ]"
-  >
-    <el-input
-      class="public-input"
-      type="number"
-      v-model.number="newValue"
-      :placeholder="placeholder"
-      :autofocus="autofocus"
-      :maxlength="maxlength"
-      :minlength="minlength"
-      @focus="focusFun"
-      @blur="blurFun"
-    >
+  <div :class="[
+    'public-input-com number-input',
+    { showBorder: isShowBorder || newValue || newValue === 0 },
+  ]">
+    <el-input class="public-input" type="number" v-model.number="newValue" :placeholder="placeholder"
+      :autofocus="autofocus" :maxlength="maxlength" :minlength="minlength" @focus="focusFun" @blur="blurFun">
     </el-input>
   </div>
 </template>
@@ -75,6 +64,7 @@ export default {
   border: solid 1px #363945;
   background-color: #13151f;
 }
+
 .showBorder {
   border: solid 1px #a9a4b4;
 }

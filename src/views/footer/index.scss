@@ -1,0 +1,266 @@
+.footer {
+  height: 44.8125rem;
+  text-align: center;
+  background: url('@/assets/img/home/footer_bg.png') no-repeat;
+  background-repeat: no-repeat;
+  background-size: 100% 44.8125rem;
+  background-position: center center;
+}
+
+.footer-container {
+  width: 95rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 9.625rem;
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+.footer-nav-box {
+  display: flex;
+}
+
+.footer-nav-items {
+  &>.footer-nav-text {
+    padding: 0 12.5rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: left;
+    color: white;
+    cursor: pointer;
+
+    &.active {
+      font-family: Tomorrow;
+      font-size: 1.375rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 0.625rem;
+      cursor: auto;
+    }
+  }
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12.5rem;
+
+  &>li+li {
+    margin-top: 0.625rem;
+  }
+
+  &>li {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+
+    &.active {
+      font-family: Tomorrow;
+      font-size: 1.375rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 0.625rem;
+      cursor: auto;
+    }
+  }
+}
+
+.footer-social {
+  font-family: Tomorrow;
+  font-size: 1.375rem;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: left;
+  color: white;
+  padding-bottom: 1.875rem;
+}
+
+.footer-link {
+  display: flex;
+
+  &>li+li {
+    margin-left: 0.75rem;
+  }
+}
+
+.footer-link-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+:deep(.language_select) {
+  margin-top: 1.875rem;
+
+  .el-input {
+    .el-input__wrapper {
+      &.is-focus {
+        box-shadow: none !important;
+        outline: none !important;
+      }
+    }
+  }
+
+  .el-input__wrapper {
+    box-shadow: none !important;
+    outline: none !important;
+    width: 12.5rem;
+    height: 2.5rem;
+    padding: 0.25rem 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #311e4a;
+    box-sizing: border-box;
+
+    &>input {
+      height: auto;
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1;
+      text-align: left;
+      color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .footer {
+    padding: 0 1.5rem;
+    height: auto;
+    background-size: contain;
+    background-position: center bottom;
+  }
+
+  .footer-container {
+    width: auto;
+    flex-direction: column;
+  }
+
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      margin: 0 auto;
+      width: 5.25rem;
+      height: auto;
+      margin-bottom: 0.75rem;
+    }
+
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+
+  .footer-nav-box {
+    display: flex;
+    padding-top: 1.5rem;
+
+    img {
+      display: none;
+    }
+  }
+
+  .footer-nav-items {
+    flex: 1;
+
+    &>.footer-nav-text {
+      padding: 0;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      text-align: center;
+
+      &.active {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+
+  .footer-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 0;
+
+    &>li+li {
+      margin-top: 0;
+      margin-left: 0.625rem;
+    }
+
+    &>li {
+      font-size: 0.75rem;
+      line-height: 1.2;
+
+      &.active {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .footer-social {
+    padding-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.2;
+    padding-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .footer-link {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+
+    &>li+li {
+      margin-left: 1.5rem;
+    }
+  }
+
+  .footer-link-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+  }
+
+  :deep(.language_select) {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+
+
+    .el-input__wrapper {
+      width: 8rem;
+      height: 1.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      background-color: #311e4a;
+
+      &>input {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

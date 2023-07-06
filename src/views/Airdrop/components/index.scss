@@ -1,0 +1,611 @@
+.wrapper_bg {
+  background-image: url("@/assets/img/box/lottery_bg.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+
+.airdrop_container {
+  box-sizing: border-box;
+  width: 95rem;
+  margin: 0 auto;
+  padding: 5rem 0;
+}
+
+.banner_container {
+  width: 100%;
+  height: 18.75rem;
+  box-sizing: border-box;
+  padding: 0 6.25rem;
+  background-image: url("@/assets/svg/airdrop/invite_bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner_l {
+  z-index: 2;
+  text-align: left;
+
+  &>div {
+    margin-top: 0.625rem;
+  }
+
+  .operation {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #a9a4b4;
+  }
+
+  .title {
+    font-family: Tomorrow;
+    font-size: 4rem;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  }
+
+  .description {
+    max-width: 50.25rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: white;
+  }
+}
+
+.banner_r {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+
+  img {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 21.875rem;
+  }
+}
+
+.border_bg {
+  box-sizing: border-box;
+  padding: 1px;
+  border-image-source: linear-gradient(145deg,
+      #ff25c2 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0) 75%,
+      #ff25c2 100%, );
+  border-image-slice: 1;
+  border-radius: 0.625rem;
+  background-image: linear-gradient(135deg, #281d31, #281d31),
+    linear-gradient(145deg,
+      #ff25c2 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0) 75%,
+      #ff25c2 100%, );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.taps_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 3.75rem;
+
+  .taps_item {
+    width: 30.375rem;
+    height: 9.875rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 1.25rem;
+    background-color: #1d0f36;
+    cursor: pointer;
+
+    img {
+      width: 3rem;
+      height: auto;
+      margin-bottom: 0.625rem;
+    }
+
+    font-family: BlenderPro;
+    font-size: 2.875rem;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+    color: rgba(169, 164, 180, 0.6);
+
+    &.active {
+      color: white;
+    }
+  }
+}
+
+.connect_wallet {
+  width: 100%;
+  height: 9.375rem;
+  margin-top: 1.875rem;
+  padding: 0 1.875rem;
+  border-radius: 0.625rem;
+  background-color: #13151f;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &_l {
+    display: flex;
+    align-items: center;
+
+    .default_avatar {
+      width: 4rem;
+      margin-right: 1rem;
+    }
+
+    .user_box {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      &>div {
+        margin-top: 0.625rem;
+      }
+
+      .username_text {
+        display: flex;
+        align-items: center;
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.6;
+        color: white;
+
+        img {
+          width: 1rem;
+          margin-left: 0.625rem;
+          cursor: pointer;
+        }
+      }
+
+      .tips_text {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        line-height: 1.43;
+        color: white;
+
+        img {
+          width: 1.25rem;
+          margin-right: 0.75rem;
+        }
+      }
+    }
+  }
+
+  &_r {
+    .connect_btn {
+      width: 21.6875rem;
+      height: 3.75rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      background-image: linear-gradient(to top, #e3a406 2%, #fbd851 102%);
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: #13151f;
+      cursor: pointer;
+    }
+
+    .connect_tips {
+      padding-top: 0.625rem;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      text-align: left;
+      color: #a9a4b4;
+    }
+  }
+}
+
+:deep(.dialog_airdrop) {
+  border-radius: 1.25rem;
+  box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
+  background-color: #20222d;
+
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+    position: relative;
+    padding: 3.75rem 0;
+  }
+}
+
+.close_btn {
+  position: absolute;
+  top: 1.6875rem;
+  right: 1.875rem;
+  width: 2.8125rem;
+  height: 2.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #2d313f;
+  background-color: #2a2d36;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #a9a4b4;
+}
+
+.operating_title {
+  font-family: BlenderPro;
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  color: white;
+}
+
+.link_box {
+  padding: 0 1.875rem;
+  box-sizing: border-box;
+
+  .operating_tips {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #a9a4b4;
+    padding-bottom: 1.875rem;
+  }
+
+  :deep(.wallet_addr) {
+    margin: 0 0 2.5rem;
+
+    .el-input__wrapper {
+      height: 4.375rem;
+      border-radius: 0.5rem;
+      background-color: #13151f;
+      box-shadow: none !important;
+      padding: 0 1.25rem;
+      border: solid 1px #363945;
+      background-color: #13151f;
+
+      &>input {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        text-align: left;
+        color: white;
+      }
+    }
+  }
+
+  .btns_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>div+div {
+      margin-left: 1.875rem;
+    }
+
+    .btn_item {
+      flex: 1;
+      height: 3.8125rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      cursor: pointer;
+
+      &.cancel {
+        border: solid 1px rgba(228, 231, 245, 0.15);
+        background-color: #292c36;
+        color: white;
+      }
+
+
+      &.submit {
+        background-image: linear-gradient(to top, #e3a406, #fbd851);
+        color: #13151f;
+      }
+    }
+  }
+
+  .public-dialog-illustrate {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: rgba(228, 231, 245, 0.8);
+    padding: 2.5rem 0;
+    text-align: left;
+    word-break: break-all;
+  }
+
+  .public-button {
+    &.cancel {
+      border: solid 1px rgba(228, 231, 245, 0.15);
+      background-color: #292c36;
+      background-image: none;
+      color: white !important;
+    }
+  }
+}
+
+.countdown {
+  padding: 1px;
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: 1px;
+  border-image-source: linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  border-image-slice: 1;
+  background-image: linear-gradient(to bottom, #1d0f36, #1d0f36), linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  .content {
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+.countdown_tips {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: white;
+  margin-right: 1.875rem;
+
+  &.external {
+    display: none;
+  }
+
+  &.internal {
+    display: block;
+  }
+}
+
+.countdown_time_box {
+  display: flex;
+  align-items: flex-start;
+
+  &>div:nth-child(2n+1) {
+    width: 3.75rem;
+  }
+
+  .countdown_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .val {
+      font-family: Tomorrow;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: white;
+    }
+
+    .text {
+      font-size: 0.625rem;
+      line-height: 1.2;
+      color: #a9a4b4;
+    }
+  }
+}
+
+.public-button+.public-button {
+  margin-left: 0;
+  margin-top: 1.5rem;
+}
+
+@media screen and (max-width: 950px) {
+  .airdrop_container {
+    box-sizing: border-box;
+    width: auto;
+    margin: 0 1.5rem;
+    padding: 1rem 0 4rem;
+  }
+
+  .banner_container {
+    width: auto;
+    height: 6rem;
+    padding: 0 0.75rem;
+  }
+
+  .banner_l {
+    text-align: left;
+
+    &>div {
+      margin-top: 0;
+    }
+
+    .operation {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .description {
+      display: none;
+    }
+  }
+
+  .banner_r {
+    img {
+      width: 6rem;
+    }
+  }
+
+
+  .taps_box {
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 0.75rem;
+
+    &>div+div {
+      margin-top: 0.5rem;
+    }
+
+    .taps_item {
+      width: 100%;
+      height: 4rem;
+      flex-direction: row;
+      border-radius: 0.5rem;
+
+      img {
+        width: 2rem;
+        margin-bottom: 0px;
+        margin-right: 0.625rem;
+      }
+
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+  }
+
+  .connect_wallet {
+    height: auto;
+    margin-top: 0.75rem;
+    padding: 0.875rem 0.75rem;
+    border-radius: 0.5rem;
+
+    &_l {
+      display: flex;
+      align-items: center;
+
+      .default_avatar {
+        width: 2rem;
+        margin-right: 0.75rem;
+      }
+
+      .user_box {
+        max-width: 7.5rem;
+
+        &>div {
+          margin-top: 0;
+        }
+
+        .username_text {
+          font-size: 0.875rem;
+        }
+
+        .tips_text {
+          font-size: 0.5rem;
+          line-height: 2;
+
+          img {
+            width: 1rem;
+            margin-right: 0.25rem;
+          }
+        }
+      }
+    }
+
+    &_r {
+      .connect_btn {
+        width: 5rem;
+        height: 2.25rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1;
+      }
+
+      .connect_tips {
+        display: none;
+      }
+    }
+  }
+
+  :deep(.dialog_airdrop) {
+    border-radius: 0rem;
+
+    .el-dialog__body {
+      padding: 0;
+      position: relative;
+      padding: 1.5rem 0;
+    }
+  }
+
+  .close_btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  .operating_title {
+    font-size: 2rem;
+  }
+
+  .link_box {
+    padding: 0 1.5rem;
+
+    .public-dialog-illustrate {
+      font-size: 1rem;
+      padding: 1.5rem 0;
+    }
+  }
+
+  .countdown {
+
+    .content {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 0.125rem 0.25rem;
+    }
+  }
+
+  .countdown_tips {
+    font-size: 0.625rem;
+    margin-right: 0;
+    text-align: left;
+
+    &.external {
+      display: block;
+    }
+
+    &.internal {
+      display: none;
+    }
+  }
+
+  .countdown_time_box {
+    &>div:nth-child(2n+1) {
+      width: 1.75rem;
+    }
+
+    .countdown_item {
+
+      .val {
+        font-size: 1.125rem;
+      }
+
+      .text {
+        font-size: 0.625rem;
+      }
+    }
+  }
+}

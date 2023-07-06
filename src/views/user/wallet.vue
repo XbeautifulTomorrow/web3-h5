@@ -653,11 +653,19 @@ export default {
       this.fetchHistory();
     },
     // 充值提款历史
-    async fetchHistory() {
+    async fetchHistory(isSearch = true) {
+      const { size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
+
       const res = await getWithdrawalHistory({
         coin: this.coin,
-        page: 1,
-        size: 5,
+        page: _page,
+        size: size
       });
 
       if (res && res.code == 200) {
@@ -672,8 +680,8 @@ export default {
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchHistory();
-    },
+      this.fetchHistory(false);
+    }
   },
   created() {
     this.renewBalance();

@@ -129,8 +129,5 @@ export default {
 };
 </script>
 <style scoped>
-/* @import url('./css/palm.css');
-@import url('./css/root.css'); */
-/* @import url('./css/property.css'); */
-@import url('./css/index.css');
+@import './css/index.css';
 </style>

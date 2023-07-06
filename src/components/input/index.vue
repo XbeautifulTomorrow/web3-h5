@@ -1,27 +1,15 @@
 <template>
-  <div
-    :class="[
-      'public-input-com',
-      { showBorder: isShowBorder },
-      { showIcon: modelValue },
-    ]"
-  >
-    <el-input
-      class="public-input"
-      v-model="newValue"
-      :placeholder="placeholder"
-      @focus="focusFun"
-      @blur="blurFun"
-    >
+  <div :class="[
+    'public-input-com',
+    { showBorder: isShowBorder },
+    { showIcon: modelValue },
+  ]">
+    <el-input class="public-input" v-model="newValue" :placeholder="placeholder" @focus="focusFun" @blur="blurFun">
       <template #suffix>
         <el-icon class="check-icon input-icon" color="#9497C3">
           <CircleCheckFilled />
         </el-icon>
-        <el-icon
-          class="clear-icon input-icon"
-          @click="clearFun"
-          color="#9497C3"
-        >
+        <el-icon class="clear-icon input-icon" @click="clearFun" color="#9497C3">
           <CircleCloseFilled />
         </el-icon>
       </template>
@@ -34,8 +22,7 @@ export default {
   name: 'InputCom',
   props: {
     modelValue: {
-      type: String,
-      default: '',
+      type: Number,
     },
     placeholder: {
       type: String,
@@ -61,7 +48,7 @@ export default {
   },
   methods: {
     clearFun() {
-      this.$emit('update:modelValue', '');
+      this.$emit('update:modelValue', null);
     },
     focusFun() {
       this.isShowBorder = true;
@@ -88,36 +75,41 @@ export default {
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-sizing: border-box;
+
   * {
     box-sizing: border-box;
   }
 }
+
 .showBorder {
-  border-image-source: linear-gradient(
-    to bottom,
-    #dd82af,
-    #d12398 61%,
-    #fab597
-  );
+  border-image-source: linear-gradient(to bottom,
+      #dd82af,
+      #d12398 61%,
+      #fab597);
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #dd82af, #d12398 61%, #fab597);
+
   .input-icon {
     opacity: 0.3;
   }
 }
+
 .showIcon {
   .clear-icon {
     opacity: 1;
   }
 }
+
 .public-input {
   height: 100%;
   width: 100%;
   color: #fff;
 }
+
 .check-icon {
   margin-right: 16px;
 }
+
 .input-icon {
   opacity: 0;
 }
@@ -129,9 +121,11 @@ export default {
     border: none;
     box-shadow: none;
   }
+
   .el-input__inner {
     color: #fff;
   }
+
   ::placeholder {
     color: #403748;
     font-size: 18px;

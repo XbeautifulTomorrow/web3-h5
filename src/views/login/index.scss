@@ -1,0 +1,92 @@
+.form-content {
+  font-size: 1rem;
+  color: #a9a4b4;
+}
+
+.form-rember-rectangle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  border-radius: 0.1875rem;
+  border: solid 1px #a9a4b4;
+  cursor: pointer;
+}
+
+.form-rember-rectangle-fill {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.125rem;
+  background-color: #fad54d;
+}
+
+.form-rember-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  color: #a9a4b4;
+}
+
+.form-link,
+.form-rember {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+.form-forgot,
+.form-register-link {
+  color: #11cde9;
+  cursor: pointer;
+}
+
+.form-register-link {
+  margin-left: 1.25rem;
+}
+
+.form-button {
+  margin: 2.5rem auto 1.25rem;
+}
+
+@media (max-width: 950px) {
+
+  .form-rember-rectangle {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.5rem;
+  }
+
+  .form-rember {
+    font-size: 0.75rem;
+  }
+
+  .form-rember-text {
+    font-size: 0.75rem;
+  }
+
+  .form-forgot,
+  .form-register-link {
+    font-size: 0.75rem;
+    color: #11cde9;
+    cursor: pointer;
+  }
+
+  .form-register {
+    font-size: 0.75rem;
+  }
+
+  .form-register-link {
+    margin-left: 0.5rem;
+  }
+
+  .form-button {
+    margin: 0.875rem 0;
+  }
+
+}

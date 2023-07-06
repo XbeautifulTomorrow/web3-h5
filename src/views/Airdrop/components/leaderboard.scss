@@ -1,0 +1,480 @@
+.leaderboard_container {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 1.875rem;
+  padding: 1.875rem;
+  border-radius: 0.625rem;
+  background-color: #13151f;
+  box-sizing: border-box;
+}
+
+.statistics_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &>div+div {
+    margin-left: 1.875rem;
+  }
+
+  &>div {
+    flex: 1;
+
+    .statistics_title {
+      font-family: BlenderPro;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: left;
+      color: #a9a4b4;
+      padding-bottom: 0.625rem;
+    }
+  }
+
+  .statistics_content {
+    padding: 1.25rem 1.5625rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>img {
+      height: 5.125rem;
+    }
+
+    .statistics_item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .label {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        text-align: center;
+        color: white;
+      }
+
+      .val {
+        font-family: Tomorrow;
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1.4;
+        text-align: center;
+        color: #11cde9;
+      }
+    }
+  }
+}
+
+.tabel_container {
+  padding-top: 2.25rem;
+  text-align: left;
+
+  .tabel_thead {
+    display: flex;
+    align-items: center;
+    border-radius: 0.3125rem;
+    background-color: #191c28;
+    padding: 0.625rem 1.25rem;
+
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #a9a4b4;
+  }
+
+  .tabel_item {
+
+    &>div+div {
+      margin-left: 3.875rem;
+    }
+
+    .rank {
+      width: 4.125rem;
+      text-align: center;
+    }
+
+    .user_info {
+      width: 23.375rem;
+    }
+
+    .point {
+      width: 42rem;
+    }
+
+    .date {
+      width: 12.5rem;
+    }
+  }
+
+  .tabel_tbody {
+    margin-top: 0.25rem;
+
+    &>div+div {
+      margin-top: 0.25rem;
+    }
+  }
+
+  .tabel_tbody_item {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    display: flex;
+    align-items: center;
+
+    .rank {
+      font-family: Tomorrow;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.4;
+      color: #11cde9;
+    }
+
+    .user_info {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      img {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 0.625rem;
+      }
+
+      .user_box {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .name_text {
+        font-family: BlenderPro;
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1;
+        color: white;
+      }
+
+      .wallet_box {
+        font-family: BlenderPro;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #a9a4b4;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 0.875rem;
+          height: auto;
+          margin-right: 0.25rem;
+        }
+      }
+    }
+
+    .point {
+      display: flex;
+      align-items: center;
+
+      &>div+div {
+        margin-left: 0.625rem;
+      }
+
+      .point_item {
+        width: 9.875rem;
+        height: 4.625rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.5rem;
+        background-color: #35215c;
+
+        .title {
+          font-size: 1rem;
+          font-weight: 500;
+          line-height: 1.6;
+          text-align: center;
+          color: white;
+        }
+
+        .val {
+          font-family: Tomorrow;
+          font-size: 1.25rem;
+          font-weight: bold;
+          line-height: 1.4;
+          text-align: center;
+          color: #11cde9;
+        }
+
+        &.total {
+          background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
+
+          .val {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .date {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.5;
+      text-align: center;
+      color: white;
+    }
+  }
+}
+
+.pagination_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.875rem;
+
+  .total_box {
+    font-family: Tomorrow;
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: white;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+
+    .prev,
+    .next {
+      width: 2.375rem;
+      height: 2.375rem;
+      font-size: 1.25rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      background-image: linear-gradient(-135deg, #1e90f9 0%, #e022e3 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.disabled {
+        background-color: #1d0f36;
+        background-image: none;
+        cursor: not-allowed;
+      }
+    }
+
+    .page_box {
+      display: flex;
+      align-items: center;
+      padding: 0 1.25rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: left;
+      color: #a9a4b4;
+    }
+  }
+}
+
+.not-select {
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
+}
+
+.no-touch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+@media screen and (max-width: 950px) {
+  .leaderboard_container {
+    margin-top: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 0;
+  }
+
+  .statistics_box {
+    flex-direction: column;
+
+    &>div+div {
+      margin-left: 0;
+      margin-top: 0.75rem;
+    }
+
+    &>div {
+      width: 100%;
+
+      .statistics_title {
+        font-size: 0.875rem;
+        padding-bottom: 0.25rem;
+      }
+    }
+
+    .statistics_content {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+
+      &>img {
+        height: 3.75rem;
+      }
+
+      .statistics_item {
+
+        .label {
+          font-size: 0.5rem;
+        }
+
+        .val {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .tabel_container {
+    padding-top: 0.75rem;
+    text-align: left;
+
+    .tabel_thead {
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      font-size: 0.5rem;
+    }
+
+    .tabel_item {
+
+      &>div+div {
+        margin-left: 1rem;
+      }
+
+      .rank {
+        width: 1.5rem;
+        text-align: center;
+      }
+
+      .user_info {
+        width: 7.8125rem;
+      }
+
+      .point {
+        width: 3.875rem;
+      }
+
+      .date {
+        width: 2rem;
+      }
+    }
+
+    .tabel_tbody_item {
+      padding: 0.5rem;
+
+      .rank {
+        font-size: 0.75rem;
+      }
+
+      .user_info {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        img {
+          width: 2rem;
+          height: 2rem;
+          margin-right: 0.25rem;
+        }
+
+        .name_text {
+          font-size: 1rem;
+        }
+
+        .wallet_box {
+          font-size: 0.75rem;
+
+          img {
+            width: 0.5rem;
+            height: auto;
+            margin-right: 0.25rem;
+          }
+        }
+      }
+
+      .point {
+
+        &>div+div {
+          margin-left: 0;
+        }
+
+        &>div:nth-child(n+2) {
+          display: none;
+        }
+
+        .point_item {
+          width: 3.875rem;
+          height: auto;
+          border-radius: 0.25rem;
+          padding: 0.25rem;
+          align-items: flex-start;
+
+          .title {
+            font-size: 0.5rem;
+            line-height: 1.2;
+            text-align: left;
+          }
+
+          .val {
+            font-size: 0.625rem;
+            line-height: 1.2;
+            text-align: left;
+          }
+        }
+      }
+
+      .date {
+        font-size: 0.5rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .pagination_box {
+    padding-top: 0.75rem;
+
+    .total_box {
+      font-size: 0.875rem;
+    }
+
+    .pagination {
+
+      .prev,
+      .next {
+        width: 1.625rem;
+        height: 1.625rem;
+        font-size: 0.875rem;
+        border-radius: 0.25rem;
+      }
+
+      .page_box {
+        padding: 0 1rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

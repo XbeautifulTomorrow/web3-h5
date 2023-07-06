@@ -14,16 +14,19 @@
                     <span>$10k</span>
                 </div>
             </div>
-            <div class="level_description">INVITE USERS</div>
-            <div class="level_description">TO GET MORE</div>
-            <div class="level_description">REWARDS</div>
+            <div class="level_description">{{ $t("home.bannerText1") }}</div>
+            <div class="level_description">{{ $t("home.bannerText2") }}</div>
+            <div class="level_description">{{ $t("home.bannerText3") }}</div>
             <div class="level_description_text">
-                Tell your friends about Bitzing to get an extra 20% bonus on sign-up points.
+                {{ $t('home.bannerTips') }}
             </div>
-            <div class="invite_button">GO TO INVITATION</div>
+            <div class="invite_button" @click="goAirdrop()">{{ $t("home.bannerBtn") }}</div>
         </div>
         <div class="banner_box">
-            <img src="@/assets/svg/home/banner.svg" alt="">
+            <img src="@/assets/svg/home/banner_small.svg" alt="">
+            <div class="introduce">{{ $t("home.bannerCopywriting1") }}</div>
+            <div class="introduce_details">{{ $t("home.bannerCopywriting2") }}</div>
+            <div class="round"></div>
             <!-- <swiper class="banner_swiper" :slides-per-view="1" :space-between="50">
                 <swiper-slide>
                     <div class="banner-main">
@@ -46,6 +49,11 @@ export default {
     data() {
         return {};
     },
+    methods: {
+        goAirdrop() {
+            this.$router.push({ name: "Airdrop" });
+        },
+    }
 };
 </script>
   

@@ -144,7 +144,6 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     handleChange(event) {
-
       this.page = 1;
       this.size = 4;
       this.count = 0;

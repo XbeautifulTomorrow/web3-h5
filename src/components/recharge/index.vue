@@ -133,7 +133,7 @@ import { ElNotification } from "element-plus";
 
 import transferAbi from "@/config/transfer.json";
 import nftAbi from "@/config/nft.json";
-// import nft1155Abi from "@/config/1155.json";
+import nft1155Abi from "@/config/1155.json";
 import nft721Abi from "@/config/721.json";
 import erc20Abi from "@/config/erc20.json";
 
@@ -173,10 +173,10 @@ const coinList = [
     text: "NFT721",
     url: "",
   },
-  // {
-  //   text: "NFT1155",
-  //   url: "",
-  // },
+  {
+    text: "NFT1155",
+    url: "",
+  },
 ];
 
 const tokenChoose = ref(0);
@@ -251,7 +251,7 @@ const chooseNftsFun = (data) => {
 //   arr.forEach((item) => {
 //     _arr.push(item[key]);
 //   });
-//   return [_arr];
+//   return _arr;
 // };
 const dataArrSevenFun = (arr, key) => {
   let _arr = [];
@@ -266,6 +266,17 @@ const dataArrSevenFun = (arr, key) => {
   });
   return _arr;
 };
+const amountValFun = (arr) => {
+  let _arr = [];
+  arr.forEach((item) => {
+    let _arrInside = [];
+    item.forEach(() => {
+      _arrInside.push(Number(amountVal.value));
+    });
+    _arr.push(_arrInside);
+  });
+  return _arr;
+};
 const transfer = async () => {
   closeDialogFun();
   const web3 = new Web3(window.ethereum);
@@ -276,13 +287,12 @@ const transfer = async () => {
   const amount = web3.utils.toWei(amountVal.value.toString(), "ether");
   const orderId = orderVal.value;
   let nftList = [];
-
-  if (tokenChoose.value == 3) {
+  if (tokenChoose.value == 3 || tokenChoose.value == 4) {
     const _length = chooseNftAddress.length;
     chooseNftAddress.forEach(async (item, index) => {
       //多个nft授权
       let nftContract = new web3.eth.Contract(
-        nft721Abi,
+        tokenChoose.value == 3 ? nft721Abi : nft1155Abi,
         item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c"
       );
       nftList.push(item || "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c");
@@ -301,39 +311,31 @@ const transfer = async () => {
           nftAbi,
           nftTokenAddress
         ); //nft转账合约
-        const _tokenidSeven = dataArrSevenFun(chooseNft, "tokenId");
-        //   console.log(isApproved,nftList, _tokenidSeven, receiver.value, orderId,"isApproved====")
-        //  return
-        //  nftList = ['0x6447f7d21f19af6c11824b06e3a6618542cedf33',"0xb1fac5b5b535fbdb4323aa7a0aac6039ce731c7f"]
-        //  _tokenidSeven = [['7973','8081'],['10598']]
-        console.log(
-          isApproved,
-          nftList,
-          _tokenidSeven,
-          receiver.value,
-          orderId,
-          "isApproved===="
-        );
-        //721充值
-        await nftTransferContract.methods
-          .transferNFTMultti(nftList, _tokenidSeven, receiver.value, orderId)
-          .send({ from: accounts[0] });
+        const _tokenid = dataArrSevenFun(chooseNft, "tokenId");
+        if (tokenChoose.value == 3) {
+          //  nftList = ['0x6447f7d21f19af6c11824b06e3a6618542cedf33',"0xb1fac5b5b535fbdb4323aa7a0aac6039ce731c7f"]
+          //  _tokenid = [['7973','8081'],['10598']]
+          //721充值
+          await nftTransferContract.methods
+            .transferNFTMultti(nftList, _tokenid, receiver.value, orderId)
+            .send({ from: accounts[0] });
+        } else {
+          const _amountVal = amountValFun(_tokenid);
+          // 1155充值
+          await nftTransferContract.methods
+            .transfer1155Multi(
+              nftList,
+              _tokenid,
+              _amountVal,
+              receiver.value,
+              orderId,
+              "0x"
+            )
+            .send({ from: accounts[0] });
+        }
       }
     });
     return;
-    // const _tokenid = dataArrFun(chooseNft, "tokenId");
-    //1155充值
-    // await nftTransferContract.methods
-    //   .transfer1155Multi(
-    //     nftList,
-    //     _tokenid,
-    //     [[amountVal.value]],
-    //     receiver.value,
-    //     orderId,
-    //     "0x"
-    //   )
-    //   .send({ from: accounts[0] });
-    // return;
   }
   if ((!orderId && tokenChoose.value == 1) || !amount) {
     ElNotification({

@@ -1,34 +1,15 @@
 <template>
-  <el-form
-    ref="ruleFormRef"
-    label-position="top"
-    label-width="max-content"
-    :model="formForgot"
-    :rules="rules"
-    :hide-required-asterisk="true"
-    :status-icon="true"
-    class="public-login"
-  >
+  <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
+    :hide-required-asterisk="true" :status-icon="true" class="public-form">
     <el-form-item prop="password">
-      <el-input
-        v-model="formForgot.password"
-        placeholder="New Password"
-        type="password"
-        show-password
-      />
+      <el-input v-model="formForgot.password" placeholder="New Password" class="public-input" type="password"
+        show-password />
     </el-form-item>
     <el-form-item prop="confirm">
-      <el-input
-        v-model="formForgot.confirm"
-        placeholder="Confirm password"
-        type="password"
-        show-password
-      />
+      <el-input v-model="formForgot.confirm" placeholder="Confirm password" class="public-input" type="password"
+        show-password />
     </el-form-item>
-    <el-button
-      :class="['public-button form-button', { 'cancel-button': !isSure }]"
-      @click="forgotFun(ruleFormRef)"
-    >
+    <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
       Reset password
     </el-button>
   </el-form>
@@ -50,9 +31,22 @@ const formForgot = reactive({
   password: "",
   confirm: "",
 });
+
 const validatePass = (rule, value, callback) => {
+  const upperStr = /^(?=.*[A-Z]).{8,}$/
+  const lowerStr = /^(?=.*[a-z]).{8,}$/
+  const numStr = /^(?=.*[0-9]).{8,}$/
+
   if (value === "") {
     callback(new Error("Please input the password"));
+  } else if (value && value.length < 8) {
+    callback(new Error("Password must be longer than 8 characters"));
+  } else if (!upperStr.test(value)) {
+    callback(new Error("Password must contain at least 1 upper case character"));
+  } else if (!lowerStr.test(value)) {
+    callback(new Error("Password must contain at least 1 lower case character"));
+  } else if (!numStr.test(value)) {
+    callback(new Error("Password must contain at least 1 number"));
   } else {
     if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -61,6 +55,7 @@ const validatePass = (rule, value, callback) => {
     callback();
   }
 };
+
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error("Please input the password again"));
@@ -96,7 +91,11 @@ const forgotFun = async (formEl) => {
 };
 </script>
 <style lang="scss" scoped>
+.public-form {
+  margin-top: 1.875rem;
+}
+
 .form-button {
-  margin: 40px auto 20px;
+  margin: 0.625rem auto 0;
 }
 </style>

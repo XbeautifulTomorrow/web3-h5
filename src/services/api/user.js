@@ -6,6 +6,10 @@ const getKey = (params) =>
 const authLogin = (params) =>
   apiService.post("mystery-web-user/auth/login", params);
 
+const updateUserInfo = (params) =>
+  apiService.post("mystery-web-user/user/updateInfo", params);
+
+
 const getTheUserSPayoutAddress = (params) =>
   apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params); //收款地址
 
@@ -25,7 +29,7 @@ const getForgetPasswordtcha = (params) =>
   apiService.post("mystery-web-user/auth/account/forgetPassword", params); //忘记密码
 
 const getCheckCaptcha = (params) =>
-  apiService.post("mystery-web-user/auth/check/captcha", params); //校验邮箱验证码
+  apiService.get("mystery-web-user/auth/check/captcha", params); //校验邮箱验证码
 
 const getAListOfUserPoints = (params) =>
   apiService.get("mystery-web-user/user/getAListOfUserPoints", params); // 积分列表
@@ -51,9 +55,13 @@ const getWithdrawalHistory = (params) =>
 const rechargeByHash = (params) =>
   apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
+const statisticsClick = params => // 统计点击次数
+  apiService.get('mystery-web-user/user/invite', params)
+
 export {
   getKey,
   authLogin,
+  updateUserInfo,
   getTheUserSPayoutAddress,
   getTheUserBalance,
   getLogin,
@@ -69,4 +77,5 @@ export {
   withdrawalNft,
   getWithdrawalHistory,
   rechargeByHash,
+  statisticsClick
 };

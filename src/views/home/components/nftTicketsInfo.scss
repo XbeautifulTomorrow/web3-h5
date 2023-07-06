@@ -70,7 +70,7 @@
 
 .border_bg {
   box-sizing: border-box;
-  padding: 0.0625rem;
+  padding: 1px;
   border-image-source: linear-gradient(120deg,
       #ff25c2 0%,
       rgba(0, 0, 0, 0) 30%,
@@ -362,7 +362,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 0.0625rem solid #1d1f2b;
+  border-bottom: 1px solid #1d1f2b;
 
   .buy_item_l {
     display: flex;
@@ -740,7 +740,7 @@
   padding-top: 1.875rem;
 
   .winning_interval {
-    border-bottom: 0.0625rem dotted #293c44;
+    border-bottom: 1px dotted #293c44;
   }
 }
 
@@ -802,7 +802,7 @@
     padding: 0.9375rem 1.25rem;
     box-sizing: border-box;
     border-radius: 0.625rem;
-    border: solid 0.0625rem #25293e;
+    border: solid 1px #25293e;
     background-color: #110429;
     font-size: 0.875rem;
     line-height: 1.6;

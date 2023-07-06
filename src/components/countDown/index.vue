@@ -2,6 +2,7 @@
   <div class="content">
     <slot v-bind="{
       d: days, h: hours, m: mins, s: seconds,
+      dd: `00${days}`.slice(-2),
       hh: `00${hours}`.slice(-2),
       mm: `00${mins}`.slice(-2),
       ss: `00${seconds}`.slice(-2),
@@ -12,7 +13,7 @@
 export default {
   name: "countDown",
   data: () => ({
-    days: '0',
+    days: '00',
     hours: '00',
     mins: '00',
     seconds: '00',
@@ -42,7 +43,7 @@ export default {
       if (this.end) {
         const endstamp = new Date(this.time).getTime();
         let end = String(endstamp).length >= 13 ? +endstamp : +endstamp * 1000;
-        end -= Date.now();
+        end -= new Date(this.end).getTime();
         return end;
       }
 
@@ -63,43 +64,46 @@ export default {
     }
   },
   methods: {
-    durationFormatter(time) {
-      if (!time) return { ss: 0 };
-      let t = time;
-      const ss = t % 60;
-      t = (t - ss) / 60;
-      if (t < 1) return { ss };
-      const mm = t % 60;
-      t = (t - mm) / 60;
-      if (t < 1) return { mm, ss };
-      const hh = t % 24;
-      t = (t - hh) / 24;
-      if (t < 1) return { hh, mm, ss };
-      const dd = t;
+    durationFormatter(diff) {
+      // 按照传入的格式生成一个simpledateformate对象
+      let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
+      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nm = 1000 * 60; // 一分钟的毫秒数
+      let ns = 1000; // 一秒钟的毫秒数;
+
+      let dd = diff / nd;// 计算差多少天
+      // eslint-disable-next-line no-unused-vars
+      let hh = diff % nd / nh;// 计算差多少小时
+      // eslint-disable-next-line no-unused-vars
+      let mm = diff % nd % nh / nm;// 计算差多少分钟
+      // eslint-disable-next-line no-unused-vars
+      let ss = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
       return { dd, hh, mm, ss };
     },
     countDown() {
-      this.curTime = Date.now();
+      this.curTime = new Date().getTime();
       this.getTime(this.duration);
     },
     getTime(time) {
       this.timer && clearTimeout(this.timer);
-      if (time < 0) {
+      if (time <= 1000) {
+        // 计时结束
+        this.$emit("onEnd")
         return;
       }
       // eslint-disable-next-line object-curly-newline
       const { dd, hh, mm, ss } = this.durationFormatter(time);
-      this.days = dd || 0;
+      this.days = Math.floor(dd) || 0;
       // this.hours = `00${hh || ''}`.slice(-2);
       // this.mins = `00${mm || ''}`.slice(-2);
       // this.seconds = `00${ss || ''}`.slice(-2);
-      this.hours = hh || 0;
-      this.mins = mm || 0;
-      this.seconds = ss || 0;
+      this.hours = Math.floor(hh) || 0;
+      this.mins = Math.floor(mm) || 0;
+      this.seconds = Math.floor(ss) || 0;
       this.timer = setTimeout(() => {
-        const now = Date.now();
-        const diffTime = Math.floor((now - this.curTime) / 1000);
-        const step = diffTime > 1 ? diffTime : 1; // 页面退到后台的时候不会计时，对比时间差，大于1s的重置倒计时
+        const now = new Date().getTime();
+        const diffTime = Math.floor((now - this.curTime));
+        const step = diffTime > 1000 ? diffTime : 1000; // 页面退到后台的时候不会计时，对比时间差，大于1s的重置倒计时
         this.curTime = now;
         this.getTime(time - step);
       }, 1000);

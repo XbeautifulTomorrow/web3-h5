@@ -28,9 +28,19 @@
   line-height: 1;
   letter-spacing: normal;
   color: #92949c;
+  padding: 0.5rem 0;
 
-  &:active {
+  &:hover {
     color: #fff;
+  }
+
+  &:active,
+  &.active {
+    color: #fff;
+    background-image: url("@/assets/svg/home/icon_nav_active.svg");
+    background-size: 1.71875rem auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
   }
 }
 
@@ -44,9 +54,9 @@
 }
 
 .header-nav {
-  margin-left: 90px;
+  margin-left: 5.625rem;
 
-  & > li + li {
+  &>li+li {
     margin-left: 2.5rem;
   }
 
@@ -59,7 +69,7 @@
   display: flex;
   align-items: center;
 
-  & > div + div {
+  &>div+div {
     margin-left: 1.875rem;
   }
 
@@ -68,39 +78,39 @@
     font-size: 1.125rem;
     border-radius: 3.75rem;
     cursor: pointer;
+  }
 
-    &.login {
-      color: #fad54d;
-    }
+  .login {
+    color: #fad54d;
+  }
 
-    &.register {
-      background-color: #fad54d;
-      color: #13151f;
-    }
+  .register {
+    background-color: #fad54d;
+    color: #13151f;
   }
 }
 
 .header-button {
-  width: 140px;
-  height: 40px;
+  width: 8.75rem;
+  height: 2.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 40px;
-  border-radius: 20px;
-  border: solid 2px #fff;
+  line-height: 2.5rem;
+  border-radius: 1.25rem;
+  border: solid 0.125rem #fff;
   background-image: linear-gradient(0, #b164f6 15%, #026aa1 58%, #42e2f0 79%);
   color: #fff;
   font-weight: 500;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .header-wallet {
-  width: 184px;
-  height: 60px;
-  border-radius: 8px;
+  width: 11.5rem;
+  height: 3.75rem;
+  border-radius: 0.5rem;
   background-color: #1d0f36;
-  padding: 0 8px;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
   align-content: center;
@@ -109,13 +119,13 @@
 }
 
 .header-wallet-img {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .header-wallet-money {
-  max-width: 100px;
-  font-size: 20px;
+  max-width: 6.25rem;
+  font-size: 1.25rem;
   font-weight: bold;
   background-image: linear-gradient(to top, #e3a406, #fbd851);
   -webkit-background-clip: text;
@@ -126,10 +136,10 @@
 
 .header-wallet-add {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  border-radius: 5px;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  border-radius: 0.3125rem;
   background-color: #11cde9;
   color: #000;
 }
@@ -138,13 +148,13 @@
   cursor: pointer;
   position: relative;
   overflow: visible;
-  height: 60px;
-  width: 206px;
+  height: 3.75rem;
+  width: 12.875rem;
   margin-top: 0;
-  margin-left: 16px;
+  margin-left: 1rem;
   background-color: #1d0f36;
-  padding: 0 20px;
-  border-radius: 8px;
+  padding: 0 1.25rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   align-content: center;
@@ -152,7 +162,7 @@
   justify-content: center;
 
   &:hover {
-    border-radius: 8px 8px 0 0;
+    border-radius: 0.5rem 0.5rem 0 0;
 
     .header-user-popup {
       transform: scaleY(1);
@@ -176,24 +186,25 @@
   transition: transform 0.2s ease;
   transform-origin: top;
   z-index: 100;
-  padding: 20px 0;
+  padding: 1.25rem 0;
   background-color: #1d0f36;
   color: #a9a4b4;
-  font-size: 16px;
-  border-radius: 0 0 8px 8px;
+  font-size: 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   box-sizing: border-box;
+  z-index: 20;
 }
 
 .header-user-content {
-  padding: 8px;
+  padding: 0.5rem;
 }
 
 .header-user-list {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #a896b5;
-  border-radius: 8px;
-  padding: 0 20px;
-  height: 60px;
+  border-radius: 0.5rem;
+  padding: 0 1.25rem;
+  height: 3.75rem;
   text-align: left;
   display: flex;
   align-content: center;
@@ -224,9 +235,9 @@
 
 .header-user-list-img {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -267,8 +278,6 @@
   background-image: url("@/assets/img/headerFooter/icon-logoutdefault.png");
 }
 
-
-
 .title-icon {
   position: absolute !important;
   top: 0;
@@ -278,9 +287,82 @@
 .header-login {
   display: flex;
   align-items: center;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
 }
 
+@media screen and (max-width: 950px) {
+  .header {
+    height: auto;
+    margin: 0.5rem 1.5rem;
+    border-bottom: none;
+  }
 
+  .header-main {
+    width: auto;
+    height: auto;
+  }
+
+  .header-logo {
+    width: 5.25rem;
+    height: auto;
+    font-size: 0.75rem;
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .header-right {
+
+    div+div {
+      margin-left: 0.5rem;
+    }
+
+    .btn-box {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3.625rem;
+    }
+  }
+
+  .header-user {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0.5rem;
+
+    .header-user-img {
+      width: 1.5rem;
+      height: auto;
+    }
+
+    .header-user-text {
+      font-size: 0.75rem;
+      margin: 0 0.25rem;
+    }
+
+    .header-user-down {
+      width: 1rem;
+    }
+
+    .header-user-popup {
+      padding: 0.5rem 0 0 0;
+    }
+
+    .header-user-content {
+      padding: 0;
+    }
+
+    .header-user-list {
+      height: auto;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .header-user-list-img {
+      width: 1.5rem;
+      height: 1.5rem;
+      background-size: contain;
+      margin-right: 0.25rem;
+    }
+  }
+}

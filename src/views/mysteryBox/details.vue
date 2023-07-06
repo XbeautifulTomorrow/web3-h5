@@ -17,7 +17,7 @@
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div class="text">{{ blindDetailInfo.boxDesc }}</div>
+            <div class="text" v-html="blindDetailInfo.boxDesc"></div>
           </div>
         </div>
         <div class="lottery_boxs_r">
@@ -40,7 +40,7 @@
               <div class="lottery_info">
                 <div class="open_text">OPEN</div>
                 <div class="num_text">5</div>
-                <div class="box_text">BOX</div>
+                <div class="box_text">BOXES</div>
               </div>
               <div class="lottery_btn">
                 {{
@@ -58,7 +58,7 @@
             <div class="lottery_info">
               <div class="open_text">OPEN</div>
               <div class="num_text">10</div>
-              <div class="box_text">BOX</div>
+              <div class="box_text">BOXES</div>
             </div>
             <div class="lottery_btn">
               {{
@@ -76,13 +76,8 @@
         <div class="title_text">NFTS IN THIS BOX</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div
-          class="nft_series_item"
-          @click="handleShowNft(item)"
-          :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series"
-          :key="index"
-        >
+        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series" :key="index">
           <div :class="[`series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <img :src="item.seriesImg" alt="" />
@@ -94,10 +89,13 @@
               </div>
               <div class="series_probability">
                 <span> {{ `Range:${item.range}` }}</span>
-                <span>ODDS: 0.0005%</span>
+                <span>{{ `ODDS: ${nftProbabilityFormat(item.nftNumber)}%` }}</span>
               </div>
-              <div class="series_price">
+              <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
                 {{ `${item.minPrice}ETH - ${item.maxPrice}ETH` }}
+              </div>
+              <div v-else class="series_price">
+                {{ `${item.maxPrice}ETH` }}
               </div>
             </div>
           </div>
@@ -114,28 +112,17 @@
         </div>
         <div class="title-box-r">
           <div class="title">Snapshot ID</div>
-          <el-input
-            v-model.number="snapshotId"
-            @keyup.enter="handleSearch()"
-            class="snapshot_input"
-            placeholder="Search by snapshot ID"
-          >
+          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
+            placeholder="Search by snapshot ID">
             <template #suffix>
-              <el-icon
-                class="search_btn el-input__icon"
-                @click="handleSearch()"
-              >
+              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
       </div>
-      <el-table
-        :data="snapshotData"
-        class="table_container"
-        style="width: 100%"
-      >
+      <el-table :data="snapshotData" class="table_container" style="width: 100%">
         <el-table-column prop="id" label="Snapshot ID" align="center">
         </el-table-column>
         <el-table-column prop="boxName" label="Box Name" align="center" />
@@ -167,42 +154,20 @@
         <el-table-column prop="date" label="Details" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img
-                class="nft_info"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info.svg"
-                alt=""
-              />
-              <img
-                class="nft_info_active"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info_active.svg"
-                alt=""
-              />
+              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
+                alt="" />
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box">
-        <el-pagination
-          v-model="page"
-          :page-size="size"
-          @current-change="handleCurrentChange"
-          :pager-count="7"
-          layout="prev, pager, next"
-          :total="count"
-          prev-text="Pre"
-          next-text="Next"
-        />
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
   </div>
-  <el-dialog
-    v-model="showSeriesDialog"
-    class="series_dialog"
-    fullscreen
-    align-center
-  >
+  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
@@ -261,6 +226,10 @@ export default {
       });
     },
     rollNumberFun(type) {
+      ElMessage.warning("Comming soon");
+      return
+
+      // eslint-disable-next-line no-unreachable
       const { blindDetailInfo } = this;
       const { balance } = this.headerStoreStore;
       const { userInfo } = this.userStore;
@@ -330,13 +299,21 @@ export default {
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(
-        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
-      );
-      return new bigNumber(num)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
+      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
+    },
+    /**
+    * @description Nft概率计算
+    * @param string event
+    */
+    nftProbabilityFormat(event) {
+      const { blindDetailInfo: { series } } = this;
+      let numTotal = 0;
+      for (let i = 0; i < series.length; i++) {
+        numTotal += +series[i].nftNumber;
+      }
+
+      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
   },
   created() {

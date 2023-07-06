@@ -1,103 +1,68 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog
-    v-model="visible"
-    destroy-on-close
-    :close-on-click-modal="false"
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog"
-    width="700"
-    :before-close="closeDialogFun"
-  >
+  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
+      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+        <el-icon>
+          <Close />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">Welcome</h2>
-      <el-form
-        ref="ruleFormRef"
-        label-position="top"
-        label-width="max-content"
-        :model="formRegister"
-        :rules="rules"
-        :hide-required-asterisk="true"
-        :status-icon="true"
-        class="public-login"
-      >
-        <el-form-item label="Email" prop="email">
-          <el-input
-            v-model="formRegister.email"
-            placeholder="Enter your email"
-          />
+      <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
+      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
+        :hide-required-asterisk="true" :status-icon="true" class="public-form">
+        <el-form-item :label="$t('login.email')" prop="email">
+          <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
         </el-form-item>
-        <el-form-item label="Password" prop="passWord">
-          <el-input
-            v-model="formRegister.passWord"
-            placeholder="Enter your password"
-            type="password"
-            show-password
-          />
+        <el-form-item :label="$t('login.password')" prop="passWord">
+          <el-input v-model="formRegister.passWord" class="public-input" :placeholder="$t('login.passwordHint')"
+            type="password" show-password />
         </el-form-item>
-        <el-form-item label="Confirm password" prop="confirm">
-          <el-input
-            v-model="formRegister.confirm"
-            placeholder="Enter your password again"
-            type="password"
-            show-password
-          />
+        <el-form-item :label="$t('login.confirmPwd')" prop="confirm">
+          <el-input v-model="formRegister.confirm" class="public-input" :placeholder="$t('login.confirmPwdHint')"
+            type="password" show-password />
         </el-form-item>
-        <el-form-item class="register-captcha" label="Captcha" prop="captcha">
-          <el-input
-            v-model="formRegister.captcha"
-            placeholder="Enter your captcha"
-          >
+        <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
+          <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
             <template #suffix>
-              <el-button
-                type="warning"
-                @click.stop="getCaptchaApi(ruleFormRef)"
-              >
-                {{ time < 60 ? `${time}s` : "发送验证码" }}
-              </el-button>
+              <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
+                {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
+
+              <el-button type="warning" @click.stop="sendVerify(ruleFormRef)">
+                {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="InviteCode (Not Required)">
+        <!-- <el-form-item label="InviteCode (Not Required)">
           <el-input
             v-model="formRegister.inviteCode"
             placeholder="Enter your inviteCode"
           />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
+      <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
       <div class="form-link">
         <div class="form-rember">
           <span class="form-rember-rectangle" @click="showRememberFun">
-            <span
-              v-show="showRemember"
-              class="form-rember-rectangle-fill"
-            ></span>
+            <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
           </span>
           <span class="form-rember-text">
-            By creating your account, you confirm that you are at least 18 years
-            old and agree to our terms and Conditions
+            <span>{{ $t("login.termsText") }}</span>
+            <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
           </span>
         </div>
       </div>
-      <el-button
-        class="public-button form-button"
-        @click="registerFun(ruleFormRef)"
-      >
-        Complete Registration
+      <el-button v-if="!showRemember" class="public-button form-button disabled">
+        {{ $t("login.completeUpper") }}
+      </el-button>
+      <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
+        {{ $t("login.completeUpper") }}
       </el-button>
     </div>
+    <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
+    <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
   </el-dialog>
 </template>
 <script setup>
@@ -105,13 +70,21 @@ import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
+import errorTips from "./errorTips.vue";
+import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
+
+import { getSessionStore, setSessionStore, openUrl } from "@/utils";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 // const router = useRouter();
 const userStore = useUserStore();
 const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 let timer = null;
 const visible = ref(true);
+const showErr = ref(false);
+const showVerify = ref(false);
 const showRemember = ref(false);
 const ruleFormRef = ref();
 const time = ref(60);
@@ -121,10 +94,23 @@ const formRegister = reactive({
   confirm: "",
   captcha: "",
   inviteCode: "",
+  code: ""
 });
 const validatePass = (rule, value, callback) => {
+  const upperStr = /^(?=.*[A-Z]).{8,}$/
+  const lowerStr = /^(?=.*[a-z]).{8,}$/
+  const numStr = /^(?=.*[0-9]).{8,}$/
+
   if (value === "") {
-    callback(new Error("Please input the password"));
+    callback(new Error(t("login.passwordErrText1")));
+  } else if (value && value.length < 8) {
+    callback(new Error(t("login.passwordErrText2")));
+  } else if (!upperStr.test(value)) {
+    callback(new Error(t("login.passwordErrText3")));
+  } else if (!lowerStr.test(value)) {
+    callback(new Error(t("login.passwordErrText4")));
+  } else if (!numStr.test(value)) {
+    callback(new Error(t("login.passwordErrText5")));
   } else {
     if (formRegister.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -135,32 +121,37 @@ const validatePass = (rule, value, callback) => {
 };
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
-    callback(new Error("Please input the password again"));
+    callback(new Error(t("login.captchaErrText1")));
   } else if (value !== formRegister.passWord) {
-    callback(new Error("Two inputs don't match!"));
+    callback(new Error(t("login.captchaErrText2")));
   } else {
     callback();
   }
 };
+
 const rules = reactive({
   email: [
     {
       type: "email",
       required: true,
-      message: "Email is incorrect, please check and try again.",
+      message: t("login.emailErr"),
       trigger: ["blur", "change"],
     },
   ],
   captcha: [
     {
       required: true,
-      message: "captcha is incorrect, please check and try again.",
+      message: t("login.captchaErrText3"),
       trigger: "blur",
     },
   ],
   passWord: [{ validator: validatePass, trigger: ["blur", "change"] }],
   confirm: [{ validator: validatePass2, trigger: ["blur", "change"] }],
 });
+
+const onOpenUrl = () => {
+  openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/legal/terms-and-conditions")
+}
 
 onBeforeUnmount(() => {
   clearTimerFun();
@@ -171,28 +162,65 @@ const closeDialogFun = () => {
 const showRememberFun = () => {
   showRemember.value = !showRemember.value;
 };
+const changeTypePage = () => {
+  emit("changeTypeFun", "login")
+};
+
+const sendVerify = async (formEl) => {
+  if (!ruleFormRef.value || time.value < 60) return;
+  await formEl.validateField("email", async (valid, fields) => {
+    if (valid) {
+      setSessionStore("email", formRegister.email);
+      showVerify.value = true;
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+
+const showDialog = () => {
+  if (!formRegister.email) {
+    ElMessage({
+      message: t("login.emailHint"),
+      type: "error",
+    });
+
+    return
+  }
+
+  setSessionStore("email", formRegister.email);
+  showErr.value = true;
+}
+
+const handleClose = () => {
+  showErr.value = false;
+  showVerify.value = false;
+}
+
 const clearTimerFun = () => {
   clearInterval(timer);
   timer = null;
 };
-const getCaptchaApi = async (formEl) => {
-  if (!formEl || time.value < 60) return;
-  await formEl.validateField("email", async (valid, fields) => {
+const getCaptchaApi = async (code) => {
+  handleClose();
+  await ruleFormRef.value.validateField("email", async (valid, fields) => {
     if (valid) {
-      timer = setInterval(() => {
-        time.value--;
-        if (time.value < 1) {
-          time.value = 60;
-          clearTimerFun();
-        }
-      }, 1000);
+
       const res = await getCaptcha({
         type: "register",
         email: formRegister.email,
+        code: code
       });
       if (res && res.code === 200) {
+        timer = setInterval(() => {
+          time.value--;
+          if (time.value < 1) {
+            time.value = 60;
+            clearTimerFun();
+          }
+        }, 1000);
         ElMessage({
-          message: "验证码发送成功,请前往邮箱查看",
+          message: t("login.sendHint"),
           type: "success",
         });
       }
@@ -207,20 +235,29 @@ const registerFun = async (formEl) => {
     if (valid) {
       if (!showRemember.value) {
         ElMessage({
-          message: "请同意条款",
+          message: t("login.termsHint"),
           type: "warning",
         });
         return;
       }
+      // eslint-disable-next-line no-unused-vars
       const { confirm, ...data } = formRegister;
+
+      // 如果有则填入邀请码
+      const inviteCode = getSessionStore("invateCode") || null;
+      if (inviteCode) {
+        data.inviteCode = inviteCode;
+      }
+
       const res = await getReg(data);
       if (res && res.code === 200) {
-        userStore.setReg(res.data);
-        // router.push({ path: `login` });
         if (res.data.certificate) {
           localStorage.setItem("certificate", res.data.certificate);
         }
-        emit("changeTypeFun", "login");
+
+        userStore.setLogin(res.data);
+        userStore.setReg(res.data);
+        emit("changeTypeFun", "modify")
       }
     } else {
       console.log("error submit!", fields);
@@ -233,54 +270,99 @@ const registerFun = async (formEl) => {
   font-size: 16px;
   color: #a9a4b4;
 }
+
 .form-rember-rectangle {
   display: flex;
   align-content: center;
   align-items: center;
   justify-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   flex-grow: 0;
-  margin-right: 12px;
-  border-radius: 3px;
+  margin-right: 0.75rem;
+  border-radius: 0.1875rem;
   border: solid 1px #a9a4b4;
   cursor: pointer;
 }
+
 .form-rember-rectangle-fill {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   flex-grow: 0;
-  border-radius: 2px;
+  border-radius: 0.125rem;
   background-color: #fad54d;
 }
+
 .form-rember {
   display: flex;
   align-content: center;
   align-items: flex-start;
-  font-size: 16px;
+  font-size: 1rem;
   text-align: left;
 }
+
+.form-rember-text {
+  flex: 1;
+}
+
+.user_agreement {
+  color: #fad54d;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .form-forgot,
 .form-register-link {
   color: #11cde9;
   cursor: pointer;
 }
+
 .form-register-link {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
+
 .form-button {
-  margin: 40px auto 20px;
+  margin: 2.5rem 0 0;
 }
-</style>
-<style lang="scss">
-.register-captcha {
-  .el-input__wrapper {
-    padding-right: 0 !important;
+
+.tips_btn {
+  padding-bottom: 1.875rem;
+}
+
+@media (max-width: 950px) {
+
+  .form-rember-rectangle {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.5rem;
   }
-  .el-input__validateIcon {
-    display: none !important;
+
+  .form-rember {
+    font-size: 0.75rem;
+  }
+
+  .form-rember-text {
+    flex: 1;
+  }
+
+  .form-forgot,
+  .form-register-link {
+    color: #11cde9;
+    cursor: pointer;
+  }
+
+  .form-register-link {
+    margin-left: 1.25rem;
+  }
+
+  .form-button {
+    margin: 0.875rem 0 0;
+  }
+
+  .tips_btn {
+    padding: 0.75rem;
   }
 }
 </style>

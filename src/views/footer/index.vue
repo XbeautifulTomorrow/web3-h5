@@ -3,166 +3,156 @@
     <div class="footer-container">
       <div class="footer-logo">
         <img src="@/assets/img/headerFooter/footer_logo.png" alt="logo" />
-        <span>Copyright © 2023 Bitzing.io. All rights reserved.</span>
+        <span>{{ $t("footer.copyright", { year: year }) }}</span>
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
-        <ul class="footer-nav">
+        <div class="footer-nav-items">
           <li class="footer-nav-text active">
-            Menu
+            {{ $t("footer.menu") }}
           </li>
-          <li class="footer-nav-text " v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
-            {{ item.text }}
-          </li>
-        </ul>
+          <ul class="footer-nav">
+            <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`"
+              @click="goTo(item.page)">
+              {{ item.text }}
+            </li>
+          </ul>
+        </div>
         <img src="@/assets/svg/home/footer_interval.svg" alt="">
       </div>
       <div class="link_box">
-        <p class="footer-social">Social Media</p>
+        <p class="footer-social">{{ $t("footer.link") }}</p>
         <ul class="footer-link">
           <li class="footer-link-icon">
-            <img src="@/assets/svg/twitter.svg" alt="" />
+            <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
           </li>
           <li class="footer-link-icon">
-            <img src="@/assets/svg/youtube.svg" alt="" />
+            <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
           </li>
           <li class="footer-link-icon">
-            <img src="@/assets/svg/facebook.svg" alt="" />
-          </li>
-          <li class="footer-link-icon">
-            <img src="@/assets/svg/telegram.svg" alt="" />
+            <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
           </li>
         </ul>
+        <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
+          <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
+        </el-select>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'FooterCom',
-  components: {},
-  data() {
-    return {
-      nav: [
-        {
-          text: 'Home',
-          page: 'home',
-        },
-        {
-          text: 'About Us',
-          page: 'AboutUs',
-        },
-        {
-          text: 'Collection',
-          page: 'Collection',
-        },
-        {
-          text: 'Artist',
-          page: 'Artist',
-        },
-      ],
-    };
+  name: "footerCom"
+}
+</script>
+<script setup>
+import { openUrl } from "@/utils";
+import { getLang, setLang } from '@/locales';
+import { useI18n } from "vue-i18n";
+import router from "@/router"
+import { ref, reactive, computed, inject } from 'vue';
+const { t, locale } = useI18n();
+
+const reload = inject("reload");
+const language = ref(getLang());
+
+const nav = computed(() => {
+  return [{
+    text: t("header.home"),
+    page: "home",
   },
-  methods: {
-    goTo(page = 'home') {
-      this.$router.push({ path: `/${page}` });
-    },
+  {
+    text: t("header.airdrop"),
+    page: "Airdrop",
   },
+  {
+    text: t("header.whitebook"),
+    page: "Whitebook",
+  },
+  {
+    text: t("header.faq"),
+    page: "FAQ",
+  },]
+});
+
+const year = ref(new Date().getUTCFullYear());
+const langDrop = reactive([
+  { name: "English", key: "en_US" },
+  { name: "繁體中文", key: "zh_CN" },
+]);
+
+const languageChange = (event) => {
+  setLang(event);
+  locale.value = event;
+  language.value = event;
+
+  //重新加载页面
+  reload();
+
+}
+
+const goTo = (page = 'home') => {
+  if (page === "Whitebook") {
+    openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+    return
+  }
+
+  router.push({ path: `/${page}` });
 };
+const goLink = (event) => {
+  if (event === 1) {
+    openUrl("https://twitter.com/Bitzing_io");
+    return
+  } else if (event === 2) {
+    openUrl("https://t.me/bitzing_io");
+    return
+  } else if (event === 3) {
+    openUrl("https://discord.gg/eN9e22Q2cN");
+    return
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.footer {
-  height: 44.8125rem;
-  text-align: center;
-  background: url('@/assets/img/home/footer_bg.png') no-repeat;
-  background-repeat: no-repeat;
-  background-size: 100% 44.8125rem;
-  background-position: center center;
-}
-
-.footer-container {
-  width: 95rem;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-}
-
-.footer-logo {
-  display: flex;
-  flex-direction: column;
-
-  img {
-    width: 9.625rem;
-    height: auto;
-    margin-bottom: 1.25rem;
+@import "./index.scss";
+</style>
+<style lang="scss">
+.el-select__popper {
+  &.is-dark {
+    background-color: #1d0f36;
+    border: none;
   }
 
-  font-size: 1rem;
-  line-height: 1.6;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-
-.footer-nav-box {
-  display: flex;
-}
-
-.footer-nav {
-  display: flex;
-  flex-direction: column;
-  padding: 0 12.5rem;
-
-  &>li+li {
-    margin-top: 0.625rem;
+  .el-select-dropdown__list {
+    margin: 0.5rem 0 !important;
   }
 
-  &>li {
+  .el-select-dropdown__item {
+    height: 3.3125rem;
+    line-height: 3.3125rem;
     font-size: 1.125rem;
-    line-height: 1.6;
-    text-align: left;
-    color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
+    font-weight: 500;
 
-    &.active {
-      font-family: Tomorrow;
-      font-size: 1.375rem;
-      font-weight: bold;
+    &.selected,
+    &.hover {
       color: white;
-      margin-bottom: 0.625rem;
-      cursor: auto;
+      background-color: #281d31;
     }
   }
-}
 
-.footer-social {
-  font-family: Tomorrow;
-  font-size: 1.375rem;
-  font-weight: bold;
-  line-height: 1.5;
-  text-align: left;
-  color: white;
-  padding-bottom: 1.875rem;
-}
-
-.footer-link {
-  display: flex;
-
-  &>li+li {
-    margin-left: 0.75rem;
+  .el-popper__arrow {
+    display: none;
   }
 }
 
-.footer-link-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  cursor: pointer;
 
-  img {
-    width: 100%;
-    height: auto;
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+    }
   }
 }
 </style>

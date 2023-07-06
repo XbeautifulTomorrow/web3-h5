@@ -5,23 +5,12 @@
       <p class="roll-text-offcial">An offcial box by Bitzing</p>
     </div>
     <div class="con">
-      <el-carousel
-        height="280"
-        :interval="interval"
-        :autoplay="autoplay"
-        :pause-on-hover="false"
-        indicator-position="none"
-        arrow="never"
-        @change="changeFun"
-        ref="carousel"
-      >
+      <el-carousel height="280" :interval="interval" :autoplay="autoplay" :pause-on-hover="false"
+        indicator-position="none" arrow="never" @change="changeFun" ref="carousel">
         <el-carousel-item v-for="(item, index) in awardsList" :key="index">
           <div class="roll-one-carousel" :style="carouselStyle">
-            <div
-              v-for="(list, _listIndex) in item"
-              :key="`list-${_listIndex}`"
-              :class="['roll-one-carousel-list', list.qualityType]"
-            >
+            <div v-for="(list, _listIndex) in item" :key="`list-${_listIndex}`"
+              :class="['roll-one-carousel-list', list.qualityType]">
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
                 <img class="roll-one-list-img" :src="list.nftImg" />
               </div>
@@ -29,21 +18,13 @@
                 <span class="roll-one-list-seriesName-text text-ellipsis">
                   {{ list.seriesName }}
                 </span>
-                <img
-                  class="roll-one-list-seriesName-img"
-                  src="@/assets/img/eth.png"
-                  alt=""
-                />
+                <img class="roll-one-list-seriesName-img" src="@/assets/img/eth.png" alt="" />
               </p>
               <div class="roll-one-list-text">
                 <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
                 <div class="roll-one-list-price">
                   <span class="roll-one-list-minPrice text-ellipsis">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`${list.initPrice}`"
-                    >
+                    <el-tooltip class="box-item" effect="dark" :content="`${list.initPrice}`">
                       &nbsp;{{ list.initPrice }}
                     </el-tooltip>
                   </span>
@@ -51,15 +32,8 @@
                     {{ list.coin }}
                   </span>
                 </div>
-                <div
-                  class="roll-one-list-nftNumber text-ellipsis"
-                  v-if="item.tokenId"
-                >
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="`# ${item.tokenId}`"
-                  >
+                <div class="roll-one-list-nftNumber text-ellipsis" v-if="item.tokenId">
+                  <el-tooltip class="box-item" effect="dark" :content="`# ${item.tokenId}`">
                     #&nbsp;{{ item.tokenId }}
                   </el-tooltip>
                 </div>
@@ -70,15 +44,8 @@
       </el-carousel>
       <div class="list_mask"></div>
     </div>
-    <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      :loop="musicLoop"
-      class="bitzing-audio"
-    ></audio>
+    <audio id="music" ref="music" preload="auto" webkit-playsinline="true" playsinline="true" :loop="musicLoop"
+      class="bitzing-audio"></audio>
   </div>
 </template>
 <script>
@@ -187,5 +154,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./css/one.scss");
+@import "./css/one.scss";
 </style>

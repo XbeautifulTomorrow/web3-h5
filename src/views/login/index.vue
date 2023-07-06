@@ -1,51 +1,24 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog
-    v-model="visible"
-    destroy-on-close
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog"
-    width="700"
-    :before-close="closeDialogFun"
-  >
+  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="43.75rem"
+    :before-close="closeDialogFun">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
+      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+        <el-icon>
+          <Close />
         </el-icon>
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <h2 class="public-dialog-title">Login</h2>
-      <el-form
-        ref="ruleFormRef"
-        label-position="top"
-        label-width="max-content"
-        :model="formLogin"
-        :rules="rules"
-        :hide-required-asterisk="true"
-        :status-icon="true"
-        class="public-login"
-      >
-        <el-form-item label="Email" prop="account">
-          <!-- SuccessFilled -->
-          <!-- CircleCloseFilled -->
-          <el-input
-            v-model="formLogin.account"
-            placeholder="Enter your email"
-          />
+      <p class="public-dialog-title">{{ $t("common.login") }}</p>
+      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
+        :hide-required-asterisk="true" :status-icon="true" class="public-form">
+        <el-form-item :label="$t('login.email')" prop="account">
+          <el-input class="public-input" v-model="formLogin.account" :placeholder="$t('login.emailHint')" />
         </el-form-item>
-        <el-form-item label="Password" prop="passWord">
-          <el-input
-            v-model="formLogin.passWord"
-            placeholder="Enter your password"
-            type="password"
-          />
+        <el-form-item :label="$t('login.password')" prop="passWord">
+          <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')"
+            type="password" />
         </el-form-item>
       </el-form>
       <div class="form-link">
@@ -53,20 +26,17 @@
           <span class="form-rember-rectangle" @click="showRememberFun">
             <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
           </span>
-          <span class="form-rember-text">Remember me</span>
+          <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
         </div>
-        <div class="form-forgot" @click="goTo('forgot')">Forgot password?</div>
+        <div class="form-forgot" @click="goTo('forgot')">{{ $t("login.goForgot") }}</div>
       </div>
-      <el-button
-        class="public-button form-button"
-        @click="loginFun(ruleFormRef)"
-      >
-        Login
+      <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
+        {{ $t("common.login") }}
       </el-button>
       <p class="form-register">
-        <span>Not registered yet?</span>
+        <span>{{ $t("login.notRegisteredHint") }}</span>
         <span class="form-register-link" @click="goTo('register')">
-          REGISTER
+          {{ $t("login.registerUpper") }}
         </span>
       </p>
     </div>
@@ -78,6 +48,8 @@ import { ElMessage } from "element-plus";
 // import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
 import { getLogin } from "@/services/api/user";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 const userStore = useUserStore();
 // const router = useRouter();
@@ -94,14 +66,14 @@ const rules = reactive({
     {
       type: "email",
       required: true,
-      message: "Email is incorrect, please check and try again.",
+      message: t("login.emailErr"),
       trigger: ["blur", "change"],
     },
   ],
   passWord: [
     {
       required: true,
-      message: "Password is incorrect, please check and try again.",
+      message: t("login.passwordErr"),
       trigger: ["blur", "change"],
     },
   ],
@@ -140,19 +112,13 @@ const loginFun = async (formEl) => {
         if (res.data.certificate) {
           localStorage.setItem("certificate", res.data.certificate);
         }
-        if (res.data.userType === "NORMAL") {
+        if (res.data.userType !== "NORMAL") {
           ElMessage({
-            message: "账号正常",
-            type: "success",
-          });
-        } else {
-          ElMessage({
-            message: "账号异常",
+            message: t("common.abnormal"),
             type: "warning",
           });
         }
         userStore.setLogin(res.data);
-        // goTo("home");
         closeDialogFun();
       }
     } else {
@@ -162,50 +128,5 @@ const loginFun = async (formEl) => {
 };
 </script>
 <style lang="scss" scoped>
-.form-content {
-  font-size: 16px;
-  color: #a9a4b4;
-}
-.form-rember-rectangle {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-grow: 0;
-  margin-right: 12px;
-  border-radius: 3px;
-  border: solid 1px #a9a4b4;
-  cursor: pointer;
-}
-.form-rember-rectangle-fill {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  flex-grow: 0;
-  border-radius: 2px;
-  background-color: #fad54d;
-}
-.form-link,
-.form-rember {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-}
-.form-forgot,
-.form-register-link {
-  color: #11cde9;
-  cursor: pointer;
-}
-.form-register-link {
-  margin-left: 20px;
-}
-.form-button {
-  margin: 40px auto 20px;
-}
+@import "./index.scss";
 </style>

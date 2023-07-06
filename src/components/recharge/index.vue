@@ -110,6 +110,7 @@
       v-if="nftDialogVisible"
       :dialogVisible="nftDialogVisible"
       :isDeposit="operateChoose === operateItems[0]"
+      :tokenChoose="tokenChoose"
       @chooseNftsFun="chooseNftsFun"
       @closeDialogFun="closeNftDialogFun"
     />

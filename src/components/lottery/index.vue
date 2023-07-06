@@ -86,7 +86,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { shuffle } from "@/assets/js";
 
 import MoreAwards from "./moreAwards.vue";
-import oneAward from "./oneAward.vue";
+import oneAward from "./oneBward.vue";
 import ResultList from "./resultList.vue";
 
 import ChooseToken from "./chooseToken.vue";
@@ -344,6 +344,7 @@ export default {
     },
   },
   mounted() {
+    setTimeout(() => {}, 30000);
     const { clientWidth } = document.body;
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;

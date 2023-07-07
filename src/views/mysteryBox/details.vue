@@ -226,10 +226,6 @@ export default {
       });
     },
     rollNumberFun(type) {
-      ElMessage.warning("Comming soon");
-      return
-
-      // eslint-disable-next-line no-unreachable
       const { blindDetailInfo } = this;
       const { balance } = this.headerStoreStore;
       const { userInfo } = this.userStore;

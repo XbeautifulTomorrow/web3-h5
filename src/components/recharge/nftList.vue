@@ -188,6 +188,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  tokenChoose: {
+    type: Number,
+    default: 3,
+  },
 });
 const emit = defineEmits("closeDialogFun", "chooseNftsFun");
 
@@ -405,7 +409,10 @@ const getWalletNftApi = async () => {
         res[1].data
       ) {
         loading.value = false;
-        const walletNft = JSON.parse(JSON.stringify(res[0].data.records));
+        const contractType = props.tokenChoose == 3 ? "ERC721" : "ERC1155";
+        const walletNft = JSON.parse(
+          JSON.stringify(res[0].data.records)
+        ).filter((item) => item.contractType === contractType);
         const systemNft = JSON.parse(JSON.stringify(res[1].data));
         const _nameArr = systemNft.map((item1) => {
           return item1.tokenId && item1.seriesName;

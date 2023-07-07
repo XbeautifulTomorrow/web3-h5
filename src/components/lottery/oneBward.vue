@@ -6,6 +6,8 @@
     </div>
     <div :class="['con']">
       <div
+        ref="boxesContainer"
+        :style="carouselStyle"
         :class="[
           'sub-con',
           {
@@ -15,13 +17,9 @@
           },
         ]"
       >
-        <div v-for="(item, index) in awardsList" :key="index">
-          <div class="roll-one-carousel" :style="carouselStyle">
-            <div
-              v-for="(list, _listIndex) in item"
-              :key="`list-${_listIndex}`"
-              :class="['roll-one-carousel-list', list.qualityType]"
-            >
+        <div v-for="(list, index) in awardsList" :key="index">
+          <div class="roll-one-carousel" ref="subAwards">
+            <div :class="['roll-one-carousel-list', list.qualityType]">
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
                 <img class="roll-one-list-img" :src="list.nftImg" />
               </div>
@@ -53,14 +51,14 @@
                 </div>
                 <div
                   class="roll-one-list-nftNumber text-ellipsis"
-                  v-if="item.tokenId"
+                  v-if="list.tokenId"
                 >
                   <el-tooltip
                     class="box-item"
                     effect="dark"
-                    :content="`# ${item.tokenId}`"
+                    :content="`# ${list.tokenId}`"
                   >
-                    #&nbsp;{{ item.tokenId }}
+                    #&nbsp;{{ list.tokenId }}
                   </el-tooltip>
                 </div>
               </div>
@@ -115,6 +113,7 @@ export default {
       interval: 6000,
       slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
       musicLoop: true,
+      offetNum: 0,
       itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
         width: `${itemWidth}px`,
@@ -122,12 +121,19 @@ export default {
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
       showIndex: 0,
-      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
-        JSON.parse(JSON.stringify(this.awards))
-      ),
+      awardsList: JSON.parse(JSON.stringify(this.awards))
+        .concat(
+          JSON.parse(JSON.stringify(this.awards)).slice(
+            0,
+            JSON.parse(JSON.stringify(this.awards)).length * 0.5
+          )
+        )
+        .flat(),
+      targetedIndex: -1,
     };
   },
   async mounted() {
+    console.log(this.awardsList, "awardsList");
     const { clientWidth } = document.body;
     this.interval = Math.ceil(clientWidth / 1920) * this.interval;
     if (this.interval >= 330) {
@@ -137,19 +143,30 @@ export default {
     if (this.apiIsError) {
       return;
     }
+    setTimeout(() => {
+      const subAwardsWidth = this.$refs.subAwards[0].offsetWidth;
+      console.log(clientWidth / subAwardsWidth / 2, "offetNum");
+      const decimalPlaces =
+        clientWidth / subAwardsWidth / 2 -
+          parseInt(clientWidth / subAwardsWidth / 2) >
+        0.9;
+      this.offetNum = decimalPlaces
+        ? Math.ceil(clientWidth / subAwardsWidth / 2)
+        : parseInt(clientWidth / subAwardsWidth / 2);
+    }, 2000);
     if (!result) {
       this.playMusicFun(slipe);
       this.musicSpeedFunc("up");
+      setTimeout(() => {
+        if (!this.apiIsError) {
+          this.isSpeedUp = true;
+        }
+      });
+      setTimeout(() => {
+        this.isSpeedUp = false;
+        this.isAutoplay = true;
+      }, 2000);
     }
-    setTimeout(() => {
-      if (!this.apiIsError) {
-        this.isSpeedUp = true;
-      }
-    });
-    setTimeout(() => {
-      this.isSpeedUp = false;
-      this.isAutoplay = true;
-    }, 10000);
   },
   methods: {
     pauseMusicFun() {
@@ -211,6 +228,9 @@ export default {
       deep: true,
       handler: function (newData) {
         if (newData.length > 0) {
+          console.log(this.awardsList.length * 0.7, "len");
+          const len = Math.round(this.awardsList.length * 0.7) + this.offetNum;
+          this.awardsList.splice(len, 1, newData[0]);
           this.isActive = true;
           this.isAutoplay = false;
           this.musicSpeedFunc();
@@ -246,12 +266,12 @@ export default {
     transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate3d(-5%, 0, 0);
+    transform: translate3d(-10%, 0, 0);
   }
 }
 @keyframes slide {
   0% {
-    transform: translate3d(-5%, 0, 0);
+    transform: translate3d(-10%, 0, 0);
   }
   100% {
     transform: translate3d(-60%, 0, 0);
@@ -266,12 +286,12 @@ export default {
   }
 }
 .scroll-up {
-  animation: slide 10s 1 ease-in;
+  animation: slide-up 2s 1 ease-in;
   animation-fill-mode: forwards;
   transform: translateZ(0);
 }
 .scroll-linear {
-  animation: slide 8s infinite linear;
+  animation: slide 5s infinite linear;
   animation-fill-mode: forwards;
   transform: translateZ(0);
 }

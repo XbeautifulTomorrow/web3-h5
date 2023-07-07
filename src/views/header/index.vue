@@ -54,6 +54,7 @@ import { mapStores } from "pinia";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
+import { getTheUserBalance } from "@/services/api/user";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -102,6 +103,9 @@ export default {
   },
   created() {
     this.active = this.$route.name;
+    if (this.isLogin && this.userInfo?.id) {
+      this.getTheUserBalanceInfo();
+    }
 
     this.nav = [
       {
@@ -208,11 +212,11 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
-    getTheUserBalanceInfo() {
+    async getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
-      // let res = await getTheUserBalance();
-      // this.ethBalance = res.data[0].balance;
+      let res = await getTheUserBalance();
+      this.ethBalance = res.data[0].balance;
     },
     goTo(page = "home") {
       if (page === "Whitebook") {
@@ -237,7 +241,7 @@ export default {
         this.$router.push({ name: "Invite" });
       } else if (item.page == "Settings") {
         this.$router.push({ name: "Setting" });
-      } else if (item.page === "logout") {
+      } else if (item.page === "Logout") {
         this.userStore.logoutApi();
       }
     },

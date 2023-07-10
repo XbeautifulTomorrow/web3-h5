@@ -1,27 +1,46 @@
 <template>
-  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" :append-to-body="true"
-    class="result-dialog" :width="1920" :close-on-click-modal="false" :close-on-press-escape="false">
+  <el-dialog
+    v-model="visible"
+    destroy-on-close
+    :show-close="false"
+    :align-center="true"
+    :append-to-body="true"
+    class="result-dialog"
+    :width="1920"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+  >
     <div class="result-dialog-content">
       <h2 class="result-title">Top Blue-chips Box</h2>
       <p class="result-illustrate">An offcial box by Bitzing</p>
-      <ul :class="[
-        'result-main',
-        {
-          onlyOne: result.length < 2,
-        },
-      ]">
-        <li :class="[
-          'result-list',
-          item.qualityType,
-          { 'choose-list': nfts.includes(item.id) },
-          { 'more-list': result.length > 1 },
-        ]" v-for="(item, index) in result" :key="`result-${index}`">
+      <ul
+        :class="[
+          'result-main',
+          {
+            onlyOne: result.length < 2,
+          },
+        ]"
+      >
+        <li
+          :class="[
+            'result-list',
+            item.qualityType,
+            { 'choose-list': nfts.includes(item.id) },
+            { 'more-list': result.length > 1 },
+          ]"
+          v-for="(item, index) in result"
+          :key="`result-${index}`"
+        >
           <div class="result-portrait">
             <img class="result-portrait-img" :src="item.nftImg" alt="" />
           </div>
           <div class="result-club text-ellipsis">
             <div class="result-club-title text-ellipsis">
-              <el-tooltip class="box-item" effect="dark" :content="item.seriesName">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="item.seriesName"
+              >
                 <span class="result-club-title-text text-ellipsis">
                   {{ item.seriesName }}
                 </span>
@@ -30,13 +49,24 @@
                 <CircleCheckFilled />
               </el-icon>
             </div>
-            <span class="result-club-serial text-ellipsis" v-if="item.tokenId || item.tokenId === 0">
-              <el-tooltip class="box-item" effect="dark" :content="`# ${item.tokenId}`">
+            <span
+              class="result-club-serial text-ellipsis"
+              v-if="item.tokenId || item.tokenId === 0"
+            >
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="`# ${item.tokenId}`"
+              >
                 #&nbsp;{{ item.tokenId }}
               </el-tooltip>
             </span>
           </div>
-          <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            :content="`${item.initPrice} ${item.coin}`"
+          >
             <p class="result-coin">
               <span class="result-coin-number text-ellipsis">
                 {{ `${item.initPrice}` }}
@@ -45,11 +75,19 @@
             </p>
           </el-tooltip>
           <div class="result-one-footer" v-if="result.length < 2">
-            <el-button :class="['result-one-button take', { 'not-click': isSell }]" type="warning" round
-              @click="chooseLotteryHold('hold')">
+            <el-button
+              :class="['result-one-button take', { 'not-click': isSell }]"
+              type="warning"
+              round
+              @click="chooseLotteryHold('hold')"
+            >
               Take the NFT
             </el-button>
-            <el-button class="result-one-button sell" round @click="chooseLotteryHold">
+            <el-button
+              class="result-one-button sell"
+              round
+              @click="chooseLotteryHold"
+            >
               <span>Sell for</span>
               <span class="result-total">{{ item.price }}ETH</span>
               <span v-if="second > 0">({{ second }}s)</span>
@@ -59,9 +97,17 @@
             </p>
           </div>
           <template v-else>
-            <div class="result-sell pointer" v-if="nfts.includes(item.id)" @click="nftsFun(item)">
+            <div
+              class="result-sell pointer"
+              v-if="nfts.includes(item.id)"
+              @click="nftsFun(item)"
+            >
               <span class="result-sell-text">Sell for</span>
-              <el-tooltip class="box-item" effect="dark" :content="`${item.price}${item.coin}`">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="`${item.price}${item.coin}`"
+              >
                 <span class="result-sell-number text-ellipsis">
                   {{ item.price }}
                 </span>
@@ -76,11 +122,19 @@
       </ul>
       <div class="result-footer" v-if="result.length > 1">
         <div class="resule-footer-buttons">
-          <el-button :class="['result-footer-button take', { 'not-click sell': isSell }]" type="warning" round
-            @click="chooseLotteryHold('hold')">
+          <el-button
+            :class="['result-footer-button take', { 'not-click sell': isSell }]"
+            type="warning"
+            round
+            @click="chooseLotteryHold('hold')"
+          >
             Take the {{ nfts.length || "" }} NFT{{ nfts.length > 1 ? "s" : "" }}
           </el-button>
-          <el-button class="result-footer-button sell" round @click="chooseLotteryHold()">
+          <el-button
+            class="result-footer-button sell"
+            round
+            @click="chooseLotteryHold()"
+          >
             <span>Sell for</span>
             <span class="result-total">{{ total }}ETH</span>
             <span v-if="second > 0">({{ second }}s)</span>
@@ -91,12 +145,21 @@
         </p>
       </div>
       <div class="result-link">
-        <img class="result-link-img" src="@/assets/img/lottery/fair.png" alt="" />
+        <img
+          class="result-link-img"
+          src="@/assets/img/lottery/fair.png"
+          alt=""
+        />
         <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
         <div class="result-link-go">
           <p class="result-link-go-text">
-            <a class="result-link-go-view" :href="item.src" target="_blank" v-for="(item, index) in link"
-              :key="`link-${index}`">
+            <a
+              class="result-link-go-view"
+              :href="item.src"
+              target="_blank"
+              v-for="(item, index) in link"
+              :key="`link-${index}`"
+            >
               {{ item.text }}
             </a>
           </p>

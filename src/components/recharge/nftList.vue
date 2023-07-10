@@ -15,7 +15,7 @@
         <el-icon
           v-on="{ click: [close, handleClose] }"
           color="#2d313f"
-          size="16"
+          size="20"
           class="public-dialog-header-icon"
         >
           <CircleCloseFilled />
@@ -26,7 +26,7 @@
       <span>{{ title }} NFT'S</span>
     </div>
     <div class="operating_tips" v-if="isDeposit">
-      Choose a wallet connection method
+      Connecting wallet: {{ receiver }}
     </div>
     <div class="withdraw_condition" v-else>
       <div class="condition_item">
@@ -82,7 +82,7 @@
           placeholder="Search NFT TokenId"
         >
           <template #prefix>
-            <el-icon class="el-input__icon search_icon">
+            <el-icon class="el-input__icon search_icon" :size="24">
               <search />
             </el-icon>
           </template>
@@ -121,29 +121,27 @@
           </el-select>
         </div> -->
       </div>
-      <c-scrollbar class="choose_nft" width="100%" height="69.8125rem">
-        <div class="choose_nft">
-          <div
-            class="choose_nft_item"
-            :class="[
-              nftFind(item.id) > -1 && 'active',
-              { disabled: NFTSeries.includes(item.name) },
-            ]"
-            @click="chooseNfts(item)"
-            v-for="(item, index) in chooseNftList"
-            :key="index"
-          >
-            <div class="img_box">
-              <img :src="item.img" alt="" />
-              <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
-            </div>
-            <div class="nft_name">{{ item.name }}</div>
-            <div class="mask_box">
-              <img src="@/assets/svg/user/icon_selected.svg" alt="" />
-            </div>
+      <div class="choose_nft">
+        <div
+          class="choose_nft_item"
+          :class="[
+            nftFind(item.id) > -1 && 'active',
+            { disabled: NFTSeries.includes(item.name) },
+          ]"
+          @click="chooseNfts(item)"
+          v-for="(item, index) in chooseNftList"
+          :key="index"
+        >
+          <div class="img_box">
+            <img :src="item.img" alt="" />
+            <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
+          </div>
+          <div class="nft_name">{{ item.name }}</div>
+          <div class="mask_box">
+            <img src="@/assets/svg/user/icon_selected.svg" alt="" />
           </div>
         </div>
-      </c-scrollbar>
+      </div>
     </div>
     <div v-if="isDeposit" class="confirm_btn" @click="onDepositNftFun">
       <span>{{ `DEPOSIT ${chooseNft.length} NFTs` }}</span>
@@ -191,6 +189,10 @@ const props = defineProps({
   tokenChoose: {
     type: Number,
     default: 3,
+  },
+  receiver: {
+    type: String,
+    default: localStorage.getItem("receiver"),
   },
 });
 const emit = defineEmits("closeDialogFun", "chooseNftsFun");
@@ -431,6 +433,18 @@ const getWalletNftApi = async () => {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import url("./nftList.scss");
+</style>
+<style>
+@media screen and (max-width: 1980px) {
+  .choose_nft_item {
+    width: calc(25% - 7px);
+  }
+}
+@media screen and (min-width: 1981px) {
+  .choose_nft_item {
+    width: calc(20% - 7px);
+  }
+}
 </style>

@@ -111,6 +111,7 @@
       :dialogVisible="nftDialogVisible"
       :isDeposit="operateChoose === operateItems[0]"
       :tokenChoose="tokenChoose"
+      :receiver="receiver"
       @chooseNftsFun="chooseNftsFun"
       @closeDialogFun="closeNftDialogFun"
     />

@@ -34,6 +34,8 @@
 .result-main .result-list {
   width: calc((100% - 40px) / 5);
   margin-top: 10px;
+  transform-style: preserve-3d;
+  transform-origin: 50% 0%;
 }
 .onlyOne {
   justify-content: center;
@@ -42,13 +44,60 @@
   width: 357px;
 }
 .result-list {
-  padding: 20px;
+  position: relative;
+  box-sizing: border-box;
+}
+.result-sub-list {
   mix-blend-mode: lighten;
   border-radius: 8px;
-  overflow: hidden;
+  padding: 20px;
   box-sizing: border-box;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+.back-card-box {
+  img {
+    width: 100%;
+  }
+}
+.result-sub-flip,
+.back-card-box {
+  display: block;
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+}
+.result-sub-flip {
+  transform: rotateY(180deg);
+}
+@keyframes flip {
+  0% {
+    transform: scale(1) rotateY(0);
+  }
+  50% {
+    transform: scale(1.2) rotateY(90deg);
+  }
+  100% {
+    transform: scale(1) rotateY(180deg);
+  }
+}
+@keyframes flop {
+  0% {
+    transform: scale(1) rotateY(180deg);
+  }
+  50% {
+    transform: scale(1.2) rotateY(90deg);
+  }
+  100% {
+    transform: scale(1) rotateY(0);
+  }
+}
+.result-list.flip {
+  animation: flop 0.8s linear 1 forwards;
+}
+.result-list.flop {
+  animation: flip 0.8s linear 1 forwards;
+  animation-delay: 1s;
 }
 .result-portrait {
   width: 100%;

@@ -7,7 +7,6 @@
     <div :class="['con']">
       <div
         ref="boxesContainer"
-        :style="carouselStyle"
         :class="[
           'sub-con',
           {
@@ -74,7 +73,6 @@
       preload="auto"
       webkit-playsinline="true"
       playsinline="true"
-      :loop="musicLoop"
       class="bitzing-audio"
     ></audio>
   </div>
@@ -83,7 +81,6 @@
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
-
 const itemWidth = 220;
 export default {
   name: "OneAward",
@@ -107,12 +104,11 @@ export default {
   },
   data() {
     return {
+      slowTranslateXPer: 0.7, //横向平移百分比
+      slowTranslateX: "-70%", //横向平移距离
       isSpeedUp: false,
       isAutoplay: false,
       isActive: false,
-      interval: 6000,
-      slidesPerView: Math.floor(document.body.clientWidth / itemWidth),
-      musicLoop: true,
       offetNum: 0,
       itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
@@ -120,7 +116,6 @@ export default {
         height: `${itemWidth}px`,
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
-      showIndex: 0,
       awardsList: JSON.parse(JSON.stringify(this.awards))
         .concat(
           JSON.parse(JSON.stringify(this.awards)).slice(
@@ -129,31 +124,43 @@ export default {
           )
         )
         .flat(),
-      targetedIndex: -1,
+      intervalId: null,
+      delay: 100,
+      linearTime: 2, //匀速动画duration时间
+      slowTime: 5, //减速动画duration时间
     };
   },
   async mounted() {
+    this.getAwardsListFunc();
     console.log(this.awardsList, "awardsList");
     const { clientWidth } = document.body;
-    this.interval = Math.ceil(clientWidth / 1920) * this.interval;
-    if (this.interval >= 330) {
-      this.interval = 330;
-    }
     const result = localStorage.getItem("result");
     if (this.apiIsError) {
       return;
     }
     setTimeout(() => {
-      const subAwardsWidth = this.$refs.subAwards[0].offsetWidth;
-      console.log(clientWidth / subAwardsWidth / 2, "offetNum");
-      const decimalPlaces =
-        clientWidth / subAwardsWidth / 2 -
-          parseInt(clientWidth / subAwardsWidth / 2) >
-        0.9;
-      this.offetNum = decimalPlaces
-        ? Math.ceil(clientWidth / subAwardsWidth / 2)
-        : parseInt(clientWidth / subAwardsWidth / 2);
-    }, 2000);
+      const subAwardsWidth =
+        this.$refs.subAwards[0].getBoundingClientRect().width;
+      this.offetNum = parseInt(clientWidth / subAwardsWidth / 2);
+      this.linearTime = this.$refs.boxesContainer.offsetWidth * 0.0001;
+      this.slowTranslateX =
+        -subAwardsWidth *
+          parseInt(this.slowTranslateXPer * this.awardsList.length) +
+        "px";
+      document.documentElement.style.setProperty(
+        "--slow-translateX",
+        this.slowTranslateX
+      );
+      document.documentElement.style.setProperty(
+        "--linear-time",
+        this.linearTime + "s"
+      );
+      document.documentElement.style.setProperty(
+        "--slow-time",
+        this.slowTime + "s"
+      );
+    }, 1000);
+
     if (!result) {
       this.playMusicFun(slipe);
       this.musicSpeedFunc("up");
@@ -169,33 +176,42 @@ export default {
     }
   },
   methods: {
+    getAwardsListFunc() {
+      const newArray = this.awardsList.slice();
+      while (newArray.length < 20) {
+        newArray.push(...this.awardsList);
+        this.awardsList = [...newArray];
+      }
+    },
+    playSound() {
+      const audioObj = new Audio(slipe);
+      audioObj.pause();
+      audioObj.play();
+    },
+    slowPlayFunc() {
+      const intervalId = setInterval(() => {
+        const d = 2;
+        if (this.delay > this.slowTime * 400) {
+          clearInterval(this.intervalId);
+        } else {
+          this.slowPlayFunc();
+        }
+        this.playSound();
+        this.delay += d * 200;
+        clearInterval(intervalId);
+      }, this.delay);
+    },
     pauseMusicFun() {
       const music = this.$refs.music;
       music.pause();
     },
     musicSpeedFunc(type) {
-      let speed = 1.5;
-      const music = this.$refs.music;
       if (type == "up") {
-        speed = 0.6;
-        const intervalId = setInterval(() => {
-          if (speed < 1.3) {
-            speed += 0.2;
-            music.playbackRate = speed;
-          } else {
-            clearInterval(intervalId);
-          }
-          console.log(speed, "speed");
-        }, 1000);
+        this.intervalId = setInterval(() => {
+          this.playSound();
+        }, 100);
       } else {
-        const intervalId = setInterval(() => {
-          if (speed > 0.3) {
-            speed -= 0.3;
-            music.playbackRate = speed;
-          } else {
-            clearInterval(intervalId);
-          }
-        }, 1000);
+        this.slowPlayFunc();
       }
     },
     playMusicFun(_music, musicLoop = true, _ref = "music") {
@@ -205,7 +221,7 @@ export default {
       music.play();
     },
     stopScroll(data) {
-      this.pauseMusicFun();
+      clearInterval(this.intervalId);
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
           this.playMusicFun(usually, false);
@@ -228,15 +244,17 @@ export default {
       deep: true,
       handler: function (newData) {
         if (newData.length > 0) {
-          console.log(this.awardsList.length * 0.7, "len");
-          const len = Math.round(this.awardsList.length * 0.7) + this.offetNum;
+          clearInterval(this.intervalId);
+          const len =
+            Math.floor(this.awardsList.length * this.slowTranslateXPer) +
+            this.offetNum;
           this.awardsList.splice(len, 1, newData[0]);
           this.isActive = true;
           this.isAutoplay = false;
           this.musicSpeedFunc();
           setTimeout(() => {
             this.stopScroll(newData[0]);
-          }, 5000);
+          }, this.slowTime * 1000);
         }
       },
     },
@@ -245,6 +263,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url("./css/one.scss");
+$slow-translateX: var(--slow-translateX);
+$linear-time: var(--linear-time);
+$slow-time: var(--slow-time);
 .con {
   overflow-x: auto;
   overflow-y: hidden;
@@ -282,7 +303,7 @@ export default {
     transform: translate3d(-60%, 0, 0);
   }
   100% {
-    transform: translate3d(-70%, 0, 0);
+    transform: translate3d($slow-translateX, 0, 0);
   }
 }
 .scroll-up {
@@ -291,12 +312,12 @@ export default {
   transform: translateZ(0);
 }
 .scroll-linear {
-  animation: slide 5s infinite linear;
+  animation: slide $linear-time infinite linear;
   animation-fill-mode: forwards;
   transform: translateZ(0);
 }
 .active {
-  animation: slide-down 5s 1 cubic-bezier(0, 0.08, 0.11, 1);
+  animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
   animation-fill-mode: forwards;
 }
 </style>

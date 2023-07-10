@@ -1,27 +1,77 @@
 <template>
-  <el-dialog v-model="newValue" width="100%" :show-close="false" destroy-on-close :align-center="true"
-    :append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false" class="roll-dialog">
+  <el-dialog
+    v-model="newValue"
+    width="100%"
+    :show-close="false"
+    destroy-on-close
+    :align-center="true"
+    :append-to-body="true"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }]"
+  >
     <!-- 单个中奖 -->
-    <one-award v-if="rollNumber === 'ONE'" :awards="oneAwards" :apiIsError="apiIsError" :awardItem="awardItem"
-      @showResultFun="showResultFun" />
+    <keep-alive v-if="rollNumber === 'ONE'">
+      <one-award
+        :awards="oneAwards"
+        :apiIsError="apiIsError"
+        :awardItem="awardItem"
+        @showResultFun="showResultFun"
+      />
+    </keep-alive>
     <!-- 多个中奖 -->
-    <more-awards v-else :prizeList="rollNumber === 'FIVE' ? fiveList : tenList" :apiIsError="apiIsError"
-      :awardItem="awardItem" @showResultFun="showResultFun" />
+    <more-awards
+      v-else
+      :prizeList="rollNumber === 'FIVE' ? fiveList : tenList"
+      :apiIsError="apiIsError"
+      :awardItem="awardItem"
+      @showResultFun="showResultFun"
+    />
     <!-- 中奖列表 -->
-    <result-list v-if="showResult" :result="awardItem" :localDateTime="localDateTime"
-      @chooseLotteryHold="chooseLotteryHold" @closeDialogFun="closeDialogFun" />
+    <result-list
+      v-if="showResult"
+      :result="awardItem"
+      :localDateTime="localDateTime"
+      @chooseLotteryHold="chooseLotteryHold"
+      @closeDialogFun="closeDialogFun"
+    />
     <!-- 弹窗 -->
-    <choose-token v-if="showDialog === 'chooseToken'" @closeDialogFun="closeDialogFun" />
-    <your-reard v-else-if="showDialog === 'yourReard'" :sold="awardItem[0]" @inventoryFun="inventoryFun"
-      @closeDialogFun="closeDialogFun" />
-    <chain-dialog v-else-if="showDialog === 'chainDialog'" :sold="awardItem[0]" @balanceFun="balanceFun"
-      @closeDialogFun="closeDialogFun" />
-    <been-sold v-else-if="showDialog === 'beenSold'" :soldList="awardItem" @balanceFun="balanceFun"
-      @closeDialogFun="closeDialogFun" />
-    <part-sold v-else-if="showDialog === 'partSold'" :soldList="awardItem" :chooseIds="chooseIds" :failList="failList"
-      @inventoryFun="inventoryFun" @closeDialogFun="closeDialogFun" />
-    <transaction-warning v-else-if="showDialog === 'transactionWarning'" @balanceFun="balanceFun"
-      @closeDialogFun="closeDialogFun" :text="warningText" />
+    <choose-token
+      v-if="showDialog === 'chooseToken'"
+      @closeDialogFun="closeDialogFun"
+    />
+    <your-reard
+      v-else-if="showDialog === 'yourReard'"
+      :sold="awardItem[0]"
+      @inventoryFun="inventoryFun"
+      @closeDialogFun="closeDialogFun"
+    />
+    <chain-dialog
+      v-else-if="showDialog === 'chainDialog'"
+      :sold="awardItem[0]"
+      @balanceFun="balanceFun"
+      @closeDialogFun="closeDialogFun"
+    />
+    <been-sold
+      v-else-if="showDialog === 'beenSold'"
+      :soldList="awardItem"
+      @balanceFun="balanceFun"
+      @closeDialogFun="closeDialogFun"
+    />
+    <part-sold
+      v-else-if="showDialog === 'partSold'"
+      :soldList="awardItem"
+      :chooseIds="chooseIds"
+      :failList="failList"
+      @inventoryFun="inventoryFun"
+      @closeDialogFun="closeDialogFun"
+    />
+    <transaction-warning
+      v-else-if="showDialog === 'transactionWarning'"
+      @balanceFun="balanceFun"
+      @closeDialogFun="closeDialogFun"
+      :text="warningText"
+    />
     <Loading :loading="loading" />
   </el-dialog>
 </template>
@@ -232,7 +282,7 @@ export default {
       let _items = [];
       let _item = [];
       const _itemList = JSON.parse(JSON.stringify(itemList));
-      for (; ;) {
+      for (;;) {
         _itemList.forEach((item) => {
           if (_item.length >= _showNumber) {
             _items.push(shuffle(_item));
@@ -308,7 +358,9 @@ export default {
       if (_time > 60) {
         localStorage.removeItem("result");
       } else {
-        this.messageFun("The previous order has not been processed, please process it before drawing a prize");
+        this.messageFun(
+          "The previous order has not been processed, please process it before drawing a prize"
+        );
         this.awardItem = _result.result.data;
         this.localDateTime = _result.result.localDateTime;
         this.showResultFun();
@@ -330,6 +382,9 @@ export default {
     display: none;
   }
 }
+.roll-one-dialog {
+  background-color: transparent !important;
+}
 </style>
 <style lang="scss">
 $borWidth: 180px;
@@ -341,9 +396,11 @@ $borWidth: 180px;
   align-content: center;
 
   .lottery-carousel-list {
-    background-image: linear-gradient(228deg,
-        hsla(0, 0%, 100%, 0.3),
-        hsla(0, 0%, 100%, 0) 62%);
+    background-image: linear-gradient(
+      228deg,
+      hsla(0, 0%, 100%, 0.3),
+      hsla(0, 0%, 100%, 0) 62%
+    );
     background-color: #e38d4c;
     border-radius: 5px;
     overflow: hidden;

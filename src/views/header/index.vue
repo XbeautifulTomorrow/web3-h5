@@ -51,6 +51,7 @@
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import { mapStores } from "pinia";
+import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -115,10 +116,6 @@ export default {
       {
         text: t("header.airdrop"),
         page: "Airdrop",
-      },
-      {
-        text: "Mystery Box",
-        page: "MysteryBox",
       },
       {
         text: "Stake",
@@ -221,6 +218,14 @@ export default {
     goTo(page = "home") {
       if (page === "Whitebook") {
         openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+        return
+      }
+
+      if (page == "Stake" || page == "INO" || page == "MarketPlace") {
+        ElMessage({
+          message: t("common.tipsText"),
+          type: "warning",
+        });
         return
       }
       this.$router.push({ path: `/${page}` });

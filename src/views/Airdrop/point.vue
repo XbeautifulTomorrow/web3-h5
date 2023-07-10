@@ -133,7 +133,7 @@ export default {
     return {
       isSync: false,
       nftList: [],
-      pageList: [],
+      pageList: [""],
       page: 0,
       size: 9,
       count: 0,
@@ -273,7 +273,13 @@ export default {
         this.count = res.data.total;
         this.loading = false;
         if (!res.data.cursor) return;
-        this.pageList.push(res.data.cursor);
+        this.addCursor(res.data.cursor)
+      }
+    },
+    addCursor(event) {
+      const isRepeat = this.pageList.findIndex(e => e == event) > -1;
+      if (!isRepeat) {
+        this.pageList.push(event);
       }
     },
     handleCurrentChange(event) {

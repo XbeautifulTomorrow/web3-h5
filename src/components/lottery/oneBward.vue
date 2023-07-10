@@ -125,7 +125,7 @@ export default {
         )
         .flat(),
       intervalId: null,
-      delay: 100,
+      delay: 50,
       linearTime: 2, //匀速动画duration时间
       slowTime: 5, //减速动画duration时间
     };
@@ -189,15 +189,17 @@ export default {
       audioObj.play();
     },
     slowPlayFunc() {
+      let increment = 100; // 初始增量
       const intervalId = setInterval(() => {
-        const d = 2;
-        if (this.delay > this.slowTime * 400) {
+        if (this.delay > this.slowTime * 180) {
           clearInterval(this.intervalId);
         } else {
           this.slowPlayFunc();
         }
         this.playSound();
-        this.delay += d * 200;
+        this.delay += increment;
+        console.log(this.delay, "-this.delay");
+        increment *= 0.8; // 加速率
         clearInterval(intervalId);
       }, this.delay);
     },
@@ -209,7 +211,7 @@ export default {
       if (type == "up") {
         this.intervalId = setInterval(() => {
           this.playSound();
-        }, 100);
+        }, 70);
       } else {
         this.slowPlayFunc();
       }

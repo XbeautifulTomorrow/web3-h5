@@ -20,7 +20,7 @@
         <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
-          <span class="header-wallet-add" @click="dialogVisible = true">+</span>
+          <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
           <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
@@ -44,6 +44,7 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
   </div>
 </template>
 
@@ -51,14 +52,17 @@
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import { mapStores } from "pinia";
+import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
+import { getTheUserBalance } from "@/services/api/user";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import Recharge from "@/views/user/recharge.vue";
 import { openUrl } from "@/utils";
 
 export default {
@@ -67,12 +71,12 @@ export default {
     Login,
     Register,
     Forgot,
-    Modify
+    Modify,
+    Recharge
   },
   data() {
     return {
       active: "",
-      dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",
@@ -102,6 +106,9 @@ export default {
   },
   created() {
     this.active = this.$route.name;
+    if (this.isLogin && this.userInfo?.id) {
+      this.getTheUserBalanceInfo();
+    }
 
     this.nav = [
       {
@@ -113,8 +120,12 @@ export default {
         page: "Airdrop",
       },
       {
-        text: "Mystery Box",
+        text: "Mystery box",
         page: "MysteryBox",
+      },
+      {
+        text: "Stake",
+        page: "Stake",
       },
       {
         text: "Stake",
@@ -208,15 +219,23 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
-    getTheUserBalanceInfo() {
+    async getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
-      // let res = await getTheUserBalance();
-      // this.ethBalance = res.data[0].balance;
+      let res = await getTheUserBalance();
+      this.ethBalance = res.data[0].balance;
     },
     goTo(page = "home") {
       if (page === "Whitebook") {
         openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+        return
+      }
+
+      if (page == "Stake" || page == "INO" || page == "MarketPlace") {
+        ElMessage({
+          message: t("common.tipsText"),
+          type: "warning",
+        });
         return
       }
       this.$router.push({ path: `/${page}` });
@@ -237,7 +256,7 @@ export default {
         this.$router.push({ name: "Invite" });
       } else if (item.page == "Settings") {
         this.$router.push({ name: "Setting" });
-      } else if (item.page === "logout") {
+      } else if (item.page === "Logout") {
         this.userStore.logoutApi();
       }
     },

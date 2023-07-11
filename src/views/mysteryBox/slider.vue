@@ -21,7 +21,7 @@
                         <img src="@/assets/svg/home/icon_certified.svg" alt="" />
                       </div>
                       <div class="card-probability text-ellipsis">
-                        <span>{{ `#${item.tokenId}` }}</span>
+                        <span v-show="nftType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</span>
                         <span>{{ `Reward ID：${item.idx}` }}</span>
                       </div>
                       <div class="card-price">{{ item.price }}{{ item.coin }}</div>
@@ -43,6 +43,10 @@
 export default {
   name: "boxSlider",
   props: {
+    nftType: {
+      type: String,
+      default: null
+    },
     nftParams: {
       type: Array,
       default: () => {

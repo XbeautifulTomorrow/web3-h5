@@ -22,7 +22,7 @@ import { getLang } from "@/locales";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    locale: getLang() == "en" ? localeEN : localeZH,
+    locale: getLang() == "en_US" ? localeEN : localeZH,
     userInfo: undefined,
     regInfo: undefined,
     isLogin: getLocalStore("certificate") ? true : false
@@ -43,7 +43,7 @@ export const useUserStore = defineStore("user", {
       this.regInfo = data;
     },
     setLocale(data) {
-      this.locale = data == "en" ? localeEN : localeZH;
+      this.locale = data == "en_US" ? localeEN : localeZH;
     },
     logoutApi() {
       sessionStorage.clear();

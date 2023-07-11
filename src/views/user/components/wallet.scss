@@ -1190,7 +1190,7 @@
     box-sizing: border-box;
     background-color: #ffff;
 
-    img {
+    :deep(img) {
       width: 100%;
       height: auto;
     }

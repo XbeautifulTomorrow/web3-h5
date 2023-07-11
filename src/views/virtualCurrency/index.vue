@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import { ElMessage } from "element-plus";
 import { getTicketList } from '@/services/api/index';
 export default {
   name: 'VirtualCurrency',
@@ -135,8 +134,6 @@ export default {
       };
     },
     handleMysteryBox(event) {
-      ElMessage.warning("Comming soon");
-      return
       // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
     },

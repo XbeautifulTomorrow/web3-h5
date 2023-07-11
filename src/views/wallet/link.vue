@@ -6,13 +6,7 @@
         {{ text }}
       </p>
     </div>
-    <img
-      v-if="link"
-      class="link-img-go"
-      src="@/assets/img/login/icon-chickdefault.png"
-      alt=""
-      @click="goToLink"
-    />
+    <img v-if="!showIcon" class="link-img-go" src="@/assets/img/login/icon-chickdefault.png" alt="" @click="goToLink" />
   </div>
 </template>
 
@@ -32,6 +26,10 @@ export default {
       type: String,
       default: "",
     },
+    showIcon: {
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     goToLink() {
@@ -47,12 +45,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .link {
-  height: 69px;
-  border-radius: 8px;
+  height: 4.375rem;
+  border-radius: 0.5rem;
   border: solid 1px #363945;
   background-color: #13151f;
-  margin-top: 20px;
-  padding: 0 20px;
+  margin-top: 1.25rem;
+  padding: 0 1.25rem;
   display: flex;
   align-items: center;
   align-content: center;
@@ -60,14 +58,27 @@ export default {
   justify-content: space-between;
   cursor: pointer;
 }
+
 .link-logo {
   display: flex;
   align-content: center;
   align-items: center;
+
+  .link-img {
+    width: 1.875rem;
+    height: 1.875rem;
+    margin-right: 0.625rem;
+  }
 }
-.link-img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+
+.link-img-go {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.link-text {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #a9a4b4;
 }
 </style>

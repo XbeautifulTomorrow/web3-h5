@@ -173,7 +173,7 @@
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider :nftParams="nftList" :sName="seriesName"></series-slider>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"></series-slider>
   </el-dialog>
 </template>
 
@@ -207,6 +207,7 @@ export default {
       seriesList: [],
       snapshotData: [],
       seriesName: null,
+      seriesType: null,
       nftList: [],
       page: 1,
       size: 10,
@@ -263,6 +264,7 @@ export default {
     },
     handleShowNft(event) {
       this.seriesName = event.seriesName;
+      this.seriesType = event.nftType;
       this.nftList = event.boxNftInfos;
       this.showSeriesDialog = true;
     },

@@ -1,81 +1,39 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    destroy-on-close
-    width="800"
-    class="public-dialog recharge-coin"
-    :show-close="false"
-    :align-center="true"
-    :append-to-body="true"
-  >
+  <el-dialog v-model="dialogVisible" destroy-on-close width="50rem" class="public-dialog recharge-coin"
+    :show-close="false" :align-center="true" :append-to-body="true">
     <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
+      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+        <el-icon>
+          <Close />
         </el-icon>
       </div>
     </template>
     <ul class="recharge-menu">
-      <li
-        :class="[
-          'recharge-menu-list',
-          {
-            'choose-list': operateChoose == item,
-          },
-        ]"
-        v-for="(item, index) in operateItems"
-        :key="`coin-${index}`"
-        @click="operateChooseFun(item)"
-      >
+      <li :class="[
+        'recharge-menu-list',
+        {
+          'choose-list': operateChoose == item,
+        },
+      ]" v-for="(item, index) in operateItems" :key="`coin-${index}`" @click="operateChooseFun(item)">
         {{ item }}
       </li>
     </ul>
     <template v-if="tokenChoose === 0">
       <h2 class="recharge-title">{{ operateChoose }} OPTIONS</h2>
       <ul class="recharge-logos">
-        <li
-          v-for="(item, index) in coinList"
-          :key="`list-${index}`"
-          @click="tokenChooseFun(index)"
-          class="recharge-list"
-        >
-          <img
-            v-if="item.url"
-            class="recharge-list-img"
-            :src="item.url"
-            alt=""
-          />
+        <li v-for="(item, index) in coinList" :key="`list-${index}`" @click="tokenChooseFun(index)" class="recharge-list">
+          <img v-if="item.url" class="recharge-list-img" :src="item.url" alt="" />
           <p class="recharge-list-text">{{ item.text }}</p>
         </li>
       </ul>
     </template>
     <template v-else>
       <div class="recharge-title-back">
-        <el-icon
-          class="pointer"
-          @click="tokenChoose = 0"
-          color="#e4e7f5"
-          size="32"
-        >
+        <el-icon class="pointer" @click="tokenChoose = 0" color="#e4e7f5" size="32">
           <ArrowLeft />
         </el-icon>
-        <img
-          v-if="tokenChoose == 1"
-          class="recharge-title-icon"
-          :src="ETHIcon"
-          alt=""
-        />
-        <img
-          v-else-if="tokenChoose == 2"
-          class="recharge-title-icon"
-          :src="USDTIcon"
-          alt=""
-        />
+        <img v-if="tokenChoose == 1" class="recharge-title-icon" :src="ETHIcon" alt="" />
+        <img v-else-if="tokenChoose == 2" class="recharge-title-icon" :src="USDTIcon" alt="" />
         <span class="recharge-title-text">
           {{ `${operateChoose} ${coinItems[tokenChoose - 1]}` }}
         </span>
@@ -85,20 +43,14 @@
         <p class="recharge-coin-label">数量</p>
         <el-input v-model="amountVal" placeholder="Please amount" />
       </div>
-      <div
-        class="recharge-coin-input"
-        v-if="tokenChoose == 1 || tokenChoose == 3"
-      >
+      <div class="recharge-coin-input" v-if="tokenChoose == 1 || tokenChoose == 3">
         <p class="recharge-coin-label">OrderId</p>
         <el-input v-model="orderVal" placeholder="Please orderId" />
       </div>
     </template>
     <template v-if="tokenChoose > 0" #footer>
       <div class="dialog-footer">
-        <el-button
-          class="public-button public-continue"
-          @click="closeDialogFun"
-        >
+        <el-button class="public-button public-continue" @click="closeDialogFun">
           Cancel
         </el-button>
         <el-button class="public-button" type="primary" @click="transfer">
@@ -106,15 +58,9 @@
         </el-button>
       </div>
     </template>
-    <nft-list
-      v-if="nftDialogVisible"
-      :dialogVisible="nftDialogVisible"
-      :isDeposit="operateChoose === operateItems[0]"
-      :tokenChoose="tokenChoose"
-      :receiver="receiver"
-      @chooseNftsFun="chooseNftsFun"
-      @closeDialogFun="closeNftDialogFun"
-    />
+    <nft-list v-if="nftDialogVisible" :dialogVisible="nftDialogVisible" :isDeposit="operateChoose === operateItems[0]"
+      :tokenChoose="tokenChoose" :receiver="receiver" @chooseNftsFun="chooseNftsFun"
+      @closeDialogFun="closeNftDialogFun" />
   </el-dialog>
 </template>
 <script setup>
@@ -156,7 +102,7 @@ const props = defineProps({
   },
   nftData: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const emit = defineEmits("closeDialogFun");
@@ -381,17 +327,20 @@ const transfer = async () => {
 .recharge-coin {
   box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.05) !important;
   background-image: none !important;
+
   .public-button {
     flex: 1;
     width: auto;
     margin-top: 0 !important;
   }
+
   .el-input__wrapper {
     border: solid 1px #363945;
     background-color: #13151f;
     border-radius: 8px;
     box-shadow: none;
   }
+
   .el-input__inner {
     color: #a9a4b4;
   }

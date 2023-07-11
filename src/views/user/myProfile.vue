@@ -1,19 +1,16 @@
 <template>
   <div class="wrapper_bg">
     <div class="my_profile_wrapper">
-      <div
-        class="user_panel"
-        :style="{
-          backgroundImage: isMore
-            ? `url(${pointMore})`
-            : `url(${bg[activeType]})`,
-          height: isMore
-            ? '86rem'
-            : activeType == 'point'
+      <div class="user_panel" :style="{
+        backgroundImage: isMore
+          ? `url(${pointMore})`
+          : `url(${bg[activeType]})`,
+        height: isMore
+          ? '86rem'
+          : activeType == 'point'
             ? '44.3125rem'
             : `63.6875rem`,
-        }"
-      >
+      }">
         <div class="user_info">
           <img src="@/assets/svg/user/default_avatar.svg" alt="" />
           <div class="user_box">
@@ -25,16 +22,9 @@
             <div class="create_time">Joined Mar 2023</div>
           </div>
         </div>
-        <el-tabs
-          v-model="activeType"
-          class="type_tabs"
-          @tab-change="handleChange"
-        >
-          <el-tab-pane label="Point" name="point"></el-tab-pane>
-          <el-tab-pane
-            label="Purchase History"
-            name="purchase_history"
-          ></el-tab-pane>
+        <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
+          <el-tab-pane label="POINT" name="point"></el-tab-pane>
+          <el-tab-pane label="PURCHASE HISTORY" name="purchase_history"></el-tab-pane>
         </el-tabs>
         <div class="point_box" v-if="activeType == 'point'">
           <div class="point_total">
@@ -43,11 +33,7 @@
           </div>
           <div class="point_details">
             <div class="point_details_title">POINT DETAILS</div>
-            <el-table
-              :data="pointData"
-              class="table_container"
-              style="width: 100%"
-            >
+            <el-table :data="pointData" class="table_container" style="width: 100%">
               <el-table-column prop="source" label="TYPE" align="center" />
               <el-table-column prop="integral" label="POINT" align="center">
                 <template #default="scope">
@@ -62,11 +48,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="usdtPrice"
-                label="ETH AMOUNT"
-                align="center"
-              />
+              <el-table-column prop="usdtPrice" label="ETH AMOUNT" align="center" />
               <el-table-column prop="boxName" label="DETAIL" align="center" />
               <el-table-column prop="date" label="DATE/TIME" align="center">
                 <template #default="scope">
@@ -76,16 +58,9 @@
             </el-table>
           </div>
         </div>
-        <div
-          class="purchase_history_box"
-          :style="{ height: isMore && '62.5rem' }"
-          v-if="activeType == 'purchase_history'"
-        >
-          <div
-            class="history_item"
-            v-for="(item, index) in purchaseHistory"
-            :key="index"
-          >
+        <div class="purchase_history_box" :style="{ height: isMore && '62.5rem' }"
+          v-if="activeType == 'purchase_history'">
+          <div class="history_item" v-for="(item, index) in purchaseHistory" :key="index">
             <div class="box_info">
               <div class="box_img">
                 <img :src="item.boxImg" alt="" />
@@ -98,11 +73,7 @@
             </div>
             <div class="nft_info">
               <div class="nft_list">
-                <div
-                  class="img_box"
-                  v-for="(event, indexs) in item.lottery"
-                  :key="indexs"
-                >
+                <div class="img_box" v-for="(event, indexs) in item.lottery" :key="indexs">
                   <img :src="event.nftImg" alt="" />
                 </div>
               </div>
@@ -119,16 +90,8 @@
             <img src="@/assets/svg/user/icon_more.svg" alt="" />
           </div>
           <div class="pagination-box" v-else>
-            <el-pagination
-              v-model="page"
-              :page-size="size"
-              @current-change="handleCurrentChange"
-              :pager-count="7"
-              layout="prev, pager, next"
-              :total="count"
-              prev-text="Pre"
-              next-text="Next"
-            />
+            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
           </div>
         </div>
       </div>

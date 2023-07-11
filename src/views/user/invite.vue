@@ -12,9 +12,10 @@
         }">
           <div class="title_text">Earn ETH and cent by sharing BITZING!</div>
           <div class="invite_description">
-            Post your unique tracker in your socials, in your Discord and send it to anyone
-            with a passion for NFTs with a little explanation of Bitzing.
-            You’ll be rewarded handsomely with 2.5% of their Competition entry purchases day after day paid to you in ETH.
+            Post your unique tracker in your socials, in your Discord and send it to anyone with a passion for NFTs
+            with a little explanation of Bitzing. You will be handsomely rewarded with up to <span style="color:white">{{
+              new bigNumber(setting.consumePointRate).multipliedBy(100) }}%</span>
+            of their daily purchases and paid to you in ETH.
           </div>
         </div>
         <div class="create_invite_code">
@@ -70,7 +71,7 @@
             <el-table-column label="COPY" align="center">
               <template #default="scope">
                 <div class="copy_btn">
-                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="onCopy(scope.row.inviteCode)" alt="">
+                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
                 </div>
               </template>
             </el-table-column>
@@ -116,7 +117,8 @@ import {
   rebatesCreateCode,
   rebatesFindList,
   rebatesReceive,
-  rebatesDetailPageList
+  rebatesDetailPageList,
+  getSetting
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import { onCopy, timeFormat } from "@/utils";
@@ -137,6 +139,9 @@ export default {
       page: 1,
       size: 6,
       count: 0,
+      setting: {
+        withdrawalFees: null
+      }
     };
   },
   methods: {
@@ -228,10 +233,28 @@ export default {
       this.page = page;
       this.fetchDetailPageList();
     },
+    // 复制邀请链接
+    copyInviteLink(event) {
+      const currentLink = window.location;
+      let link = currentLink.origin + "/Airdrop/" + event;
+      onCopy(link);
+    },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH"
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        this.$forceUpdate();
+      }
+    },
   },
   created() {
     this.fetchInvateStatistics();
     this.fetchRebatesFindList();
+    this.fetchSetting();
   }
 };
 </script>

@@ -118,6 +118,14 @@ export default {
         page: "Airdrop",
       },
       {
+        text: "Mystery box",
+        page: "MysteryBox",
+      },
+      {
+        text: "Stake",
+        page: "Stake",
+      },
+      {
         text: "Stake",
         page: "Stake",
       },

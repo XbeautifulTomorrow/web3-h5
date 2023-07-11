@@ -1,13 +1,10 @@
 <template>
   <div class="wrapper_bg">
     <div class="my_wallet_wrapper">
-      <div
-        class="wallet_panel"
-        :style="{
-          backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
-          height: isMore ? '86rem' : '44.3125rem',
-        }"
-      >
+      <div class="wallet_panel" :style="{
+        backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
+        height: isMore ? '86rem' : '44.3125rem',
+      }">
         <div class="balance_box">
           <div class="balance_l">
             <div class="title_text">BALANCES</div>
@@ -22,13 +19,8 @@
         <div class="wallet_operating">
           <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
           <div class="choose_box">
-            <div
-              class="coin_item"
-              v-for="(item, index) in coinList"
-              :key="index"
-              @click="searchHistory(item)"
-              :class="coin == item && ['active']"
-            >
+            <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
+              :class="coin == item && ['active']">
               {{ item }}
             </div>
             <div class="replenish">Missing contract ETH deposit?</div>
@@ -37,13 +29,9 @@
             </div>
           </div>
         </div>
-        <el-table
-          :data="historyData"
-          class="table_container"
-          style="width: 100%"
-        >
+        <el-table :data="historyData" class="table_container" style="width: 100%">
           <el-table-column prop="logType" label="LOG TYPE" align="center" />
-          <el-table-column prop="amount" label="Amount" align="center">
+          <el-table-column prop="amount" label="AMOUNT" align="center">
             <template #default="scope">
               {{ scope.row.criditAmount }}{{ scope.row.criditCoin }}
             </template>
@@ -54,11 +42,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="syncStatus" label="STATUS" align="center" />
-          <el-table-column
-            prop="creation_time"
-            label="DATE/TIME"
-            align="center"
-          >
+          <el-table-column prop="creation_time" label="DATE/TIME" align="center">
             <template #default="scope">
               {{ timeFormat(scope.row.createTime) }}
             </template>
@@ -75,29 +59,16 @@
             <img src="@/assets/svg/user/icon_more.svg" alt="" />
           </div>
           <div class="pagination-box" v-else>
-            <el-pagination
-              v-model="page"
-              :page-size="size"
-              @current-change="handleCurrentChange"
-              :pager-count="7"
-              layout="prev, pager, next"
-              :total="count"
-              prev-text="Pre"
-              next-text="Next"
-            />
+            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
           </div>
         </div>
       </div>
       <assets></assets>
     </div>
     <!-- 查询补足余额 -->
-    <el-dialog
-      v-model="showReplenish"
-      width="50rem"
-      lock-scroll
-      :close-on-click-modal="false"
-      :before-close="handleClose"
-    >
+    <el-dialog v-model="showReplenish" width="50rem" lock-scroll :close-on-click-modal="false"
+      :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -105,13 +76,9 @@
       </div>
       <div class="replenish_box">
         <div class="operating_title">
-          <span>Enter transaction Id</span>
+          <span>ENTER TRANSACTION ID</span>
         </div>
-        <el-input
-          class="wallet_addr"
-          v-model="transactionId"
-          placeholder="Paste your ERC20 wallet address here"
-        >
+        <el-input class="wallet_addr" v-model="transactionId" placeholder="Paste your ERC20 wallet address here">
         </el-input>
         <div class="btns_box">
           <div class="btn_item cancel" @click="handleClose()">Cancel</div>
@@ -120,13 +87,7 @@
       </div>
     </el-dialog>
     <!-- 充值ETH USDT -->
-    <el-dialog
-      v-model="showRecharge"
-      width="50rem"
-      lock-scroll
-      :close-on-click-modal="false"
-      :before-close="handleClose"
-    >
+    <el-dialog v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false" :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -134,18 +95,10 @@
       </div>
       <div class="recharge_box">
         <div class="operating_box">
-          <div
-            class="operating_btn"
-            :class="[walletOperating == 1 && 'active']"
-            @click="handleOperating(1)"
-          >
+          <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
             DEPOST
           </div>
-          <div
-            class="operating_btn"
-            :class="[walletOperating == 2 && 'active']"
-            @click="handleOperating(2)"
-          >
+          <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
             WITHDRAW
           </div>
         </div>
@@ -170,11 +123,7 @@
             <el-icon class="icon_arrow" @click="operatingCoin = null">
               <ArrowLeftBold />
             </el-icon>
-            <img
-              v-if="operatingCoin == 'ETH'"
-              src="@/assets/svg/user/icon_ethereum.svg"
-              alt=""
-            />
+            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
             <div class="recharge_title_text">
               <span v-if="walletOperating == 1">{{
@@ -191,12 +140,8 @@
                   Send the amount of Ethereum of your choice to the following
                   address to receive the equivalent in Coins.
                 </div>
-                <el-input
-                  class="wallet_addr_input"
-                  readonly="readonly"
-                  v-model="receiverAddr"
-                  placeholder="Paste your ERC20 wallet address here"
-                >
+                <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
+                  placeholder="Paste your ERC20 wallet address here">
                   <template #append>
                     <div class="copy_btn" @click="onCopy(receiverAddr)">
                       COPY
@@ -218,11 +163,7 @@
               </div>
               <div class="hint_item">
                 <div class="hint_l">
-                  <img
-                    style="visibility: hidden"
-                    src="@/assets/svg/user/icon_warning.svg"
-                    alt=""
-                  />
+                  <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
                 </div>
                 <div class="hint_r">
                   Do NOT send NFT's to this ETH deposit address. In order to
@@ -234,28 +175,14 @@
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
             <div class="price_convert">
-              <el-input
-                class="price_input"
-                @focus="isConvert = true"
-                v-model="walletAmount"
-                type="number"
-              >
+              <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
                 <template #prefix>
-                  <img
-                    v-if="operatingCoin == 'ETH'"
-                    src="@/assets/svg/user/icon_ethereum.svg"
-                    alt=""
-                  />
+                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                   <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
               <div class="convert_interval">~</div>
-              <el-input
-                class="price_input"
-                @focus="isConvert = false"
-                v-model="ethNum"
-                type="number"
-              >
+              <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 </template>
@@ -277,12 +204,8 @@
                 <span>RECEIVING ETHEREUM ADDRESS</span>
                 <span class="required">*</span>
               </div>
-              <el-input
-                class="withdraw_addr_input"
-                v-model="walletAddr"
-                @blur="onVerify('address')"
-                placeholder="Paste your Ethereum wallet address here"
-              ></el-input>
+              <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
+                placeholder="Paste your Ethereum wallet address here"></el-input>
               <div class="withdraw_item_error">
                 {{ walletAddrTips }}
               </div>
@@ -294,34 +217,16 @@
               </div>
               <div class="withdraw_convert">
                 <div class="price_convert">
-                  <el-input
-                    class="price_input"
-                    @focus="isConvert = true"
-                    @blur="onVerify('amount')"
-                    v-model="walletAmount"
-                    type="number"
-                  >
+                  <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')"
+                    v-model="walletAmount" type="number">
                     <template #prefix>
-                      <img
-                        v-if="operatingCoin == 'ETH'"
-                        src="@/assets/svg/user/icon_ethereum.svg"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="@/assets/svg/user/icon_usdt.svg"
-                        alt=""
-                      />
+                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                     </template>
                   </el-input>
                   <div class="convert_interval">~</div>
-                  <el-input
-                    class="price_input"
-                    @focus="isConvert = false"
-                    @blur="onVerify('amount')"
-                    v-model="ethNum"
-                    type="number"
-                  >
+                  <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
+                    type="number">
                     <template #prefix>
                       <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                     </template>
@@ -333,9 +238,7 @@
               </div>
               <div class="withdraw_fee">
                 {{
-                  `Network fee: ${
-                    operatingCoin == "ETH" ? ethFee : usdtFee
-                  } ${operatingCoin}`
+                  `Network fee: ${setting.withdrawalFees || 0} ${operatingCoin}`
                 }}
               </div>
               <div class="withdraw_item_error">
@@ -376,6 +279,7 @@ import QRCode from "qrcodejs2";
 import Assets from "./assets.vue";
 import bigNumber from "bignumber.js";
 import { onCopy, accurateDecimal, timeFormat } from "@/utils";
+import { getSetting } from "@/services/api/invite";
 export default {
   name: "myWallet",
   components: {
@@ -414,6 +318,9 @@ export default {
       size: 5,
       count: 0,
       isMore: false,
+      setting: {
+        withdrawalFees: null
+      }
     };
   },
   computed: {
@@ -495,6 +402,7 @@ export default {
       this.operatingCoin = event;
       this.isConvert = true;
       this.walletAmount = null;
+      this.fetchSetting();
 
       if (this.walletOperating == 1) {
         this.fetchRechargeExchangeRate();
@@ -537,8 +445,8 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { ethFee, usdtFee, walletAmount, walletAddr, operatingCoin } = this;
-      const withdrawalFee = operatingCoin == "ETH" ? ethFee : usdtFee;
+      const { setting, walletAmount, walletAddr } = this;
+      const withdrawalFee = setting.withdrawalFees || 0;
       if (type == "submit" || type == "address") {
         if (!walletAddr) {
           this.walletAddrTips =
@@ -673,6 +581,17 @@ export default {
         this.count = res.data.total;
       }
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: this.operatingCoin
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        this.$forceUpdate();
+      }
+    },
     loadMore() {
       this.isMore = true;
       this.size = 20;
@@ -687,6 +606,7 @@ export default {
     this.renewBalance();
     this.fetchHistory();
     this.fetchReceivingAddr();
+    this.fetchSetting();
   },
 };
 </script>

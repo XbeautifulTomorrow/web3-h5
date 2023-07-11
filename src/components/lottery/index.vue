@@ -1,10 +1,10 @@
 <template>
   <el-dialog
     v-model="newValue"
+    :modal="false"
     width="100%"
     :show-close="false"
     destroy-on-close
-    :align-center="true"
     :append-to-body="true"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -384,6 +384,26 @@ export default {
 }
 .roll-one-dialog {
   background-color: transparent !important;
+}
+.roll-dialog {
+  margin-top: 15.5rem;
+  overflow: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: calc(100% - 15.5rem);
+  margin-bottom: 0;
+  background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
+  background-size: cover;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    height: 100%;
+    padding: 0;
+  }
 }
 </style>
 <style lang="scss">

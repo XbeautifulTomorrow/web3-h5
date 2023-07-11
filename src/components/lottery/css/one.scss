@@ -4,16 +4,16 @@
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50%));
 }
 
 .roll-title {
   font-weight: bold;
-  font-size: 56px;
+  font-size: 2rem;
 }
 
 .roll-text-offcial {
-  font-size: 18px;
+  font-size: 0.875rem;
   color: #a9a4b4;
   text-align: center;
 }
@@ -110,7 +110,8 @@
   width: 65px;
   height: 396px;
   transform: translate(-50%, -50%);
-  background: url("@/components/lottery/img/list_mask.png") 0 0/100% 100% no-repeat;
+  background: url("@/components/lottery/img/list_mask.png") 0 0/100% 100%
+    no-repeat;
   z-index: 10;
 }
 

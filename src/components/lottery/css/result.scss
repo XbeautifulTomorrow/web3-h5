@@ -1,12 +1,10 @@
-.result-dialog {
-  text-align: center;
-}
 .result-dialog-content {
   --white: #e4e7f5;
 }
 .result-title {
-  font-size: 56px;
+  font-size: 2rem;
   font-weight: bold;
+  text-align: center;
   background-image: linear-gradient(
     to bottom,
     rgba(234, 32, 141, 0.9) 15%,
@@ -19,11 +17,12 @@
   color: transparent;
 }
 .result-illustrate {
-  font-size: 18px;
+  font-size: 0.875rem;
   color: #a9a4b4;
+  text-align: center;
 }
 .result-main {
-  margin-top: 60px;
+  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -41,7 +40,7 @@
   justify-content: center;
 }
 .onlyOne .result-list {
-  width: 357px;
+  width: 22.3125rem;
 }
 .result-list {
   position: relative;
@@ -75,7 +74,7 @@
     transform: scale(1) rotateY(0);
   }
   50% {
-    transform: scale(1.2) rotateY(90deg);
+    transform: scale(1.3) rotateY(90deg);
   }
   100% {
     transform: scale(1) rotateY(180deg);
@@ -83,20 +82,20 @@
 }
 @keyframes flop {
   0% {
-    transform: scale(1) rotateY(180deg);
+    transform: scale(1) rotateY(0deg);
   }
   50% {
-    transform: scale(1.2) rotateY(90deg);
+    transform: scale(1.3) rotateY(90deg);
   }
   100% {
-    transform: scale(1) rotateY(0);
+    transform: scale(1) rotateY(180deg);
   }
 }
 .result-list.flip {
-  animation: flop 0.8s linear 1 forwards;
+  animation: flop 0.4s linear 1 forwards;
 }
 .result-list.flop {
-  animation: flip 0.8s linear 1 forwards;
+  animation: flip 0.4s linear 1 forwards;
   animation-delay: 1s;
 }
 .result-portrait {
@@ -168,7 +167,8 @@
   font-size: 12px;
   line-height: 24px;
   color: #a9a4b4;
-  margin-top: 16px;
+  margin-top: 24px;
+  text-align: center;
 }
 .result-one-footer {
   margin-top: 20px;
@@ -224,18 +224,23 @@
   min-width: 318px;
   box-sizing: border-box;
 }
-.LEGEND {
-  background-image: url("@/assets/img/lottery/LEGEND.png");
+.result-main {
+  .result-list {
+    .LEGEND {
+      background-image: url("@/assets/img/lottery/LEGEND.png");
+    }
+    .EPIC {
+      background-image: url("@/assets/img/lottery/EPIC.png");
+    }
+    .RARE {
+      background-image: url("@/assets/img/lottery/RARE.png");
+    }
+    .NORMAL {
+      background-image: url("@/assets/img/lottery/NORMAL.png");
+    }
+  }
 }
-.EPIC {
-  background-image: url("@/assets/img/lottery/EPIC.png");
-}
-.RARE {
-  background-image: url("@/assets/img/lottery/RARE.png");
-}
-.NORMAL {
-  background-image: url("@/assets/img/lottery/NORMAL.png");
-}
+
 .more-list {
   &.LEGEND {
     background-image: url("@/assets/img/lottery/LEGEND_more.png");
@@ -270,7 +275,7 @@
   align-content: center;
   justify-items: center;
   justify-content: space-around;
-  margin: 60px auto;
+  margin: 16px auto;
   width: 432px;
   height: 74px;
   padding: 15px 20px;

@@ -10,7 +10,6 @@
         :class="[
           'sub-con',
           {
-            'scroll-up': isSpeedUp,
             'scroll-linear': isAutoplay,
             active: isActive,
           },
@@ -67,14 +66,6 @@
       </div>
       <div class="list_mask"></div>
     </div>
-    <audio
-      id="music"
-      ref="music"
-      preload="auto"
-      webkit-playsinline="true"
-      playsinline="true"
-      class="bitzing-audio"
-    ></audio>
   </div>
 </template>
 <script>
@@ -116,21 +107,17 @@ export default {
         height: `${itemWidth}px`,
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
-      awardsList: JSON.parse(JSON.stringify(this.awards))
-        .concat(
-          JSON.parse(JSON.stringify(this.awards)).slice(
-            0,
-            JSON.parse(JSON.stringify(this.awards)).length * 0.5
-          )
-        )
-        .flat(),
+      awardsList: JSON.parse(JSON.stringify(this.awards)).flat(),
       intervalId: null,
       delay: 50,
-      linearTime: 2, //匀速动画duration时间
-      slowTime: 5, //减速动画duration时间
+      upTime: 8, //加速动画duration时间
+      linearTime: 3, //匀速动画duration时间
+      slowTime: 6, //减速动画duration时间
+      increment: 10,
     };
   },
   async mounted() {
+    document.documentElement.style.setProperty("--up-time", this.upTime + "s");
     this.getAwardsListFunc();
     console.log(this.awardsList, "awardsList");
     const { clientWidth } = document.body;
@@ -151,6 +138,7 @@ export default {
         "--slow-translateX",
         this.slowTranslateX
       );
+
       document.documentElement.style.setProperty(
         "--linear-time",
         this.linearTime + "s"
@@ -162,17 +150,19 @@ export default {
     }, 1000);
 
     if (!result) {
-      this.playMusicFun(slipe);
-      this.musicSpeedFunc("up");
       setTimeout(() => {
         if (!this.apiIsError) {
-          this.isSpeedUp = true;
+          // this.isSpeedUp = true;
+          this.isAutoplay = true;
         }
-      });
+      }, 100);
       setTimeout(() => {
-        this.isSpeedUp = false;
-        this.isAutoplay = true;
-      }, 2000);
+        this.musicSpeedFunc("up");
+      }, 500);
+      // setTimeout(() => {
+      //   this.isAutoplay = true;
+      //   this.isSpeedUp = false;
+      // }, this.upTime * 1000);
     }
   },
   methods: {
@@ -183,52 +173,40 @@ export default {
         this.awardsList = [...newArray];
       }
     },
-    playSound() {
-      const audioObj = new Audio(slipe);
+    playSound(_music) {
+      const audioObj = new Audio(_music);
       audioObj.pause();
       audioObj.play();
     },
     slowPlayFunc() {
-      let increment = 100; // 初始增量
       const intervalId = setInterval(() => {
-        if (this.delay > this.slowTime * 180) {
+        if (this.delay > this.slowTime * 230) {
           clearInterval(this.intervalId);
         } else {
           this.slowPlayFunc();
         }
-        this.playSound();
-        this.delay += increment;
-        console.log(this.delay, "-this.delay");
-        increment *= 0.8; // 加速率
+        this.playSound(slipe);
+        this.delay += this.increment;
+        this.increment *= 1.34;
         clearInterval(intervalId);
       }, this.delay);
-    },
-    pauseMusicFun() {
-      const music = this.$refs.music;
-      music.pause();
     },
     musicSpeedFunc(type) {
       if (type == "up") {
         this.intervalId = setInterval(() => {
-          this.playSound();
-        }, 70);
+          this.playSound(slipe);
+        }, 50);
       } else {
         this.slowPlayFunc();
       }
-    },
-    playMusicFun(_music, musicLoop = true, _ref = "music") {
-      this.musicLoop = musicLoop;
-      const music = this.$refs[_ref];
-      music.src = _music;
-      music.play();
     },
     stopScroll(data) {
       clearInterval(this.intervalId);
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
-          this.playMusicFun(usually, false);
+          this.playSound(usually);
         } else {
-          this.playMusicFun(advanced, false);
+          this.playSound(advanced);
         }
       }
       this.$emit("showResultFun");
@@ -245,6 +223,8 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
+        // this.stopScroll(newData[0]);
+        // return;
         if (newData.length > 0) {
           clearInterval(this.intervalId);
           const len =
@@ -256,22 +236,28 @@ export default {
           this.musicSpeedFunc();
           setTimeout(() => {
             this.stopScroll(newData[0]);
-          }, this.slowTime * 1000);
+          }, (this.slowTime + 0.5) * 1000);
         }
       },
     },
+  },
+  beforeUnmount() {
+    clearInterval(this.intervalId);
   },
 };
 </script>
 <style lang="scss" scoped>
 @import url("./css/one.scss");
 $slow-translateX: var(--slow-translateX);
+$up-time: var(--up-time);
 $linear-time: var(--linear-time);
 $slow-time: var(--slow-time);
+
 .con {
   overflow-x: auto;
   overflow-y: hidden;
   transform-style: preserve-3d;
+  margin-top: 0.8rem;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -289,12 +275,12 @@ $slow-time: var(--slow-time);
     transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate3d(-10%, 0, 0);
+    transform: translate3d(-20%, 0, 0);
   }
 }
 @keyframes slide {
   0% {
-    transform: translate3d(-10%, 0, 0);
+    transform: translate3d(-20%, 0, 0);
   }
   100% {
     transform: translate3d(-60%, 0, 0);
@@ -309,14 +295,16 @@ $slow-time: var(--slow-time);
   }
 }
 .scroll-up {
-  animation: slide-up 2s 1 ease-in;
+  // transform: translate3d(-20%, 0, 0);
+  // transition: transform $up-time ease-in;
+  animation: slide 4s 1 linear;
   animation-fill-mode: forwards;
-  transform: translateZ(0);
 }
 .scroll-linear {
+  // animation: 2s slide-up 1 ease-in forwards,
+  //   1.5s slide 1s infinite linear forwards;
   animation: slide $linear-time infinite linear;
   animation-fill-mode: forwards;
-  transform: translateZ(0);
 }
 .active {
   animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);

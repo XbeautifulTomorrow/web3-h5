@@ -1,6 +1,6 @@
 <template>
   <el-carousel
-    class="award-carousel"
+    :class="['award-carousel', { 'no-autoplay-box': !autoPlay }]"
     :height="`${height * 3}`"
     :interval="interval"
     :autoplay="autoPlay"
@@ -20,18 +20,20 @@
     >
       <div
         v-for="(_img, imgIndex) in item"
-        :class="['lottery-moreLuck-list-content', _img.qualityType]"
+        :class="[
+          'lottery-moreLuck-list-content',
+          _img.qualityType,
+          { 'is-active-item': winData.nftImg == _img.nftImg },
+        ]"
         :key="`img-${imgIndex}`"
       >
         <img class="lottery-moreLuck-list-img" :src="_img.nftImg" alt="" />
-      </div>
-      <div
-        :class="['lottery-moreLuck-award', `award-${winData.qualityType}`]"
-        v-if="winData && winData.nftImg"
-      >
-        <img class="lottery-moreLuck-award-img" :src="winData.nftImg" alt="" />
-        <p class="lottery-moreLuck-seriesName">{{ winData.seriesName }}</p>
-        <!-- <p class="lottery-moreLuck-tokenId">{{ `#${winData.tokenId}` }}</p> -->
+        <p
+          v-if="winData && winData.nftImg == _img.nftImg"
+          class="lottery-moreLuck-seriesName"
+        >
+          {{ winData.seriesName }}
+        </p>
       </div>
     </el-carousel-item>
   </el-carousel>
@@ -98,8 +100,8 @@ export default {
   z-index: 1;
 }
 .lottery-moreLuck-list-content {
-  height: 118px;
-  width: 118px;
+  height: 7.375rem;
+  width: 7.375rem;
   padding: 4px;
   box-sizing: border-box;
   transform: rotate(180deg);
@@ -107,20 +109,29 @@ export default {
   position: relative;
 }
 .LEGEND {
-  background-image: url("@/assets/img/lottery/LEGEND_more.png");
+  background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
+  background-size: cover;
+  color: #ce42ff;
 }
 .EPIC {
-  background-image: url("@/assets/img/lottery/EPIC_more.png");
+  background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
+  background-size: cover;
+  color: #ef962e;
 }
 .RARE {
-  background-image: url("@/assets/img/lottery/RARE_more.png");
+  background-image: url("@/assets/img/lottery/RARE_more_choose.png");
+  background-size: cover;
+  color: #31aff0;
 }
 .NORMAL {
-  background-image: url("@/assets/img/lottery/NORMAL_more.png");
+  background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
+  background-size: cover;
+  color: #4a4d58;
 }
 .lottery-moreLuck-list-img {
   height: 100%;
-  vertical-align: bottom;
+  width: 100%;
+  object-fit: fill;
   filter: brightness(50%);
 }
 .lottery-moreLuck-award {
@@ -174,7 +185,6 @@ export default {
 .lottery-moreLuck-seriesName {
   font-size: 16px;
   font-weight: bold;
-  color: #4a4d58;
 }
 .lottery-moreLuck-tokenId {
   font-size: 12px;
@@ -183,6 +193,27 @@ export default {
 </style>
 <style lang="scss">
 .award-carousel {
+  &.no-autoplay-box {
+    z-index: 11;
+    .is-active {
+      .is-active-item {
+        position: relative;
+        z-index: 11;
+        transform: scale(1.2) rotate(180deg);
+        img {
+          filter: none;
+        }
+      }
+      .lottery-moreLuck-list-content:nth-child(1) {
+        position: relative;
+        top: 25px;
+      }
+      .lottery-moreLuck-list-content:nth-child(3) {
+        position: relative;
+        top: -25px;
+      }
+    }
+  }
   .el-carousel__container {
     height: 100%;
   }

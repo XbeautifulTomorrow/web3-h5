@@ -1,10 +1,23 @@
 <template>
-  <div class="lottery-moreLuck">
-    <p class="lottery-moreLuck-line"></p>
-    <awards-list v-for="(item, index) in prizeList" :key="`moreLuck-${item}`" :height="height" :prizePoolList="item"
-      :autoplay="autoplay[index]" :interval="interval" :winData="winData[index]" />
-    <audio id="music" ref="music" preload="auto" webkit-playsinline="true" playsinline="true" :loop="musicLoop"
-      class="bitzing-audio"></audio>
+  <div class="lottery-moreLuck-box">
+    <div>
+      <div class="roll-text">
+        <p class="public-color-one roll-title">TOP BLUE-CHIPS BOX</p>
+        <p class="roll-text-offcial">An offcial box by Bitzing</p>
+      </div>
+      <div class="lottery-moreLuck">
+        <p class="lottery-moreLuck-line"></p>
+        <awards-list
+          v-for="(item, index) in prizeList"
+          :key="`moreLuck-${item}`"
+          :height="height"
+          :prizePoolList="item"
+          :autoplay="autoplay[index]"
+          :interval="interval"
+          :winData="winData[index]"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -50,21 +63,23 @@ export default {
       timer: null,
       numberTest: 0,
       musicLoop: true,
+      audioLoopObj: null,
     };
   },
   mounted() {
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
-      this.playMusicFun(slipe);
+      this.audioLoopObj = this.playSound(slipe, true);
     }
   },
   methods: {
-    playMusicFun(_music, musicLoop = true, _ref = "music") {
-      this.musicLoop = musicLoop;
-      const music = this.$refs[_ref];
-      music.src = _music;
-      music.play();
+    playSound(_music, musicLoop = false) {
+      const audioObj = new Audio(_music);
+      audioObj.loop = musicLoop;
+      audioObj.pause();
+      audioObj.play();
+      return audioObj;
     },
     getRand(start, end) {
       return Math.floor(Math.random() * (end - start + 1) + start);
@@ -80,16 +95,17 @@ export default {
         this.winData.push(data[numberTest]);
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
+        this.audioLoopObj.pause();
         if (data[numberTest].qualityType === "NORMAL") {
-          this.playMusicFun(usually, true);
+          this.playSound(usually);
         } else {
-          this.playMusicFun(advanced, true);
+          this.playSound(advanced);
         }
         if (this.winData.length >= this.prizeList.length) {
           if (data[numberTest].qualityType === "NORMAL") {
-            this.playMusicFun(usually, false);
+            this.playSound(usually);
           } else {
-            this.playMusicFun(advanced, false);
+            this.playSound(advanced);
           }
           this.autoplayFun();
           this.clearTimerFun();
@@ -130,9 +146,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./css/more.scss";
+.roll-text {
+  margin-bottom: 4.5625rem;
+}
+@media screen and (max-width: 1600px) {
+  .roll-text {
+    margin-bottom: 1.5625rem;
+  }
+  .lottery-moreLuck-box {
+    margin-top: 0;
+  }
+}
 </style>
 <style lang="scss">
 .lottery-moreLuck {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: rgba(19, 7, 27, 0.45);
   .el-carousel__container {
     height: 100%;
   }

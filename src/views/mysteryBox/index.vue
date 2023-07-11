@@ -99,6 +99,13 @@ export default {
     this.boxId = this.$route.query.boxId;
     this.getBlindBoxDetail();
   },
+  watch: {
+    showRoll(val) {
+      if (val) {
+        window.scrollTo(0, 0);
+      }
+    },
+  },
   methods: {
     rollNumberFun(number) {
       const result = localStorage.getItem("result");

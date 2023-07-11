@@ -20,7 +20,7 @@
         <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
-          <span class="header-wallet-add" @click="dialogVisible = true">+</span>
+          <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
           <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
@@ -44,6 +44,7 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
   </div>
 </template>
 
@@ -61,6 +62,7 @@ import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import Recharge from "@/views/user/recharge.vue";
 import { openUrl } from "@/utils";
 
 export default {
@@ -69,12 +71,12 @@ export default {
     Login,
     Register,
     Forgot,
-    Modify
+    Modify,
+    Recharge
   },
   data() {
     return {
       active: "",
-      dialogVisible: false,
       conncectAddress: null,
       amountVal: [1],
       orderVal: "",

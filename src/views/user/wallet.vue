@@ -584,7 +584,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: this.operatingCoin
+        coin: this.operatingCoin || "ETH"
       });
 
       if (res && res.code == 200) {

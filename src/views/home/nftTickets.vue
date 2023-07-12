@@ -164,12 +164,6 @@ export default {
     },
     closeDialogFun() {
       this.pageType = "";
-      this.showConnect = false;
-      if (this.userInfo) {
-        this.getTheUserBalanceInfo();
-      } else if (this.regInfo) {
-        console.log(this.regInfo);
-      }
     },
     changeTypeFun(page) {
       this.pageType = page;

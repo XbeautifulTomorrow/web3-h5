@@ -56,7 +56,6 @@ import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { getTheUserBalance } from "@/services/api/user";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -222,8 +221,8 @@ export default {
     async getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
-      let res = await getTheUserBalance();
-      this.ethBalance = res.data[0].balance;
+      // let res = await getTheUserBalance();
+      // this.ethBalance = res.data[0].balance;
     },
     goTo(page = "home") {
       if (page === "Whitebook") {

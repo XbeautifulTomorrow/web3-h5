@@ -26,21 +26,25 @@
           ]"
         >
           <li
-            :class="['result-list', { flop: result.length == 1 }]"
+            :class="[
+              'result-list',
+              { flop: result.length > 0 },
+              { 'result-more-list': result.length > 1 },
+            ]"
             v-for="(item, index) in result"
             :key="`result-${index}`"
             :style="{
               height: result.length == 1 ? `${cardRefHeight}px` : 'auto',
             }"
           >
-            <div class="back-card-box" v-if="result.length == 1">
+            <div class="back-card-box" v-if="result.length > 0">
               <img src="@/assets/img/lottery/backCard.webp" alt="" />
             </div>
             <div
               ref="cardRef"
               :class="[
                 'result-sub-list',
-                { 'result-sub-flip': result.length == 1 },
+                { 'result-sub-flip': result.length > 0 },
                 item.qualityType,
                 { 'choose-list': nfts.includes(item.id) },
                 { 'more-list': result.length > 1 },
@@ -164,7 +168,7 @@
             At the end of the countdown you will automatically sell all NFT
           </p>
         </div>
-        <p class="result-end">
+        <p class="result-end" v-if="result.length < 2">
           At the end of the countdown you will automatically sell all NFT
         </p>
         <div class="result-link">
@@ -173,7 +177,20 @@
             src="@/assets/img/lottery/fair.png"
             alt=""
           />
-          <p class="result-link-text">THIS TRANSACTION IS PROVABLY FAIR</p>
+          <img
+            class="result-link-line"
+            src="@/assets/img/lottery/Line15.png"
+            alt=""
+          />
+          <p class="result-link-text">
+            THIS TRANSACTION IS<br />
+            PROVABLY FAIR
+          </p>
+          <img
+            class="result-link-line"
+            src="@/assets/img/lottery/Line15.png"
+            alt=""
+          />
           <div class="result-link-go">
             <p class="result-link-go-text">
               <a

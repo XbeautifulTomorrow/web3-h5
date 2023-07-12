@@ -1,21 +1,44 @@
 <template>
   <div class="lottery-moreLuck-box">
-    <div>
+    <div class="lottery-moreLuck-sub">
       <div class="roll-text">
         <p class="public-color-one roll-title">TOP BLUE-CHIPS BOX</p>
         <p class="roll-text-offcial">An offcial box by Bitzing</p>
       </div>
-      <div class="lottery-moreLuck">
-        <p class="lottery-moreLuck-line"></p>
-        <awards-list
-          v-for="(item, index) in prizeList"
-          :key="`moreLuck-${item}`"
-          :height="height"
-          :prizePoolList="item"
-          :autoplay="autoplay[index]"
-          :interval="interval"
-          :winData="winData[index]"
+      <div class="lottery-moreLuck-bg">
+        <div
+          :class="[
+            'lottery-moreLuck',
+            { 'lottery-moreLuck-Big': prizeList?.length > 5 },
+          ]"
+        >
+          <p class="lottery-moreLuck-line"></p>
+          <awards-list
+            v-for="(item, index) in prizeList"
+            :key="`moreLuck-${item}`"
+            :height="height"
+            :prizePoolList="item"
+            :autoplay="autoplay[index]"
+            :interval="interval"
+            :winData="winData[index]"
+          />
+        </div>
+      </div>
+      <div class="result-link">
+        <img
+          class="result-link-img"
+          src="@/assets/img/lottery/fair.png"
+          alt=""
         />
+        <img
+          class="result-link-line"
+          src="@/assets/img/lottery/Line14.png"
+          alt=""
+        />
+        <p class="result-link-text">
+          The lottery process is running on the <br />
+          blockchain, please be patient.
+        </p>
       </div>
     </div>
   </div>
@@ -110,7 +133,9 @@ export default {
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
-          this.$emit("showResultFun");
+          setTimeout(() => {
+            this.$emit("showResultFun");
+          }, 1000);
         }
       }, 1000);
     },
@@ -157,12 +182,33 @@ export default {
     margin-top: 0;
   }
 }
+.result-link {
+  width: 20rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-around;
+  margin: 5rem auto;
+  flex-grow: 0;
+  padding: 10px 20px;
+  border-radius: 0.625rem;
+  background-color: #2761f5;
+}
+.result-link-img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.result-link-line {
+  padding: 0 0.625rem;
+}
+.result-link-text {
+  color: #a9a4b4;
+  text-align: left;
+}
 </style>
 <style lang="scss">
 .lottery-moreLuck {
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  background-color: rgba(19, 7, 27, 0.45);
   .el-carousel__container {
     height: 100%;
   }

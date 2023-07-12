@@ -22,19 +22,26 @@
   text-align: center;
 }
 .result-main {
-  margin-top: 16px;
+  max-width: 71.25rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
   justify-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 3.75rem;
+  gap: 10px;
 }
 .result-main .result-list {
   width: calc((100% - 40px) / 5);
   margin-top: 10px;
   transform-style: preserve-3d;
   transform-origin: 50% 0%;
+  &.result-more-list {
+    width: 13.75rem;
+    height: 21rem !important;
+  }
 }
 .onlyOne {
   justify-content: center;
@@ -49,7 +56,7 @@
 .result-sub-list {
   mix-blend-mode: lighten;
   border-radius: 8px;
-  padding: 20px;
+  padding: 0.625rem;
   box-sizing: border-box;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -122,7 +129,7 @@
   justify-content: space-between;
 }
 .result-club-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: bold;
   color: var(--white);
   width: 80%;
@@ -142,7 +149,7 @@
   max-width: 19%;
 }
 .result-coin {
-  font-size: 30px;
+  font-size: 1.75rem;
   font-weight: bold;
   text-align: left;
   color: #11cde9;
@@ -270,26 +277,27 @@
   }
 }
 .result-link {
+  width: 28rem;
   display: flex;
   align-items: center;
   align-content: center;
   justify-items: center;
   justify-content: space-around;
   margin: 16px auto;
-  width: 432px;
-  height: 74px;
   padding: 15px 20px;
   border-radius: 10px;
   border: solid 1px #25293e;
   background-color: #110429;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .result-link-img {
-  width: 33px;
-  height: 33px;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.result-link-line {
+  padding: 0 0.625rem;
 }
 .result-link-text {
-  width: 153px;
   color: #a9a4b4;
   text-align: left;
 }

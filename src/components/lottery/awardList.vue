@@ -94,7 +94,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .award-carousel {
-  height: 118px * 3 !important;
+  height: 7.375rem * 3 !important;
   transform: rotate(180deg);
   position: relative;
   z-index: 1;
@@ -102,7 +102,7 @@ export default {
 .lottery-moreLuck-list-content {
   height: 7.375rem;
   width: 7.375rem;
-  padding: 4px;
+  padding: 0.2rem;
   box-sizing: border-box;
   transform: rotate(180deg);
   margin: 0 auto;
@@ -133,6 +133,7 @@ export default {
   width: 100%;
   object-fit: fill;
   filter: brightness(50%);
+  border-radius: 0.2rem;
 }
 .lottery-moreLuck-award {
   position: absolute;

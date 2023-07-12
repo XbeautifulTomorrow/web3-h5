@@ -282,6 +282,7 @@ export default {
       this.timer = setTimeout(() => {
         if (newV > max) {
           this.competitionForm.limitDay = max;
+          console.log(111)
         }
         this.$forceUpdate();
       }, 300);

@@ -252,7 +252,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./css/one.scss");
+@import "./css/one.scss";
 $slow-translateX: var(--slow-translateX);
 $up-time: var(--up-time);
 $linear-time: var(--linear-time);
@@ -266,51 +266,62 @@ $slow-time: var(--slow-time);
   &::-webkit-scrollbar {
     display: none;
   }
+
   .roll-one-list-img {
     width: 100%;
     height: 100%;
   }
 }
+
 .sub-con {
   display: flex;
   flex-wrap: nowrap;
 }
+
 @keyframes slide-up {
   0% {
     transform: translate3d(0, 0, 0);
   }
+
   100% {
     transform: translate3d(-20%, 0, 0);
   }
 }
+
 @keyframes slide {
   0% {
     transform: translate3d(-20%, 0, 0);
   }
+
   100% {
     transform: translate3d(-60%, 0, 0);
   }
 }
+
 @keyframes slide-down {
   0% {
     transform: translate3d(-60%, 0, 0);
   }
+
   100% {
     transform: translate3d($slow-translateX, 0, 0);
   }
 }
+
 .scroll-up {
   // transform: translate3d(-20%, 0, 0);
   // transition: transform $up-time ease-in;
   animation: slide 4s 1 linear;
   animation-fill-mode: forwards;
 }
+
 .scroll-linear {
   // animation: 2s slide-up 1 ease-in forwards,
   //   1.5s slide 1s infinite linear forwards;
   animation: slide $linear-time infinite linear;
   animation-fill-mode: forwards;
 }
+
 .active {
   animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
 }

@@ -1,5 +1,6 @@
 <template>
-  <el-dialog v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false" :before-close="handleClose">
+  <el-dialog class="dialog_box" v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false"
+    :before-close="handleClose">
     <div class="close_btn" @click="handleClose()">
       <el-icon>
         <Close />
@@ -451,22 +452,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./components/wallet.scss";
-</style>
-<style lang="scss">
-.el-dialog {
-  border-radius: 1.25rem;
-  box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
-  background-color: #20222d;
-
-  .el-dialog__header {
-    display: none;
-  }
-
-  .el-dialog__body {
-    padding: 0;
-    position: relative;
-    padding: 3.75rem 0;
-  }
-}
 </style>
   

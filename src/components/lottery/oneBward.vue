@@ -66,9 +66,13 @@
       </div>
       <div class="list_mask"></div>
     </div>
+    <div class="result-link-box">
+      <result-link></result-link>
+    </div>
   </div>
 </template>
 <script>
+import resultLink from "../resultLink";
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
@@ -93,6 +97,7 @@ export default {
       default: false,
     },
   },
+  components: { resultLink },
   data() {
     return {
       slowTranslateXPer: 0.7, //横向平移百分比
@@ -236,7 +241,7 @@ export default {
           this.musicSpeedFunc();
           setTimeout(() => {
             this.stopScroll(newData[0]);
-          }, (this.slowTime + 0.5) * 1000);
+          }, this.slowTime * 1000);
         }
       },
     },
@@ -257,7 +262,7 @@ $slow-time: var(--slow-time);
   overflow-x: auto;
   overflow-y: hidden;
   transform-style: preserve-3d;
-  margin-top: 0.8rem;
+  margin-top: 4.25rem;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -308,6 +313,20 @@ $slow-time: var(--slow-time);
 }
 .active {
   animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
-  animation-fill-mode: forwards;
+}
+.roll-text {
+  margin-top: 4rem;
+}
+.result-link-box {
+  margin-top: 7.875rem;
+}
+@media screen and (max-width: 1600px) {
+  .result-link-box {
+    margin-top: 1rem;
+  }
+  .con,
+  .roll-text {
+    margin: 0;
+  }
 }
 </style>

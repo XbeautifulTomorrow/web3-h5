@@ -24,26 +24,14 @@
           />
         </div>
       </div>
-      <div class="result-link">
-        <img
-          class="result-link-img"
-          src="@/assets/img/lottery/fair.png"
-          alt=""
-        />
-        <img
-          class="result-link-line"
-          src="@/assets/img/lottery/Line14.png"
-          alt=""
-        />
-        <p class="result-link-text">
-          The lottery process is running on the <br />
-          blockchain, please be patient.
-        </p>
+      <div class="result-link-box">
+        <result-link></result-link>
       </div>
     </div>
   </div>
 </template>
 <script>
+import ResultLink from "../resultLink";
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
@@ -51,7 +39,7 @@ import usually from "@/assets/music/usually.mp3";
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
-  components: { AwardsList },
+  components: { AwardsList, ResultLink },
   props: {
     showMoreDialog: {
       type: Boolean,
@@ -148,6 +136,7 @@ export default {
   },
   beforeUnmount() {
     this.clearTimerFun();
+    this.audioLoopObj.pause();
   },
   watch: {
     awardItem: {
@@ -179,32 +168,12 @@ export default {
     margin-bottom: 1.5625rem;
   }
   .lottery-moreLuck-box {
-    margin-top: 0;
+    margin-top: 5.625rem;
   }
 }
-.result-link {
-  width: 20rem;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-items: center;
-  justify-content: space-around;
-  margin: 5rem auto;
-  flex-grow: 0;
-  padding: 10px 20px;
-  border-radius: 0.625rem;
-  background-color: #2761f5;
-}
-.result-link-img {
-  width: 2.5rem;
-  height: 2.5rem;
-}
-.result-link-line {
-  padding: 0 0.625rem;
-}
-.result-link-text {
-  color: #a9a4b4;
-  text-align: left;
+
+.result-link-box {
+  margin-top: 7.875rem;
 }
 </style>
 <style lang="scss">

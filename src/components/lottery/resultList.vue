@@ -11,8 +11,13 @@
     :close-on-press-escape="false"
   >
     <zoom-wrap>
-      <div class="result-dialog-content">
-        <h2 class="result-title">Top Blue-chips Box</h2>
+      <div
+        :class="[
+          'result-dialog-content',
+          { 'result-dialog-content-ten': result.length > 5 },
+        ]"
+      >
+        <h2 class="result-title">CONGRATULATIONS</h2>
         <p class="result-illustrate" v-if="result.length < 2">
           An offcial box by Bitzing
         </p>
@@ -22,6 +27,9 @@
             'result-main',
             {
               onlyOne: result.length < 2,
+            },
+            {
+              onlyTen: result.length > 5,
             },
           ]"
         >
@@ -33,9 +41,6 @@
             ]"
             v-for="(item, index) in result"
             :key="`result-${index}`"
-            :style="{
-              height: result.length == 1 ? `${cardRefHeight}px` : 'auto',
-            }"
           >
             <div class="back-card-box" v-if="result.length > 0">
               <img src="@/assets/img/lottery/backCard.webp" alt="" />
@@ -64,7 +69,7 @@
                       {{ item.seriesName }}
                     </span>
                   </el-tooltip>
-                  <el-icon color="#11cde9" size="12">
+                  <el-icon color="#11cde9" size="19">
                     <CircleCheckFilled />
                   </el-icon>
                 </div>
@@ -251,14 +256,12 @@ let total = ref(0);
 let second = ref(60);
 let nfts = ref([]);
 const cardRef = ref(null);
-const cardRefHeight = ref(0);
 onMounted(async () => {
   timerFun();
   nftsInitializationFun();
   // secondFun();
   totalFun();
   await nextTick();
-  cardRefHeight.value = cardRef?.value[0].offsetHeight;
 });
 onUnmounted(() => {
   clearTimerFun();

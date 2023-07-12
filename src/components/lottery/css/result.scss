@@ -1,6 +1,12 @@
 .result-dialog-content {
   --white: #e4e7f5;
 }
+.result-dialog-content-ten {
+  .result-title {
+    margin-top: 5rem;
+  }
+}
+
 .result-title {
   font-size: 2rem;
   font-weight: bold;
@@ -43,11 +49,19 @@
     height: 21rem !important;
   }
 }
+.onlyTen {
+  margin-top: 1rem !important;
+}
 .onlyOne {
   justify-content: center;
+  margin-top: 1rem !important;
 }
 .onlyOne .result-list {
   width: 22.3125rem;
+  height: 34.75rem;
+  .result-sub-list {
+    height: 100%;
+  }
 }
 .result-list {
   position: relative;
@@ -162,13 +176,14 @@
 }
 .result-one-button {
   width: 100%;
-  font-size: 14px;
+  font-size: 0.875rem;
+  padding: 1.4rem;
 }
 .result-total {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #11cde9;
-  margin: 0 8px;
+  margin: 0 0.625rem;
 }
 .result-end {
   font-size: 12px;
@@ -178,7 +193,7 @@
   text-align: center;
 }
 .result-one-footer {
-  margin-top: 20px;
+  margin-top: 0.625rem;
 }
 .result-sell {
   width: 100%;
@@ -324,4 +339,11 @@
   font-size: 14px;
   height: 46px;
   line-height: 46px;
+}
+@media screen and (max-width: 1600px) {
+  .result-dialog-content-ten {
+    .result-title {
+      margin-top: 7rem;
+    }
+  }
 }

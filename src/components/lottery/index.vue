@@ -394,6 +394,7 @@ export default {
   margin-bottom: 0;
   background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
   background-size: cover;
+  border-radius: 0;
   &::-webkit-scrollbar {
     display: none;
   }

@@ -63,7 +63,7 @@
             <div class="buy_relevant" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
               <div class="enter_relevant">
                 <div class="title">Enter competition</div>
-                <div class="buy_tips" :style="!maxBuyNum > 0 && 'visibility: hidden;'">
+                <div class="buy_tips">
                   You used <span>{{ drawnInfo && drawnInfo.userNum || 0 }}</span> of <span>
                     {{ nftInfo && new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) }}
                   </span> tickets
@@ -73,7 +73,7 @@
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
                   type="number" min="0" :max="maxBuyNum"
-                  :placeholder="maxBuyNum > 0 ? `Please enter 1-${maxBuyNum}` : 'Please enter'">
+                  :placeholder="maxBuyNum > 0 ? `Please enter 1-${maxBuyNum}` : 'You cannot purchase more tickets.'">
                 </el-input>
               </div>
               <div class="payment_box">

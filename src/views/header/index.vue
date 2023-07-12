@@ -127,10 +127,6 @@ export default {
         page: "Stake",
       },
       {
-        text: "Stake",
-        page: "Stake",
-      },
-      {
         text: "INO",
         page: "INO",
       },

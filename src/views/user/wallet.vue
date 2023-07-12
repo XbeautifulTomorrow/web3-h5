@@ -33,12 +33,22 @@
           <el-table-column prop="logType" label="LOG TYPE" align="center" />
           <el-table-column prop="amount" label="AMOUNT" align="center">
             <template #default="scope">
-              {{ scope.row.criditAmount }}{{ scope.row.criditCoin }}
+              <div class="amount_box">
+                <span>{{ scope.row.criditAmount }}</span>
+                <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
+                <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+                <span v-else>{{ scope.row.criditCoin }}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center">
             <template #default="scope">
-              {{ scope.row.amount }}{{ scope.row.coin }}
+              <div class="amount_box">
+                <span>{{ scope.row.amount }}</span>
+                <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+                <span v-else>{{ scope.row.coin }}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="syncStatus" label="STATUS" align="center" />
@@ -109,7 +119,7 @@
           </div>
           <div class="wallet_operating">
             <div class="wallet_operating_item" @click="handleChoose('ETH')">
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img src="@/assets/svg/user/icon_eth.svg" alt="" />
               <span>Ethereum [ETH]</span>
             </div>
             <div class="wallet_operating_item" @click="handleChoose('USDT')">
@@ -123,7 +133,7 @@
             <el-icon class="icon_arrow" @click="operatingCoin = null">
               <ArrowLeftBold />
             </el-icon>
-            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
             <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
             <div class="recharge_title_text">
               <span v-if="walletOperating == 1">{{
@@ -184,7 +194,7 @@
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  <img src="@/assets/svg/user/icon_eth.svg" alt="" />
                 </template>
               </el-input>
             </div>

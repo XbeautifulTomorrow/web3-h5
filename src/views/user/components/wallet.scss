@@ -1499,3 +1499,16 @@
     }
   }
 }
+
+.amount_box {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  text-align: center;
+  color: #a9a4b4;
+
+  &>img {
+    width: 1rem;
+  }
+}

@@ -668,3 +668,17 @@
   cursor: pointer;
   z-index: 10;
 }
+
+.close_btn_1 {
+  margin: 0 auto;
+  width: 19.875rem;
+  height: 2.875rem;
+  border-radius: 3.75rem;
+  background-image: linear-gradient(to top, #e3a406, #fbd851);
+
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 2.875rem;
+  text-align: center;
+  color: #13151f;
+}

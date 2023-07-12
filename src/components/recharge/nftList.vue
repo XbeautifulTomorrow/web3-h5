@@ -256,7 +256,7 @@ const onWithdrawalNft = async () => {
   }
   let knapsackId = [];
   chooseNft.forEach((element) => {
-    knapsackId.push(element.seriesName);
+    knapsackId.push(element.name);
   });
   const res = await withdrawalNft({
     knapsackIds: knapsackId, //背包ID

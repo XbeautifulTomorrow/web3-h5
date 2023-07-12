@@ -72,8 +72,11 @@
               <div class="buy_box">
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
-                  type="number" min="0" :max="maxBuyNum"
-                  :placeholder="maxBuyNum > 0 ? `Please enter 1-${maxBuyNum}` : 'You cannot purchase more tickets.'">
+                  type="number" min="0" :max="maxBuyNum" :placeholder="Number(nftInfo && nftInfo.maximumPurchaseQuantity) > 0
+                    ? maxBuyNum > 0
+                      ? `Please enter 1-${maxBuyNum}`
+                      : 'You cannot purchase more tickets.'
+                    : 'Tickets are sold out.'">
                 </el-input>
               </div>
               <div class="payment_box">
@@ -207,7 +210,7 @@
                   <span v-if="dateDiff(item && item.endTime) > 1">
                     {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
                   </span>
-                  <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                  <countDown v-else v-slot="timeObj" :time="item && item.endTime" :end="currentTime">
                     {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                   </countDown>
                 </span>
@@ -337,7 +340,7 @@ export default {
     },
     // 获取即将结束的一元购活动
     async fetchEndingSoon() {
-      const res = await getEndingSoon({ page: 1, size: 6 });
+      const res = await getEndingSoon({ id: this.orderId, page: 1, size: 6 });
       if (res && res.code == 200) {
         this.endingSoon = res.data.records;
       }

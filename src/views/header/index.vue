@@ -18,7 +18,7 @@
       </div>
       <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
         <div class="header-wallet">
-          <img class="header-wallet-img" src="@/assets/img/headerFooter/eth_icon.png" alt="" />
+          <img class="header-wallet-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           <span class="header-wallet-money">{{ ethBalance }}</span>
           <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>

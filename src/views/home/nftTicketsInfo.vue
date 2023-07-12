@@ -10,7 +10,7 @@
               <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
                 {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
               </span>
-              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
+              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime" :end="currentTime">
                 {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
               </countDown>
             </span>
@@ -65,7 +65,7 @@
                 <div class="title">Enter competition</div>
                 <div class="buy_tips" :style="!maxBuyNum > 0 && 'visibility: hidden;'">
                   You used <span>{{ drawnInfo && drawnInfo.userNum || 0 }}</span> of <span>
-                    {{ nftInfo && maxBuyNum || 0 }}
+                    {{ nftInfo && new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) }}
                   </span> tickets
                 </div>
               </div>
@@ -136,31 +136,33 @@
             <el-tab-pane label="ACTIVITY" name="activity"></el-tab-pane>
             <el-tab-pane :label="`PARTICIPANTS(${participantsTotal})`" name="participants"></el-tab-pane>
           </el-tabs>
-          <div class="buy_list">
-            <div class="buy_item" v-for="(item, index) in buyData" :key="index">
-              <div class="buy_item_l">
-                <img :src="item.userImg || avatarImg">
-              </div>
-              <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
-                <div class="buy_info">
-                  <div class="buy_name">{{ item.userName || item.userId }}</div>
-                  <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
+          <c-scrollbar class="choose_nft" width="100%" height="48.25rem">
+            <div class="buy_list">
+              <div class="buy_item" v-for="(item, index) in buyData" :key="index">
+                <div class="buy_item_l">
+                  <img :src="item.userImg || avatarImg">
                 </div>
-                <div class="buy_other">
-                  <div class="buy_val">{{ `${item.total} TICKETS` }} </div>
-                  <div class="buy_id" v-if="activeType != 'participants'">
-                    {{ `Reward ID：${item.startNum}-${item.endNum}` }}
+                <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
+                  <div class="buy_info">
+                    <div class="buy_name">{{ item.address || item.userId }}</div>
+                    <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
+                  </div>
+                  <div class="buy_other">
+                    <div class="buy_val">{{ `${item.total} TICKETS` }} </div>
+                    <div class="buy_id" v-if="activeType != 'participants'">
+                      {{ `Reward ID：${item.startNum}-${item.endNum}` }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
-            <div class="load_btn">
-              <span>Show more</span>
-              <img src="@/assets/svg/user/icon_more.svg" alt="">
+            <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
+              <div class="load_btn">
+                <span>Show more</span>
+                <img src="@/assets/svg/user/icon_more.svg" alt="">
+              </div>
             </div>
-          </div>
+          </c-scrollbar>
         </div>
         <div class="nft_buy_info_r border_bg">
           <div class="description_box">
@@ -244,13 +246,16 @@ import {
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { useUserStore } from "@/store/user.js";
+
+import { CScrollbar } from "c-scrollbar";
 import {
   openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
   components: {
-    countDown
+    countDown,
+    CScrollbar
   },
   data() {
     return {
@@ -271,6 +276,7 @@ export default {
       timer: null,
       drawnInfo: null,
       avatarImg: require("@/assets/svg/user/default_avatar.svg"),
+      currentTime: null,
     };
   },
   computed: {
@@ -280,12 +286,12 @@ export default {
       if (!nftInfo || !nftInfo.price) return 0;
       return new bigNumber(buyVotes).multipliedBy(nftInfo.price) || 0;
     },
-    // 计算单次可购买最大票数
+    // 计算可购买最大票数
     maxBuyNum() {
       if (!this.nftInfo) return 0;
       const { nftInfo: { totalPrice, price, orderType, maximumPurchaseQuantity }, drawnInfo } = this;
 
-      let maxNum = 0; // 单次可购买最大票数
+      let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!totalPrice) return 0;
         if (!price) return 0;
@@ -407,6 +413,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.participantsTotal = res.data.total;
+        this.currentTime = res.localDateTime;
       }
     },
     // 加载更多

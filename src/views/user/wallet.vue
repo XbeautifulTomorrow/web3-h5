@@ -397,6 +397,8 @@ export default {
       } else {
         this.fetchWithdrawalExchangeRate();
       }
+
+      this.walletAmount = 1;
     },
     handleChoose(event) {
       this.operatingCoin = event;
@@ -416,6 +418,9 @@ export default {
       } else {
         this.fetchWithdrawalExchangeRate();
       }
+
+
+      this.walletAmount = 1;
     },
     // 收款地址
     async fetchReceivingAddr() {

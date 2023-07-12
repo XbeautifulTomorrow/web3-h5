@@ -664,7 +664,7 @@
       color: #0cbb3e;
     }
 
-    img {
+    &>img {
       width: 100%;
       height: auto;
     }
@@ -674,7 +674,7 @@
     height: 4.1875rem;
     line-height: 4.1875rem;
     font-family: BlenderPro;
-    font-size: 1px;
+    font-size: 1.125rem;
     color: white;
   }
 

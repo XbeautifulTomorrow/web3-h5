@@ -1,23 +1,9 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    :destroy-on-close="true"
-    width="78.125rem"
-    :append-to-body="true"
-    :show-close="false"
-    :align-center="true"
-    :before-close="handleClose"
-    :close-on-click-modal="false"
-    class="public-dialog recharge-coin"
-  >
+  <el-dialog v-model="dialogVisible" :destroy-on-close="true" width="78.125rem" :append-to-body="true" :show-close="false"
+    :align-center="true" :before-close="handleClose" :close-on-click-modal="false" class="public-dialog recharge-coin">
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, handleClose] }"
-          color="#2d313f"
-          size="20"
-          class="public-dialog-header-icon"
-        >
+        <el-icon v-on="{ click: [close, handleClose] }" color="#2d313f" size="20" class="public-dialog-header-icon">
           <CircleCloseFilled />
         </el-icon>
       </div>
@@ -34,18 +20,9 @@
           <span>WITHDRAWAL NETWORK</span>
           <span class="required">*</span>
         </div>
-        <el-select
-          v-model="params.chain"
-          class="nft_type wallet_network"
-          placeholder="Select network"
-          :popper-append-to-body="false"
-        >
-          <el-option
-            v-for="(item, index) in networkList"
-            :key="index"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
+          :popper-append-to-body="false">
+          <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
         </el-select>
         <div class="hint_text">
           <img src="" alt="" />
@@ -66,21 +43,13 @@
           <span>RECEIVING NFT'S ADDRESS</span>
           <span class="required">*</span>
         </div>
-        <el-input
-          class="wallet_input"
-          v-model="params.wallet"
-          placeholder="Paste your ERC20 wallet address here"
-        >
+        <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
         </el-input>
       </div>
     </div>
     <div class="choose_panel">
       <div class="search_box">
-        <el-input
-          class="nft_input"
-          v-model="params.nftName"
-          placeholder="Search NFT TokenId"
-        >
+        <el-input class="nft_input" v-model="params.nftName" placeholder="Search NFT TokenId">
           <template #prefix>
             <el-icon class="el-input__icon search_icon" :size="24">
               <search />
@@ -122,18 +91,12 @@
         </div> -->
       </div>
       <div class="choose_nft">
-        <div
-          class="choose_nft_item"
-          :class="[
-            nftFind(item.id) > -1 && 'active',
-            { disabled: NFTSeries.includes(item.name) },
-          ]"
-          @click="chooseNfts(item)"
-          v-for="(item, index) in chooseNftList"
-          :key="index"
-        >
+        <div class="choose_nft_item" :class="[
+          nftFind(item.id) > -1 && 'active',
+          { disabled: NFTSeries.includes(item.name) },
+        ]" @click="chooseNfts(item)" v-for="(item, index) in chooseNftList" :key="index">
           <div class="img_box">
-            <img :src="item.img" alt="" />
+            <img :src="item.nftImg" alt="" />
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="nft_name">{{ item.name }}</div>
@@ -434,7 +397,7 @@ const getWalletNftApi = async () => {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./nftList.scss");
+@import "./nftList.scss";
 </style>
 <style>
 @media screen and (max-width: 1980px) {
@@ -442,6 +405,7 @@ const getWalletNftApi = async () => {
     width: calc(25% - 7px);
   }
 }
+
 @media screen and (min-width: 1981px) {
   .choose_nft_item {
     width: calc(20% - 7px);

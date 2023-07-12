@@ -5,16 +5,13 @@
       <p class="roll-text-offcial">An offcial box by Bitzing</p>
     </div>
     <div :class="['con']">
-      <div
-        ref="boxesContainer"
-        :class="[
-          'sub-con',
-          {
-            'scroll-linear': isAutoplay,
-            active: isActive,
-          },
-        ]"
-      >
+      <div ref="boxesContainer" :class="[
+        'sub-con',
+        {
+          'scroll-linear': isAutoplay,
+          active: isActive,
+        },
+      ]">
         <div v-for="(list, index) in awardsList" :key="index">
           <div class="roll-one-carousel" ref="subAwards">
             <div :class="['roll-one-carousel-list', list.qualityType]">
@@ -25,21 +22,13 @@
                 <span class="roll-one-list-seriesName-text text-ellipsis">
                   {{ list.seriesName }}
                 </span>
-                <img
-                  class="roll-one-list-seriesName-img"
-                  src="@/assets/img/eth.png"
-                  alt=""
-                />
+                <img class="roll-one-list-seriesName-img" src="@/assets/img/eth.png" alt="" />
               </p>
               <div class="roll-one-list-text">
                 <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
                 <div class="roll-one-list-price">
                   <span class="roll-one-list-minPrice text-ellipsis">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`${list.initPrice}`"
-                    >
+                    <el-tooltip class="box-item" effect="dark" :content="`${list.initPrice}`">
                       &nbsp;{{ list.initPrice }}
                     </el-tooltip>
                   </span>
@@ -47,15 +36,8 @@
                     {{ list.coin }}
                   </span>
                 </div>
-                <div
-                  class="roll-one-list-nftNumber text-ellipsis"
-                  v-if="list.tokenId"
-                >
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="`# ${list.tokenId}`"
-                  >
+                <div class="roll-one-list-nftNumber text-ellipsis" v-if="list.tokenId">
+                  <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`">
                     #&nbsp;{{ list.tokenId }}
                   </el-tooltip>
                 </div>
@@ -132,7 +114,7 @@ export default {
       this.linearTime = this.$refs.boxesContainer.offsetWidth * 0.0001;
       this.slowTranslateX =
         -subAwardsWidth *
-          parseInt(this.slowTranslateXPer * this.awardsList.length) +
+        parseInt(this.slowTranslateXPer * this.awardsList.length) +
         "px";
       document.documentElement.style.setProperty(
         "--slow-translateX",
@@ -247,7 +229,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./css/one.scss");
+@import "./css/one.scss";
 $slow-translateX: var(--slow-translateX);
 $up-time: var(--up-time);
 $linear-time: var(--linear-time);
@@ -258,54 +240,66 @@ $slow-time: var(--slow-time);
   overflow-y: hidden;
   transform-style: preserve-3d;
   margin-top: 0.8rem;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   .roll-one-list-img {
     width: 100%;
     height: 100%;
   }
 }
+
 .sub-con {
   display: flex;
   flex-wrap: nowrap;
 }
+
 @keyframes slide-up {
   0% {
     transform: translate3d(0, 0, 0);
   }
+
   100% {
     transform: translate3d(-20%, 0, 0);
   }
 }
+
 @keyframes slide {
   0% {
     transform: translate3d(-20%, 0, 0);
   }
+
   100% {
     transform: translate3d(-60%, 0, 0);
   }
 }
+
 @keyframes slide-down {
   0% {
     transform: translate3d(-60%, 0, 0);
   }
+
   100% {
     transform: translate3d($slow-translateX, 0, 0);
   }
 }
+
 .scroll-up {
   // transform: translate3d(-20%, 0, 0);
   // transition: transform $up-time ease-in;
   animation: slide 4s 1 linear;
   animation-fill-mode: forwards;
 }
+
 .scroll-linear {
   // animation: 2s slide-up 1 ease-in forwards,
   //   1.5s slide 1s infinite linear forwards;
   animation: slide $linear-time infinite linear;
   animation-fill-mode: forwards;
 }
+
 .active {
   animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
   animation-fill-mode: forwards;

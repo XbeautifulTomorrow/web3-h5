@@ -465,16 +465,18 @@
   .nft_info {
     padding: 1.25rem 0;
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: #a9a4b4;
 
     .nft_name {
       font-weight: bold;
-      padding-left: 4px;
+      padding-left: 0.25rem;
+      color: white;
     }
   }
 
   .nft_description {
     font-size: 1.125rem;
+    color: #a9a4b4;
   }
 }
 

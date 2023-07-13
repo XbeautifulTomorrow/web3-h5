@@ -135,7 +135,7 @@
   height: 100%;
 }
 .result-club {
-  margin-top: 20px;
+  margin-top: 0.625rem;
   display: flex;
   align-items: center;
   align-content: center;
@@ -158,7 +158,7 @@
 }
 .result-club-serial {
   font-family: Inter;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #0cbb3e;
   max-width: 19%;
 }
@@ -186,10 +186,10 @@
   margin: 0 0.625rem;
 }
 .result-end {
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
   color: #a9a4b4;
-  margin-top: 24px;
+  margin-top: 1.5rem;
   text-align: center;
 }
 .result-one-footer {
@@ -213,13 +213,13 @@
   box-sizing: border-box;
 }
 .result-sell-text {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--white);
   min-width: max-content;
 }
 .result-sell-coin,
 .result-sell-number {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #fad54d;
   margin-left: 8px;
@@ -232,7 +232,7 @@
   min-width: max-content;
 }
 .result-footer {
-  margin-top: 60px;
+  margin-top: 3.75rem;
 }
 .resule-footer-buttons {
   display: flex;

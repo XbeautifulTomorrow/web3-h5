@@ -194,7 +194,12 @@ export default {
     async fetchInvateStatistics() {
       const res = await userInvateStatistics();
       if (res && res.code == 200) {
-        this.statisticsRow = res.data;
+        const invites = res.data;
+        if (invites.length > 3) {
+          invites.splice(3, 1);
+        }
+
+        this.statisticsRow = invites;
       }
     },
     // 邀请资产列表
@@ -215,7 +220,13 @@ export default {
         this.count = res.data.total;
       }
     },
+    // 领取佣金
     async handleReceive(event) {
+      const receiveBalance = Number(new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0));
+      if (!receiveBalance) {
+        this.$message.error("Commission has been received");
+        return
+      }
       const res = await rebatesReceive({
         inviteCode: event.inviteCode
       });

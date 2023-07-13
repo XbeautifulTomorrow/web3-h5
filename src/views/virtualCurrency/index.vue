@@ -11,7 +11,7 @@
       <ul class="virtual-currency-main" ref="currencyAll">
         <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`"
           :style="'transform: translateX(' + item.translateNum + 'px);'"
-          :class="['virtual-currency-item', `box_frame_${index < 4 ? index + 1 : (index % 4) + 1}`, { isHide: activeIndex == index }]"
+          :class="['virtual-currency-item', `box_frame_${typrFormat(item)}`, { isHide: activeIndex == index }]"
           @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
           <div class="virtual-currency-item-l">
             <img class="virtual-currency-item-img" :src="item.nftImg" alt="" />
@@ -30,8 +30,8 @@
         </li>
       </ul>
       <ul v-if="showPopup && currentData"
-        :class="['virtual-currency-item-popup', `box_frame_${activeIndex < 4 ? activeIndex + 1 : (activeIndex % 4) + 1}`]"
-        :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
+        :class="['virtual-currency-item-popup', `box_frame_${typrFormat(currencyList[activeIndex])}`]" :style="style"
+        @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
         <li :class="['virtual-currency-item', 'isEnter']">
           <div class="virtual-currency-item-l">
             <img class="virtual-currency-item-img" :src="currencyList[activeIndex] && currencyList[activeIndex].nftImg"
@@ -119,6 +119,20 @@ export default {
       const res = await getTicketList();
       if (res && res.code == 200) {
         this.currencyList = res.data;
+      }
+    },
+    typrFormat(event) {
+      const { qualityType } = event;
+      if (qualityType == "LEGEND") {
+        return "1";
+      }
+      if (qualityType == "RARE") {
+        return "2";
+      }
+      if (qualityType == "EPIC") {
+        return "3";
+      } else {
+        return "4";
       }
     },
     mouseenterFun(data, index, e) {

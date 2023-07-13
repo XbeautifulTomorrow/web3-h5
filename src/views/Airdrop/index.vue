@@ -118,7 +118,7 @@
       </div>
       <div class="link_box">
         <div class="operating_title">
-          <span>Test Connect Wallet</span>
+          <span>TEST CONNECT WALLET</span>
         </div>
         <div class="operating_tips">Enter test wallet address</div>
         <el-input class="wallet_addr" v-model="walletAddr" placeholder="Enter test wallet address">

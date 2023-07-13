@@ -9,27 +9,16 @@
         </div>
       </div>
       <div class="nft_list">
-        <div
-          class="nft_item"
-          v-for="(item, index) in stockNftList"
-          :key="index"
-        >
+        <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
           <div class="img_box">
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
             <img :src="item.img" alt="" />
           </div>
           <div class="nft_name">{{ item.name }}</div>
-          <div
-            class="nft_btn view_nft"
-            v-if="item.currentStatus == 'ONE_DOLLAR'"
-            @click="viewNft(item)"
-          >
+          <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'" @click="viewNft(item)">
             VIEW COMPETITIONS
           </div>
-          <div
-            class="nft_btn withdrawling"
-            v-else-if="item.currentStatus == 'WITHDRAW'"
-          >
+          <div class="nft_btn withdrawling" v-else-if="item.currentStatus == 'WITHDRAW'">
             WITHDRAWLING
           </div>
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
@@ -39,29 +28,18 @@
       </div>
     </div>
     <!-- 钱包链接弹窗 -->
-    <wallet
-      v-if="showLink"
-      :dialogVisible="showLink"
-      :title="title"
-      @linkWallet="linkWallet"
-      @closeDialogFun="handleClose"
-    />
+    <wallet v-if="showLink" :dialogVisible="showLink" :title="title" @linkWallet="linkWallet"
+      @closeDialogFun="handleClose" />
 
     <!-- 创建一元购弹窗 -->
-    <el-dialog
-      v-model="showCompetition"
-      width="43.75rem"
-      lock-scroll
-      class="dialog_competition"
-      :close-on-click-modal="false"
-      :before-close="handleClose"
-    >
+    <el-dialog v-model="showCompetition" width="43.75rem" lock-scroll class="dialog_competition"
+      :close-on-click-modal="false" :before-close="handleClose">
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
         </el-icon>
       </div>
-      <div class="create_title">Create competition</div>
+      <div class="create_title">CREATE COMPETITION</div>
       <div class="image_box">
         <img :src="competitionNft && competitionNft.img" alt="" />
       </div>
@@ -71,127 +49,63 @@
           #{{ competitionNft && competitionNft.tokenId }}
         </div>
       </div>
-      <el-tabs
-        v-model="activeType"
-        class="type_tabs"
-        @tab-change="handleChange"
-      >
-        <el-tab-pane label="TIME LIMIT" name="LIMITED_TIME"></el-tab-pane>
-        <el-tab-pane label="LIMIT PRICE" name="LIMITED_PRICE"></el-tab-pane>
-      </el-tabs>
-      <el-form
-        ref="competitionForm"
-        class="form_box"
-        :rules="rules"
-        :model="competitionForm"
-        hide-required-asterisk
-        label-position="top"
-      >
+      <div class="type_tabs">
+        <div :class="['tabs_item', activeType == 'LIMITED_TIME' && 'active']" @click="activeType = 'LIMITED_TIME'">TIME
+          LIMIT</div>
+        <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">LIMIT
+          PRICE</div>
+      </div>
+      <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
+        label-position="top">
         <el-form-item label="TOTAL PRICE" prop="price">
           <el-input v-model="competitionForm.price" type="number" min="0">
             <template #prefix>
-              <img
-                class="icon_eth"
-                src="@/assets/svg/user/icon_eth.svg"
-                alt=""
-              />
+              <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item
-          label="TOTAL ENTRIES"
-          v-if="activeType == 'LIMITED_PRICE'"
-        >
-          <el-input
-            readonly="readonly"
-            class="disabled"
-            v-model.number="limitNum"
-            type="number"
-            min="2"
-          >
+        <el-form-item label="TOTAL ENTRIES" v-if="activeType == 'LIMITED_PRICE'">
+          <el-input readonly="readonly" class="disabled" v-model.number="limitNum" type="number" min="2">
             <template #prefix>
-              <img
-                class="icon_eth"
-                src="@/assets/svg/user/icon_tiket.svg"
-                alt=""
-              />
+              <img class="icon_eth" src="@/assets/svg/user/icon_tiket.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item
-          label="DURATION"
-          prop="limitDay"
-          v-if="activeType == 'LIMITED_TIME'"
-        >
+        <el-form-item label="DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
           <div class="input_days">
-            <el-input
-              class="nft_type"
-              v-model="competitionForm.limitDay"
-              type="number"
-              min="0"
-              placeholder="Please enter a number from 1-30"
-            >
+            <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
+              placeholder="Please enter a number from 1-30">
             </el-input>
             <div class="days_text">DAY</div>
           </div>
           <div class="choose_days">
-            <div
-              class="choose_days_item"
-              v-for="(item, index) in daysData"
-              :key="index"
-              :class="[
-                'choose_days_item',
-                competitionForm.limitDay == item && 'active',
-              ]"
-              @click="competitionForm.limitDay = item"
-            >
+            <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
+              'choose_days_item',
+              competitionForm.limitDay == item && 'active',
+            ]" @click="competitionForm.limitDay = item">
               {{ `${item} Days` }}
             </div>
           </div>
         </el-form-item>
         <el-form-item label="ENTRIES PRICE">
-          <el-input
-            readonly="readonly"
-            class="disabled"
-            v-model="competitionForm.ticketPrice"
-            placeholder=""
-          >
+          <el-input readonly="readonly" class="disabled" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
-              <img
-                class="icon_eth"
-                src="@/assets/svg/user/icon_eth.svg"
-                alt=""
-              />
+              <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item
-          label="MAX DURATION"
-          prop="limitDay"
-          v-if="activeType == 'LIMITED_PRICE'"
-        >
+        <el-form-item label="MAX DURATION" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
           <div class="input_days">
-            <el-input
-              class="nft_type"
-              v-model="competitionForm.limitDay"
-              type="number"
-              min="0"
-              placeholder="Please enter a number from 1-30"
-            >
+            <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
+              placeholder="Please enter a number from 1-30">
             </el-input>
             <div class="days_text">DAY</div>
           </div>
           <div class="choose_days">
-            <div
-              class="choose_days_item"
-              v-for="(item, index) in daysData"
-              :key="index"
-              :class="[
-                'choose_days_item',
-                competitionForm.limitDay == item && 'active',
-              ]"
-              @click="competitionForm.limitDay = item"
-            >
+            <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
+              'choose_days_item',
+              competitionForm.limitDay == item && 'active',
+            ]" @click="competitionForm.limitDay = item">
               {{ `${item} Days` }}
             </div>
           </div>
@@ -216,12 +130,8 @@
         </div>
       </el-form>
     </el-dialog>
-    <recharge
-      v-if="rechargeDialog"
-      :isDeposit="title === 'Deposit'"
-      :dialogVisible="rechargeDialog"
-      @closeDialogFun="handleClose"
-    />
+    <recharge v-if="rechargeDialog" :isDeposit="title === 'Deposit'" :dialogVisible="rechargeDialog"
+      @closeDialogFun="handleClose" />
   </div>
 </template>
 <script>
@@ -418,10 +328,6 @@ export default {
         query: { id: event.orderNumber },
       });
       openUrl(routeData.href);
-    },
-    // 选择类型
-    handleChange(event) {
-      console.log(event);
     },
   },
   created() {

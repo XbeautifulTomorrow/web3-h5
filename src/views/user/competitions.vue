@@ -176,7 +176,7 @@
           <Close />
         </el-icon>
       </div>
-      <div class="create_title">Create competition</div>
+      <div class="create_title">CLOSE COMPETITION</div>
       <div class="tips_text">
         <span v-if="isCancel">
           Are you sure you want to cancel the tournament you created? After cancellation the following

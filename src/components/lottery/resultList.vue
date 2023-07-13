@@ -42,6 +42,7 @@
             ]"
             v-for="(item, index) in result"
             :key="`result-${index}`"
+            @nftsFunclick="(item)"
           >
             <div class="back-card-box" v-if="result.length > 0">
               <img src="@/assets/img/lottery/backCard.webp" alt="" />
@@ -111,7 +112,7 @@
                 <el-button
                   class="result-one-button sell"
                   round
-                  @click="chooseLotteryHold"
+                  @click="chooseLotteryHold('hold')"
                 >
                   <span>Sell for</span>
                   <span class="result-total">{{ item.price }}ETH</span>

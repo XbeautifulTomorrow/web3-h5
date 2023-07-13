@@ -236,6 +236,7 @@ export default {
     async chooseLotteryHold(type, _choose) {
       const { awardItem } = this;
       if (type === "hold") {
+        //传入id take
         this.loading = true;
         if (awardItem.length < 2) {
           const _data = {

@@ -252,7 +252,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./css/one.scss";
+@import url("./css/one.scss");
 $slow-translateX: var(--slow-translateX);
 $up-time: var(--up-time);
 $linear-time: var(--linear-time);

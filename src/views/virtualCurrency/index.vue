@@ -281,9 +281,9 @@ export default {
     }else{
       setInterval(() => {
         this.getTheUserBalanceInfo();
+        this.fetchTicketList();
       }, 5000);
     }
-    this.fetchTicketList();
   },
 };
 </script>

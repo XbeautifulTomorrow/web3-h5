@@ -14,6 +14,7 @@
       <div
         :class="[
           'result-dialog-content',
+          { 'result-dialog-content-five': result.length == 5 },
           { 'result-dialog-content-ten': result.length > 5 },
         ]"
       >
@@ -148,26 +149,37 @@
           <div class="resule-footer-buttons">
             <el-button
               :class="[
-                'result-footer-button take',
-                { 'not-click sell': isSell },
+                'result-footer-button',
+                { take: nfts.length > 0 },
+                { 'sell-more': isSell },
               ]"
               type="warning"
               round
               @click="chooseLotteryHold('hold')"
             >
-              Take the {{ nfts.length || "" }} NFT{{
-                nfts.length > 1 ? "s" : ""
-              }}
+              <p v-if="nfts.length == result.length">
+                Take all
+                <span class="font1" v-if="second > 0">({{ second }}s)</span>
+              </p>
+              <p v-else-if="nfts.length > 0">
+                Take {{ nfts.length }} NFTs and sell the rest for<span
+                  class="result-total font1"
+                  >{{ total }}ETH</span
+                >
+                <span class="font2" v-if="second > 0">({{ second }}s)</span>
+              </p>
+              <p v-else>
+                <span>Sell for</span>
+                <span class="result-total">{{ total }}ETH</span>
+                <span class="font3" v-if="second > 0">({{ second }}s)</span>
+              </p>
             </el-button>
-            <el-button
+            <!-- <el-button
               class="result-footer-button sell"
               round
               @click="chooseLotteryHold()"
             >
-              <span>Sell for</span>
-              <span class="result-total">{{ total }}ETH</span>
-              <span v-if="second > 0">({{ second }}s)</span>
-            </el-button>
+            </el-button> -->
           </div>
           <p class="result-end">
             At the end of the countdown you will automatically sell all NFT
@@ -292,6 +304,10 @@ const nftsFun = (_data) => {
       .minus(Number(_data.price))
       .decimalPlaces(4);
   }
+  if (nfts.value.length == 0) {
+    isSell.value = true;
+  }
+  console.log(nfts.value, "--------");
 };
 const totalFun = () => {
   const { result } = props;
@@ -327,6 +343,15 @@ const chooseLotteryHold = (data) => {
 </script>
 <style lang="scss" scoped>
 @import "./css/result.scss";
+.font1 {
+  color: #2761f5;
+}
+.font2 {
+  color: #fff;
+}
+.font3 {
+  color: #a9a4b4;
+}
 </style>
 <style lang="scss">
 .take {
@@ -349,6 +374,17 @@ const chooseLotteryHold = (data) => {
     border: solid 1px rgba(228, 231, 245, 0.15);
     background-color: rgba(239, 150, 46, 0.1);
     color: #e4e7f5;
+  }
+}
+.sell-more {
+  color: #fff;
+  border: solid 1px rgba(228, 231, 245, 0.5);
+  background-color: transparent;
+  &:hover,
+  &:active {
+    color: #fff;
+    border: solid 1px rgba(228, 231, 245, 0.5);
+    background-color: transparent;
   }
 }
 

@@ -15,7 +15,7 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="currentTime" :end="item && item.endTime">
+                <countDown v-else v-slot="timeObj" :time="item.endTime" :end="currentTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown>
               </div>
@@ -89,41 +89,7 @@ export default {
   data() {
     return {
       pageType: null,
-      tickets: [
-        {
-          nftImage: require("@/assets/img/airdrop/nft_1.png"),
-          tokenId: "24336",
-          orderType: "LIMITED_TIME",
-          seriesName: 'Mutant Ape Yacht Club',
-          price: '6.9',
-          currency: 'ETH',
-          numberOfTicketsSold: 0
-        },
-        {
-          nftImage: require("@/assets/img/airdrop/nft_2.png"),
-          tokenId: "6492",
-          seriesName: 'Bored Ape Yacht Club',
-          price: '48.99',
-          currency: 'ETH',
-          numberOfTicketsSold: 0
-        },
-        {
-          nftImage: require("@/assets/img/airdrop/nft_3.png"),
-          tokenId: '8518',
-          seriesName: 'Azuki',
-          price: '10.0275',
-          currency: 'ETH',
-          numberOfTicketsSold: 0
-        },
-        {
-          nftImage: require("@/assets/img/airdrop/nft_4.png"),
-          tokenId: '9643',
-          seriesName: 'Bored Ape Yacht Club',
-          price: '38.027',
-          currency: 'ETH',
-          numberOfTicketsSold: 0
-        },
-      ],
+      tickets: [],
       currentTime: null
     };
   },
@@ -137,6 +103,9 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
+  },
+  created() {
+    this.fetchSetting();
   },
   methods: {
     dateDiff: dateDiff,

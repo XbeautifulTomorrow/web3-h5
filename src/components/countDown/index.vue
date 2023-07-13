@@ -46,7 +46,6 @@ export default {
         end -= new Date(this.end).getTime();
         return end;
       }
-
       const timestamp = new Date(this.time).getTime();
       const time = this.isMiniSecond ? Math.round(+timestamp / 1000) : Math.round(+timestamp);
       return time;

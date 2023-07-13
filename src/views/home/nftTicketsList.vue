@@ -39,7 +39,7 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
+                <countDown v-else v-slot="timeObj" :time="item && item.endTime" :end="currentTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown>
               </span>
@@ -85,6 +85,7 @@ export default {
       size: 9999,
       total: 0,
       finished: false,
+      currentTime: null
     };
   },
   computed: {},
@@ -107,7 +108,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-
+        this.currentTime = res.localDateTime;
         if (isSearch) {
           this.ticketList = res.data.records;
           return

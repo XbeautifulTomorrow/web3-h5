@@ -238,7 +238,7 @@
                   <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                     type="number">
                     <template #prefix>
-                      <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img src="@/assets/svg/user/icon_eth.svg" alt="" />
                     </template>
                   </el-input>
                 </div>

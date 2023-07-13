@@ -72,11 +72,7 @@
               <div class="buy_box">
                 <div class="buy_tips">Purchase limited NFT to enter：</div>
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
-                  type="number" min="0" :max="maxBuyNum" :placeholder="Number(nftInfo && nftInfo.maximumPurchaseQuantity) > 0
-                    ? maxBuyNum > 0
-                      ? `Please enter 1-${maxBuyNum}`
-                      : 'You cannot purchase more tickets.'
-                    : 'Tickets are sold out.'">
+                  type="number" min="0" :max="maxBuyNum" :placeholder="buyText(nftInfo)">
                 </el-input>
               </div>
               <div class="payment_box">
@@ -85,7 +81,7 @@
                   {{ `${buyPrice} ETH` }}
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
-                  <span v-if="Number(nftInfo && nftInfo.maximumPurchaseQuantity) > 0">
+                  <span v-if="nftInfo.orderType == 'LIMITED_TIME' || Number(nftInfo.maximumPurchaseQuantity) > 0">
                     Waiting for the result...
                   </span>
                   <span v-else>
@@ -248,7 +244,9 @@ import {
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
+import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
+import { useHeaderStore } from "@/store/header.js";
 
 import { CScrollbar } from "c-scrollbar";
 import {
@@ -283,6 +281,7 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useHeaderStore),
     buyPrice() {
       const { buyVotes, nftInfo } = this;
       if (!buyVotes) return 0;
@@ -338,6 +337,25 @@ export default {
 
       }
     },
+    // 购买提示
+    buyText(event) {
+      const { maximumPurchaseQuantity, orderType } = event;
+      let hintText = null;
+
+      if (this.maxBuyNum > 0) {
+        hintText = `Please enter 1-${this.maxBuyNum}`;
+      } else {
+        hintText = 'You cannot purchase more tickets.';
+      }
+
+      if (orderType == "LIMITED_PRICE") {
+        if (!Number(maximumPurchaseQuantity) > 0) {
+          hintText = 'Tickets are sold out.';
+        }
+      }
+
+      return hintText;
+    },
     // 获取即将结束的一元购活动
     async fetchEndingSoon() {
       const res = await getEndingSoon({ id: this.orderId, page: 1, size: 6 });
@@ -362,9 +380,14 @@ export default {
         this.$message.success("Successful purchase!");
         this.buyVotes = null;
         this.fetchOneBuyInfo();
+        this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
       }
 
+    },
+    async getTheUserBalanceInfo() {
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
     },
     // 最新购买
     async fetchBuyRecord(isSearch = true) {
@@ -389,6 +412,8 @@ export default {
           size: size,
           orderNumber: orderId
         });
+
+        this.fetchUserBuyRecord();
       }
 
       if (res && res.code == 200) {

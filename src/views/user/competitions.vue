@@ -40,7 +40,7 @@
               </div>
               <div class="remaining_votes">
                 You used <span>{{ item && item.userNum || 0 }}</span> of <span>
-                  {{ item && item.numberOfTicketsSold || 0 }}
+                  {{ maxBuyNum(item) }}
                 </span> tickets
               </div>
             </div>
@@ -176,7 +176,7 @@
           <Close />
         </el-icon>
       </div>
-      <div class="create_title">Create competition</div>
+      <div class="create_title">CLOSE COMPETITION</div>
       <div class="tips_text">
         <span v-if="isCancel">
           Are you sure you want to cancel the tournament you created? After cancellation the following
@@ -284,6 +284,23 @@ export default {
         this.enteredList = nftTickets;
       }
     },
+    // 计算可购买最大票数
+    maxBuyNum(event) {
+      console.log(event)
+      const { price, ticketPrice, orderType, maximumPurchaseQuantity } = event;
+
+      let maxNum = 0; // 可购买最大票数
+      if (orderType == "LIMITED_TIME") {
+        if (!price) return 0;
+        if (!ticketPrice) return 0;
+        maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
+      } else {
+        if (!maximumPurchaseQuantity) return 0;
+        maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
+      }
+
+      return maxNum
+    },
     // 参加赛事
     enterNow(event) {
       let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
@@ -349,10 +366,8 @@ export default {
   created() {
     // 获取展示类型
     const { type } = this.$route.query;
-    if (!type) {
-      this.fetchOneBuyList();
-    }
     this.activeType = type || "ENTERED";
+    this.fetchOneBuyList();
   }
 };
 </script>

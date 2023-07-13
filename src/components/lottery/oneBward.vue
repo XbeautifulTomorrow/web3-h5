@@ -76,7 +76,7 @@ import resultLink from "../resultLink";
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
-const itemWidth = 220;
+const itemWidth = 200;
 export default {
   name: "OneAward",
   props: {
@@ -100,8 +100,8 @@ export default {
   components: { resultLink },
   data() {
     return {
-      slowTranslateXPer: 0.7, //横向平移百分比
-      slowTranslateX: "-70%", //横向平移距离
+      slowTranslateXPer: 0.6, //横向平移百分比
+      slowTranslateX: "-60%", //横向平移距离
       isSpeedUp: false,
       isAutoplay: false,
       isActive: false,
@@ -112,13 +112,17 @@ export default {
         height: `${itemWidth}px`,
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
-      awardsList: JSON.parse(JSON.stringify(this.awards)).flat(),
+      awardsList: JSON.parse(JSON.stringify(this.awards))
+        .concat(JSON.parse(JSON.stringify(this.awards)))
+        .flat(),
       intervalId: null,
       delay: 50,
       upTime: 8, //加速动画duration时间
       linearTime: 3, //匀速动画duration时间
       slowTime: 6, //减速动画duration时间
       increment: 10,
+      boxOffsetWidth: 0,
+      subAwardsWidth: 0,
     };
   },
   async mounted() {
@@ -131,18 +135,11 @@ export default {
       return;
     }
     setTimeout(() => {
-      const subAwardsWidth =
+      this.subAwardsWidth =
         this.$refs.subAwards[0].getBoundingClientRect().width;
-      this.offetNum = parseInt(clientWidth / subAwardsWidth / 2);
-      this.linearTime = this.$refs.boxesContainer.offsetWidth * 0.0001;
-      this.slowTranslateX =
-        -subAwardsWidth *
-          parseInt(this.slowTranslateXPer * this.awardsList.length) +
-        "px";
-      document.documentElement.style.setProperty(
-        "--slow-translateX",
-        this.slowTranslateX
-      );
+      this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
+      this.offetNum = parseInt(clientWidth / this.subAwardsWidth / 2);
+      this.linearTime = this.boxOffsetWidth * 0.0001;
 
       document.documentElement.style.setProperty(
         "--linear-time",
@@ -171,6 +168,19 @@ export default {
     }
   },
   methods: {
+    // 获取匀速动画最后的位置
+    getCurrentTranslateX() {
+      const myElement = this.$refs.boxesContainer;
+      const computedStyle = window.getComputedStyle(myElement);
+      const transformValue = computedStyle.transform;
+      const matrix = transformValue.match(/^matrix\((.+)\)$/);
+      if (matrix && matrix[1]) {
+        const transformedValues = matrix[1].split(", ");
+        const translateX = parseFloat(transformedValues[4]);
+        console.log("Current translateX:", translateX);
+        return translateX;
+      }
+    },
     getAwardsListFunc() {
       const newArray = this.awardsList.slice();
       while (newArray.length < 20) {
@@ -216,6 +226,30 @@ export default {
       }
       this.$emit("showResultFun");
     },
+    slowScrollFunc(data) {
+      const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
+      const slowTranslateXPer = translatePar - 0.2;
+      document.documentElement.style.setProperty(
+        "--linearEnd-translateX",
+        translatePar * 100 + "%"
+      );
+      this.slowTranslateX =
+        this.subAwardsWidth *
+          parseInt(slowTranslateXPer * this.awardsList.length) +
+        "px";
+      document.documentElement.style.setProperty(
+        "--slow-translateX",
+        this.slowTranslateX
+      );
+      const len =
+        Math.floor(this.awardsList.length * Math.abs(slowTranslateXPer)) +
+        this.offetNum;
+      this.awardsList.splice(len, 1, data);
+      this.isActive = true;
+      this.isAutoplay = false;
+      clearInterval(this.intervalId);
+      this.musicSpeedFunc();
+    },
   },
   watch: {
     apiIsError: function (newData) {
@@ -231,14 +265,7 @@ export default {
         // this.stopScroll(newData[0]);
         // return;
         if (newData.length > 0) {
-          clearInterval(this.intervalId);
-          const len =
-            Math.floor(this.awardsList.length * this.slowTranslateXPer) +
-            this.offetNum;
-          this.awardsList.splice(len, 1, newData[0]);
-          this.isActive = true;
-          this.isAutoplay = false;
-          this.musicSpeedFunc();
+          this.slowScrollFunc(newData[0]);
           setTimeout(() => {
             this.stopScroll(newData[0]);
           }, this.slowTime * 1000);
@@ -257,6 +284,7 @@ $slow-translateX: var(--slow-translateX);
 $up-time: var(--up-time);
 $linear-time: var(--linear-time);
 $slow-time: var(--slow-time);
+$linearEnd-translateX: var(--linearEnd-translateX);
 
 .con {
   overflow-x: auto;
@@ -270,6 +298,7 @@ $slow-time: var(--slow-time);
   .roll-one-list-img {
     width: 100%;
     height: 100%;
+    object-fit: fill;
   }
 }
 
@@ -290,17 +319,17 @@ $slow-time: var(--slow-time);
 
 @keyframes slide {
   0% {
-    transform: translate3d(-20%, 0, 0);
+    transform: translate3d(-0%, 0, 0);
   }
 
   100% {
-    transform: translate3d(-60%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 @keyframes slide-down {
   0% {
-    transform: translate3d(-60%, 0, 0);
+    transform: translate3d($linearEnd-translateX, 0, 0);
   }
 
   100% {
@@ -324,6 +353,7 @@ $slow-time: var(--slow-time);
 
 .active {
   animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
+  animation-fill-mode: forwards;
 }
 .roll-text {
   margin-top: 4rem;

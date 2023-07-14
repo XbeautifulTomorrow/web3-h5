@@ -174,7 +174,9 @@
       </el-icon>
     </div>
     <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"></series-slider>
-    <div class="close_btn_1">CLOSE</div>
+    <div class="btns_box">
+      <div class="close_dialog_btn" @click="showSeriesDialog = false">CLOSE</div>
+    </div>
   </el-dialog>
 </template>
 

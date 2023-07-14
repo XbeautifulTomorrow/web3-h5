@@ -162,8 +162,10 @@
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else-if="nfts.length > 0 && nfts.length != result.length">
-                Take {{ result.length - nfts.length }} NFTs and sell the rest
-                for<span class="result-total font1">{{ total }}ETH</span>
+                Take {{ nfts.length }} NFTs and sell the rest for<span
+                  class="result-total font1"
+                  >{{ total }}ETH</span
+                >
                 <span class="font2" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else>

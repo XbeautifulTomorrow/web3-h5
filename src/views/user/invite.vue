@@ -196,7 +196,7 @@ export default {
       if (res && res.code == 200) {
         const invites = res.data;
         if (invites.length > 3) {
-          invites.splice(3, 1);
+          invites.splice(2, 1);
         }
 
         this.statisticsRow = invites;

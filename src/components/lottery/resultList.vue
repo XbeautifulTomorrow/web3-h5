@@ -112,7 +112,7 @@
                 <el-button
                   class="result-one-button sell"
                   round
-                  @click="chooseLotteryHold('hold')"
+                  @click="chooseLotteryHold"
                 >
                   <span>Sell for</span>
                   <span class="result-total">{{ item.price }}ETH</span>

@@ -464,7 +464,7 @@ export default {
     },
     goTo(page = "home") {
       if (page === "Whitebook") {
-        openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/the-nft-market-landscape/what-are-nfts");
+        openUrl("https://bitzing.gitbook.io/litepaper/");
         return
       }
       this.$router.push({ path: `/${page}` });

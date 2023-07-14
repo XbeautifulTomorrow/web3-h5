@@ -194,15 +194,15 @@ export default {
     },
     async lotteryHoldApi() {
       const { chooseIds, awardItem } = this;
-      if (!chooseIds.length) {
-        localStorage.removeItem("result");
-        this.showDialog = "partSold";
-        this.headerStoreStore.getTheUserBalanceApi();
-        this.loading = false;
-        return;
-      }
+      // if (!chooseIds.length) {
+      //   localStorage.removeItem("result");
+      //   this.showDialog = "partSold";
+      //   this.headerStoreStore.getTheUserBalanceApi();
+      //   this.loading = false;
+      //   return;
+      // }
       const _data = {
-        lotteryIds: chooseIds.join(","),
+        lotteryIds: chooseIds.length > 0 ? chooseIds.join(",") : undefined,
         orderId: awardItem[0]?.orderId,
       };
       const res = await lotteryHold(_data);
@@ -407,6 +407,9 @@ export default {
     height: 100%;
     padding: 0;
   }
+}
+.public-dialog-header-icon {
+  font-size: 2.5rem;
 }
 </style>
 <style lang="scss">

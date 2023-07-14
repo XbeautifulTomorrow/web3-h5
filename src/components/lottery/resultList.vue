@@ -42,7 +42,6 @@
             ]"
             v-for="(item, index) in result"
             :key="`result-${index}`"
-            @nftsFunclick="(item)"
           >
             <div class="back-card-box" v-if="result.length > 0">
               <img src="@/assets/img/lottery/backCard.webp" alt="" />
@@ -56,6 +55,7 @@
                 { 'choose-list': nfts.includes(item.id) },
                 { 'more-list': result.length > 1 },
               ]"
+              @click="nftsFun(item)"
             >
               <div class="result-portrait">
                 <img class="result-portrait-img" :src="item.nftImg" alt="" />
@@ -120,11 +120,7 @@
                 </el-button>
               </div>
               <template v-else>
-                <div
-                  class="result-sell pointer"
-                  v-if="nfts.includes(item.id)"
-                  @click="nftsFun(item)"
-                >
+                <div class="result-sell pointer" v-if="nfts.includes(item.id)">
                   <span class="result-sell-text">Sell for</span>
                   <el-tooltip
                     class="box-item"
@@ -140,9 +136,13 @@
                   </span>
                 </div>
                 <p v-else class="result-sell-get">
-                  You get {{ item.price }} ETH
+                  You Get {{ item.price }} ETH
                 </p>
               </template>
+              <div
+                class="hold-mask"
+                v-if="result.length > 1 && nfts.includes(item.id)"
+              ></div>
             </div>
           </li>
         </ul>
@@ -151,28 +151,24 @@
             <el-button
               :class="[
                 'result-footer-button',
-                { take: nfts.length > 0 },
-                { 'sell-more': isSell },
+                nfts.length == 0 ? 'sell-more' : 'take',
               ]"
-              type="warning"
               round
               @click="chooseLotteryHold('hold')"
             >
-              <p v-if="nfts.length == result.length">
-                Take all
-                <span class="font1" v-if="second > 0">({{ second }}s)</span>
-              </p>
-              <p v-else-if="nfts.length > 0">
-                Take {{ nfts.length }} NFTs and sell the rest for<span
-                  class="result-total font1"
-                  >{{ total }}ETH</span
-                >
-                <span class="font2" v-if="second > 0">({{ second }}s)</span>
-              </p>
-              <p v-else>
+              <p v-if="nfts.length == 0">
                 <span>Sell for</span>
                 <span class="result-total">{{ total }}ETH</span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
+              </p>
+              <p v-else-if="nfts.length > 0 && nfts.length != result.length">
+                Take {{ result.length - nfts.length }} NFTs and sell the rest
+                for<span class="result-total font1">{{ total }}ETH</span>
+                <span class="font2" v-if="second > 0">({{ second }}s)</span>
+              </p>
+              <p v-else>
+                Take all
+                <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
             </el-button>
             <!-- <el-button
@@ -266,7 +262,7 @@ let timer = null;
 const visible = ref(true);
 const isSell = ref(false);
 let total = ref(0);
-let second = ref(60);
+let second = ref(600);
 let nfts = ref([]);
 const cardRef = ref(null);
 onMounted(async () => {
@@ -287,9 +283,11 @@ onUnmounted(() => {
 //   }
 // };
 const nftsInitializationFun = () => {
-  props.result.forEach((item) => {
-    nfts.value.push(item.id);
-  });
+  if (props.result?.length < 2) {
+    props.result.forEach((item) => {
+      nfts.value.push(item.id);
+    });
+  }
 };
 const nftsFun = (_data) => {
   if (props.result.length < 2) return;
@@ -305,10 +303,6 @@ const nftsFun = (_data) => {
       .minus(Number(_data.price))
       .decimalPlaces(4);
   }
-  if (nfts.value.length == 0) {
-    isSell.value = true;
-  }
-  console.log(nfts.value, "--------");
 };
 const totalFun = () => {
   const { result } = props;

@@ -62,7 +62,7 @@
   transform-origin: 50% 0%;
   &.result-more-list {
     width: 13.75rem;
-    height: 21rem !important;
+    height: 19.6rem !important;
   }
 }
 .onlyTen {
@@ -213,8 +213,6 @@
 }
 .result-sell {
   width: 100%;
-  height: 46px;
-  padding: 10px 0;
   overflow: hidden;
   position: relative;
   border-radius: 23px;
@@ -223,10 +221,9 @@
   align-content: center;
   justify-items: center;
   justify-content: center;
-  background-image: url("@/assets/svg/lottery/button_border.svg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
   box-sizing: border-box;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 .result-sell-text {
   font-size: 0.875rem;
@@ -280,6 +277,7 @@
 }
 
 .more-list {
+  cursor: pointer;
   &.LEGEND {
     background-image: url("@/assets/img/lottery/LEGEND_more.png");
   }
@@ -306,6 +304,16 @@
   &.NORMAL {
     background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
   }
+}
+.hold-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: rgba(19, 7, 27, 0.8) url("@/assets/img/lottery/hold.png") center
+    no-repeat;
 }
 .result-link {
   width: 28rem;
@@ -352,9 +360,10 @@
 }
 .result-sell-get {
   color: #a9a4b4;
-  font-size: 14px;
-  height: 46px;
-  line-height: 46px;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 @media screen and (max-width: 1600px) {
   .result-dialog-content-ten {

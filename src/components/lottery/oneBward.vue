@@ -19,7 +19,7 @@
           <div class="roll-one-carousel" ref="subAwards">
             <div :class="['roll-one-carousel-list', list.qualityType]">
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                <img class="roll-one-list-img" :src="list.nftImg" />
+                <img class="roll-one-list-img" :src="list.nftCompressImg" />
               </div>
               <p class="roll-one-list-seriesName">
                 <span class="roll-one-list-seriesName-text text-ellipsis">
@@ -139,7 +139,7 @@ export default {
         this.$refs.subAwards[0].getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
       this.offetNum = parseInt(clientWidth / this.subAwardsWidth / 2);
-      this.linearTime = this.boxOffsetWidth * 0.0001;
+      this.linearTime = this.boxOffsetWidth * 0.00016;
 
       document.documentElement.style.setProperty(
         "--linear-time",
@@ -195,14 +195,14 @@ export default {
     },
     slowPlayFunc() {
       const intervalId = setInterval(() => {
-        if (this.delay > this.slowTime * 230) {
+        if (this.delay > this.slowTime * 500) {
           clearInterval(this.intervalId);
         } else {
           this.slowPlayFunc();
         }
         this.playSound(slipe);
         this.delay += this.increment;
-        this.increment *= 1.34;
+        this.increment *= 1.5;
         clearInterval(intervalId);
       }, this.delay);
     },
@@ -228,7 +228,7 @@ export default {
     },
     slowScrollFunc(data) {
       const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
-      const slowTranslateXPer = translatePar - 0.2;
+      const slowTranslateXPer = translatePar - 0.06;
       document.documentElement.style.setProperty(
         "--linearEnd-translateX",
         translatePar * 100 + "%"
@@ -244,6 +244,7 @@ export default {
       const len =
         Math.floor(this.awardsList.length * Math.abs(slowTranslateXPer)) +
         this.offetNum;
+      data.nftCompressImg = data.nftImg;
       this.awardsList.splice(len, 1, data);
       this.isActive = true;
       this.isAutoplay = false;

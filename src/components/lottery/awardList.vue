@@ -27,7 +27,13 @@
         ]"
         :key="`img-${imgIndex}`"
       >
-        <img class="lottery-moreLuck-list-img" :src="_img.nftImg" alt="" />
+        <img
+          class="lottery-moreLuck-list-img"
+          :src="
+            winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg
+          "
+          alt=""
+        />
         <p
           v-if="winData && winData.nftImg == _img.nftImg"
           class="lottery-moreLuck-seriesName"
@@ -126,7 +132,7 @@ export default {
 .NORMAL {
   background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
   background-size: cover;
-  color: #4a4d58;
+  color: #fff;
 }
 .lottery-moreLuck-list-img {
   height: 100%;

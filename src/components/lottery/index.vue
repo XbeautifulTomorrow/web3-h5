@@ -198,6 +198,7 @@ export default {
         localStorage.removeItem("result");
         this.showDialog = "partSold";
         this.headerStoreStore.getTheUserBalanceApi();
+        this.loading = false;
         return;
       }
       const _data = {

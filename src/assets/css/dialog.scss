@@ -8,6 +8,7 @@
 
   .el-dialog__body {
     padding: 1.875rem;
+    padding-top: 0;
   }
 
   .el-dialog__header {
@@ -44,9 +45,9 @@
     justify-content: flex-end;
   }
 
-  .public-dialog-content {
-    padding: 1.875rem 0 0;
-  }
+  // .public-dialog-content {
+  //   padding: 1.875rem 0 0;
+  // }
 
   .public-dialog-title {
     font-family: BlenderPro;
@@ -101,7 +102,6 @@
     }
 
     .el-input__suffix-inner {
-
       .el-icon {
         font-size: 1rem;
       }
@@ -116,11 +116,12 @@
   }
 
   .public-dialog-illustrate {
-    font-size: 18px;
+    font-size: 1.125rem;
+    margin-bottom: 1.875rem;
   }
 
   .public-dialog-title-other {
-    font-size: 46px;
+    font-size: 2.875rem;
     margin: 30px 0 10px;
   }
 
@@ -236,7 +237,7 @@
     outline: none;
   }
 
-  .public-button+.public-button {
+  .public-button + .public-button {
     margin-left: 1.25rem;
   }
 
@@ -259,7 +260,6 @@
 
 @media (max-width: 950px) {
   .public-dialog {
-
     .el-dialog__body {
       padding: 1.5rem;
     }

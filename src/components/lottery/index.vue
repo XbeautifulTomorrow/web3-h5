@@ -192,7 +192,7 @@ export default {
       //   console.log(res.data);
       // }
     },
-    async lotteryHoldApi() {
+    async lotteryHoldApi(dialog = "partSold") {
       const { chooseIds, awardItem } = this;
       // if (!chooseIds.length) {
       //   localStorage.removeItem("result");
@@ -212,7 +212,7 @@ export default {
         if (res.data.length) {
           this.failList = res.data;
         }
-        this.showDialog = "partSold";
+        this.showDialog = dialog;
         this.headerStoreStore.getTheUserBalanceApi();
       }
     },
@@ -262,7 +262,7 @@ export default {
         }
       } else {
         if (awardItem.length < 2) {
-          this.showDialog = "beenSold";
+          this.lotteryHoldApi("beenSold");
         } else {
           this.chooseIds = _choose.value;
           this.lotteryHoldApi();
@@ -409,7 +409,9 @@ export default {
   }
 }
 .public-dialog-header-icon {
-  font-size: 2.5rem;
+  font-size: 2.5rem !important;
+  margin-top: 1.875rem;
+  margin-right: 1.875rem;
 }
 </style>
 <style lang="scss">

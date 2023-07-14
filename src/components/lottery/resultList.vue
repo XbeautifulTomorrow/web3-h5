@@ -120,7 +120,7 @@
                 </el-button>
               </div>
               <template v-else>
-                <div class="result-sell pointer" v-if="nfts.includes(item.id)">
+                <div class="result-sell pointer">
                   <span class="result-sell-text">Sell for</span>
                   <el-tooltip
                     class="box-item"
@@ -135,9 +135,9 @@
                     {{ item.coin }}
                   </span>
                 </div>
-                <p v-else class="result-sell-get">
+                <!-- <p v-if="!nfts.includes(item.id)"" class="result-sell-get">
                   You Get {{ item.price }} ETH
-                </p>
+                </p> -->
               </template>
               <div
                 class="hold-mask"
@@ -262,7 +262,7 @@ let timer = null;
 const visible = ref(true);
 const isSell = ref(false);
 let total = ref(0);
-let second = ref(600);
+let second = ref(60);
 let nfts = ref([]);
 const cardRef = ref(null);
 onMounted(async () => {
@@ -290,7 +290,7 @@ const nftsInitializationFun = () => {
   }
 };
 const nftsFun = (_data) => {
-  if (props.result.length < 2) return;
+  if (props.result.length < 2 || !second.value) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
     nfts.value.splice(_index, 1);

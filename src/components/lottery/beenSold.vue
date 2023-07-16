@@ -22,14 +22,13 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Notice</h2>
+      <h2 class="public-dialog-title margin-b">Notice</h2>
       <p class="public-dialog-text">
-        Your reward,
         <span class="public-dialog-special">Mutant Ape Yacht Club # </span>
         <span class="public-dialog-special">
           {{ soldList[0]?.orderId }}
         </span>
-        , has been sold and you will receive:
+        has been successfully sold and you will receive:
       </p>
       <div class="public-dialog-total">
         <img class="public-dialog-icon" src="@/assets/img/eth.png" alt="" />
@@ -81,10 +80,14 @@ const balanceFun = () => {
   align-content: center;
   justify-content: center;
   justify-items: center;
-  margin-top: 30px;
+  margin-top: 1.875rem;
+  margin-bottom: 3.75rem;
 }
 .public-dialog-total-number {
   font-size: 30px;
   color: #11cde9;
+}
+.margin-b {
+  margin-bottom: 1.875rem;
 }
 </style>

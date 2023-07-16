@@ -23,14 +23,16 @@
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">Notice</h2>
       <p class="public-dialog-illustrate">
-        The reward has been transferred to your inventory,
-      </p>
-      <p class="public-dialog-illustrate">
         {{ text }}
       </p>
       <template v-if="chooseIds.length">
         <h3 class="public-dialog-title-other">NFTs</h3>
-        <ul class="public-dialog-lists">
+        <ul
+          :class="[
+            'public-dialog-lists',
+            { 'public-dialog-lists-all': chooseIds.length == soldList.length },
+          ]"
+        >
           <template v-for="(item, index) in soldList">
             <li
               v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
@@ -47,7 +49,7 @@
         </ul>
       </template>
       <template v-if="chooseIds.length !== soldList.length || failList.length">
-        <h3 class="public-dialog-title-other">ETH</h3>
+        <h3 class="public-dialog-title-other">BALANCE</h3>
         <ul class="public-dialog-lists">
           <template v-for="(item, index) in soldList">
             <li
@@ -160,9 +162,10 @@ onBeforeMount(() => {
   const { failList } = props;
   if (failList.length) {
     text.value =
-      "Prizes have entered your backpack, please go to the backpack to check,due to congestion on the chain, part of the prizes can not be accounted for, we will be converted to the final value of the NFT directly into the ETH transferred to your balance";
+      "The reward has been transferred to your inventory, please go to the inventory to check it.Due to the congestion on the chain, some of the prizes are not available, we will convert them directly to ETH at the current price of that NFT to transfer to your balance.";
   } else {
-    text.value = "please go to the inventory to check it.";
+    text.value =
+      "The reward has been transferred to your inventory,please go to the inventory to check it.";
   }
   totalFun();
 });
@@ -194,18 +197,18 @@ watchEffect();
 </script>
 <style lang="scss" scoped>
 .public-dialog-total {
-  margin-top: 30px;
+  margin-top: 1.875rem;
 }
 .public-dialog-list-text {
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 }
 .public-dialog-list-img {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.625rem;
 }
 .public-dialog-list-number {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #e4e7f5;
 }
 .public-dialog-list-result {
@@ -215,8 +218,9 @@ watchEffect();
   position: relative;
 }
 .public-dialog-portrait {
-  height: auto;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
+  object-fit: fill;
+  border-radius: 0.5rem;
 }
 .LEGEND {
   padding: 2px;
@@ -245,5 +249,12 @@ watchEffect();
   background-size: 100% 100%;
   box-sizing: border-box;
   background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
+}
+.public-dialog-illustrate {
+  margin-bottom: 0;
+}
+.public-dialog-title-other {
+  margin-bottom: 0.625rem;
+  margin-top: 1.875rem;
 }
 </style>

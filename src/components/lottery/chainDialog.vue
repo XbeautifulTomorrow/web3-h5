@@ -23,17 +23,17 @@
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">Warning</h2>
-      <p class="public-dialog-text">
-        Congratulations! We regret that your account at
+      <p class="public-dialog-text magin-text">
+        Congratulations ! We regret that your
         <span class="public-dialog-special">
           Mutant Ape Yacht Club # {{ sold?.orderId }}
         </span>
-        is not available due to congestion in the chain. To compensate for your
-        loss, we will transfer your balance to you append-to-body
+        may not be available due to congestion on the chain. To make up for your
+        loss, we will convert it to
         <span class="public-dialog-special">
           {{ `${sold?.initPrice} ${sold?.coin}` }}
         </span>
-        at current prices.
+        at the current price and transfer it to your balance.
       </p>
       <el-button class="public-button" @click="balanceFun">
         Check balance
@@ -70,5 +70,9 @@ const balanceFun = () => {
 }
 .public-dialog-portrait {
   margin: 10px auto;
+}
+.magin-text {
+  margin-top: 1.875rem;
+  margin-bottom: 3.75rem;
 }
 </style>

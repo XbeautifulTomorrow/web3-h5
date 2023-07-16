@@ -23,7 +23,7 @@
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">Warning</h2>
-      <p class="public-dialog-text">
+      <p class="public-dialog-text margin-b">
         {{ text }}
       </p>
       <el-button class="public-button" @click="balanceFun">
@@ -56,10 +56,14 @@ const balanceFun = () => {
 </script>
 <style lang="scss" scoped>
 .public-dialog-club {
-  font-size: 16px;
+  font-size: 1rem;
   color: #4473eb;
 }
 .public-dialog-portrait {
   margin: 10px auto;
+}
+.margin-b {
+  margin-top: 1.875rem;
+  margin-bottom: 3.75rem;
 }
 </style>

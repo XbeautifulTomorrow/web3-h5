@@ -7,7 +7,7 @@
   text-align: center;
 
   .el-dialog__body {
-    padding: 0 1.875rem 3.75rem;
+    padding: 1.875rem 3.75rem;
   }
 
   .el-dialog__header {
@@ -166,6 +166,7 @@
     flex-wrap: wrap;
     gap: 0.625rem;
   }
+
   .public-dialog-lists-all {
     margin-bottom: 3.75rem;
   }
@@ -184,6 +185,7 @@
       margin-right: 0;
     }
   }
+
   .portrait-img {
     width: 7.375rem;
     height: 7.375rem;
@@ -245,7 +247,7 @@
     outline: none;
   }
 
-  .public-button + .public-button {
+  .public-button+.public-button {
     margin-left: 1.25rem;
   }
 
@@ -258,6 +260,7 @@
     margin-top: 0.625rem;
     margin-left: 0 !important;
   }
+
   .public-default {
     color: #a9a4b4 !important;
     font-size: 1.125rem;
@@ -267,6 +270,7 @@
     margin-bottom: 0.625rem;
     margin-left: 0 !important;
   }
+
   .margin-l0 {
     margin-left: 0 !important;
   }

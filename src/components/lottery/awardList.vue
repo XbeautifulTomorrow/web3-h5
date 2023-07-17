@@ -23,7 +23,7 @@
         :class="[
           'lottery-moreLuck-list-content',
           _img.qualityType,
-          { 'is-active-item': winData.nftImg == _img.nftImg },
+          { 'is-active-item': winData.tokenId == _img.tokenId },
         ]"
         :key="`img-${imgIndex}`"
       >
@@ -89,6 +89,11 @@ export default {
     winData: function (newData) {
       if (newData) {
         this.autoPlay = false;
+        this.poolList[this.index] = [
+          ...this.poolList[this.index].map((x) =>
+            x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x
+          ),
+        ];
         this.poolList[this.index].splice(1, 1, newData);
       }
     },

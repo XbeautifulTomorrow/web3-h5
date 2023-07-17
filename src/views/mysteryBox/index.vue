@@ -13,6 +13,7 @@
         :rollNumber="rollNumber"
         :showRoll="showRoll"
         :lottoList="blindDetailInfo.series"
+        :blindDetailInfo="blindDetailInfo"
         :lottResult="lottResult"
         :apiIsError="apiIsError"
         :errorText="errorText"

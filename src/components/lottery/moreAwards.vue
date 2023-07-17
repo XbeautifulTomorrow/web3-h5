@@ -2,7 +2,7 @@
   <div class="lottery-moreLuck-box">
     <div class="lottery-moreLuck-sub">
       <div class="roll-text">
-        <p class="public-color-one roll-title">TOP BLUE-CHIPS BOX</p>
+        <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
         <p class="roll-text-offcial">An offcial box by Bitzing</p>
       </div>
       <div class="lottery-moreLuck-bg">
@@ -64,6 +64,12 @@ export default {
     apiIsError: {
       type: Boolean,
       default: false,
+    },
+    blindDetailInfo: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
   },
   data() {
@@ -142,6 +148,7 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
+        console.log(newData);
         if (newData.length > 0) {
           this.stopScroll(newData);
         }

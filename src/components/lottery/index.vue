@@ -16,6 +16,7 @@
         :awards="oneAwards"
         :apiIsError="apiIsError"
         :awardItem="awardItem"
+        :blindDetailInfo="blindDetailInfo"
         @showResultFun="showResultFun"
       />
     </keep-alive>
@@ -25,6 +26,7 @@
       :prizeList="rollNumber === 'FIVE' ? fiveList : tenList"
       :apiIsError="apiIsError"
       :awardItem="awardItem"
+      :blindDetailInfo="blindDetailInfo"
       @showResultFun="showResultFun"
     />
     <!-- 中奖列表 -->
@@ -88,7 +90,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { shuffle } from "@/assets/js";
 
 import MoreAwards from "./moreAwards.vue";
-import oneAward from "./oneBward.vue";
+import oneAward from "./oneAward.vue";
 import ResultList from "./resultList.vue";
 
 import ChooseToken from "./chooseToken.vue";
@@ -131,6 +133,7 @@ export default {
     "errorText",
     "showRoll",
     "rollNumber",
+    "blindDetailInfo",
   ],
   data() {
     return {

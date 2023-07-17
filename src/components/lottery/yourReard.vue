@@ -24,8 +24,8 @@
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">Notice</h2>
       <p class="public-dialog-illustrate">
-        The prize is in your backpack. Please go to your backpack and check it
-        out
+        The reward has been transferred to your inventory, please go to the
+        inventory to check it.
       </p>
       <h3 class="public-dialog-title-other">Your reward</h3>
       <div class="public-dialog-img">
@@ -64,6 +64,7 @@ const closeDialogFun = () => {
 .public-dialog-club {
   font-size: 16px;
   color: #4473eb;
+  margin-bottom: 3.75rem;
 }
 .public-dialog-img {
   width: 20%;

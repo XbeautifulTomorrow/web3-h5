@@ -73,6 +73,7 @@ const closeDialogFun = () => {
   height: 4.375rem;
   border-radius: 0.5rem;
   border: 1px solid #363945;
+  background: #13151f;
   display: flex;
   align-items: center;
   align-content: center;

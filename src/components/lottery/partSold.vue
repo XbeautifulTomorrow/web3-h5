@@ -25,7 +25,7 @@
       <p class="public-dialog-illustrate">
         {{ text }}
       </p>
-      <template v-if="chooseIds.length">
+      <template v-if="chooseIds.length && chooseIds.length > failList.length">
         <h3 class="public-dialog-title-other">NFTs</h3>
         <ul
           :class="[

@@ -72,6 +72,8 @@
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
+    <CheckLoading v-else-if="showDialog === 'checkLoading'" />
+
     <Loading :loading="loading" />
   </el-dialog>
 </template>
@@ -80,8 +82,7 @@
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 
-// import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
-import { lotteryHold } from "@/services/api/blindBox";
+import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
 
 import { shuffle } from "@/assets/js";
@@ -96,6 +97,7 @@ import ChainDialog from "./chainDialog.vue";
 import BeenSold from "./beenSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
+import CheckLoading from "./checkLoading.vue";
 
 import Loading from "../loading/index.vue";
 
@@ -120,6 +122,7 @@ export default {
     TransactionWarning,
     oneAward,
     Loading,
+    CheckLoading,
   },
   props: [
     "lottoList",
@@ -151,6 +154,7 @@ export default {
       resultSecondTimer: null,
       moreLuck: [],
       localDateTime: new Date(),
+      checkInterVal: null,
     };
   },
   computed: {
@@ -192,6 +196,21 @@ export default {
       //   console.log(res.data);
       // }
     },
+    async lotteryCheckFunc(dialog) {
+      const { awardItem } = this;
+      const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
+      if (res && res.code === 200) {
+        let data = res.data;
+        let waitData = data.filter((x) => x.lotteryStatus == "WAIT");
+        if (waitData?.length == 0) {
+          this.checkInterVal && clearInterval(this.checkInterVal);
+          this.failList = data
+            .filter((x) => x.lotteryStatus == "FAIL")
+            .map((x) => x.id);
+          this.showDialog = dialog;
+        }
+      }
+    },
     async lotteryHoldApi(dialog = "partSold") {
       const { chooseIds, awardItem } = this;
       // if (!chooseIds.length) {
@@ -212,7 +231,15 @@ export default {
         if (res.data.length) {
           this.failList = res.data;
         }
-        this.showDialog = dialog;
+        if (chooseIds.length > 0) {
+          this.showDialog = "checkLoading";
+          this.checkInterVal = setInterval(() => {
+            this.lotteryCheckFunc(dialog);
+          }, 5000);
+        } else {
+          this.showDialog = dialog;
+        }
+
         this.headerStoreStore.getTheUserBalanceApi();
       }
     },

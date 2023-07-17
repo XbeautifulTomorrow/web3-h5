@@ -14,7 +14,7 @@
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
             <img :src="item.img" alt="" />
           </div>
-          <div class="nft_name">{{ item.name }}</div>
+          <div class="nft_name">{{ item.name || "--" }}</div>
           <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'" @click="viewNft(item)">
             VIEW COMPETITIONS
           </div>
@@ -23,6 +23,8 @@
           </div>
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
             CREATE COMPETITIONS
+          </div>
+          <div class="mask_box" v-if="item.isType != 'EXTERNAL'">
           </div>
         </div>
       </div>
@@ -130,7 +132,7 @@
         </div>
       </el-form>
     </el-dialog>
-    <recharge v-if="rechargeDialog" :isDeposit="title === 'Deposit'" :dialogVisible="rechargeDialog"
+    <recharge v-if="rechargeDialog" :isDeposit="title === 'DEPOSIT'" :dialogVisible="rechargeDialog"
       @closeDialogFun="handleClose" />
   </div>
 </template>
@@ -138,7 +140,7 @@
 import bigNumber from "bignumber.js";
 import { mapStores } from "pinia";
 
-import { addNftOrder, getSystemNft } from "@/services/api/oneBuy";
+import { addNftOrder, getSystemNft, getTheExternalNFTSeries } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -156,7 +158,7 @@ export default {
   data() {
     return {
       rechargeDialog: false,
-      title: "Deposit",
+      title: "DEPOSIT",
       showLink: false, // 登录链上
       operatingType: 1, // 1 充NFT；2 提NFT；
       collections: [],
@@ -179,6 +181,7 @@ export default {
         size: 8,
       },
       timer: null,
+      externalSeries: null
     };
   },
   watch: {
@@ -213,7 +216,7 @@ export default {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
     onDeposit() {
-      this.title = "Deposit";
+      this.title = "DEPOSIT";
       this.operatingType = 1;
       const { web3 } = this.walletStore;
       const defaultAccount = web3?.eth?.defaultAccount || "";
@@ -227,7 +230,7 @@ export default {
       this.rechargeDialog = true;
     },
     onWithdraw() {
-      this.title = "Withdraw";
+      this.title = "WITHDRAW";
       this.operatingType = 2;
       const { web3 } = this.walletStore;
       const defaultAccount = web3?.eth?.defaultAccount || "";
@@ -249,9 +252,23 @@ export default {
         if (stockNft && !stockNft.length > 0) return;
         stockNft.forEach((element) => {
           if (!element.tokenId) return;
+          if (this.findExternalSeries(element.name)) {
+            element.isType = "EXTERNAL"
+          }
           this.stockNftList.push(element);
         });
       }
+    },
+    // 获取外部系列
+    async fetchAllSeries() {
+      const res = await getTheExternalNFTSeries({
+        type: "EXTERNAL"
+      });
+      this.externalSeries = res.data;
+    },
+    findExternalSeries(event) {
+      const { externalSeries } = this;
+      return externalSeries.findIndex(e => e.seriesName == event) > -1;
     },
     // 弹出创建弹出
     createCompetition(event) {
@@ -331,6 +348,7 @@ export default {
     },
   },
   created() {
+    this.fetchAllSeries();
     this.fetchSystemNft();
     this.rules = {
       //总价格

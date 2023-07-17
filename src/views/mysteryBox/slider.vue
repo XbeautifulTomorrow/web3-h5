@@ -35,6 +35,9 @@
             </div>
           </div>
         </div>
+        <div class="btns_box">
+          <div class="close_dialog_btn" @click="handleClose()">CLOSE</div>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +87,9 @@ export default {
       } else {
         return "4"
       }
+    },
+    handleClose() {
+      this.$emit("closeFun")
     }
   },
 };

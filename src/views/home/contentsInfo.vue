@@ -18,11 +18,13 @@
         <template #default="scope">
           <div class="user_info">
             <img :src="scope.row.nftImg" alt="">
-            <span>{{ `#${scope.row.nftId}` }}</span>
+            <div class="user_text">
+              <span>{{ `#${scope.row.nftId}` }}</span>
+              <span>{{ scope.row.nftName }}</span>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nftName" :label="$t('home.tabelText1')" min-width="120" show-overflow-tooltip />
       <el-table-column prop="price" :label="$t('home.tabelText2')" show-overflow-tooltip>
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin}` }}

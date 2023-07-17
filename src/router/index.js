@@ -20,9 +20,11 @@ const Snapshot = () => import("../views/snapshot/index.vue");
 const MyProfile = () => import("../views/user/myProfile.vue");
 const Wallet = () => import("../views/user/wallet.vue");
 const Setting = () => import("../views/user/setting.vue");
-const Invite = () => import("../views/user/invite.vue"); const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
+const Invite = () => import("../views/user/invite.vue");
+const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
 const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
+const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -167,6 +169,17 @@ const routes = [
       default: toIntercept
     },
   },
+  {
+    path: "/user",
+    name: "User",
+    components: {
+      default: User,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+
 ];
 
 // 3. 创建路由实例

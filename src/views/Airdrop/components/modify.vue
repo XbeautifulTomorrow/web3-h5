@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="showModify" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-    class="public-dialog" width="780" :before-close="handleClose">
+    class="public-dialog" width="43.75rem" :before-close="handleClose">
     <template #header>
       <div class="close_btn" @click="handleClose()">
         <el-icon>

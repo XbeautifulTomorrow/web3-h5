@@ -288,6 +288,16 @@
     border-radius: 0.625rem;
     background-color: #1d0f36;
     overflow: hidden;
+    position: relative;
+
+    .mask_box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(19, 7, 27, 0.45);
+    }
   }
 
   .img_box {

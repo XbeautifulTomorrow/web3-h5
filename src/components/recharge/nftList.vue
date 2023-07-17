@@ -239,7 +239,7 @@ const calculatedNftValue = computed(() => {
 });
 
 const NFTSeries = reactive([]);
-const title = ref(props.isDeposit ? "Deposit" : "Withdraw");
+const title = ref(props.isDeposit ? "DEPOSIT" : "WITHDRAW");
 const params = reactive({
   nftName: null,
   type: "ERC721",

@@ -173,10 +173,8 @@
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"></series-slider>
-    <div class="btns_box">
-      <div class="close_dialog_btn" @click="showSeriesDialog = false">CLOSE</div>
-    </div>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
+      @closeFun="showSeriesDialog = false"></series-slider>
   </el-dialog>
 </template>
 
@@ -223,7 +221,7 @@ export default {
   methods: {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
-    messageFun(message = "余额不足,请充值!", type = "warning") {
+    messageFun(message = "Insufficient balance, please recharge!", type = "warning") {
       ElMessage({
         message,
         type,
@@ -234,7 +232,7 @@ export default {
       const { balance } = this.headerStoreStore;
       const { userInfo } = this.userStore;
       if (!userInfo) {
-        this.messageFun("您还未登录,请登录后重试!");
+        this.messageFun("You have not logged in, please log in and try again!");
         return;
       }
       if (type === "ONE" && blindDetailInfo.price > balance) {

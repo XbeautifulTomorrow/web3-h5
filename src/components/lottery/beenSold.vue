@@ -31,7 +31,11 @@
         has been successfully sold and you will receive:
       </p>
       <div class="public-dialog-total">
-        <img class="public-dialog-icon" src="@/assets/img/eth.png" alt="" />
+        <img
+          class="public-dialog-icon"
+          src="@/assets/svg/user/icon_ethereum.svg"
+          alt=""
+        />
         <span class="public-dialog-total-number">{{ total }}</span>
       </div>
       <el-button class="public-button public-default" @click="balanceFun">
@@ -70,9 +74,9 @@ const balanceFun = () => {
 </script>
 <style lang="scss" scoped>
 .public-dialog-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 20px;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-right: 0.625rem;
 }
 .public-dialog-total {
   display: flex;
@@ -84,7 +88,7 @@ const balanceFun = () => {
   margin-bottom: 3.75rem;
 }
 .public-dialog-total-number {
-  font-size: 30px;
+  font-size: 1.875rem;
   color: #11cde9;
 }
 .margin-b {

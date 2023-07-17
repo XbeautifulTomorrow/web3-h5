@@ -136,7 +136,7 @@ export default {
   },
   beforeUnmount() {
     this.clearTimerFun();
-    this.audioLoopObj.pause();
+    this.audioLoopObj?.pause();
   },
   watch: {
     awardItem: {

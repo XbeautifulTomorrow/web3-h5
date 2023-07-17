@@ -41,6 +41,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { mapStores } from "pinia";
+import bigNumber from "bignumber.js";
 
 import {
   balanceOrder,
@@ -94,6 +95,10 @@ export default {
   },
   computed: {
     ...mapStores(useHeaderStore, useWalletStore),
+    ethBalance() {
+      const headerStore = useHeaderStore();
+      return headerStore.balance;
+    },
   },
   mounted() {
     this.boxId = this.$route.query.boxId;
@@ -115,10 +120,12 @@ export default {
         const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
         if (_time > 60) {
           localStorage.removeItem("result");
+          console.log(1);
         } else {
           this.rollNumber = _result.rollNumber;
           this.showRoll = true;
           this.lottResult = _result.result;
+          console.log(2);
           return;
         }
       }
@@ -139,17 +146,28 @@ export default {
       this.errorText = undefined;
     },
     async setBalanceOrder(coiledType) {
+      const headerStore = useHeaderStore();
       this.loading = true;
+      let price = this.blindDetailInfo.price;
+      if (coiledType == "FIVE") {
+        price = Number(
+          new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5)
+        );
+      } else if (coiledType == "TEN") {
+        price = Number(
+          new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10)
+        );
+      }
       await this.getBlindBoxDetail();
       this.showRoll = true;
       this.rollNumber = coiledType;
+      headerStore.setBalance(this.ethBalance - price);
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({
         boxId: _that.boxId,
         coiledType,
       });
-      const headerStore = useHeaderStore();
       await headerStore.getTheUserBalanceApi();
       if (walletOrderInfo.code == 200) {
         this.walletOrderInfo = walletOrderInfo;

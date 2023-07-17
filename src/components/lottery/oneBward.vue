@@ -27,7 +27,7 @@
                 </span>
                 <img
                   class="roll-one-list-seriesName-img"
-                  src="@/assets/img/eth.png"
+                  src="@/assets/svg/user/icon_ethereum.svg"
                   alt=""
                 />
               </p>

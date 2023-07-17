@@ -68,7 +68,7 @@
               <p class="public-dialog-list-text">
                 <img
                   class="public-dialog-list-img"
-                  src="@/assets/img/eth.png"
+                  src="@/assets/svg/user/icon_ethereum.svg"
                   alt=""
                 />
                 <span class="public-dialog-list-number">
@@ -94,7 +94,7 @@
               <p class="public-dialog-list-text">
                 <img
                   class="public-dialog-list-img"
-                  src="@/assets/img/eth.png"
+                  src="@/assets/svg/user/icon_ethereum.svg"
                   alt=""
                 />
                 <span class="public-dialog-list-number">
@@ -210,9 +210,6 @@ watchEffect();
 .public-dialog-list-number {
   font-size: 1.25rem;
   color: #e4e7f5;
-}
-.public-dialog-list-result {
-  bottom: 0;
 }
 .portrait-img {
   position: relative;

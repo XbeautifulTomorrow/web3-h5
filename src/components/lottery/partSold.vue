@@ -21,7 +21,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Notice</h2>
+      <h2 class="public-dialog-title">NOTICE</h2>
       <p class="public-dialog-illustrate">
         {{ text }}
       </p>
@@ -109,10 +109,10 @@
           <span class="public-dialog-total-number"> {{ total }} ETH </span>
         </p>
       </template>
-      <el-button class="public-button" @click="closeDialogFun">
+      <el-button class="public-button public-default" @click="closeDialogFun">
         Check my inventory
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

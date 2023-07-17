@@ -22,7 +22,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Notice</h2>
+      <h2 class="public-dialog-title">NOTICE</h2>
       <p class="public-dialog-illustrate">
         The reward has been transferred to your inventory, please go to the
         inventory to check it.
@@ -32,10 +32,10 @@
         <img class="public-dialog-portrait" :src="sold.nftImg" alt="" />
       </div>
       <p class="public-dialog-club">Bored Ape Yacht Club</p>
-      <el-button class="public-button" @click="closeDialogFun">
+      <el-button class="public-button public-default" @click="closeDialogFun">
         Check my inventory
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

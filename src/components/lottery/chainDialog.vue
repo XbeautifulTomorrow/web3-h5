@@ -22,7 +22,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Warning</h2>
+      <h2 class="public-dialog-title">WARNING</h2>
       <p class="public-dialog-text magin-text">
         Congratulations ! We regret that your
         <span class="public-dialog-special">
@@ -35,10 +35,10 @@
         </span>
         at the current price and transfer it to your balance.
       </p>
-      <el-button class="public-button" @click="balanceFun">
+      <el-button class="public-button public-default" @click="balanceFun">
         Check balance
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

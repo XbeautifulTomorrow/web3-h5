@@ -22,7 +22,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title margin-b">Notice</h2>
+      <h2 class="public-dialog-title margin-b">NOTICE</h2>
       <p class="public-dialog-text">
         <span class="public-dialog-special">Mutant Ape Yacht Club # </span>
         <span class="public-dialog-special">
@@ -34,10 +34,10 @@
         <img class="public-dialog-icon" src="@/assets/img/eth.png" alt="" />
         <span class="public-dialog-total-number">{{ total }}</span>
       </div>
-      <el-button class="public-button" @click="balanceFun">
+      <el-button class="public-button public-default" @click="balanceFun">
         Check balance
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

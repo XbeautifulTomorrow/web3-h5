@@ -22,14 +22,14 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Warning</h2>
+      <h2 class="public-dialog-title">WARNING</h2>
       <p class="public-dialog-text margin-b">
         {{ text }}
       </p>
-      <el-button class="public-button" @click="balanceFun">
+      <el-button class="public-button public-default" @click="balanceFun">
         Check my balance
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

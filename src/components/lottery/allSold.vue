@@ -21,7 +21,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">Notice</h2>
+      <h2 class="public-dialog-title">NOTICE</h2>
       <p class="public-dialog-illustrate">
         The prize is in your backpack. Please go to your backpack and check it
         out
@@ -36,10 +36,10 @@
           <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
         </li>
       </ul>
-      <el-button class="public-button" @click="closeDialogFun">
+      <el-button class="public-button public-default" @click="closeDialogFun">
         Check my inventory
       </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
+      <el-button class="public-button margin-l0" @click="closeDialogFun">
         Continue
       </el-button>
     </div>

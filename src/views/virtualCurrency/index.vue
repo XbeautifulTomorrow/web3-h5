@@ -130,6 +130,9 @@ export default {
     this.search();
   },
   beforeUnmount() {
+    if (this.updateTimer) {
+      clearInterval(this.updateTimer);
+    }
     // 销毁定时器，否则可能导致重载此组件时会有多个定时器同时执行，使得滚动变快
     window.clearTimeout(this.timer);
   },
@@ -204,7 +207,7 @@ export default {
            * 修改父级元素与子元素样式时需要留意此处也应当一起修改
            */
           if (
-            1948 -
+            1903 -
             this.currencyList[i].translateNum -
             this.currencyList[i].indexLeft <
             0
@@ -256,12 +259,12 @@ export default {
     if (this.updateTimer) {
       clearInterval(this.updateTimer);
     } else {
-      setInterval(() => {
+      this.updateTimer = setInterval(() => {
         this.getTheUserBalanceInfo();
         this.fetchTicketList();
       }, 5000);
     }
-  },
+  }
 };
 </script>
 

@@ -216,7 +216,7 @@ export default {
     },
     async lotteryHoldApi(isSell, dialog = "partSold") {
       const { chooseIds, awardItem } = this;
-      if (isSell) {
+      if (isSell.value) {
         localStorage.removeItem("result");
         this.showDialog = dialog;
         this.headerStoreStore.getTheUserBalanceApi();

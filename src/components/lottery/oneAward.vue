@@ -227,7 +227,7 @@ export default {
     },
     slowScrollFunc(data) {
       const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
-      const slowTranslateXPer = translatePar - 0.06;
+      const slowTranslateXPer = translatePar - 12 / this.awardsList.length;
       document.documentElement.style.setProperty(
         "--linearEnd-translateX",
         translatePar * 100 + "%"

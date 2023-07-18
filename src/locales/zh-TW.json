@@ -311,6 +311,7 @@
     "The_wallet_is_already_bound_by_other_users": "錢包已被其他用戶綁定",
     "not_open_time": "活動尚未開始",
     "the_invitation_code_exceeds_the_limit": "邀請碼超出限制",
+    "transaction_id_does_not_exist": "交易ID不存在",
     "": "服務器繁忙，請稍後重試",
     "null": "服務器繁忙，請稍後重試",
     "undefined": "服務器繁忙，請稍後重試"

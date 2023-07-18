@@ -85,6 +85,12 @@ export default {
       autoPlay: this.autoplay,
     };
   },
+  mounted() {
+    const time = this.poolList.length * 0.13;
+    this.$emit("delayTime", time / 5);
+    document.documentElement.style.setProperty("--linear-time", time + "s");
+    document.documentElement.style.setProperty("--stop-time", time / 5 + "s");
+  },
   methods: {
     changeFun(index) {
       this.index = index;
@@ -213,6 +219,8 @@ export default {
 }
 </style>
 <style lang="scss">
+$linear-time: var(--linear-time);
+$stop-time: var(--stop-time);
 @keyframes verticalScroll {
   0% {
     transform: translateY(0);
@@ -237,7 +245,7 @@ export default {
 }
 .el-carousel__container {
   height: auto !important;
-  animation: verticalScroll 10s linear infinite;
+  animation: verticalScroll $linear-time linear infinite;
   animation-fill-mode: forwards;
 }
 
@@ -249,7 +257,7 @@ export default {
   &.no-autoplay-box {
     z-index: 11;
     .el-carousel__container {
-      animation: verticalScroll2 2s linear 1;
+      animation: verticalScroll2 $stop-time linear 1;
       animation-fill-mode: forwards;
     }
     .is-active {

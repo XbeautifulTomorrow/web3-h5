@@ -21,6 +21,7 @@
             :autoplay="autoplay[index]"
             :interval="interval"
             :winData="winData[index]"
+            @delayTime="delayTime"
           />
         </div>
       </div>
@@ -80,17 +81,24 @@ export default {
       timer: null,
       numberTest: 0,
       musicLoop: true,
-      audioLoopObj: null,
+      delayTimer: 0,
+      intervalId: null,
     };
   },
   mounted() {
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
-      this.audioLoopObj = this.playSound(slipe, true);
+      this.intervalId = setInterval(() => {
+        this.playSound(slipe);
+      }, 70);
     }
   },
   methods: {
+    delayTime(param) {
+      console.log(param, "---------------");
+      this.delayTimer = param;
+    },
     playSound(_music, musicLoop = false) {
       const audioObj = new Audio(_music);
       audioObj.loop = musicLoop;
@@ -112,15 +120,14 @@ export default {
         this.winData.push(data[numberTest]);
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
-
         setTimeout(() => {
-          this.audioLoopObj.pause();
+          clearInterval(this.intervalId);
           if (data[numberTest].qualityType === "NORMAL") {
             this.playSound(usually);
           } else {
             this.playSound(advanced);
           }
-        }, 2000);
+        }, this.delayTimer * 1000);
         if (this.winData.length >= this.prizeList.length) {
           setTimeout(() => {
             if (data[numberTest].qualityType === "NORMAL") {
@@ -128,13 +135,14 @@ export default {
             } else {
               this.playSound(advanced);
             }
-          }, 2000);
+          }, this.delayTimer * 1000);
+          console.log(this.delayTimer, "-------------------delayTimes * 1000");
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
           setTimeout(() => {
             this.$emit("showResultFun");
-          }, 3000);
+          }, Number(this.delayTimer * 1000 + 1000));
         }
       }, 1000);
     },
@@ -147,7 +155,7 @@ export default {
   },
   beforeUnmount() {
     this.clearTimerFun();
-    this.audioLoopObj?.pause();
+    clearInterval(this.intervalId);
   },
   watch: {
     awardItem: {

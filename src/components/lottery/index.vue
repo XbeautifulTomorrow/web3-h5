@@ -214,15 +214,15 @@ export default {
         }
       }
     },
-    async lotteryHoldApi(dialog = "partSold") {
+    async lotteryHoldApi(isSell, dialog = "partSold") {
       const { chooseIds, awardItem } = this;
-      // if (!chooseIds.length) {
-      //   localStorage.removeItem("result");
-      //   this.showDialog = "partSold";
-      //   this.headerStoreStore.getTheUserBalanceApi();
-      //   this.loading = false;
-      //   return;
-      // }
+      if (isSell) {
+        localStorage.removeItem("result");
+        this.showDialog = dialog;
+        this.headerStoreStore.getTheUserBalanceApi();
+        this.loading = false;
+        return;
+      }
       const _data = {
         lotteryIds: chooseIds.length > 0 ? chooseIds.join(",") : undefined,
         orderId: awardItem[0]?.orderId,
@@ -238,7 +238,7 @@ export default {
           this.showDialog = "checkLoading";
           this.checkInterVal = setInterval(() => {
             this.lotteryCheckFunc(dialog);
-          }, 5000);
+          }, 3000);
         } else {
           this.showDialog = dialog;
         }
@@ -264,7 +264,7 @@ export default {
     showResultFun() {
       this.showResult = true;
     },
-    async chooseLotteryHold(type, _choose) {
+    async chooseLotteryHold(type, _choose, isSell) {
       const { awardItem } = this;
       if (type === "hold") {
         //传入id take
@@ -288,14 +288,14 @@ export default {
           if (_choose.value.length) {
             this.chooseIds = _choose.value;
           }
-          this.lotteryHoldApi();
+          this.lotteryHoldApi(isSell);
         }
       } else {
         if (awardItem.length < 2) {
-          this.lotteryHoldApi("beenSold");
+          this.lotteryHoldApi(isSell, "beenSold");
         } else {
           this.chooseIds = _choose.value;
-          this.lotteryHoldApi();
+          this.lotteryHoldApi(isSell);
         }
       }
     },
@@ -398,6 +398,9 @@ export default {
         this.showResultFun();
       }
     }
+  },
+  beforeUnmount() {
+    this.checkInterVal && clearInterval(this.checkInterVal);
   },
 };
 </script>

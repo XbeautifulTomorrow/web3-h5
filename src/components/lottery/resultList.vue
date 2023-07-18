@@ -331,11 +331,11 @@ const clearTimerFun = () => {
   timer = null;
 };
 const chooseLotteryHold = (data) => {
-  if (isSell.value && data === "hold") return;
+  // if (isSell.value && data === "hold") return;
   if (!data) {
     nfts.value = [];
   }
-  emit("chooseLotteryHold", data, nfts);
+  emit("chooseLotteryHold", data, nfts, isSell);
 };
 </script>
 <style lang="scss" scoped>
@@ -377,6 +377,7 @@ const chooseLotteryHold = (data) => {
   color: #fff;
   border: solid 1px rgba(228, 231, 245, 0.5);
   background-color: transparent;
+  &:focus,
   &:hover,
   &:active {
     color: #fff;

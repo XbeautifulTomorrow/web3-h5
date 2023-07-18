@@ -9,18 +9,6 @@
     width="522"
     :before-close="closeDialogFun"
   >
-    <template #header="{ close }">
-      <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
-          class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
-        </el-icon>
-      </div>
-    </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-loading">
         <img src="@/assets/img/lottery/loading.png" alt="" />

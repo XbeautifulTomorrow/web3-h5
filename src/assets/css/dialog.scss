@@ -7,7 +7,7 @@
   text-align: center;
 
   .el-dialog__body {
-    padding: 1.875rem 3.75rem;
+    padding: 1.875rem 2.1875rem;
   }
 
   .el-dialog__header {
@@ -164,7 +164,7 @@
   .public-dialog-lists {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.625rem;
+    gap: 0.62rem;
   }
 
   .public-dialog-lists-all {
@@ -247,7 +247,7 @@
     outline: none;
   }
 
-  .public-button+.public-button {
+  .public-button + .public-button {
     margin-left: 1.25rem;
   }
 

@@ -252,8 +252,8 @@ export default {
         if (stockNft && !stockNft.length > 0) return;
         stockNft.forEach((element) => {
           if (!element.tokenId) return;
-          if (this.findExternalSeries(element.name)) {
-            element.isType = "EXTERNAL"
+          if (this.findExternalSeries(element.tokenAddress)) {
+            element.isType = "EXTERNAL";
           }
           this.stockNftList.push(element);
         });
@@ -268,7 +268,7 @@ export default {
     },
     findExternalSeries(event) {
       const { externalSeries } = this;
-      return externalSeries.findIndex(e => e.seriesName == event) > -1;
+      return externalSeries.findIndex(e => e.contractAddress == event) > -1;
     },
     // 弹出创建弹出
     createCompetition(event) {

@@ -112,24 +112,29 @@ export default {
         this.winData.push(data[numberTest]);
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
-        this.audioLoopObj.pause();
-        if (data[numberTest].qualityType === "NORMAL") {
-          this.playSound(usually);
-        } else {
-          this.playSound(advanced);
-        }
-        if (this.winData.length >= this.prizeList.length) {
+
+        setTimeout(() => {
+          this.audioLoopObj.pause();
           if (data[numberTest].qualityType === "NORMAL") {
             this.playSound(usually);
           } else {
             this.playSound(advanced);
           }
+        }, 2000);
+        if (this.winData.length >= this.prizeList.length) {
+          setTimeout(() => {
+            if (data[numberTest].qualityType === "NORMAL") {
+              this.playSound(usually);
+            } else {
+              this.playSound(advanced);
+            }
+          }, 2000);
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;
           setTimeout(() => {
             this.$emit("showResultFun");
-          }, 1000);
+          }, 3000);
         }
       }, 1000);
     },
@@ -148,7 +153,6 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
-        console.log(newData);
         if (newData.length > 0) {
           this.stopScroll(newData);
         }

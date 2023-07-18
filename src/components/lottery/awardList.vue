@@ -1,9 +1,9 @@
 <template>
   <el-carousel
-    :class="['award-carousel', { 'no-autoplay-box': !autoPlay }]"
+    :class="['award-carousel', autoPlay ? 'autoplay-box' : 'no-autoplay-box']"
     :height="`${height * 3}`"
     :interval="interval"
-    :autoplay="autoPlay"
+    :autoplay="false"
     :pause-on-hover="false"
     :append-to-body="true"
     indicator-position="none"
@@ -16,7 +16,13 @@
     <el-carousel-item
       v-for="(item, index) in poolList"
       :key="`list-${index}`"
-      class="lottery-moreLuck-list"
+      :class="[
+        'lottery-moreLuck-list',
+        {
+          'is-active':
+            item.map((x) => x.tokenId).includes(winData.tokenId) && !autoPlay,
+        },
+      ]"
     >
       <div
         v-for="(_img, imgIndex) in item"
@@ -73,7 +79,9 @@ export default {
   data() {
     return {
       index: 0,
-      poolList: JSON.parse(JSON.stringify(this.prizePoolList)),
+      poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(
+        JSON.parse(JSON.stringify(this.prizePoolList))
+      ),
       autoPlay: this.autoplay,
     };
   },
@@ -89,12 +97,13 @@ export default {
     winData: function (newData) {
       if (newData) {
         this.autoPlay = false;
-        this.poolList[this.index] = [
-          ...this.poolList[this.index].map((x) =>
+        let index = parseInt(this.poolList.length * Math.abs(0.5));
+        this.poolList[index] = [
+          ...this.poolList[index].map((x) =>
             x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x
           ),
         ];
-        this.poolList[this.index].splice(1, 1, newData);
+        this.poolList[index].splice(1, 1, newData);
       }
     },
     autoplay: function (newData) {
@@ -204,9 +213,45 @@ export default {
 }
 </style>
 <style lang="scss">
+@keyframes verticalScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+@keyframes verticalScroll2 {
+  0% {
+    transform: translateY(-40%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+.el-carousel {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.el-carousel__container {
+  height: auto !important;
+  animation: verticalScroll 10s linear infinite;
+  animation-fill-mode: forwards;
+}
+
+.el-carousel__item {
+  transform: translateY(0) scale(1) !important;
+  position: inherit;
+}
 .award-carousel {
   &.no-autoplay-box {
     z-index: 11;
+    .el-carousel__container {
+      animation: verticalScroll2 2s linear 1;
+      animation-fill-mode: forwards;
+    }
     .is-active {
       .is-active-item {
         position: relative;
@@ -218,11 +263,11 @@ export default {
       }
       .lottery-moreLuck-list-content:nth-child(1) {
         position: relative;
-        top: 25px;
+        // top: 25px;
       }
       .lottery-moreLuck-list-content:nth-child(3) {
         position: relative;
-        top: -25px;
+        // top: -25px;
       }
     }
   }

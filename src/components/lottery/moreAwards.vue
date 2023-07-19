@@ -136,7 +136,6 @@ export default {
               this.playSound(advanced);
             }
           }, this.delayTimer * 1000);
-          console.log(this.delayTimer, "-------------------delayTimes * 1000");
           this.autoplayFun();
           this.clearTimerFun();
           this.numberTest = 0;

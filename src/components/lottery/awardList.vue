@@ -40,12 +40,19 @@
           "
           alt=""
         />
-        <p
-          v-if="winData && winData.nftImg == _img.nftImg"
-          class="lottery-moreLuck-seriesName"
-        >
-          {{ winData.seriesName }}
-        </p>
+        <div v-if="winData && winData.nftImg == _img.nftImg">
+          <p class="lottery-moreLuck-seriesName">
+            {{ winData.seriesName }}
+          </p>
+          <p class="lottery-moreLuck-price">
+            <img
+              class="public-dialog-list-img"
+              src="@/assets/svg/user/icon_ethereum.svg"
+              alt=""
+            />
+            {{ winData.price }}
+          </p>
+        </div>
       </div>
     </el-carousel-item>
   </el-carousel>
@@ -158,8 +165,8 @@ export default {
   height: 100%;
   width: 100%;
   object-fit: fill;
-  filter: brightness(50%);
-  border-radius: 0.2rem;
+  filter: brightness(30%);
+  border-radius: 0.25rem;
 }
 .lottery-moreLuck-award {
   position: absolute;
@@ -210,8 +217,24 @@ export default {
   }
 }
 .lottery-moreLuck-seriesName {
-  font-size: 16px;
+  width: 5.5rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 auto;
+  margin-top: 0.25rem;
+}
+.lottery-moreLuck-price {
+  font-family: Tomorrow;
+  font-size: 0.875rem;
   font-weight: bold;
+  margin-top: 0.125rem;
+  img {
+    width: 1rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
 }
 .lottery-moreLuck-tokenId {
   font-size: 12px;
@@ -271,7 +294,7 @@ $stop-time: var(--stop-time);
       }
       .lottery-moreLuck-list-content:nth-child(1) {
         position: relative;
-        // top: 25px;
+        // top: -0.875rem;
       }
       .lottery-moreLuck-list-content:nth-child(3) {
         position: relative;

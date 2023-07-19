@@ -241,6 +241,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
+import { useChainStore } from "@/store/chain.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -256,8 +257,12 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
+const { chainUrl } = useChainStore();
 const link = [
-  { src: "", text: "View Faimess" },
+  {
+    src: chainUrl[props.result[0].lotteryChainType] + props.result[0].hash,
+    text: "View Faimess",
+  },
   { src: "", text: "View Snapshot" },
 ];
 let timer = null;

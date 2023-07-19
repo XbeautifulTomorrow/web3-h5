@@ -1,9 +1,9 @@
 <template>
   <div class="result-link">
-    <img class="result-link-img" src="@/assets/img/lottery/fair.png" alt="" />
+    <img class="result-link-img" src="@/assets/img/lottery/fair2.png" alt="" />
     <img
       class="result-link-line"
-      src="@/assets/img/lottery/Line14.png"
+      src="@/assets/img/lottery/Line14.svg"
       alt=""
     />
     <p class="result-link-text">
@@ -24,7 +24,7 @@
   padding: 10px 20px;
   border-radius: 0.625rem;
   margin: 0 auto;
-  background-color: #2761f5;
+  border: solid 1px #11cde9;
 }
 .result-link-img {
   width: 2.5rem;
@@ -34,7 +34,7 @@
   padding: 0 0.625rem;
 }
 .result-link-text {
-  color: #a9a4b4;
+  color: #11cde9;
   text-align: left;
 }
 </style>

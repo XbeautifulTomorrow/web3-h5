@@ -5,7 +5,7 @@
     :show-close="false"
     :align-center="true"
     :append-to-body="true"
-    class="public-dialog"
+    class="public-dialog mystery-dialog"
     width="700"
   >
     <template #header="{ close }">

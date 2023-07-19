@@ -3,7 +3,7 @@
     v-model="visible"
     destroy-on-close
     :show-close="false"
-    class="public-dialog"
+    class="public-dialog mystery-dialog"
     width="700"
     :before-close="closeDialogFun"
     :append-to-body="true"
@@ -25,7 +25,10 @@
       <p class="public-dialog-illustrate">
         {{ text }}
       </p>
-      <template v-if="chooseIds.length && chooseIds.length > failList.length">
+      <div
+        class="public-dialog-module"
+        v-if="chooseIds.length && chooseIds.length > failList.length"
+      >
         <h3 class="public-dialog-title-other">NFTs</h3>
         <ul
           :class="[
@@ -47,8 +50,11 @@
             </li>
           </template>
         </ul>
-      </template>
-      <template v-if="chooseIds.length !== soldList.length || failList.length">
+      </div>
+      <div
+        class="public-dialog-module"
+        v-if="chooseIds.length !== soldList.length || failList.length"
+      >
         <h3 class="public-dialog-title-other">BALANCE</h3>
         <ul class="public-dialog-lists">
           <template v-for="(item, index) in soldList">
@@ -104,11 +110,24 @@
             </li>
           </template>
         </ul>
-        <p class="public-dialog-total">
+        <div class="public-dialog-funds">
           <span class="public-dialog-total-title">Total:</span>
-          <span class="public-dialog-total-number"> {{ total }} ETH </span>
-        </p>
-      </template>
+          <img
+            class="public-dialog-list-img"
+            src="@/assets/svg/user/icon_ethereum.svg"
+            alt=""
+          />
+          <span class="public-dialog-total-number"> {{ total }} </span>
+          <img
+            class="public-dialog-list-img"
+            src="@/assets/svg/user/icon_point.svg"
+            alt=""
+          />
+          <span class="public-dialog-total-number">
+            {{ soldList[0].point }}
+          </span>
+        </div>
+      </div>
       <el-button class="public-button public-default" @click="closeDialogFun">
         Check my inventory
       </el-button>
@@ -178,7 +197,10 @@ const totalFun = () => {
   total.value = 0;
   const { soldList, chooseIds, failList } = props;
   soldList.forEach((item) => {
-    if (!chooseIds.includes(item.id) && !failList.includes(item.id)) {
+    if (
+      !chooseIds.includes(item.id) ||
+      (chooseIds.includes(item.id) && failList.includes(item.id))
+    ) {
       total.value = BigNumber(total.value).plus(Number(item.price));
     }
   });
@@ -196,9 +218,6 @@ const closeDialogFun = () => {
 watchEffect();
 </script>
 <style lang="scss" scoped>
-.public-dialog-total {
-  margin-top: 1.875rem;
-}
 .public-dialog-list-text {
   margin-top: 0.3125rem;
 }
@@ -252,6 +271,39 @@ watchEffect();
 }
 .public-dialog-title-other {
   margin-bottom: 0.625rem;
+  margin-top: 0;
+}
+.public-dialog-module {
+  background: #13151f;
+  padding: 0.625rem;
+  border-radius: 0.625rem;
+  margin: 1rem 0;
+}
+.public-dialog-funds {
+  display: flex;
+  align-items: center;
   margin-top: 1.875rem;
+  .public-dialog-total-title {
+    margin-right: 0.625rem;
+  }
+  .public-dialog-list-img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+.public-dialog-lists {
+  gap: 0.46rem;
+}
+.public-dialog-total-number {
+  color: #e4e7f5;
+  font-size: 1.5rem;
+  margin-left: 0;
+  margin-right: 1.5rem;
+}
+.public-default {
+  margin-top: 1.875rem;
+}
+.public-dialog-lists-all {
+  margin-bottom: 0;
 }
 </style>

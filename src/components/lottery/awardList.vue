@@ -33,12 +33,11 @@
         ]"
         :key="`img-${imgIndex}`"
       >
-        <img
+        <image-view
           class="lottery-moreLuck-list-img"
           :src="
             winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg
           "
-          alt=""
         />
         <div v-if="winData && winData.nftImg == _img.nftImg">
           <p class="lottery-moreLuck-seriesName">
@@ -58,6 +57,7 @@
   </el-carousel>
 </template>
 <script>
+import ImageView from "../imageView";
 export default {
   name: "AwardsList",
   props: {
@@ -82,6 +82,9 @@ export default {
     winData: {
       default: "",
     },
+  },
+  components: {
+    ImageView,
   },
   data() {
     return {
@@ -164,9 +167,11 @@ export default {
 .lottery-moreLuck-list-img {
   height: 100%;
   width: 100%;
-  object-fit: fill;
-  filter: brightness(30%);
+  object-fit: cover;
   border-radius: 0.25rem;
+  :deep(.el-image__inner) {
+    filter: brightness(30%);
+  }
 }
 .lottery-moreLuck-award {
   position: absolute;

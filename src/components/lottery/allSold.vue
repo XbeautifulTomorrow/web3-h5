@@ -33,7 +33,7 @@
           v-for="(item, index) in soldList"
           :key="`portrait-${index}`"
         >
-          <img class="public-dialog-portrait" :src="item.nftImg" alt="" />
+          <image-view :src="item.nftImg" />
         </li>
       </ul>
       <el-button class="public-button public-default" @click="closeDialogFun">
@@ -47,7 +47,7 @@
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
-
+import ImageView from "../imageView";
 defineProps({
   soldList: {
     type: Object,

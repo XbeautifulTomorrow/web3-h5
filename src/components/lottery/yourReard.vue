@@ -29,7 +29,7 @@
       </p>
       <h3 class="public-dialog-title-other">Your reward</h3>
       <div class="public-dialog-img">
-        <img class="public-dialog-portrait" :src="sold.nftImg" alt="" />
+        <image-view class="public-dialog-portrait" :src="sold.nftImg" />
       </div>
       <p class="public-dialog-club">Bored Ape Yacht Club</p>
       <el-button class="public-button public-default" @click="closeDialogFun">
@@ -43,7 +43,7 @@
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
-
+import ImageView from "../imageView";
 defineProps({
   sold: {
     type: Object,

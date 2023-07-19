@@ -42,11 +42,7 @@
               :class="['public-dialog-list', item.qualityType]"
               :key="`portrait-${index}`"
             >
-              <img
-                :class="['public-dialog-portrait']"
-                :src="item.nftImg"
-                alt=""
-              />
+              <image-view class="public-dialog-portrait" :src="item.nftImg" />
             </li>
           </template>
         </ul>
@@ -64,11 +60,7 @@
               :key="`portrait-${index}`"
             >
               <div :class="['portrait-img', item.qualityType]">
-                <img
-                  :class="['public-dialog-portrait']"
-                  :src="item.nftImg"
-                  alt=""
-                />
+                <image-view class="public-dialog-portrait" :src="item.nftImg" />
                 <span class="public-dialog-list-result refund"> Refund </span>
               </div>
               <p class="public-dialog-list-text">
@@ -90,11 +82,7 @@
               :key="`portrait-${index}`"
             >
               <div :class="['portrait-img', item.qualityType]">
-                <img
-                  :class="['public-dialog-portrait']"
-                  :src="item.nftImg"
-                  alt=""
-                />
+                <image-view class="public-dialog-portrait" :src="item.nftImg" />
                 <span class="public-dialog-list-result sold"> Sold </span>
               </div>
               <p class="public-dialog-list-text">
@@ -147,6 +135,7 @@ import {
   onUpdated,
 } from "vue";
 import { BigNumber } from "bignumber.js";
+import ImageView from "../imageView";
 
 const props = defineProps({
   chooseIds: {
@@ -235,7 +224,7 @@ watchEffect();
 }
 .public-dialog-portrait {
   border-radius: 0.3125rem;
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 0.5rem;
 }
 .LEGEND {

@@ -58,7 +58,7 @@
               @click="nftsFun(item)"
             >
               <div class="result-portrait">
-                <img class="result-portrait-img" :src="item.nftImg" alt="" />
+                <image-view class="result-portrait-img" :src="item.nftImg" />
               </div>
               <div class="result-club text-ellipsis">
                 <div class="result-club-title text-ellipsis">
@@ -241,6 +241,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
+import ImageView from "../imageView";
 import { useChainStore } from "@/store/chain.js";
 
 dayjs.extend(utc);

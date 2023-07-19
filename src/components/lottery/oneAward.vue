@@ -19,7 +19,10 @@
           <div class="roll-one-carousel" ref="subAwards">
             <div :class="['roll-one-carousel-list', list.qualityType]">
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                <img class="roll-one-list-img" :src="list.nftCompressImg" />
+                <image-view
+                  class="roll-one-list-img"
+                  :src="list.nftCompressImg"
+                />
               </div>
               <p class="roll-one-list-seriesName">
                 <span class="roll-one-list-seriesName-text text-ellipsis">
@@ -38,9 +41,9 @@
                     <el-tooltip
                       class="box-item"
                       effect="dark"
-                      :content="`${list.initPrice}`"
+                      :content="`${list.price}`"
                     >
-                      &nbsp;{{ list.initPrice }}
+                      &nbsp;{{ list.price }}
                     </el-tooltip>
                   </span>
                   <span class="roll-one-list-conin">
@@ -76,6 +79,7 @@ import resultLink from "../resultLink";
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
+import ImageView from "../imageView";
 const itemWidth = 200;
 export default {
   name: "OneAward",
@@ -103,7 +107,7 @@ export default {
       },
     },
   },
-  components: { resultLink },
+  components: { resultLink, ImageView },
   data() {
     return {
       slowTranslateXPer: 0.6, //横向平移百分比
@@ -298,7 +302,7 @@ $linearEnd-translateX: var(--linearEnd-translateX);
   .roll-one-list-img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
   }
 }
 

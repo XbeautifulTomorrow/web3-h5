@@ -26,7 +26,7 @@
       <span>{{ title }} NFT'S</span>
     </div>
     <div class="operating_tips" v-if="isDeposit">
-      Connecting wallet: {{ receiver }}
+      Connecting wallet: {{ accountAddress }}
     </div>
     <div class="withdraw_condition" v-else>
       <div class="condition_item">
@@ -128,7 +128,6 @@
             nftFind(item.id) > -1 && 'active',
             { disabled: NFTSeries.includes(item.name) },
           ]"
-          @click="chooseNfts(item)"
           v-for="(item, index) in chooseNftList"
           :key="index"
         >
@@ -137,6 +136,7 @@
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="nft_name">{{ item.name }}</div>
+          <div class="confirm_btn" @click="depositOne(item)">Deposit</div>
           <div class="mask_box">
             <img src="@/assets/svg/user/icon_selected.svg" alt="" />
           </div>
@@ -146,6 +146,7 @@
     <div v-if="isDeposit" class="confirm_btn" @click="onDepositNftFun">
       <span>{{ `DEPOSIT ${chooseNft.length} NFTs` }}</span>
     </div>
+
     <div v-else class="confirm_btn" @click="onWithdrawalNft()">
       <span>{{ `WITHDRAW ${chooseNft.length} NFTs` }}</span>
     </div>
@@ -167,8 +168,10 @@ import {
 import { CScrollbar } from "c-scrollbar";
 import bigNumber from "bignumber.js";
 import { ElMessage } from "element-plus";
-
+import nft721Abi from "@/config/721.json";
+import nft1155Abi from "@/config/1155.json";
 import { withdrawalNft } from "@/services/api/user";
+import Web3 from "web3";
 import {
   getSystemNft,
   getWalletNft,
@@ -196,7 +199,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits("closeDialogFun", "chooseNftsFun");
-
+const accountAddress = ref("");
 const networkList = [{ label: "Goerli", value: "goerli" }];
 // const nftTypes = [
 //   { label: "ERC-721", value: "ERC721" },
@@ -260,6 +263,28 @@ const handleClose = () => {
 const nftFind = (event) => {
   const eindex = chooseNft.findIndex((e) => e.id == event);
   return eindex;
+};
+const depositOne = async (item) => {
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  accountAddress.value =accounts[0]
+  const receiver = localStorage.getItem("receiver");
+  const web3 = new Web3(window.ethereum);
+  if (item.contractType == "ERC1155") {
+    let nft1155Contract = new web3.eth.Contract(
+      nft1155Abi,
+      item.contractAddress
+    );
+    nft1155Contract.methods
+      .safeTransferFrom(accounts[0], receiver, item.tokenId, 1, "0x")
+      .send({ from: accounts[0] });
+    return;
+  }
+  let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
+  nftContract.methods
+    .transferFrom(accounts[0], receiver, item.tokenId)
+    .send({ from: accounts[0] });
 };
 // 选择Nft
 const chooseNfts = (event) => {

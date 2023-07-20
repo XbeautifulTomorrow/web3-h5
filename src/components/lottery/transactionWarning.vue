@@ -25,10 +25,10 @@
         {{ text }}
       </p>
       <el-button class="public-button public-default" @click="balanceFun">
-        Check my balance
+        CHECK BALANCE
       </el-button>
       <el-button class="public-button margin-l0" @click="closeDialogFun">
-        Continue
+        CONTINUE
       </el-button>
     </div>
   </el-dialog>

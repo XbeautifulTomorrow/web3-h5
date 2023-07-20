@@ -37,10 +37,10 @@
         <span class="public-dialog-total-number">{{ total }}</span>
       </div>
       <el-button class="public-button public-default" @click="balanceFun">
-        Check balance
+        CHECK BALANCE
       </el-button>
       <el-button class="public-button margin-l0" @click="closeDialogFun">
-        Continue
+        CONTINUE
       </el-button>
     </div>
   </el-dialog>

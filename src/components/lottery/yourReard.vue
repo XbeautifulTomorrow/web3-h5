@@ -30,29 +30,35 @@
         <image-view class="public-dialog-portrait" :src="sold.nftImg" />
       </div>
       <p class="public-dialog-club">Bored Ape Yacht Club</p>
-      <el-button class="public-button public-default" @click="closeDialogFun">
-        Check my inventory
+      <el-button class="public-button public-default" @click="goInventory">
+        CHECK MY INVENTORY
       </el-button>
       <el-button class="public-button margin-l0" @click="closeDialogFun">
-        Continue
+        CONTINUE
       </el-button>
     </div>
   </el-dialog>
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
+import { useRouter } from "vue-router";
 import ImageView from "../imageView";
+
 defineProps({
   sold: {
     type: Object,
     requird: true,
   },
 });
+const router = useRouter();
 const emit = defineEmits(["closeDialogFun", "inventoryFun"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
+};
+const goInventory = () => {
+  router.push({ path: "/user/inventory" });
 };
 // const inventoryFun = () => {
 //   emit("inventoryFun");

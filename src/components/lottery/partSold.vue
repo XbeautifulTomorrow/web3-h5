@@ -114,11 +114,11 @@
           </span>
         </div>
       </div>
-      <el-button class="public-button public-default" @click="closeDialogFun">
-        Check my inventory
+      <el-button class="public-button public-default" @click="goInventory">
+        CHECK MY INVENTORY
       </el-button>
       <el-button class="public-button margin-l0" @click="closeDialogFun">
-        Continue
+        CONTINUE
       </el-button>
     </div>
   </el-dialog>
@@ -132,6 +132,7 @@ import {
   watchEffect,
   onUpdated,
 } from "vue";
+import { useRouter } from "vue-router";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
 
@@ -160,7 +161,7 @@ const props = defineProps({
 //         for, we will be converted to the final value of the NFT directly into
 //         the ETH transferred to your balance
 const emit = defineEmits(["inventoryFun", "closeDialogFun"]);
-
+const router = useRouter();
 const visible = ref(true);
 const total = ref(0);
 const text = ref("");
@@ -194,6 +195,9 @@ const totalFun = () => {
 };
 const closeDialogFun = () => {
   emit("closeDialogFun");
+};
+const goInventory = () => {
+  router.push({ path: "/user/inventory" });
 };
 // const inventoryFun = () => {
 //   if (props.failList.length) {

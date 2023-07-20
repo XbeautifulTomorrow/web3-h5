@@ -11,14 +11,12 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
+        <img
           class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
-        </el-icon>
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -95,12 +93,14 @@ const closeDialogFun = () => {
 }
 .public-dialog-coin-number {
   font-size: 1.5rem;
+  color: #a9a4b4;
 }
 .left {
   color: #e4e7f5;
 }
 .public-dialog-coin-balance {
   font-size: 0.875rem;
+  color: #e4e7f5;
 }
 .public-dialog-coin-img-small {
   width: 1.25rem;
@@ -114,5 +114,6 @@ const closeDialogFun = () => {
 }
 .public-dialog-coin-usdt-illustrate {
   font-size: 0.75rem;
+  color: #a9a4b4;
 }
 </style>

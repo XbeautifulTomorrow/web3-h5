@@ -10,14 +10,12 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
+        <img
           class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
-        </el-icon>
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -257,6 +255,8 @@ watchEffect();
 }
 .public-dialog-illustrate {
   margin-bottom: 0;
+  color: #a9a4b4;
+  line-height: 1.75rem;
 }
 .public-dialog-title-other {
   margin-bottom: 0.625rem;
@@ -274,6 +274,7 @@ watchEffect();
   margin-top: 1.875rem;
   .public-dialog-total-title {
     margin-right: 0.625rem;
+    color: #a9a4b4;
   }
   .public-dialog-list-img {
     width: 1.5rem;

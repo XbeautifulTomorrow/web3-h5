@@ -44,6 +44,7 @@ const closeDialogFun = () => {
     width: 5rem;
     height: 5rem;
     animation: rotate 1s linear infinite;
+    margin-top: 1.875rem;
   }
 }
 .public-dialog-loading-text {

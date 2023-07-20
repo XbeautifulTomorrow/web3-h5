@@ -11,14 +11,12 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
+        <img
           class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
-        </el-icon>
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">

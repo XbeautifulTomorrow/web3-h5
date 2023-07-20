@@ -11,20 +11,18 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon
-          v-on="{ click: [close, closeDialogFun] }"
-          color="#2d313f"
-          size="16"
+        <img
           class="public-dialog-header-icon"
-        >
-          <CircleCloseFilled />
-        </el-icon>
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title margin-b">NOTICE</h2>
       <p class="public-dialog-text">
-        <span class="public-dialog-special">Mutant Ape Yacht Club # </span>
+        <span class="public-dialog-special">Mutant Ape Yacht Club #</span>
         <span class="public-dialog-special">
           {{ soldList[0]?.orderId }}
         </span>

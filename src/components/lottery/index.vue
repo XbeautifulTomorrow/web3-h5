@@ -445,6 +445,7 @@ export default {
   font-size: 2.5rem !important;
   margin-top: 1.875rem;
   margin-right: 1.875rem;
+  cursor: pointer;
 }
 </style>
 <style lang="scss">

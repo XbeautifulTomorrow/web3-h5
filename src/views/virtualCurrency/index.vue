@@ -23,7 +23,7 @@
           @mouseleave="mouseLeave()"
         >
           <div class="virtual-currency-item-l">
-            <img class="virtual-currency-item-img" :src="item.nftImg" alt="" />
+            <image-view class="virtual-currency-item-img" :src="item.nftImg" />
             <div class="virtual-currency-item-text">
               <p class="list-nam">{{ item.seriesName }}</p>
               <p class="list-currency">
@@ -50,12 +50,11 @@
       >
         <li :class="['virtual-currency-item', 'isEnter']">
           <div class="virtual-currency-item-l">
-            <img
+            <image-view
               class="virtual-currency-item-img"
               :src="
                 currencyList[activeIndex] && currencyList[activeIndex].nftImg
               "
-              alt=""
             />
             <div
               class="virtual-currency-item-text"
@@ -132,13 +131,14 @@
 </template>
 
 <script>
+import ImageView from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { mapStores } from "pinia";
 export default {
   name: "VirtualCurrency",
-  components: {},
+  components: { ImageView },
   data() {
     return {
       activeIndex: null,

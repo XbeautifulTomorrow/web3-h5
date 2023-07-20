@@ -17,7 +17,23 @@
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div class="text" v-html="blindDetailInfo.boxDesc"></div>
+            <div
+              :class="['text', { 'all-text': isShowMore }]"
+              v-html="blindDetailInfo.boxDesc"
+              ref="contentInfo"
+            ></div>
+            <p
+              class="see-more"
+              @click="isShowMore = !isShowMore"
+              v-if="!isShowMore"
+            >
+              <span>See more</span>
+              <img
+                class="header-user-down"
+                src="@/assets/svg/chevron-down.svg"
+                alt=""
+              />
+            </p>
           </div>
         </div>
         <div class="lottery_boxs_r">
@@ -257,6 +273,7 @@ export default {
       page: 1,
       size: 10,
       count: 0,
+      isShowMore: false,
     };
   },
   computed: {

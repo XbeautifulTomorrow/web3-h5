@@ -68,7 +68,7 @@
                   alt=""
                 />
                 <span class="public-dialog-list-number">
-                  {{ item.price }}
+                  {{ item.initPrice }}
                 </span>
               </p>
             </li>
@@ -189,7 +189,11 @@ const totalFun = () => {
       !chooseIds.includes(item.id) ||
       (chooseIds.includes(item.id) && failList.includes(item.id))
     ) {
-      total.value = BigNumber(total.value).plus(Number(item.price));
+      if (failList.includes(item.id)) {
+        total.value = BigNumber(total.value).plus(Number(item.initPrice));
+      } else {
+        total.value = BigNumber(total.value).plus(Number(item.price));
+      }
     }
   });
 };

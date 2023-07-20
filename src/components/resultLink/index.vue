@@ -7,14 +7,14 @@
       alt=""
     />
     <p class="result-link-text">
-      The lottery process is running on the <br />
-      blockchain, please be patient.
+      The unboxing results are being calculated on<br />
+      the blockchain, so please be patient.
     </p>
   </div>
 </template>
 <style lang="scss" scoped>
 .result-link {
-  width: 20rem;
+  width: 23rem;
   display: flex;
   align-items: center;
   align-content: center;

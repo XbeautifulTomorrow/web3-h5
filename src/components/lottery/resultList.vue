@@ -243,6 +243,7 @@ import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { useChainStore } from "@/store/chain.js";
+import { getTheUserBalance } from "@/services/api/user";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -264,7 +265,7 @@ const link = [
     src: chainUrl[props.result[0].lotteryChainType] + props.result[0].hash,
     text: "View Faimess",
   },
-  { src: "", text: "View Snapshot" },
+  { src: `/snapshot?id=${props.result[0].snapshotId}`, text: "View Snapshot" },
 ];
 let timer = null;
 const visible = ref(true);
@@ -274,6 +275,7 @@ let second = ref(60);
 let nfts = ref([]);
 const cardRef = ref(null);
 onMounted(async () => {
+  getTheUserBalanceApi();
   timerFun();
   nftsInitializationFun();
   // secondFun();
@@ -342,6 +344,20 @@ const chooseLotteryHold = (data) => {
     nfts.value = [];
   }
   emit("chooseLotteryHold", data, nfts, isSell);
+};
+const getTheUserBalanceApi = async () => {
+  const { result } = props;
+  const res = await getTheUserBalance();
+  if (res && res.localDateTime) {
+    const timer = parseInt(
+      60 -
+        Math.ceil(
+          new Date(res.localDateTime) - new Date(result[0].lotteryTime)
+        ) /
+          1000
+    );
+    second.value = timer;
+  }
 };
 </script>
 <style lang="scss" scoped>

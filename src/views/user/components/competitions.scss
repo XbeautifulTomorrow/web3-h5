@@ -38,6 +38,12 @@
   }
 }
 
+.operating_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .choose_box {
   padding: 1.25rem 0;
   display: flex;
@@ -63,6 +69,87 @@
     &.active {
       background-color: #13151f;
       color: white;
+    }
+  }
+}
+
+:deep(.nft_type) {
+
+  .el-input {
+    &.is-focus {
+      .el-input__wrapper {
+        box-shadow: none !important;
+      }
+    }
+
+    .el-select__caret {
+      font-size: 1.5rem;
+    }
+  }
+
+  .el-input__wrapper {
+    height: 3.3125rem;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    box-shadow: none !important;
+    border: none !important;
+
+    &>input {
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: left;
+      color: #fad54d;
+    }
+  }
+
+  &.wallet_network {
+    width: 100%;
+
+    .el-input__wrapper {
+      height: 3.75rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.status_box {
+  width: 15.625rem;
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: #1d0f36;
+  position: relative;
+
+  .status_text {
+    position: absolute;
+    left: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: left;
+    color: rgba(169, 164, 180, 0.6);
+  }
+
+  :deep(.nft_type) {
+    width: 100%;
+
+    .el-input__wrapper {
+      background-color: transparent;
+      padding-left: 6.25rem;
+    }
+  }
+
+  &.type_box {
+    flex: none;
+    width: 14.6875rem;
+
+    :deep(.nft_type) {
+
+      .el-input__wrapper {
+        padding-left: 5.4375rem;
+      }
     }
   }
 }

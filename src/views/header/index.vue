@@ -173,11 +173,11 @@ export default {
         page: "referrals",
         icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
       },
-      {
-        text: "Settings",
-        page: "settings",
-        icon: require("@/assets/svg/user/nav/icon_setting.svg"),
-      },
+      // {
+      //   text: "Settings",
+      //   page: "settings",
+      //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
+      // },
       {
         text: t("header.logout"),
         page: "logout",

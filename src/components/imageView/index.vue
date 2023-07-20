@@ -34,7 +34,7 @@ defineProps({
   .lottery-placeholder-img {
     width: 100%;
     height: 100%;
-    border-radius: 0.25rem;
+    transform: scale(1.2);
   }
 }
 </style>

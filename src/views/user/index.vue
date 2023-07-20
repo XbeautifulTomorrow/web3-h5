@@ -100,12 +100,12 @@ export default {
         icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg")
       },
-      {
-        text: "Settings",
-        page: "settings",
-        icon: require("@/assets/svg/user/nav/icon_setting.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
-      }
+      // {
+      //   text: "Settings",
+      //   page: "settings",
+      //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
+      //   iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
+      // }
     ]
 
 

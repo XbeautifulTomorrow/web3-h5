@@ -5,10 +5,18 @@
       <span>COMPETITION</span>
     </div>
     <div class="competitions_panel">
-      <div class="choose_box">
-        <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
-          :class="[activeType == item.value && 'active']">
-          {{ item.label }}
+      <div class="operating_box">
+        <div class="choose_box">
+          <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
+            :class="[activeType == item.value && 'active']">
+            {{ item.label }}
+          </div>
+        </div>
+        <div class="status_box">
+          <div class="status_text">Status:</div>
+          <el-select v-model="competitionStatus" @change="fetchOneBuyList()" class="nft_type" clearable placeholder="All">
+            <el-option v-for="(item, index) in statuDrop" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
         </div>
       </div>
       <div class="entered_box" v-if="count > 0 && activeType == 'HISTORY'">
@@ -95,7 +103,7 @@
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
             </div>
             <div class="nft_name">{{ item && item.seriesName }}</div>
-            <div class="nft_price">{{ item && item.price }}ETH</div>
+            <div class="nft_price">{{ item && item.price }} ETH</div>
             <div class="cancel_btn" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">
               <span>CANCEL COMPETITION</span>
@@ -181,6 +189,13 @@ export default {
         value: "MY_COMPETITIONS"
       }],
       activeType: "HISTORY",
+      competitionStatus: null,
+      statuDrop: [
+        { label: "In progress", value: "IN_PROGRESS" },
+        { label: "Drawn", value: "DRAWN" },
+        { label: "Canceled", value: "CANCELLED" },
+        { label: "Closed", value: "CLOSED" }
+      ],
       enteredList: [],
       finishList: [],
       showCabcel: false,
@@ -207,7 +222,7 @@ export default {
     },
     // 用户相关订单
     async fetchOneBuyList(isSearch = true) {
-      const { size } = this;
+      const { competitionStatus, size } = this;
       let _page = this.page;
       if (isSearch) {
         this.finished = false;
@@ -217,6 +232,7 @@ export default {
 
       const res = await getOneBuyList({
         type: this.activeType,
+        status: competitionStatus,
         page: _page,
         size: size
       });

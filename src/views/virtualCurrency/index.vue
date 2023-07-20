@@ -9,12 +9,19 @@
     </div>
     <div :class="['virtual-currency-content publick-scrollbar']">
       <ul class="virtual-currency-main" ref="currencyAll">
-        <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`"
-          :style="'transform: translateX(' + item.translateNum + 'px);'" :class="[
+        <li
+          v-for="(item, index) in currencyList"
+          ref="currencyItem"
+          :key="`currency-${index}`"
+          :style="'transform: translateX(' + item.translateNum + 'px);'"
+          :class="[
             'virtual-currency-item',
             `box_frame_${typrFormat(item)}`,
             { isHide: activeIndex == index },
-          ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
+          ]"
+          @mouseenter="(e) => mouseenterFun(item, index, e)"
+          @mouseleave="mouseLeave()"
+        >
           <div class="virtual-currency-item-l">
             <img class="virtual-currency-item-img" :src="item.nftImg" alt="" />
             <div class="virtual-currency-item-text">
@@ -31,21 +38,35 @@
           </div>
         </li>
       </ul>
-      <ul v-if="showPopup && currentData" :class="[
-        'virtual-currency-item-popup',
-        `box_frame_${typrFormat(currencyList[activeIndex])}`,
-      ]" :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
+      <ul
+        v-if="showPopup && currentData"
+        :class="[
+          'virtual-currency-item-popup',
+          `box_frame_${typrFormat(currencyList[activeIndex])}`,
+        ]"
+        :style="style"
+        @mouseenter="mouseOver()"
+        @mouseleave="mouseLeave()"
+      >
         <li :class="['virtual-currency-item', 'isEnter']">
           <div class="virtual-currency-item-l">
-            <img class="virtual-currency-item-img" :src="currencyList[activeIndex] && currencyList[activeIndex].nftImg
-              " alt="" />
-            <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
+            <img
+              class="virtual-currency-item-img"
+              :src="
+                currencyList[activeIndex] && currencyList[activeIndex].nftImg
+              "
+              alt=""
+            />
+            <div
+              class="virtual-currency-item-text"
+              v-if="currencyList[activeIndex]"
+            >
               <p class="list-nam">{{ currencyList[activeIndex].seriesName }}</p>
               <p class="list-currency">
                 {{
                   currencyList[activeIndex].price
-                  ? Number(currencyList[activeIndex].price).toFixed(2)
-                  : 0
+                    ? Number(currencyList[activeIndex].price).toFixed(2)
+                    : 0
                 }}&nbsp;{{ currencyList[activeIndex].coin }}
               </p>
             </div>
@@ -98,7 +119,10 @@
           </span>
         </li>
         <li class="popup-list-button">
-          <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
+          <div
+            class="mystery-box-button"
+            @click="handleMysteryBox(currencyList[activeIndex])"
+          >
             Go to Mystery Box
           </div>
         </li>
@@ -110,6 +134,8 @@
 <script>
 import { getTicketList } from "@/services/api/index";
 import { useHeaderStore } from "@/store/header.js";
+import { useUserStore } from "@/store/user.js";
+import { mapStores } from "pinia";
 export default {
   name: "VirtualCurrency",
   components: {},
@@ -125,6 +151,31 @@ export default {
       timer: null,
       updateTimer: null,
     };
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    isLoginState() {
+      const { isLogin } = this.userStore;
+      const { userInfo } = this.userStore;
+      return [isLogin, userInfo];
+    },
+    regInfo() {
+      const { regInfo } = this.userStore;
+      return regInfo;
+    },
+  },
+  watch: {
+    isLoginState(val) {
+      if (val[0] && val[1]?.id) {
+        this.updateTimer && clearInterval(this.updateTimer);
+        this.updateTimer = setInterval(() => {
+          this.getTheUserBalanceInfo();
+          this.fetchTicketList();
+        }, 5000);
+      } else {
+        this.updateTimer && clearInterval(this.updateTimer);
+      }
+    },
   },
   mounted() {
     this.search();
@@ -176,7 +227,7 @@ export default {
       };
     },
     handleMysteryBox(event) {
-      this.mouseLeave()
+      this.mouseLeave();
       // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
     },
@@ -208,8 +259,8 @@ export default {
            */
           if (
             1903 -
-            this.currencyList[i].translateNum -
-            this.currencyList[i].indexLeft <
+              this.currencyList[i].translateNum -
+              this.currencyList[i].indexLeft <
             0
           ) {
             /**
@@ -256,15 +307,16 @@ export default {
     },
   },
   created() {
-    if (this.updateTimer) {
-      clearInterval(this.updateTimer);
-    } else {
+    if (this.isLoginState[0] || this.isLoginState[1]?.id) {
+      this.getTheUserBalanceInfo();
+      this.fetchTicketList();
+      this.updateTimer && clearInterval(this.updateTimer);
       this.updateTimer = setInterval(() => {
         this.getTheUserBalanceInfo();
         this.fetchTicketList();
       }, 5000);
     }
-  }
+  },
 };
 </script>
 

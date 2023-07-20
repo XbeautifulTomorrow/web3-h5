@@ -29,7 +29,7 @@
         :class="[
           'lottery-moreLuck-list-content',
           _img.qualityType,
-          { 'is-active-item': winData.tokenId == _img.tokenId },
+          { 'is-active-item': winData.tokenId == _img.tokenId && !autoPlay },
         ]"
         :key="`img-${imgIndex}`"
       >
@@ -39,7 +39,7 @@
             winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg
           "
         />
-        <div v-if="winData && winData.nftImg == _img.nftImg">
+        <div v-if="winData && winData.nftImg == _img.nftImg && !autoPlay">
           <p class="lottery-moreLuck-seriesName">
             {{ winData.seriesName }}
           </p>

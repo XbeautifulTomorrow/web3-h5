@@ -210,7 +210,15 @@ export default {
           this.failList = data
             .filter((x) => x.lotteryStatus == "FAIL")
             .map((x) => x.id);
-          this.showDialog = dialog;
+          if (typeof dialog === "string") {
+            this.showDialog = dialog;
+          } else {
+            if (this.failList?.length > 0) {
+              this.showDialog = dialog[1];
+            } else {
+              this.showDialog = dialog[0];
+            }
+          }
         }
       }
     },
@@ -280,7 +288,10 @@ export default {
             if (res.data.length) {
               this.showDialog = "chainDialog";
             } else {
-              this.showDialog = "yourReard";
+              this.showDialog = "checkLoading";
+              this.checkInterVal = setInterval(() => {
+                this.lotteryCheckFunc(["yourReard", "chainDialog"]);
+              }, 3000);
             }
           }
           localStorage.removeItem("result");

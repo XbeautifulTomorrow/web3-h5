@@ -114,10 +114,10 @@
           </span>
         </div>
       </div>
-      <el-button class="public-button public-default" @click="goInventory">
+      <!-- <el-button class="public-button public-default" @click="goInventory">
         CHECK MY INVENTORY
-      </el-button>
-      <el-button class="public-button margin-l0" @click="closeDialogFun">
+      </el-button> -->
+      <el-button class="public-button" @click="closeDialogFun">
         CONTINUE
       </el-button>
     </div>
@@ -298,7 +298,7 @@ watchEffect();
   margin-left: 0;
   margin-right: 1.5rem;
 }
-.public-default {
+.public-button {
   margin-top: 1.875rem;
 }
 .public-dialog-lists-all {

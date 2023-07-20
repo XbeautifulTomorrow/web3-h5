@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-const envChain = process.env.VUE_APP_DOMAIN_CONFIG;
+const envChain = "test" || process.env.VUE_APP_DOMAIN_CONFIG;
 export const useChainStore = defineStore("chain", {
   state: () => ({
     chainUrl: {

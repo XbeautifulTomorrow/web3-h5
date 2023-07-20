@@ -7,10 +7,10 @@
         </div>
         <div class="username_box">
           <div class="name_text">
-            <span>Username</span>
+            <span>{{ userInfo?.id ? userInfo.userName : $t("airdrop.defaultName") }}</span>
             <img class="edit" src="@/assets/svg/user/icon_edit.svg" @click="changeTypeFun('modify')" alt="">
           </div>
-          <div class="wallet_text">0x58484561648546f465s6dfs64d6f54s65d46f4</div>
+          <div class="wallet_text">{{ userInfo?.id && userInfo.email || "--" }}</div>
         </div>
         <div class="username_modify">
           <div class="modify_btn" @click="changeTypeFun('forgot')">CHANGE PASSWORD</div>
@@ -18,13 +18,13 @@
         <div class="communication_setting">
           <div class="setting_text">COMMUNICATION SETTINGS</div>
           <div class="email_setting">
-            <el-switch v-model="communication"
+            <el-switch v-model="communication" @change="changeEmail()"
               style="--el-switch-on-color: #927A51; --el-switch-off-color: rgba(60, 60, 67, 0.3)" />
             <span>Send me marketing emails from time to time</span>
           </div>
         </div>
         <div class="other_box">
-          <div class="exit_btn">
+          <div class="exit_btn" @click="onLogout()">
             <span class="exit_text">Log out</span>
             <img src="@/assets/svg/user/log_out.svg" alt="">
           </div>
@@ -36,14 +36,18 @@
   </div>
 </template>    
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import { updateUserInfo } from "@/services/api/user";
 export default {
   name: 'myWallet',
   components: {
     Forgot,
     Modify
   },
+  inject: ["reload"],
   data() {
     return {
       avatarImg: require("@/assets/svg/user/default_avatar.svg"),
@@ -52,6 +56,25 @@ export default {
       pageType: null
     };
   },
+
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+  },
+  created() {
+    if (!this.userInfo?.id) return
+    const { emailSubStatus } = this.userInfo;
+    this.communication = emailSubStatus == "TRUE"
+  },
+  watch: {
+    userInfo() {
+      const { emailSubStatus } = this.userInfo;
+      this.communication = emailSubStatus == "TRUE"
+    }
+  },
   methods: {
     closeDialogFun() {
       this.pageType = "";
@@ -59,6 +82,24 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
+    async changeEmail() {
+      const status = this.communication ? "TRUE" : "FALSE";
+      let res = await updateUserInfo({
+        "emailSubStatus": status
+      });
+      if (res) {
+        const { userInfo } = this.userStore;
+        const users = {
+          ...userInfo,
+          emailSubStatus: status
+        }
+        this.userStore.setLogin(users);
+      }
+    },
+    onLogout() {
+      this.userStore.logoutApi();
+      this.reload();
+    }
   }
 };
 </script>

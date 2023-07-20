@@ -32,7 +32,7 @@
             <ul class="header-user-content">
               <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
                 @click="othersideBoxFun(item)">
-                <span :class="['header-user-list-img', item.page]"></span>
+                <img class="header-user-list-img" :src="item.icon" alt="">
                 <span>{{ item.text }}</span>
               </li>
             </ul>
@@ -73,6 +73,7 @@ export default {
     Modify,
     Recharge
   },
+  inject: ["reload"],
   data() {
     return {
       active: "",
@@ -99,9 +100,6 @@ export default {
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
     };
-  },
-  mounted() {
-    // this.connect();
   },
   created() {
     this.active = this.$route.name;
@@ -147,39 +145,43 @@ export default {
     this.userList = [
       {
         text: "Profile",
-        page: "Profile",
+        page: "profile",
+        icon: require("@/assets/svg/user/nav/icon_profile.svg"),
       },
       {
-        text: "Wallet",
-        page: "Wallet",
+        text: "Balances",
+        page: "balances",
+        icon: require("@/assets/svg/user/nav/icon_balances.svg"),
       },
-      // {
-      //   text: "Wallet Log",
-      //   page: "walletLog",
-      // },
       {
-        text: "Competitions",
-        page: "Competitions",
+        text: "Inventory",
+        page: "inventory",
+        icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
       },
-      // {
-      //   text: "My Collections",
-      //   page: "myCollections",
-      // },
-      // {
-      //   text: "Create",
-      //   page: "create",
-      // },
       {
-        text: "Referral",
-        page: "Referral",
+        text: "Competition",
+        page: "competition",
+        icon: require("@/assets/svg/user/nav/icon_competition.svg"),
+      },
+      {
+        text: "Purchase History",
+        page: "history",
+        icon: require("@/assets/svg/user/nav/icon_history.svg"),
+      },
+      {
+        text: "Referrals",
+        page: "referrals",
+        icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
       },
       {
         text: "Settings",
-        page: "Settings",
+        page: "settings",
+        icon: require("@/assets/svg/user/nav/icon_setting.svg"),
       },
       {
         text: t("header.logout"),
-        page: "Logout",
+        page: "logout",
+        icon: require("@/assets/svg/user/nav/icon_logout.svg"),
       },
     ]
   },
@@ -192,6 +194,10 @@ export default {
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
+    },
+    userPage() {
+      const { userPage } = this.userStore;
+      return userPage || "profile";
     },
     isLogin() {
       const { isLogin } = this.userStore;
@@ -236,24 +242,13 @@ export default {
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {
-      if (item.page == "Profile") {
-        this.$router.push({ name: "MyProfile" });
-      } else if (item.page == "Wallet") {
-        this.$router.push({ name: "Wallet" });
-      } else if (item.page == "Competitions") {
-        this.$router.push({ name: "Competitions", query: { type: "ENTERED" } });
-      } else if (item.page == "My Collections") {
-        this.$router.push({
-          name: "Competitions",
-          query: { type: "MY_COMPETITIONS" },
-        });
-      } else if (item.page == "Referral") {
-        this.$router.push({ name: "Invite" });
-      } else if (item.page == "Settings") {
-        this.$router.push({ name: "Setting" });
-      } else if (item.page === "Logout") {
+      if (item.page === "logout") {
         this.userStore.logoutApi();
+        this.reload();
+        return;
       }
+
+      this.userStore.setUserPage(this.$route.path, item.page);
     },
   },
   // 监听,当路由发生变化的时候执行

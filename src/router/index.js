@@ -170,7 +170,7 @@ const routes = [
     },
   },
   {
-    path: "/user",
+    path: "/user/:id",
     name: "User",
     components: {
       default: User,

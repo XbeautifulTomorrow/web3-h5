@@ -111,7 +111,6 @@ import {
   getRankList
 } from "@/services/api/airdrop";
 
-
 import {
   timeFormat
 } from "@/utils";

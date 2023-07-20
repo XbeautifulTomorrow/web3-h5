@@ -2,14 +2,17 @@
   <div class="wrapper_bg">
     <div class="index_wrapper">
       <div class="nav_box">
-        <div :class="['nav_item', pageType == item.page && 'active']" @click="chooseNav(item)"
+        <div :class="['nav_item', userPage == item.page && 'active']" @click="chooseNav(item)"
           v-for="(item, index) in navList" :key="index">
           <img class="default" :src="item.icon" alt="">
           <img class="active" :src="item.iconActive" alt="">
           <span>{{ item.text }}</span>
         </div>
       </div>
-      <Setting v-if="pageType == 'profile'"></Setting>
+      <Setting v-if="userPage == 'profile'"></Setting>
+      <Wallet v-if="userPage == 'balances'"></Wallet>
+      <Inventory v-if="userPage == 'inventory'"></Inventory>
+      <Competitions v-if="userPage == 'competition'"></Competitions>
     </div>
   </div>
 </template>
@@ -20,14 +23,19 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import Setting from "./setting.vue";
+import Wallet from "./wallet.vue";
+import Inventory from "./inventory.vue";
+import Competitions from "./competitions.vue";
 export default {
   name: "myIndex",
   components: {
-    Setting
+    Setting,
+    Wallet,
+    Inventory,
+    Competitions
   },
   data() {
     return {
-      pageType: "",
       navList: []
     };
   },
@@ -40,6 +48,10 @@ export default {
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
+    },
+    userPage() {
+      const { userPage } = this.userStore;
+      return userPage || "profile";
     },
     regInfo() {
       const { regInfo } = this.userStore;
@@ -100,12 +112,12 @@ export default {
 
 
     // 获取类型
-    const { type } = this.$route.query;
-    this.pageType = type || "profile";
+    const { id } = this.$route.params;
+    this.userStore.setUserPage(this.$route.path, id);
   },
   methods: {
     chooseNav(evnet) {
-      this.pageType = evnet.page
+      this.userStore.setUserPage(this.$route.path, evnet.page);
     }
   },
 };

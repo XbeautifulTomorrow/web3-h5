@@ -49,6 +49,13 @@ axiosInstance.interceptors.response.use(
 
 // eslint-disable-next-line no-unused-vars
 const handleRes = ({ headers, url, data }) => {
+
+  // 取得服务器时间
+  const { setCurrentTime } = useUserStore();
+  if (data && data.localDateTime) {
+    setCurrentTime(data.localDateTime)
+  }
+
   if (data.code === 200) {
     return data;
   } else if (data.code === 20011) {

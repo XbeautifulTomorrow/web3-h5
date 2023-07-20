@@ -1,13 +1,10 @@
-.wrapper_bg {
-  background-image: url("@/assets/img/box/lottery_bg.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-}
-
 .my_wallet_wrapper {
   margin: 0 auto;
-  width: 95rem;
-  padding: 5rem 0;
+  width: auto;
+  background-image: url("@/assets/svg/user/mask_small.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 44.3125rem;
 }
 
 .wallet_panel {
@@ -39,32 +36,25 @@
 }
 
 .balance_l {
-  .num {
-    padding-top: 0.625rem;
-    display: flex;
-    align-items: center;
-    font-family: Tomorrow;
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 1.5;
-    text-align: left;
-    color: #11cde9;
+  display: flex;
+  align-items: center;
 
-    img {
-      width: 1.5rem;
-      margin-right: 0.625rem;
-    }
+  img {
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.625rem;
   }
 }
 
 .balance_r {
-  width: 25rem;
-  height: 3.75rem;
+  width: 7.875rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 1.875rem;
   background-image: linear-gradient(to top, #e3a406 -1%, #fbd851 99%);
+  cursor: pointer;
 
   font-size: 1.125rem;
   font-weight: 500;
@@ -72,20 +62,77 @@
   color: #13151f;
 }
 
-.wallet_interval {
-  width: 100%;
-  margin-top: 2.25rem;
-  height: 0.125rem;
-  border-radius: 0.3125rem;
-  background-color: #1d1f2b;
+.balance_item {
+  margin-top: 0.625rem;
+  padding: 1.125rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #13151f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  img {
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.625rem;
+  }
+
+  .num {
+
+    &>span:nth-child(1) {
+      display: block;
+      font-family: Tomorrow;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: left;
+      color: #11cde9;
+    }
+
+    &>span:last-child {
+      display: block;
+      font-size: 0.625rem;
+      line-height: 1.2;
+      text-align: left;
+      color: #a9a4b4;
+    }
+  }
+
+  .balance_item_l {
+    display: flex;
+    align-items: center;
+  }
+
+  .balance_item_r {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .details {
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+      font-size: 0.875rem;
+      font-style: normal;
+      line-height: 1.4;
+      letter-spacing: normal;
+      text-align: left;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    img {
+      width: 1rem;
+      height: auto;
+      margin-left: 0.625rem;
+    }
+  }
 }
 
 .wallet_operating {
-  padding: 1.875rem 0;
+  padding: 1.875rem 0 0.625rem;
 }
 
 .choose_box {
-  padding-top: 1.875rem;
+  padding-top: 0.625rem;
   display: flex;
   align-items: center;
 
@@ -195,48 +242,67 @@
     border-bottom: 1px solid #fad54d;
     cursor: pointer;
   }
-}
 
-.point_info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.33;
-  text-align: center;
-  color: #fad54d;
+  .sync_status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  img {
-    width: 1.5rem;
-    margin-left: 0.625rem;
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin-left: 0.75rem;
+    }
+
+    &.TRANSFERRING {
+      color: #fad54d;
+    }
+
+    &.SUCCESS {
+      color: #0cbb3e;
+    }
+
+    &.FAIL,
+    &.REJECTED {
+      color: #df4328;
+    }
   }
 }
 
-.more {
-  display: inline-flex;
-  align-items: center;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: #a9a4b4;
-  margin: 3.75rem 0 1.125rem;
-  cursor: pointer;
+.my_inventory_wrapper {
+  margin: 0 auto;
+  width: auto;
+  background-image: url("@/assets/svg/user/mask_middle.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 76.125rem;
+  padding: 1.875rem;
+  box-sizing: border-box;
 
-  img {
-    width: 1rem;
-    height: auto;
-    margin-left: 0.625rem;
+  &.no_data_bg {
+    background-image: url("@/assets/svg/user/mask_small.svg");
+    min-height: 44.3125rem;
   }
 }
 
 .nft_box {
-  padding-top: 10.625rem;
+  width: 100%;
+
+  .title_text {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 1.5rem;
+      margin-right: 0.625rem;
+    }
+  }
 
   .nft_operating {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.875rem;
+    margin-bottom: 1.25rem;
   }
 
   .operating_btns {
@@ -247,10 +313,10 @@
     }
 
     .operating_item {
-      width: 11.25rem;
-      height: 3.75rem;
-      line-height: 3.75rem;
-      border-radius: 0.5rem;
+      width: 7.875rem;
+      height: 1.875rem;
+      line-height: 1.875rem;
+      border-radius: 1.875rem;
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       font-size: 1.125rem;
       font-weight: 500;
@@ -265,45 +331,35 @@
   flex-wrap: wrap;
 
   &>div+div {
-    margin-left: 1.875rem;
+    margin-left: 0.625rem;
   }
 
-  &>div:nth-child(4n+1) {
+  &>div:nth-child(5n+1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n+5) {
-    margin-top: 1.875rem;
+  &>div:nth-child(n+6) {
+    margin-top: 0.625rem;
   }
 
 
   &>div+div {
-    margin-left: 1.875rem;
+    margin-left: 0.625rem;
   }
 
 
   .nft_item {
-    width: 22.3125rem;
-    height: 28.5625rem;
+    width: 15.3125rem;
+    height: 19.8125rem;
     border-radius: 0.625rem;
     background-color: #1d0f36;
     overflow: hidden;
-    position: relative;
-
-    .mask_box {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(19, 7, 27, 0.45);
-    }
   }
 
   .img_box {
     position: relative;
     width: 100%;
-    height: 20.3125rem;
+    height: 13.9375rem;
     overflow: hidden;
 
     img {
@@ -316,32 +372,31 @@
       top: 0.5rem;
       left: 0.5rem;
       max-width: 50%;
-      padding: 0.375rem 0.625rem;
+      padding: 0.125rem 0.5rem;
       border-radius: 0.25rem;
       background-color: rgba(6, 91, 30, 0.8);
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       line-height: 1.6;
       color: #0cbb3e;
     }
   }
 
   .nft_name {
-    margin-top: 1.25rem;
-    margin-bottom: 0.625rem;
+    margin: 0.625rem 0;
     font-family: BlenderPro;
-    font-size: 1.5rem;
-    line-height: 1.5;
+    font-size: 1.25rem;
+    line-height: 1.2;
     color: white;
   }
 
   .nft_btn {
     margin: 0 auto;
-    width: 19.8125rem;
-    height: 2.875rem;
+    width: 14.0625rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 1.875rem;
+    border-radius: 2.5rem;
     border: 1px solid transparent;
     box-sizing: border-box;
     cursor: pointer;
@@ -368,6 +423,26 @@
 
 }
 
+.no_date {
+  display: flex;
+  align-items: center;
+  margin-top: 5rem;
+
+  &>span {
+    margin: 0 auto;
+    display: block;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #191b27;
+    font-family: BlenderPro;
+    font-size: 1.125rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    color: #a9a4b4;
+  }
+}
+
 :deep(.el-dialog) {
   border-radius: 1.25rem;
   box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
@@ -378,11 +453,17 @@
   }
 
   .el-dialog__body {
-    padding: 0;
     position: relative;
     padding: 3.75rem 0;
   }
+
+  &.my_points {
+    .el-dialog__body {
+      padding: 3.75rem;
+    }
+  }
 }
+
 
 .close_btn {
   position: absolute;
@@ -515,7 +596,7 @@
   }
 
   :deep(.nft_input) {
-    width: 26.5rem;
+    width: 38.8125rem;
 
     .el-input__wrapper {
       height: 3.3125rem;
@@ -533,10 +614,9 @@
         color: white;
       }
 
-    }
-
-    .search_icon {
-      font-size: 1.25rem;
+      .el-input__icon {
+        font-size: 1.5rem;
+      }
     }
   }
 }

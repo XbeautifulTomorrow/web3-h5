@@ -1,80 +1,106 @@
 <template>
-  <div class="wrapper_bg">
-    <div class="my_wallet_wrapper">
-      <div class="wallet_panel" :style="{
-        backgroundImage: isMore ? `url(${walletMore})` : `url(${walletBg})`,
-        height: isMore ? '86rem' : '44.3125rem',
-      }">
-        <div class="balance_box">
-          <div class="balance_l">
-            <div class="title_text">BALANCES</div>
-            <div class="num">
-              <img src="@/assets/svg/icon_eth.svg" alt="" />
-              <span>{{ ethBalance }} ETH</span>
-            </div>
-          </div>
-          <div class="balance_r" @click="showRecharge = true">CASHIER</div>
+  <div class="my_wallet_wrapper">
+    <div class="wallet_panel">
+      <div class="balance_box">
+        <div class="balance_l">
+          <img src="@/assets/svg/user/icon_balances.svg" alt="">
+          <div class="title_text">BALANCES</div>
         </div>
-        <div class="wallet_interval"></div>
-        <div class="wallet_operating">
-          <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
-          <div class="choose_box">
-            <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
-              :class="coin == item && ['active']">
-              {{ item }}
-            </div>
-            <div class="replenish">Missing contract ETH deposit?</div>
-            <div class="retrieve" @click="showReplenish = true">
-              Request deposit address sweep
-            </div>
-          </div>
-        </div>
-        <el-table :data="historyData" class="table_container" style="width: 100%">
-          <el-table-column prop="logType" label="LOG TYPE" align="center" />
-          <el-table-column prop="amount" label="AMOUNT" align="center">
-            <template #default="scope">
-              <div class="amount_box">
-                <span>{{ scope.row.criditAmount }}</span>
-                <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
-                <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-                <span v-else>{{ scope.row.criditCoin }}</span>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center">
-            <template #default="scope">
-              <div class="amount_box">
-                <span>{{ scope.row.amount }}</span>
-                <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-                <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-                <span v-else>{{ scope.row.coin }}</span>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="syncStatus" label="STATUS" align="center" />
-          <el-table-column prop="creation_time" label="DATE/TIME" align="center">
-            <template #default="scope">
-              {{ timeFormat(scope.row.createTime) }}
-            </template>
-          </el-table-column>
-          <el-table-column label="TRANSACTION" align="center">
-            <template #default>
-              <div class="view_btn">VIEW</div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div v-if="this.count > 5">
-          <div class="more" v-if="!isMore" @click="loadMore()">
-            <span>Show more</span>
-            <img src="@/assets/svg/user/icon_more.svg" alt="" />
-          </div>
-          <div class="pagination-box" v-else>
-            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        <div class="balance_r" @click="showRecharge = true">CASHIER</div>
+      </div>
+      <div class="balance_item">
+        <div class="balance_item_l">
+          <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <div class="num">
+            <span>{{ ethBalance || 0 }}</span>
+            <span>ETH</span>
           </div>
         </div>
       </div>
-      <assets></assets>
+      <div class="balance_item">
+        <div class="balance_item_l">
+          <img src="@/assets/svg/user/icon_profile.svg" alt="" />
+          <div class="num">
+            <span>{{ userPoints || 0 }}</span>
+            <span>POINTS</span>
+          </div>
+        </div>
+        <div class="balance_item_r" @click="showPoints = true">
+          <span class="details">Details</span>
+          <img src="@/assets/svg/user/icon_link.svg" alt="" />
+        </div>
+      </div>
+      <div class="wallet_operating">
+        <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
+        <div class="choose_box">
+          <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
+            :class="coin == item && ['active']">
+            {{ item }}
+          </div>
+          <div class="replenish">Missing contract ETH deposit?</div>
+          <div class="retrieve" @click="showReplenish = true">
+            Request deposit address sweep
+          </div>
+        </div>
+      </div>
+      <el-table :data="historyData" class="table_container" style="width: 100%">
+        <el-table-column prop="logType" label="LOG TYPE" align="center" />
+        <el-table-column prop="amount" label="AMOUNT" align="center">
+          <template #default="scope">
+            <div class="amount_box">
+              <span>{{ scope.row.criditAmount }}</span>
+              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
+              <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+              <span v-else>{{ scope.row.criditCoin }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center">
+          <template #default="scope">
+            <div class="amount_box">
+              <span>{{ scope.row.amount }}</span>
+              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+              <span v-else>{{ scope.row.coin }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="syncStatus" label="STATUS" align="center">
+          <template #default="scope">
+            <div :class="['sync_status', scope.row.syncStatus]">
+              <span> {{ scope.row.syncStatus }}</span>
+              <el-tooltip v-if="scope.row.syncStatus == 'REJECTED' || scope.row.syncStatus == 'FAIL'"
+                popper-class="tips_box" effect="dark" placement="top">
+                <template #content>
+                  <span v-if="scope.row.syncStatus == 'FAIL'">
+                    The chain is congested and the transfer failed, please try again later.
+                  </span>
+                  <span v-else-if="scope.row.syncStatus == 'REJECTED'">
+                    {{ scope.row.remark }}
+                  </span>
+                </template>
+                <img src="@/assets/svg/user/icon_info.svg" alt="">
+              </el-tooltip>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="creation_time" label="DATE/TIME" align="center">
+          <template #default="scope">
+            {{ timeFormat(scope.row.createTime) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="TRANSACTION" align="center">
+          <template #default="scope">
+            <div class="view_btn"
+              v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
+              @click="viewTxid(scope.row.hash)">VIEW</div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination-box" v-if="count > size">
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+      </div>
     </div>
     <!-- 查询补足余额 -->
     <el-dialog v-model="showReplenish" width="50rem" lock-scroll :close-on-click-modal="false"
@@ -269,13 +295,13 @@
         </div>
       </div>
     </el-dialog>
+    <Points v-if="showPoints" @closeDialogFun="showPoints = false"></Points>
   </div>
 </template>
 <script>
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-
 import {
   getTheUserSPayoutAddress,
   getRechargeExchangeRate,
@@ -283,25 +309,25 @@ import {
   withdrawalBalance,
   getWithdrawalHistory,
   rechargeByHash,
+  getTheUserPoint
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
-import Assets from "./assets.vue";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, openUrl, isValidEthAddress } from "@/utils";
 import { getSetting } from "@/services/api/invite";
+import Points from "./pointsDetails.vue";
 export default {
   name: "myWallet",
   components: {
-    Assets,
+    Points
   },
   data() {
     return {
       coin: "ETH",
       coinList: ["ETH", "USDT", "BTC"],
       historyData: [],
-      walletBg: require("@/assets/svg/user/point_bg.svg"),
-      walletMore: require("@/assets/svg/user/point_more_bg.svg"),
+      userPoints: null,
 
       showRecharge: false,
       walletOperating: 1, // 1 充币；2 提币；
@@ -327,10 +353,11 @@ export default {
       page: 1,
       size: 5,
       count: 0,
-      isMore: false,
       setting: {
         withdrawalFees: null
-      }
+      },
+
+      showPoints: false
     };
   },
   computed: {
@@ -404,11 +431,12 @@ export default {
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
+        this.walletAmount = 1;
       } else {
         this.fetchWithdrawalExchangeRate();
+        this.walletAmount = 0;
       }
 
-      this.walletAmount = 1;
     },
     handleChoose(event) {
       this.operatingCoin = event;
@@ -425,12 +453,14 @@ export default {
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
+        this.walletAmount = 1;
       } else {
+
+        this.walletAmount = 0;
         this.fetchWithdrawalExchangeRate();
       }
 
 
-      this.walletAmount = 1;
     },
     // 收款地址
     async fetchReceivingAddr() {
@@ -438,6 +468,13 @@ export default {
       if (res && res.code == 200) {
         this.receiverAddr = res.data;
         localStorage.setItem("receiver", res.data);
+      }
+    },
+    // 积分余额
+    async fetchTheUserPoint() {
+      const res = await getTheUserPoint();
+      if (res && res.code == 200) {
+        this.userPoints = res.data.balance;
       }
     },
     // 充值汇率
@@ -470,6 +507,12 @@ export default {
           return;
         }
 
+        if (!isValidEthAddress(walletAddr)) {
+          this.walletAddrTips =
+            "The format of the entered Ethereum wallet address is incorrect";
+          this.verifys = false;
+          return;
+        }
         this.walletAddrTips = "";
         this.verifys = true;
       }
@@ -596,6 +639,10 @@ export default {
         this.count = res.data.total;
       }
     },
+    viewTxid(event) {
+      const transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
+      openUrl(transactionUrl + event);
+    },
     // 设置
     async fetchSetting() {
       const res = await getSetting({
@@ -607,11 +654,6 @@ export default {
         this.$forceUpdate();
       }
     },
-    loadMore() {
-      this.isMore = true;
-      this.size = 20;
-      this.fetchHistory();
-    },
     handleCurrentChange(page) {
       this.page = page;
       this.fetchHistory(false);
@@ -622,6 +664,7 @@ export default {
     this.fetchHistory();
     this.fetchReceivingAddr();
     this.fetchSetting();
+    this.fetchTheUserPoint()
   },
 };
 </script>

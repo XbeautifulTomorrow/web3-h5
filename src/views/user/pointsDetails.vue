@@ -79,5 +79,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./components/myProfile.scss";
+@import "./components/history.scss";
 </style>

@@ -56,6 +56,7 @@
 .mystery-boxes-item {
   width: 22.375rem;
   height: 29.5625rem;
+  padding: 1px;
   overflow: hidden;
   background-image: url("@/assets/svg/home/box_bg.svg");
   background-repeat: no-repeat;
@@ -73,6 +74,7 @@
     width: 100%;
     height: 15.5rem;
     display: flex;
+    border-radius: 0.5rem 0.5rem 0 0;
     align-items: center;
     justify-content: center;
     background-image: url("@/assets/svg/home/box_img_bg.svg");

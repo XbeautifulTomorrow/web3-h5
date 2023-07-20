@@ -26,10 +26,14 @@ defineProps({
 <style lang="scss" scoped>
 .lottery-img {
 
+  .image-slot {
+    width: 100%;
+    height: 100%;
+  }
+
   .lottery-placeholder-img {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%;
     border-radius: 0.25rem;
   }
 }

@@ -31,8 +31,11 @@
                 {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
               </span>
             </div>
+            <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
+              {{ `Ended on ${timeFormat(item.endTime)}` }}
+            </div>
             <div class="tips_round end" v-else>
-              {{ ` Ended on ${timeFormat(item.endTime)}` }}
+              {{ `Aborted on ${timeFormat(item.endTime)}` }}
             </div>
             <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
           </div>
@@ -48,12 +51,14 @@
             <span>WINNER</span>
             <img src="@/assets/svg/user/default_avatar.svg" alt="">
             <span v-if="userInfo.id != item.winningAddress">
-              {{ item.winningAddress || "userName" }}
+              {{ item.winningName || item.winningAddress }}
             </span>
             <span v-else>YUO</span>
           </div>
-          <div class="buy_btn winner" v-else>
-            <span>CLOSED</span>
+          <div class="buy_btn winner refunded" v-else>
+            <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+            <span>{{ new bigNumber(item.userNum || 0).multipliedBy(item.ticketPrice) }}</span>
+            <span>REFUNDED</span>
           </div>
           <div class="remaining_votes">
             You used <span>{{ item && item.userNum || 0 }}</span> of <span>
@@ -222,7 +227,7 @@ export default {
     },
     // 计算可购买最大票数
     maxBuyNum(event) {
-      const { price, ticketPrice, orderType, maximumPurchaseQuantity } = event;
+      const { price, ticketPrice, orderType } = event;
 
       let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
@@ -230,7 +235,6 @@ export default {
         if (!ticketPrice) return 0;
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
       } else {
-        if (!maximumPurchaseQuantity) return 0;
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
       }
 

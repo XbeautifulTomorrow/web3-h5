@@ -65,22 +65,6 @@
       color: white;
     }
   }
-
-  .replenish {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #a9a4b4;
-    padding-left: 1.875rem;
-    padding-right: 0.625rem;
-  }
-
-  .retrieve {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #fad54d;
-    text-decoration: underline;
-    cursor: pointer;
-  }
 }
 
 .entered_box,
@@ -282,7 +266,23 @@
         color: #a9a4b4;
       }
     }
+
+    &.refunded {
+      &>img {
+        width: 1.25rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+
+      &>span:last-child {
+        margin-left: 0.625rem;
+        -webkit-text-fill-color: #a9a4b4;
+        color: #a9a4b4;
+      }
+    }
   }
+
+
 
   .cancel_btn {
     margin: 0 0.625rem;

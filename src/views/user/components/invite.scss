@@ -1,56 +1,76 @@
-.wrapper_bg {
-  background-image: url("@/assets/img/box/lottery_bg.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
- /* mask_enormous */
-}
-
 .my_invite_wrapper {
   margin: 0 auto;
-  width: 95rem;
-  padding: 5rem 0;
+  width: 100%;
+  background-image: url("@/assets/svg/user/mask_enormous.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 93.6875rem;
+  padding: 1.875rem;
+  box-sizing: border-box;
+
+  &.small_bg {
+    background-image: url("@/assets/svg/user/mask_small.svg");
+    min-height: 44.3125rem;
+  }
 }
 
-.type_tabs {
-  margin-top: 1.875rem;
-  padding: 0 1.875rem;
-  --el-tabs-header-height: auto;
-  height: auto !important;
+.invite_text {
+  display: flex;
+  align-items: center;
 
-  :deep(.el-tabs__nav) {
-    width: 100%;
+  &>span {
+    display: block;
+    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    font-family: Tomorrow;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  :deep(.el-tabs__header) {
-    margin-bottom: 3.75rem;
+  img {
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.625rem;
+  }
+}
+
+.choose_box {
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+
+  &>.coin_item+.coin_item {
+    margin-left: 0.625rem;
   }
 
+  .coin_item {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
 
-  :deep(.el-tabs__nav-wrap::after) {
-    height: 0.125rem;
-    background-color: #110429;
-  }
-
-  :deep(.el-tabs__active-bar) {
-    height: 0.125rem;
-    border-radius: 0.3125rem;
-    background-image: linear-gradient(to top, #e3a406, #fbd851);
-  }
-
-  :deep(.el-tabs__item) {
-    line-height: 1.3;
-    box-sizing: border-box;
-    font-size: 2.875rem;
-    padding-bottom: 0.875rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.6;
+    text-align: center;
     color: rgba(169, 164, 180, 0.6);
+    cursor: pointer;
 
-    &.is-active {
+    &:hover,
+    &.active {
+      background-color: #13151f;
       color: white;
     }
   }
 }
 
 .invite_panel {
+  background-image: url("@/assets/svg/user/invite_bg.svg");
+  padding: 0 4.25rem;
+  height: 16.125rem;
   box-sizing: border-box;
   background-repeat: no-repeat;
   background-size: contain;
@@ -59,6 +79,7 @@
   justify-content: center;
   flex-direction: column;
 }
+
 
 .title_text {
   background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
@@ -74,7 +95,6 @@
 
 .invite_description {
   margin: 0 auto;
-  max-width: 70.5rem;
   font-size: 1.125rem;
   font-weight: normal;
   line-height: 1.6;
@@ -84,7 +104,7 @@
 }
 
 .create_invite_code {
-  padding-top: 3.75rem;
+  padding-top: 1.5rem;
 
   .create_title {
     font-family: BlenderPro;
@@ -164,7 +184,7 @@
 }
 
 .statistics_panel {
-  padding-top: 3.75rem;
+  padding-top: 1.5rem;
 
   .statistics_title {
     font-family: BlenderPro;
@@ -181,17 +201,26 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1.25rem;
+
+    &>.statistics_item+.statistics_item {
+      margin-left: 1.25rem;
+    }
   }
 
   .statistics_item {
-    width: 29.125rem;
+    flex: 1;
     box-sizing: border-box;
     padding: 1.25rem;
     border-radius: 0.5rem;
     background-color: #1d0f36;
 
+    &>div+div {
+      border-bottom: 0.125rem solid #1d1f2b;
+    }
+
     .statistics_type {
       padding-bottom: 1.25rem;
+      box-sizing: border-box;
 
       .title {
         font-size: 1rem;
@@ -216,6 +245,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-sizing: border-box;
 
       .title {
         font-size: 0.875rem;
@@ -236,6 +266,7 @@
 }
 
 :deep(.table_container) {
+  background-color: #191c28;
 
   .cell {
     height: 2.875rem;
@@ -356,7 +387,7 @@
 .pagination-box {
   display: flex;
   justify-content: center;
-  padding-top: 1.875rem;
+  padding-top: 1.5rem;
 
   :deep(.el-pagination) {
     button {

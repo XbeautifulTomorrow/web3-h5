@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import { useUserStore } from "@/store/user";
 export default {
   name: "countDown",
   data: () => ({
@@ -29,10 +30,6 @@ export default {
       type: [Number, String],
       default: 0
     },
-    end: {
-      type: [Number, String],
-      default: 0
-    },
     isMiniSecond: {
       type: Boolean,
       default: false
@@ -40,10 +37,11 @@ export default {
   },
   computed: {
     duration() {
-      if (this.end) {
+      const { currentTime } = useUserStore();
+      if (currentTime) {
         const endstamp = new Date(this.time).getTime();
         let end = String(endstamp).length >= 13 ? +endstamp : +endstamp * 1000;
-        end -= new Date(this.end).getTime();
+        end -= new Date(currentTime).getTime();
         return end;
       }
       const timestamp = new Date(this.time).getTime();

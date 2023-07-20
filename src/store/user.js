@@ -4,27 +4,15 @@ import { getLocalStore } from "@/utils";
 import localeZH from 'element-plus/lib/locale/lang/zh-tw';
 import localeEN from 'element-plus/lib/locale/lang/en';
 import { getLang } from "@/locales";
-
-// const cookiesStorage = {
-//     setItem (key, state) {
-//       return Cookies.set('accessToken', state.accessToken, { expires: 3 })
-//     },
-//     getItem (key) {
-//       return JSON.stringify({
-//         accessToken: Cookies.getJSON('accessToken'),
-//       })
-//     },
-//   }
-
-// const storageFun = (key,storage,state )=>{
-
-// }
+import router from "@/router"
 
 export const useUserStore = defineStore("user", {
   state: () => ({
     locale: getLang() == "en_US" ? localeEN : localeZH,
     userInfo: undefined,
     regInfo: undefined,
+    userPage: null,
+    currentTime: null,
     isLogin: getLocalStore("certificate") ? true : false
   }),
   persist: {
@@ -44,6 +32,15 @@ export const useUserStore = defineStore("user", {
     },
     setLocale(data) {
       this.locale = data == "en_US" ? localeEN : localeZH;
+    },
+    setCurrentTime(data) {
+      this.currentTime = data;
+    },
+    setUserPage(path, data) {
+      if (!path.indexOf("/user") > -1) {
+        router.push({ path: `/user/${data}` });
+      }
+      this.userPage = data;
     },
     logoutApi() {
       sessionStorage.clear();

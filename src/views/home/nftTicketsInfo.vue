@@ -10,7 +10,7 @@
               <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
                 {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
               </span>
-              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime" :end="currentTime">
+              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
                 {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
               </countDown>
             </span>
@@ -206,7 +206,7 @@
                   <span v-if="dateDiff(item && item.endTime) > 1">
                     {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
                   </span>
-                  <countDown v-else v-slot="timeObj" :time="item && item.endTime" :end="currentTime">
+                  <countDown v-else v-slot="timeObj" :time="item && item.endTime">
                     {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                   </countDown>
                 </span>
@@ -276,8 +276,7 @@ export default {
       finished: false,
       timer: null,
       drawnInfo: null,
-      avatarImg: require("@/assets/svg/user/default_avatar.svg"),
-      currentTime: null,
+      avatarImg: require("@/assets/svg/user/default_avatar.svg")
     };
   },
   computed: {
@@ -441,7 +440,6 @@ export default {
       });
       if (res && res.code == 200) {
         this.participantsTotal = res.data.total;
-        this.currentTime = res.localDateTime;
       }
     },
     // 加载更多

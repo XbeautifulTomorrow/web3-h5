@@ -237,46 +237,8 @@
 .header-user-list-img {
   display: inline-block;
   width: 1.25rem;
-  height: 1.25rem;
+  height: auto;
   margin-right: 0.75rem;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-.Profile {
-  background-image: url("@/assets/img/headerFooter/icon-profile.png");
-}
-
-.Wallet {
-  background-image: url("@/assets/img/headerFooter/icon-walletdefault.png");
-}
-
-.WalletLog {
-  background-image: url("@/assets/img/headerFooter/icon-walletlogdefault.png");
-}
-
-.Competitions {
-  background-image: url("@/assets/img/headerFooter/icon-competitionsdefault.png");
-}
-
-.MyCollections {
-  background-image: url("@/assets/img/headerFooter/icon-collectiondefault.png");
-}
-
-.Create {
-  background-image: url("@/assets/img/headerFooter/icon-create.png");
-}
-
-.Referral {
-  background-image: url("@/assets/img/headerFooter/icon-referraldefault.png");
-}
-
-.Settings {
-  background-image: url("@/assets/img/headerFooter/icon-settingsdefault.png");
-}
-
-.Logout {
-  background-image: url("@/assets/img/headerFooter/icon-logoutdefault.png");
 }
 
 .title-icon {

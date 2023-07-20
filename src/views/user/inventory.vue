@@ -1,17 +1,45 @@
 <template>
-  <div>
+  <div :class="['my_inventory_wrapper', !count > 0 && 'no_data_bg']">
     <div class="nft_box">
       <div class="nft_operating">
-        <div class="title_text">NFTS IN INVENTORY</div>
+        <div class="title_text">
+          <img src="@/assets/svg/user/icon_inventory.svg" alt="">
+          <span>INVENTORY</span>
+        </div>
         <div class="operating_btns">
           <div class="operating_item" @click="onDeposit()">DEPOSIT</div>
           <div class="operating_item" @click="onWithdraw()">WITHDRAW</div>
         </div>
       </div>
-      <div class="nft_list">
+      <div class="search_box">
+        <el-input class="nft_input" v-model="nftParams.nftName" clearable @keyup.enter="fetchSystemNft()"
+          placeholder="Search NFTs">
+          <template #prefix>
+            <el-icon class="el-input__icon" @click="fetchSystemNft()">
+              <search />
+            </el-icon>
+          </template>
+        </el-input>
+        <div class="collections_box type_box">
+          <div class="collections_text">Type:</div>
+          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable placeholder="All">
+            <el-option v-for="(item, index) in nftTypes" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+        </div>
+        <div class="collections_box">
+          <div class="collections_text">Collections:</div>
+          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type" placeholder="All"
+            clearable :popper-append-to-body="false">
+            <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
+              :value="item.contractAddress" />
+          </el-select>
+        </div>
+      </div>
+      <div class="nft_list" v-if="count > 0">
         <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
           <div class="img_box">
-            <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
+            <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</div>
+            <div class="tips text-ellipsis" v-else>{{ `#--` }}</div>
             <img :src="item.img" alt="" />
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
@@ -21,12 +49,20 @@
           <div class="nft_btn withdrawling" v-else-if="item.currentStatus == 'WITHDRAW'">
             WITHDRAWLING
           </div>
+          <div class="nft_btn withdrawling" v-else-if="item.isType != 'EXTERNAL'">
+            CREATE COMPETITIONS
+          </div>
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
             CREATE COMPETITIONS
           </div>
-          <div class="mask_box" v-if="item.isType != 'EXTERNAL'">
-          </div>
         </div>
+      </div>
+      <div v-else class="no_date">
+        <span>NO INVENTORY FOUND</span>
+      </div>
+      <div class="pagination-box" v-if="count > size">
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
     <!-- 钱包链接弹窗 -->
@@ -52,9 +88,11 @@
         </div>
       </div>
       <div class="type_tabs">
-        <div :class="['tabs_item', activeType == 'LIMITED_TIME' && 'active']" @click="activeType = 'LIMITED_TIME'">TIME
+        <div :class="['tabs_item', activeType == 'LIMITED_TIME' && 'active']" @click="activeType = 'LIMITED_TIME'">
+          TIME
           LIMIT</div>
-        <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">LIMIT
+        <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">
+          LIMIT
           PRICE</div>
       </div>
       <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
@@ -140,17 +178,18 @@
 import bigNumber from "bignumber.js";
 import { mapStores } from "pinia";
 
+import { useWalletStore } from "@/store/wallet"
 import { addNftOrder, getSystemNft, getTheExternalNFTSeries } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
 
-import { useWalletStore } from "@/store/wallet.js";
+import { useUserStore } from "@/store/user.js";
 
 import wallet from "../wallet/index.vue";
 import recharge from "@/components/recharge/index.vue";
 
 export default {
-  name: "myWallet",
+  name: "myInventory",
   components: {
     wallet,
     recharge,
@@ -161,6 +200,15 @@ export default {
       title: "DEPOSIT",
       showLink: false, // 登录链上
       operatingType: 1, // 1 充NFT；2 提NFT；
+      nftParams: {
+        nftName: null,
+        type: null,
+        collections: null
+      },
+      nftTypes: [
+        { label: "ERC-721", value: "ERC721" },
+        { label: "ERC-1155", value: "ERC1155" },
+      ],
       collections: [],
       chooseNftData: [],
       stockNftList: [],
@@ -181,7 +229,11 @@ export default {
         size: 8,
       },
       timer: null,
-      externalSeries: null
+      externalSeries: null,
+
+      page: 1,
+      size: 15,
+      count: 0,
     };
   },
   watch: {
@@ -195,14 +247,13 @@ export default {
       this.timer = setTimeout(() => {
         if (newV > max) {
           this.competitionForm.limitDay = max;
-          console.log(111)
         }
         this.$forceUpdate();
       }, 300);
     },
   },
   computed: {
-    ...mapStores(useWalletStore),
+    ...mapStores(useUserStore, useWalletStore),
     // 总票数
     limitNum() {
       const { price, ticketPrice } = this.competitionForm;
@@ -210,6 +261,10 @@ export default {
       const maxNum = Number(new bigNumber(price).dividedBy(ticketPrice));
       if (this.activeType == "LIMITED_TIME") return 0;
       return maxNum;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
     },
   },
   methods: {
@@ -241,13 +296,24 @@ export default {
       }
     },
     // 获取系统Nft列表
-    async fetchSystemNft() {
+    async fetchSystemNft(isSearch = true) {
+      const { size, nftParams } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
       const res = await getSystemNft({
-        page: 1,
-        size: 9999,
+        contractType: nftParams.type,
+        contractAddress: nftParams.collections,
+        keyword: nftParams.nftName,
+        page: _page,
+        size: size,
       });
       if (res && res.code == 200) {
         const stockNft = res.data.records;
+        this.count = res.data.total;
         this.stockNftList = [];
         if (stockNft && !stockNft.length > 0) return;
         stockNft.forEach((element) => {
@@ -259,12 +325,24 @@ export default {
         });
       }
     },
-    // 获取外部系列
+    handleCurrentChange(page) {
+      this.page = page;
+      this.fetchSystemNft(false);
+    },
+    // 获取所有系列，用做筛选
     async fetchAllSeries() {
+      const res = await getTheExternalNFTSeries({
+        type: "ALL"
+      });
+      this.collections = res.data;
+    },
+    // 获取外部系列
+    async fetchExternalSeries() {
       const res = await getTheExternalNFTSeries({
         type: "EXTERNAL"
       });
       this.externalSeries = res.data;
+      this.fetchSystemNft();
     },
     findExternalSeries(event) {
       const { externalSeries } = this;
@@ -292,7 +370,7 @@ export default {
           if (res && res.code == 200) {
             this.handleClose();
             this.$message.success("Created successfully");
-            this.fetchSystemNft();
+            this.fetchAllSeries();
           }
         } else {
           console.log("error submit!!");
@@ -311,12 +389,10 @@ export default {
 
       this.operatingType = 1;
       this.collections = [];
-      this.params = {
+      this.nftParams = {
         nftName: null,
         type: null,
-        collections: null,
-        wallet: null,
-        chain: null,
+        collections: null
       };
 
       this.chooseNftData = [];
@@ -349,7 +425,8 @@ export default {
   },
   created() {
     this.fetchAllSeries();
-    this.fetchSystemNft();
+    this.fetchExternalSeries();
+
     this.rules = {
       //总价格
       price: [
@@ -366,11 +443,7 @@ export default {
           message: "Please enter the number of days",
           trigger: ["blur", "change"],
         },
-      ],
-      //单份价值
-      // ticketPrice: [{ required: true, message: "Please enter a single serving value", trigger: ["blur", "change"] }],
-      //最大数量
-      // limitNum: [{ required: true, message: "Please enter the total number of votes", trigger: ["blur", "change"] }],
+      ]
     };
   },
 };

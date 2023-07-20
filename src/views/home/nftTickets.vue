@@ -15,7 +15,7 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item.endTime" :end="currentTime">
+                <countDown v-else v-slot="timeObj" :time="item.endTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown>
               </div>
@@ -69,7 +69,6 @@ import { dateDiff } from "@/utils";
 
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
-import { getSetting } from "@/services/api/invite";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -89,8 +88,7 @@ export default {
   data() {
     return {
       pageType: null,
-      tickets: [],
-      currentTime: null
+      tickets: []
     };
   },
   computed: {
@@ -104,23 +102,9 @@ export default {
       return userInfo;
     },
   },
-  created() {
-    this.fetchSetting();
-  },
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
-    // 设置
-    async fetchSetting() {
-      const res = await getSetting({
-        coin: "ETH"
-      });
-
-      if (res && res.code == 200) {
-        this.currentTime = res.localDateTime;
-        this.$forceUpdate();
-      }
-    },
     handleTickets(event) {
       if (this.isLogin && this.userInfo?.id) {
         this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });

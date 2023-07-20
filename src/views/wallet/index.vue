@@ -196,7 +196,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wallet-title {
-  font-size: 4rem;
+  font-size: 2.625rem;
   color: #e4e7f5;
   font-weight: normal;
 }

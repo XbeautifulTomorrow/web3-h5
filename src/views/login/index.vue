@@ -10,7 +10,7 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ $t("common.login") }}</p>
+      <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item :label="$t('login.email')" prop="account">

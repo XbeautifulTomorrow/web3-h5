@@ -1,5 +1,6 @@
 import bigNumber from "bignumber.js";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
+import { useUserStore } from "@/store/user";
 
 export function openUrl(url) {
   if (typeof window !== "object") return;
@@ -196,15 +197,16 @@ export function timeForStr(time, str) {
  * @description 友好的时间显示
  * @param string event 时间
  */
-export function timeFormat(event) {
-  if (!event) return "--"
-  const timestamp = new Date(event).getTime() / 1000;
+export function timeFormat(endTime) {
+  if (!endTime) return "--"
+  const timestamp = new Date(endTime).getTime() / 1000;
 
   function zeroize(num) {
     return (String(num).length == 1 ? '0' : '') + num;
   }
 
-  let curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
+  const { currentTime } = useUserStore();
+  let curTimestamp = parseInt(new Date(currentTime).getTime() / 1000); //当前时间戳
   let timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
   let timeAbsolute = +Math.abs(timestampDiff); // 如果比当前时间大
 
@@ -278,10 +280,12 @@ function monthFormat(event) {
  * @param endTime   结束时间
  * @return
  */
-export function dateDiff(event, end = new Date()) {
+export function dateDiff(event) {
   if (!event) return "ENDED"
   const setTime = new Date(event).getTime();
-  const nowTime = new Date(end).getTime();
+
+  const { currentTime } = useUserStore();
+  const nowTime = new Date(currentTime).getTime();
   if (nowTime >= setTime) return "ENDED";
 
   // 按照传入的格式生成一个simpledateformate对象
@@ -394,4 +398,43 @@ function isEmpty(ObjVal) {
   } else {
     return false;
   }
+}
+
+
+
+// 验证地址正确性的函数
+export const isValidEthAddress = (address) => {
+  if (!address) return false;
+
+  // 去除"0x"前缀
+  const cleanAddress = address.toLowerCase().replace('0x', '');
+
+  // 长度验证
+  if (cleanAddress.length !== 40) {
+    return false;
+  }
+
+  // 字符集验证
+  const validCharacters = /^[0-9a-f]+$/;
+  if (!validCharacters.test(cleanAddress)) {
+    return false;
+  }
+
+  // 前缀验证
+  if (!address.startsWith('0x')) {
+    return false;
+  }
+
+  const Web3 = require('web3');
+
+  // 初始化web3实例
+  const web3 = new Web3();
+
+  // 校验和验证
+  const checksumAddress = web3.utils.toChecksumAddress(address);
+  if (address !== checksumAddress) {
+    return false;
+  }
+
+  return true;
 }

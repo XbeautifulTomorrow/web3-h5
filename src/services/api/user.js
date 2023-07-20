@@ -35,7 +35,7 @@ const getAListOfUserPoints = (params) =>
   apiService.get("mystery-web-user/user/getAListOfUserPoints", params); // 积分列表
 
 const getUserBuyHistory = (params) =>
-  apiService.get("mystery-web-user/box/buy/history", params); // 积分列表
+  apiService.get("mystery-web-user/box/buy/history", params); // 购买记录
 
 const getRechargeExchangeRate = (params) =>
   apiService.get("mystery-web-user/index/exchangeRate", params); // 充值汇率
@@ -55,8 +55,13 @@ const getWithdrawalHistory = (params) =>
 const rechargeByHash = (params) =>
   apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
-const statisticsClick = params => // 统计点击次数
-  apiService.get('mystery-web-user/user/invite', params)
+const statisticsClick = params =>
+  apiService.get('mystery-web-user/user/invite', params); // 统计点击次数
+
+const getTheUserPoint = params =>
+  apiService.get('mystery-web-user/user/getTheUserPoint', params); // 积分余额
+
+
 
 export {
   getKey,
@@ -77,5 +82,6 @@ export {
   withdrawalNft,
   getWithdrawalHistory,
   rechargeByHash,
-  statisticsClick
+  statisticsClick,
+  getTheUserPoint
 };

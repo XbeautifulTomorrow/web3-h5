@@ -17,8 +17,6 @@
   </div>
 </template>
 <script>
-import { i18n } from '@/locales';
-const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -101,13 +99,7 @@ export default {
         page: "settings",
         icon: require("@/assets/svg/user/nav/icon_setting.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
-      },
-      {
-        text: t("header.logout"),
-        page: "logout",
-        icon: require("@/assets/svg/user/nav/icon_logout.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_logout_active.svg")
-      },
+      }
     ]
 
 

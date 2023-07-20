@@ -15,7 +15,7 @@
             </template>
             <template #default="scope">
               <div class="user_info">
-                <img :src="scope.row.nftImg" alt="">
+                <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
                 <span class="text-ellipsis">{{ `#${scope.row.nftName}` }}</span>
               </div>
             </template>
@@ -52,11 +52,13 @@
 </template>
   
 <script>
-import {
-  getSnapshotDetail
-} from "@/services/api/blindBox";
+import { getSnapshotDetail } from "@/services/api/blindBox";
+import Image from "@/components/imageView";
 export default {
   name: 'boxSnapshot',
+  components: {
+    Image
+  },
   data() {
     return {
       snapshotId: null,

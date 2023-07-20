@@ -8,7 +8,7 @@
       <template v-for="(item, index) in boxList">
         <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)" v-if="index < 4" :key="`mystery-${index}`">
           <div class="img_box">
-            <img class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
+            <Image fit="cover" class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
           </div>
           <div class="mystery-boxs-title text-ellipsis">
             <div class="box-name text-ellipsis">{{ item.boxName }}</div>
@@ -46,6 +46,7 @@ import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import Image from "@/components/imageView";
 export default {
   name: 'MysteryBoxes',
   props: ['boxList'],
@@ -53,7 +54,8 @@ export default {
     Login,
     Register,
     Forgot,
-    Modify
+    Modify,
+    Image
   },
   data() {
     return {

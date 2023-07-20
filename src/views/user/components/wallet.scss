@@ -354,6 +354,15 @@
     border-radius: 0.625rem;
     background-color: #1d0f36;
     overflow: hidden;
+
+    &:hover {
+      .img_box {
+        &>.nft_img {
+          transform: scale(1.15);
+          transition: all 0.3s;
+        }
+      }
+    }
   }
 
   .img_box {
@@ -362,9 +371,10 @@
     height: 13.9375rem;
     overflow: hidden;
 
-    img {
+    .nft_img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      transition: all 0.3s;
     }
 
     .tips {
@@ -378,6 +388,7 @@
       font-size: 0.75rem;
       line-height: 1.6;
       color: #0cbb3e;
+      z-index: 2;
     }
   }
 
@@ -833,9 +844,9 @@
     overflow: hidden;
     margin: 0 auto 0.625rem;
 
-    img {
+    .nft_img {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 
@@ -1270,9 +1281,9 @@
     box-sizing: border-box;
     background-color: #ffff;
 
-    :deep(img) {
+    .nft_img {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 

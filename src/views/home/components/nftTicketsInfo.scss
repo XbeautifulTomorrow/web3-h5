@@ -25,11 +25,19 @@
   border-radius: 0.625rem;
   overflow: hidden;
 
-  img {
+  .nft_img {
+    margin: 0 auto;
     width: auto;
-    height: 100%;
-    border-radius: 0.625rem;
-    display: inline-block;
+    height: 41.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &>:deep(img) {
+      width: auto;
+      height: 41.5rem;
+    }
   }
 
   .tips_round {
@@ -43,6 +51,7 @@
     font-weight: 500;
     line-height: 1.6;
     color: white;
+    z-index: 2;
 
     &.time {
       background-color: #2761F5;
@@ -605,6 +614,15 @@
   overflow: hidden;
   background-color: #1d0f36;
 
+  &:hover {
+    .img-box {
+      &>.nft_img {
+        transform: scale(1.15);
+        transition: all 0.3s;
+      }
+    }
+  }
+
   .image_box {
     position: relative;
     display: flex;
@@ -625,11 +643,13 @@
       color: #0cbb3e;
       line-height: 1;
       background-color: rgba(6, 91, 30, 0.8);
+      z-index: 2;
     }
 
-    img {
+    .nft_img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      transition: all 0.3s;
     }
 
     .tips_round {
@@ -645,6 +665,7 @@
       color: white;
       display: flex;
       align-items: center;
+      z-index: 2;
 
       img {
         width: 1.125rem;

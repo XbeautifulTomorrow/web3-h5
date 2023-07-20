@@ -14,7 +14,7 @@
       <div class="entered_box" v-if="count > 0 && activeType == 'HISTORY'">
         <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box">
-            <img class="nft_img" :src="item && item.nftImage" alt="">
+            <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="['tips_round', item.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
               <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
@@ -66,7 +66,7 @@
         <div class="my_competitions_box">
           <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
             <div class="image_box">
-              <img class="nft_img" :src="item && item.nftImage" alt="">
+              <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
                 :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
@@ -130,7 +130,7 @@
         </span>
       </div>
       <div class="image_box">
-        <img :src="competitionNft && competitionNft.nftImage" alt="">
+        <Image fit="cover" class="nft_img" :src="competitionNft && competitionNft.nftImage" />
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft && competitionNft.seriesName }}</div>
@@ -159,10 +159,12 @@ import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { openUrl, dateDiff, timeFormat } from "@/utils";
+import Image from "@/components/imageView";
 export default {
   name: 'UserCompetitions',
   components: {
-    countDown
+    countDown,
+    Image
   },
   data() {
     return {

@@ -6,9 +6,9 @@
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in ticketList">
-        <li class="ntf-tickets-list" @click="handleTickets(item)" v-if="index < 5" :key="`tickets-${index}`">
+        <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 5" :key="`tickets-${index}`">
           <div class="img-box">
-            <img class="tickets-boxs-list-img" :src="item.nftImage" alt="" />
+            <Image fit="cover" class="nft_img" :src="item.nftImage" />
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
@@ -74,6 +74,7 @@ import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import Image from "@/components/imageView";
 export default {
   name: 'NtfTickets',
   props: ['ticketList'],
@@ -83,7 +84,8 @@ export default {
     Forgot,
     Modify,
     // eslint-disable-next-line vue/no-unused-components
-    countDown
+    countDown,
+    Image
   },
   data() {
     return {

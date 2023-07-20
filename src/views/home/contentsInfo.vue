@@ -17,7 +17,9 @@
       <el-table-column prop="nftId" label="NFT" min-width="120">
         <template #default="scope">
           <div class="user_info">
-            <img :src="scope.row.nftImg" alt="">
+            <div class="image_box">
+              <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
+            </div>
             <div class="user_text">
               <span>{{ `#${scope.row.nftId}` }}</span>
               <span>{{ scope.row.nftName }}</span>
@@ -53,9 +55,13 @@
 
 <script>
 import { getNFTList } from '@/services/api/index';
+import Image from "@/components/imageView";
 export default {
   name: 'ContentsInfo',
   props: ['boxList'],
+  components: {
+    Image
+  },
   data() {
     return {
       nftData: [],

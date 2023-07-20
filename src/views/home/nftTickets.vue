@@ -15,7 +15,7 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item.endTime">
+                <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders()" :time="item.endTime">
                   {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                 </countDown>
               </div>
@@ -69,6 +69,7 @@ import { dateDiff } from "@/utils";
 
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
+import { getCheckAllOrders } from "@/services/api/oneBuy";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -77,20 +78,18 @@ import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'NtfTickets',
-  props: ['ticketList'],
   components: {
     Login,
     Register,
     Forgot,
     Modify,
-    // eslint-disable-next-line vue/no-unused-components
     countDown,
     Image
   },
   data() {
     return {
       pageType: null,
-      tickets: []
+      ticketList: []
     };
   },
   computed: {
@@ -107,6 +106,13 @@ export default {
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
+    // 获取一元购列表
+    async fetchCheckAllOrders() {
+      const res = await getCheckAllOrders({ page: 1, size: 5 })
+      if (res && res.code == 200) {
+        this.ticketList = res.data.records;
+      }
+    },
     handleTickets(event) {
       if (this.isLogin && this.userInfo?.id) {
         this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
@@ -123,6 +129,9 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
+  },
+  created() {
+    this.fetchCheckAllOrders();
   }
 };
 </script>

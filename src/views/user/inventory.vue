@@ -152,7 +152,7 @@
         <div class="continue_btn" @click="submitCompetition()">CONTINUE</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
           <p>
-            This mode cannot be cancelled once the contest starts, so please set
+            This mode cannot be cancelled once the competition starts, so please set
             the price reasonably to avoid losses.
           </p>
         </div>

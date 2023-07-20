@@ -246,7 +246,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = window.location;
-      let link = currentLink.origin + "/Airdrop/" + event;
+      let link = currentLink.origin + "/Home/" + event;
       onCopy(link);
     },
     // 设置

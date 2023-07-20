@@ -37,14 +37,12 @@
   }
 }
 
-.title-box-r {
+:deep(.nft_type) {
 
-  :deep(.el-input) {
+  .el-input {
     &.is-focus {
       .el-input__wrapper {
-        border: none !important;
         box-shadow: none !important;
-        outline: none !important;
       }
     }
 
@@ -53,26 +51,67 @@
     }
   }
 
-  :deep(.el-input__wrapper) {
-    width: 18.5rem;
+  .el-input__wrapper {
     height: 3.3125rem;
-    border-radius: 1.875rem;
-    background-color: #1d0f36;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
     padding: 0 1.25rem;
+    box-sizing: border-box;
+    background-color: #1d0f36;
+    box-shadow: none !important;
+    border: none !important;
 
-    .el-input__inner {
+    &>input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
       text-align: left;
-      color: white;
-
+      color: #fad54d;
     }
   }
 }
+
+.collections_box {
+  width: 20rem;
+  display: flex;
+  align-items: center;
+  border-radius: 3.3125rem;
+  background-color: #1d0f36;
+  position: relative;
+
+  .collections_text {
+    position: absolute;
+    left: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-align: left;
+    color: rgba(169, 164, 180, 0.6);
+  }
+
+  :deep(.nft_type) {
+    width: 100%;
+
+    .el-input__wrapper {
+      background-color: transparent;
+      padding-left: 8.75rem;
+
+      &>input::placeholder {
+        color: #fad54d;
+      }
+    }
+  }
+
+  &.type_box {
+    flex: none;
+    width: 14.6875rem;
+
+    :deep(.nft_type) {
+
+      .el-input__wrapper {
+        padding-left: 5.4375rem;
+      }
+    }
+  }
+}
+
 
 :deep(.table_container) {
 

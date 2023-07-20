@@ -7,22 +7,24 @@
           {{ $t("home.contentsInfoTips") }}
         </div>
       </div>
-      <el-select class="title-box-r" v-model="searchId" @change="othersideBoxFun" placeholder="ALL" size="large"
-        effect="dark">
-        <el-option label="ALL" value="" />
-        <el-option v-for="(item, index) in boxList" :key="index" :label="item.boxName" :value="item.id" />
-      </el-select>
+      <div class="collections_box">
+        <div class="collections_text">Collections:</div>
+        <el-select v-model="contractAddress" @change="othersideBoxFun()" class="nft_type" placeholder="All" clearable
+          :popper-append-to-body="false">
+          <el-option v-for="(item, index) in seriesList" :key="index" :label="item.seriesName"
+            :value="item.contractAddress" />
+        </el-select>
+      </div>
     </div>
     <el-table :data="nftData" class="table_container" style="width: 100%">
-      <el-table-column prop="nftId" label="NFT" min-width="120">
+      <el-table-column prop="nftId" label="NFT">
         <template #default="scope">
           <div class="user_info">
             <div class="image_box">
               <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
             </div>
             <div class="user_text">
-              <span>{{ `#${scope.row.nftId}` }}</span>
-              <span>{{ scope.row.nftName }}</span>
+              <span>{{ `${scope.row.nftName} #${scope.row.tokenId}` }}</span>
             </div>
           </div>
         </template>
@@ -32,15 +34,15 @@
           {{ `${scope.row.price} ${scope.row.coin}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" min-width="100" show-overflow-tooltip>
+      <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" show-overflow-tooltip>
         <template #default="scope">
           {{ `$${scope.row.usdtPrice}` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" :label="$t('home.tabelText4')" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="date" :label="$t('home.tabelText5')" align="right" fixed="right">
-        <template #default>
-          <div class="active_btn">
+      <el-table-column prop="boxName" :label="$t('home.tabelText4')" show-overflow-tooltip />
+      <el-table-column prop="date" :label="$t('home.tabelText5')" align="center" width="100" fixed="right">
+        <template #default="scope">
+          <div class="active_btn" @click="handleMysteryBoxes(scope.row)">
             <img src="@/assets/svg/home/icon_active.svg" alt="">
           </div>
         </template>
@@ -50,38 +52,88 @@
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
         layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
 <script>
 import { getNFTList } from '@/services/api/index';
+import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'ContentsInfo',
-  props: ['boxList'],
   components: {
+    Login,
+    Register,
+    Forgot,
+    Modify,
     Image
   },
   data() {
     return {
+      seriesList: [],
       nftData: [],
-      searchId: null,
+      pageType: null,
+      contractAddress: null,
       page: 1,
       size: 10,
       count: 0
     };
   },
+  computed: {
+    ...mapStores(useUserStore),
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+  },
   methods: {
+    // 获取所有系列，用做筛选
+    async fetchAllSeries() {
+      const res = await getTheExternalNFTSeries({
+        type: "ALL"
+      });
+      this.seriesList = res.data;
+    },
+    // 盲盒具体nft详情列表
     async fetchNftList() {
       const res = await getNFTList({
         page: this.page,
         size: this.size,
-        boxId: this.searchId
+        contractAddress: this.contractAddress
       });
       if (res && res.code == 200) {
         this.nftData = res.data.records;
         this.count = res.data.total;
       }
+    },
+    // 去抽奖
+    handleMysteryBoxes(event) {
+      if (this.isLogin && this.userInfo?.id) {
+        this.$router.push({ path: "/mysteryBox", query: { boxId: event.boxId } });
+      } else {
+        this.changeTypeFun('login');
+      }
+    },
+    closeDialogFun() {
+      this.pageType = "";
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
     },
     othersideBoxFun() {
       this.page = 1;
@@ -90,12 +142,10 @@ export default {
     handleCurrentChange(page) {
       this.page = page;
       this.fetchNftList();
-    },
-    handleActive(event) {
-      console.log(event);
     }
   },
   created() {
+    this.fetchAllSeries();
     this.fetchNftList();
   }
 };
@@ -105,25 +155,30 @@ export default {
 </style>
 <style lang="scss">
 .el-select__popper {
-  &.is-dark {
-    background-color: #1d0f36;
-    border: none;
-  }
+  border: none !important;
+  background-color: #1d0f36 !important;
 
-  .el-select-dropdown__list {
-    margin: 0.5rem 0 !important;
+  .el-scrollbar__view {
+    margin: 0.625rem 0 !important;
+    padding: 0 0.625rem !important;
   }
 
   .el-select-dropdown__item {
-    height: 3.3125rem;
-    line-height: 3.3125rem;
-    font-size: 1.125rem;
+    color: #a9a4b4;
+    font-size: 1rem;
     font-weight: 500;
+    line-height: 1.6;
+    padding: 0.625rem 0.825rem;
+    height: auto;
 
-    &.selected,
+    &.selected {
+      color: #fad54d;
+    }
+
+    &:hover,
     &.hover {
-      color: white;
-      background-color: #281d31;
+      border-radius: 0.5rem;
+      background-color: #13151f;
     }
   }
 

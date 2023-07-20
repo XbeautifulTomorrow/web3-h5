@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="entered_box" v-if="count > 0 && activeType == 'HISTORY'">
-        <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
+        <div class="entered_item" @click="enterNow(item)" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box">
             <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
@@ -51,8 +51,8 @@
             <span>{{ item && item.seriesName }}</span>
             <img src="@/assets/svg/home/icon_certified.svg" alt="">
           </div>
-          <div class="nft_price">{{ item && item.price }}ETH</div>
-          <div class="buy_btn" @click="enterNow(item)" v-if="item.currentStatus == 'IN_PROGRESS'">
+          <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
+          <div class="buy_btn" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span>BUY MORE</span>
           </div>
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
@@ -64,8 +64,8 @@
             <span v-else>YUO</span>
           </div>
           <div class="buy_btn winner refunded" v-else>
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             <span>{{ new bigNumber(item.userNum || 0).multipliedBy(item.ticketPrice) }}</span>
+            <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             <span>REFUNDED</span>
           </div>
           <div class="remaining_votes">
@@ -77,7 +77,7 @@
       </div>
       <div class="my_competitions_panel" v-else-if="count > 0 && activeType == 'MY_COMPETITIONS'">
         <div class="my_competitions_box">
-          <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
+          <div class="entered_item" @click="enterNow(item)" v-for="(item, index) in enteredList" :key="index">
             <div class="image_box">
               <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
@@ -96,22 +96,28 @@
                   {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                 </span>
               </div>
-              <div class="tips_round" v-else :class="item.currentStatus == 'CANCELLED' ? 'cancel' : 'sale'">
-                <span v-if="item.currentStatus == 'CANCELLED'">CANCEL</span>
-                <span v-else>SALE</span>
+              <div class="tips_round" v-else :class="item.currentStatus == 'DRAWN' ? 'sale' : 'cancel'">
+                <span v-if="item.currentStatus == 'CANCELLED'">CANCELLED</span>
+                <span v-else-if="item.currentStatus == 'DRAWN'">SALE</span>
+                <span v-else>ABORTED</span>
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
             </div>
             <div class="nft_name">{{ item && item.seriesName }}</div>
-            <div class="nft_price">{{ item && item.price }} ETH</div>
+            <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
             <div class="cancel_btn" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">
               <span>CANCEL COMPETITION</span>
             </div>
+            <div class="buy_btn winner refunded" v-else-if="item.currentStatus == 'DRAWN'">
+              <span>{{ new bigNumber(item.numberOfTicketsSold || 0).multipliedBy(item.ticketPrice) }}</span>
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <span>CLAIMED</span>
+            </div>
             <div class="delete_btn" v-else @click="delOrder(item)">Delete</div>
             <div class="remaining_votes">
-              {{ `${item && item.numberOfTicketsSold || 0} ${item && item.numberOfTicketsSold > 1 ? 'TICKETS SOLD' :
-                'TICKET SOLD'}` }}
+              <span>{{ item && item.numberOfTicketsSold || 0 }}</span>
+              {{ ` ${item && item.numberOfTicketsSold > 1 ? 'TICKETS SOLD' : 'TICKET SOLD'}` }}
             </div>
           </div>
         </div>
@@ -191,10 +197,10 @@ export default {
       activeType: "HISTORY",
       competitionStatus: null,
       statuDrop: [
-        { label: "In progress", value: "IN_PROGRESS" },
-        { label: "Drawn", value: "DRAWN" },
-        { label: "Canceled", value: "CANCELLED" },
-        { label: "Closed", value: "CLOSED" }
+        { label: "IN PROGRESS", value: "IN_PROGRESS" },
+        { label: "SALE", value: "DRAWN" },
+        { label: "CANCELLED", value: "CANCELLED" },
+        { label: "ABORTED", value: "CLOSED" }
       ],
       enteredList: [],
       finishList: [],
@@ -263,10 +269,7 @@ export default {
     },
     // 取消赛事
     cancelOrder(event) {
-      if (event.numberOfTicketsSold > 0) {
-        this.$message.error("There are already users participating in this event, but the removal failed");
-        return
-      }
+      if (event.numberOfTicketsSold > 0) return
 
       this.competitionNft = event;
       this.showCabcel = true;
@@ -288,7 +291,7 @@ export default {
         orderNumber: evnet.orderNumber
       });
       if (res && res.code == 200) {
-        this.$message.success("successfully deleted");
+        this.$message.success("Delete successfully.");
         this.fetchOneBuyList();
       }
     },

@@ -138,6 +138,10 @@
     .el-input__wrapper {
       background-color: transparent;
       padding-left: 6.25rem;
+
+      &>input::placeholder {
+        color: #fad54d;
+      }
     }
   }
 
@@ -358,13 +362,12 @@
       &>img {
         width: 1.25rem;
         height: auto;
-        margin-right: 0.25rem;
+        margin: 0 0.625rem;
       }
 
       &>span:last-child {
-        margin-left: 0.625rem;
-        -webkit-text-fill-color: #a9a4b4;
-        color: #a9a4b4;
+        -webkit-text-fill-color: white;
+        color: white;
       }
     }
   }
@@ -390,6 +393,7 @@
     &.disabled {
       background-color: #292c36;
       color: rgba(169, 164, 180, 0.3);
+      cursor: not-allowed;
     }
   }
 

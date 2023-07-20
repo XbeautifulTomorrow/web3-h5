@@ -44,6 +44,17 @@
     color: white;
     z-index: 2;
 
+    &>div {
+      display: flex;
+      align-items: center;
+
+      &>img {
+        width: 1.125rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+    }
+
     &.time {
       background-color: #2761F5;
     }
@@ -281,6 +292,11 @@
       line-height: 1;
       font-weight: bold;
       color: #13151f;
+
+      &>img {
+        width: 1.5rem;
+        height: auto;
+      }
 
       &.is-disabled {
         opacity: 0.68

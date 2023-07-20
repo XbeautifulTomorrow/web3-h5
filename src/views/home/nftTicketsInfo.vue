@@ -6,15 +6,19 @@
           <Image fit="cover" class="nft_img" :src="nftInfo && nftInfo.img" />
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
-            <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
+            <div v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
+              <img src="@/assets/svg/home/icon_info_time_white.svg" alt="">
               <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
                 {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
               </span>
               <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
                 {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
               </countDown>
-            </span>
-            <span v-else>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
+            </div>
+            <div v-else>
+              <img src="@/assets/svg/home/icon_info_price_white.svg" alt="">
+              <span>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
+            </div>
           </div>
           <div class="tips_round finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
             <span>COMPLETED</span>
@@ -29,8 +33,7 @@
             <div class="nft_activity">
               <div class="price">
                 <span class="title">Market Value：</span>
-                <span class="val">{{ nftInfo && nftInfo.totalPrice }}</span>
-                <span class="unit">ETH</span>
+                <span class="val">{{ `${nftInfo && nftInfo.totalPrice} ETH` }}</span>
               </div>
               <div class="time" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_info_price.svg"
@@ -62,7 +65,7 @@
             </div>
             <div class="buy_relevant" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
               <div class="enter_relevant">
-                <div class="title">Enter competition</div>
+                <div class="title">ENTER COMPETITION</div>
                 <div class="buy_tips">
                   You used <span>{{ drawnInfo && drawnInfo.userNum || 0 }}</span> of <span>
                     {{ nftInfo && new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) }}
@@ -78,7 +81,9 @@
               <div class="payment_box">
                 <el-button v-if="maxBuyNum > 0" style="width: 100%;" class="submit_payment" type="primary"
                   @click="submitPayment()">
-                  {{ `${buyPrice} ETH` }}
+                  <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes} tickets for ${buyPrice} ` }}</span>
+                  <span v-else>{{ `Purchase ${buyVotes} ticket for ${buyPrice}` }}&nbsp;</span>
+                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
                   <span v-if="nftInfo.orderType == 'LIMITED_TIME' || Number(nftInfo.maximumPurchaseQuantity) > 0">
@@ -121,7 +126,7 @@
                 The tournament did not reach its sell-out target and your purchased tickets have been refunded to the
                 balance, worth
                 <span>
-                  {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.num || 0) }}
+                  {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0) }}
                 </span>
                 ETH
               </div>
@@ -268,7 +273,7 @@ export default {
       inviteDrop: [],
       detailData: null,
       endingSoon: [],
-      buyVotes: null,
+      buyVotes: 1,
       activeType: "activity",
       buyData: [],
       participantsTotal: 0,
@@ -344,7 +349,7 @@ export default {
       let hintText = null;
 
       if (this.maxBuyNum > 0) {
-        hintText = `Please enter 1-${this.maxBuyNum}`;
+        hintText = null;
       } else {
         hintText = 'You cannot purchase more tickets.';
       }
@@ -371,8 +376,13 @@ export default {
     // 购买一元购门票
     async submitPayment() {
       const { orderId, buyVotes } = this;
-      let res = null;
-      res = await buyNftBalance({
+
+      if (!buyVotes || buyVotes < 1) {
+        this.$message.error("Please enter the amount you would like to purchase.");
+        return
+      }
+
+      const res = await buyNftBalance({
         orderNumber: orderId,
         num: buyVotes
       });

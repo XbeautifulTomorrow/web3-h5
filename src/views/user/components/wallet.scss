@@ -627,6 +627,7 @@
 
       .el-input__icon {
         font-size: 1.5rem;
+        cursor: pointer;
       }
     }
   }
@@ -698,6 +699,10 @@
     .el-input__wrapper {
       background-color: transparent;
       padding-left: 8.75rem;
+
+      &>input::placeholder {
+        color: #fad54d;
+      }
     }
   }
 

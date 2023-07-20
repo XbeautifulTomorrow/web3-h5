@@ -156,7 +156,6 @@ router.beforeEach(async (to, from, next) => {
     if (isShield && !(path && path.indexOf("/1020") > -1)) {
       setSessionStore("referrer", path)
       next({ name: "1020" });
-      return
     } else if (!isShield && path && path.indexOf("/1020") > -1) {
       const referrer = getSessionStore("referrer");
       if (!referrer) {
@@ -165,12 +164,18 @@ router.beforeEach(async (to, from, next) => {
         sessionStorage.removeItem("referrer");
         next({ path: referrer });
       }
-
-      return
     }
   }
 
-  if (path && path.indexOf("/Airdrop/") > -1) {
+  if (path && path.indexOf("/Home/") > -1) {
+    const code = path.replace("/Home/", "")
+    // 保存邀请码到本地存储
+    setSessionStore("invateCode", code);
+    // 统计邀请链接打开数量
+    statisticsClick({ code: code });
+
+    next({ name: "Home" });
+  } else if (path && path.indexOf("/Airdrop/") > -1) {
     const code = path.replace("/Airdrop/", "")
     // 保存邀请码到本地存储
     setSessionStore("invateCode", code);
@@ -181,7 +186,6 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next();
   }
-
 });
 
 // 4. 导出router

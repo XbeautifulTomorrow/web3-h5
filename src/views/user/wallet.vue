@@ -49,7 +49,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.criditAmount }}</span>
-              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
+              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
               <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
               <span v-else>{{ scope.row.criditCoin }}</span>
             </div>
@@ -59,7 +59,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.amount }}</span>
-              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
               <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
               <span v-else>{{ scope.row.coin }}</span>
             </div>
@@ -94,6 +94,7 @@
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
               @click="viewTxid(scope.row.hash)">VIEW</div>
+              <div v-else>--</div>
           </template>
         </el-table-column>
       </el-table>
@@ -565,13 +566,19 @@ export default {
       await headerStore.getTheUserBalanceApi();
     },
     async onRechargeByHash() {
-      if (!this.transactionId) {
+      const { transactionId } = this;
+      if (!transactionId) {
         this.$message.error("Please enter the on-chain transaction ID");
         return;
       }
 
+      if (!isValidEthAddress(transactionId)) {
+        this.$message.error("The format of the entered Ethereum wallet address is incorrect");
+        return
+      }
+
       const res = await rechargeByHash({
-        hash: this.transactionId,
+        hash: transactionId,
       });
 
       if (res && res.code == 200) {

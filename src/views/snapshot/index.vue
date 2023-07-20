@@ -11,7 +11,13 @@
           <el-table-column prop="snapshot_id" label="Snapshot ID" max-width="250" align="left">
             <template #header>
               <el-input v-model="snapshotId" @keyup.enter="handleSearch()" class="search_input"
-                placeholder="Search by ID" />
+                placeholder="Search by Reward ID">
+                <template #prefix>
+                  <el-icon class="el-input__icon" @click="handleSearch()">
+                    <search />
+                  </el-icon>
+                </template>
+              </el-input>
             </template>
             <template #default="scope">
               <div class="user_info">
@@ -22,7 +28,8 @@
           </el-table-column>
           <el-table-column prop="tokenId" label="TOKEN ID" align="left">
             <template #default="scope">
-              <span class="text-ellipsis">{{ `#${scope.row.tokenId}` }}</span>
+              <span class="text-ellipsis" v-if="scope.row.nftType == 'EXTERNAL'">{{ `#${scope.row.tokenId}` }}</span>
+              <span class="text-ellipsis" v-else>--</span>
             </template>
           </el-table-column>
           <el-table-column prop="price" label="Price" align="left">
@@ -35,9 +42,9 @@
               {{ `$${scope.row.usdtPrice}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" label="Refund Value" align="left">
+          <el-table-column prop="refundValue" label="Resale Price" align="left">
             <template #default="scope">
-              {{ `$${scope.row.refundValue}` }}
+              {{ `${scope.row.refundValue} ETH` }}
             </template>
           </el-table-column>
           <el-table-column prop="idx" label="Reward ID" align="left" />

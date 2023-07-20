@@ -95,11 +95,9 @@
     padding: 3.75rem;
     box-sizing: border-box;
 
-    img {
-      width: auto;
+    .nft_img {
+      width: 100%;
       height: 100%;
-      border-radius: 0.5rem;
-      transform: scale(1.6);
     }
   }
 
@@ -302,6 +300,10 @@
     position: relative;
     border-radius: 0.5rem;
 
+    .item_bg {
+      padding: 0.25rem;
+    }
+
     &.series_level_bg_1 {
       background-image: url("@/assets/svg/box/series_level_bg_1.svg");
       background-repeat: no-repeat;
@@ -345,14 +347,13 @@
     .img_box {
       width: 100%;
       height: 20.3125rem;
-      padding: 0.25rem;
       box-sizing: border-box;
       overflow: hidden;
+      border-radius: 0.25rem 0.25rem 0 0;
 
-      img {
+      .nft_img {
         width: 100%;
-        height: auto;
-        border-radius: 0.25rem 0.25rem 0 0;
+        height: 100%;
       }
     }
 

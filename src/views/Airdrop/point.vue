@@ -64,8 +64,8 @@
         </div>
         <div class="nft_box" v-if="accountPoint && nftList.length > 0">
           <div class="nft_item" v-for="(item, index) in nftList" :key="index">
-            <div class="nft_img">
-              <img :src="item.nftImg" alt="">
+            <div class="image_box">
+              <Image fit="cover" class="nft_img" :src="item.nftImg" />
             </div>
             <div class="nft_info">
               <div class="name_box">
@@ -115,11 +115,13 @@ import { getWalletNft } from "@/services/api/oneBuy";
 import { accurateDecimal, timeFormat } from "@/utils";
 import bigNumber from "bignumber.js";
 import Modify from "./components/modify.vue";
+import Image from "@/components/imageView";
 
 export default {
   name: 'AirdropPoint',
   components: {
-    Modify
+    Modify,
+    Image
   },
   props: {
     airdrop: {

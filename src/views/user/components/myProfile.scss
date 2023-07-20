@@ -275,9 +275,9 @@
       height: 7.375rem;
       margin-right: 1.875rem;
 
-      img {
+      .nft_img {
         height: 100%;
-        width: auto;
+        width: 100%;
       }
     }
 
@@ -331,8 +331,8 @@
       height: 3rem;
       overflow: hidden;
 
-      img {
-        width: auto;
+      .nft_img {
+        width: 100%;
         height: 100%;
         border-radius: 0.5rem;
       }

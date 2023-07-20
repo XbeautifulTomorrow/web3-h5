@@ -39,8 +39,7 @@
         <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
           <div class="img_box">
             <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</div>
-            <div class="tips text-ellipsis" v-else>{{ `#--` }}</div>
-            <img :src="item.img" alt="" />
+            <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
           <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'" @click="viewNft(item)">
@@ -79,7 +78,7 @@
       </div>
       <div class="create_title">CREATE COMPETITION</div>
       <div class="image_box">
-        <img :src="competitionNft && competitionNft.img" alt="" />
+        <Image fit="cover" class="nft_img" :src="competitionNft && competitionNft.img" />
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft && competitionNft.name }}</div>
@@ -187,12 +186,14 @@ import { useUserStore } from "@/store/user.js";
 
 import wallet from "../wallet/index.vue";
 import recharge from "@/components/recharge/index.vue";
+import Image from "@/components/imageView"
 
 export default {
   name: "myInventory",
   components: {
     wallet,
     recharge,
+    Image
   },
   data() {
     return {

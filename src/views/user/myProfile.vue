@@ -63,7 +63,7 @@
           <div class="history_item" v-for="(item, index) in purchaseHistory" :key="index">
             <div class="box_info">
               <div class="box_img">
-                <img :src="item.boxImg" alt="" />
+                <Image fit="cover" class="nft_img" :src="item.boxImg" />
               </div>
               <div class="box_buy">
                 <div class="box_name">{{ item.boxName }}</div>
@@ -74,7 +74,7 @@
             <div class="nft_info">
               <div class="nft_list">
                 <div class="img_box" v-for="(event, indexs) in item.lottery" :key="indexs">
-                  <img :src="event.nftImg" alt="" />
+                  <Image fit="cover" class="nft_img" :src="event.nftImg" />
                 </div>
               </div>
               <div class="price_box">
@@ -105,8 +105,12 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { timeFormat } from "@/utils";
+import Image from "@/components/imageView"
 export default {
   name: "myProfile",
+  components: {
+    Image
+  },
   data() {
     return {
       activeType: "point",

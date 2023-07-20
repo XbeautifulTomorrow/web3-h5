@@ -13,7 +13,7 @@
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <img :src="blindDetailInfo.boxImg" alt="" />
+            <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
@@ -92,16 +92,11 @@
         <div class="title_text">NFTS IN THIS BOX</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div
-          class="nft_series_item"
-          @click="handleShowNft(item)"
-          :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series"
-          :key="index"
-        >
-          <div :class="[`series_level_${typrFormat(item)}`]">
+        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series" :key="index">
+          <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
-              <img :src="item.seriesImg" alt="" />
+              <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
             </div>
             <div class="series_info">
               <div class="series_name">
@@ -135,28 +130,17 @@
         </div>
         <div class="title-box-r">
           <div class="title">Snapshot ID</div>
-          <el-input
-            v-model.number="snapshotId"
-            @keyup.enter="handleSearch()"
-            class="snapshot_input"
-            placeholder="Search by snapshot ID"
-          >
+          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
+            placeholder="Search by snapshot ID">
             <template #suffix>
-              <el-icon
-                class="search_btn el-input__icon"
-                @click="handleSearch()"
-              >
+              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
       </div>
-      <el-table
-        :data="snapshotData"
-        class="table_container"
-        style="width: 100%"
-      >
+      <el-table :data="snapshotData" class="table_container" style="width: 100%">
         <el-table-column prop="id" label="Snapshot ID" align="center">
         </el-table-column>
         <el-table-column prop="boxName" label="Box Name" align="center" />
@@ -188,53 +172,27 @@
         <el-table-column prop="date" label="Details" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img
-                class="nft_info"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info.svg"
-                alt=""
-              />
-              <img
-                class="nft_info_active"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info_active.svg"
-                alt=""
-              />
+              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
+                alt="" />
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box">
-        <el-pagination
-          v-model="page"
-          :page-size="size"
-          @current-change="handleCurrentChange"
-          :pager-count="7"
-          layout="prev, pager, next"
-          :total="count"
-          prev-text="Pre"
-          next-text="Next"
-        />
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
   </div>
-  <el-dialog
-    v-model="showSeriesDialog"
-    class="series_dialog"
-    fullscreen
-    align-center
-  >
+  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider
-      :nftParams="nftList"
-      :nftType="seriesType"
-      :sName="seriesName"
-      @closeFun="showSeriesDialog = false"
-    ></series-slider>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
+      @closeFun="showSeriesDialog = false"></series-slider>
   </el-dialog>
 </template>
 
@@ -247,11 +205,13 @@ import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
 import { timeFormat } from "@/utils";
+import Image from "@/components/imageView";
 
 export default {
   name: "boxDetails",
   components: {
     seriesSlider,
+    Image
   },
   props: {
     blindDetailInfo: {

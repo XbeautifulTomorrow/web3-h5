@@ -3,7 +3,7 @@
     <div class="ntf_tickets_info_wrapper">
       <div class="nft_details">
         <div class="nft_details_l border_bg">
-          <img :src="nftInfo && nftInfo.img" alt="">
+          <Image fit="cover" class="nft_img" :src="nftInfo && nftInfo.img" />
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <span v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
@@ -194,7 +194,7 @@
           </div>
         </div>
       </div>
-      <div class="ending_soon_box">
+      <div class="ending_soon_box" v-if="endingSoon.length > 0">
         <div class="ending_soon_text">ENDING SOON</div>
         <div class="ending_soon_list">
           <div class="ending_soon_item" @click="enterNow(item)" v-for="(item, index) in endingSoon" :key="index">
@@ -213,7 +213,7 @@
                 <span v-else>{{ `${item.limitNum} TICKETS LEFT` }}</span>
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
-              <img :src="item && item.nftImage" alt="">
+              <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
             </div>
             <div class="nft_name">
               <span>{{ item && item.seriesName }}</span>
@@ -249,6 +249,7 @@ import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 
 import { CScrollbar } from "c-scrollbar";
+import Image from "@/components/imageView";
 import {
   openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
@@ -256,7 +257,8 @@ export default {
   name: 'ntfTicketsInfo',
   components: {
     countDown,
-    CScrollbar
+    CScrollbar,
+    Image
   },
   data() {
     return {

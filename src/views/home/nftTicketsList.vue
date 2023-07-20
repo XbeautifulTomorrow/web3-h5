@@ -31,7 +31,7 @@
       <ul class="boxes-content">
         <li class="ntf-tickets-item" v-for="(item, index) in ticketList" :key="`tickets-${index}`">
           <div class="image_box">
-            <img class="nft_img" :src="item && item.nftImage" alt="">
+            <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
             <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
               <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
               <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
@@ -70,10 +70,12 @@ import { getCheckAllOrders } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
+import Image from "@/components/imageView";
 export default {
   name: 'ntfTicketsList',
   components: {
-    countDown
+    countDown,
+    Image
   },
   data() {
     return {

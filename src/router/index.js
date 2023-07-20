@@ -15,12 +15,7 @@ const Lottery = () => import("@/components/lottery/index.vue");
 const MysteryBox = () => import("../views/mysteryBox/index.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
-const Competitions = () => import("../views/user/competitions.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
-const MyProfile = () => import("../views/user/myProfile.vue");
-const Wallet = () => import("../views/user/wallet.vue");
-const Setting = () => import("../views/user/setting.vue");
-const Invite = () => import("../views/user/invite.vue");
 const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
 const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
@@ -75,16 +70,6 @@ const routes = [
     },
   },
   {
-    path: "/competitions",
-    name: "Competitions",
-    components: {
-      default: Competitions,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
     path: "/lottery",
     name: "Lottery",
     components: {
@@ -99,46 +84,6 @@ const routes = [
     name: "Snapshot",
     components: {
       default: Snapshot,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/myProfile",
-    name: "MyProfile",
-    components: {
-      default: MyProfile,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/wallet",
-    name: "Wallet",
-    components: {
-      default: Wallet,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/setting",
-    name: "Setting",
-    components: {
-      default: Setting,
-      Header,
-      Footer,
-      Currency,
-    },
-  },
-  {
-    path: "/invite",
-    name: "Invite",
-    components: {
-      default: Invite,
       Header,
       Footer,
       Currency,

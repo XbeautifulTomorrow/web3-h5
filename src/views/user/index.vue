@@ -13,6 +13,8 @@
       <Wallet v-if="userPage == 'balances'"></Wallet>
       <Inventory v-if="userPage == 'inventory'"></Inventory>
       <Competitions v-if="userPage == 'competition'"></Competitions>
+      <History v-if="userPage == 'history'"></History>
+      <Referrals v-if="userPage == 'referrals'"></Referrals>
     </div>
   </div>
 </template>
@@ -24,13 +26,17 @@ import Setting from "./setting.vue";
 import Wallet from "./wallet.vue";
 import Inventory from "./inventory.vue";
 import Competitions from "./competitions.vue";
+import History from "./history.vue";
+import Referrals from "./invite.vue";
 export default {
   name: "myIndex",
   components: {
     Setting,
     Wallet,
     Inventory,
-    Competitions
+    Competitions,
+    History,
+    Referrals
   },
   data() {
     return {

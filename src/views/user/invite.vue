@@ -1,112 +1,111 @@
 <template>
-  <div class="wrapper_bg">
-    <div class="my_invite_wrapper">
-      <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
-        <el-tab-pane label="SUMMARY" name="summary"></el-tab-pane>
-        <el-tab-pane label="REFERRED USERS" name="referred_user"></el-tab-pane>
-      </el-tabs>
-      <div class="summary_box" v-if="activeType == 'summary'">
-        <div class="invite_panel" :style="{
-          backgroundImage: `url(${invite})`,
-          height: '16.125rem'
-        }">
-          <div class="title_text">Earn ETH and cent by sharing BITZING!</div>
-          <div class="invite_description">
-            Post your unique tracker in your socials, in your Discord and send it to anyone with a passion for NFTs
-            with a little explanation of Bitzing. You will be handsomely rewarded with up to <span style="color:white">{{
-              new bigNumber(setting.consumePointRate).multipliedBy(100) }}%</span>
-            of their daily purchases and paid to you in ETH.
-          </div>
-        </div>
-        <div class="create_invite_code">
-          <div class="create_title">Set custom referrals code</div>
-          <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
-            <template #append>
-              <div class="create_btn" @click="createInvite()">CREATE</div>
-            </template>
-          </el-input>
-          <div class="create_error">{{ inviteTips }}</div>
-        </div>
-        <div class="statistics_panel">
-          <div class="statistics_title">YOUR STATISTICS</div>
-          <div class="statistics_box">
-            <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
-              <div class="statistics_type">
-                <div class="title">{{ item.statisticsType }}</div>
-                <div class="val">{{ item.totalData }}</div>
-              </div>
-              <div class="statistics_time">
-                <div class="title">Today</div>
-                <div class="val">{{ item.todayData }}</div>
-              </div>
-              <div class="statistics_time">
-                <div class="title">Yesterday</div>
-                <div class="val">{{ item.yesterdayData }}</div>
-              </div>
-              <div class="statistics_time">
-                <div class="title">This month</div>
-                <div class="val">{{ item.thisMonthData }}</div>
-              </div>
-              <div class="statistics_time">
-                <div class="title">Last month</div>
-                <div class="val">{{ item.lastMonthData }}</div>
-              </div>
-            </div>
-          </div>
-          <el-table :data="inviteList" class="table_container" style="width: 100%">
-            <el-table-column prop="inviteCode" label="CODE" align="center" />
-            <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
-            <el-table-column prop="invitePeople" label="REFS" align="center" />
-            <el-table-column prop="pointAmount" label="POINT" align="center" />
-            <el-table-column prop="traAmount" label="CONSUMPTION" align="center" />
-            <el-table-column label="CLAIM" align="center">
-              <template #default="scope">
-                <div class="claim_box" @click="handleReceive(scope.row)">
-                  <span>CLAIM</span>
-                  <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
-                  <span>{{ new bigNumber(scope.row.totalAmount || 0).minus(scope.row.receiveAmount || 0) }}</span>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="COPY" align="center">
-              <template #default="scope">
-                <div class="copy_btn">
-                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
+  <div :class="['my_invite_wrapper', activeType == 'referred_user' && 'small_bg']">
+    <div class="invite_text">
+      <img src="@/assets/svg/user/icon_referrals.svg" alt="">
+      <span>REFERRALS</span>
+    </div>
+    <div class="choose_box">
+      <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
+        :class="[activeType == item.value && 'active']">
+        {{ item.label }}
+      </div>
+    </div>
+    <div class="summary_box" v-if="activeType == 'summary'">
+      <div class="invite_panel">
+        <div class="title_text">Earn ETH and cent by sharing BITZING!</div>
+        <div class="invite_description">
+          Post your unique tracker in your socials, in your Discord and send it to anyone with a passion for NFTs
+          with a little explanation of Bitzing. You will be handsomely rewarded with up to <span style="color:white">{{
+            new bigNumber(setting.consumePointRate).multipliedBy(100) }}%</span>
+          of their daily purchases and paid to you in ETH.
         </div>
       </div>
-      <div class="referred_user_box" v-else>
-        <el-table :data="detailList" class="table_container" style="width: 100%">
-          <el-table-column prop="inviteCode" label="REFERRAL CODE" align="center" />
-          <el-table-column prop="userName" label="USERNAME" align="center" />
-          <el-table-column prop="rebatesAmount" label="CONSUMPTION" align="center">
+      <div class="create_invite_code">
+        <div class="create_title">Set custom referrals code</div>
+        <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
+          <template #append>
+            <div class="create_btn" @click="createInvite()">CREATE</div>
+          </template>
+        </el-input>
+        <div class="create_error">{{ inviteTips }}</div>
+      </div>
+      <div class="statistics_panel">
+        <div class="statistics_title">YOUR STATISTICS</div>
+        <div class="statistics_box">
+          <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
+            <div class="statistics_type">
+              <div class="title">{{ item.statisticsType }}</div>
+              <div class="val">{{ item.totalData }}</div>
+            </div>
+            <div class="statistics_time">
+              <div class="title">Today</div>
+              <div class="val">{{ item.todayData }}</div>
+            </div>
+            <div class="statistics_time">
+              <div class="title">Yesterday</div>
+              <div class="val">{{ item.yesterdayData }}</div>
+            </div>
+            <div class="statistics_time">
+              <div class="title">This month</div>
+              <div class="val">{{ item.thisMonthData }}</div>
+            </div>
+            <div class="statistics_time">
+              <div class="title">Last month</div>
+              <div class="val">{{ item.lastMonthData }}</div>
+            </div>
+          </div>
+        </div>
+        <el-table :data="inviteList" height="18.625rem" class="table_container" style="width: 100%">
+          <el-table-column prop="inviteCode" label="CODE" align="center" />
+          <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
+          <el-table-column prop="invitePeople" label="REFS" align="center" />
+          <el-table-column prop="pointAmount" label="POINT" align="center" />
+          <el-table-column prop="traAmount" label="CONSUMPTION" align="center" />
+          <el-table-column label="CLAIM" align="center">
             <template #default="scope">
-              <div class="consumption_box">
-                <span>{{ scope.row.rebatesAmount }}</span>
+              <div class="claim_box" @click="handleReceive(scope.row)">
+                <span>CLAIM</span>
                 <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
+                <span>{{ new bigNumber(scope.row.totalAmount || 0).minus(scope.row.receiveAmount || 0) }}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="pointAmount" label="POINT" align="center" />
-          <el-table-column prop="createTime" label="REFERRED AT" align="center">
+          <el-table-column label="COPY" align="center">
             <template #default="scope">
-              {{ timeFormat(scope.row.createTime) }}
+              <div class="copy_btn">
+                <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
+              </div>
             </template>
           </el-table-column>
         </el-table>
-        <div v-if="this.count > 6">
-          <div class="more" v-if="!isMore" @click="loadMore()">
-            <span>Show more</span>
-            <img src="@/assets/svg/user/icon_more.svg" alt="">
-          </div>
-          <div class="pagination-box" v-else>
-            <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-              layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
-          </div>
+        <div class="pagination-box" v-if="count > size">
+          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+            layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
         </div>
+      </div>
+    </div>
+    <div class="referred_user_box" v-else>
+      <el-table :data="detailList" class="table_container" height="26.5rem" style="width: 100%">
+        <el-table-column prop="inviteCode" label="REFERRAL CODE" align="center" />
+        <el-table-column prop="userName" label="USERNAME" align="center" />
+        <el-table-column prop="rebatesAmount" label="CONSUMPTION" align="center">
+          <template #default="scope">
+            <div class="consumption_box">
+              <span>{{ scope.row.rebatesAmount }}</span>
+              <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="pointAmount" label="POINT" align="center" />
+        <el-table-column prop="createTime" label="REFERRED AT" align="center">
+          <template #default="scope">
+            {{ timeFormat(scope.row.createTime) }}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination-box" v-if="this.count > size">
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
   </div>
@@ -127,9 +126,13 @@ export default {
   data() {
     return {
       activeType: "summary",
-      isMore: false,
-      invite: require("@/assets/svg/user/invite_bg.svg"),
-      inviteMore: require("@/assets/svg/user/point_more_bg.svg"),
+      tabsList: [{
+        label: "SUMMARY",
+        value: "summary"
+      }, {
+        label: "REFERRED USERS",
+        value: "referred_user"
+      }],
       inviteCode: null,
       verifys: false,
       inviteTips: null,
@@ -137,7 +140,7 @@ export default {
       inviteList: [],
       detailList: [],
       page: 1,
-      size: 6,
+      size: 5,
       count: 0,
       setting: {
         withdrawalFees: null
@@ -150,14 +153,15 @@ export default {
     timeFormat: timeFormat,
     handleChange(event) {
       this.page = 1;
-      this.size = 4;
+      this.size = 5;
       this.count = 0;
-      this.isMore = false;
+      this.activeType = event.value;
 
-      if (event == "summary") {
+      if (event.value == "summary") {
         this.fetchInvateStatistics();
         this.fetchRebatesFindList();
       } else {
+        this.size = 8;
         this.fetchDetailPageList();
       }
     },
@@ -234,11 +238,6 @@ export default {
         this.$message.success("Receive success");
         this.fetchRebatesFindList();
       }
-    },
-    loadMore() {
-      this.isMore = true;
-      this.size = 20;
-      this.fetchDetailPageList();
     },
     handleCurrentChange(page) {
       this.page = page;

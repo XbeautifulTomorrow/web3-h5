@@ -100,6 +100,12 @@ const buyNftBalance = (params) =>
 const buyNftWallet = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/onChainPurchases", params);
 
+/**
+* @description 查询个人订单
+*/
+const getUserOneOrder = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/userOneOrder", params);
+
 export {
   getWalletNft,
   getSystemNft,
@@ -116,4 +122,5 @@ export {
   getCheckAllOrders,
   getLottery,
   getTheExternalNFTSeries,
+  getUserOneOrder
 };

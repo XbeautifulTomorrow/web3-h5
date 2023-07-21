@@ -307,11 +307,6 @@ export default {
         return
       }
 
-      // if (this.screenWidth <= 950) {
-      //   this.connectWallet();
-      //   return
-      // }
-
       this.showConnect = true;
     },
     // 连接类型

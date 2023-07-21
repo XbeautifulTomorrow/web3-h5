@@ -103,7 +103,6 @@ export default {
     },
     onLogout() {
       this.userStore.logoutApi();
-      this.$router.push({ path: "/home" });
       this.reload();
     }
   }

@@ -2,6 +2,10 @@ import * as apiService from '@/services/apiService'
 
 const getBoxList = params =>//首页盲盒列表
   apiService.get('mystery-web-user/index/box/list', params)
+const getBoxPageList = params =>//首页盲盒列表分页
+  apiService.get(' /mystery-web-user/index/box/pageList', params)
+
+
 
 const getTicketList = params =>//首页盲盒抽奖列表
   apiService.get('mystery-web-user/index/box/lottery', params)
@@ -13,4 +17,11 @@ const authIp = params =>//获取是否国内IP
 const getAuthimage = params =>//图形验证码
   apiService.get('/mystery-web-user/auth/getCode', params)
 
-export { getBoxList, getTicketList, getNFTList, authIp, getAuthimage }
+export {
+  getBoxList,
+  getBoxPageList,
+  getTicketList,
+  getNFTList,
+  authIp,
+  getAuthimage
+}

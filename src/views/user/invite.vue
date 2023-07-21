@@ -60,7 +60,14 @@
           <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
           <el-table-column prop="invitePeople" label="REFS" align="center" />
           <el-table-column prop="pointAmount" label="POINT" align="center" />
-          <el-table-column prop="traAmount" label="CONSUMPTION" align="center" />
+          <el-table-column prop="traAmount" label="CONSUMPTION" align="center">
+            <template #default="scope">
+              <div class="consumption_box">
+                <span>{{ scope.row.traAmount }}</span>
+                <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column label="CLAIM" align="center">
             <template #default="scope">
               <div class="claim_box" @click="handleReceive(scope.row)">
@@ -88,15 +95,14 @@
       <el-table :data="detailList" class="table_container" height="26.5rem" style="width: 100%">
         <el-table-column prop="inviteCode" label="REFERRAL CODE" align="center" />
         <el-table-column prop="userName" label="USERNAME" align="center" />
-        <el-table-column prop="rebatesAmount" label="CONSUMPTION" align="center">
+        <el-table-column prop="traAmount" label="CONSUMPTION" align="center">
           <template #default="scope">
             <div class="consumption_box">
-              <span>{{ scope.row.rebatesAmount }}</span>
-              <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
+              <span>{{ scope.row.traAmount }}</span>
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="pointAmount" label="POINT" align="center" />
         <el-table-column prop="createTime" label="REFERRED AT" align="center">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}

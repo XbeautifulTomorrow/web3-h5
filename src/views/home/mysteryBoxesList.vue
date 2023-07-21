@@ -4,7 +4,7 @@
       <div class="banner_box">
       </div>
       <div class="search_box">
-        <el-input v-model="searchVal" clearable @keyup.enter="fetchBoxList()" class="search_input" type="text"
+        <el-input v-model="searchVal" clearable @keyup.enter="fetchBoxPageList()" class="search_input" type="text"
           placeholder="Search mystery box">
           <template #prefix>
             <el-icon class="el-input__icon search_icon">
@@ -13,17 +13,10 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" clearable @change="fetchBoxList()" class="select_box" placeholder="ALL" size="large">
+          <el-select v-model="sort" clearable @change="changeSort" class="select_box" placeholder="ALL" size="large">
             <el-option v-for="(item, index) in sortDrop" :key="index" :label="item.label" :value="item.value" />
           </el-select>
           <div class="sort_title">Sort by:</div>
-        </div>
-        <div class="sort_box collections">
-          <el-select v-model="nftId" clearable @change="fetchBoxList()" class="select_box" placeholder="ALL" size="large">
-            <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
-              :value="item.contractAddress" />
-          </el-select>
-          <div class="sort_title">Collections:</div>
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
@@ -68,8 +61,7 @@
   </div>
 </template>
 <script>
-import { getBoxList } from '@/services/api/index';
-import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
+import { getBoxPageList } from '@/services/api/index';
 import bigNumber from "bignumber.js";
 import { dateDiff } from "@/utils";
 
@@ -89,7 +81,6 @@ export default {
   },
   data() {
     return {
-      collections: [],
       searchVal: null,
       sort: null,
       sortDrop: [
@@ -97,8 +88,9 @@ export default {
         { label: "Sort by Price Low", value: "price_desc" },
         { label: "Sort by Price High", value: "price_asc" }
       ],
-      nftId: null,
       boxList: [],
+      orderBy: null,
+      orderType: null,
       pageType: null,
       page: 1,
       size: 20,
@@ -115,34 +107,43 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
-    // 获取所有系列，用做筛选
-    async fetchAllSeries() {
-      const res = await getTheExternalNFTSeries({
-        type: "ALL"
-      });
-      this.collections = res.data;
+    changeSort(event) {
+      if (event == "popularity") {
+        this.orderBy = "sales";
+        this.orderType = "DESC";
+      } else if (event == "price_desc") {
+        this.orderBy = "price";
+        this.orderType = "DESC";
+      } else if (event == "price_asc") {
+        this.orderBy = "price";
+        this.orderType = "ASC";
+      } else {
+        this.orderBy = null;
+        this.orderType = null;
+      }
+
+      this.fetchBoxPageList();
     },
     // 最新购买
-    async fetchBoxList(isSearch = true) {
-      const { searchVal, sort, nftId, size } = this;
+    async fetchBoxPageList(isSearch = true) {
+      const { searchVal, orderBy, orderType, size } = this;
       let _page = this.page;
       if (isSearch) {
         this.page = 1;
         _page = 1;
       }
 
-      let res = await getBoxList({
-        keyWord: searchVal,
-        sortBy: sort,
-        contractAddress: nftId,
+      let res = await getBoxPageList({
+        boxName: searchVal,
+        orderBy: orderBy,
+        orderType: orderType,
         page: _page,
         size: size
       });
 
       if (res && res.code == 200) {
-        // this.boxList = res.data.records;
-        this.boxList = res.data;
-        // this.count = res.data.total;
+        this.boxList = res.data.records;
+        this.count = res.data.total;
       }
     },
     handleMysteryBoxes(event) {
@@ -154,12 +155,11 @@ export default {
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchBoxList(false);
+      this.fetchBoxPageList(false);
     }
   },
   created() {
-    this.fetchAllSeries();
-    this.fetchBoxList();
+    this.fetchBoxPageList();
   }
 };
 </script>

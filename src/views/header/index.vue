@@ -4,7 +4,7 @@
       <div class="header-left">
         <img class="header-logo" src="@/assets/img/headerFooter/logo.png" alt="logo" @click="goTo()" />
         <ul class="header-nav">
-          <li :class="['header-nav-text', active == item.text && 'active']" v-for="(item, index) in nav"
+          <li :class="['header-nav-text', active == item.page && 'active']" v-for="(item, index) in nav"
             :key="`nav-${index}`" @click="goTo(item.page)">
             {{ item.text }}
           </li>
@@ -172,7 +172,6 @@ export default {
     othersideBoxFun(item) {
       if (item.page === "logout") {
         this.userStore.logoutApi();
-        this.$router.push({ path: "/home" });
         this.reload();
         return;
       }

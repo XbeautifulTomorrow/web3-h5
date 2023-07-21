@@ -108,10 +108,11 @@ export default {
       // }
     ]
 
-
-    // 获取类型
-    const { id } = this.$route.params;
-    this.userStore.setUserPage(this.$route.path, id);
+    if (this.isLogin) {
+      // 获取类型
+      const { id } = this.$route.params;
+      this.userStore.setUserPage(this.$route.path, id);
+    }
   },
   methods: {
     chooseNav(evnet) {

@@ -117,7 +117,7 @@
                     <span>PROVABLY FAIR</span>
                   </div>
                   <div class="chain_link">
-                    <span @click="openLenk(nftInfo.txid)">Verify Faimess</span>
+                    <span @click="openLenk(nftInfo)">Verify Faimess</span>
                     <span>[Advanced Users]</span>
                   </div>
                 </div>
@@ -504,7 +504,14 @@ export default {
      * @description: 打开链上
      */
     openLenk(event) {
-      openUrl(`https://mumbai.polygonscan.com/tx/${event}`)
+      let chainLink = process.env.VUE_APP_CHAIN_MUMBAI_ADDR;
+      if (event.chainType == "OKT_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      } else if (event.chainType == "BSC_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      }
+
+      openUrl(`${chainLink}${event.txid}`);
     }
   },
   watch: {

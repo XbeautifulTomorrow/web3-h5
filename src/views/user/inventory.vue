@@ -57,7 +57,7 @@
         </div>
       </div>
       <div v-else class="no_date">
-        <span>NO INVENTORY FOUND</span>
+        <span>NO NFT FOUND</span>
       </div>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"

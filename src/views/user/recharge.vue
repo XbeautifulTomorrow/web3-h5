@@ -22,7 +22,7 @@
         </div>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_eth.svg" alt="" />
             <span>Ethereum [ETH]</span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('USDT')">
@@ -36,7 +36,7 @@
           <el-icon class="icon_arrow" @click="operatingCoin = null">
             <ArrowLeftBold />
           </el-icon>
-          <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
           <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
           <div class="recharge_title_text">
             <span v-if="walletOperating == 1">{{
@@ -97,7 +97,7 @@
             <div class="convert_interval">~</div>
             <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
               <template #prefix>
-                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img src="@/assets/svg/user/icon_eth.svg" alt="" />
               </template>
             </el-input>
           </div>
@@ -141,7 +141,7 @@
                 <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                   type="number">
                   <template #prefix>
-                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    <img src="@/assets/svg/user/icon_eth.svg" alt="" />
                   </template>
                 </el-input>
               </div>
@@ -149,9 +149,15 @@
                 REQUEST WITHDRAW
               </div>
             </div>
-            <div class="withdraw_fee">
+            <div class="withdraw_fee" v-if="operatingCoin == 'ETH'">
               {{
                 `Network fee: ${setting.withdrawalFees || 0} ${operatingCoin}`
+              }}
+            </div>
+            <div class="withdraw_fee" v-else>
+              {{
+                `Network fee: ${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4)
+                || 0} ${operatingCoin}`
               }}
             </div>
             <div class="withdraw_item_error">
@@ -202,8 +208,6 @@ export default {
       walletAmount: null, // 充币数量
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
-      ethFee: 0.03, //eth服务费
-      usdtFee: 2.25, //usdt服务费
       verifys: false, //验证结果
 
       timer: null,
@@ -275,11 +279,11 @@ export default {
   methods: {
     onCopy: onCopy,
     bigNumber: bigNumber,
+    accurateDecimal: accurateDecimal,
     timeFormat: timeFormat,
     handleOperating(event) {
       this.walletOperating = event;
       if (this.walletOperating == 1 && this.operatingCoin != null) {
-        this.fetchRechargeExchangeRate();
 
         if (this.timer) {
           clearTimeout(this.timer);
@@ -288,9 +292,12 @@ export default {
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
+        this.walletAmount = 1;
       } else {
-        this.fetchWithdrawalExchangeRate();
+        this.walletAmount = 0;
       }
+
+      this.fetchWithdrawalExchangeRate();
     },
     handleChoose(event) {
       this.operatingCoin = event;
@@ -299,17 +306,19 @@ export default {
       this.fetchSetting();
 
       if (this.walletOperating == 1) {
-        this.fetchRechargeExchangeRate();
-
         if (this.timer) {
           clearTimeout(this.timer);
         }
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
+        this.walletAmount = 1;
       } else {
-        this.fetchWithdrawalExchangeRate();
+
+        this.walletAmount = 0;
       }
+
+      this.fetchWithdrawalExchangeRate();
     },
     // 收款地址
     async fetchReceivingAddr() {
@@ -401,7 +410,7 @@ export default {
       await headerStore.getTheUserBalanceApi();
     },
     // 关闭创建弹窗
-    handleClose(done) {
+    handleClose() {
       this.walletOperating = 1; // 1 充币；2 提币；
       this.operatingCoin = null; // 操作币种
       this.walletAddr = null;
@@ -413,13 +422,6 @@ export default {
       this.tipsText = null;
 
       this.$emit("closeDialogFun");
-
-      if (done) {
-        done();
-        return;
-      }
-
-      this.showRecharge = false;
     },
     createQrcode() {
       new QRCode(this.$refs.qrCodeDiv, {
@@ -434,7 +436,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: this.operatingCoin || "ETH"
+        coin: "ETH"
       });
 
       if (res && res.code == 200) {

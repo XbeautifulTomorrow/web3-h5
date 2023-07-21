@@ -2,6 +2,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
 import config from './env';
+import router from "@/router";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 // import qs from 'qs'
@@ -69,6 +70,7 @@ const handleRes = ({ headers, url, data }) => {
 
     const { logoutApi } = useUserStore();
     logoutApi();
+    router.push({ path: "/home" });
 
     return [false, data.code, data];
   } else {

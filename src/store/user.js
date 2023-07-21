@@ -4,7 +4,7 @@ import { getLocalStore } from "@/utils";
 import localeZH from 'element-plus/lib/locale/lang/zh-tw';
 import localeEN from 'element-plus/lib/locale/lang/en';
 import { getLang } from "@/locales";
-import router from "@/router"
+import router from "@/router";
 
 export const useUserStore = defineStore("user", {
   state: () => ({

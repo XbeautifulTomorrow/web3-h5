@@ -172,6 +172,7 @@ export default {
     othersideBoxFun(item) {
       if (item.page === "logout") {
         this.userStore.logoutApi();
+        this.$router.push({ path: "/home" });
         this.reload();
         return;
       }

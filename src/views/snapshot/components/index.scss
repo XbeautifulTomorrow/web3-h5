@@ -76,8 +76,13 @@
       border-radius: 0.5rem;
     }
 
-    span {
+    .nft_name {
+      width: 12.5rem;
       padding-left: 0.75rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
     }
   }
 

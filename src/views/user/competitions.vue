@@ -20,8 +20,8 @@
         </div>
       </div>
       <div class="entered_box" v-if="count > 0 && activeType == 'ENTERED'">
-        <div class="entered_item" @click="enterNow(item)" v-for="(item, index) in enteredList" :key="index">
-          <div class="image_box">
+        <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
+          <div class="image_box" @click="enterNow(item)">
             <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="['tips_round', item.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
@@ -77,8 +77,8 @@
       </div>
       <div class="my_competitions_panel" v-else-if="count > 0 && activeType == 'MY_COMPETITIONS'">
         <div class="my_competitions_box">
-          <div class="entered_item" @click="enterNow(item)" v-for="(item, index) in enteredList" :key="index">
-            <div class="image_box">
+          <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
+            <div class="image_box" @click="enterNow(item)">
               <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
                 :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
@@ -218,6 +218,10 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     dateDiff: dateDiff,
@@ -322,7 +326,9 @@ export default {
     }
   },
   created() {
-    this.fetchOneBuyList();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchOneBuyList();
+    }
   }
 };
 </script>

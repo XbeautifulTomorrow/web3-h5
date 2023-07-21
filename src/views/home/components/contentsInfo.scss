@@ -177,12 +177,11 @@
     }
 
     .user_text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    span {
+      width: 12.5rem;
       padding-left: 0.75rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 

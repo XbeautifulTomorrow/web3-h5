@@ -4,25 +4,25 @@
       <div class="contents-info">
         <div class="home-public-title">
           <div class="title-box-l">
-            <div class="title_text">BOX SNAPSHOT</div>
+            <div class="title_text">{{ `${boxName} SNAPSHOT #${snapshotId}` }}</div>
           </div>
         </div>
         <el-table :data="snapshotData" class="table_container" style="width: 100%">
-          <el-table-column prop="snapshot_id" label="Snapshot ID" max-width="250" align="left">
+          <el-table-column prop="snapshot_id" label="Snapshot ID" align="left" show-overflow-tooltip>
             <template #header>
-              <el-input v-model="snapshotId" @keyup.enter="handleSearch()" class="search_input"
+              <el-input v-model="rewardId" @keyup.enter="fetchSnapshotDetail()" class="search_input"
                 placeholder="Search by Reward ID">
                 <template #prefix>
-                  <el-icon class="el-input__icon" @click="handleSearch()">
+                  <el-icon class="el-input__icon" @click="fetchSnapshotDetail()">
                     <search />
                   </el-icon>
                 </template>
               </el-input>
             </template>
             <template #default="scope">
-              <div class="user_info">
+              <div class="user_info text-ellipsis">
                 <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
-                <span class="text-ellipsis">{{ `#${scope.row.nftName}` }}</span>
+                <div class="nft_name">{{ scope.row.nftName }}</div>
               </div>
             </template>
           </el-table-column>
@@ -68,7 +68,9 @@ export default {
   },
   data() {
     return {
+      boxName: null,
       snapshotId: null,
+      rewardId: null,
       page: 1,
       size: 10,
       count: 0,
@@ -79,15 +81,19 @@ export default {
     handleActive(event) {
       console.log(event);
     },
-    handleSearch() {
-      this.page = 1;
-      this.fetchSnapshotDetail();
-    },
-    async fetchSnapshotDetail() {
+    async fetchSnapshotDetail(isSearch = true) {
+      const { snapshotId, rewardId, size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
       const res = await getSnapshotDetail({
-        snapshotId: this.snapshotId,
-        page: this.page,
-        size: this.size
+        snapshotId: snapshotId,
+        idx: rewardId,
+        page: _page,
+        size: size
       });
 
       if (res && res.code == 200) {
@@ -97,7 +103,7 @@ export default {
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchSnapshotDetail();
+      this.fetchSnapshotDetail(false);
     },
   },
   created() {
@@ -105,6 +111,8 @@ export default {
     const { id } = this.$route.query;
     this.snapshotId = id;
     this.fetchSnapshotDetail();
+    this.boxName = sessionStorage.getItem("boxName") || "BOX";
+    this.boxName = this.boxName.toUpperCase();
   }
 };
 </script>

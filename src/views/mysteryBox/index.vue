@@ -1,38 +1,18 @@
 <template>
   <div class="blind-detail">
-    <template
-      v-if="
-        blindDetailInfo &&
-        blindDetailInfo.series &&
-        blindDetailInfo.series.length > 0
-      "
-    >
-      <Lottory
-        v-if="showRoll"
-        ref="roll"
-        :rollNumber="rollNumber"
-        :showRoll="showRoll"
-        :lottoList="blindDetailInfo.series"
-        :blindDetailInfo="blindDetailInfo"
-        :lottResult="lottResult"
-        :apiIsError="apiIsError"
-        :errorText="errorText"
-        @apiIsErrorFun="apiIsErrorFun"
-        @closeRollFun="closeRollFun"
-      />
+    <template v-if="blindDetailInfo &&
+      blindDetailInfo.series &&
+      blindDetailInfo.series.length > 0
+      ">
+      <Lottory v-if="showRoll" ref="roll" :rollNumber="rollNumber" :showRoll="showRoll"
+        :lottoList="blindDetailInfo.series" :blindDetailInfo="blindDetailInfo" :lottResult="lottResult"
+        :apiIsError="apiIsError" :errorText="errorText" @apiIsErrorFun="apiIsErrorFun" @closeRollFun="closeRollFun" />
     </template>
-    <boxDetails
-      :blindDetailInfo="blindDetailInfo"
-      @rollNumberFun="rollNumberFun"
-    ></boxDetails>
+    <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
     <Loading :loading="loading" />
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
-      <img
-        v-for="(item, index) in preloadingImg"
-        :src="item"
-        :key="`img-${index}`"
-      />
+      <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
     </div>
   </div>
 </template>
@@ -86,7 +66,7 @@ export default {
       usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
       lottContractAddress: "0x7729c592e087d88afea4b55c367c8570e0025ee0", //抽奖合约，
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
-      blindDetailInfo: "",
+      blindDetailInfo: {},
       lottStatus: true,
       lottResult: "",
       apiIsError: false,
@@ -218,16 +198,18 @@ export default {
       this.transfer(this.walletOrderDetail.orderId, coiledType);
     },
     async getBlindBoxDetail() {
-      let detail = await blindBoxDetail({ boxId: this.boxId });
+      const res = await blindBoxDetail({ boxId: this.boxId });
       this.loading = false;
-      this.blindDetailInfo = detail.data;
-      detail?.data?.series.forEach((item) => {
-        const { boxNftInfos } = item;
-        this.preloadingImg.push(item.seriesImg);
-        boxNftInfos.forEach((item1) => {
-          this.preloadingImg.push(item1.nftImg);
+      if (res && res.code == 200) {
+        this.blindDetailInfo = res.data;
+        res?.data?.series.forEach((item) => {
+          const { boxNftInfos } = item;
+          this.preloadingImg.push(item.seriesImg);
+          boxNftInfos.forEach((item1) => {
+            this.preloadingImg.push(item1.nftImg);
+          });
         });
-      });
+      }
     },
     async transfer(id, coiledType) {
       const web3 = this.walletStore.web3;
@@ -352,11 +334,9 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(
-    228deg,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0) 62%
-  );
+  background-image: linear-gradient(228deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0) 62%);
 
   &:last-child {
     margin-right: 0;
@@ -392,12 +372,10 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
+  border-image-source: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
@@ -407,12 +385,10 @@ body {
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(
-    to bottom,
-    #5fe3ef 12%,
-    #00689d 53%,
-    #b063f5 70%
-  );
+  background-image: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

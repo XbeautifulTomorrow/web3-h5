@@ -97,14 +97,14 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
-    },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
-    },
+    }
   },
   methods: {
     timeFormat: timeFormat,
@@ -154,7 +154,9 @@ export default {
     },
   },
   created() {
-    this.fetchUserBuyHistory();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchUserBuyHistory();
+    }
   },
 };
 </script>

@@ -110,7 +110,6 @@
 <script>
 import Image from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
-import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { mapStores } from "pinia";
 export default {

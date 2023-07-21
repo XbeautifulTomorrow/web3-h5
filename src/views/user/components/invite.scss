@@ -330,7 +330,13 @@
     align-items: center;
     justify-content: center;
 
+    &>img+img {
+      margin-left: 0.625rem;
+    }
+
     img {
+      width: 1.5rem;
+      height: auto;
       cursor: pointer;
     }
   }

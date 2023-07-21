@@ -61,6 +61,8 @@ const statisticsClick = params =>
 const getTheUserPoint = params =>
   apiService.get('mystery-web-user/user/getTheUserPoint', params); // 积分余额
 
+const resetPassword = params =>
+  apiService.post('mystery-web-user/auth/account/resetPassword', params); // 积分余额
 
 
 export {
@@ -83,5 +85,6 @@ export {
   getWithdrawalHistory,
   rechargeByHash,
   statisticsClick,
-  getTheUserPoint
+  getTheUserPoint,
+  resetPassword
 };

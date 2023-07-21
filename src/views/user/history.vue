@@ -2,7 +2,7 @@
   <div class="my_history_wrapper">
     <div class="history_text">
       <img src="@/assets/svg/user/icon_history.svg" alt="">
-      <span>COMPETITION</span>
+      <span>PURCHASE HISTORY</span>
     </div>
     <div class="choose_box">
       <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"

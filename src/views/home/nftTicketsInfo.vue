@@ -81,8 +81,8 @@
               <div class="payment_box">
                 <el-button v-if="maxBuyNum > 0" style="width: 100%;" class="submit_payment" type="primary"
                   @click="submitPayment()">
-                  <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes} tickets for ${buyPrice} ` }}</span>
-                  <span v-else>{{ `Purchase ${buyVotes} ticket for ${buyPrice}` }}&nbsp;</span>
+                  <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes || 0} tickets for ${buyPrice} ` }}</span>
+                  <span v-else>{{ `Purchase ${buyVotes || 0} ticket for ${buyPrice}` }}&nbsp;</span>
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">

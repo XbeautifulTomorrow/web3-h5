@@ -81,6 +81,8 @@
             <template #default="scope">
               <div class="copy_btn">
                 <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
+                <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(scope.row.inviteCode)"
+                  alt="">
               </div>
             </template>
           </el-table-column>
@@ -99,6 +101,14 @@
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.traAmount }}</span>
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="rebatesAmount" label="REWARDS" align="center">
+          <template #default="scope">
+            <div class="consumption_box">
+              <span>{{ scope.row.rebatesAmount }}</span>
               <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             </div>
           </template>
@@ -129,7 +139,7 @@ import {
   getSetting
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-import { onCopy, timeFormat } from "@/utils";
+import { onCopy, timeFormat, openUrl } from "@/utils";
 export default {
   name: 'myInvite',
   data() {
@@ -268,6 +278,17 @@ export default {
       const currentLink = window.location;
       let link = currentLink.origin + "/Home/" + event;
       onCopy(link);
+    },
+    // 分享邀请链接到推特
+    shareInviteLink(event) {
+      const currentLink = window.location;
+      let link = currentLink.origin + "/Home/" + event;
+      const inviteText = this.setting.inviteText.replace(/,/g, "\n");
+
+      // 构建推特的分享链接
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      // 在新窗口中打开推特分享链接
+      openUrl(twitterUrl);
     },
     // 设置
     async fetchSetting() {

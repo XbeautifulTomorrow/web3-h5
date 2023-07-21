@@ -339,8 +339,10 @@ export default {
         .toFixed(4);
     },
   },
-  created() {
-    this.fetchSnapshotList();
+  watch: {
+    blindDetailInfo() {
+      this.fetchSnapshotList();
+    }
   },
   mounted() {
     this.$nextTick(() => {

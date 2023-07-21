@@ -149,7 +149,7 @@
             </div>
           </div>
         </el-form-item>
-        <div class="continue_btn" @click="submitCompetition()">CONTINUE</div>
+        <div class="continue_btn" @click="submitCompetition()">CREATE</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
           <p>
             This mode cannot be cancelled once the competition starts, so please set
@@ -239,6 +239,20 @@ export default {
     };
   },
   watch: {
+    "competitionForm.price"(newV) {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      if (!newV) return;
+
+      this.timer = setTimeout(() => {
+        if (newV.length > 5) {
+          this.competitionForm.price = newV.slice(0, 5);
+        }
+        this.$forceUpdate();
+      }, 300);
+    },
     "competitionForm.limitDay"(newV) {
       const max = 30;
       if (this.timer) {
@@ -368,6 +382,10 @@ export default {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
           const { activeType, competitionNft } = this;
+
+          if (this.competitionForm.price.length > 5) {
+            this.competitionForm.price = this.competitionForm.price.slice(0, 5);
+          }
 
           let ruleForm = {
             ...this.competitionForm,

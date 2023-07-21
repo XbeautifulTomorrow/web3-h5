@@ -32,16 +32,13 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive, defineEmits, defineProps } from "vue";
-import { getForgetPasswordtcha } from "@/services/api/user";
+import { ref, reactive, defineEmits } from "vue";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
+import { resetPassword } from "@/services/api/user";
+import { ElMessage } from "element-plus";
 
 const emit = defineEmits(["closeDialogFun"]);
-const props = defineProps({
-  formLogin: {
-    type: Object,
-    requird: true,
-  },
-});
 
 const visible = ref(true)
 const ruleFormRef = ref();
@@ -101,14 +98,17 @@ const forgotFun = async (formEl) => {
   if (!formEl || !isSure.value) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const { password } = formForgot;
+      const { oldPassword, password } = formForgot;
       const formLogin = {
-        email: props.formLogin.email,
-        passWord: password,
-        captcha: props.formLogin.captcha,
+        oldPassword: oldPassword,
+        newPassword: password,
       };
-      const res = await getForgetPasswordtcha(formLogin);
+      const res = await resetPassword(formLogin);
       if (res && res.code === 200) {
+        ElMessage({
+          message: t("common.operationTips"),
+          type: "success",
+        });
         emit("closeDialogFun");
       }
     } else {

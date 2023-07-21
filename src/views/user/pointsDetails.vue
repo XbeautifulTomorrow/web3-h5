@@ -10,7 +10,7 @@
     <div class="point_details">
       <div class="point_details_title">POINT DETAILS</div>
       <el-table height="28.25rem" :data="pointData" class="table_container" style="width: 100%">
-        <el-table-column prop="source" label="TYPE" align="center" />
+        <el-table-column prop="source" label="SOURCE" align="center" />
         <el-table-column prop="integral" label="POINT" align="center">
           <template #default="scope">
             <div class="point_info">

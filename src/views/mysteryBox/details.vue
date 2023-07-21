@@ -282,6 +282,7 @@ export default {
       this.showSeriesDialog = true;
     },
     handleActive(event) {
+      window.sessionStorage("boxName", event.boxName);
       this.$router.push({ name: "Snapshot", query: { id: event.id } });
     },
     handleSearch() {

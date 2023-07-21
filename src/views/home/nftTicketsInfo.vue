@@ -123,7 +123,7 @@
                 </div>
               </div>
               <div class="return_box" v-else>
-                The tournament did not reach its sell-out target and your purchased tickets have been refunded to the
+                The competition did not reach its sell-out target and your purchased tickets have been refunded to the
                 balance, worth
                 <span>
                   {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0) }}

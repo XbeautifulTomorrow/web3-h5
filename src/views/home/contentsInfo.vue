@@ -17,26 +17,29 @@
       </div>
     </div>
     <el-table :data="nftData" class="table_container" style="width: 100%">
-      <el-table-column prop="nftId" label="NFT">
+      <el-table-column prop="nftId" label="NFT" show-overflow-tooltip>
         <template #default="scope">
-          <div class="user_info">
+          <div class="user_info text-ellipsis">
             <div class="image_box">
               <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
             </div>
-            <div class="user_text">
-              <span>{{ `${scope.row.nftName} #${scope.row.tokenId}` }}</span>
-            </div>
+            <div class="user_text ">{{ scope.row.nftName }}</div>
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="price" :label="$t('home.tabelText1')" show-overflow-tooltip>
+        <template #default="scope">
+          {{ `#${scope.row.tokenId} ` }}
         </template>
       </el-table-column>
       <el-table-column prop="price" :label="$t('home.tabelText2')" show-overflow-tooltip>
         <template #default="scope">
-          {{ `${scope.row.price} ${scope.row.coin}` }}
+          {{ `${scope.row.price} ${scope.row.coin} ` }}
         </template>
       </el-table-column>
       <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" show-overflow-tooltip>
         <template #default="scope">
-          {{ `$${scope.row.usdtPrice}` }}
+          {{ `$${scope.row.usdtPrice} ` }}
         </template>
       </el-table-column>
       <el-table-column prop="boxName" :label="$t('home.tabelText4')" show-overflow-tooltip />
@@ -110,11 +113,19 @@ export default {
       this.seriesList = res.data;
     },
     // 盲盒具体nft详情列表
-    async fetchNftList() {
+    async fetchNftList(isSearch = true) {
+      const { contractAddress, size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
+
       const res = await getNFTList({
-        page: this.page,
-        size: this.size,
-        contractAddress: this.contractAddress
+        page: _page,
+        size: size,
+        contractAddress: contractAddress
       });
       if (res && res.code == 200) {
         this.nftData = res.data.records;
@@ -141,7 +152,7 @@ export default {
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchNftList();
+      this.fetchNftList(false);
     }
   },
   created() {

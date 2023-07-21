@@ -113,7 +113,10 @@
     transform: scale(1) rotateY(0);
   }
   50% {
-    transform: scale(1.15) rotateY(90deg);
+    transform: rotateY(90deg);
+  }
+  75% {
+    transform: scale(1.15) rotateY(180deg);
   }
   100% {
     transform: scale(1) rotateY(180deg);
@@ -124,7 +127,10 @@
     transform: scale(1) rotateY(0deg);
   }
   50% {
-    transform: scale(1.15) rotateY(90deg);
+    transform: rotateY(90deg);
+  }
+  75% {
+    transform: scale(1) rotateY(180deg);
   }
   100% {
     transform: scale(1) rotateY(180deg);

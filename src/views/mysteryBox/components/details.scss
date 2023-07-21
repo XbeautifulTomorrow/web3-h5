@@ -114,35 +114,33 @@
 
     & > .text {
       width: 100%;
-      max-height: 9rem;
+      height: 9rem;
       white-space: pre-wrap;
       display: inline-block;
       padding-top: 2.5rem;
       font-size: 1.125rem;
       line-height: 1.6;
       color: #a9a4b4;
-      transition: all 0.3s;
-      overflow-y: hidden;
+      overflow-y: auto;
       &::-webkit-scrollbar {
         display: none;
       }
       &.all-text {
         overflow-y: auto;
         height: 15.3rem;
-        transition: all 0.3s;
       }
     }
     & > .see-more {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: #a9a4b4;
+      font-size: 1.125rem;
+      color: #fff;
       cursor: pointer;
       margin-top: 1.875rem;
       img {
         width: 1.5rem;
         margin-left: 0.625rem;
+        transform: rotate(180deg);
       }
     }
   }

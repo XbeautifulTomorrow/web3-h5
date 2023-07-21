@@ -180,10 +180,10 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
-    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     onCopy: onCopy,
@@ -267,8 +267,10 @@ export default {
     }
   },
   created() {
-    this.fetchHistory();
-    this.fetchTheUserPoint()
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchHistory();
+      this.fetchTheUserPoint();
+    }
   },
 };
 </script>

@@ -218,6 +218,10 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     dateDiff: dateDiff,
@@ -322,7 +326,9 @@ export default {
     }
   },
   created() {
-    this.fetchOneBuyList();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchOneBuyList();
+    }
   }
 };
 </script>

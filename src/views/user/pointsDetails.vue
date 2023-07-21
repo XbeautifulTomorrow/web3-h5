@@ -38,6 +38,9 @@
   </el-dialog>
 </template>
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
 import { getAListOfUserPoints } from "@/services/api/user";
 import { timeFormat } from "@/utils";
 export default {
@@ -50,6 +53,17 @@ export default {
       size: 10,
       count: 0,
     };
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     timeFormat: timeFormat,
@@ -74,7 +88,9 @@ export default {
     },
   },
   created() {
-    this.fetchUserPoints();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchUserPoints();
+    }
   },
 };
 </script>

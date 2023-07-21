@@ -267,6 +267,10 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     timeFormat: timeFormat,
@@ -427,8 +431,10 @@ export default {
     },
   },
   created() {
-    this.fetchAllSeries();
-    this.fetchExternalSeries();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchAllSeries();
+      this.fetchExternalSeries();
+    }
 
     this.rules = {
       //总价格

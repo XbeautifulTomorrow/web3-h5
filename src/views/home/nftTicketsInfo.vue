@@ -334,7 +334,7 @@ export default {
         const { userInfo } = userStore;
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          userId: userInfo.id || null
+          userId: userInfo?.id || null
         })
 
         if (resDrawn && resDrawn.code == 200) {

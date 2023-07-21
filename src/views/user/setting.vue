@@ -63,11 +63,16 @@ export default {
       const { userInfo } = this.userStore;
       return userInfo;
     },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   created() {
-    if (!this.userInfo?.id) return
-    const { emailSubStatus } = this.userInfo;
-    this.communication = emailSubStatus == "TRUE"
+    if (this.isLogin && this.userInfo?.id) {
+      const { emailSubStatus } = this.userInfo;
+      this.communication = emailSubStatus == "TRUE";
+    }
   },
   watch: {
     userInfo() {
@@ -98,6 +103,7 @@ export default {
     },
     onLogout() {
       this.userStore.logoutApi();
+      this.$router.push({ path: "/home" });
       this.reload();
     }
   }

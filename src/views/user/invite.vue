@@ -111,6 +111,9 @@
   </div>
 </template>
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
 import {
   userInvateStatistics,
   rebatesCreateCode,
@@ -146,6 +149,17 @@ export default {
         withdrawalFees: null
       }
     };
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   methods: {
     onCopy: onCopy,
@@ -262,9 +276,11 @@ export default {
     },
   },
   created() {
-    this.fetchInvateStatistics();
-    this.fetchRebatesFindList();
-    this.fetchSetting();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchInvateStatistics();
+      this.fetchRebatesFindList();
+      this.fetchSetting();
+    }
   }
 };
 </script>

@@ -20,7 +20,7 @@
               <span v-else class="minus">{{
                 `${scope.row.integral || 0}`
               }}</span>
-              <img src="@/assets/svg/user/icon_copy.svg" alt="" />
+              <img src="@/assets/svg/user/icon_profile.svg" alt="" />
             </div>
           </template>
         </el-table-column>

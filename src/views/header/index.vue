@@ -99,13 +99,100 @@ export default {
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
+
+      timer: null
     };
+  },
+  computed: {
+    ...mapStores(useUserStore, useHeaderStore),
+    ethBalance() {
+      const headerStore = useHeaderStore();
+      return headerStore.balance;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    userPage() {
+      const { userPage } = this.userStore;
+      return userPage || "profile";
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    },
+    regInfo() {
+      const { regInfo } = this.userStore;
+      return regInfo;
+    },
+  },
+  methods: {
+    closeDialogFun() {
+      this.pageType = "";
+      if (this.userInfo) {
+        this.getTheUserBalanceInfo();
+      } else if (this.regInfo) {
+        console.log(this.regInfo);
+      }
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
+    async getTheUserBalanceInfo() {
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+    },
+    timeoutBalance() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+      this.timer = setTimeout(() => {
+        if (this.isLogin && this.userInfo?.id) {
+          this.getTheUserBalanceInfo();
+          this.timer = null;
+          this.timeoutBalance();
+        }
+      }, 30000);
+    },
+    goTo(page = "home") {
+      if (page === "Whitebook") {
+        openUrl("https://bitzing.gitbook.io/litepaper/");
+        return
+      }
+
+      if (page == "Stake" || page == "INO" || page == "MarketPlace") {
+        ElMessage({
+          message: t("common.tipsText"),
+          type: "warning",
+        });
+        return
+      }
+      this.$router.push({ path: `/${page}` });
+    },
+    othersideBoxFun(item) {
+      if (item.page === "logout") {
+        this.userStore.logoutApi();
+        this.reload();
+        return;
+      }
+
+      this.userStore.setUserPage(this.$route.path, item.page);
+    },
+  },
+  // 监听,当路由发生变化的时候执行
+  watch: {
+    $route: {
+      handler: function (newV) {
+        this.active = newV.name;
+      },
+      // 深度观察监听
+      deep: true
+    }
   },
   created() {
     this.active = this.$route.name;
-    if (this.isLogin && this.userInfo?.id) {
-      this.getTheUserBalanceInfo();
-    }
+    this.getTheUserBalanceInfo();
+    this.timeoutBalance();
 
     this.nav = [
       {
@@ -184,82 +271,6 @@ export default {
         icon: require("@/assets/svg/user/nav/icon_logout.svg"),
       },
     ]
-  },
-  computed: {
-    ...mapStores(useUserStore, useHeaderStore),
-    ethBalance() {
-      const headerStore = useHeaderStore();
-      return headerStore.balance;
-    },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
-    userPage() {
-      const { userPage } = this.userStore;
-      return userPage || "profile";
-    },
-    isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin
-    },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
-    },
-  },
-  methods: {
-    closeDialogFun() {
-      this.pageType = "";
-      if (this.userInfo) {
-        this.getTheUserBalanceInfo();
-      } else if (this.regInfo) {
-        console.log(this.regInfo);
-      }
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
-    },
-    async getTheUserBalanceInfo() {
-      const headerStore = useHeaderStore();
-      headerStore.getTheUserBalanceApi();
-      // let res = await getTheUserBalance();
-      // this.ethBalance = res.data[0].balance;
-    },
-    goTo(page = "home") {
-      if (page === "Whitebook") {
-        openUrl("https://bitzing.gitbook.io/litepaper/");
-        return
-      }
-
-      if (page == "Stake" || page == "INO" || page == "MarketPlace") {
-        ElMessage({
-          message: t("common.tipsText"),
-          type: "warning",
-        });
-        return
-      }
-      this.$router.push({ path: `/${page}` });
-    },
-    othersideBoxFun(item) {
-      if (item.page === "logout") {
-        this.userStore.logoutApi();
-        this.reload();
-        return;
-      }
-
-      this.userStore.setUserPage(this.$route.path, item.page);
-    },
-  },
-  // 监听,当路由发生变化的时候执行
-  watch: {
-    $route: {
-      handler: function (newV) {
-        this.active = newV.name;
-      },
-      // 深度观察监听
-      deep: true
-    }
   },
 };
 </script>

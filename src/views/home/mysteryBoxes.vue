@@ -31,6 +31,10 @@
         </li>
       </template>
     </ul>
+    <div class="ntf-tickets-all" @click="openAll()">
+      <span>View all Mystery boxes</span>
+      <img src="@/assets/svg/home/icon_more.svg" alt="" />
+    </div>
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
@@ -105,6 +109,9 @@ export default {
       } else {
         this.changeTypeFun('login');
       }
+    },
+    openAll() {
+      this.$router.push({ name: "MysteryBoxesList" });
     },
     closeDialogFun() {
       this.pageType = "";

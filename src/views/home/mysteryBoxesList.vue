@@ -20,8 +20,8 @@
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
-        <template v-for="(item, index) in boxList">
-          <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)" v-if="index < 4" :key="`mystery-${index}`">
+        <template v-for="(item, index) in boxList" :key="`mystery-${index}`">
+          <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)">
             <div class="img_box">
               <Image fit="cover" class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
             </div>

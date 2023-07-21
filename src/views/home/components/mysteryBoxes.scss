@@ -203,6 +203,24 @@
   -webkit-text-fill-color: transparent;
 }
 
+.ntf-tickets-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 4rem;
+  cursor: pointer;
+
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #a9a4b4;
+
+  img {
+    width: 1rem;
+    height: auto;
+    margin-left: 0.625rem;
+  }
+}
 
 @media screen and (max-width: 950px) {
   .mystery-boxes {

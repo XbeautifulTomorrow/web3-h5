@@ -51,7 +51,7 @@
           <div class="nft_btn withdrawling" v-else-if="item.isType != 'EXTERNAL'">
             CREATE COMPETITIONS
           </div>
-          <div class="nft_btn create" @click="createCompetition(item)" v-else>
+          <div class="nft_btn create" @click="createCompetition(item, index)" v-else>
             CREATE COMPETITIONS
           </div>
         </div>
@@ -211,10 +211,11 @@ export default {
         { label: "ERC-1155", value: "ERC1155" },
       ],
       collections: [],
-      chooseNftData: [],
       stockNftList: [],
+
       // 一元购创建
       showCompetition: false,
+      nftIndex: null, // 需要记录索引来即时更改列表
       activeType: "LIMITED_TIME",
       competitionNft: null,
       competitionForm: {
@@ -320,14 +321,17 @@ export default {
         const stockNft = res.data.records;
         this.count = res.data.total;
         this.stockNftList = [];
+
         if (stockNft && !stockNft.length > 0) return;
-        stockNft.forEach((element) => {
-          if (!element.tokenId) return;
-          if (this.findExternalSeries(element.tokenAddress)) {
-            element.isType = "EXTERNAL";
+        for (let i = 0; i < stockNft.length; i++) {
+          if (!stockNft[i].tokenId) return;
+          if (this.findExternalSeries(stockNft[i].tokenAddress)) {
+            stockNft[i].isType = "EXTERNAL";
           }
-          this.stockNftList.push(element);
-        });
+        }
+
+        this.stockNftList = stockNft;
+        this.$forceUpdate();
       }
     },
     handleCurrentChange(page) {
@@ -375,7 +379,7 @@ export default {
           if (res && res.code == 200) {
             this.handleClose();
             this.$message.success("Created successfully");
-            this.fetchSystemNft();
+            this.fetchSystemNft(false);
           }
         } else {
           console.log("error submit!!");
@@ -400,8 +404,6 @@ export default {
         collections: null
       };
 
-      this.chooseNftData = [];
-      this.chooseNft = [];
 
       if (this.$refs["competitionForm"]) {
         this.$refs["competitionForm"].resetFields();

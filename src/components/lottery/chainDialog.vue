@@ -26,12 +26,9 @@
         <span class="public-dialog-special">
           Mutant Ape Yacht Club # {{ sold?.orderId }}
         </span>
-        may not be available due to congestion on the chain. To make up for your
-        loss, we will convert it to
-        <span class="public-dialog-special">
-          {{ `${sold?.initPrice} ${sold?.coin}` }}
-        </span>
-        at the current price and transfer it to your balance.
+        may not be available due to congestion on the chain. To cover your
+        losses, we will convert it to ETH at the current price into your
+        balance, which you will earn:
       </p>
       <div class="public-dialog-pointer-box" v-if="sold?.point">
         <img

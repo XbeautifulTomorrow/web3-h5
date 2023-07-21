@@ -27,9 +27,19 @@
       </p>
       <h3 class="public-dialog-title-other">Your reward</h3>
       <div class="public-dialog-img">
-        <image-view class="public-dialog-portrait" :src="sold.nftImg" />
+        <image-view class="public-dialog-portrait" :src="sold?.nftImg" />
       </div>
       <p class="public-dialog-club">Bored Ape Yacht Club</p>
+      <div class="public-dialog-pointer-box" v-if="sold?.point > 0">
+        <img
+          class="public-dialog-pointer-icon"
+          src="@/assets/svg/user/icon_point.svg"
+          alt=""
+        />
+        <span class="public-dialog-total-number">
+          {{ sold?.point }}
+        </span>
+      </div>
       <el-button class="public-button public-default" @click="goInventory">
         CHECK MY INVENTORY
       </el-button>
@@ -41,7 +51,6 @@
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
-import { useRouter } from "vue-router";
 import ImageView from "../imageView";
 
 defineProps({
@@ -50,15 +59,14 @@ defineProps({
     requird: true,
   },
 });
-const router = useRouter();
-const emit = defineEmits(["closeDialogFun", "inventoryFun"]);
+const emit = defineEmits(["closeDialogFun", "inventoryFun", "goInventory"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const goInventory = () => {
-  router.push({ path: "/user/inventory" });
+  emit("goInventory");
 };
 // const inventoryFun = () => {
 //   emit("inventoryFun");
@@ -68,7 +76,6 @@ const goInventory = () => {
 .public-dialog-club {
   font-size: 16px;
   color: #4473eb;
-  margin-bottom: 3.75rem;
 }
 .public-dialog-img {
   width: 20%;

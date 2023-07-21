@@ -33,6 +33,16 @@
         </span>
         at the current price and transfer it to your balance.
       </p>
+      <div class="public-dialog-pointer-box" v-if="sold?.point">
+        <img
+          class="public-dialog-pointer-icon"
+          src="@/assets/svg/user/icon_point.svg"
+          alt=""
+        />
+        <span class="public-dialog-total-number">
+          {{ sold?.point }}
+        </span>
+      </div>
       <el-button class="public-button public-default" @click="balanceFun">
         CHECK BALANCE
       </el-button>
@@ -71,7 +81,7 @@ const balanceFun = () => {
 }
 .magin-text {
   margin-top: 1.875rem;
-  margin-bottom: 3.75rem;
+  margin-bottom: 2rem;
   color: #a9a4b4;
 }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <el-carousel
-    :class="['award-carousel', autoPlay ? 'autoplay-box' : 'no-autoplay-box']"
+    :class="[
+      'award-carousel',
+      autoPlay ? 'autoplay-box' : 'no-autoplay-box',
+      { 'no-autoplay-box2': stopPlay },
+    ]"
     :height="`${height * 3}`"
     :interval="interval"
     :autoplay="false"
@@ -20,7 +24,7 @@
         'lottery-moreLuck-list',
         {
           'is-active':
-            item.map((x) => x.tokenId).includes(winData.tokenId) && !autoPlay,
+            item.map((x) => x.tokenId).includes(winData.tokenId) && stopPlay,
         },
       ]"
     >
@@ -29,7 +33,7 @@
         :class="[
           'lottery-moreLuck-list-content',
           _img.qualityType,
-          { 'is-active-item': winData.tokenId == _img.tokenId && !autoPlay },
+          { 'is-active-item': winData.tokenId == _img.tokenId && stopPlay },
         ]"
         :key="`img-${imgIndex}`"
       >
@@ -39,7 +43,7 @@
             winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg
           "
         />
-        <div v-if="winData && winData.nftImg == _img.nftImg && !autoPlay">
+        <div v-if="winData && winData.nftImg == _img.nftImg && stopPlay">
           <p class="lottery-moreLuck-seriesName">
             {{ winData.seriesName }}
           </p>
@@ -93,13 +97,19 @@ export default {
         JSON.parse(JSON.stringify(this.prizePoolList))
       ),
       autoPlay: this.autoplay,
+      stopTime: 0,
+      stopPlay: false,
     };
   },
   mounted() {
     const time = this.poolList.length * 0.13;
-    this.$emit("delayTime", time / 5);
+    this.stopTime = time / 5;
+    this.$emit("delayTime", this.stopTime);
     document.documentElement.style.setProperty("--linear-time", time + "s");
-    document.documentElement.style.setProperty("--stop-time", time / 5 + "s");
+    document.documentElement.style.setProperty(
+      "--stop-time",
+      this.stopTime + "s"
+    );
   },
   methods: {
     changeFun(index) {
@@ -124,6 +134,11 @@ export default {
     },
     autoplay: function (newData) {
       this.autoPlay = newData;
+      if (!newData) {
+        setTimeout(() => {
+          this.stopPlay = true;
+        }, this.stopTime * 1000);
+      }
     },
   },
 };
@@ -282,12 +297,8 @@ $stop-time: var(--stop-time);
   position: inherit;
 }
 .award-carousel {
-  &.no-autoplay-box {
+  &.no-autoplay-box2 {
     z-index: 11;
-    .el-carousel__container {
-      animation: verticalScroll2 $stop-time linear 1;
-      animation-fill-mode: forwards;
-    }
     .is-active {
       .is-active-item {
         position: relative;
@@ -305,6 +316,12 @@ $stop-time: var(--stop-time);
         position: relative;
         // top: -25px;
       }
+    }
+  }
+  &.no-autoplay-box {
+    .el-carousel__container {
+      animation: verticalScroll2 $stop-time linear 1;
+      animation-fill-mode: forwards;
     }
   }
   .el-carousel__container {

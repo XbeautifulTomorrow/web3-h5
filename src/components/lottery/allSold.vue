@@ -26,13 +26,18 @@
       </p>
       <h3 class="public-dialog-title-other">NFTs</h3>
       <ul class="public-dialog-lists">
-        <li
-          :class="['public-dialog-list', item.qualityType]"
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="`${item.seriesName}  # ${item.tokenId}`"
+          placement="bottom-end"
           v-for="(item, index) in soldList"
           :key="`portrait-${index}`"
         >
-          <image-view :src="item.nftImg" />
-        </li>
+          <li :class="['public-dialog-list', item.qualityType]">
+            <image-view :src="item.nftImg" />
+          </li>
+        </el-tooltip>
       </ul>
       <el-button class="public-button public-default" @click="goInventory">
         CHECK MY INVENTORY
@@ -45,7 +50,6 @@
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
-import { useRouter } from "vue-router";
 import ImageView from "../imageView";
 defineProps({
   soldList: {
@@ -53,14 +57,13 @@ defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["closeDialogFun", "inventoryFun"]);
-const router = useRouter();
+const emit = defineEmits(["closeDialogFun", "inventoryFun", "goInventory"]);
 const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const goInventory = () => {
-  router.push({ path: "/user/inventory" });
+  emit("goInventory");
 };
 // const inventoryFun = () => {
 //   emit("inventoryFun");

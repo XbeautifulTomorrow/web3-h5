@@ -238,7 +238,22 @@
     font-weight: 700;
     margin-left: 0.625rem;
   }
-
+  .public-dialog-pointer-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.25rem;
+    margin-bottom: 3.75rem;
+  }
+  .public-dialog-pointer-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+  .public-dialog-pointer-number {
+    color: #e4e7f5;
+    font-size: 1.5rem;
+    margin-left: 0.625rem;
+  }
   .cancel-button {
     border: solid 1px rgba(228, 231, 245, 0.15) !important;
     background-color: #292c36 !important;

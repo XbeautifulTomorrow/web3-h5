@@ -35,13 +35,18 @@
           ]"
         >
           <template v-for="(item, index) in soldList">
-            <li
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="`${item.seriesName}  # ${item.tokenId}`"
+              placement="bottom-end"
               v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
-              :class="['public-dialog-list', item.qualityType]"
               :key="`portrait-${index}`"
             >
-              <image-view class="public-dialog-portrait" :src="item.nftImg" />
-            </li>
+              <li :class="['public-dialog-list', item.qualityType]">
+                <image-view class="public-dialog-portrait" :src="item.nftImg" />
+              </li>
+            </el-tooltip>
           </template>
         </ul>
       </div>
@@ -52,48 +57,64 @@
         <h3 class="public-dialog-title-other">BALANCE</h3>
         <ul class="public-dialog-lists">
           <template v-for="(item, index) in soldList">
-            <li
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="`${item.seriesName}  # ${item.tokenId}`"
+              placement="bottom-end"
               v-if="failList.includes(item.id)"
-              class="public-dialog-list"
               :key="`portrait-${index}`"
             >
-              <div :class="['portrait-img', item.qualityType]">
-                <image-view class="public-dialog-portrait" :src="item.nftImg" />
-                <span class="public-dialog-list-result refund"> Refund </span>
-              </div>
-              <p class="public-dialog-list-text">
-                <img
-                  class="public-dialog-list-img"
-                  src="@/assets/svg/user/icon_ethereum.svg"
-                  alt=""
-                />
-                <span class="public-dialog-list-number">
-                  {{ item.initPrice }}
-                </span>
-              </p>
-            </li>
+              <li class="public-dialog-list">
+                <div :class="['portrait-img', item.qualityType]">
+                  <image-view
+                    class="public-dialog-portrait"
+                    :src="item.nftImg"
+                  />
+                  <span class="public-dialog-list-result refund"> Refund </span>
+                </div>
+                <p class="public-dialog-list-text">
+                  <img
+                    class="public-dialog-list-img"
+                    src="@/assets/svg/user/icon_ethereum.svg"
+                    alt=""
+                  />
+                  <span class="public-dialog-list-number">
+                    {{ item.initPrice }}
+                  </span>
+                </p>
+              </li>
+            </el-tooltip>
           </template>
           <template v-for="(item, index) in soldList">
-            <li
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="`${item.seriesName}  # ${item.tokenId}`"
+              placement="bottom-end"
               v-if="!chooseIds.includes(item.id) && !failList.includes(item.id)"
-              class="public-dialog-list"
               :key="`portrait-${index}`"
             >
-              <div :class="['portrait-img', item.qualityType]">
-                <image-view class="public-dialog-portrait" :src="item.nftImg" />
-                <span class="public-dialog-list-result sold"> Sold </span>
-              </div>
-              <p class="public-dialog-list-text">
-                <img
-                  class="public-dialog-list-img"
-                  src="@/assets/svg/user/icon_ethereum.svg"
-                  alt=""
-                />
-                <span class="public-dialog-list-number">
-                  {{ item.price }}
-                </span>
-              </p>
-            </li>
+              <li class="public-dialog-list">
+                <div :class="['portrait-img', item.qualityType]">
+                  <image-view
+                    class="public-dialog-portrait"
+                    :src="item.nftImg"
+                  />
+                  <span class="public-dialog-list-result sold"> Sold </span>
+                </div>
+                <p class="public-dialog-list-text">
+                  <img
+                    class="public-dialog-list-img"
+                    src="@/assets/svg/user/icon_ethereum.svg"
+                    alt=""
+                  />
+                  <span class="public-dialog-list-number">
+                    {{ item.price }}
+                  </span>
+                </p>
+              </li>
+            </el-tooltip>
           </template>
         </ul>
         <div class="public-dialog-funds">
@@ -104,14 +125,16 @@
             alt=""
           />
           <span class="public-dialog-total-number"> {{ total }} </span>
-          <img
-            class="public-dialog-list-img"
-            src="@/assets/svg/user/icon_point.svg"
-            alt=""
-          />
-          <span class="public-dialog-total-number">
-            {{ soldList[0].point }}
-          </span>
+          <template v-if="soldList[0].point > 0">
+            <img
+              class="public-dialog-list-img"
+              src="@/assets/svg/user/icon_point.svg"
+              alt=""
+            />
+            <span class="public-dialog-total-number">
+              {{ soldList[0].point }}
+            </span>
+          </template>
         </div>
       </div>
       <!-- <el-button class="public-button public-default" @click="goInventory">
@@ -132,7 +155,6 @@ import {
   watchEffect,
   onUpdated,
 } from "vue";
-import { useRouter } from "vue-router";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
 
@@ -161,7 +183,6 @@ const props = defineProps({
 //         for, we will be converted to the final value of the NFT directly into
 //         the ETH transferred to your balance
 const emit = defineEmits(["inventoryFun", "closeDialogFun"]);
-const router = useRouter();
 const visible = ref(true);
 const total = ref(0);
 const text = ref("");
@@ -199,9 +220,6 @@ const totalFun = () => {
 };
 const closeDialogFun = () => {
   emit("closeDialogFun");
-};
-const goInventory = () => {
-  router.push({ path: "/user/inventory" });
 };
 // const inventoryFun = () => {
 //   if (props.failList.length) {

@@ -34,7 +34,17 @@
           src="@/assets/svg/user/icon_ethereum.svg"
           alt=""
         />
-        <span class="public-dialog-total-number">{{ total }}</span>
+        <span class="public-dialog-total-number marg-r">{{ total }}</span>
+        <template v-if="soldList[0].point > 0">
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_point.svg"
+            alt=""
+          />
+          <span class="public-dialog-total-number">
+            {{ soldList[0].point }}
+          </span>
+        </template>
       </div>
       <el-button class="public-button public-default" @click="balanceFun">
         CHECK BALANCE
@@ -74,7 +84,6 @@ const balanceFun = () => {
 .public-dialog-icon {
   width: 1.875rem;
   height: 1.875rem;
-  margin-right: 0.625rem;
 }
 .public-dialog-total {
   display: flex;
@@ -89,7 +98,13 @@ const balanceFun = () => {
   font-size: 1.875rem;
   color: #11cde9;
 }
+.public-dialog-list-img {
+  margin-left: 1.875rem;
+}
 .margin-b {
   margin-bottom: 1.875rem;
+}
+.marg-r {
+  margin-right: 1.875rem;
 }
 </style>

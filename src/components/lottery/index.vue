@@ -46,6 +46,7 @@
       v-else-if="showDialog === 'yourReard'"
       :sold="awardItem[0]"
       @inventoryFun="inventoryFun"
+      @goInventory="goInventory"
       @closeDialogFun="closeDialogFun"
     />
     <chain-dialog
@@ -66,6 +67,7 @@
       :chooseIds="chooseIds"
       :failList="failList"
       @inventoryFun="inventoryFun"
+      @goInventory="goInventory"
       @closeDialogFun="closeDialogFun"
     />
     <transaction-warning
@@ -257,9 +259,14 @@ export default {
     getTheUserBalanceApiFun() {
       this.headerStoreStore.getTheUserBalanceApi();
     },
+    goInventory() {
+      localStorage.removeItem("result");
+      this.$router.push({ path: "/user/inventory" });
+      this.closeDialogFun();
+    },
     balanceFun() {
       localStorage.removeItem("result");
-      this.$router.push({ path: "/wallet" });
+      this.$router.push({ path: "/user/balances" });
       this.closeDialogFun();
     },
     closeDialogFun() {

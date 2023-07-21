@@ -61,6 +61,7 @@
 <script>
 import { getSnapshotDetail } from "@/services/api/blindBox";
 import Image from "@/components/imageView";
+import { getSessionStore } from "@/utils";
 export default {
   name: 'boxSnapshot',
   components: {
@@ -111,7 +112,7 @@ export default {
     const { id } = this.$route.query;
     this.snapshotId = id;
     this.fetchSnapshotDetail();
-    this.boxName = sessionStorage.getItem("boxName") || "BOX";
+    this.boxName = getSessionStore("boxName") || "BOX";
     this.boxName = this.boxName.toUpperCase();
   }
 };

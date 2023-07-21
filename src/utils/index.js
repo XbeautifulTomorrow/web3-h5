@@ -438,3 +438,12 @@ export const isValidEthAddress = (address) => {
 
   return true;
 }
+
+// 验证 以太坊交易哈希
+export const isEthTransactionHashValid = (hash) => {
+  // 以太坊交易哈希的正则表达式
+  const ethTxHashRegex = /^(0x)?[0-9a-fA-F]{64}$/;
+
+  // 使用正则表达式进行验证
+  return ethTxHashRegex.test(hash);
+}

@@ -14,7 +14,7 @@
         </div>
         <div class="status_box">
           <div class="status_text">Status:</div>
-          <el-select v-model="competitionStatus" @change="fetchOneBuyList()" class="nft_type" clearable placeholder="All">
+          <el-select v-model="competitionStatus" @change="fetchOneBuyList()" class="nft_type" clearable placeholder="ALL">
             <el-option v-for="(item, index) in statuDrop" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </div>

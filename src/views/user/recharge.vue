@@ -293,11 +293,12 @@ export default {
           this.createQrcode();
         }, 10);
         this.walletAmount = 1;
+        this.fetchRechargeExchangeRate();
       } else {
         this.walletAmount = 0;
+        this.fetchWithdrawalExchangeRate();
       }
 
-      this.fetchWithdrawalExchangeRate();
     },
     handleChoose(event) {
       this.operatingCoin = event;
@@ -313,12 +314,12 @@ export default {
           this.createQrcode();
         }, 10);
         this.walletAmount = 1;
+        this.fetchRechargeExchangeRate();
       } else {
-
         this.walletAmount = 0;
+        this.fetchWithdrawalExchangeRate();
       }
 
-      this.fetchWithdrawalExchangeRate();
     },
     // 收款地址
     async fetchReceivingAddr() {

@@ -6,7 +6,7 @@
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in ticketList">
-        <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 5" :key="`tickets-${index}`">
+        <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
           <div class="img-box">
             <Image fit="cover" class="nft_img" :src="item.nftImage" />
             <div class="type-box">

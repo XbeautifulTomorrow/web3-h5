@@ -242,18 +242,18 @@ export default {
       const { operatingCoin, exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
-          this.ethNum = newV;
+          this.ethNum = newV || 0;
           return;
         }
         if (operatingCoin == "ETH") {
-          this.ethNum = newV;
+          this.ethNum = newV || 0;
           return;
         }
 
         this.ethNum = accurateDecimal(
           new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
           8
-        );
+        ) || 0;
       }, 300);
     },
     ethNum(newV) {
@@ -261,18 +261,18 @@ export default {
       const { operatingCoin, exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
-          this.walletAmount = newV;
+          this.walletAmount = newV || 0;
           return;
         }
         if (operatingCoin == "ETH") {
-          this.walletAmount = newV;
+          this.walletAmount = newV || 0;
           return;
         }
 
         this.walletAmount = accurateDecimal(
           new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
           8
-        );
+        ) || 0;
       }, 300);
     },
   },
@@ -283,6 +283,7 @@ export default {
     timeFormat: timeFormat,
     handleOperating(event) {
       this.walletOperating = event;
+      this.walletAmount = null;
       if (this.walletOperating == 1 && this.operatingCoin != null) {
 
         if (this.timer) {
@@ -292,10 +293,8 @@ export default {
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
-        this.walletAmount = 1;
         this.fetchRechargeExchangeRate();
       } else {
-        this.walletAmount = 0;
         this.fetchWithdrawalExchangeRate();
       }
 
@@ -313,10 +312,9 @@ export default {
         this.timer = setTimeout(() => {
           this.createQrcode();
         }, 10);
-        this.walletAmount = 1;
+
         this.fetchRechargeExchangeRate();
       } else {
-        this.walletAmount = 0;
         this.fetchWithdrawalExchangeRate();
       }
 
@@ -336,6 +334,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
+        this.walletAmount = 1;
       }
     },
     // 提款汇率
@@ -345,6 +344,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
+        this.walletAmount = 0;
       }
     },
     // 验证

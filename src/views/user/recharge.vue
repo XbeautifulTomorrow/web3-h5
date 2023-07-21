@@ -193,7 +193,7 @@ import {
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 export default {
   name: "myWallet",
@@ -354,6 +354,13 @@ export default {
         if (!walletAddr) {
           this.walletAddrTips =
             "please enter your Ethereum wallet address here";
+          this.verifys = false;
+          return;
+        }
+
+        if (!isValidEthAddress(walletAddr)) {
+          this.walletAddrTips =
+            "The format of the entered Ethereum wallet address is incorrect";
           this.verifys = false;
           return;
         }

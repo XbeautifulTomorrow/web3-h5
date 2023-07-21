@@ -19,7 +19,7 @@
           </el-select>
         </div>
       </div>
-      <div class="entered_box" v-if="count > 0 && activeType == 'HISTORY'">
+      <div class="entered_box" v-if="count > 0 && activeType == 'ENTERED'">
         <div class="entered_item" @click="enterNow(item)" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box">
             <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
@@ -189,12 +189,12 @@ export default {
     return {
       tabsList: [{
         label: "ENTERED",
-        value: "HISTORY"
+        value: "ENTERED"
       }, {
         label: "MY COMPETITIONS",
         value: "MY_COMPETITIONS"
       }],
-      activeType: "HISTORY",
+      activeType: "ENTERED",
       competitionStatus: null,
       statuDrop: [
         { label: "IN PROGRESS", value: "IN_PROGRESS" },

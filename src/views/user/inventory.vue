@@ -36,13 +36,13 @@
         </div>
       </div>
       <div class="nft_list" v-if="count > 0">
-        <div class="nft_item" v-for="(item, index) in stockNftList" :key="index">
+        <div class="nft_item" v-for="(item, index) in stockNftList" @click="viewNft(item)" :key="index">
           <div class="img_box">
             <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</div>
             <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
-          <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'" @click="viewNft(item)">
+          <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'">
             VIEW COMPETITIONS
           </div>
           <div class="nft_btn withdrawling" v-else-if="item.currentStatus == 'WITHDRAW'">
@@ -371,7 +371,7 @@ export default {
           if (res && res.code == 200) {
             this.handleClose();
             this.$message.success("Created successfully");
-            this.fetchAllSeries();
+            this.fetchSystemNft();
           }
         } else {
           console.log("error submit!!");
@@ -417,6 +417,8 @@ export default {
     },
     // 查看赛事
     viewNft(event) {
+      if (event.currentStatus != 'ONE_DOLLAR') return
+
       let routeData = this.$router.resolve({
         name: "NftTicketsInfo",
         query: { id: event.orderNumber },

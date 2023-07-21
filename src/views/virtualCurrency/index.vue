@@ -110,7 +110,6 @@
 <script>
 import Image from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
-import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { mapStores } from "pinia";
 export default {
@@ -131,28 +130,14 @@ export default {
   },
   computed: {
     ...mapStores(useUserStore),
-    isLoginState() {
-      const { isLogin } = this.userStore;
+    userInfo() {
       const { userInfo } = this.userStore;
-      return [isLogin, userInfo];
+      return userInfo;
     },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
-    },
-  },
-  watch: {
-    isLoginState(val) {
-      if (val[0] && val[1]?.id) {
-        this.updateTimer && clearInterval(this.updateTimer);
-        this.updateTimer = setInterval(() => {
-          this.getTheUserBalanceInfo();
-          this.fetchTicketList();
-        }, 5000);
-      } else {
-        this.updateTimer && clearInterval(this.updateTimer);
-      }
-    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin
+    }
   },
   mounted() {
     this.search();
@@ -161,21 +146,28 @@ export default {
     if (this.updateTimer) {
       clearInterval(this.updateTimer);
     }
+
     // 销毁定时器，否则可能导致重载此组件时会有多个定时器同时执行，使得滚动变快
     window.clearTimeout(this.timer);
   },
   methods: {
-    async getTheUserBalanceInfo() {
-      const headerStore = useHeaderStore();
-      headerStore.getTheUserBalanceApi();
-      // let res = await getTheUserBalance();
-      // this.ethBalance = res.data[0].balance;
-    },
     async fetchTicketList() {
       const res = await getTicketList();
       if (res && res.code == 200) {
         this.currencyList = res.data;
       }
+    },
+    timeoutTickets() {
+      if (this.updateTimer) {
+        clearTimeout(this.updateTimer);
+      }
+      this.updateTimer = setTimeout(() => {
+        if (this.isLogin && this.userInfo?.id) {
+          this.fetchTicketList();
+          this.updateTimer = null;
+          this.timeoutTickets();
+        }
+      }, 5000);
     },
     typrFormat(event) {
       const { qualityType } = event;
@@ -284,15 +276,8 @@ export default {
     },
   },
   created() {
-    if (this.isLoginState[0] || this.isLoginState[1]?.id) {
-      this.getTheUserBalanceInfo();
-      this.fetchTicketList();
-      this.updateTimer && clearInterval(this.updateTimer);
-      this.updateTimer = setInterval(() => {
-        this.getTheUserBalanceInfo();
-        this.fetchTicketList();
-      }, 5000);
-    }
+    this.fetchTicketList();
+    this.timeoutTickets();
   },
 };
 </script>

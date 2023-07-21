@@ -130,6 +130,8 @@
   </div>
 </template>
 <script>
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -140,7 +142,7 @@ import {
 } from "@/services/api/user";
 
 import bigNumber from "bignumber.js";
-import { onCopy, timeFormat, openUrl, isValidEthAddress } from "@/utils";
+import { onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
 export default {
@@ -203,8 +205,8 @@ export default {
         return;
       }
 
-      if (!isValidEthAddress(transactionId)) {
-        this.$message.error("The format of the entered Ethereum wallet address is incorrect");
+      if (!isEthTransactionHashValid(transactionId)) {
+        this.$message.error(t("errorTips.transaction_id_does_not_exist"));
         return
       }
 

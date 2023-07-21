@@ -52,7 +52,7 @@
             <img src="@/assets/svg/home/icon_certified.svg" alt="">
           </div>
           <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
-          <div class="buy_btn" v-if="item.currentStatus == 'IN_PROGRESS'">
+          <div class="buy_btn" @click="enterNow(item)" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span>BUY MORE</span>
           </div>
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
@@ -203,7 +203,6 @@ export default {
         { label: "ABORTED", value: "CLOSED" }
       ],
       enteredList: [],
-      finishList: [],
       showCabcel: false,
       competitionNft: null,
       isCancel: true,
@@ -228,7 +227,9 @@ export default {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
     handleChange(event) {
+      this.enteredList = [];
       this.activeType = event.value;
+      this.fetchOneBuyList();
     },
     // 用户相关订单
     async fetchOneBuyList(isSearch = true) {
@@ -319,11 +320,6 @@ export default {
       var reg = /^(\S{6})\S+(\S{4})$/;
       return event.replace(reg, "$1...$2");
     },
-  },
-  watch: {
-    activeType() {
-      this.fetchOneBuyList();
-    }
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {

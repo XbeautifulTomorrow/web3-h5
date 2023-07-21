@@ -192,7 +192,11 @@ export default {
   },
   created() {
     this.active = this.$route.name;
-    this.getTheUserBalanceInfo();
+
+    if (this.isLogin && this.userInfo?.id) {
+      this.getTheUserBalanceInfo();
+    }
+
     this.timeoutBalance();
 
     this.nav = [
@@ -200,13 +204,18 @@ export default {
         text: t("header.home"),
         page: "Home",
       },
-      {
-        text: t("header.airdrop"),
-        page: "Airdrop",
-      },
+      // {
+      //   text: t("header.airdrop"),
+      //   page: "Airdrop",
+      // },
+
       {
         text: "Mystery box",
-        page: "MysteryBox",
+        page: "MysteryBoxesList",
+      },
+      {
+        text: "Competitions",
+        page: "Competitions",
       },
       {
         text: "Stake",

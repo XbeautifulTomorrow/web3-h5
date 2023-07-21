@@ -31,14 +31,14 @@
         </div>
       </div>
     </div>
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>    
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
-import Forgot from "../forgot/index.vue";
+import Forgot from "../forgot/changePass.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import { updateUserInfo } from "@/services/api/user";
 export default {

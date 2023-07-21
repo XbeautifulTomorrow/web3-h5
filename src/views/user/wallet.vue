@@ -30,6 +30,15 @@
           <img src="@/assets/svg/user/icon_link.svg" alt="" />
         </div>
       </div>
+      <div class="balance_item">
+        <div class="balance_item_l">
+          <img src="@/assets/svg/user/icon_tickets.svg" alt="" />
+          <div class="num">
+            <span>{{ userTickets || 0 }}</span>
+            <span>TICKETS</span>
+          </div>
+        </div>
+      </div>
       <div class="wallet_operating">
         <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
         <div class="choose_box">
@@ -140,6 +149,7 @@ import {
   rechargeByHash,
   getTheUserPoint
 } from "@/services/api/user";
+import { getUserTotalTicket } from "@/services/api/oneBuy";
 
 import bigNumber from "bignumber.js";
 import { onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
@@ -157,6 +167,7 @@ export default {
       coinList: ["ETH", "USDT", "BTC"],
       historyData: [],
       userPoints: null,
+      userTickets: null,
 
       showRecharge: false,
 
@@ -191,6 +202,14 @@ export default {
     onCopy: onCopy,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
+
+    // 个人总参与票数
+    async fetchUserTotalTicket() {
+      const res = await getUserTotalTicket();
+      if (res && res.code == 200) {
+        this.userTickets = res.data;
+      }
+    },
     // 积分余额
     async fetchTheUserPoint() {
       const res = await getTheUserPoint();
@@ -272,6 +291,7 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       this.fetchHistory();
       this.fetchTheUserPoint();
+      this.fetchUserTotalTicket();
     }
   },
 };

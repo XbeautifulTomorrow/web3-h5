@@ -276,7 +276,10 @@ export default {
     },
   },
   created() {
-    this.fetchTicketList();
+    if (this.isLogin && this.userInfo?.id) {
+      this.fetchTicketList();
+    }
+
     this.timeoutTickets();
   },
 };

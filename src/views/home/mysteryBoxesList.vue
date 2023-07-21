@@ -2,11 +2,10 @@
   <div class="wrapper_bg">
     <div class="ntf_tickets_list_wrapper">
       <div class="banner_box">
-        <span>MYSTERY BOXES</span>
       </div>
       <div class="search_box">
-        <el-input v-model="searchVal" clearable @keyup.enter="fetchCheckAllOrders()" class="search_input" type="text"
-          placeholder="Search NFT">
+        <el-input v-model="searchVal" clearable @keyup.enter="fetchBoxList()" class="search_input" type="text"
+          placeholder="Search mystery box">
           <template #prefix>
             <el-icon class="el-input__icon search_icon">
               <search />
@@ -14,15 +13,13 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" clearable @change="fetchCheckAllOrders()" class="select_box" placeholder="ALL"
-            size="large">
+          <el-select v-model="sort" clearable @change="fetchBoxList()" class="select_box" placeholder="ALL" size="large">
             <el-option v-for="(item, index) in sortDrop" :key="index" :label="item.label" :value="item.value" />
           </el-select>
           <div class="sort_title">Sort by:</div>
         </div>
         <div class="sort_box collections">
-          <el-select v-model="nftId" clearable @change="fetchCheckAllOrders()" class="select_box" placeholder="ALL"
-            size="large">
+          <el-select v-model="nftId" clearable @change="fetchBoxList()" class="select_box" placeholder="ALL" size="large">
             <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
               :value="item.contractAddress" />
           </el-select>
@@ -30,59 +27,64 @@
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
-        <li class="ntf-tickets-item" v-for="(item, index) in ticketList" :key="`tickets-${index}`">
-          <div class="image_box">
-            <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
-            <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
-              <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
-              <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span v-if="item.orderType == 'LIMITED_TIME'">
-                <span v-if="dateDiff(item && item.endTime) > 1">
-                  {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
-                </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
-                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
-                </countDown>
-              </span>
-              <span v-else>
-                {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
-              </span>
+        <template v-for="(item, index) in boxList">
+          <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)" v-if="index < 4" :key="`mystery-${index}`">
+            <div class="img_box">
+              <Image fit="cover" class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
             </div>
-            <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
-          </div>
-          <div class="nft_name">
-            <span>{{ item && item.seriesName }}</span>
-            <img src="@/assets/svg/home/icon_certified.svg" alt="">
-          </div>
-          <div class="nft_price">{{ item && item.price }}ETH</div>
-          <div class="buy_btn" @click="handleTickets(item)">
-            <span>ENTER NOW</span>
-          </div>
-          <div class="remaining_votes">
-            {{ `${item && item.numberOfTicketsSold || 0} Tickets sold` }}
-          </div>
-        </li>
+            <div class="mystery-boxs-title text-ellipsis">
+              <div class="box-name text-ellipsis">{{ item.boxName }}</div>
+              <img src="@/assets/svg/box/icon_eth.svg" alt="">
+            </div>
+            <div class="box-price">
+              <div class="price-box">
+                {{ `${item.price} ${item.coin}` }}
+              </div>
+            </div>
+            <div class="other">
+              <div class="sale">{{ $t("home.sale") }}</div>
+              <div class="sale-val">{{ item.sales }}</div>
+            </div>
+            <p class="mystery-boxs-text text-ellipsis">
+            </p>
+            <div class="boxes-button buy-btn text-ellipsis">
+              <span class="boxes-button-name">{{ $t("home.buyBtn") }}</span>
+            </div>
+          </li>
+        </template>
       </ul>
       <div v-else class="no_date">
-        <span>NO COMPETITION FOUND</span>
+        <span>NO MYSTERY BOX</span>
       </div>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
           layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 <script>
-import { getCheckAllOrders, getTheExternalNFTSeries } from "@/services/api/oneBuy";
+import { getBoxList } from '@/services/api/index';
+import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
-import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'mysteryBoxesList',
   components: {
-    countDown,
+    Login,
+    Register,
+    Forgot,
+    Modify,
     Image
   },
   data() {
@@ -96,7 +98,8 @@ export default {
         { label: "Sort by Price High", value: "price_asc" }
       ],
       nftId: null,
-      ticketList: [],
+      boxList: [],
+      pageType: null,
       page: 1,
       size: 20,
       count: 0
@@ -106,6 +109,12 @@ export default {
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
+    closeDialogFun() {
+      this.pageType = "";
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
@@ -114,7 +123,7 @@ export default {
       this.collections = res.data;
     },
     // 最新购买
-    async fetchCheckAllOrders(isSearch = true) {
+    async fetchBoxList(isSearch = true) {
       const { searchVal, sort, nftId, size } = this;
       let _page = this.page;
       if (isSearch) {
@@ -122,7 +131,7 @@ export default {
         _page = 1;
       }
 
-      let res = await getCheckAllOrders({
+      let res = await getBoxList({
         keyWord: searchVal,
         sortBy: sort,
         contractAddress: nftId,
@@ -131,29 +140,26 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.ticketList = res.data.records;
-        this.count = res.data.total;
+        // this.boxList = res.data.records;
+        this.boxList = res.data;
+        // this.count = res.data.total;
       }
     },
-    // 加载更多
-    nextPage() {
-      this.page++;
-      if (this.activeType == "activity") {
-        this.fetchCheckAllOrders(false)
+    handleMysteryBoxes(event) {
+      if (this.isLogin && this.userInfo?.id) {
+        this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
+      } else {
+        this.changeTypeFun('login');
       }
-    },
-    handleTickets(event) {
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchCheckAllOrders(false);
-    },
+      this.fetchBoxList(false);
+    }
   },
-  watch: {},
   created() {
     this.fetchAllSeries();
-    this.fetchCheckAllOrders();
+    this.fetchBoxList();
   }
 };
 </script>

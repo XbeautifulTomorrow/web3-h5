@@ -17,18 +17,7 @@
   background-image: url("@/assets/svg/home/box_banner.svg");
   background-size: cover;
   background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-style: solid;
-  border-width: 0.25rem;
-  border-image-source: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, rgba(241, 241, 203, 0) 70%);
-  border-image-slice: 1;
-  font-family: Tomorrow;
-  font-size: 10rem;
-  font-weight: bold;
-  line-height: 1.2;
+  margin-top: 5rem;
 }
 
 .search_box {
@@ -121,222 +110,183 @@
   }
 }
 
+.title_description {
+  margin: 0 auto;
+  padding-top: 1rem;
+  width: 40.9375rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: center;
+  color: #a9a4b4;
+}
+
 .boxes-content {
+  margin: 0 auto;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
 
   &>li+li {
-    margin-left: 1.875rem;
+    margin-left: 1.8125rem;
   }
 
-  &>li:nth-child(n+6) {
+  &>li:nth-child(n+5) {
     margin-top: 1.875rem;
   }
 
-  &>li:nth-child(5n+1) {
-    margin-left: 0px;
+  &>li:nth-child(4n+1) {
+    margin-left: 0;
   }
 }
 
-.ntf-tickets-item {
-  width: 17.5rem;
+.mystery-boxes-item {
+  width: 22.375rem;
+  height: 29.5625rem;
+  padding: 1px;
   overflow: hidden;
-  background-color: #1d0f36;
-  border-radius: 0.5rem;
-  padding-bottom: 1.25rem;
-  overflow: hidden;
+  background-image: url("@/assets/svg/home/box_bg.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
   box-sizing: border-box;
 
   &:hover {
-    .image_box {
-      &>.nft_img {
-        transform: scale(1.15);
-        transition: all 0.3s;
-      }
-    }
-  }
-
-  .image_box {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 16rem;
-    overflow: hidden;
-    box-sizing: border-box;
-
-
-    .image_tag {
-      max-width: 50%;
-      position: absolute;
-      bottom: 0.5rem;
-      left: 0.5rem;
-      background-color: #fff;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      color: #0cbb3e;
-      line-height: 1;
-      background-color: rgba(6, 91, 30, 0.8);
-    }
-
-    .nft_img {
-      width: 100%;
-      height: 100%;
+    .mystery-boxs-list-img {
+      transform: scale(1.15);
       transition: all 0.3s;
     }
-
-    .tips_round {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      line-height: 1.6;
-      color: white;
-      display: flex;
-      align-items: center;
-
-      img {
-        width: 1.125rem;
-        margin-right: 0.25rem;
-      }
-
-      &.time {
-        background-color: #2761f5;
-      }
-
-      &.price {
-        background-color: #BE5432;
-      }
-
-      &.cancel {
-        background-color: rgba(232, 97, 90, 1);
-      }
-
-      &.sale {
-        background-color: rgba(13, 191, 3, 1);
-      }
-    }
   }
 
-  .nft_name {
-    padding: 1.25rem 1.25rem 0;
-    font-family: BlenderPro;
-    font-size: 1.125rem;
-    font-weight: bold;
-    line-height: 1.5;
-    text-align: left;
-    color: white;
+  .img_box {
+    width: 100%;
+    height: 15.5rem;
     display: flex;
+    border-radius: 0.5rem 0.5rem 0 0;
     align-items: center;
     justify-content: center;
+    background-image: url("@/assets/svg/home/box_img_bg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
+  }
 
-    &>span {
-      display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+  .mystery-boxs-list-img {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s;
+  }
+
+  .mystery-boxs-title {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 1.90625rem;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .box-name {
+      flex: 1;
+      font-family: LeagueSpartan;
+      font-weight: bold;
+      font-size: 1.5rem;
+      line-height: 1;
+      text-align: left;
+      color: #e4e7f5;
     }
 
     img {
-      margin-left: 0.625rem;
-      width: 1.1875rem;
+      width: 2.1875rem;
       height: auto;
     }
   }
 
-  .nft_price {
-    padding: 0 1.25rem;
-    font-family: Tomorrow;
-    font-size: 1.875rem;
-    font-weight: bold;
-    line-height: 1.4;
-    text-align: center;
-    color: #11cde9;
-  }
+  .box-price {
+    padding: 0.625rem 1.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  .buy_btn {
-    margin: 1.25rem 1.25rem 0;
-    height: 2.875rem;
-    line-height: 2.875rem;
-    border-radius: 1.875rem;
-    box-sizing: border-box;
-    padding: 0.125rem;
-    border-image-source: linear-gradient(to bottom,
-        #1e90f9 12%,
-        #e022e3 70%);
-    border-image-slice: 1;
-    background-image: linear-gradient(to bottom, #1b082b, #1b082b),
-      linear-gradient(to bottom,
-        #1e90f9 12%,
-        #e022e3 70%);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    cursor: pointer;
-
-    &>span {
-      background-image: linear-gradient(180deg,
-          #1e90f9 0%,
-          #e022e3 100%);
-      font-size: 1.125rem;
+    .price-box {
+      display: flex;
+      align-items: center;
+      font-family: Tomorrow;
+      font-size: 1.875rem;
       font-weight: bold;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      line-height: 1.4;
+      text-align: left;
+      color: #11cde9;
     }
   }
 
-  .cancel_btn {
-    margin: 1.25rem 1.25rem 0;
-    height: 2.875rem;
+  .other {
+    padding: 0 1.25rem;
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 1.875rem;
-    background-color: #df4328;
+    justify-content: space-between;
 
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.6;
-    text-align: center;
-    color: white;
-    cursor: pointer;
+    .sale {
+      font-family: BlenderPro;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: right;
+      color: white;
+    }
 
-    &.disabled {
-      background-color: #292c36;
-      color: rgba(169, 164, 180, 0.3);
+    .sale-val {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      text-align: right;
+      color: #a9a4b4;
     }
   }
+}
 
-  .delete_btn {
-    margin: 1.25rem 1.25rem 0;
-    height: 2.875rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1.875rem;
-    box-sizing: border-box;
-    border: 1px solid #a9a4b4;
+.boxes-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 19.875rem;
+  height: 2.875rem;
+  border-radius: 1.875rem;
+  padding: 1px;
+  margin: 0 auto;
+  margin-top: 1.25rem;
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+    linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  padding: 0.125rem;
+  border-image-source: linear-gradient(to bottom,
+      #5fe3ef 12%,
+      #00689d 53%,
+      #b063f5 70%);
+  border-image-slice: 1;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  cursor: pointer;
 
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.6;
-    text-align: center;
-    color: #a9a4b4;
-    cursor: pointer;
+  &:hover {
+    background-image: linear-gradient(to top, #e3a406, #fbd851);
+
+    &>.boxes-button-name {
+      color: #13151f;
+      background: transparent;
+      -webkit-background-clip: inherit;
+      background-clip: inherit;
+      -webkit-text-fill-color: inherit;
+    }
   }
+}
 
-
-  .remaining_votes {
-    padding-top: 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #a9a4b4;
-  }
+.boxes-button-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  background-image: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .no_date {

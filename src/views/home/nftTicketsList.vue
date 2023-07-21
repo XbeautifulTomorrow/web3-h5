@@ -28,38 +28,51 @@
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
-        <li class="ntf-tickets-item" v-for="(item, index) in ticketList" :key="`tickets-${index}`">
-          <div class="image_box">
-            <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
-            <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
-              <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
-              <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span v-if="item.orderType == 'LIMITED_TIME'">
-                <span v-if="dateDiff(item && item.endTime) > 1">
-                  {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
-                </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
-                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
-                </countDown>
-              </span>
-              <span v-else>
-                {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
-              </span>
+        <template v-for="(item, index) in ticketList">
+          <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
+            <div class="img-box">
+              <Image fit="cover" class="nft_img" :src="item.nftImage" />
+              <div class="type-box">
+                <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
+                  <img src="@/assets/svg/home/icon_time.svg" alt="">
+                  <span v-if="dateDiff(item && item.endTime) > 1">
+                    {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
+                  </span>
+                  <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders()" :time="item.endTime">
+                    {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                  </countDown>
+                </div>
+                <div class="price" v-else>
+                  <img src="@/assets/svg/home/icon_price.svg" alt="">
+                  <span>
+                    {{
+                      `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0).toString()} TICKETS LEFT`
+                    }}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
-          </div>
-          <div class="nft_name">
-            <span>{{ item && item.seriesName }}</span>
-            <img src="@/assets/svg/home/icon_certified.svg" alt="">
-          </div>
-          <div class="nft_price">{{ item && item.price }}ETH</div>
-          <div class="buy_btn" @click="handleTickets(item)">
-            <span>ENTER NOW</span>
-          </div>
-          <div class="remaining_votes">
-            {{ `${item && item.numberOfTicketsSold || 0} Tickets sold` }}
-          </div>
-        </li>
+            <div class="nft-name">
+              <div class="nft-name-l">
+                <div class="name-text text-ellipsis">{{ item.seriesName || "-" }}</div>
+                <img src="@/assets/svg/home/icon_certified.svg" alt="">
+              </div>
+              <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>
+            </div>
+            <div class="price-box">
+              {{ `${item.price} ETH` }}
+            </div>
+            <div class="boxes-button">
+              <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
+            </div>
+            <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
+              {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
+            </div>
+            <div class="sold-box" v-else>
+              {{ $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 }) }}
+            </div>
+          </li>
+        </template>
       </ul>
       <div v-else class="no_date">
         <span>NO COMPETITION FOUND</span>
@@ -107,7 +120,7 @@ export default {
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
-        type: "ALL"
+        type: "EXTERNAL"
       });
       this.collections = res.data;
     },
@@ -131,13 +144,6 @@ export default {
       if (res && res.code == 200) {
         this.ticketList = res.data.records;
         this.count = res.data.total;
-      }
-    },
-    // 加载更多
-    nextPage() {
-      this.page++;
-      if (this.activeType == "activity") {
-        this.fetchCheckAllOrders(false)
       }
     },
     handleTickets(event) {

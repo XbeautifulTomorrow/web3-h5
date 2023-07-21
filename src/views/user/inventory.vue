@@ -22,13 +22,13 @@
         </el-input>
         <div class="collections_box type_box">
           <div class="collections_text">Type:</div>
-          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable placeholder="All">
+          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable placeholder="ALL">
             <el-option v-for="(item, index) in nftTypes" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </div>
         <div class="collections_box">
           <div class="collections_text">Collections:</div>
-          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type" placeholder="All"
+          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type" placeholder="ALL"
             clearable :popper-append-to-body="false">
             <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
               :value="item.contractAddress" />

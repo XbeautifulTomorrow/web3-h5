@@ -13,6 +13,7 @@ const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
 const Lottery = () => import("@/components/lottery/index.vue");
 const MysteryBox = () => import("../views/mysteryBox/index.vue");
+const MysteryBoxesList = () => import("../views/home/mysteryBoxesList.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
@@ -44,6 +45,16 @@ const routes = [
     name: "MysteryBox",
     components: {
       default: MysteryBox,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+  {
+    path: "/mysteryBoxesList",
+    name: "MysteryBoxesList",
+    components: {
+      default: MysteryBoxesList,
       Header,
       Footer,
       Currency,

@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper_bg">
     <div class="ntf_tickets_list_wrapper">
-      <div class="banner_box"></div>
+      <div class="banner_box">
+        <span>MYSTERY BOXES</span>
+      </div>
       <div class="search_box">
         <el-input v-model="searchVal" clearable @keyup.enter="fetchCheckAllOrders()" class="search_input" type="text"
           placeholder="Search NFT">
@@ -78,7 +80,7 @@ import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
 import Image from "@/components/imageView";
 export default {
-  name: 'ntfTicketsList',
+  name: 'mysteryBoxesList',
   components: {
     countDown,
     Image
@@ -156,7 +158,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./components/nftTicketsList.scss";
+@import "./components/mysteryBoxesList.scss";
 </style>
 <style lang="scss">
 .el-select__popper {

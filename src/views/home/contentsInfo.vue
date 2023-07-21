@@ -9,7 +9,7 @@
       </div>
       <div class="collections_box">
         <div class="collections_text">Collections:</div>
-        <el-select v-model="contractAddress" @change="othersideBoxFun()" class="nft_type" placeholder="All" clearable
+        <el-select v-model="contractAddress" @change="othersideBoxFun()" class="nft_type" placeholder="ALL" clearable
           :popper-append-to-body="false">
           <el-option v-for="(item, index) in seriesList" :key="index" :label="item.seriesName"
             :value="item.contractAddress" />

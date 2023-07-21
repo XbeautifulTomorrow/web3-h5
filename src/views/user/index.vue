@@ -57,10 +57,10 @@ export default {
       const { userPage } = this.userStore;
       return userPage || "profile";
     },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
-    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    }
   },
   created() {
     this.navList = [
@@ -108,7 +108,7 @@ export default {
       // }
     ]
 
-    if (this.isLogin) {
+    if (this.isLogin && this.userInfo?.id) {
       // 获取类型
       const { id } = this.$route.params;
       this.userStore.setUserPage(this.$route.path, id);

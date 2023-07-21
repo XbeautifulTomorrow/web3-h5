@@ -259,10 +259,10 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
-const { chainUrl } = useChainStore();
+const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUpperCase()}_ADDR`;
 const link = [
   {
-    src: chainUrl[props.result[0].lotteryChainType] + props.result[0].hash,
+    src: process.env[chainType] + props.result[0].hash,
     text: "View Faimess",
   },
   { src: `/snapshot?id=${props.result[0].snapshotId}`, text: "View Snapshot" },

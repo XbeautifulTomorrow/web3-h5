@@ -11,7 +11,6 @@ const state = reactive({
 const onResize = () => {
   const { innerWidth } = window;
   const innerHeight = window.innerHeight - window.innerWidth * 0.1302;
-  console.log(innerHeight);
   const xRatio = innerWidth / designWidth;
   const yRatio = innerHeight / designHeight;
   const ratio = Math.min(xRatio, yRatio);

@@ -147,7 +147,7 @@ export default {
       this.subAwardsWidth =
         this.$refs.subAwards[0].getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-      this.offetNum = parseInt(clientWidth / this.subAwardsWidth / 2);
+      this.offetNum = clientWidth / this.subAwardsWidth / 2;
       this.linearTime = this.boxOffsetWidth * 0.00016;
 
       document.documentElement.style.setProperty(
@@ -230,6 +230,11 @@ export default {
       this.$emit("showResultFun");
     },
     slowScrollFunc(data) {
+      let remainW = 0;
+      const remainPar = this.offetNum % 1;
+      if (remainPar != 0.5) {
+        remainW = (remainPar - 0.5) * this.subAwardsWidth;
+      }
       const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
       const slowTranslateXPer = translatePar - 12 / this.awardsList.length;
       document.documentElement.style.setProperty(
@@ -239,6 +244,7 @@ export default {
       this.slowTranslateX =
         this.subAwardsWidth *
           parseInt(slowTranslateXPer * this.awardsList.length) +
+        remainW +
         "px";
       document.documentElement.style.setProperty(
         "--slow-translateX",
@@ -246,7 +252,7 @@ export default {
       );
       const len =
         Math.floor(this.awardsList.length * Math.abs(slowTranslateXPer)) +
-        this.offetNum;
+        parseInt(this.offetNum);
       data.nftCompressImg = data.nftImg;
       this.awardsList.splice(len, 1, data);
       this.isActive = true;

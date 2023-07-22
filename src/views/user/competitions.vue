@@ -42,7 +42,7 @@
             <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
               {{ `Ended on ${timeFormat(item.endTime)}` }}
             </div>
-            <div class="tips_round end" v-else>
+            <div class="tips_round aborted" v-else>
               {{ `Aborted on ${timeFormat(item.endTime)}` }}
             </div>
             <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
@@ -96,10 +96,14 @@
                   {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
                 </span>
               </div>
-              <div class="tips_round" v-else :class="item.currentStatus == 'DRAWN' ? 'sale' : 'cancel'">
-                <span v-if="item.currentStatus == 'CANCELLED'">CANCELLED</span>
-                <span v-else-if="item.currentStatus == 'DRAWN'">SALE</span>
-                <span v-else>ABORTED</span>
+              <div class="tips_round sale" v-else-if="item.currentStatus == 'DRAWN'">
+                <span>SALE</span>
+              </div>
+              <div class="tips_round aborted" v-else-if="item.currentStatus == 'CLOSED'">
+                <span>ABORTED</span>
+              </div>
+              <div class="tips_round end" v-else>
+                <span>CANCELLED</span>
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
             </div>

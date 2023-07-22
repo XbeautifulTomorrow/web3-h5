@@ -60,7 +60,7 @@
     }
 
     &.price {
-      background-color: rgba(187, 54, 12, 0.8);
+      background-color: rgba(131, 56, 236, 0.8);
     }
 
     &.finish {
@@ -68,7 +68,7 @@
     }
 
     &.aborted {
-      background-color: #df4328;
+      background-color: rgba(187, 54, 12, 0.8);
     }
   }
 }
@@ -178,7 +178,7 @@
     .aborted {
       .time-text {
         font-size: 1rem;
-        color: #df4328;
+        color: rgba(187, 54, 12, 0.8);
       }
     }
   }
@@ -719,7 +719,7 @@
       }
 
       &.price {
-        background-color: rgba(187, 54, 12, 0.8);
+        background-color: rgba(131, 56, 236, 0.8);
       }
     }
   }

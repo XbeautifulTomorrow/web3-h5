@@ -26,6 +26,9 @@
           <div class="tips_round aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
             <span>ABORTED</span>
           </div>
+          <div class="tips_round cancel" v-else>
+            <span>CANCELLED</span>
+          </div>
         </div>
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
@@ -45,12 +48,22 @@
                 <div v-else class="time-text">{{ `CLOSE: ${dateFormat(nftInfo && nftInfo.endTime)}` }}</div>
               </div>
               <div class="finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
-                <img src="@/assets/svg/home/icon_time_drawn.svg" alt="">
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_drawn.svg"
+                  alt="">
+                <img v-else src="@/assets/svg/home/icon_time_drawn.svg" alt="">
                 <div class="time-text">COMPLETED</div>
               </div>
-              <div class="aborted" v-else>
-                <img src="@/assets/svg/home/icon_time_aborted.svg" alt="">
+              <div class="aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_aborted.svg"
+                  alt="">
+                <img v-else src="@/assets/svg/home/icon_time_aborted.svg" alt="">
                 <div class="time-text">ABORTED</div>
+              </div>
+              <div class="cancel" v-else>
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_cancel.svg"
+                  alt="">
+                <img v-else src="@/assets/svg/home/icon_time_cancel.svg" alt="">
+                <div class="time-text">CANCELLED</div>
               </div>
             </div>
             <div class="creator">
@@ -122,13 +135,17 @@
                   </div>
                 </div>
               </div>
-              <div class="return_box" v-else>
+              <div class="return_box" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
                 The competition did not reach its sell-out target and your purchased tickets have been refunded to the
                 balance, worth
                 <span>
                   {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0) }}
                 </span>
                 ETH
+              </div>
+              <div class="return_box" v-else>
+                The holder of <span>{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</span> canceled this
+                competition.
               </div>
             </div>
           </div>

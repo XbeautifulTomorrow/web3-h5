@@ -33,9 +33,9 @@
             <div class="img_box" v-for="(event, indexs) in item.lottery" :key="indexs">
               <Image fit="cover" class="nft_img" :src="event.nftImg" />
               <div class="mask_box">
-                <img class="status_img" v-if="event.userSelect == 'RECLAIM'" src="@/assets/svg/user/icon_refund.svg"
+                <img class="status_img" v-if="event.userSelect == 'RECLAIM'" src="@/assets/svg/user/icon_sold.svg"
                   alt="">
-                <img class="status_img" v-else src="@/assets/svg/user/icon_sold.svg" alt="">
+                <img class="status_img" v-else src="@/assets/svg/user/icon_refund.svg" alt="">
               </div>
             </div>
           </div>

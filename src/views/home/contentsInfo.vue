@@ -108,7 +108,7 @@ export default {
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
-        type: "ALL"
+        type: "EXTERNAL"
       });
       this.seriesList = res.data;
     },

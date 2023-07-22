@@ -11,7 +11,7 @@
               <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
                 {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
               </span>
-              <countDown v-else v-slot="timeObj" :time="nftInfo && nftInfo.endTime">
+              <countDown v-else v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo && nftInfo.endTime">
                 {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
               </countDown>
             </div>
@@ -79,14 +79,14 @@
                 </el-input>
               </div>
               <div class="payment_box">
-                <el-button v-if="maxBuyNum > 0" style="width: 100%;" class="submit_payment" type="primary"
-                  @click="submitPayment()">
+                <el-button v-if="dateDiff(nftInfo && nftInfo.endTime) > 0 && maxBuyNum > 0" style="width: 100%;"
+                  class="submit_payment" type="primary" @click="submitPayment()">
                   <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes || 0} tickets for ${buyPrice} ` }}</span>
                   <span v-else>{{ `Purchase ${buyVotes || 0} ticket for ${buyPrice}` }}&nbsp;</span>
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
-                  <span v-if="nftInfo.orderType == 'LIMITED_TIME' || Number(nftInfo.maximumPurchaseQuantity) > 0">
+                  <span v-if="nftInfo.orderType == 'LIMITED_TIME'">
                     Waiting for the result...
                   </span>
                   <span v-else>
@@ -287,7 +287,15 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore),
+    ...mapStores(useUserStore, useHeaderStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
     buyPrice() {
       const { buyVotes, nftInfo } = this;
       if (!buyVotes) return 0;
@@ -512,6 +520,18 @@ export default {
       }
 
       openUrl(`${chainLink}${event.txid}`);
+    },
+    /**
+     * @description: 加载接口
+     */
+    loadInterface() {
+      this.fetchOneBuyInfo();
+      this.fetchBuyRecord();
+      this.fetchEndingSoon();
+      if (this.isLogin && this.userInfo?.id) {
+        this.fetchUserBuyRecord();
+        this.fetchRebatesFindList(); // 邀请
+      }
     }
   },
   watch: {
@@ -536,11 +556,7 @@ export default {
     // 获取一元购 ID
     const { id } = this.$route.query;
     this.orderId = id;
-    this.fetchOneBuyInfo();
-    this.fetchBuyRecord();
-    this.fetchEndingSoon();
-    this.fetchUserBuyRecord();
-    this.fetchRebatesFindList(); // 邀请
+    this.loadInterface();
   }
 };
 </script>

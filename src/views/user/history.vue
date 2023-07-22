@@ -19,10 +19,15 @@
           </div>
           <div class="box_buy">
             <div class="box_num">
-              <span v-if="activeType == 'MYSTERY_BOX'" class="box_name">{{ item.boxName }}</span>
-              <span v-else>{{ item.seriesName }}</span>
-              <span v-if="activeType == 'MYSTERY_BOX'">{{ `x ${item.lottery.length}` }}</span>
-              <span v-else>{{ `x ${item.tickets} ${item.tickets > 1 ? "Tickets" : "Ticket"}` }}</span>
+              <div v-if="activeType == 'MYSTERY_BOX'" class="box_name">{{ item.boxName }}</div>
+              <div v-else>{{ item.seriesName }}</div>
+              <div v-if="activeType == 'MYSTERY_BOX'">{{ `x ${item.lottery.length}` }}</div>
+              <div class="btns" v-if="activeType == 'MYSTERY_BOX'">
+                <img v-if="item.hash" @click="openLenk(item)" src="@/assets/svg/user/icon_external_link.svg" alt="">
+                <img v-if="item.snapshotId" @click="handleSnapshot(item)" src="@/assets/svg/user/icon_snapshot.svg"
+                  alt="">
+              </div>
+              <div v-else>{{ `x ${item.tickets} ${item.tickets > 1 ? "Tickets" : "Ticket"}` }}</div>
             </div>
             <div v-if="activeType == 'MYSTERY_BOX'" class="box_order">{{ `ID：${item.orderNumber}` }}</div>
             <div v-else class="box_order">{{ `ID：${item.orderNum}` }}</div>
@@ -79,8 +84,9 @@ import { getUserOneOrder } from "@/services/api/oneBuy";
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { timeFormat } from "@/utils";
-import Image from "@/components/imageView"
+import { timeFormat, setSessionStore, openUrl } from "@/utils";
+import Image from "@/components/imageView";
+
 export default {
   name: "myHistory",
   components: {
@@ -154,6 +160,23 @@ export default {
         this.historyList = res.data.records;
         this.count = res.data.total;
       }
+    },
+    handleSnapshot(event) {
+      setSessionStore("boxName", event.boxName);
+      this.$router.push({ name: "Snapshot", query: { id: event.snapshotId } });
+    },
+    /**
+     * @description: 打开链上
+     */
+    openLenk(event) {
+      let chainLink = process.env.VUE_APP_CHAIN_MUMBAI_ADDR;
+      if (event.lotteryChainType == "OKT_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      } else if (event.lotteryChainType == "BSC_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      }
+
+      openUrl(`${chainLink}${event.hash}`);
     },
     handleCurrentChange(page) {
       this.page = page;

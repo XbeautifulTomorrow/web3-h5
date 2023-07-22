@@ -262,7 +262,7 @@
 
       .box_name {
         display: inline-block;
-        max-width: 14rem;
+        max-width: 11.5rem;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -270,6 +270,18 @@
 
       &>span+span {
         padding-left: 0.75rem;
+      }
+
+      .btns {
+        margin-left: 0.625rem;
+
+        &>img {
+          width: 1rem;
+        }
+
+        &>img+img {
+          margin-left: 0.5rem;
+        }
       }
     }
 

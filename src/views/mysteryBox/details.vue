@@ -5,9 +5,9 @@
         <div class="title_box">
           <div class="title_text">{{ blindDetailInfo.boxName }}</div>
           <div class="title_description">An offcial box by Bitzing</div>
-        </div>
         <div class="title_btn">
           <span class="title_btn_text">Try for free</span>
+        </div>
         </div>
       </div>
       <div class="lottery_boxs">

@@ -30,14 +30,25 @@
         </div>
         <div class="nft_info">
           <div class="nft_list" v-if="activeType == 'MYSTERY_BOX'">
-            <div class="img_box" v-for="(event, indexs) in item.lottery" :key="indexs">
-              <Image fit="cover" class="nft_img" :src="event.nftImg" />
-              <div class="mask_box">
-                <img class="status_img" v-if="event.userSelect == 'RECLAIM'" src="@/assets/svg/user/icon_sold.svg"
-                  alt="">
-                <img class="status_img" v-else src="@/assets/svg/user/icon_refund.svg" alt="">
-              </div>
-            </div>
+            <template v-for="(event, indexs) in item.lottery" :key="indexs">
+              <el-tooltip popper-class="tips_box" effect="dark" placement="top">
+                <template #content>
+                  <span>
+                    {{ `${event.seriesName} #${event.tokenId}` }}
+                  </span>
+                </template>
+                <div class="img_box">
+                  <Image fit="cover" class="nft_img" :src="event.nftImg" />
+                  <div class="mask_box" v-if="event.userSelect == 'RECLAIM'">
+                    <img class="status_img" v-if="event.userSelect == 'RECLAIM'" src="@/assets/svg/user/icon_sold.svg"
+                      alt="">
+                  </div>
+                  <div class="mask_box" v-if="event.userSelect == 'HOLD' && event.lotteryStatus != 'SUCCESS'">
+                    <img class="status_img" src="@/assets/svg/user/icon_refund.svg" alt="">
+                  </div>
+                </div>
+              </el-tooltip>
+            </template>
           </div>
           <div class="price_box">
             <div class="price">

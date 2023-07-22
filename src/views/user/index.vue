@@ -124,4 +124,33 @@ export default {
 <style lang="scss" scoped>
 @import "./components/index.scss";
 </style>
-  
+<style lang="scss">
+.tips_box {
+  max-width: 90%;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 0.3125rem;
+  background-color: #2c115b !important;
+  box-sizing: border-box;
+
+  .tips_title {
+    font-family: 'Medium';
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: left;
+    color: #a9a4b4;
+  }
+
+  .tips_text {
+    font-family: 'Medium';
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: left;
+    color: white;
+    word-break: break-all;
+  }
+
+  .el-popper__arrow::before {
+    background-color: #2c115b !important;
+  }
+}
+</style>

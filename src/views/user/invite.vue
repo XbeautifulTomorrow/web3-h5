@@ -16,7 +16,7 @@
         <div class="invite_description">
           Post your unique tracker in your socials, in your Discord and send it to anyone with a passion for NFTs
           with a little explanation of Bitzing. You will be handsomely rewarded with up to <span style="color:white">{{
-            new bigNumber(setting.consumePointRate).multipliedBy(100) }}%</span>
+            new bigNumber(setting.downCommissionRate).multipliedBy(100) }}%</span>
           of their daily purchases and paid to you in ETH.
         </div>
       </div>
@@ -59,7 +59,11 @@
           <el-table-column prop="inviteCode" label="CODE" align="center" />
           <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
           <el-table-column prop="invitePeople" label="REFS" align="center" />
-          <el-table-column prop="pointAmount" label="POINT" align="center" />
+          <el-table-column label="%" align="center">
+            <template #default>
+              {{ `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(100)}%` }}
+            </template>
+          </el-table-column>
           <el-table-column prop="traAmount" label="CONSUMPTION" align="center">
             <template #default="scope">
               <div class="consumption_box">
@@ -162,7 +166,7 @@ export default {
       size: 5,
       count: 0,
       setting: {
-        withdrawalFees: null
+        downCommissionRate: null
       }
     };
   },

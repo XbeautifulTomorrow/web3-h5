@@ -20,7 +20,7 @@
           <div class="box_buy">
             <div class="box_num">
               <span v-if="activeType == 'MYSTERY_BOX'" class="box_name">{{ item.boxName }}</span>
-              <span v-else class="box_name">{{ item.seriesName }}</span>
+              <span v-else>{{ item.seriesName }}</span>
               <span v-if="activeType == 'MYSTERY_BOX'">{{ `x ${item.lottery.length}` }}</span>
               <span v-else>{{ `x ${item.tickets} ${item.tickets > 1 ? "Tickets" : "Ticket"}` }}</span>
             </div>

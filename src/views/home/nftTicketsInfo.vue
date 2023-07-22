@@ -179,22 +179,37 @@
             <div class="nft_description" v-html="detailData && detailData.description"></div>
           </div>
           <div class="traits_box">
-            <div class="traits_text">DESCRIPTION</div>
+            <div class="traits_text">TRAITS</div>
             <div class="traits_list">
-              <div class="traits_item" v-for="(item, index) in detailData && detailData.attributes" :key="index">
-                <div class="traits_item_name">{{ item.trait_type }}</div>
-                <div class="traits_item_val">{{ item.value }}</div>
+              <div class="traits_item" v-for="(item, index) in attrData" :key="index">
+                <div class="traits_item_top">
+                  <el-tooltip popper-class="tips_box" effect="dark" placement="top">
+                    <template #content>
+                      <span>
+                        {{ item.attrName }}
+                      </span>
+                    </template>
+                    <div class="traits_item_name">{{ item.attrName }}</div>
+                  </el-tooltip>
+                  <div class="traits_item_num">
+                    <img src="@/assets/svg/home/nft_tickets_attr.svg" alt="">
+                    <span>{{ item.attrNum }}</span>
+                  </div>
+                </div>
+                <div class="traits_item_val">{{ item.attrValue }}</div>
               </div>
             </div>
           </div>
-          <div class="invite_box">
+          <div class="invite_box" v-if="inviteDrop.length > 0">
             <div class="invite_text">SHARE THIS COMPETITION</div>
             <div class="choose_invite_code">
               <div>Choose referrals code</div>
-              <el-select v-model="inviteVal" @change="onCopy">
+              <el-select v-model="inviteVal">
                 <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
                   :value="item.inviteCode" />
               </el-select>
+              <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(inviteVal)" alt="">
+              <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
             </div>
           </div>
         </div>
@@ -233,6 +248,10 @@
         </div>
       </div>
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 <script>
@@ -242,7 +261,8 @@ import {
   getAListOfActivities,
   getAListOfParticipants,
   getEndingSoon,
-  getLottery
+  getLottery,
+  getNftAttrRate
 } from "@/services/api/oneBuy";
 import {
   rebatesFindList,
@@ -254,6 +274,11 @@ import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 
 import { CScrollbar } from "c-scrollbar";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 import {
   openUrl, onCopy, dateDiff, timeFormat
@@ -263,15 +288,21 @@ export default {
   components: {
     countDown,
     CScrollbar,
+    Login,
+    Register,
+    Forgot,
+    Modify,
     Image
   },
   data() {
     return {
+      pageType: null, //登录相关
       orderId: null,
       nftInfo: {},
       inviteVal: null,
       inviteDrop: [],
       detailData: null,
+      attrData: [],
       endingSoon: [],
       buyVotes: 1,
       activeType: "activity",
@@ -301,6 +332,19 @@ export default {
       if (!buyVotes) return 0;
       if (!nftInfo || !nftInfo.price) return 0;
       return new bigNumber(buyVotes).multipliedBy(nftInfo.price) || 0;
+    },
+    // 剩余时间
+    duration() {
+      const { currentTime } = useUserStore();
+      if (currentTime) {
+        const endstamp = new Date(this.nftInfo.endTime).getTime();
+        let end = String(endstamp).length >= 13 ? +endstamp : +endstamp * 1000;
+        end -= new Date(currentTime).getTime();
+        return end;
+      }
+      const timestamp = new Date(this.nftInfo.endTime).getTime();
+      const time = this.isMiniSecond ? Math.round(+timestamp / 1000) : Math.round(+timestamp);
+      return time;
     },
     // 计算可购买最大票数
     maxBuyNum() {
@@ -340,13 +384,17 @@ export default {
         this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
         const userStore = useUserStore();
         const { userInfo } = userStore;
-        const resDrawn = await getLottery({
-          orderNumber: this.orderId,
-          userId: userInfo?.id || null
-        })
+        this.fetchNftAttrRate();
 
-        if (resDrawn && resDrawn.code == 200) {
-          this.drawnInfo = resDrawn.data;
+        if (this.isLogin && this.userInfo?.id) {
+          const resDrawn = await getLottery({
+            orderNumber: this.orderId,
+            userId: userInfo?.id || null
+          })
+
+          if (resDrawn && resDrawn.code == 200) {
+            this.drawnInfo = resDrawn.data;
+          }
         }
 
       }
@@ -383,6 +431,11 @@ export default {
     },
     // 购买一元购门票
     async submitPayment() {
+      if (!this.isLogin || !this.userInfo?.id) {
+        this.pageType = "login";
+        return
+      }
+
       const { orderId, buyVotes } = this;
 
       if (!buyVotes || buyVotes < 1) {
@@ -462,6 +515,16 @@ export default {
         this.participantsTotal = res.data.total;
       }
     },
+    // 获取NFT属性
+    async fetchNftAttrRate() {
+      const { nftInfo } = this;
+      const res = await getNftAttrRate({
+        contractAddress: nftInfo.contractAddress
+      });
+      if (res && res.code == 200) {
+        this.attrData = res.data;
+      }
+    },
     // 加载更多
     nextPage() {
       this.page++;
@@ -472,6 +535,9 @@ export default {
       const res = await rebatesFindList();
       if (res && res.code == 200) {
         this.inviteDrop = res.data;
+        if (this.inviteDrop.length > 0) {
+          this.inviteVal = this.inviteDrop[0].inviteCode;
+        }
       }
     },
     // 参加赛事
@@ -532,7 +598,76 @@ export default {
         this.fetchUserBuyRecord();
         this.fetchRebatesFindList(); // 邀请
       }
-    }
+    },
+    durationFormatter(diff) {
+      // 按照传入的格式生成一个simpledateformate对象
+      let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
+      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nm = 1000 * 60; // 一分钟的毫秒数
+      let ns = 1000; // 一秒钟的毫秒数;
+
+      let dd = diff / nd;// 计算差多少天
+      // eslint-disable-next-line no-unused-vars
+      let hh = diff % nd / nh;// 计算差多少小时
+      // eslint-disable-next-line no-unused-vars
+      let mm = diff % nd % nh / nm;// 计算差多少分钟
+      // eslint-disable-next-line no-unused-vars
+      let ss = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
+      return { dd, hh, mm, ss };
+    },
+    // 复制邀请链接
+    copyInviteLink(event) {
+      const currentLink = window.location;
+      let link = currentLink.origin + "/NftTicketsInfo/" + event + "?id=" + this.orderId;
+      onCopy(link);
+    },
+    // 分享邀请链接到推特
+    shareInviteLink(event) {
+      const series = `⚡️ WIN AN ${this.nftInfo.name} in BITZING ⚡️\n`;
+      let description = null;
+      if (this.nftInfo.orderType == 'LIMITED_TIME') {
+        description = `${this.nftInfo.name} #${this.nftInfo.tokenId} SWEEPSTAKES draws in `
+        const { dd, hh } = this.durationFormatter(this.duration);
+        if (dd <= 1 && hh <= 1) {
+          // 一小时以内
+          description += `in an hour!⏳\n`;
+        } else if (dd <= 1 && hh > 1) {
+          // 一小时以上，一天以内
+          description += `${Math.floor(hh)} hours!⏳\n`;
+        } else if (dd == 1 && hh > 1) {
+          // 两天以内
+          description += `${Math.floor(dd)} day ${Math.floor(hh)} hours!⏳\n`;
+        } else if (dd > 1 && hh <= 1) {
+          // 两天以上整数没有小时
+          description += `${Math.floor(dd)} days⏳\n`;
+        } else {
+          // 两天以上
+          description += `${Math.floor(dd)} days ${Math.floor(hh)} hours!⏳\n`;
+        }
+
+      } else {
+        description = `${this.nftInfo.name} #${this.nftInfo.tokenId} will sell out with ${this.nftInfo.maximumPurchaseQuantity || 0} TICKETS left.\n`;
+      }
+      const inviteLink = `Enter HERE:`;
+      const currentLink = window.location;
+      let link = currentLink.origin + "/NftTicketsInfo/" + event + "?id=" + this.orderId;
+
+      let inviteText = series;
+      inviteText += description;
+
+      inviteText += inviteLink;
+
+      // 构建推特的分享链接
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      // 在新窗口中打开推特分享链接
+      openUrl(twitterUrl);
+    },
+    closeDialogFun() {
+      this.pageType = "";
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
   },
   watch: {
     buyVotes: function (newVal) {
@@ -551,11 +686,15 @@ export default {
         this.$forceUpdate();
       }, 300);
     },
+    isLogin() {
+      this.loadInterface();
+    }
   },
   created() {
     // 获取一元购 ID
     const { id } = this.$route.query;
     this.orderId = id;
+
     this.loadInterface();
   }
 };
@@ -593,6 +732,35 @@ export default {
 
   .el-popper__arrow {
     display: none;
+  }
+}
+
+.tips_box {
+  max-width: 90%;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 0.3125rem;
+  background-color: #2c115b !important;
+  box-sizing: border-box;
+
+  .tips_title {
+    font-family: 'Medium';
+    font-size: 0.875rem;
+    line-height: 1.3;
+    text-align: left;
+    color: #a9a4b4;
+  }
+
+  .tips_text {
+    font-family: 'Medium';
+    font-size: 0.875rem;
+    line-height: 1.3;
+    text-align: left;
+    color: white;
+    word-break: break-all;
+  }
+
+  .el-popper__arrow::before {
+    background-color: #2c115b !important;
   }
 }
 </style>

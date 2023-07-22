@@ -55,10 +55,6 @@
       <span>View all competitions</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
@@ -67,41 +63,19 @@ import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
 
-import { mapStores } from "pinia";
-import { useUserStore } from "@/store/user.js";
 import { getCheckAllOrders } from "@/services/api/oneBuy";
 
-import Login from "../login/index.vue";
-import Register from "../register/index.vue";
-import Forgot from "../forgot/index.vue";
-import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'NtfTickets',
   components: {
-    Login,
-    Register,
-    Forgot,
-    Modify,
     countDown,
     Image
   },
   data() {
     return {
-      pageType: null,
       ticketList: []
     };
-  },
-  computed: {
-    ...mapStores(useUserStore),
-    isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin
-    },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
   },
   methods: {
     dateDiff: dateDiff,
@@ -114,21 +88,11 @@ export default {
       }
     },
     handleTickets(event) {
-      if (this.isLogin && this.userInfo?.id) {
-        this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
-      } else {
-        this.changeTypeFun('login');
-      }
+      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
     openAll() {
       this.$router.push({ name: "NftTicketsList" });
-    },
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
-    },
+    }
   },
   created() {
     this.fetchCheckAllOrders();

@@ -524,10 +524,34 @@
     border-radius: 0.625rem;
     background-color: #1d0f36;
 
-    .traits_item_name {
-      font-size: 0.875rem;
-      line-height: 1.6;
-      color: #a9a4b4;
+    .traits_item_top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .traits_item_name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: #a9a4b4;
+      }
+
+      .traits_item_num {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        color: rgba(169, 164, 180, 0.3);
+
+        img {
+          width: 1.25rem;
+          height: auto;
+          margin-right: 0.25rem;
+        }
+      }
     }
 
     .traits_item_val {
@@ -565,7 +589,8 @@
 
     :deep(.el-select) {
       width: 13.625rem;
-      margin-left: 1.25rem;
+      margin: 0 1.25rem;
+
 
       .el-input__wrapper {
         height: 3.75rem;
@@ -583,6 +608,16 @@
           color: #fad54d;
         }
       }
+    }
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      cursor: pointer;
+    }
+
+    &>img+img {
+      margin-left: 0.625rem;
     }
   }
 }

@@ -23,9 +23,18 @@
               <div v-else>{{ item.seriesName }}</div>
               <div v-if="activeType == 'MYSTERY_BOX'">{{ `x ${item.lottery.length}` }}</div>
               <div class="btns" v-if="activeType == 'MYSTERY_BOX'">
-                <img v-if="item.hash" @click="openLenk(item)" src="@/assets/svg/user/icon_external_link.svg" alt="">
-                <img v-if="item.snapshotId" @click="handleSnapshot(item)" src="@/assets/svg/user/icon_snapshot.svg"
-                  alt="">
+                <el-tooltip v-if="item.hash" popper-class="tips_box" effect="dark" placement="top">
+                  <template #content>
+                    <span>Verify Faimess</span>
+                  </template>
+                  <img @click="openLenk(item)" src="@/assets/svg/user/icon_external_link.svg" alt="">
+                </el-tooltip>
+                <el-tooltip v-if="item.snapshotId" popper-class="tips_box" effect="dark" placement="top">
+                  <template #content>
+                    <span>View Snapshot</span>
+                  </template>
+                  <img @click="handleSnapshot(item)" src="@/assets/svg/user/icon_snapshot.svg" alt="">
+                </el-tooltip>
               </div>
               <div v-else>{{ `x ${item.tickets} ${item.tickets > 1 ? "Tickets" : "Ticket"}` }}</div>
             </div>

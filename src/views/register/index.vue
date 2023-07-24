@@ -30,7 +30,7 @@
               <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
 
-              <el-button type="warning" @click.stop="sendVerify(ruleFormRef)">
+              <el-button type="warning" v-loading="loading" @click.stop="sendVerify(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
             </template>
           </el-input>
@@ -86,6 +86,7 @@ const visible = ref(true);
 const showErr = ref(false);
 const showVerify = ref(false);
 const showRemember = ref(false);
+const loading = ref(false);
 const ruleFormRef = ref();
 const time = ref(60);
 const formRegister = reactive({
@@ -205,7 +206,7 @@ const getCaptchaApi = async (code) => {
   handleClose();
   await ruleFormRef.value.validateField("email", async (valid, fields) => {
     if (valid) {
-
+      loading.value = true;
       const res = await getCaptcha({
         type: "register",
         email: formRegister.email,
@@ -224,6 +225,7 @@ const getCaptchaApi = async (code) => {
           type: "success",
         });
       }
+      loading.value = false;
     } else {
       console.log("error submit!", fields);
     }
@@ -329,6 +331,21 @@ const registerFun = async (formEl) => {
 
 .tips_btn {
   padding-bottom: 1.875rem;
+}
+
+:deep(.el-loading-mask) {
+  background-color: rgba(29, 15, 54, 0.6);
+  border-radius: 0.5rem;
+  cursor: not-allowed;
+
+  .el-loading-spinner {
+    text-align: center;
+    box-sizing: border-box;
+
+    .circular {
+      width: 2rem;
+    }
+  }
 }
 
 @media (max-width: 950px) {

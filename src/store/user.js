@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getLocalStore } from "@/utils";
+import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
 
 import localeZH from 'element-plus/lib/locale/lang/zh-tw';
 import localeEN from 'element-plus/lib/locale/lang/en';
@@ -43,7 +43,10 @@ export const useUserStore = defineStore("user", {
       this.userPage = data;
     },
     logoutApi() {
+      const invateCode = getSessionStore("invateCode");
       sessionStorage.clear();
+      setSessionStore("invateCode", invateCode);
+
       localStorage.removeItem("regInfo");
       localStorage.removeItem("userInfo");
       localStorage.removeItem("certificate");

@@ -5,9 +5,9 @@
         <div class="title_box">
           <div class="title_text">{{ blindDetailInfo.boxName }}</div>
           <div class="title_description">An offcial box by Bitzing</div>
-        </div>
-        <div class="title_btn">
-          <span class="title_btn_text">Try for free</span>
+          <div class="title_btn">
+            <span class="title_btn_text">Try for free</span>
+          </div>
         </div>
       </div>
       <div class="lottery_boxs">
@@ -38,9 +38,9 @@
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
-              <!-- <div class="discount">
-                <div class="val">5% OFF</div>
-              </div> -->
+              <div class="discount" v-if="fiveRebate > 0">
+                <div class="val">{{ `${fiveRebate}% OFF` }}</div>
+              </div>
               <div class="lottery_info">
                 <div class="open_text">OPEN</div>
                 <div class="num_text">5</div>
@@ -56,9 +56,9 @@
             </div>
           </div>
           <div class="lottery_type ten" @click="rollNumberFun('TEN')">
-            <!-- <div class="discount">
-              <div class="val">10% OFF</div>
-            </div> -->
+            <div class="discount" v-if="tenRebate > 0">
+              <div class="val">{{ `${tenRebate}% OFF` }}</div>
+            </div>
             <div class="lottery_info">
               <div class="open_text">OPEN</div>
               <div class="num_text">10</div>
@@ -81,7 +81,7 @@
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
         <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series" :key="index">
+          v-for="( item, index ) in  blindDetailInfo.series " :key="index">
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -92,16 +92,16 @@
                 <img src="@/assets/svg/home/icon_certified.svg" alt="" />
               </div>
               <div class="series_probability">
-                <span> {{ `Range:${item.range}` }}</span>
+                <span> {{ `Range:${item.range} ` }}</span>
                 <span>{{
-                  `ODDS: ${nftProbabilityFormat(item.nftNumber)}%`
+                  `ODDS: ${nftProbabilityFormat(item.nftNumber)}% `
                 }}</span>
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
-                {{ `${item.minPrice}ETH - ${item.maxPrice}ETH` }}
+                {{ `${item.minPrice} ETH - ${item.maxPrice} ETH` }}
               </div>
               <div v-else class="series_price">
-                {{ `${item.maxPrice}ETH` }}
+                {{ `${item.maxPrice} ETH` }}
               </div>
             </div>
           </div>
@@ -134,22 +134,22 @@
         <el-table-column prop="boxName" label="Box Name" align="center" />
         <el-table-column prop="legendNum" label="Legend" align="center">
           <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.legendNum)}%` }}
+            {{ `${probabilityFormat(scope.row, scope.row.legendNum)}% ` }}
           </template>
         </el-table-column>
         <el-table-column prop="epicNum" label="Epic" align="center">
           <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.epicNum)}%` }}
+            {{ `${probabilityFormat(scope.row, scope.row.epicNum)}% ` }}
           </template>
         </el-table-column>
         <el-table-column prop="rareNum" label="Rare" align="center">
           <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.rareNum)}%` }}
+            {{ `${probabilityFormat(scope.row, scope.row.rareNum)}% ` }}
           </template>
         </el-table-column>
         <el-table-column prop="normalNum" label="Common" align="center">
           <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.normalNum)}%` }}
+            {{ `${probabilityFormat(scope.row, scope.row.normalNum)}% ` }}
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="Timestamp" align="center">
@@ -172,16 +172,20 @@
           layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
+      <div class="close_btn">
+        <el-icon @click="showSeriesDialog = false">
+          <CircleClose />
+        </el-icon>
+      </div>
+      <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
+        @closeFun="showSeriesDialog = false"></series-slider>
+    </el-dialog>
   </div>
-  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
-    <div class="close_btn">
-      <el-icon @click="showSeriesDialog = false">
-        <CircleClose />
-      </el-icon>
-    </div>
-    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-      @closeFun="showSeriesDialog = false"></series-slider>
-  </el-dialog>
 </template>
 
 <script>
@@ -192,13 +196,22 @@ import { useUserStore } from "@/store/user.js";
 import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
-import { timeFormat, setSessionStore } from "@/utils";
+import { timeFormat, setSessionStore, accurateDecimal } from "@/utils";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 
 export default {
   name: "boxDetails",
   components: {
     seriesSlider,
+    Login,
+    Register,
+    Forgot,
+    Modify,
     Image,
   },
   props: {
@@ -211,6 +224,7 @@ export default {
   },
   data() {
     return {
+      pageType: null,
       snapshotId: null,
       showSeriesDialog: false,
       seriesList: [],
@@ -226,6 +240,32 @@ export default {
   },
   computed: {
     ...mapStores(useHeaderStore, useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
+    fiveRebate() {
+      const { price, fivePrice } = this.blindDetailInfo;
+      if (!fivePrice) return 0
+
+      const diff = Number(new bigNumber(price).minus(fivePrice))
+      if (diff <= 0) return 0;
+      const rebate = new bigNumber(diff).div(price).multipliedBy(100);
+      return accurateDecimal(rebate, 2);
+    },
+    tenRebate() {
+      const { price, tenPrice } = this.blindDetailInfo;
+      if (!tenPrice) return 0;
+
+      const diff = Number(new bigNumber(price).minus(tenPrice));
+      if (diff <= 0) return 0;
+      const rebate = Number(new bigNumber(diff).div(price).multipliedBy(100));
+      return accurateDecimal(rebate, 2);
+    }
   },
   methods: {
     timeFormat: timeFormat,
@@ -240,6 +280,10 @@ export default {
       });
     },
     rollNumberFun(type) {
+      if (!this.isLogin || !this.userInfo?.id) {
+        this.pageType = "login";
+        return
+      }
       const { blindDetailInfo } = this;
       const { balance } = this.headerStoreStore;
       const { userInfo } = this.userStore;
@@ -337,6 +381,12 @@ export default {
         .dividedBy(numTotal)
         .multipliedBy(100)
         .toFixed(4);
+    },
+    closeDialogFun() {
+      this.pageType = "";
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
     },
   },
   watch: {

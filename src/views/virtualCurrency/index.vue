@@ -9,12 +9,12 @@
     </div>
     <div :class="['virtual-currency-content publick-scrollbar']">
       <ul class="virtual-currency-main" ref="currencyAll">
-        <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`"
-          :style="'transform: translateX(' + item.translateNum + 'px);'" :class="[
-            'virtual-currency-item',
-            `box_frame_${typrFormat(item)}`,
-            { isHide: activeIndex == index },
-          ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
+        <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`" :class="[
+          'virtual-currency-item',
+          `box_frame_${typrFormat(item)}`,
+          { isHide: activeIndex == index },
+          item.animation && 'animation'
+        ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
           <div class="virtual-currency-item-l">
             <Image fit="cover" class="virtual-currency-item-img" :src="item.nftImg" />
             <div class="virtual-currency-item-text">
@@ -110,8 +110,6 @@
 <script>
 import Image from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
-import { useUserStore } from "@/store/user.js";
-import { mapStores } from "pinia";
 export default {
   name: "VirtualCurrency",
   components: { Image },
@@ -123,50 +121,50 @@ export default {
       currentData: undefined,
       style: {},
       currencyList: [],
+      nftId: [], // 当前已有nft
       translateNum: 0,
-      timer: null,
-      updateTimer: null,
+      timer: null
     };
   },
-  computed: {
-    ...mapStores(useUserStore),
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
-    isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin
-    }
-  },
-  mounted() {
-    this.search();
-  },
   beforeUnmount() {
-    if (this.updateTimer) {
-      clearInterval(this.updateTimer);
+    if (this.timer) {
+      clearInterval(this.timer);
     }
-
-    // 销毁定时器，否则可能导致重载此组件时会有多个定时器同时执行，使得滚动变快
-    window.clearTimeout(this.timer);
   },
   methods: {
     async fetchTicketList() {
       const res = await getTicketList();
       if (res && res.code == 200) {
         this.currencyList = res.data;
+        const nftList = []
+
+        res.data.forEach(element => {
+          nftList.push(element);
+        });
+
+        if (this.nftId > 0) {
+          for (let i = 0; i < this.currencyList.length; i++) {
+            if (this.findNftId(this.currencyList[i].id)) {
+              this.currencyList[i].animation = true;
+            }
+          }
+
+          this.nftId = nftList;
+        } else {
+          this.nftId = nftList;
+        }
+
+        this.$forceUpdate();
       }
     },
     timeoutTickets() {
-      if (this.updateTimer) {
-        clearTimeout(this.updateTimer);
+      if (this.timer) {
+        clearTimeout(this.timer);
       }
-      this.updateTimer = setTimeout(() => {
-        if (this.isLogin && this.userInfo?.id) {
-          this.fetchTicketList();
-          this.updateTimer = null;
-          this.timeoutTickets();
-        }
+      this.timer = setTimeout(() => {
+        this.fetchTicketList();
+        this.timer = null;
+        this.timeoutTickets();
       }, 5000);
     },
     typrFormat(event) {
@@ -188,7 +186,6 @@ export default {
       this.activeIndex = index;
       this.currentIndex = index;
       this.currentData = data;
-      window.clearTimeout(this.timer);
       const { left } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left + window.scrollX}px`,
@@ -200,62 +197,12 @@ export default {
       // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
     },
-    search() {
-      // 循环给currencyList数组每一个对象添加translateNum属性为0，这也是为了方便记录每一个对象滚动的宽度
-      for (var i = 0; i < this.currencyList.length; i++) {
-        this.currencyList[i]["translateNum"] = 0;
-      }
-
-      // 在元素完全渲染后再循环给每一个对象添加indexLeft属性，记录此对象初始位置，方便滚动超出父元素边界后，重新设置元素位置
-      this.$nextTick(() => {
-        for (var j = 0; j < this.currencyList.length; j++) {
-          this.currencyList[j]["indexLeft"] =
-            this.$refs.currencyItem[j].offsetLeft;
-        }
-
-        // 调用滚动定时器
-        // this.roll();
-      });
-    },
-    roll() {
-      this.timer = setInterval(() => {
-        // 循环给每一个对象修改translateNum属性值，从而动态修改页面元素的transform样式，达到滚动的效果
-        for (var i = 0; i < this.currencyList.length; i++) {
-          /**
-           * 判断此元素是否即将超出父级元素carousel-item的显示区域
-           * 1948 = 父级元素carousel的宽度 + 一个子元素carousel-item的宽度（如果元素有间距也需要带上）即 1600 + 328 + 20(间距)
-           * 修改父级元素与子元素样式时需要留意此处也应当一起修改
-           */
-          if (
-            1903 -
-            this.currencyList[i].translateNum -
-            this.currencyList[i].indexLeft <
-            0
-          ) {
-            /**
-             * 如果超出，则将元素移动至父级元素显示区域的左方
-             * 此处的328 对应着子元素carousel-item的样式宽度
-             */
-            this.currencyList[i]["translateNum"] =
-              this.$refs.currencyAll.offsetLeft -
-              this.currencyList[i].indexLeft -
-              348;
-          }
-
-          // 设置每个元素每次滚动的像素大小，像素越小越平滑,这里每次只移动一个像素
-          this.currencyList[i]["translateNum"] =
-            this.currencyList[i].translateNum + 1;
-        }
-      }, 30); // 30毫秒滚动一次，时间间隔越短滚动越平滑
-    },
-
     /**
      * 鼠标悬停销毁定时器
      */
     mouseOver() {
       this.showPopup = true;
       this.activeIndex = this.currentIndex;
-      window.clearTimeout(this.timer);
     },
 
     /**
@@ -274,12 +221,16 @@ export default {
       var reg = /^(\S{2})\S+(\S{6})$/;
       return event.replace(reg, "$1...$2");
     },
+    /**
+     * 判断id是否已存在
+     */
+    findNftId(event) {
+      const { nftId } = this;
+      return nftId.findIndex(e => e == event) > -1;
+    },
   },
   created() {
-    if (this.isLogin && this.userInfo?.id) {
-      this.fetchTicketList();
-    }
-
+    this.fetchTicketList();
     this.timeoutTickets();
   },
 };

@@ -181,20 +181,24 @@ router.beforeEach(async (to, from, next) => {
   if (path && path.indexOf("/Home/") > -1) {
     const code = path.replace("/Home/", "")
     // 保存邀请码到本地存储
-    setSessionStore("invateCode", code);
-    // 统计邀请链接打开数量
-    statisticsClick({ code: code });
+    if (code) {
+      setSessionStore("invateCode", code);
+      // 统计邀请链接打开数量
+      statisticsClick({ code: code });
+    }
 
     next({ name: "Home" });
-  } else if (path && path.indexOf("/Airdrop/") > -1) {
-    const code = path.replace("/Airdrop/", "")
-    // 保存邀请码到本地存储
-    setSessionStore("invateCode", code);
-    // 统计邀请链接打开数量
-    statisticsClick({ code: code });
+  }
+  // else if (path && path.indexOf("/Airdrop/") > -1) {
+  //   const code = path.replace("/Airdrop/", "")
+  //   // 保存邀请码到本地存储
+  //   setSessionStore("invateCode", code);
+  //   // 统计邀请链接打开数量
+  //   statisticsClick({ code: code });
 
-    next({ name: "Airdrop" });
-  } else {
+  //   next({ name: "Airdrop" });
+  // }
+  else {
     next();
   }
 });

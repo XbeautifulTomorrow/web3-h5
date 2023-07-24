@@ -54,29 +54,16 @@
           layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
       </div>
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 <script>
 import { getBoxPageList } from '@/services/api/index';
 import bigNumber from "bignumber.js";
 import { dateDiff } from "@/utils";
-
-import Login from "../login/index.vue";
-import Register from "../register/index.vue";
-import Forgot from "../forgot/index.vue";
-import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'mysteryBoxesList',
   components: {
-    Login,
-    Register,
-    Forgot,
-    Modify,
     Image
   },
   data() {
@@ -91,22 +78,14 @@ export default {
       boxList: [],
       orderBy: null,
       orderType: null,
-      pageType: null,
       page: 1,
       size: 20,
       count: 0
     };
   },
-  computed: {},
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
-    },
     changeSort(event) {
       if (event == "popularity") {
         this.orderBy = "sales";
@@ -147,11 +126,7 @@ export default {
       }
     },
     handleMysteryBoxes(event) {
-      if (this.isLogin && this.userInfo?.id) {
-        this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
-      } else {
-        this.changeTypeFun('login');
-      }
+      this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
     },
     handleCurrentChange(page) {
       this.page = page;

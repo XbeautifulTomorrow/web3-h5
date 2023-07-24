@@ -112,6 +112,11 @@ const getUserOneOrder = (params) =>
 const getUserTotalTicket = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getUserTotalTicket", params);
 
+/**
+* @description 查询个人总参与票数
+*/
+const getNftAttrRate = (params) =>
+  apiService.get(serviceUrl + "/oneNftLotteryOrders/getNftAttrRate", params);
 
 export {
   getWalletNft,
@@ -130,5 +135,6 @@ export {
   getLottery,
   getTheExternalNFTSeries,
   getUserOneOrder,
-  getUserTotalTicket
+  getUserTotalTicket,
+  getNftAttrRate
 };

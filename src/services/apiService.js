@@ -2,7 +2,6 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
 import config from './env';
-import router from "@/router";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 // import qs from 'qs'
@@ -14,7 +13,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
-const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "/mystery-web-user/auth/getCode"];
+const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "mystery-web-user/auth/getCode"];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
@@ -25,7 +24,7 @@ axiosInstance.interceptors.request.use(
       config.headers.verify = sessionStorage.getItem("verify");
     }
 
-    if (config.url.indexOf("/mystery-web-user/auth/getCode") > -1) {
+    if (config.url.indexOf("mystery-web-user/auth/getCode") > -1) {
       config.responseType = "blob"
     }
     return config;
@@ -73,6 +72,7 @@ const handleRes = ({ headers, url, data }) => {
 
     return [false, data.code, data];
   } else {
+
     if (!notMessage.includes(url)) {
       ElMessage({
         message: t("errorTips." + data.messageKey),
@@ -80,7 +80,7 @@ const handleRes = ({ headers, url, data }) => {
       });
     }
 
-    if (notMessage.includes("/mystery-web-user/auth/getCode")) {
+    if (notMessage.includes(url)) {
       return headers;
     } else {
       return [false, data.code, data];

@@ -19,7 +19,7 @@
       <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
         <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <span class="header-wallet-money">{{ ethBalance }}</span>
+          <span class="header-wallet-money">{{ accurateDecimal(ethBalance, 4) }}</span>
           <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
@@ -62,7 +62,7 @@ import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
-import { openUrl } from "@/utils";
+import { accurateDecimal, openUrl } from "@/utils";
 
 export default {
   name: "HeaderCom",
@@ -127,6 +127,7 @@ export default {
     },
   },
   methods: {
+    accurateDecimal: accurateDecimal,
     closeDialogFun() {
       this.pageType = "";
       if (this.userInfo) {

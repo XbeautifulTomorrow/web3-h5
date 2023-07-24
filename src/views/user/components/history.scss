@@ -247,15 +247,41 @@
       }
     }
 
+    .box_buy {
+      flex: 1;
+    }
+
     .box_num {
       font-family: BlenderPro;
       font-size: 1.25rem;
       line-height: 1.6;
       text-align: left;
       color: white;
+      display: flex;
+      align-items: center;
+
+      .box_name {
+        display: inline-block;
+        max-width: 11.5rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
 
       &>span+span {
         padding-left: 0.75rem;
+      }
+
+      .btns {
+        margin-left: 0.625rem;
+
+        &>img {
+          width: 1rem;
+        }
+
+        &>img+img {
+          margin-left: 0.5rem;
+        }
       }
     }
 

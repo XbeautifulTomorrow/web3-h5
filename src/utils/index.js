@@ -369,7 +369,8 @@ export const accurateDecimal = (number, format, zeroFill) => {
     }
 
     //四舍五入
-    number = Math.round(number * n) / n;
+    number = Math.floor(Number(new bigNumber(number).multipliedBy(n)));
+    number = new bigNumber(number).div(n);
     let str = number.toString();
 
     //是否补零

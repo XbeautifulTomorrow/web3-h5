@@ -12,7 +12,7 @@
         <div class="balance_item_l">
           <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           <div class="num">
-            <span>{{ ethBalance || 0 }}</span>
+            <span>{{ accurateDecimal(ethBalance, 4) || 0 }}</span>
             <span>ETH</span>
           </div>
         </div>
@@ -152,7 +152,7 @@ import {
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
 import bigNumber from "bignumber.js";
-import { onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
+import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
 export default {
@@ -202,7 +202,7 @@ export default {
     onCopy: onCopy,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
-
+    accurateDecimal: accurateDecimal,
     // 个人总参与票数
     async fetchUserTotalTicket() {
       const res = await getUserTotalTicket();

@@ -55,10 +55,6 @@
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
         layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 
@@ -68,25 +64,16 @@ import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
-import Login from "../login/index.vue";
-import Register from "../register/index.vue";
-import Forgot from "../forgot/index.vue";
-import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'ContentsInfo',
   components: {
-    Login,
-    Register,
-    Forgot,
-    Modify,
     Image
   },
   data() {
     return {
       seriesList: [],
       nftData: [],
-      pageType: null,
       contractAddress: null,
       page: 1,
       size: 10,
@@ -108,7 +95,7 @@ export default {
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
-        type: "ALL"
+        type: "EXTERNAL"
       });
       this.seriesList = res.data;
     },
@@ -139,12 +126,6 @@ export default {
       } else {
         this.changeTypeFun('login');
       }
-    },
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
     },
     othersideBoxFun() {
       this.page = 1;

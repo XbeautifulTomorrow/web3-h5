@@ -122,18 +122,24 @@ export default {
         this.numberTest += 1;
         setTimeout(() => {
           clearInterval(this.intervalId);
-          if (data[numberTest].qualityType === "NORMAL") {
-            this.playSound(usually);
-          } else {
+          if (
+            data[numberTest].qualityType === "NORMAL" ||
+            data[numberTest].qualityType === "RARE"
+          ) {
             this.playSound(advanced);
+          } else {
+            this.playSound(usually);
           }
         }, this.delayTimer * 1000);
         if (this.winData.length >= this.prizeList.length) {
           setTimeout(() => {
-            if (data[numberTest].qualityType === "NORMAL") {
-              this.playSound(usually);
-            } else {
+            if (
+              data[numberTest].qualityType === "NORMAL" ||
+              data[numberTest].qualityType === "RARE"
+            ) {
               this.playSound(advanced);
+            } else {
+              this.playSound(usually);
             }
           }, this.delayTimer * 1000);
           this.autoplayFun();

@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="visible"
-    :modal="false"
+    :modal="true"
     destroy-on-close
     :show-close="false"
     :append-to-body="true"
@@ -262,7 +262,7 @@ const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUppe
 const link = [
   {
     src: process.env[chainType] + props.result[0].hash,
-    text: "View Faimess",
+    text: "Verify Faimess",
   },
   { src: `/snapshot?id=${props.result[0].snapshotId}`, text: "View Snapshot" },
 ];

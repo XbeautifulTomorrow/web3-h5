@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="newValue"
-    :modal="false"
+    :modal="true"
     width="100%"
     :show-close="false"
     destroy-on-close

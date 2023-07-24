@@ -242,7 +242,6 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
-import { useChainStore } from "@/store/chain.js";
 import { getTheUserBalance } from "@/services/api/user";
 
 dayjs.extend(utc);

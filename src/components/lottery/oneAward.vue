@@ -230,11 +230,8 @@ export default {
       this.$emit("showResultFun");
     },
     slowScrollFunc(data) {
-      let remainW = 0;
       const remainPar = this.offetNum % 1;
-      if (remainPar != 0.5) {
-        remainW = (remainPar - 0.5) * this.subAwardsWidth;
-      }
+      const remainW = (remainPar - 0.5) * this.subAwardsWidth;
       const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
       const slowTranslateXPer = translatePar - 12 / this.awardsList.length;
       document.documentElement.style.setProperty(

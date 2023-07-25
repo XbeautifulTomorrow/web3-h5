@@ -72,12 +72,19 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="CLAIM" align="center">
+          <el-table-column label="CLAIM" width="200" align="center">
             <template #default="scope">
-              <div class="claim_box" @click="handleReceive(scope.row)">
+              <div v-if="extraMoney(scope.row) > 0" :class="['claim_box']" @click="handleReceive(scope.row)">
                 <span>CLAIM</span>
-                <img src="@/assets/svg/user/icon_invite_ethereum.svg" alt="">
-                <span>{{ new bigNumber(scope.row.totalAmount || 0).minus(scope.row.receiveAmount || 0) }}</span>
+                <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                <span>{{ accurateDecimal(extraMoney(scope.row), 4)
+                }}</span>
+              </div>
+              <div v-else :class="['claim_box', 'disabled']">
+                <span>CLAIM</span>
+                <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                <span>{{ accurateDecimal(extraMoney(scope.row), 4)
+                }}</span>
               </div>
             </template>
           </el-table-column>
@@ -143,7 +150,7 @@ import {
   getSetting
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-import { onCopy, timeFormat, openUrl } from "@/utils";
+import { onCopy, timeFormat, openUrl, accurateDecimal } from "@/utils";
 export default {
   name: 'myInvite',
   data() {
@@ -185,6 +192,7 @@ export default {
     onCopy: onCopy,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
+    accurateDecimal: accurateDecimal,
     handleChange(event) {
       this.page = 1;
       this.size = 5;
@@ -257,6 +265,11 @@ export default {
         this.detailList = res.data.records;
         this.count = res.data.total;
       }
+    },
+    // 计算剩余未领取佣金
+    extraMoney(event) {
+      const receiveBalance = Number(new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0));
+      return receiveBalance;
     },
     // 领取佣金
     async handleReceive(event) {

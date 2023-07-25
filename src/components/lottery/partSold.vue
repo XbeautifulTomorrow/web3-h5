@@ -137,10 +137,10 @@
           </template>
         </div>
       </div>
-      <!-- <el-button class="public-button public-default" @click="goInventory">
-        CHECK MY INVENTORY
-      </el-button> -->
-      <el-button class="public-button" @click="closeDialogFun">
+      <el-button class="public-button" @click="unboxAgainFunc">
+        UNBOX AGAIN
+      </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
       </el-button>
     </div>
@@ -221,6 +221,10 @@ const totalFun = () => {
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
+const unboxAgainFunc = () => {
+  emit("closeDialogFun");
+};
+
 // const inventoryFun = () => {
 //   if (props.failList.length) {
 //     closeDialogFun();
@@ -318,6 +322,9 @@ watchEffect();
 }
 .public-button {
   margin-top: 1.875rem;
+}
+.public-continue {
+  margin-top: 0.625rem;
 }
 .public-dialog-lists-all {
   margin-bottom: 0;

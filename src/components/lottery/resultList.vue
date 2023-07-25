@@ -57,88 +57,103 @@
               ]"
               @click="nftsFun(item)"
             >
-              <div class="result-portrait">
-                <image-view class="result-portrait-img" :src="item.nftImg" />
-              </div>
-              <div class="result-club text-ellipsis">
-                <div class="result-club-title text-ellipsis">
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="item.seriesName"
-                  >
-                    <span class="result-club-title-text text-ellipsis">
-                      {{ item.seriesName }}
-                    </span>
-                  </el-tooltip>
-                  <el-icon color="#11cde9" size="19">
-                    <CircleCheckFilled />
-                  </el-icon>
-                </div>
-                <span
-                  class="result-club-serial text-ellipsis"
-                  v-if="item.tokenId || item.tokenId === 0"
-                >
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="`# ${item.tokenId}`"
-                  >
-                    #&nbsp;{{ item.tokenId }}
-                  </el-tooltip>
-                </span>
-              </div>
               <el-tooltip
                 class="box-item"
                 effect="dark"
-                :content="`${item.initPrice} ${item.coin}`"
+                :content="'Click to hold'"
+                :disabled="result.length < 2 ? true : false"
               >
-                <p class="result-coin">
-                  <span class="result-coin-number text-ellipsis">
-                    {{ `${item.initPrice}` }}
-                  </span>
-                  {{ `${item.coin}` }}
-                </p>
-              </el-tooltip>
-              <div class="result-one-footer" v-if="result.length < 2">
-                <el-button
-                  :class="['result-one-button take', { 'not-click': isSell }]"
-                  type="warning"
-                  round
-                  @click="chooseLotteryHold('hold')"
-                >
-                  Take the NFT
-                </el-button>
-                <el-button
-                  class="result-one-button sell"
-                  round
-                  @click="chooseLotteryHold"
-                >
-                  <span>Sell for</span>
-                  <span class="result-total">{{ item.price }}ETH</span>
-                  <span v-if="second > 0">({{ second }}s)</span>
-                </el-button>
-              </div>
-              <template v-else>
-                <div class="result-sell pointer">
-                  <span class="result-sell-text">Sell for</span>
+                <div>
+                  <div class="result-portrait">
+                    <image-view
+                      class="result-portrait-img"
+                      :src="item.nftImg"
+                    />
+                  </div>
+                  <div class="result-club text-ellipsis">
+                    <div class="result-club-title text-ellipsis">
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="item.seriesName"
+                      >
+                        <span class="result-club-title-text text-ellipsis">
+                          {{ item.seriesName }}
+                        </span>
+                      </el-tooltip>
+                      <el-icon color="#11cde9" size="19">
+                        <CircleCheckFilled />
+                      </el-icon>
+                    </div>
+                    <span
+                      class="result-club-serial text-ellipsis"
+                      v-if="item.tokenId || item.tokenId === 0"
+                    >
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="`# ${item.tokenId}`"
+                      >
+                        #&nbsp;{{ item.tokenId }}
+                      </el-tooltip>
+                    </span>
+                  </div>
                   <el-tooltip
                     class="box-item"
                     effect="dark"
-                    :content="`${item.price}${item.coin}`"
+                    :content="`${item.initPrice} ${item.coin}`"
                   >
-                    <span class="result-sell-number text-ellipsis">
-                      {{ item.price }}
-                    </span>
+                    <p class="result-coin">
+                      <span class="result-coin-number text-ellipsis">
+                        {{ `${item.initPrice}` }}
+                      </span>
+                      {{ `${item.coin}` }}
+                    </p>
                   </el-tooltip>
-                  <span class="result-sell-coin">
-                    {{ item.coin }}
-                  </span>
-                </div>
-                <!-- <p v-if="!nfts.includes(item.id)"" class="result-sell-get">
+                  <div class="result-one-footer" v-if="result.length < 2">
+                    <el-button
+                      :class="[
+                        'result-one-button sell',
+                        { 'not-click': isSell },
+                      ]"
+                      type="warning"
+                      round
+                      @click="chooseLotteryHold('hold')"
+                    >
+                      Take the NFT
+                      <span v-if="second > 0">({{ second }}s)</span>
+                    </el-button>
+                    <el-button
+                      class="result-one-button take"
+                      round
+                      @click="chooseLotteryHold"
+                    >
+                      <span>Sell for</span>
+                      <span class="result-total">{{ item.price }}ETH</span>
+                    </el-button>
+                  </div>
+                  <template v-else>
+                    <div class="result-sell pointer">
+                      <span class="result-sell-text">Sell for</span>
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="`${item.price}${item.coin}`"
+                      >
+                        <span class="result-sell-number text-ellipsis">
+                          {{ item.price }}
+                        </span>
+                      </el-tooltip>
+                      <span class="result-sell-coin">
+                        {{ item.coin }}
+                      </span>
+                    </div>
+                    <!-- <p v-if="!nfts.includes(item.id)"" class="result-sell-get">
                   You Get {{ item.price }} ETH
                 </p> -->
-              </template>
+                  </template>
+                </div>
+              </el-tooltip>
               <div
                 class="hold-mask"
                 v-if="result.length > 1 && nfts.includes(item.id)"
@@ -409,7 +424,10 @@ const getTheUserBalanceApi = async () => {
 
 .result-one-footer {
   .sell {
-    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0 !important;
+  }
+  .take {
     margin-left: 0 !important;
   }
 }

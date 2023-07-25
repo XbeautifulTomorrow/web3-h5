@@ -24,10 +24,10 @@
       <p class="public-dialog-text margin-b">
         {{ text }}
       </p>
-      <el-button class="public-button public-default" @click="balanceFun">
-        CHECK BALANCE
+      <el-button class="public-button" @click="unboxAgainFunc">
+        UNBOX AGAIN
       </el-button>
-      <el-button class="public-button margin-l0" @click="closeDialogFun">
+      <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
       </el-button>
     </div>
@@ -48,7 +48,7 @@ const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
-const balanceFun = () => {
+const unboxAgainFunc = () => {
   emit("balanceFun");
 };
 </script>

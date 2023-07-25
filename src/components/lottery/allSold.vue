@@ -39,10 +39,10 @@
           </li>
         </el-tooltip>
       </ul>
-      <el-button class="public-button public-default" @click="goInventory">
+      <el-button class="public-button" @click="goInventory">
         CHECK MY INVENTORY
       </el-button>
-      <el-button class="public-button margin-l0" @click="closeDialogFun">
+      <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
       </el-button>
     </div>

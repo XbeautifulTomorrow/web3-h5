@@ -1,9 +1,23 @@
 <template>
-  <el-dialog v-model="dialogVisible" :destroy-on-close="true" width="78.125rem" :append-to-body="true" :show-close="false"
-    :align-center="true" :before-close="handleClose" :close-on-click-modal="false" class="public-dialog recharge-coin">
+  <el-dialog
+    v-model="dialogVisible"
+    :destroy-on-close="true"
+    width="78.125rem"
+    :append-to-body="true"
+    :show-close="false"
+    :align-center="true"
+    :before-close="handleClose"
+    :close-on-click-modal="false"
+    class="public-dialog recharge-coin"
+  >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <el-icon v-on="{ click: [close, handleClose] }" color="#2d313f" size="20" class="public-dialog-header-icon">
+        <el-icon
+          v-on="{ click: [close, handleClose] }"
+          color="#2d313f"
+          size="20"
+          class="public-dialog-header-icon"
+        >
           <CircleCloseFilled />
         </el-icon>
       </div>
@@ -20,9 +34,18 @@
           <span>WITHDRAWAL NETWORK</span>
           <span class="required">*</span>
         </div>
-        <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
-          :popper-append-to-body="false">
-          <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
+        <el-select
+          v-model="params.chain"
+          class="nft_type wallet_network"
+          placeholder="Select network"
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="(item, index) in networkList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
         <div class="hint_text">
           <img src="" alt="" />
@@ -43,13 +66,21 @@
           <span>RECEIVING NFT'S ADDRESS</span>
           <span class="required">*</span>
         </div>
-        <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
+        <el-input
+          class="wallet_input"
+          v-model="params.wallet"
+          placeholder="Paste your ERC20 wallet address here"
+        >
         </el-input>
       </div>
     </div>
     <div class="choose_panel">
       <div class="search_box">
-        <el-input class="nft_input" v-model="params.nftName" placeholder="Search NFT TokenId">
+        <el-input
+          class="nft_input"
+          v-model="params.nftName"
+          placeholder="Search NFT TokenId"
+        >
           <template #prefix>
             <el-icon class="el-input__icon search_icon" :size="24">
               <search />
@@ -91,16 +122,26 @@
         </div> -->
       </div>
       <div class="choose_nft">
-        <div class="choose_nft_item" :class="[
-          nftFind(item.id) > -1 && 'active',
-          { disabled: NFTSeries.includes(item.name) },
-        ]" v-for="(item, index) in chooseNftList" :key="index">
+        <div
+          class="choose_nft_item"
+          :class="[
+            nftFind(item.id) > -1 && 'active',
+            { disabled: NFTSeries.includes(item.name) },
+          ]"
+          v-for="(item, index) in chooseNftList"
+          :key="index"
+        >
           <div class="img_box">
             <Image fit="cover" class="nft_img" :src="item.nftImg" />
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="nft_name">{{ item.name }}</div>
-          <div class="confirm_btn" @click="depositOne(item)">Deposit</div>
+          <div class="confirm_btn" v-if="isDeposit" @click="depositOne(item)">
+            Deposit
+          </div>
+          <div class="confirm_btn" v-else @click.stop="onWithdrawalNft(item)">
+            Withdraw
+          </div>
           <div class="mask_box">
             <img src="@/assets/svg/user/icon_selected.svg" alt="" />
           </div>
@@ -180,7 +221,12 @@ const dialogVisible = computed({
 });
 onMounted(() => {
   //   fetchWithdrawalSystemNft();
-  getWalletNftApi();
+  if (props.isDeposit) {
+    getWalletNftApi();
+  } else {
+    fetchSystemNft();
+    accountAddressFun();
+  }
   //   getTheExternalNFTSeriesApi();
 });
 const chooseNftList = computed(() => {
@@ -229,11 +275,17 @@ const nftFind = (event) => {
   const eindex = chooseNft.findIndex((e) => e.id == event);
   return eindex;
 };
+const accountAddressFun = async () => {
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  params.wallet = accounts[0];
+};
 const depositOne = async (item) => {
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
-  accountAddress.value = accounts[0]
+  accountAddress.value = accounts[0];
   const receiver = localStorage.getItem("receiver");
   const web3 = new Web3(window.ethereum);
   if (item.contractType == "ERC1155") {
@@ -265,7 +317,7 @@ const onDepositNftFun = () => {
   emit("chooseNftsFun", chooseNft);
 };
 // 提取Nft
-const onWithdrawalNft = async () => {
+const onWithdrawalNft = async (item) => {
   const { wallet } = params;
   if (!wallet) {
     ElMessage({
@@ -274,19 +326,19 @@ const onWithdrawalNft = async () => {
     });
     return;
   }
-  if (!chooseNft.length > 0) {
-    ElMessage({
-      message: "Please select the NFT you want to withdraw",
-      type: "error",
-    });
-    return;
-  }
-  let knapsackId = [];
-  chooseNft.forEach((element) => {
-    knapsackId.push(element.name);
-  });
+  //   if (!chooseNft.length > 0) {
+  //     ElMessage({
+  //       message: "Please select the NFT you want to withdraw",
+  //       type: "error",
+  //     });
+  //     return;
+  //   }
+  //   let knapsackId = [];
+  //   chooseNft.forEach((element) => {
+  //     knapsackId.push(element.name);
+  //   });
   const res = await withdrawalNft({
-    knapsackIds: knapsackId, //背包ID
+    knapsackIds: [item.name], //背包ID
     walletAddress: wallet, //钱包地址
   });
   if (res && res.code == 200) {
@@ -300,10 +352,12 @@ const onWithdrawalNft = async () => {
 };
 // 获取系统Nft列表
 const fetchSystemNft = async () => {
+  loading.value = true;
   const res = await getSystemNft({
     page: 1,
     size: 9999,
   });
+  loading.value = false;
   if (res && res.code == 200) {
     const stockNft = res.data.records;
     stockNftList = [];
@@ -311,6 +365,9 @@ const fetchSystemNft = async () => {
     stockNft.forEach((element) => {
       if (!element.tokenId) return;
       stockNftList.push(element);
+    });
+    stockNftList.forEach((item, index) => {
+      chooseNftData[index] = item;
     });
   }
 };

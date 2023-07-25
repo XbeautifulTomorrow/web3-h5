@@ -338,7 +338,7 @@ const onWithdrawalNft = async (item) => {
   //     knapsackId.push(element.name);
   //   });
   const res = await withdrawalNft({
-    knapsackIds: [item.name], //背包ID
+    knapsackIds: [item.id], //背包ID
     walletAddress: wallet, //钱包地址
   });
   if (res && res.code == 200) {

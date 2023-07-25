@@ -294,7 +294,9 @@ export default {
     unboxAgain() {
       localStorage.removeItem("result");
       this.closeDialogFun();
-      emitter.emit("unBoxAgainFunc", this.rollNumber);
+      setTimeout(() => {
+        emitter.emit("unBoxAgainFunc", this.rollNumber);
+      }, 200);
     },
     closeDialogFun() {
       this.showDialog = "";

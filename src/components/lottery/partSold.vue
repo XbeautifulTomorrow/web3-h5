@@ -182,7 +182,7 @@ const props = defineProps({
 //         due to congestion on the chain, part of the prizes can not be accounted
 //         for, we will be converted to the final value of the NFT directly into
 //         the ETH transferred to your balance
-const emit = defineEmits(["inventoryFun", "closeDialogFun"]);
+const emit = defineEmits(["inventoryFun", "closeDialogFun", "unboxAgain"]);
 const visible = ref(true);
 const total = ref(0);
 const text = ref("");
@@ -222,7 +222,7 @@ const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const unboxAgainFunc = () => {
-  emit("closeDialogFun");
+  emit("unboxAgain");
 };
 
 // const inventoryFun = () => {

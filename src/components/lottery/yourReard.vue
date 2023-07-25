@@ -40,7 +40,7 @@
           {{ sold?.point }}
         </span>
       </div>
-      <el-button class="public-button" @click="unboxAgainFunc">
+      <el-button class="public-button margin-t" @click="unboxAgainFunc">
         UNBOX AGAIN
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -59,14 +59,14 @@ defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["closeDialogFun", "inventoryFun", "goInventory"]);
+const emit = defineEmits(["closeDialogFun", "inventoryFun", "unboxAgain"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const unboxAgainFunc = () => {
-  emit("goInventory");
+  emit("unboxAgain");
 };
 // const inventoryFun = () => {
 //   emit("inventoryFun");
@@ -80,5 +80,8 @@ const unboxAgainFunc = () => {
 .public-dialog-img {
   width: 20%;
   margin: 10px auto;
+}
+.margin-t {
+  margin-top: 3.75rem;
 }
 </style>

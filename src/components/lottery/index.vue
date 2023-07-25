@@ -46,19 +46,20 @@
       v-else-if="showDialog === 'yourReard'"
       :sold="awardItem[0]"
       @inventoryFun="inventoryFun"
-      @goInventory="goInventory"
+      @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
     />
     <chain-dialog
       v-else-if="showDialog === 'chainDialog'"
       :sold="awardItem[0]"
       @balanceFun="balanceFun"
+      @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
     />
     <been-sold
       v-else-if="showDialog === 'beenSold'"
       :soldList="awardItem"
-      @balanceFun="balanceFun"
+      @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
     />
     <part-sold
@@ -67,12 +68,12 @@
       :chooseIds="chooseIds"
       :failList="failList"
       @inventoryFun="inventoryFun"
-      @goInventory="goInventory"
+      @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
     />
     <transaction-warning
       v-else-if="showDialog === 'transactionWarning'"
-      @balanceFun="balanceFun"
+      @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
       :text="warningText"
     />
@@ -108,6 +109,7 @@ import Loading from "../loading/index.vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import emitter from "@/utils/event-bus.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -268,6 +270,11 @@ export default {
       localStorage.removeItem("result");
       this.$router.push({ path: "/user/balances" });
       this.closeDialogFun();
+    },
+    unboxAgain() {
+      localStorage.removeItem("result");
+      this.closeDialogFun();
+      emitter.emit("unBoxAgainFunc", this.rollNumber);
     },
     closeDialogFun() {
       this.showDialog = "";

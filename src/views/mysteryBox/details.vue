@@ -13,14 +13,32 @@
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
+            <Image
+              fit="cover"
+              class="nft_img"
+              :src="blindDetailInfo.boxImg"
+              alt=""
+            />
           </div>
           <div class="description_box">
             <div class="title">DESCRIPTION</div>
-            <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
-            <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
+            <div
+              ref="contentInfo"
+              :class="['text', { 'all-text': !isShowMore }]"
+              v-html="blindDetailInfo.boxDesc"
+            ></div>
+            <p
+              class="see-more"
+              @click="isShowMore = !isShowMore"
+              v-if="isShowMore"
+              ref="contentInfo2"
+            >
               <span>See more</span>
-              <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+              <img
+                class="header-user-down"
+                src="@/assets/img/headerFooter/icon-arrowup.png"
+                alt=""
+              />
             </p>
           </div>
         </div>
@@ -80,8 +98,13 @@
         <div class="title_text">NFTS IN THIS BOX</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="( item, index ) in  blindDetailInfo.series " :key="index">
+        <div
+          class="nft_series_item"
+          @click="handleShowNft(item)"
+          :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series"
+          :key="index"
+        >
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -118,17 +141,28 @@
         </div>
         <div class="title-box-r">
           <div class="title">Snapshot ID</div>
-          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
-            placeholder="Search by snapshot ID">
+          <el-input
+            v-model.number="snapshotId"
+            @keyup.enter="handleSearch()"
+            class="snapshot_input"
+            placeholder="Search by snapshot ID"
+          >
             <template #suffix>
-              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
+              <el-icon
+                class="search_btn el-input__icon"
+                @click="handleSearch()"
+              >
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
       </div>
-      <el-table :data="snapshotData" class="table_container" style="width: 100%">
+      <el-table
+        :data="snapshotData"
+        class="table_container"
+        style="width: 100%"
+      >
         <el-table-column prop="id" label="Snapshot ID" align="center">
         </el-table-column>
         <el-table-column prop="boxName" label="Box Name" align="center" />
@@ -160,30 +194,72 @@
         <el-table-column prop="date" label="Details" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
-                alt="" />
+              <img
+                class="nft_info"
+                @click="handleActive(scope.row)"
+                src="@/assets/svg/box/icon_info.svg"
+                alt=""
+              />
+              <img
+                class="nft_info_active"
+                @click="handleActive(scope.row)"
+                src="@/assets/svg/box/icon_info_active.svg"
+                alt=""
+              />
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        <el-pagination
+          v-model="page"
+          :page-size="size"
+          @current-change="handleCurrentChange"
+          :pager-count="7"
+          layout="prev, pager, next"
+          :total="count"
+          prev-text="Pre"
+          next-text="Next"
+        />
       </div>
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Modify
+      v-if="pageType === 'modify'"
+      @onModify="closeDialogFun"
+      @closeDialogFun="closeDialogFun"
+    ></Modify>
+    <el-dialog
+      v-model="showSeriesDialog"
+      class="series_dialog"
+      fullscreen
+      align-center
+    >
       <div class="close_btn">
         <el-icon @click="showSeriesDialog = false">
           <CircleClose />
         </el-icon>
       </div>
-      <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-        @closeFun="showSeriesDialog = false"></series-slider>
+      <series-slider
+        :nftParams="nftList"
+        :nftType="seriesType"
+        :sName="seriesName"
+        @closeFun="showSeriesDialog = false"
+      ></series-slider>
     </el-dialog>
   </div>
 </template>
@@ -203,6 +279,7 @@ import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
+import emitter from "@/utils/event-bus.js";
 
 export default {
   name: "boxDetails",
@@ -250,9 +327,9 @@ export default {
     },
     fiveRebate() {
       const { price, fivePrice } = this.blindDetailInfo;
-      if (!fivePrice) return 0
+      if (!fivePrice) return 0;
 
-      const diff = Number(new bigNumber(price).minus(fivePrice))
+      const diff = Number(new bigNumber(price).minus(fivePrice));
       if (diff <= 0) return 0;
       const rebate = new bigNumber(diff).div(price).multipliedBy(100);
       return accurateDecimal(rebate, 2);
@@ -265,7 +342,7 @@ export default {
       if (diff <= 0) return 0;
       const rebate = Number(new bigNumber(diff).div(price).multipliedBy(100));
       return accurateDecimal(rebate, 2);
-    }
+    },
   },
   methods: {
     timeFormat: timeFormat,
@@ -282,7 +359,7 @@ export default {
     rollNumberFun(type) {
       if (!this.isLogin || !this.userInfo?.id) {
         this.pageType = "login";
-        return
+        return;
       }
       const { blindDetailInfo } = this;
       const { balance } = this.headerStoreStore;
@@ -392,9 +469,12 @@ export default {
   watch: {
     blindDetailInfo() {
       this.fetchSnapshotList();
-    }
+    },
   },
   mounted() {
+    emitter.on("unBoxAgainFunc", (type) => {
+      this.rollNumberFun(type);
+    });
     this.$nextTick(() => {
       setTimeout(() => {
         const contentInfo = this.$refs.contentInfo;

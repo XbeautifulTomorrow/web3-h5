@@ -58,14 +58,14 @@ defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["balanceFun", "closeDialogFun"]);
+const emit = defineEmits(["unboxAgain", "closeDialogFun"]);
 
 const visible = ref(true);
 const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const unboxAgainFunc = () => {
-  emit("balanceFun");
+  emit("unboxAgain");
 };
 </script>
 <style lang="scss" scoped>

@@ -65,7 +65,7 @@ const props = defineProps({
     requird: true,
   },
 });
-const emit = defineEmits(["closeDialogFun", "balanceFun"]);
+const emit = defineEmits(["closeDialogFun", "unboxAgain"]);
 const visible = ref(true);
 const total = ref(0);
 onBeforeMount(() => {
@@ -77,7 +77,7 @@ const closeDialogFun = () => {
   emit("closeDialogFun");
 };
 const unboxAgainFunc = () => {
-  emit("balanceFun");
+  emit("unboxAgain");
 };
 </script>
 <style lang="scss" scoped>

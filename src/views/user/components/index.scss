@@ -9,19 +9,19 @@
   width: 95rem;
   padding: 5rem 0;
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 
-  &>div {
-    flex: 1;
-  }
-
-  &>.nav_box {
-    flex: none;
+  .nav_box {
     width: 10.25rem;
-    margin-right: 1.875rem;
 
     &>div+div {
       margin-top: 0.625rem;
     }
+  }
+
+  .page_box {
+    width: 82.8125rem;
   }
 }
 

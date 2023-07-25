@@ -63,7 +63,7 @@
 }
 
 .balance_item {
-  margin-top: 0.625rem;
+  margin-top: 0.5rem;
   padding: 1.125rem 1.25rem;
   border-radius: 0.5rem;
   background-color: #13151f;
@@ -1100,6 +1100,7 @@
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
+      cursor: pointer;
 
       &.cancel {
         border: solid 1px rgba(228, 231, 245, 0.15);
@@ -1540,7 +1541,7 @@
 .pagination-box {
   display: flex;
   justify-content: center;
-  padding-top: 1.875rem;
+  padding-top: 1.5rem;
 
   :deep(.el-pagination) {
     button {

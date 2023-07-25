@@ -9,12 +9,14 @@
           <span>{{ item.text }}</span>
         </div>
       </div>
-      <Setting v-if="userPage == 'profile'"></Setting>
-      <Wallet v-if="userPage == 'balances'"></Wallet>
-      <Inventory v-if="userPage == 'inventory'"></Inventory>
-      <Competitions v-if="userPage == 'competition'"></Competitions>
-      <History v-if="userPage == 'history'"></History>
-      <Referrals v-if="userPage == 'referrals'"></Referrals>
+      <div class="page_box">
+        <Setting v-if="userPage == 'profile'"></Setting>
+        <Wallet v-if="userPage == 'balances'"></Wallet>
+        <Inventory v-if="userPage == 'inventory'"></Inventory>
+        <Competitions v-if="userPage == 'competition'"></Competitions>
+        <History v-if="userPage == 'history'"></History>
+        <Referrals v-if="userPage == 'referrals'"></Referrals>
+      </div>
     </div>
   </div>
 </template>

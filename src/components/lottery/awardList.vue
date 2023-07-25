@@ -281,7 +281,6 @@ $stop-time: var(--stop-time);
   }
 }
 .el-carousel {
-  overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }

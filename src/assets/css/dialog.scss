@@ -253,6 +253,19 @@
     font-size: 1.5rem;
     margin-left: 0.625rem;
   }
+  .public-dialog-price-box {
+    display: flex;
+    align-items: center;
+    font-family: BlenderPro;
+    color: #13151f;
+    font-size: 1.5rem;
+    margin-left: 0.625rem;
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.625rem;
+    }
+  }
   .cancel-button {
     border: solid 1px rgba(228, 231, 245, 0.15) !important;
     background-color: #292c36 !important;

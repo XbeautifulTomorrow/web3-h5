@@ -121,7 +121,7 @@
                       @click="chooseLotteryHold('hold')"
                     >
                       Take the NFT
-                      <span v-if="second > 0">({{ second }}s)</span>
+                      <span v-if="second > 0">（{{ second }}s）</span>
                     </el-button>
                     <el-button
                       class="result-one-button take"
@@ -129,12 +129,14 @@
                       @click="chooseLotteryHold"
                     >
                       <span>Sell for</span>
-                      <span class="result-total">{{ item.price }}ETH</span>
+                      <span class="result-total"
+                        >{{ item.price }}&nbsp;ETH</span
+                      >
                     </el-button>
                   </div>
                   <template v-else>
                     <div class="result-sell pointer">
-                      <span class="result-sell-text">Sell for</span>
+                      <span class="result-sell-text">Sell for </span>
                       <el-tooltip
                         class="box-item"
                         effect="dark"
@@ -173,15 +175,15 @@
             >
               <p v-if="nfts.length == 0">
                 <span>Sell for</span>
-                <span class="result-total">{{ total }}ETH</span>
-                <span class="font3" v-if="second > 0">({{ second }}s)</span>
+                <span class="result-total">{{ total }}&nbsp;ETH</span>
+                <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else-if="nfts.length > 0 && nfts.length != result.length">
-                Take {{ nfts.length }} NFTs and sell the rest for<span
-                  class="result-total font1"
-                  >{{ total }}ETH</span
+                Take <span class="font4">{{ nfts.length }}</span> NFTs and sell
+                the rest for<span class="result-total font1"
+                  >{{ total }}&nbsp;ETH</span
                 >
-                <span class="font2" v-if="second > 0">({{ second }}s)</span>
+                <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else>
                 Take all
@@ -384,6 +386,11 @@ const getTheUserBalanceApi = async () => {
 }
 .font3 {
   color: #a9a4b4;
+}
+.font4 {
+  font-family: LeagueSpartan;
+  font-weight: bold;
+  color: #2761f5;
 }
 </style>
 <style lang="scss">

@@ -45,6 +45,7 @@
     <your-reard
       v-else-if="showDialog === 'yourReard'"
       :sold="awardItem[0]"
+      :blindPrice="blindPrice"
       @inventoryFun="inventoryFun"
       @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
@@ -59,6 +60,7 @@
     <been-sold
       v-else-if="showDialog === 'beenSold'"
       :soldList="awardItem"
+      :blindPrice="blindPrice"
       @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
     />
@@ -67,6 +69,7 @@
       :soldList="awardItem"
       :chooseIds="chooseIds"
       :failList="failList"
+      :blindPrice="blindPrice"
       @inventoryFun="inventoryFun"
       @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
@@ -76,6 +79,7 @@
       @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"
       :text="warningText"
+      :blindPrice="blindPrice"
     />
     <CheckLoading v-else-if="showDialog === 'checkLoading'" />
 
@@ -173,6 +177,22 @@ export default {
       set: function (value) {
         this.$emit("update:showRoll", value);
       },
+    },
+    blindPrice() {
+      let price = 0;
+      console.log(this.rollNumber, "this.rollNumber-------");
+      console.log(this.blindDetailInfo, "this.blindDetailInfo-------");
+      if (this.blindDetailInfo) {
+        if (this.rollNumber === "ONE") {
+          price = this.blindDetailInfo.price;
+        } else if (this.rollNumber === "FIVE") {
+          price = this.blindDetailInfo.fivePrice;
+        } else if (this.rollNumber === "TEN") {
+          price = this.blindDetailInfo.tenPrice;
+        }
+      }
+      console.log(price);
+      return price;
     },
   },
   watch: {

@@ -26,6 +26,14 @@
       </p>
       <el-button class="public-button" @click="unboxAgainFunc">
         UNBOX AGAIN
+        <p class="public-dialog-price-box">
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_ethereum.svg"
+            alt=""
+          />
+          {{ blindPrice }}
+        </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
@@ -40,6 +48,10 @@ defineProps({
   text: {
     tupe: String,
     default: "",
+  },
+  blindPrice: {
+    type: String,
+    requird: true,
   },
 });
 const emit = defineEmits(["closeDialogFun", "unboxAgain"]);

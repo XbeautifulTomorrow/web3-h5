@@ -25,10 +25,12 @@
   }
 
   .title_text {
-    background-image: linear-gradient(to bottom,
-        rgba(234, 32, 141, 0.9) 15%,
-        #e63a97 39%,
-        #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
     font-family: Tomorrow;
     font-size: 1.5rem;
     font-weight: bold;
@@ -93,7 +95,7 @@
     display: flex;
     align-items: center;
 
-    &>.coin_item+.coin_item {
+    & > .coin_item + .coin_item {
       margin-left: 0.625rem;
     }
 
@@ -172,13 +174,13 @@
       color: #a9a4b4;
     }
 
-    .el-table__body tr:hover>td {
+    .el-table__body tr:hover > td {
       background-color: transparent;
     }
 
     .el-table__body {
-      &>tbody {
-        &>.el-table__row:nth-child(2n) {
+      & > tbody {
+        & > .el-table__row:nth-child(2n) {
           background-color: #281d31;
         }
       }
@@ -245,7 +247,7 @@
     .operating_btns {
       display: flex;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.625rem;
       }
 
@@ -267,19 +269,19 @@
     display: flex;
     flex-wrap: wrap;
 
-    &>div+div {
+    & > div + div {
       margin-left: 1.875rem;
     }
 
-    &>div:nth-child(4n + 1) {
+    & > div:nth-child(4n + 1) {
       margin-left: 0;
     }
 
-    &>div:nth-child(n + 5) {
+    & > div:nth-child(n + 5) {
       margin-top: 1.875rem;
     }
 
-    &>div+div {
+    & > div + div {
       margin-left: 1.875rem;
     }
 
@@ -420,7 +422,7 @@
       padding-bottom: 1.25rem;
     }
 
-    .condition_item+.condition_item {
+    .condition_item + .condition_item {
       margin-top: 1.25rem;
     }
 
@@ -454,7 +456,7 @@
           box-shadow: none;
           padding: 0 1.25rem;
 
-          &>input {
+          & > input {
             font-size: 0.875rem;
             line-height: 1.6;
             text-align: left;
@@ -474,7 +476,7 @@
       display: flex;
       align-items: center;
 
-      &>img {
+      & > img {
         margin-right: 0.875rem;
       }
     }
@@ -495,7 +497,7 @@
     align-items: center;
     margin-bottom: 20px;
 
-    &>div+div {
+    & > div + div {
       margin-left: 1.25rem;
     }
 
@@ -510,7 +512,7 @@
         box-shadow: none;
         padding: 0 20px;
 
-        &>input {
+        & > input {
           font-size: 18px;
           color: #a9a4b4;
         }
@@ -546,7 +548,7 @@
       box-shadow: none !important;
       border: none !important;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
@@ -608,15 +610,15 @@
     display: flex;
     flex-wrap: wrap;
 
-    &>div+div {
+    & > div + div {
       margin-left: 10px;
     }
 
-    &>div:nth-child(4n + 1) {
+    & > div:nth-child(4n + 1) {
       margin-left: 0;
     }
 
-    &>div:nth-child(n + 5) {
+    & > div:nth-child(n + 5) {
       margin-top: 10px;
     }
   }
@@ -656,7 +658,7 @@
         color: #0cbb3e;
       }
 
-      &>img {
+      & > img {
         width: 100%;
         height: auto;
       }
@@ -832,7 +834,7 @@
         background-color: #13151f;
         box-shadow: none !important;
 
-        &>input {
+        & > input {
           font-size: 1.5rem;
           font-weight: bold;
           line-height: 1.25;
@@ -845,7 +847,7 @@
         .el-input__wrapper {
           background-color: #282a34;
 
-          &>input {
+          & > input {
             color: rgba(169, 164, 180, 0.3);
           }
         }
@@ -869,7 +871,7 @@
       .el-input__wrapper {
         background-color: #1d0f36;
 
-        &>input {
+        & > input {
           text-align: left;
           font-size: 1.5rem;
         }
@@ -937,7 +939,7 @@
     text-align: left;
     color: #a9a4b4;
 
-    &>p+p {
+    & > p + p {
       margin-top: 0.625rem;
     }
   }
@@ -957,7 +959,7 @@
         border: solid 0.0625rem #363945;
         background-color: #13151f;
 
-        &>input {
+        & > input {
           font-size: 1.125rem;
           line-height: 1.6;
           text-align: left;
@@ -1009,7 +1011,7 @@
       padding-bottom: 1.875rem;
     }
 
-    .operating_item+.operating_item {
+    .operating_item + .operating_item {
       margin-top: 1.25rem;
     }
 
@@ -1035,7 +1037,7 @@
           width: 1.875rem;
         }
 
-        &>span {
+        & > span {
           padding-left: 0.625rem;
         }
       }
@@ -1054,7 +1056,7 @@
       align-items: center;
       justify-content: center;
 
-      .operating_btn+.operating_btn {
+      .operating_btn + .operating_btn {
         margin-left: 1.875rem;
       }
 
@@ -1087,7 +1089,7 @@
       align-items: center;
       justify-content: center;
 
-      .wallet_operating_item+.wallet_operating_item {
+      .wallet_operating_item + .wallet_operating_item {
         margin-left: 1.875rem;
       }
 
@@ -1197,7 +1199,7 @@
         box-shadow: none;
         padding: 0;
 
-        &>input {
+        & > input {
           font-size: 0.875rem;
           color: white;
         }
@@ -1229,7 +1231,7 @@
   .recharge_hint_box {
     padding-top: 1.875rem;
 
-    &>div+div {
+    & > div + div {
       margin-top: 1rem;
     }
 
@@ -1287,7 +1289,7 @@
         box-shadow: none;
         padding: 0;
 
-        &>input {
+        & > input {
           font-size: 1.5rem;
           color: white;
         }
@@ -1353,7 +1355,7 @@
           box-shadow: none;
           padding: 0;
 
-          &>input {
+          & > input {
             font-size: 0.875rem;
             color: white;
           }
@@ -1443,7 +1445,7 @@
     }
 
     .el-pager {
-      &>li+li {
+      & > li + li {
         margin-left: 0.75rem;
       }
 

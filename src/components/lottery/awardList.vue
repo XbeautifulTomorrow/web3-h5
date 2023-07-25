@@ -177,7 +177,7 @@ export default {
 .NORMAL {
   background-image: url("@/assets/img/lottery/NORMAL_more_choose.png");
   background-size: cover;
-  color: #fff;
+  color: #a9a4b4;
 }
 .lottery-moreLuck-list-img {
   height: 100%;

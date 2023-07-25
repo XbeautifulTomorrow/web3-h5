@@ -139,6 +139,14 @@
       </div>
       <el-button class="public-button" @click="unboxAgainFunc">
         UNBOX AGAIN
+        <p class="public-dialog-price-box">
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_ethereum.svg"
+            alt=""
+          />
+          {{ blindPrice }}
+        </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
@@ -176,6 +184,10 @@ const props = defineProps({
     default: () => {
       return [];
     },
+  },
+  blindPrice: {
+    type: Number,
+    requird: true,
   },
 });
 // Prizes have entered your backpack, please go to the backpack to check,

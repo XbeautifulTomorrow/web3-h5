@@ -42,6 +42,14 @@
       </div>
       <el-button class="public-button margin-t" @click="unboxAgainFunc">
         UNBOX AGAIN
+        <p class="public-dialog-price-box">
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_ethereum.svg"
+            alt=""
+          />
+          {{ blindPrice }}
+        </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
         CONTINUE
@@ -56,6 +64,10 @@ import ImageView from "../imageView";
 defineProps({
   sold: {
     type: Object,
+    requird: true,
+  },
+  blindPrice: {
+    type: String,
     requird: true,
   },
 });

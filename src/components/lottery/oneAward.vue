@@ -164,11 +164,9 @@ export default {
       setTimeout(() => {
         if (!this.apiIsError) {
           this.isAutoplay = true;
+          this.musicSpeedFunc("up");
         }
       }, 100);
-      setTimeout(() => {
-        this.musicSpeedFunc("up");
-      }, 500);
     }
   },
   methods: {
@@ -261,9 +259,9 @@ export default {
   watch: {
     apiIsError: function (newData) {
       if (newData) {
-        this.isSpeedUp = false;
-        const music = this.$refs.music;
-        music.pause();
+        this.isAutoplay = false;
+        clearInterval(this.intervalId);
+        console.log(this.intervalId, "this.intervalId");
       }
     },
     awardItem: {

@@ -53,7 +53,7 @@
               src="@/assets/svg/user/icon_ethereum.svg"
               alt=""
             />
-            {{ winData.price }}
+            {{ winData.initPrice }}
           </p>
         </div>
       </div>

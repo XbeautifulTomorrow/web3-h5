@@ -1,18 +1,38 @@
 <template>
   <div class="blind-detail">
-    <template v-if="blindDetailInfo &&
-      blindDetailInfo.series &&
-      blindDetailInfo.series.length > 0
-      ">
-      <Lottory v-if="showRoll" ref="roll" :rollNumber="rollNumber" :showRoll="showRoll"
-        :lottoList="blindDetailInfo.series" :blindDetailInfo="blindDetailInfo" :lottResult="lottResult"
-        :apiIsError="apiIsError" :errorText="errorText" @apiIsErrorFun="apiIsErrorFun" @closeRollFun="closeRollFun" />
+    <template
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
+      <Lottory
+        v-if="showRoll"
+        ref="roll"
+        :rollNumber="rollNumber"
+        :showRoll="showRoll"
+        :lottoList="blindDetailInfo.series"
+        :blindDetailInfo="blindDetailInfo"
+        :lottResult="lottResult"
+        :apiIsError="apiIsError"
+        :errorText="errorText"
+        @apiIsErrorFun="apiIsErrorFun"
+        @closeRollFun="closeRollFun"
+      />
     </template>
-    <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
+    <boxDetails
+      :blindDetailInfo="blindDetailInfo"
+      @rollNumberFun="rollNumberFun"
+    ></boxDetails>
     <Loading :loading="loading" />
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
-      <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
+      <img
+        v-for="(item, index) in preloadingImg"
+        :src="item"
+        :key="`img-${index}`"
+      />
     </div>
   </div>
 </template>
@@ -129,6 +149,7 @@ export default {
     async setBalanceOrder(coiledType) {
       const headerStore = useHeaderStore();
       this.loading = true;
+      this.apiIsError = false;
       let price = this.blindDetailInfo.price;
       if (coiledType == "FIVE") {
         price = Number(
@@ -171,7 +192,7 @@ export default {
         result = await lotteryResult({
           orderId: walletOrderInfo.data.orderId,
         });
-        if (result) {
+        if (result?.code == 200) {
           if (result.data && result.data.length) {
             this.lottResult = result;
             localStorage.setItem(
@@ -334,9 +355,11 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(228deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0) 62%);
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
 
   &:last-child {
     margin-right: 0;
@@ -372,10 +395,12 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
@@ -385,10 +410,12 @@ body {
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

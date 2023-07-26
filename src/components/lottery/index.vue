@@ -207,7 +207,7 @@ export default {
     apiIsError: function (newData) {
       if (newData) {
         const { errorText } = this;
-        this.$emit("apiIsErrorFun", false);
+        this.$emit("apiIsErrorFun", true);
         this.showDialog = "transactionWarning";
         this.warningText =
           errorText && errorText[2] && errorText[2].message

@@ -96,7 +96,6 @@ export default {
   },
   methods: {
     delayTime(param) {
-      console.log(param, "---------------");
       this.delayTimer = param;
     },
     playSound(_music, musicLoop = false) {
@@ -175,8 +174,7 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
-        const music = this.$refs.music;
-        music.pause();
+        clearInterval(this.intervalId);
       }
     },
   },

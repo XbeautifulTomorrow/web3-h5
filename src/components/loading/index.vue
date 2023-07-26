@@ -29,14 +29,26 @@
   </Teleport>
 </template>
 <script setup>
-import { defineProps } from "vue";
-defineProps({
+import { defineProps, watchEffect } from "vue";
+const props = defineProps({
   loading: {
     type: Boolean,
     default: false,
   },
 });
+watchEffect(() => {
+  if (props.loading) {
+    document.body.classList.add("modal-open-hidde");
+  } else {
+    document.body.classList.remove("modal-open-hidde");
+  }
+});
 </script>
+<style>
+.modal-open-hidde {
+  overflow: hidden;
+}
+</style>
 <style lang="scss" scoped>
 $time: 0.2s;
 .loading {

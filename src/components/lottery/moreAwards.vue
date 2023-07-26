@@ -195,7 +195,15 @@ export default {
 }
 
 .result-link-box {
-  margin-top: 7.875rem;
+  margin-top: 4.5625rem;
+}
+@media (max-height: 900px) {
+  .roll-text {
+    margin-bottom: 1rem;
+  }
+  .result-link-box {
+    margin-top: 1rem;
+  }
 }
 </style>
 <style lang="scss">

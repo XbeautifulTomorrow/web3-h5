@@ -295,7 +295,7 @@ $linearEnd-translateX: var(--linearEnd-translateX);
   overflow-x: auto;
   overflow-y: hidden;
   transform-style: preserve-3d;
-  margin-top: 4.25rem;
+  margin-top: 6.3vh;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -343,15 +343,11 @@ $linearEnd-translateX: var(--linearEnd-translateX);
 }
 
 .scroll-up {
-  // transform: translate3d(-20%, 0, 0);
-  // transition: transform $up-time ease-in;
   animation: slide 4s 1 linear;
   animation-fill-mode: forwards;
 }
 
 .scroll-linear {
-  // animation: 2s slide-up 1 ease-in forwards,
-  //   1.5s slide 1s infinite linear forwards;
   animation: slide $linear-time infinite linear;
   animation-fill-mode: forwards;
 }
@@ -361,18 +357,26 @@ $linearEnd-translateX: var(--linearEnd-translateX);
   animation-fill-mode: forwards;
 }
 .roll-text {
-  margin-top: 4rem;
+  margin-top: 0;
 }
 .result-link-box {
-  margin-top: 7.875rem;
+  margin-top: 6vh;
 }
 @media screen and (max-width: 1600px) {
-  .result-link-box {
-    margin-top: 1rem;
-  }
   .con,
   .roll-text {
     margin: 0;
+  }
+}
+@media (max-height: 900px) {
+  .roll-text {
+    margin-top: 0;
+  }
+  .con {
+    margin-top: 0;
+  }
+  .result-link-box {
+    margin-top: 0;
   }
 }
 </style>

@@ -292,7 +292,6 @@ $slow-time: var(--slow-time);
 $linearEnd-translateX: var(--linearEnd-translateX);
 
 .con {
-  overflow-x: auto;
   overflow-y: hidden;
   transform-style: preserve-3d;
   margin-top: 6.3vh;

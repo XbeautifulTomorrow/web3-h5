@@ -171,8 +171,8 @@
             >
               <p v-if="nfts.length == 0">
                 <span>Sell for</span>
-                <span class="result-total">{{ total }}&nbsp;ETH</span>
-                <span class="font1" v-if="second > 0">({{ second }}s)</span>
+                <span class="result-total font5">{{ total }}&nbsp;ETH</span>
+                <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else-if="nfts.length > 0 && nfts.length != result.length">
                 Take <span class="font4">{{ nfts.length }}</span> NFTs and sell
@@ -249,6 +249,7 @@ import {
   onUnmounted,
   nextTick,
 } from "vue";
+import * as workerTimers from 'worker-timers'
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -335,7 +336,7 @@ const totalFun = () => {
   });
 };
 const timerFun = () => {
-  timer = setInterval(() => {
+  timer = workerTimers.setInterval(() => {
     second.value--;
     if (second.value < 1) {
       localStorage.removeItem("result");
@@ -347,7 +348,7 @@ const timerFun = () => {
   }, 1000);
 };
 const clearTimerFun = () => {
-  clearInterval(timer);
+  timer&&workerTimers.clearInterval(timer);
   timer = null;
 };
 const chooseLotteryHold = (data) => {
@@ -368,7 +369,8 @@ const getTheUserBalanceApi = async () => {
         ) /
           1000
     );
-    second.value = timer;
+    let extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 9 : 14;
+    second.value = parseInt(timer+extraTime);
   }
 };
 </script>
@@ -387,6 +389,10 @@ const getTheUserBalanceApi = async () => {
   font-family: LeagueSpartan;
   font-weight: bold;
   color: #2761f5;
+}
+
+.font5 {
+  color: #11cde9;
 }
 </style>
 <style lang="scss">

@@ -28,11 +28,12 @@
   }
 
   &>.box_frame_1 {
-    background-image: url("@/assets/svg/home/box_frame_1.svg");
+    background-image: url("@/assets/svg/home/box_frame_3.svg");
 
     .list-nam {
-      color: #ef962e;
+      color: #ce42ff;
     }
+    
   }
 
   &>.box_frame_2 {
@@ -44,10 +45,10 @@
   }
 
   &>.box_frame_3 {
-    background-image: url("@/assets/svg/home/box_frame_3.svg");
+    background-image: url("@/assets/svg/home/box_frame_1.svg");
 
     .list-nam {
-      color: #ce42ff;
+      color: #ef962e;
     }
   }
 

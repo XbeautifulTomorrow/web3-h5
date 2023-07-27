@@ -114,6 +114,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import emitter from "@/utils/event-bus.js";
+import bigNumber from "bignumber.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -186,9 +187,9 @@ export default {
         if (this.rollNumber === "ONE") {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
-          price = this.blindDetailInfo.fivePrice;
+          price = new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5)
         } else if (this.rollNumber === "TEN") {
-          price = this.blindDetailInfo.tenPrice;
+          price = new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10)
         }
       }
       console.log(price);
@@ -211,7 +212,7 @@ export default {
         this.showDialog = "transactionWarning";
         this.warningText =
           errorText && errorText[2] && errorText[2].message
-            ? errorText[2].message
+            ? 'Network is busy,please try again later.'
             : "Depositing gas fees for your account, please try again later.";
       }
     },

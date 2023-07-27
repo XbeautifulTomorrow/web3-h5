@@ -4,16 +4,16 @@
       <div class="nft_operating">
         <div class="title_text">
           <img src="@/assets/svg/user/icon_inventory.svg" alt="">
-          <span>INVENTORY</span>
+          <span>{{ $t("user.inventory") }}</span>
         </div>
         <div class="operating_btns">
-          <div class="operating_item" @click="onDeposit()">DEPOSIT</div>
-          <div class="operating_item" @click="onWithdraw()">WITHDRAW</div>
+          <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div>
+          <div class="operating_item" @click="onWithdraw()">{{ $t("user.withdraw") }}</div>
         </div>
       </div>
       <div class="search_box">
         <el-input class="nft_input" v-model="nftParams.nftName" clearable @keyup.enter="fetchSystemNft()"
-          placeholder="Search NFTs">
+          :placeholder="$t('homeReplenish.searchNft')">
           <template #prefix>
             <el-icon class="el-input__icon" @click="fetchSystemNft()">
               <search />
@@ -21,15 +21,16 @@
           </template>
         </el-input>
         <div class="collections_box type_box">
-          <div class="collections_text">Type:</div>
-          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable placeholder="ALL">
+          <div class="collections_text">{{ $t("homeReplenish.type") }}</div>
+          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable
+            :placeholder="$t('homeReplenish.all')">
             <el-option v-for="(item, index) in nftTypes" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </div>
         <div class="collections_box">
-          <div class="collections_text">Collections:</div>
-          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type" placeholder="ALL"
-            clearable :popper-append-to-body="false">
+          <div class="collections_text">{{ $t("homeReplenish.sortCollections") }}</div>
+          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type"
+            :placeholder="$t('homeReplenish.all')" clearable :popper-append-to-body="false">
             <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
               :value="item.contractAddress" />
           </el-select>
@@ -43,25 +44,25 @@
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
           <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'">
-            VIEW COMPETITIONS
+            {{ $t("user.viewCompetitions") }}
           </div>
           <div class="nft_btn withdrawling" v-else-if="item.currentStatus == 'WITHDRAW'">
-            WITHDRAWLING
+            {{ $t("user.withdrawing") }}
           </div>
           <div class="nft_btn withdrawling" v-else-if="item.isType != 'EXTERNAL'">
-            CREATE COMPETITIONS
+            {{ $t("user.createCompetitions") }}
           </div>
           <div class="nft_btn create" @click="createCompetition(item, index)" v-else>
-            CREATE COMPETITIONS
+            {{ $t("user.createCompetitions") }}
           </div>
         </div>
       </div>
       <div v-else class="no_date">
-        <span>NO NFT FOUND</span>
+        <span>{{ $t("user.noDataNft") }}</span>
       </div>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
     <!-- 钱包链接弹窗 -->
@@ -76,7 +77,7 @@
           <Close />
         </el-icon>
       </div>
-      <div class="create_title">CREATE COMPETITION</div>
+      <div class="create_title">{{ $t("user.createCompetition") }}</div>
       <div class="image_box">
         <Image fit="cover" class="nft_img" :src="competitionNft && competitionNft.img" />
       </div>
@@ -88,84 +89,78 @@
       </div>
       <div class="type_tabs">
         <div :class="['tabs_item', activeType == 'LIMITED_TIME' && 'active']" @click="activeType = 'LIMITED_TIME'">
-          TIME
-          LIMIT</div>
+          {{ $t("user.timeLimit") }}
+        </div>
         <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">
-          LIMIT
-          PRICE</div>
+          {{ $t("user.priceLimit") }}
+        </div>
       </div>
       <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
         label-position="top">
-        <el-form-item label="TOTAL PRICE" prop="price">
+        <el-form-item :label="$t('user.totalPrice')" prop="price">
           <el-input v-model="competitionForm.price" type="number" min="0">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="TOTAL ENTRIES" v-if="activeType == 'LIMITED_PRICE'">
+        <el-form-item :label="$t('user.totalEntries')" v-if="activeType == 'LIMITED_PRICE'">
           <el-input readonly="readonly" class="disabled" v-model.number="limitNum" type="number" min="2">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_tiket.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="DURATION" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
+        <el-form-item :label="$t('user.duration')" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
           <div class="input_days">
             <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-              placeholder="Please enter a number from 1-30">
+              :placeholder="$t('user.enterTimeHint')">
             </el-input>
-            <div class="days_text">DAY</div>
+            <div class="days_text" v-if="competitionForm.limitDay > 1">{{ $t("user.days") }}</div>
+            <div class="days_text" v-else>{{ $t("user.day") }}</div>
           </div>
           <div class="choose_days">
             <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
               'choose_days_item',
               competitionForm.limitDay == item && 'active',
             ]" @click="competitionForm.limitDay = item">
-              {{ `${item} Days` }}
+              <span v-if="item > 1">{{ $t("user.numDays", { num: item }) }}</span>
+              <span v-else>{{ $t("user.numDay", { num: item }) }}</span>
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="ENTRIES PRICE">
+        <el-form-item :label="$t('user.entriesPrice')">
           <el-input readonly="readonly" class="disabled" v-model="competitionForm.ticketPrice" placeholder="">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="MAX DURATION" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
+        <el-form-item :label="$t('user.maxDuration')" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
           <div class="input_days">
             <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-              placeholder="Please enter a number from 1-30">
+              :placeholder="$t('user.enterTimeHint')">
             </el-input>
-            <div class="days_text">DAY</div>
+            <div class="days_text" v-if="competitionForm.limitDay > 1">{{ $t("user.days") }}</div>
+            <div class="days_text" v-else>{{ $t("user.day") }}</div>
           </div>
           <div class="choose_days">
             <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
               'choose_days_item',
               competitionForm.limitDay == item && 'active',
             ]" @click="competitionForm.limitDay = item">
-              {{ `${item} Days` }}
+              <span v-if="item > 1">{{ $t("user.numDays", { num: item }) }}</span>
+              <span v-else>{{ $t("user.numDay", { num: item }) }}</span>
             </div>
           </div>
         </el-form-item>
         <div class="continue_btn" @click="submitCompetition()">CREATE</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
-          <p>
-            This mode cannot be cancelled once the competition starts, so please set
-            the price reasonably to avoid losses.
-          </p>
+          <p>{{ $t("user.createHint1") }}</p>
         </div>
         <div class="hint-text" v-else>
-          <p>
-            Please set a reasonable price, if you do not sell all tickets by the
-            end of the sale time, the sale will fail and all participating users
-            will be refunded automatically.
-          </p>
-          <p>
-            Once a user has participated in the competition, it cannot be
-            cancelled. Please make sure that the price you set is correct.
-          </p>
+          <p>{{ $t("user.createHint2") }}</p>
+          <p>{{ $t("user.createHint3") }}</p>
         </div>
       </el-form>
     </el-dialog>
@@ -176,6 +171,8 @@
 <script>
 import bigNumber from "bignumber.js";
 import { mapStores } from "pinia";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import { useWalletStore } from "@/store/wallet"
 import { addNftOrder, getSystemNft, getTheExternalNFTSeries } from "@/services/api/oneBuy";
@@ -397,7 +394,7 @@ export default {
           const res = await addNftOrder({ ...ruleForm });
           if (res && res.code == 200) {
             this.handleClose();
-            this.$message.success("Created successfully");
+            this.$message.success(t("user.createSuccess"));
             this.fetchSystemNft(false);
           }
         } else {
@@ -462,7 +459,7 @@ export default {
       price: [
         {
           required: true,
-          message: "Please enter a price",
+          message: t("user.priceEnter"),
           trigger: ["blur", "change"],
         },
       ],
@@ -470,7 +467,7 @@ export default {
       limitDay: [
         {
           required: true,
-          message: "Please enter the number of days",
+          message: t("user.limitDayEnter"),
           trigger: ["blur", "change"],
         },
       ]

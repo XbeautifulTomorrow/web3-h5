@@ -4,41 +4,23 @@
       <div class="home-public-title">
         <div class="title_box">
           <div class="title_text">{{ blindDetailInfo.boxName }}</div>
-          <div class="title_description">An offcial box by Bitzing</div>
-          <!-- <div class="title_btn">
-            <span class="title_btn_text">Try for free</span>
-          </div> -->
+          <div class="title_description">{{ $t("mysteryBox.titleHint") }}</div>
+          <div class="title_btn">
+            <span class="title_btn_text">{{ $t("mysteryBox.titleTips") }}</span>
+          </div>
         </div>
       </div>
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <Image
-              fit="cover"
-              class="nft_img"
-              :src="blindDetailInfo.boxImg"
-              alt=""
-            />
+            <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
           <div class="description_box">
-            <div class="title">DESCRIPTION</div>
-            <div
-              ref="contentInfo"
-              :class="['text', { 'all-text': !isShowMore }]"
-              v-html="blindDetailInfo.boxDesc"
-            ></div>
-            <p
-              class="see-more"
-              @click="isShowMore = !isShowMore"
-              v-if="isShowMore"
-              ref="contentInfo2"
-            >
+            <div class="title">{{ $t("mysteryBox.description") }}</div>
+            <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
+            <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
               <span>See more</span>
-              <img
-                class="header-user-down"
-                src="@/assets/img/headerFooter/icon-arrowup.png"
-                alt=""
-              />
+              <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
             </p>
           </div>
         </div>
@@ -46,9 +28,9 @@
           <div class="top">
             <div class="lottery_type" @click="rollNumberFun('ONE')">
               <div class="lottery_info">
-                <div class="open_text">OPEN</div>
+                <div class="open_text">{{ $t("mysteryBox.open") }}</div>
                 <div class="num_text">1</div>
-                <div class="box_text">BOX</div>
+                <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
                 {{ blindDetailInfo && blindDetailInfo.price }}
@@ -60,9 +42,9 @@
                 <div class="val">{{ `${fiveRebate}% OFF` }}</div>
               </div>
               <div class="lottery_info">
-                <div class="open_text">OPEN</div>
+                <div class="open_text">{{ $t("mysteryBox.open") }}</div>
                 <div class="num_text">5</div>
-                <div class="box_text">BOXES</div>
+                <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
                 {{
@@ -78,9 +60,9 @@
               <div class="val">{{ `${tenRebate}% OFF` }}</div>
             </div>
             <div class="lottery_info">
-              <div class="open_text">OPEN</div>
+              <div class="open_text">{{ $t("mysteryBox.open") }}</div>
               <div class="num_text">10</div>
-              <div class="box_text">BOXES</div>
+              <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
               {{
@@ -95,16 +77,11 @@
     </div>
     <div class="nft_series">
       <div class="home-public-title">
-        <div class="title_text">NFTS IN THIS BOX</div>
+        <div class="title_text">{{ $t("mysteryBox.seriesTitle") }}</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div
-          class="nft_series_item"
-          @click="handleShowNft(item)"
-          :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series"
-          :key="index"
-        >
+        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series" :key="index">
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -115,10 +92,10 @@
                 <img src="@/assets/svg/home/icon_certified.svg" alt="" />
               </div>
               <div class="series_probability">
-                <span> {{ `Range:${item.range} ` }}</span>
-                <span>{{
-                  `ODDS: ${nftProbabilityFormat(item.nftNumber)}% `
-                }}</span>
+                <span>{{ $t("mysteryBox.range", { range: item.range }) }}</span>
+                <span>
+                  {{ $t("mysteryBox.odds", { odds: nftProbabilityFormat(item.nftNumber) }) }}
+                </span>
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
                 {{ `${item.minPrice} ETH - ${item.maxPrice} ETH` }}
@@ -129,7 +106,7 @@
             </div>
           </div>
           <div class="mask_box">
-            <div class="show_series_btn">Show NFTs</div>
+            <div class="show_series_btn">{{ $t("mysteryBox.showNfts") }}</div>
           </div>
         </div>
       </div>
@@ -137,129 +114,76 @@
     <div class="contents-info">
       <div class="home-public-title">
         <div class="title-box-l">
-          <div class="title_text">BOX SNAPSHOT</div>
+          <div class="title_text">{{ $t("mysteryBox.snapshotTitle") }}</div>
         </div>
         <div class="title-box-r">
-          <div class="title">Snapshot ID</div>
-          <el-input
-            v-model.number="snapshotId"
-            @keyup.enter="handleSearch()"
-            class="snapshot_input"
-            placeholder="Search by snapshot ID"
-          >
+          <div class="title">{{ $t("mysteryBox.snapshotId") }}</div>
+          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
+            :placeholder="$t('mysteryBox.snapshotIdHint')">
             <template #suffix>
-              <el-icon
-                class="search_btn el-input__icon"
-                @click="handleSearch()"
-              >
+              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
       </div>
-      <el-table
-        :data="snapshotData"
-        class="table_container"
-        style="width: 100%"
-      >
-        <el-table-column prop="id" label="Snapshot ID" align="center">
+      <el-table :data="snapshotData" class="table_container" style="width: 100%">
+        <el-table-column prop="id" :label="$t('mysteryBox.snapshotId')" align="center">
         </el-table-column>
-        <el-table-column prop="boxName" label="Box Name" align="center" />
+        <el-table-column prop="boxName" :label="$t('mysteryBox.boxName')" align="center" />
         <el-table-column prop="legendNum" label="Legend" align="center">
           <template #default="scope">
             {{ `${probabilityFormat(scope.row, scope.row.legendNum)}% ` }}
           </template>
         </el-table-column>
-        <el-table-column prop="epicNum" label="Epic" align="center">
+        <el-table-column prop="epicNum" :label="$t('mysteryBox.epic')" align="center">
           <template #default="scope">
             {{ `${probabilityFormat(scope.row, scope.row.epicNum)}% ` }}
           </template>
         </el-table-column>
-        <el-table-column prop="rareNum" label="Rare" align="center">
+        <el-table-column prop="rareNum" :label="$t('mysteryBox.rare')" align="center">
           <template #default="scope">
             {{ `${probabilityFormat(scope.row, scope.row.rareNum)}% ` }}
           </template>
         </el-table-column>
-        <el-table-column prop="normalNum" label="Common" align="center">
+        <el-table-column prop="normalNum" :label="$t('mysteryBox.common')" align="center">
           <template #default="scope">
             {{ `${probabilityFormat(scope.row, scope.row.normalNum)}% ` }}
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="Timestamp" align="center">
+        <el-table-column prop="createTime" :label="$t('mysteryBox.timestamp')" align="center">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="Details" align="center">
+        <el-table-column prop="date" :label="$t('mysteryBox.details')" align="center">
           <template #default="scope">
             <div class="active_btn">
-              <img
-                class="nft_info"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info.svg"
-                alt=""
-              />
-              <img
-                class="nft_info_active"
-                @click="handleActive(scope.row)"
-                src="@/assets/svg/box/icon_info_active.svg"
-                alt=""
-              />
+              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
+                alt="" />
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination-box">
-        <el-pagination
-          v-model="page"
-          :page-size="size"
-          @current-change="handleCurrentChange"
-          :pager-count="7"
-          layout="prev, pager, next"
-          :total="count"
-          prev-text="Pre"
-          next-text="Next"
-        />
+      <div class="pagination-box" v-if="count > size">
+        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
-    <Login
-      v-if="pageType === 'login'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Register
-      v-if="pageType === 'register'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Forgot
-      v-if="pageType === 'forgot'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Modify
-      v-if="pageType === 'modify'"
-      @onModify="closeDialogFun"
-      @closeDialogFun="closeDialogFun"
-    ></Modify>
-    <el-dialog
-      v-model="showSeriesDialog"
-      class="series_dialog"
-      fullscreen
-      align-center
-    >
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
       <div class="close_btn">
         <el-icon @click="showSeriesDialog = false">
           <CircleClose />
         </el-icon>
       </div>
-      <series-slider
-        :nftParams="nftList"
-        :nftType="seriesType"
-        :sName="seriesName"
-        @closeFun="showSeriesDialog = false"
-      ></series-slider>
+      <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
+        @closeFun="showSeriesDialog = false"></series-slider>
     </el-dialog>
   </div>
 </template>
@@ -269,6 +193,10 @@ import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
+
+import { i18n } from '@/locales';
+const { t } = i18n.global;
+
 import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
@@ -348,7 +276,7 @@ export default {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
     messageFun(
-      message = "Insufficient balance, please recharge!",
+      message = t("mysteryBox.rechargeHint"),
       type = "warning"
     ) {
       ElMessage({
@@ -365,7 +293,7 @@ export default {
       const { balance } = this.headerStoreStore;
       const { userInfo } = this.userStore;
       if (!userInfo) {
-        this.messageFun("You have not logged in, please log in and try again!");
+        this.messageFun(t("mysteryBox.loginHint"));
         return;
       }
       if (type === "ONE" && blindDetailInfo.price > balance) {

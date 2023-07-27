@@ -210,23 +210,23 @@ export default {
       // },
 
       {
-        text: "Mystery box",
+        text: t("header.mysteryBox"),
         page: "MysteryBoxesList",
       },
       {
-        text: "Competitions",
+        text: t("header.competitions"),
         page: "Competitions",
       },
       {
-        text: "Stake",
+        text: t("header.stake"),
         page: "Stake",
       },
       {
-        text: "INO",
+        text: t("header.ino"),
         page: "INO",
       },
       {
-        text: "Market Place",
+        text: t("header.marketPlace"),
         page: "MarketPlace",
       },
       {
@@ -241,37 +241,37 @@ export default {
 
     this.userList = [
       {
-        text: "Profile",
+        text: t("header.profile"),
         page: "profile",
         icon: require("@/assets/svg/user/nav/icon_profile.svg"),
       },
       {
-        text: "Balances",
+        text: t("header.balances"),
         page: "balances",
         icon: require("@/assets/svg/user/nav/icon_balances.svg"),
       },
       {
-        text: "Inventory",
+        text: t("header.inventory"),
         page: "inventory",
         icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
       },
       {
-        text: "Competition",
+        text: t("header.competition"),
         page: "competition",
         icon: require("@/assets/svg/user/nav/icon_competition.svg"),
       },
       {
-        text: "Purchase History",
+        text: t("header.history"),
         page: "history",
         icon: require("@/assets/svg/user/nav/icon_history.svg"),
       },
       {
-        text: "Referrals",
+        text: t("header.referrals"),
         page: "referrals",
         icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
       },
       // {
-      //   text: "Settings",
+      //   text: t("header.settings"),
       //   page: "settings",
       //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
       // },

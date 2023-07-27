@@ -9,25 +9,29 @@
             <div v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
               <img src="@/assets/svg/home/icon_info_time_white.svg" alt="">
               <span v-if="dateDiff(nftInfo && nftInfo.endTime) > 1">
-                {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
+                {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
               </span>
               <countDown v-else v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo && nftInfo.endTime">
-                {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
               </countDown>
             </div>
             <div v-else>
               <img src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span>{{ `${nftInfo && nftInfo.maximumPurchaseQuantity} TICKETS LEFT` }}</span>
+              <span v-if="nftInfo && nftInfo.maximumPurchaseQuantity > 1">{{ $t("home.ticketsLeft", {
+                num: nftInfo &&
+                  nftInfo.maximumPurchaseQuantity || 0
+              }) }}</span>
+              <span v-else>{{ $t("home.ticketLeft", { num: nftInfo && nftInfo.maximumPurchaseQuantity || 0 }) }}</span>
             </div>
           </div>
           <div class="tips_round finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
-            <span>COMPLETED</span>
+            <span>{{ $t("ticketsInfo.completed") }}</span>
           </div>
           <div class="tips_round aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
-            <span>ABORTED</span>
+            <span>{{ $t("ticketsInfo.aborted") }}</span>
           </div>
           <div class="tips_round cancel" v-else>
-            <span>CANCELLED</span>
+            <span>{{ $t("ticketsInfo.cancelled") }}</span>
           </div>
         </div>
         <div class="nft_details_r_bg border_bg">
@@ -35,7 +39,7 @@
             <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
             <div class="nft_activity">
               <div class="price">
-                <span class="title">Market Value：</span>
+                <span class="title">{{ $t("ticketsInfo.marketValue") }}</span>
                 <span class="val">{{ `${nftInfo && nftInfo.totalPrice} ETH` }}</span>
               </div>
               <div class="time" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
@@ -43,50 +47,50 @@
                   alt="">
                 <img v-else src="@/assets/svg/home/icon_info_time.svg" alt="">
                 <div v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" class="time-text">
-                  {{ `${nftInfo && nftInfo.maximumPurchaseQuantity || 0} TICKETS LEFT` }}
+                  {{ $t("home.ticketsLeft", { num: nftInfo && nftInfo.maximumPurchaseQuantity || 0 }) }}
                 </div>
-                <div v-else class="time-text">{{ `CLOSE: ${dateFormat(nftInfo && nftInfo.endTime)}` }}</div>
+                <div v-else class="time-text">
+                  {{ $t("ticketsInfo.close", { time: dateFormat(nftInfo && nftInfo.endTime) }) }}
+                </div>
               </div>
               <div class="finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_drawn.svg"
                   alt="">
                 <img v-else src="@/assets/svg/home/icon_time_drawn.svg" alt="">
-                <div class="time-text">COMPLETED</div>
+                <div class="time-text">{{ $t("ticketsInfo.completed") }}</div>
               </div>
               <div class="aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_aborted.svg"
                   alt="">
                 <img v-else src="@/assets/svg/home/icon_time_aborted.svg" alt="">
-                <div class="time-text">ABORTED</div>
+                <div class="time-text">{{ $t("ticketsInfo.aborted") }}</div>
               </div>
               <div class="cancel" v-else>
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_cancel.svg"
                   alt="">
                 <img v-else src="@/assets/svg/home/icon_time_cancel.svg" alt="">
-                <div class="time-text">CANCELLED</div>
+                <div class="time-text">{{ $t("ticketsInfo.cancelled") }}</div>
               </div>
             </div>
             <div class="creator">
               <div class="created">
-                <span class="title">Created by</span>
+                <span class="title">{{ $t("ticketsInfo.created") }}</span>
                 <span>{{ nftInfo && nftInfo.projectParty || "Unnamed" }}</span>
               </div>
               <div class="owner">
-                <span class="title">Owner：</span>
+                <span class="title">{{ $t("ticketsInfo.owner") }}</span>
                 <span>{{ nftInfo && nftInfo.owner }}</span>
               </div>
             </div>
             <div class="buy_relevant" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
               <div class="enter_relevant">
-                <div class="title">ENTER COMPETITION</div>
-                <div class="buy_tips">
-                  You used <span>{{ drawnInfo && drawnInfo.userNum || 0 }}</span> of <span>
-                    {{ nftInfo && new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) }}
-                  </span> tickets
+                <div class="title">{{ $t("ticketsInfo.enterCompetition") }}</div>
+                <div class="buy_tips"
+                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: nftInfo && new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) })">
                 </div>
               </div>
               <div class="buy_box">
-                <div class="buy_tips">Purchase limited NFT to enter：</div>
+                <div class="buy_tips">{{ $t("ticketsInfo.purchaseNum") }}</div>
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
                   type="number" min="0" :max="maxBuyNum" :placeholder="buyText(nftInfo)">
                 </el-input>
@@ -95,15 +99,15 @@
                 <el-button v-if="dateDiff(nftInfo && nftInfo.endTime) > 0 && maxBuyNum > 0" style="width: 100%;"
                   class="submit_payment" type="primary" @click="submitPayment()">
                   <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes || 0} tickets for ${buyPrice} ` }}</span>
-                  <span v-else>{{ `Purchase ${buyVotes || 0} ticket for ${buyPrice}` }}&nbsp;</span>
+                  <span v-else>{{ $t("ticketsInfo.buyNum", { num: buyVotes || 0, price: buyPrice }) }}</span>
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
                   <span v-if="nftInfo.orderType == 'LIMITED_TIME'">
-                    Waiting for the result...
+                    {{ $t("ticketsInfo.endHint") }}
                   </span>
                   <span v-else>
-                    Competition is over, waiting for the results...
+                    {{ $t("ticketsInfo.endHint1") }}
                   </span>
                 </el-button>
               </div>
@@ -112,7 +116,7 @@
               <div class="winning_interval"></div>
               <div class="winning_box" v-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
                 <div class="winning_text">
-                  <span>WINNER</span>
+                  <span>{{ $t("ticketsInfo.winner") }}</span>
                 </div>
                 <div class="avatar">
                   <img :src="drawnInfo && drawnInfo.userImg || avatarImg" alt="">
@@ -120,32 +124,29 @@
                 <div class="user_name">
                   {{ drawnInfo && drawnInfo.winningAddress || drawnInfo && drawnInfo.winningAddressId }}
                 </div>
-                <div class="tickets_num">
-                  {{ `${drawnInfo && drawnInfo.winningAddressNum || 0} Tickets` }}
+                <div class="tickets_num" v-if="drawnInfo && drawnInfo.winningAddressNum > 1">
+                  {{ $t("ticketsInfo.numTickets", { num: drawnInfo && drawnInfo.winningAddressNum || 0 }) }}
+                </div>
+                <div class="tickets_num" v-else>
+                  {{ $t("ticketsInfo.numTicket", { num: drawnInfo && drawnInfo.winningAddressNum || 0 }) }}
                 </div>
                 <div class="safety_box">
                   <img class="safety_img" src="@/assets/svg/home/icon_safety.svg" alt="">
                   <div class="safety_text">
-                    <span>THIS TRANSACTION IS</span>
-                    <span>PROVABLY FAIR</span>
+                    <span>{{ $t("ticketsInfo.verify1") }}</span>
+                    <span>{{ $t("ticketsInfo.verify2") }}</span>
                   </div>
                   <div class="chain_link">
-                    <span @click="openLenk(nftInfo)">Verify Faimess</span>
-                    <span>[Advanced Users]</span>
+                    <span @click="openLenk(nftInfo)">{{ $t("ticketsInfo.verify3") }}</span>
+                    <span>{{ $t("ticketsInfo.verify4") }}</span>
                   </div>
                 </div>
               </div>
-              <div class="return_box" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
-                The competition did not reach its sell-out target and your purchased tickets have been refunded to the
-                balance, worth
-                <span>
-                  {{ new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0) }}
-                </span>
-                ETH
+              <div class="return_box" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'"
+                v-html="$t('ticketsInfo.closeHint', { num: new bigNumber(nftInfo && nftInfo.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0), coin: 'ETH' })">
               </div>
-              <div class="return_box" v-else>
-                The holder of <span>{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</span> canceled this
-                competition.
+              <div class="return_box" v-else
+                v-html="$t('ticketsInfo.cancelHint', { name: `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` })">
               </div>
             </div>
           </div>
@@ -154,8 +155,9 @@
       <div class="nft_buy_info">
         <div class="nft_buy_info_l border_bg">
           <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
-            <el-tab-pane label="ACTIVITY" name="activity"></el-tab-pane>
-            <el-tab-pane :label="`PARTICIPANTS(${participantsTotal})`" name="participants"></el-tab-pane>
+            <el-tab-pane :label="$t('ticketsInfo.active')" name="activity"></el-tab-pane>
+            <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
+              name="participants"></el-tab-pane>
           </el-tabs>
           <c-scrollbar class="choose_nft" width="100%" height="48.25rem">
             <div class="buy_list">
@@ -169,9 +171,11 @@
                     <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
                   </div>
                   <div class="buy_other">
-                    <div class="buy_val">{{ `${item.total} TICKETS` }} </div>
+                    <div class="buy_val" v-if="item.total > 1">{{ $t("ticketsInfo.numTickets", { num: item.total }) }}
+                    </div>
+                    <div class="buy_val" v-else>{{ $t("ticketsInfo.numTicket", { num: item.total }) }} </div>
                     <div class="buy_id" v-if="activeType != 'participants'">
-                      {{ `Reward ID：${item.startNum}-${item.endNum}` }}
+                      {{ $t("ticketsInfo.rewardId", { start: item.startNum, end: item.endNum }) }}
                     </div>
                   </div>
                 </div>
@@ -179,7 +183,7 @@
             </div>
             <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
               <div class="load_btn">
-                <span>Show more</span>
+                <span>{{ $t("ticketsInfo.more") }}</span>
                 <img src="@/assets/svg/user/icon_more.svg" alt="">
               </div>
             </div>
@@ -187,24 +191,22 @@
         </div>
         <div class="nft_buy_info_r border_bg">
           <div class="description_box">
-            <div class="description_text">DESCRIPTION</div>
+            <div class="description_text">{{ $t("ticketsInfo.description") }}</div>
             <div class="nft_info">
-              <span>Enter now for a chance to win</span>
+              <span>{{ $t("ticketsInfo.nftDescription") }}</span>
               <span class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}`
               }}</span>
             </div>
             <div class="nft_description" v-html="detailData && detailData.description"></div>
           </div>
           <div class="traits_box">
-            <div class="traits_text">TRAITS</div>
+            <div class="traits_text">{{ $t("ticketsInfo.traits") }}</div>
             <div class="traits_list">
               <div class="traits_item" v-for="(item, index) in attrData" :key="index">
                 <div class="traits_item_top">
                   <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                     <template #content>
-                      <span>
-                        {{ item.attrName }}
-                      </span>
+                      <span>{{ item.attrName }}</span>
                     </template>
                     <div class="traits_item_name">{{ item.attrName }}</div>
                   </el-tooltip>
@@ -218,9 +220,9 @@
             </div>
           </div>
           <div class="invite_box" v-if="inviteDrop.length > 0">
-            <div class="invite_text">SHARE THIS COMPETITION</div>
+            <div class="invite_text">{{ $t("ticketsInfo.share") }}</div>
             <div class="choose_invite_code">
-              <div>Choose referrals code</div>
+              <div>{{ $t("ticketsInfo.choose") }}</div>
               <el-select v-model="inviteVal">
                 <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
                   :value="item.inviteCode" />
@@ -232,7 +234,7 @@
         </div>
       </div>
       <div class="ending_soon_box" v-if="endingSoon.length > 0">
-        <div class="ending_soon_text">ENDING SOON</div>
+        <div class="ending_soon_text">{{ $t("ticketsInfo.endSoon") }}</div>
         <div class="ending_soon_list">
           <div class="ending_soon_item" @click="enterNow(item)" v-for="(item, index) in endingSoon" :key="index">
             <div class="image_box">
@@ -241,13 +243,28 @@
                 <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
                 <span v-if="item.orderType == 'LIMITED_TIME'">
                   <span v-if="dateDiff(item && item.endTime) > 1">
-                    {{ `${Math.ceil(dateDiff(nftInfo && nftInfo.endTime))} DAY LEFT` }}
+                    {{ $t("home.daysLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
+
                   </span>
                   <countDown v-else v-slot="timeObj" :time="item && item.endTime">
                     {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                   </countDown>
                 </span>
-                <span v-else>{{ `${item.limitNum} TICKETS LEFT` }}</span>
+                <span v-else>
+                  <span v-if="Number(new bigNumber(item.limitNum).minus(item.numberOfTicketsSold || 0)) > 1">
+                    {{
+                      $t("home.ticketsLeft", {
+                        num:
+                          new bigNumber(item.limitNum).minus(item.numberOfTicketsSold || 0)
+                      }) }}
+                  </span>
+                  <span v-else>
+                    {{ $t("home.ticketLeft", {
+                      num: new bigNumber(item.limitNum).minus(item.numberOfTicketsSold
+                        || 0)
+                    }) }}
+                  </span>
+                </span>
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
               <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
@@ -258,9 +275,16 @@
             </div>
             <div class="nft_price">{{ item && item.price }}ETH</div>
             <div class="buy_btn">
-              <span>ENTER NOW</span>
+              <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
-            <div class="remaining_votes">{{ `${item && item.limitNum || 0} TICKETS SOLD` }}</div>
+            <div class="remaining_votes">
+              <span v-if="item && item.numberOfTicketsSold > 1">
+                {{ $t("home.ticketsSold", { num: item && item.numberOfTicketsSold || 0 }) }}
+              </span>
+              <span v-else>
+                {{ $t("home.ticketSold", { num: item && item.numberOfTicketsSold || 0 }) }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -289,6 +313,9 @@ import countDown from '@/components/countDown';
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
+
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import { CScrollbar } from "c-scrollbar";
 
@@ -424,12 +451,12 @@ export default {
       if (this.maxBuyNum > 0) {
         hintText = null;
       } else {
-        hintText = 'You cannot purchase more tickets.';
+        hintText = t("ticketsInfo.buyHint");
       }
 
       if (orderType == "LIMITED_PRICE") {
         if (!Number(maximumPurchaseQuantity) > 0) {
-          hintText = 'Tickets are sold out.';
+          hintText = t("ticketsInfo.soldOut");
         }
       }
 
@@ -456,7 +483,7 @@ export default {
       const { orderId, buyVotes } = this;
 
       if (!buyVotes || buyVotes < 1) {
-        this.$message.error("Please enter the amount you would like to purchase.");
+        this.$message.error(t("ticketsInfo.enterHint"));
         return
       }
 
@@ -466,7 +493,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.$message.success("Successful purchase!");
+        this.$message.success(t("ticketsInfo.buySuccess"));
         this.buyVotes = null;
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
@@ -536,7 +563,8 @@ export default {
     async fetchNftAttrRate() {
       const { nftInfo } = this;
       const res = await getNftAttrRate({
-        contractAddress: nftInfo.contractAddress
+        contractAddress: nftInfo.contractAddress,
+        tokenId: nftInfo.tokenId
       });
       if (res && res.code == 200) {
         this.attrData = res.data;

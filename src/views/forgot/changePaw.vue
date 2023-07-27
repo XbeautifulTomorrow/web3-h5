@@ -17,6 +17,8 @@
 <script setup>
 import { ref, reactive, defineEmits, defineProps } from "vue";
 import { getForgetPasswordtcha } from "@/services/api/user";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 const emit = defineEmits(["changeTypeFun"]);
 const props = defineProps({
@@ -38,15 +40,15 @@ const validatePass = (rule, value, callback) => {
   const numStr = /^(?=.*[0-9]).{8,}$/
 
   if (value === "") {
-    callback(new Error("Please input the password"));
+    callback(new Error(t("login.passwordErrText1")));
   } else if (value && value.length < 8) {
-    callback(new Error("Password must be longer than 8 characters"));
+    callback(new Error(t("login.passwordErrText2")));
   } else if (!upperStr.test(value)) {
-    callback(new Error("Password must contain at least 1 upper case character"));
+    callback(new Error(t("login.passwordErrText3")));
   } else if (!lowerStr.test(value)) {
-    callback(new Error("Password must contain at least 1 lower case character"));
+    callback(new Error(t("login.passwordErrText4")));
   } else if (!numStr.test(value)) {
-    callback(new Error("Password must contain at least 1 number"));
+    callback(new Error(t("login.passwordErrText5")));
   } else {
     if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -58,14 +60,15 @@ const validatePass = (rule, value, callback) => {
 
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
-    callback(new Error("Please input the password again"));
-  } else if (value !== formForgot.password) {
-    callback(new Error("Two inputs don't match!"));
+    callback(new Error(t("login.captchaErrText1")));
+  } else if (value !== formForgot.passWord) {
+    callback(new Error(t("login.captchaErrText2")));
   } else {
     callback();
     isSure.value = true;
   }
 };
+
 const rules = reactive({
   password: [{ validator: validatePass, trigger: ["blur", "change"] }],
   confirm: [{ validator: validatePass2, trigger: ["blur", "change"] }],

@@ -13,18 +13,26 @@
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
                 <span v-if="dateDiff(item && item.endTime) > 1">
-                  {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
+                  {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
                 </span>
-                <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders()" :time="item.endTime">
-                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders(false)" :time="item.endTime">
+                  {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                 </countDown>
               </div>
               <div class="price" v-else>
                 <img src="@/assets/svg/home/icon_price.svg" alt="">
-                <span>
-                  {{
-                    `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0).toString()} TICKETS LEFT`
-                  }}
+                <span v-if="Number(new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold ||
+                  0)) > 1">
+                  {{ $t("home.ticketsLeft", {
+                    num: Number(new bigNumber(item.limitNum ||
+                      0).minus(item.numberOfTicketsSold || 0))
+                  }) }}</span>
+                <span v-else>
+                  {{ $t("home.ticketLeft", {
+                    num: Number(new bigNumber(item.limitNum ||
+                      0).minus(item.numberOfTicketsSold ||
+                        0))
+                  }) }}
                 </span>
               </div>
             </div>
@@ -52,7 +60,7 @@
       </template>
     </ul>
     <div class="ntf-tickets-all" @click="openAll()">
-      <span>View all competitions</span>
+      <span>{{ $t("homeReplenish.viewCompetitions") }}</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div :class="['my_invite_wrapper', activeType == 'referred_user' && 'small_bg']">
     <div class="invite_text">
       <img src="@/assets/svg/user/icon_referrals.svg" alt="">
-      <span>REFERRALS</span>
+      <span>{{ $t("user.referrals") }}</span>
     </div>
     <div class="choose_box">
       <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
@@ -12,59 +12,56 @@
     </div>
     <div class="summary_box" v-if="activeType == 'summary'">
       <div class="invite_panel">
-        <div class="title_text">Earn ETH and cent by sharing BITZING!</div>
-        <div class="invite_description">
-          Post your unique tracker in your socials, in your Discord and send it to anyone with a passion for NFTs
-          with a little explanation of Bitzing. You will be handsomely rewarded with up to <span style="color:white">{{
-            new bigNumber(setting.downCommissionRate).multipliedBy(100) }}%</span>
-          of their daily purchases and paid to you in ETH.
+        <div class="title_text">{{ $t("user.inviteTitle") }}</div>
+        <div class="invite_description"
+          v-html="$t('user.inviteDescription', { num: new bigNumber(setting.downCommissionRate).multipliedBy(100) })">
         </div>
       </div>
       <div class="create_invite_code">
-        <div class="create_title">Set custom referrals code</div>
-        <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" placeholder="Set referral code...">
+        <div class="create_title">{{ $t("user.createTitle") }}</div>
+        <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" :placeholder="$t('user.createEnterHint')">
           <template #append>
-            <div class="create_btn" @click="createInvite()">CREATE</div>
+            <div class="create_btn" @click="createInvite()">{{ $t("user.create") }}</div>
           </template>
         </el-input>
         <div class="create_error">{{ inviteTips }}</div>
       </div>
       <div class="statistics_panel">
-        <div class="statistics_title">YOUR STATISTICS</div>
+        <div class="statistics_title">{{ $t("airdrop.yourStatistics") }}</div>
         <div class="statistics_box">
           <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
             <div class="statistics_type">
-              <div class="title">{{ item.statisticsType }}</div>
+              <div class="title">{{ $t("user." + item.statisticsType) }}</div>
               <div class="val">{{ item.totalData }}</div>
             </div>
             <div class="statistics_time">
-              <div class="title">Today</div>
+              <div class="title">{{ $t("airdrop.toDay") }}</div>
               <div class="val">{{ item.todayData }}</div>
             </div>
             <div class="statistics_time">
-              <div class="title">Yesterday</div>
+              <div class="title">{{ $t("airdrop.yesterday") }}</div>
               <div class="val">{{ item.yesterdayData }}</div>
             </div>
             <div class="statistics_time">
-              <div class="title">This month</div>
+              <div class="title">{{ $t("airdrop.thisMonth") }}</div>
               <div class="val">{{ item.thisMonthData }}</div>
             </div>
             <div class="statistics_time">
-              <div class="title">Last month</div>
+              <div class="title">{{ $t("airdrop.lastMonth") }}</div>
               <div class="val">{{ item.lastMonthData }}</div>
             </div>
           </div>
         </div>
         <el-table :data="inviteList" height="18.625rem" class="table_container" style="width: 100%">
-          <el-table-column prop="inviteCode" label="CODE" align="center" />
-          <el-table-column prop="receiveAmount" label="CLAIMED" align="center" />
-          <el-table-column prop="invitePeople" label="REFS" align="center" />
+          <el-table-column prop="inviteCode" :label="$t('user.code')" align="center" />
+          <el-table-column prop="receiveAmount" :label="$t('user.claimed')" align="center" />
+          <el-table-column prop="invitePeople" :label="$t('user.refs')" align="center" />
           <el-table-column label="%" align="center">
             <template #default>
               {{ `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(100)}%` }}
             </template>
           </el-table-column>
-          <el-table-column prop="traAmount" label="CONSUMPTION" align="center">
+          <el-table-column prop="traAmount" :label="$t('user.consumption')" align="center">
             <template #default="scope">
               <div class="consumption_box">
                 <span>{{ scope.row.traAmount }}</span>
@@ -72,23 +69,23 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="CLAIM" width="200" align="center">
+          <el-table-column :label="$t('user.claim')" width="200" align="center">
             <template #default="scope">
               <div v-if="extraMoney(scope.row) > 0" :class="['claim_box']" @click="handleReceive(scope.row)">
-                <span>CLAIM</span>
+                <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 <span>{{ accurateDecimal(extraMoney(scope.row), 4)
                 }}</span>
               </div>
               <div v-else :class="['claim_box', 'disabled']">
-                <span>CLAIM</span>
+                <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 <span>{{ accurateDecimal(extraMoney(scope.row), 4)
                 }}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="COPY" align="center">
+          <el-table-column :label="$t('user.copy')" align="center">
             <template #default="scope">
               <div class="copy_btn">
                 <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
@@ -106,9 +103,9 @@
     </div>
     <div class="referred_user_box" v-else>
       <el-table :data="detailList" class="table_container" height="26.5rem" style="width: 100%">
-        <el-table-column prop="inviteCode" label="REFERRAL CODE" align="center" />
-        <el-table-column prop="userName" label="USERNAME" align="center" />
-        <el-table-column prop="traAmount" label="CONSUMPTION" align="center">
+        <el-table-column prop="inviteCode" :label="$t('user.referralCode')" align="center" />
+        <el-table-column prop="userName" :label="$t('user.userName')" align="center" />
+        <el-table-column prop="traAmount" :label="$t('user.consumption')" align="center">
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.traAmount }}</span>
@@ -116,7 +113,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="rebatesAmount" label="REWARDS" align="center">
+        <el-table-column prop="rebatesAmount" :label="$t('user.rewards')" align="center">
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.rebatesAmount }}</span>
@@ -124,7 +121,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="REFERRED AT" align="center">
+        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
@@ -140,6 +137,8 @@
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import {
   userInvateStatistics,
@@ -211,11 +210,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = "Please enter the invitation code here";
+        this.inviteTips = t("user.enterCodeError1");
         this.verifys = false;
         return
       } else if (inviteCode.length < 3) {
-        this.inviteTips = "Must be at least 3 characters";
+        this.inviteTips = t("user.enterCodeError2");
         this.verifys = false;
         return
       }
@@ -232,7 +231,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteCode = null;
-        this.$message.success("Created successfully");
+        this.$message.success(t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },
@@ -249,17 +248,32 @@ export default {
       }
     },
     // 邀请资产列表
-    async fetchRebatesFindList() {
-      const res = await rebatesFindList();
+    async fetchRebatesFindList(isSearch = true) {
+      const { size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.page = 1;
+        _page = 1;
+      }
+      const res = await rebatesFindList({
+        page: _page,
+        size: size
+      });
       if (res && res.code == 200) {
         this.inviteList = res.data;
       }
     },
     // 邀请详情列表
-    async fetchDetailPageList() {
+    async fetchDetailPageList(isSearch = true) {
+      const { size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.page = 1;
+        _page = 1;
+      }
       const res = await rebatesDetailPageList({
-        page: this.page,
-        size: this.size
+        page: _page,
+        size: size
       });
       if (res && res.code == 200) {
         this.detailList = res.data.records;
@@ -275,20 +289,24 @@ export default {
     async handleReceive(event) {
       const receiveBalance = Number(new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0));
       if (!receiveBalance) {
-        this.$message.error("Commission has been received");
+        this.$message.error(t("user.receivedHint"));
         return
       }
       const res = await rebatesReceive({
         inviteCode: event.inviteCode
       });
       if (res && res.code == 200) {
-        this.$message.success("Receive success");
+        this.$message.success(t("user.receiveSuccess"));
         this.fetchRebatesFindList();
       }
     },
     handleCurrentChange(page) {
       this.page = page;
-      this.fetchDetailPageList();
+      if (this.activeType == "summary") {
+        this.fetchRebatesFindList(false)
+      } else {
+        this.fetchDetailPageList(false);
+      }
     },
     // 复制邀请链接
     copyInviteLink(event) {
@@ -320,6 +338,14 @@ export default {
     },
   },
   created() {
+    this.tabsList = [{
+      label: t("user.summary"),
+      value: "summary"
+    }, {
+      label: t("user.referredUser"),
+      value: "referred_user"
+    }];
+
     if (this.isLogin && this.userInfo?.id) {
       this.fetchInvateStatistics();
       this.fetchRebatesFindList();

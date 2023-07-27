@@ -9,16 +9,16 @@
     <div class="recharge_box">
       <div class="operating_box">
         <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
-          DEPOST
+          {{ $t("user.deposit") }}
         </div>
         <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
-          WITHDRAW
+          {{ $t("user.withdraw") }}
         </div>
       </div>
       <div class="choose_operating" v-if="operatingCoin == null">
         <div class="operating_title">
-          <span v-if="walletOperating == 1">DEPOSIT OPTIONS</span>
-          <span v-else>WITHDRAW OPTIONS</span>
+          <span v-if="walletOperating == 1">{{ $t("user.depositType") }}</span>
+          <span v-else>{{ $t("user.withdrawType") }}</span>
         </div>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
@@ -39,10 +39,12 @@
           <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
           <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
           <div class="recharge_title_text">
-            <span v-if="walletOperating == 1">{{
-              `DEPOSIT ${operatingCoin}`
-            }}</span>
-            <span v-else>{{ `WITHDRAW ${operatingCoin}` }}</span>
+            <span v-if="walletOperating == 1">
+              {{ $t("user.depositCoin", { coin: operatingCoin }) }}
+            </span>
+            <span v-else>
+              {{ $t("user.withdrawCoin", { coin: operatingCoin }) }}
+            </span>
           </div>
         </div>
         <div class="recharge_relevant" v-if="walletOperating == 1">
@@ -50,14 +52,13 @@
             <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
             <div class="wallet_addr">
               <div class="tips_text">
-                Send the amount of Ethereum of your choice to the following
-                address to receive the equivalent in Coins.
+                {{ $t("user.sendHint") }}
               </div>
               <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
-                placeholder="Paste your ERC20 wallet address here">
+                :placeholder="$t('user.enterAddrHint')">
                 <template #append>
                   <div class="copy_btn" @click="onCopy(receiverAddr)">
-                    COPY
+                    {{ $t("user.copy") }}
                   </div>
                 </template>
               </el-input>
@@ -69,9 +70,7 @@
                 <img src="@/assets/svg/user/icon_warning.svg" alt="" />
               </div>
               <div class="hint_r">
-                Only deposit over the Ethereum network. Do not use BNB or BSC
-                networks. Also do not use third-party smart contracts for
-                transfers.
+                {{ $t("user.hintText1") }}
               </div>
             </div>
             <div class="hint_item">
@@ -79,9 +78,7 @@
                 <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
               </div>
               <div class="hint_r">
-                Do NOT send NFT's to this ETH deposit address. In order to
-                recover NFTs deposited to this address an administrative fee
-                will be charged.
+                {{ $t("user.hintText2") }}
               </div>
             </div>
           </div>
@@ -102,30 +99,27 @@
             </el-input>
           </div>
           <div class="price_convert_text">
-            The value of ETH may change between now and the time we receive
-            your payment
+            {{ $t("user.hintText3") }}
           </div>
         </div>
         <div class="withdraw_relevant" v-else>
           <div class="withdraw_tips_text">
-            Please enter the Ethereum wallet address you wish to receive the
-            funds on. Once confirmed, the withdrawal is usually processed
-            within a few minutes.
+            {{ $t("user.hintText4") }}
           </div>
           <div class="withdraw_item">
             <div class="withdraw_item_lable">
-              <span>RECEIVING ETHEREUM ADDRESS</span>
+              <span>{{ $t("user.receivingAddr") }}</span>
               <span class="required">*</span>
             </div>
             <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
-              placeholder="Paste your Ethereum wallet address here"></el-input>
+              :placeholder="$t('user.receivingAddrHint')"></el-input>
             <div class="withdraw_item_error">
               {{ walletAddrTips }}
             </div>
           </div>
           <div class="withdraw_item">
             <div class="withdraw_item_lable">
-              <span>WITHDRAWAL AMOUNT</span>
+              <span>{{ $t("user.withdrawalAmount") }}</span>
               <span class="required">*</span>
             </div>
             <div class="withdraw_convert">
@@ -146,18 +140,20 @@
                 </el-input>
               </div>
               <div class="withdraw_btn" @click="onWithdrawalBalance()">
-                REQUEST WITHDRAW
+                {{ $t("user.requestBtn") }}
               </div>
             </div>
             <div class="withdraw_fee" v-if="operatingCoin == 'ETH'">
               {{
-                `Network fee: ${setting.withdrawalFees || 0} ${operatingCoin}`
+                $t("user.fee", { num: setting.withdrawalFees || 0, coin: operatingCoin })
               }}
             </div>
             <div class="withdraw_fee" v-else>
               {{
-                `Network fee: ${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4)
-                || 0} ${operatingCoin}`
+                $t("user.fee", {
+                  num: accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4)
+                    || 0, coin: operatingCoin
+                })
               }}
             </div>
             <div class="withdraw_item_error">
@@ -166,12 +162,10 @@
           </div>
           <div class="withdraw_hint">
             <p>
-              *You will receive the specified Ethereum amount to your
-              withdrawal address
+              {{ $t("user.addrTips1") }}
             </p>
             <p>
-              *The value subtracted from your balance may vary between now and
-              the time we process your withdrawal
+              {{ $t("user.addrTips2") }}
             </p>
           </div>
         </div>
@@ -183,6 +177,8 @@
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import {
   getTheUserSPayoutAddress,
@@ -353,15 +349,13 @@ export default {
       const withdrawalFee = setting.withdrawalFees || 0;
       if (type == "submit" || type == "address") {
         if (!walletAddr) {
-          this.walletAddrTips =
-            "please enter your Ethereum wallet address here";
+          this.walletAddrTips = t("user.enterError1");
           this.verifys = false;
           return;
         }
 
         if (!isValidEthAddress(walletAddr)) {
-          this.walletAddrTips =
-            "The format of the entered Ethereum wallet address is incorrect";
+          this.walletAddrTips = t("user.enterError2");
           this.verifys = false;
           return;
         }
@@ -372,19 +366,18 @@ export default {
 
       if (type == "submit" || type == "amount") {
         if (!walletAmount) {
-          this.tipsText = "Please enter the withdrawal amount";
+          this.tipsText = t("user.enterError3");
           this.verifys = false;
           return;
         } else if (Number(walletAmount) > Number(this.ethBalance)) {
-          this.tipsText = "Insufficient balance";
+          this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;
         } else if (
           Number(this.walletAmount) + Number(withdrawalFee) >
           Number(this.ethBalance)
         ) {
-          this.tipsText =
-            "The amount is not enough to cover the withdrawal fee";
+          this.tipsText = t("user.enterError5");
           this.verifys = false;
           return;
         }
@@ -406,9 +399,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.renewBalance();
-        this.$message.success(
-          "The application is successful, please check the system transfer later"
-        );
+        this.$message.success(t("user.submitHint"));
         this.handleClose();
       }
     },

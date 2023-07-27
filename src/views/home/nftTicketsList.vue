@@ -4,7 +4,7 @@
       <div class="banner_box"></div>
       <div class="search_box">
         <el-input v-model="searchVal" clearable @keyup.enter="fetchCheckAllOrders()" class="search_input" type="text"
-          placeholder="Search NFT">
+          :placeholder="$t('homeReplenish.searchNft')">
           <template #prefix>
             <el-icon class="el-input__icon search_icon">
               <search />
@@ -12,23 +12,23 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" clearable @change="fetchCheckAllOrders()" class="select_box" placeholder="ALL"
-            size="large">
-            <el-option v-for="(item, index) in sortDrop" :key="index" :label="item.label" :value="item.value" />
+          <el-select v-model="sort" clearable @change="fetchCheckAllOrders()" class="select_box"
+            :placeholder="$t('homeReplenish.all')" size="large">
+            <el-option v-for="( item, index ) in  sortDrop " :key="index" :label="item.label" :value="item.value" />
           </el-select>
-          <div class="sort_title">Sort by:</div>
+          <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
         </div>
         <div class="sort_box collections">
-          <el-select v-model="nftId" clearable @change="fetchCheckAllOrders()" class="select_box" placeholder="ALL"
-            size="large">
-            <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
+          <el-select v-model="nftId" clearable @change="fetchCheckAllOrders()" class="select_box"
+            :placeholder="$t('homeReplenish.all')" size="large">
+            <el-option v-for="( item, index ) in  collections " :key="index" :label="item.seriesName"
               :value="item.contractAddress" />
           </el-select>
-          <div class="sort_title">Collections:</div>
+          <div class="sort_title">{{ $t('homeReplenish.sortCollections') }}</div>
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
-        <template v-for="(item, index) in ticketList" :key="`tickets-${index}`">
+        <template v-for="( item, index ) in ticketList" :key="`tickets-${index}`">
           <li class="ntf-tickets-item" @click="handleTickets(item)">
             <div class="img-box">
               <Image fit="cover" class="nft_img" :src="item.nftImage" />
@@ -38,16 +38,24 @@
                   <span v-if="dateDiff(item && item.endTime) > 1">
                     {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                   </span>
-                  <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders()" :time="item.endTime">
-                    {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                  <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders(false)" :time="item.endTime">
+                    {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                   </countDown>
                 </div>
                 <div class="price" v-else>
                   <img src="@/assets/svg/home/icon_price.svg" alt="">
-                  <span>
-                    {{
-                      `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0).toString()} TICKETS LEFT`
-                    }}
+                  <span v-if="Number(new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold ||
+                    0)) > 1">
+                    {{ $t("home.ticketsLeft", {
+                      num: Number(new bigNumber(item.limitNum ||
+                        0).minus(item.numberOfTicketsSold || 0))
+                    }) }}</span>
+                  <span v-else>
+                    {{ $t("home.ticketLeft", {
+                      num: Number(new bigNumber(item.limitNum ||
+                        0).minus(item.numberOfTicketsSold ||
+                          0))
+                    }) }}
                   </span>
                 </div>
               </div>
@@ -75,11 +83,11 @@
         </template>
       </ul>
       <div v-else class="no_date">
-        <span>NO COMPETITION FOUND</span>
+        <span>{{ $t("homeReplenish.noDataCompetition") }}</span>
       </div>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
   </div>
@@ -89,6 +97,8 @@ import { getCheckAllOrders, getTheExternalNFTSeries } from "@/services/api/oneBu
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { dateDiff } from "@/utils";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import Image from "@/components/imageView";
 export default {
   name: 'ntfTicketsList',
@@ -101,11 +111,7 @@ export default {
       collections: [],
       searchVal: null,
       sort: null,
-      sortDrop: [
-        { label: "Sort by Popularity", value: "popularity" },
-        { label: "Sort by Price Low", value: "price_desc" },
-        { label: "Sort by Price High", value: "price_asc" }
-      ],
+      sortDrop: [],
       nftId: null,
       ticketList: [],
       page: 1,
@@ -158,6 +164,12 @@ export default {
   created() {
     this.fetchAllSeries();
     this.fetchCheckAllOrders();
+
+    this.sortDrop = [
+      { label: t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: t("homeReplenish.sortPriceLow"), value: "price_desc" },
+      { label: t("homeReplenish.sortPriceHigh"), value: "price_asc" }
+    ]
   }
 };
 </script>

@@ -18,9 +18,9 @@
           { 'result-dialog-content-ten': result.length > 5 },
         ]"
       >
-        <h2 class="result-title">CONGRATULATIONS</h2>
+        <h2 class="result-title">{{ $t("lottery.congratulations") }}</h2>
         <p class="result-illustrate" v-if="result.length < 2">
-          An offcial box by Bitzing
+          {{ $t("lottery.tips_txt") }}
         </p>
 
         <ul
@@ -59,17 +59,7 @@
             >
               <div>
                 <div class="result-portrait">
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="'Click to hold'"
-                    :disabled="result.length < 2 ? true : false"
-                  >
-                    <image-view
-                      class="result-portrait-img"
-                      :src="item.nftImg"
-                    />
-                  </el-tooltip>
+                  <image-view class="result-portrait-img" :src="item.nftImg" />
                 </div>
                 <div class="result-club text-ellipsis">
                   <div class="result-club-title text-ellipsis">
@@ -104,11 +94,24 @@
                   effect="dark"
                   :content="`${item.initPrice} ${item.coin}`"
                 >
-                  <p class="result-coin">
+                  <p class="result-coin" v-if="second < 1">
                     <span class="result-coin-number text-ellipsis">
                       {{ `${item.initPrice}` }}
                     </span>
                     {{ `${item.coin}` }}
+                  </p>
+                  <p class="result-sell-text-box" v-else>
+                    <span class="result-sell-text">{{
+                      $t("lottery.sell_for")
+                    }}</span>
+                    <span class="result-sell-coin">
+                      <img
+                        class="public-dialog-icon"
+                        src="@/assets/svg/user/icon_ethereum.svg"
+                        alt=""
+                      />
+                      {{ item.price }}
+                    </span>
                   </p>
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
@@ -118,7 +121,7 @@
                     round
                     @click="chooseLotteryHold('hold')"
                   >
-                    Take the NFT
+                    {{ $t("lottery.take_nft") }}
                     <span v-if="second > 0">（{{ second }}s）</span>
                   </el-button>
                   <el-button
@@ -126,29 +129,24 @@
                     round
                     @click="chooseLotteryHold"
                   >
-                    <span>Sell for</span>
+                    <span>{{ $t("lottery.sell_for") }}</span>
                     <span class="result-total">{{ item.price }}&nbsp;ETH</span>
                   </el-button>
                 </div>
                 <template v-else>
-                  <div class="result-sell pointer">
-                    <span class="result-sell-text">Sell for </span>
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="'Click to hold'"
-                    >
+                  <div class="result-sell pointer" v-if="second > 0">
+                    <!-- <span class="result-sell-text">Sell for </span>
                       <span class="result-sell-number text-ellipsis">
                         {{ item.price }}
                       </span>
-                    </el-tooltip>
                     <span class="result-sell-coin">
                       {{ item.coin }}
-                    </span>
+                    </span> -->
+                    <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
-                  <!-- <p v-if="!nfts.includes(item.id)"" class="result-sell-get">
-                  You Get {{ item.price }} ETH
-                </p> -->
+                  <p v-else class="result-sell-get">
+                    You Get {{ item.price }} ETH
+                  </p>
                 </template>
               </div>
 
@@ -170,7 +168,7 @@
               @click="chooseLotteryHold('hold')"
             >
               <p v-if="nfts.length == 0">
-                <span>Sell for</span>
+                <span>{{ $t("lottery.sell_for") }}</span>
                 <span class="result-total font5">{{ total }}&nbsp;ETH</span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
@@ -182,23 +180,17 @@
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else>
-                Take all
+                {{ $t("lottery.take_all") }}
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
             </el-button>
-            <!-- <el-button
-              class="result-footer-button sell"
-              round
-              @click="chooseLotteryHold()"
-            >
-            </el-button> -->
           </div>
           <p class="result-end">
-            At the end of the countdown you will automatically sell all NFT
+            {{ $t("lottery.tips7") }}
           </p>
         </div>
         <p class="result-end" v-if="result.length < 2">
-          At the end of the countdown you will automatically sell all NFT
+          {{ $t("lottery.tips7") }}
         </p>
         <div class="result-link">
           <img
@@ -212,8 +204,7 @@
             alt=""
           />
           <p class="result-link-text">
-            THIS TRANSACTION IS<br />
-            PROVABLY FAIR
+            {{ $t("lottery.tips9") }}
           </p>
           <img
             class="result-link-line"
@@ -232,7 +223,9 @@
                 {{ item.text }}
               </a>
             </p>
-            <p class="result-link-go-users">[Advanced Users]</p>
+            <p class="result-link-go-users">
+              {{ $t("lottery.tips10") }}
+            </p>
           </div>
         </div>
       </div>
@@ -249,7 +242,7 @@ import {
   onUnmounted,
   nextTick,
 } from "vue";
-import * as workerTimers from 'worker-timers'
+import * as workerTimers from "worker-timers";
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -257,6 +250,8 @@ import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -348,7 +343,7 @@ const timerFun = () => {
   }, 1000);
 };
 const clearTimerFun = () => {
-  timer&&workerTimers.clearInterval(timer);
+  timer && workerTimers.clearInterval(timer);
   timer = null;
 };
 const chooseLotteryHold = (data) => {
@@ -369,8 +364,8 @@ const getTheUserBalanceApi = async () => {
         ) /
           1000
     );
-    let extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 9 : 14;
-    second.value = parseInt(timer+extraTime);
+    const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 9 : 14;
+    second.value = parseInt(timer + extraTime);
   }
 };
 </script>
@@ -393,6 +388,28 @@ const getTheUserBalanceApi = async () => {
 
 .font5 {
   color: #11cde9;
+}
+.hold-btn {
+  font-family: Medium;
+  font-size: 0.875rem;
+  color: #11cde9;
+}
+.result-sell-text-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  .result-sell-text {
+    font-size: 0.625rem;
+    color: #a9a4b4;
+  }
+  .result-sell-coin {
+    font-size: 0.75rem;
+    img {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
 }
 </style>
 <style lang="scss">
@@ -438,6 +455,15 @@ const getTheUserBalanceApi = async () => {
   }
   .take {
     margin-left: 0 !important;
+  }
+}
+@media (min-height: 1200px) {
+  .result-dialog-content {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

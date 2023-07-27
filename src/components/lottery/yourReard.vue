@@ -20,16 +20,13 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">NOTICE</h2>
-      <p class="public-dialog-illustrate">
-        The reward has been transferred to your inventory, please go to the
-        inventory to check it.
-      </p>
-      <h3 class="public-dialog-title-other">Your reward</h3>
+      <h2 class="public-dialog-title">{{ $t("lottery.notice") }}</h2>
+      <p class="public-dialog-illustrate">{{ $t("lottery.tips3") }}</p>
+      <h3 class="public-dialog-title-other">{{ $t("lottery.your_reward") }}</h3>
       <div class="public-dialog-img">
         <image-view class="public-dialog-portrait" :src="sold?.nftImg" />
       </div>
-      <p class="public-dialog-club">Bored Ape Yacht Club</p>
+      <p class="public-dialog-club">{{ $t("lottery.bored_yacht_club") }}</p>
       <div class="public-dialog-pointer-box" v-if="sold?.point > 0">
         <img
           class="public-dialog-pointer-icon"
@@ -41,7 +38,7 @@
         </span>
       </div>
       <el-button class="public-button margin-t" @click="unboxAgainFunc">
-        UNBOX AGAIN
+        {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img
             class="public-dialog-icon"
@@ -52,7 +49,7 @@
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
-        CONTINUE
+        {{ $t("lottery.continue") }}
       </el-button>
     </div>
   </el-dialog>

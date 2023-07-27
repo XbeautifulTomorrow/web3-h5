@@ -20,13 +20,16 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title margin-b">NOTICE</h2>
+      <h2 class="public-dialog-title margin-b">{{ $t("lottery.notice") }}</h2>
       <p class="public-dialog-text">
-        <span class="public-dialog-special">Mutant Ape Yacht Club #</span>
-        <span class="public-dialog-special">
-          {{ soldList[0]?.orderId }}
-        </span>
-        has been successfully sold and you will receive:
+        <span class="public-dialog-special"
+          >{{ $t("lottery.yacht_club") }} #{{ soldList[0]?.orderId }}</span
+        >
+        >{{
+          $t("lottery.success_receive", {
+            name: $t("lottery.yacht_club") + " #" + soldList[0]?.orderId,
+          })
+        }}
       </p>
       <div class="public-dialog-total">
         <img
@@ -47,7 +50,7 @@
         </template>
       </div>
       <el-button class="public-button" @click="unboxAgainFunc">
-        UNBOX AGAIN
+        {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img
             class="public-dialog-icon"
@@ -58,7 +61,7 @@
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
-        CONTINUE
+        {{ $t("lottery.continue") }}
       </el-button>
     </div>
   </el-dialog>

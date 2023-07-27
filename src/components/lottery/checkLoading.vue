@@ -14,11 +14,10 @@
         <img src="@/assets/img/lottery/loading.png" alt="" />
       </h2>
       <p class="public-dialog-loading-text">
-        Your purchase is being processed.
+        {{ $t("lottery.loading_tip1") }}
       </p>
       <p class="public-dialog-illustrate">
-        Your transaction is being processed and will be confirmed on the
-        blockchain soon
+        {{ $t("lottery.loading_tip2") }}
       </p>
     </div>
   </el-dialog>

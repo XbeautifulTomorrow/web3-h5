@@ -20,7 +20,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">WARNING</h2>
+      <h2 class="public-dialog-title">{{ $t("lottery.warning") }}</h2>
       <p class="public-dialog-text magin-text">
         Congratulations ! We regret that your
         <span class="public-dialog-special">
@@ -41,7 +41,7 @@
         </span>
       </div>
       <el-button class="public-button" @click="unboxAgainFunc">
-        UNBOX AGAIN
+        {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img
             class="public-dialog-icon"
@@ -52,7 +52,7 @@
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
-        CONTINUE
+        {{ $t("lottery.continue") }}
       </el-button>
     </div>
   </el-dialog>

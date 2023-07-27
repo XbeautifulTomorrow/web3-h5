@@ -181,15 +181,17 @@ export default {
     },
     blindPrice() {
       let price = 0;
-      console.log(this.rollNumber, "this.rollNumber-------");
-      console.log(this.blindDetailInfo, "this.blindDetailInfo-------");
       if (this.blindDetailInfo) {
         if (this.rollNumber === "ONE") {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
-          price = new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5)
+          price = new bigNumber(
+            this.blindDetailInfo.fivePrice || 0
+          ).multipliedBy(5);
         } else if (this.rollNumber === "TEN") {
-          price = new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10)
+          price = new bigNumber(
+            this.blindDetailInfo.tenPrice || 0
+          ).multipliedBy(10);
         }
       }
       console.log(price);
@@ -202,7 +204,7 @@ export default {
         this.awardItem = shuffle(newVal.data);
         this.localDateTime = newVal.localDateTime;
       } else {
-        this.messageFun("Sorry you didn't win");
+        this.messageFun(this.$t("lottery.no_win"));
       }
     },
     apiIsError: function (newData) {
@@ -212,8 +214,8 @@ export default {
         this.showDialog = "transactionWarning";
         this.warningText =
           errorText && errorText[2] && errorText[2].message
-            ? 'Network is busy,please try again later.'
-            : "Depositing gas fees for your account, please try again later.";
+            ? this.$t("errorTips.image_enum_error")
+            : this.$t("lottery.tips4");
       }
     },
   },
@@ -347,7 +349,8 @@ export default {
         }
       }
     },
-    messageFun(message = "余额不足,请充值!", type = "warning") {
+    // 余额不足,请充值
+    messageFun(message = this.$t("lottery.tips5"), type = "warning") {
       ElMessage({
         message,
         type,
@@ -419,7 +422,9 @@ export default {
       //   });
       //    this.itemList = shuffle(arr);
       this.itemList = shuffle(arr);
+      console.log(this.showNumber + 1);
       this.oneAwards = this.awardsFun(this.showNumber + 1);
+      console.log(this.oneAwards, "this.oneAwards----------");
       this.fiveList = this.moreListFun(5);
       this.tenList = this.moreListFun(10);
     },
@@ -438,9 +443,7 @@ export default {
       if (_time > 60) {
         localStorage.removeItem("result");
       } else {
-        this.messageFun(
-          "The previous order has not been processed, please process it before drawing a prize"
-        );
+        this.messageFun(this.$t("lottery.tips6"));
         this.awardItem = _result.result.data;
         this.localDateTime = _result.result.localDateTime;
         this.showResultFun();

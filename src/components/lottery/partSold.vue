@@ -19,7 +19,7 @@
       </div>
     </template>
     <div class="public-dialog-content">
-      <h2 class="public-dialog-title">NOTICE</h2>
+      <h2 class="public-dialog-title">{{ $t("lottery.notice") }}</h2>
       <p class="public-dialog-illustrate">
         {{ text }}
       </p>
@@ -54,7 +54,7 @@
         class="public-dialog-module"
         v-if="chooseIds.length !== soldList.length || failList.length"
       >
-        <h3 class="public-dialog-title-other">BALANCE</h3>
+        <h3 class="public-dialog-title-other">{{ $t("lottery.balance") }}</h3>
         <ul class="public-dialog-lists">
           <template v-for="(item, index) in soldList">
             <el-tooltip
@@ -71,7 +71,9 @@
                     class="public-dialog-portrait"
                     :src="item.nftImg"
                   />
-                  <span class="public-dialog-list-result refund"> Refund </span>
+                  <span class="public-dialog-list-result refund">
+                    {{ $t("lottery.refund") }}
+                  </span>
                 </div>
                 <p class="public-dialog-list-text">
                   <img
@@ -101,7 +103,9 @@
                     class="public-dialog-portrait"
                     :src="item.nftImg"
                   />
-                  <span class="public-dialog-list-result sold"> Sold </span>
+                  <span class="public-dialog-list-result sold">
+                    {{ $t("lottery.sold") }}
+                  </span>
                 </div>
                 <p class="public-dialog-list-text">
                   <img
@@ -118,7 +122,9 @@
           </template>
         </ul>
         <div class="public-dialog-funds">
-          <span class="public-dialog-total-title">Total:</span>
+          <span class="public-dialog-total-title"
+            >{{ $t("lottery.total") }}:</span
+          >
           <img
             class="public-dialog-list-img"
             src="@/assets/svg/user/icon_ethereum.svg"
@@ -138,7 +144,7 @@
         </div>
       </div>
       <el-button class="public-button" @click="unboxAgainFunc">
-        UNBOX AGAIN
+        {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img
             class="public-dialog-icon"
@@ -149,7 +155,7 @@
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
-        CONTINUE
+        {{ $t("lottery.continue") }}
       </el-button>
     </div>
   </el-dialog>
@@ -163,8 +169,10 @@ import {
   watchEffect,
   onUpdated,
 } from "vue";
+import { useI18n } from "vue-i18n";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
+const { t } = useI18n();
 
 const props = defineProps({
   chooseIds: {

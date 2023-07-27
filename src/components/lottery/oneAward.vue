@@ -2,7 +2,7 @@
   <div class="roll-one-content">
     <div class="roll-text">
       <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
-      <p class="roll-text-offcial">An offcial box by Bitzing</p>
+      <p class="roll-text-offcial">{{ $t("lottery.tips_txt") }}</p>
     </div>
     <div :class="['con']">
       <div

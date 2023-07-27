@@ -180,6 +180,14 @@
   display: inline-block;
   max-width: calc(100% - 1em);
 }
+.result-more-list{
+  .result-club-title-text{
+    font-family: BlenderPro;
+    font-weight: normal;
+    font-size: .75rem;
+    color: #e4e7f5;
+  }
+}
 .result-club-serial {
   font-family: Inter;
   font-size: 0.875rem;
@@ -213,7 +221,7 @@
 .result-end {
   font-size: 0.75rem;
   line-height: 1.5rem;
-  color: #a9a4b4;
+  color: #b9abf6;
   margin-top: 1.5rem;
   text-align: center;
 }

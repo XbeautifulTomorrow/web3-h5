@@ -60,7 +60,7 @@ const i18n = new createI18n({
 // 设置当前语言
 function setLang(lang) {
   Object.keys(LANG_MENU).forEach(key => {
-    // i18n.locale = lang;
+    i18n.locale = lang;
     if (LANG_MENU[key] === lang) localStorage.setItem("lang", key);
   });
 }

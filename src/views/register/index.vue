@@ -120,6 +120,7 @@ const validatePass = (rule, value, callback) => {
     callback();
   }
 };
+
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error(t("login.captchaErrText1")));

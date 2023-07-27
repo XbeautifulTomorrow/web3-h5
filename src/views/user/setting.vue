@@ -13,19 +13,19 @@
           <div class="wallet_text">{{ userInfo?.id && userInfo.email || "--" }}</div>
         </div>
         <div class="username_modify">
-          <div class="modify_btn" @click="changeTypeFun('forgot')">CHANGE PASSWORD</div>
+          <div class="modify_btn" @click="changeTypeFun('forgot')">{{ $t("user.changePwd") }}</div>
         </div>
         <div class="communication_setting">
-          <div class="setting_text">COMMUNICATION SETTINGS</div>
+          <div class="setting_text">{{ $t("user.setting") }}</div>
           <div class="email_setting">
             <el-switch v-model="communication" @change="changeEmail()"
               style="--el-switch-on-color: #927A51; --el-switch-off-color: rgba(60, 60, 67, 0.3)" />
-            <span>Send me marketing emails from time to time</span>
+            <span>{{ $t("user.sendSetting") }}</span>
           </div>
         </div>
         <div class="other_box">
           <div class="exit_btn" @click="onLogout()">
-            <span class="exit_text">Log out</span>
+            <span class="exit_text">{{ $t("user.logout") }}</span>
             <img src="@/assets/svg/user/log_out.svg" alt="">
           </div>
         </div>

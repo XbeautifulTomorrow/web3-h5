@@ -4,14 +4,14 @@
       <div class="contents-info">
         <div class="home-public-title">
           <div class="title-box-l">
-            <div class="title_text">{{ `${boxName} SNAPSHOT #${snapshotId}` }}</div>
+            <div class="title_text">{{ $t("mysteryBox.snapshotTitle1", { name: boxName, id: snapshotId }) }}</div>
           </div>
         </div>
         <el-table :data="snapshotData" class="table_container" style="width: 100%">
-          <el-table-column prop="snapshot_id" label="Snapshot ID" align="left" show-overflow-tooltip>
+          <el-table-column prop="snapshot_id" :label="$t('mysteryBox.snapshotId')" align="left" show-overflow-tooltip>
             <template #header>
               <el-input v-model="rewardId" @keyup.enter="fetchSnapshotDetail()" class="search_input"
-                placeholder="Search by Reward ID">
+                :placeholder="$t('mysteryBox.searchRewardId')">
                 <template #prefix>
                   <el-icon class="el-input__icon" @click="fetchSnapshotDetail()">
                     <search />
@@ -37,17 +37,17 @@
               {{ `${scope.row.price} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="usdtPrice" label="USD Price" align="left">
+          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" align="left">
             <template #default="scope">
               {{ `$${scope.row.usdtPrice}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" label="Resale Price" align="left">
+          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" align="left">
             <template #default="scope">
               {{ `${scope.row.refundValue} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="idx" label="Reward ID" align="left" />
+          <el-table-column prop="idx" :label="$t('mysteryBox.rewardId')" align="left" />
         </el-table>
         <div class="pagination-box">
           <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"

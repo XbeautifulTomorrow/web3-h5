@@ -51,28 +51,52 @@ import { getLang, setLang } from '@/locales';
 import { useI18n } from "vue-i18n";
 import router from "@/router"
 import { ref, reactive, computed, inject } from 'vue';
+import { ElMessage } from "element-plus";
 const { t, locale } = useI18n();
 
 const reload = inject("reload");
 const language = ref(getLang());
 
 const nav = computed(() => {
-  return [{
-    text: t("header.home"),
-    page: "home",
-  },
-  {
-    text: t("header.airdrop"),
-    page: "Airdrop",
-  },
-  {
-    text: t("header.whitebook"),
-    page: "Whitebook",
-  },
-  {
-    text: t("header.faq"),
-    page: "FAQ",
-  },]
+  return [
+    {
+      text: t("header.home"),
+      page: "Home",
+    },
+    // {
+    //   text: t("header.airdrop"),
+    //   page: "Airdrop",
+    // },
+
+    {
+      text: t("header.mysteryBox"),
+      page: "MysteryBoxesList",
+    },
+    {
+      text: t("header.competitions"),
+      page: "Competitions",
+    },
+    {
+      text: t("header.stake"),
+      page: "Stake",
+    },
+    {
+      text: t("header.ino"),
+      page: "INO",
+    },
+    {
+      text: t("header.marketPlace"),
+      page: "MarketPlace",
+    },
+    {
+      text: t("header.whitebook"),
+      page: "Whitebook",
+    },
+    {
+      text: t("header.faq"),
+      page: "FAQ",
+    },
+  ]
 });
 
 const year = ref(new Date().getUTCFullYear());
@@ -97,6 +121,13 @@ const goTo = (page = 'home') => {
     return
   }
 
+  if (page == "Stake" || page == "INO" || page == "MarketPlace") {
+    ElMessage({
+      message: t("common.tipsText"),
+      type: "warning",
+    });
+    return
+  }
   router.push({ path: `/${page}` });
 };
 const goLink = (event) => {

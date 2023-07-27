@@ -1,7 +1,7 @@
 <template>
   <div class="virtual-currency">
     <div class="title-box">
-      <div class="virtual-currency-title">RECENT UNBOXINGS</div>
+      <div class="virtual-currency-title">{{ $t("virtualCurrency.recentBox") }}</div>
       <div class="interval">
         <div class="top"></div>
         <div class="bottom"></div>
@@ -61,7 +61,7 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">Contract</span>
+          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.contract") }}</span>
           <span class="popup-list-text text-ellipsis">
             {{
               currencyList[activeIndex] &&
@@ -70,7 +70,7 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">Chain</span>
+          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.chain") }}</span>
           <span class="popup-list-text text-ellipsis">
             {{
               (currencyList[activeIndex] &&
@@ -80,7 +80,7 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">Winner</span>
+          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.winner") }}</span>
           <span class="popup-list-text text-ellipsis">
             {{
               currencyList[activeIndex] &&
@@ -89,7 +89,7 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">Price</span>
+          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.price") }}</span>
           <span class="popup-list-text text-ellipsis" style="color: #fff">
             {{
               currencyList[activeIndex] &&
@@ -99,7 +99,7 @@
         </li>
         <li class="popup-list-button">
           <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
-            Go to Mystery Box
+            {{ $t("virtualCurrency.goBox") }}
           </div>
         </li>
       </ul>

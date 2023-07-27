@@ -2,7 +2,7 @@
   <div class="my_history_wrapper">
     <div class="history_text">
       <img src="@/assets/svg/user/icon_history.svg" alt="">
-      <span>PURCHASE HISTORY</span>
+      <span>{{ $t("user.history") }}</span>
     </div>
     <div class="choose_box">
       <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
@@ -25,18 +25,21 @@
               <div class="btns" v-if="activeType == 'MYSTERY_BOX'">
                 <el-tooltip v-if="item.hash" popper-class="tips_box" effect="dark" placement="top">
                   <template #content>
-                    <span>Verify Faimess</span>
+                    <span>{{ $t("user.verifyBtn") }}</span>
                   </template>
                   <img @click="openLenk(item)" src="@/assets/svg/user/icon_external_link.svg" alt="">
                 </el-tooltip>
                 <el-tooltip v-if="item.snapshotId" popper-class="tips_box" effect="dark" placement="top">
                   <template #content>
-                    <span>View Snapshot</span>
+                    <span>{{ $t("user.snapshotBtn") }}</span>
                   </template>
                   <img @click="handleSnapshot(item)" src="@/assets/svg/user/icon_snapshot.svg" alt="">
                 </el-tooltip>
               </div>
-              <div v-else>{{ `x ${item.tickets} ${item.tickets > 1 ? "Tickets" : "Ticket"}` }}</div>
+              <div v-else>
+                <span v-if="item.tickets > 1">{{ $t("user.numTicket", { num: item.tickets }) }}</span>
+                <span v-else>{{ $t("user.numTickets", { num: item.tickets }) }}</span>
+              </div>
             </div>
             <div v-if="activeType == 'MYSTERY_BOX'" class="box_order">{{ `ID：${item.orderNumber}` }}</div>
             <div v-else class="box_order">{{ `ID：${item.orderNum}` }}</div>
@@ -77,18 +80,19 @@
       </div>
     </div>
     <div v-else class="no_date">
-      <span>NO PURCHASE HISTORY FOUND</span>
+      <span>{{ $t("user.noDataHistory") }}</span>
     </div>
-    <div class="pagination-box" v-if="this.count > size">
+    <div class="pagination-box" v-if="count > size">
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-        layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+        layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
   </div>
 </template>
 <script>
 import { getUserBuyHistory } from "@/services/api/user";
 import { getUserOneOrder } from "@/services/api/oneBuy";
-
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
@@ -197,6 +201,14 @@ export default {
     },
   },
   created() {
+    this.tabsList = [{
+      label: t("user.mysteryBox"),
+      value: "MYSTERY_BOX"
+    }, {
+      label: t("user.competition"),
+      value: "COMPETITION"
+    }];
+    
     if (this.isLogin && this.userInfo?.id) {
       this.fetchUserBuyHistory();
     }

@@ -9,23 +9,23 @@
       </div>
     </template>
     <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">CHANGE PASSWORD</p>
+      <p class="public-dialog-title">{{ $t("user.changePass") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item prop="oldPassword">
-          <el-input v-model="formForgot.oldPassword" placeholder="Old Password" class="public-input" type="password"
-            show-password />
+          <el-input v-model="formForgot.oldPassword" :placeholder="$t('user.oldPass')" class="public-input"
+            type="password" show-password />
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="formForgot.password" placeholder="New Password" class="public-input" type="password"
+          <el-input v-model="formForgot.password" :placeholder="$t('user.newPass')" class="public-input" type="password"
             show-password />
         </el-form-item>
         <el-form-item prop="confirm">
-          <el-input v-model="formForgot.confirm" placeholder="Confirm password" class="public-input" type="password"
-            show-password />
+          <el-input v-model="formForgot.confirm" :placeholder="$t('user.confirmPass')" class="public-input"
+            type="password" show-password />
         </el-form-item>
         <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
-          Reset password
+          {{ $t("user.resetPass") }}
         </el-button>
       </el-form>
     </div>
@@ -55,15 +55,15 @@ const validatePass = (rule, value, callback) => {
   const numStr = /^(?=.*[0-9]).{8,}$/
 
   if (value === "") {
-    callback(new Error("Please input the password"));
+    callback(new Error(t("login.passwordErrText1")));
   } else if (value && value.length < 8) {
-    callback(new Error("Password must be longer than 8 characters"));
+    callback(new Error(t("login.passwordErrText2")));
   } else if (!upperStr.test(value)) {
-    callback(new Error("Password must contain at least 1 upper case character"));
+    callback(new Error(t("login.passwordErrText3")));
   } else if (!lowerStr.test(value)) {
-    callback(new Error("Password must contain at least 1 lower case character"));
+    callback(new Error(t("login.passwordErrText4")));
   } else if (!numStr.test(value)) {
-    callback(new Error("Password must contain at least 1 number"));
+    callback(new Error(t("login.passwordErrText5")));
   } else {
     if (formForgot.confirm !== "") {
       if (!ruleFormRef.value) return;
@@ -79,9 +79,9 @@ const closeDialogFun = () => {
 
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
-    callback(new Error("Please input the password again"));
-  } else if (value !== formForgot.password) {
-    callback(new Error("Two inputs don't match!"));
+    callback(new Error(t("login.captchaErrText1")));
+  } else if (value !== formForgot.passWord) {
+    callback(new Error(t("login.captchaErrText2")));
   } else {
     callback();
     isSure.value = true;

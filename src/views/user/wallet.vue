@@ -4,9 +4,9 @@
       <div class="balance_box">
         <div class="balance_l">
           <img src="@/assets/svg/user/icon_balances.svg" alt="">
-          <div class="title_text">BALANCES</div>
+          <div class="title_text">{{ $t("user.balance") }}</div>
         </div>
-        <div class="balance_r" @click="showRecharge = true">CASHIER</div>
+        <div class="balance_r" @click="showRecharge = true">{{ $t("user.cashier") }}</div>
       </div>
       <div class="balance_item">
         <div class="balance_item_l">
@@ -22,11 +22,11 @@
           <img src="@/assets/svg/user/icon_profile.svg" alt="" />
           <div class="num">
             <span>{{ userPoints || 0 }}</span>
-            <span>POINTS</span>
+            <span>{{ $t("user.point") }}</span>
           </div>
         </div>
         <div class="balance_item_r" @click="showPoints = true">
-          <span class="details">Details</span>
+          <span class="details">{{ $t("user.details") }}</span>
           <img src="@/assets/svg/user/icon_link.svg" alt="" />
         </div>
       </div>
@@ -35,26 +35,26 @@
           <img src="@/assets/svg/user/icon_tickets.svg" alt="" />
           <div class="num">
             <span>{{ userTickets || 0 }}</span>
-            <span>TICKETS</span>
+            <span>{{ $t("user.tickets") }}</span>
           </div>
         </div>
       </div>
       <div class="wallet_operating">
-        <div class="title_text">DEPOSIT & WITHDRAWAL HISTORY</div>
+        <div class="title_text">{{ $t("user.historyTitle") }}</div>
         <div class="choose_box">
           <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
             :class="coin == item && ['active']">
             {{ item }}
           </div>
-          <div class="replenish">Missing contract ETH deposit?</div>
+          <div class="replenish">{{ $t("user.notReceived") }}</div>
           <div class="retrieve" @click="showReplenish = true">
-            Request deposit address sweep
+            {{ $t("user.btnReplenish") }}
           </div>
         </div>
       </div>
       <el-table :data="historyData" class="table_container" style="width: 100%">
-        <el-table-column prop="logType" label="LOG TYPE" align="center" />
-        <el-table-column prop="amount" label="AMOUNT" align="center">
+        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" align="center" />
+        <el-table-column prop="amount" :label="$t('user.balanceTabel2')" align="center">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.criditAmount }}</span>
@@ -64,7 +64,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="eth_amount" label="ETH AMOUNT" align="center">
+        <el-table-column prop="eth_amount" :label="$t('user.balanceTabel3')" align="center">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.amount }}</span>
@@ -74,7 +74,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="syncStatus" label="STATUS" align="center">
+        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" align="center">
           <template #default="scope">
             <div :class="['sync_status', scope.row.syncStatus]">
               <span> {{ scope.row.syncStatus }}</span>
@@ -93,23 +93,23 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="creation_time" label="DATE/TIME" align="center">
+        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" align="center">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column label="TRANSACTION" align="center">
+        <el-table-column :label="$t('user.balanceTabel6')" align="center">
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
-              @click="viewTxid(scope.row.hash)">VIEW</div>
+              @click="viewTxid(scope.row.hash)">{{ $t("user.view") }}</div>
             <div v-else>--</div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
     <!-- 查询补足余额 -->
@@ -122,13 +122,13 @@
       </div>
       <div class="replenish_box">
         <div class="operating_title">
-          <span>ENTER TRANSACTION ID</span>
+          <span>{{ $t("user.enterId") }}</span>
         </div>
-        <el-input class="wallet_addr" v-model="transactionId" placeholder="Paste your ERC20 wallet address here">
+        <el-input class="wallet_addr" v-model="transactionId" :placeholder="$t('user.enterHint')">
         </el-input>
         <div class="btns_box">
-          <div class="btn_item cancel" @click="handleClose()">Cancel</div>
-          <div class="btn_item submit" @click="onRechargeByHash()">Submit</div>
+          <div class="btn_item cancel" @click="handleClose()">{{ $t('common.cancel') }}</div>
+          <div class="btn_item submit" @click="onRechargeByHash()">{{ $t('common.submitLower') }}</div>
         </div>
       </div>
     </el-dialog>
@@ -220,7 +220,7 @@ export default {
     async onRechargeByHash() {
       const { transactionId } = this;
       if (!transactionId) {
-        this.$message.error("Please enter the on-chain transaction ID");
+        this.$message.error(t("user.enterHint1"));
         return;
       }
 
@@ -234,9 +234,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.$message.success(
-          "The application is successful, please check whether the assets arrive later"
-        );
+        this.$message.success(t("user.enterHint2"));
         this.handleClose();
       }
     },

@@ -32,7 +32,7 @@
       </template>
     </ul>
     <div class="ntf-tickets-all" @click="openAll()">
-      <span>View all Mystery boxes</span>
+      <span>{{ $t("homeReplenish.viewBox") }}</span>
       <img src="@/assets/svg/home/icon_more.svg" alt="" />
     </div>
   </div>

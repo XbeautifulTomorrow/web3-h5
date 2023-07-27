@@ -2,7 +2,7 @@
   <div :class="['competitions_wrapper', !count > 0 && 'no_data_bg']">
     <div class="competitions_text">
       <img src="@/assets/svg/user/icon_competitions.svg" alt="">
-      <span>COMPETITION</span>
+      <span>{{ $t("user.competition") }}</span>
     </div>
     <div class="competitions_panel">
       <div class="operating_box">
@@ -13,8 +13,9 @@
           </div>
         </div>
         <div class="status_box">
-          <div class="status_text">Status:</div>
-          <el-select v-model="competitionStatus" @change="fetchOneBuyList()" class="nft_type" clearable placeholder="ALL">
+          <div class="status_text">{{ $t("user.status") }}</div>
+          <el-select v-model="competitionStatus" @change="fetchOneBuyList()" class="nft_type" clearable
+            :placeholder="$t('homeReplenish.all')">
             <el-option v-for="(item, index) in statuDrop" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </div>
@@ -31,19 +32,31 @@
                 <span v-if="dateDiff(item && item.endTime) > 1">
                   {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                 </span>
-                <countDown v-else v-slot="timeObj" :time="item && item.endTime">
-                  {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                <countDown v-else v-slot="timeObj" @onEnd="fetchOneBuyList(false)" :time="item && item.endTime">
+                  {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                 </countDown>
               </span>
               <span v-else>
-                {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
+                <span v-if="Number(new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold ||
+                  0)) > 1">
+                  {{ $t("home.ticketsLeft", {
+                    num: Number(new bigNumber(item.limitNum ||
+                      0).minus(item.numberOfTicketsSold || 0))
+                  }) }}</span>
+                <span v-else>
+                  {{ $t("home.ticketLeft", {
+                    num: Number(new bigNumber(item.limitNum ||
+                      0).minus(item.numberOfTicketsSold ||
+                        0))
+                  }) }}
+                </span>
               </span>
             </div>
             <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
-              {{ `Ended on ${timeFormat(item.endTime)}` }}
+              {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
             <div class="tips_round aborted" v-else>
-              {{ `Aborted on ${timeFormat(item.endTime)}` }}
+              {{ $t("user.abortedStatus", { date: timeFormat(item.endTime) }) }}
             </div>
             <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
           </div>
@@ -53,25 +66,23 @@
           </div>
           <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
           <div class="buy_btn" @click="enterNow(item)" v-if="item.currentStatus == 'IN_PROGRESS'">
-            <span>BUY MORE</span>
+            <span>{{ $t("user.buyMore") }}</span>
           </div>
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
-            <span>WINNER</span>
+            <span>{{ $t("ticketsInfo.winner") }}</span>
             <img src="@/assets/svg/user/default_avatar.svg" alt="">
             <span v-if="userInfo.id != item.winningAddress">
               {{ item.winningName || item.winningAddress }}
             </span>
-            <span v-else>YUO</span>
+            <span v-else>{{ $t("user.yuo") }}</span>
           </div>
           <div class="buy_btn winner refunded" v-else>
             <span>{{ new bigNumber(item.userNum || 0).multipliedBy(item.ticketPrice) }}</span>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
-            <span>REFUNDED</span>
+            <span>{{ $t("user.refunded") }}</span>
           </div>
-          <div class="remaining_votes">
-            You used <span>{{ item && item.userNum || 0 }}</span> of <span>
-              {{ maxBuyNum(item) }}
-            </span> tickets
+          <div class="remaining_votes"
+            v-html="$t('user.buyTickets', { userNum: item.userNum || 0, maxNum: maxBuyNum(item) })">
           </div>
         </div>
       </div>
@@ -88,22 +99,34 @@
                   <span v-if="dateDiff(item && item.endTime) > 1">
                     {{ `${Math.ceil(dateDiff(item && item.endTime))} DAY LEFT` }}
                   </span>
-                  <countDown v-else v-slot="timeObj" :time="item && item.endTime">
-                    {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
+                  <countDown v-else v-slot="timeObj" @onEnd="fetchOneBuyList(false)" :time="item && item.endTime">
+                    {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                   </countDown>
                 </span>
                 <span v-else>
-                  {{ `${new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold || 0)} TICKETS LEFT` }}
+                  <span v-if="Number(new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold ||
+                    0)) > 1">
+                    {{ $t("home.ticketsLeft", {
+                      num: Number(new bigNumber(item.limitNum ||
+                        0).minus(item.numberOfTicketsSold || 0))
+                    }) }}</span>
+                  <span v-else>
+                    {{ $t("home.ticketLeft", {
+                      num: Number(new bigNumber(item.limitNum ||
+                        0).minus(item.numberOfTicketsSold ||
+                          0))
+                    }) }}
+                  </span>
                 </span>
               </div>
               <div class="tips_round sale" v-else-if="item.currentStatus == 'DRAWN'">
-                <span>SALE</span>
+                <span>{{ $t("user.sale") }}</span>
               </div>
               <div class="tips_round aborted" v-else-if="item.currentStatus == 'CLOSED'">
-                <span>ABORTED</span>
+                <span>{{ $t("user.aborted") }}</span>
               </div>
               <div class="tips_round end" v-else>
-                <span>CANCELLED</span>
+                <span>{{ $t("user.cancel") }}</span>
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
             </div>
@@ -111,23 +134,27 @@
             <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
             <div class="cancel_btn" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">
-              <span>CANCEL COMPETITION</span>
+              <span>{{ $t("user.cancelBtn") }}</span>
             </div>
             <div class="buy_btn winner refunded" v-else-if="item.currentStatus == 'DRAWN'">
               <span>{{ new bigNumber(item.numberOfTicketsSold || 0).multipliedBy(item.ticketPrice) }}</span>
               <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
-              <span>CLAIMED</span>
+              <span>{{ $t("user.claimed") }}</span>
             </div>
-            <div class="delete_btn" v-else @click="delOrder(item)">Delete</div>
+            <div class="delete_btn" v-else @click="delOrder(item)">{{ $t("user.delete") }}</div>
             <div class="remaining_votes">
-              <span>{{ item && item.numberOfTicketsSold || 0 }}</span>
-              {{ ` ${item && item.numberOfTicketsSold > 1 ? 'TICKETS SOLD' : 'TICKET SOLD'}` }}
+              <span v-if="item.numberOfTicketsSold > 1">
+                {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
+              </span>
+              <span v-else>
+                {{ $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 }) }}
+              </span>
             </div>
           </div>
         </div>
       </div>
       <div v-else class="no_date">
-        <span>NO COMPETITION FOUND</span>
+        <span>{{ $t("user.noDataCompetition") }}</span>
       </div>
     </div>
     <div class="pagination-box" v-if="count > size">
@@ -141,16 +168,10 @@
           <Close />
         </el-icon>
       </div>
-      <div class="create_title">CLOSE COMPETITION</div>
+      <div class="create_title">{{ $t("user.closeBtn") }}</div>
       <div class="tips_text">
-        <span v-if="isCancel">
-          Are you sure you want to cancel the tournament you created? After cancellation the following
-          NFTs will be returned to your inventory and you can create a new tournament at any time
-        </span>
-        <span v-else>
-          A user has already participated in a tournament you have created and it cannot be cancelled to protect the
-          rights of the participants
-        </span>
+        <span v-if="isCancel">{{ $t("user.cancelHint") }}</span>
+        <span v-else>{{ $t("user.noCancelHint") }}</span>
       </div>
       <div class="image_box">
         <Image fit="cover" class="nft_img" :src="competitionNft && competitionNft.nftImage" />
@@ -161,10 +182,10 @@
       </div>
       <div class="btn-group">
         <div class="cancel" @click="handleClose()">
-          <span v-if="isCancel">THINK AGAIN</span>
-          <span v-else>CLOSED</span>
+          <span v-if="isCancel">{{ $t("user.thinkAgain") }}</span>
+          <span v-else>{{ $t("user.closed") }}</span>
         </div>
-        <div v-if="isCancel" class="confirm" @click="onCancel()">CANCEL COMPETITION</div>
+        <div v-if="isCancel" class="confirm" @click="onCancel()">{{ $t("user.cancelBtn") }}</div>
       </div>
     </el-dialog>
   </div>
@@ -175,6 +196,8 @@ import {
   cancelNftOrder,
   delNftOrder
 } from "@/services/api/oneBuy";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
@@ -191,13 +214,7 @@ export default {
   },
   data() {
     return {
-      tabsList: [{
-        label: "ENTERED",
-        value: "ENTERED"
-      }, {
-        label: "MY COMPETITIONS",
-        value: "MY_COMPETITIONS"
-      }],
+      tabsList: [],
       activeType: "ENTERED",
       competitionStatus: null,
       statuDrop: [
@@ -326,6 +343,20 @@ export default {
     },
   },
   created() {
+    this.tabsList = [{
+      label: t("user.entered"),
+      value: "ENTERED"
+    }, {
+      label: t("user.myCopmetitions"),
+      value: "MY_COMPETITIONS"
+    }];
+
+    this.statuDrop = [
+      { label: t("user.inProgress"), value: "IN_PROGRESS" },
+      { label: t("user.sale"), value: "DRAWN" },
+      { label: t("user.cancel"), value: "CANCELLED" },
+      { label: t("user.aborted"), value: "CLOSED" }
+    ];
     if (this.isLogin && this.userInfo?.id) {
       this.fetchOneBuyList();
     }

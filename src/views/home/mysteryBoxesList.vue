@@ -5,7 +5,7 @@
       </div>
       <div class="search_box">
         <el-input v-model="searchVal" clearable @keyup.enter="fetchBoxPageList()" class="search_input" type="text"
-          placeholder="Search mystery box">
+          :placeholder="$t('homeReplenish.searchBox')">
           <template #prefix>
             <el-icon class="el-input__icon search_icon">
               <search />
@@ -13,10 +13,11 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" clearable @change="changeSort" class="select_box" placeholder="ALL" size="large">
+          <el-select v-model="sort" clearable @change="changeSort" class="select_box"
+            :placeholder="$t('homeReplenish.all')" size="large">
             <el-option v-for="(item, index) in sortDrop" :key="index" :label="item.label" :value="item.value" />
           </el-select>
-          <div class="sort_title">Sort by:</div>
+          <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
         </div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
@@ -47,11 +48,11 @@
         </template>
       </ul>
       <div v-else class="no_date">
-        <span>NO MYSTERY BOX</span>
+        <span>{{ $t("homeReplenish.noDataBox") }}</span>
       </div>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
   </div>
@@ -60,6 +61,9 @@
 import { getBoxPageList } from '@/services/api/index';
 import bigNumber from "bignumber.js";
 import { dateDiff } from "@/utils";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
+
 import Image from "@/components/imageView";
 export default {
   name: 'mysteryBoxesList',
@@ -70,11 +74,7 @@ export default {
     return {
       searchVal: null,
       sort: null,
-      sortDrop: [
-        { label: "Sort by Popularity", value: "popularity" },
-        { label: "Sort by Price Low", value: "price_desc" },
-        { label: "Sort by Price High", value: "price_asc" }
-      ],
+      sortDrop: [],
       boxList: [],
       orderBy: null,
       orderType: null,
@@ -135,6 +135,11 @@ export default {
   },
   created() {
     this.fetchBoxPageList();
+    this.sortDrop = [
+      { label: t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: t("homeReplenish.sortPriceLow"), value: "price_desc" },
+      { label: t("homeReplenish.sortPriceHigh"), value: "price_asc" }
+    ]
   }
 };
 </script>

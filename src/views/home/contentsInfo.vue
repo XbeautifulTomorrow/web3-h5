@@ -51,7 +51,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pagination-box">
+    <div class="pagination-box" v-if="count > size">
       <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
         layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>

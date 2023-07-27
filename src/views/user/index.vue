@@ -24,6 +24,9 @@
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
+
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 import Setting from "./setting.vue";
 import Wallet from "./wallet.vue";
 import Inventory from "./inventory.vue";
@@ -67,37 +70,37 @@ export default {
   created() {
     this.navList = [
       {
-        text: "Profile",
+        text: t("header.profile"),
         page: "profile",
         icon: require("@/assets/svg/user/nav/icon_profile.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_profile_active.svg")
       },
       {
-        text: "Balances",
+        text: t("header.balances"),
         page: "balances",
         icon: require("@/assets/svg/user/nav/icon_balances.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_balances_active.svg")
       },
       {
-        text: "Inventory",
+        text: t("header.inventory"),
         page: "inventory",
         icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg")
       },
       {
-        text: "Competition",
+        text: t("header.competition"),
         page: "competition",
         icon: require("@/assets/svg/user/nav/icon_competition.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_competition_active.svg")
       },
       {
-        text: "Purchase History",
+        text: t("header.history"),
         page: "history",
         icon: require("@/assets/svg/user/nav/icon_history.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_history_active.svg")
       },
       {
-        text: "Referrals",
+        text: t("header.referrals"),
         page: "referrals",
         icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
         iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg")

@@ -22,7 +22,7 @@
                       </div>
                       <div class="card-probability text-ellipsis">
                         <span v-show="nftType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</span>
-                        <span>{{ `Reward ID：${item.idx}` }}</span>
+                        <span>{{ $t("mysteryBox.rewardIdNum", { idx: item.idx }) }}</span>
                       </div>
                       <div class="card-price">{{ item.price }}{{ item.coin }}</div>
                       <div class="card-market">
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="btns_box">
-          <div class="close_dialog_btn" @click="handleClose()">CLOSE</div>
+          <div class="close_dialog_btn" @click="handleClose()">{{ $t("mysteryBox.close") }}</div>
         </div>
       </div>
     </div>

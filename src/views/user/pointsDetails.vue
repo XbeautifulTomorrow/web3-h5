@@ -8,10 +8,10 @@
       </el-icon>
     </div>
     <div class="point_details">
-      <div class="point_details_title">POINT DETAILS</div>
+      <div class="point_details_title">{{ $t("user.pointDetails") }}</div>
       <el-table height="28.25rem" :data="pointData" class="table_container" style="width: 100%">
-        <el-table-column prop="source" label="SOURCE" align="center" />
-        <el-table-column prop="integral" label="POINT" align="center">
+        <el-table-column prop="source" :label="$t('user.pointTable1')" align="center" />
+        <el-table-column prop="integral" :label="$t('user.pointTable2')" align="center">
           <template #default="scope">
             <div class="point_info">
               <span v-if="scope.row.integral > 0">{{
@@ -24,7 +24,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="DATE/TIME" align="center">
+        <el-table-column prop="date" :label="$t('user.balanceTabel5')" align="center">
           <template #default="scope">
             {{ timeFormat(scope.row.date) }}
           </template>
@@ -32,7 +32,7 @@
       </el-table>
       <div class="pagination-box" v-if="count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
   </el-dialog>

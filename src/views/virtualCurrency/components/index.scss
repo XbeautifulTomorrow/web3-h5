@@ -28,10 +28,10 @@
   }
 
   &>.box_frame_1 {
-    background-image: url("@/assets/svg/home/box_frame_3.svg");
+    background-image: url("@/assets/svg/home/box_frame_4.svg");
 
     .list-nam {
-      color: #ce42ff;
+      color: #4a4d58;
     }
 
   }
@@ -45,18 +45,19 @@
   }
 
   &>.box_frame_3 {
+    background-image: url("@/assets/svg/home/box_frame_3.svg");
+
+    .list-nam {
+      color: #ce42ff;
+    }
+
+  }
+
+  &>.box_frame_4 {
     background-image: url("@/assets/svg/home/box_frame_1.svg");
 
     .list-nam {
       color: #ef962e;
-    }
-  }
-
-  &>.box_frame_4 {
-    background-image: url("@/assets/svg/home/box_frame_4.svg");
-
-    .list-nam {
-      color: #4a4d58;
     }
   }
 }
@@ -195,10 +196,10 @@
   z-index: 10;
 
   &.box_frame_1 {
-    background-image: url("@/assets/svg/home/box_frame_3_expand.svg");
+    background-image: url("@/assets/svg/home/box_frame_4_expand.svg");
 
     .list-nam {
-      color: #ce42ff;
+      color: #4a4d58;
     }
   }
 
@@ -211,18 +212,18 @@
   }
 
   &.box_frame_3 {
-    background-image: url("@/assets/svg/home/box_frame_1_expand.svg");
+    background-image: url("@/assets/svg/home/box_frame_3_expand.svg");
 
     .list-nam {
-      color: #ef962e;
+      color: #ce42ff;
     }
   }
 
   &.box_frame_4 {
-    background-image: url("@/assets/svg/home/box_frame_4_expand.svg");
+    background-image: url("@/assets/svg/home/box_frame_1_expand.svg");
 
     .list-nam {
-      color: #4a4d58;
+      color: #ef962e;
     }
   }
 

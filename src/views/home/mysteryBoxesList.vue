@@ -126,7 +126,7 @@ export default {
       }
     },
     handleMysteryBoxes(event) {
-      this.$router.push({ path: "/mysteryBox", query: { boxId: event.id } });
+      this.$router.push({ path: "/reffleBox", query: { boxId: event.id } });
     },
     handleCurrentChange(page) {
       this.page = page;

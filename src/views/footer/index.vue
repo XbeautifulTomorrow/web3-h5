@@ -70,11 +70,11 @@ const nav = computed(() => {
 
     {
       text: t("header.mysteryBox"),
-      page: "MysteryBoxesList",
+      page: "ReffleBoxesList",
     },
     {
       text: t("header.competitions"),
-      page: "Competitions",
+      page: "Wars",
     },
     {
       text: t("header.stake"),

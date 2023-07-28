@@ -52,7 +52,7 @@
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
-        {{ $t("lottery.continue") }}
+        {{ $t("lottery.return") }}
       </el-button>
     </div>
   </el-dialog>

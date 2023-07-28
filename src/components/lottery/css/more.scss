@@ -22,7 +22,7 @@
 
 .lottery-moreLuck-line {
   width: 100%;
-  height: 0.6875rem;
+  height: 4.4375rem;
   margin: 0 auto;
   background-color: #fff;
   position: absolute;
@@ -30,7 +30,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  background: url("@/assets/img/lottery/hinge.webp") no-repeat center;
+  background: url("@/assets/svg/lottery/hinge.svg") no-repeat center;
   background-size: 100% 100%;
 }
 .lottery-moreLuck-bg {

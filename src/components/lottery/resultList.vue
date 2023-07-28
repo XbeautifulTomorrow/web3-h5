@@ -404,10 +404,13 @@ const getTheUserBalanceApi = async () => {
     color: #a9a4b4;
   }
   .result-sell-coin {
-    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
     img {
       width: 1rem;
       height: 1rem;
+      margin-right: 0.375rem;
     }
   }
 }

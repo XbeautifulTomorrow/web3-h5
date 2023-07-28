@@ -332,7 +332,11 @@ const fetchExternalSeries = async () => {
 
 const changeType = () => {
   params.collections = null;
-  fetchSystemNft();
+  if (props.isDeposit) {
+    getWalletNftApi();
+  } else {
+    fetchSystemNft();
+  }
 }
 
 const getWalletNftApi = async (isSearch = true) => {

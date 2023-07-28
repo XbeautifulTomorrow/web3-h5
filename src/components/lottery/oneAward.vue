@@ -129,9 +129,9 @@ export default {
         padding: "5px 10px",
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
-      awardsList: JSON.parse(JSON.stringify(this.awards))
-        .concat(JSON.parse(JSON.stringify(this.awards)))
-        .flat(),
+      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
+        JSON.parse(JSON.stringify(this.awards))
+      ),
       intervalId: null,
       delay: 50,
       upTime: 8, //加速动画duration时间
@@ -156,7 +156,7 @@ export default {
       this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
       this.offetNum = clientWidth / this.subAwardsWidth / 2;
-      this.linearTime = this.boxOffsetWidth * 0.00016;
+      this.linearTime = this.boxOffsetWidth * 0.0002;
 
       document.documentElement.style.setProperty(
         "--linear-time",

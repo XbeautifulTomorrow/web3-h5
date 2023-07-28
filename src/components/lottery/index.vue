@@ -156,7 +156,6 @@ export default {
       awardItem: [], //中奖道具
       chooseIds: [],
       failList: [],
-      itemList: [],
       fiveList: [],
       tenList: [],
       musicLoop: true,
@@ -194,7 +193,7 @@ export default {
           ).multipliedBy(10);
         }
       }
-      console.log(price);
+
       return price;
     },
   },
@@ -375,7 +374,7 @@ export default {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
     awardsFun(_showNumber = this.showNumber) {
-      const { itemList } = this;
+      const itemList = this.transformArr();
       let _items = [];
       let _item = [];
       const _itemList = JSON.parse(JSON.stringify(itemList));
@@ -400,51 +399,44 @@ export default {
       return shuffle(_arr);
     },
     dataFun() {
-      const { lottoList } = this;
-      let arr = [];
-      let _length = 0;
-      lottoList.forEach((item) => {
-        const { boxNftInfos } = item;
-        if (boxNftInfos.length > _length) {
-          for (let i = _length; i < boxNftInfos.length; i++) {
-            lottoList.forEach((item1) => {
-              if (item1.boxNftInfos[i]) {
-                let _obj = {
-                  seriesImg: item1.seriesImg,
-                  seriesName: item1.seriesName,
-                  tokenId: item1.tokenId,
-                };
-                _obj = { ..._obj, ...item1.boxNftInfos[i] };
-                arr.push(_obj);
-              }
-            });
-          }
-          _length = boxNftInfos.length;
-        }
-      });
-      //   lottoList.forEach((item) => {
-      //     const { boxNftInfos } = item;
-      //     boxNftInfos.forEach((item1) => {
-      //       let _obj = {
-      //         seriesImg: item1.seriesImg,
-      //         seriesName: item1.seriesName,
-      //         tokenId: item1.tokenId,
-      //       };
-      //       _obj = { ..._obj, ...item };
-      //       arr.push(_obj);
-      //     });
-      //   });
-      //    this.itemList = shuffle(arr);
-      this.itemList = shuffle(arr);
-      console.log(this.showNumber + 1);
-      this.oneAwards = this.awardsFun(this.showNumber + 1);
-      console.log(this.oneAwards, "this.oneAwards----------");
+      this.oneAwards = this.transformArr();
       this.fiveList = this.moreListFun(5);
       this.tenList = this.moreListFun(10);
     },
+    transformArr() {
+      const lottoList = JSON.parse(JSON.stringify(this.lottoList));
+      let awards = [];
+      const arr = shuffle(lottoList);
+      this._transformArr(arr, awards);
+      return shuffle(awards);
+    },
+    _transformArr(arr, newArr) {
+      let state = false;
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i];
+        if (item.nftType === "EXTERNAL" && item.boxNftInfos.length > 0) {
+          state = true;
+          break;
+        }
+      }
+      if (!state) {
+        return;
+      }
+
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i];
+        if (item.boxNftInfos.length > 0) {
+          if (newArr.length >= 100) return;
+          newArr.push({ ...item, ...item.boxNftInfos[0] });
+          if (item.nftType !== "PLATFORM") {
+            arr[i].boxNftInfos.splice(0, 1);
+          }
+        }
+      }
+      this._transformArr(arr, newArr);
+    },
   },
   mounted() {
-    setTimeout(() => {}, 30000);
     const { clientWidth } = document.body;
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;

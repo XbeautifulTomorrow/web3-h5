@@ -180,11 +180,11 @@
   display: inline-block;
   max-width: calc(100% - 1em);
 }
-.result-more-list{
-  .result-club-title-text{
+.result-more-list {
+  .result-club-title-text {
     font-family: BlenderPro;
     font-weight: normal;
-    font-size: .75rem;
+    font-size: 0.75rem;
     color: #e4e7f5;
   }
 }
@@ -387,5 +387,11 @@
     .result-title {
       margin-top: 7rem;
     }
+  }
+}
+
+@media (max-height: 1200px) {
+  .result-dialog-content-ten {
+    margin-top: -10rem;
   }
 }

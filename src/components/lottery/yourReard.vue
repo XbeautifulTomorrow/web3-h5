@@ -26,7 +26,7 @@
       <div class="public-dialog-img">
         <image-view class="public-dialog-portrait" :src="sold?.nftImg" />
       </div>
-      <p class="public-dialog-club">{{ $t("lottery.bored_yacht_club") }}</p>
+      <p class="public-dialog-club">{{ sold?.seriesName }}</p>
       <div class="public-dialog-pointer-box" v-if="sold?.point > 0">
         <img
           class="public-dialog-pointer-icon"

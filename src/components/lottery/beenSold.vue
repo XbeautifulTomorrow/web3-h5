@@ -23,7 +23,7 @@
       <h2 class="public-dialog-title margin-b">{{ $t("lottery.notice") }}</h2>
       <p class="public-dialog-text">
         <span class="public-dialog-special"
-          >{{ $t("lottery.yacht_club") }} #{{ soldList[0]?.orderId }}</span
+          >{{ soldList[0]?.seriesName }} #{{ soldList[0]?.orderId }}</span
         >
         {{
           $t("lottery.success_receive", {

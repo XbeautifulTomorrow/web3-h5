@@ -24,7 +24,7 @@
       <p class="public-dialog-text magin-text">
         Congratulations ! We regret that your
         <span class="public-dialog-special">
-          Mutant Ape Yacht Club # {{ sold?.orderId }}
+          {{ sold?.seriesName }} # {{ sold?.orderId }}
         </span>
         may not be available due to congestion on the chain. To cover your
         losses, we will convert it to ETH at the current price into your

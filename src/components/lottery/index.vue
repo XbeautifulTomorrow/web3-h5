@@ -487,8 +487,6 @@ export default {
 }
 .roll-dialog {
   margin-top: 15.5rem;
-  overflow: hidden;
-  overflow-y: auto;
   width: 100%;
   height: calc(100% - 15.5rem);
   margin-bottom: 0;

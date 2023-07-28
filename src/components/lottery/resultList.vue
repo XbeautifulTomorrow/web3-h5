@@ -414,6 +414,9 @@ const getTheUserBalanceApi = async () => {
     }
   }
 }
+.result-link-go-text {
+  width: 13rem;
+}
 </style>
 <style lang="scss">
 .take {

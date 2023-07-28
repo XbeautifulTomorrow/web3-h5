@@ -53,6 +53,7 @@
     <chain-dialog
       v-else-if="showDialog === 'chainDialog'"
       :sold="awardItem[0]"
+      :blindPrice="blindPrice"
       @balanceFun="balanceFun"
       @unboxAgain="unboxAgain"
       @closeDialogFun="closeDialogFun"

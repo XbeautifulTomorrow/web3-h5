@@ -25,7 +25,7 @@
         <span class="public-dialog-special"
           >{{ $t("lottery.yacht_club") }} #{{ soldList[0]?.orderId }}</span
         >
-        >{{
+        {{
           $t("lottery.success_receive", {
             name: $t("lottery.yacht_club") + " #" + soldList[0]?.orderId,
           })
@@ -67,7 +67,7 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, defineEmits, defineProps, onBeforeMount } from "vue";
+import { ref, defineEmits, defineProps, onBeforeMount, onMounted } from "vue";
 import { BigNumber } from "bignumber.js";
 
 const props = defineProps({
@@ -83,6 +83,11 @@ const props = defineProps({
 const emit = defineEmits(["closeDialogFun", "unboxAgain"]);
 const visible = ref(true);
 const total = ref(0);
+onMounted(() => {
+  document
+    .getElementsByClassName("header-wallet")[0]
+    .classList.add("show-top-walletvb");
+});
 onBeforeMount(() => {
   props.soldList.forEach((item) => {
     total.value = BigNumber(total.value).plus(Number(item.price));
@@ -90,8 +95,12 @@ onBeforeMount(() => {
 });
 const closeDialogFun = () => {
   emit("closeDialogFun");
+  document
+    .getElementsByClassName("header-wallet")[0]
+    .classList.remove("show-top-walletvb");
 };
 const unboxAgainFunc = () => {
+  closeDialogFun();
   emit("unboxAgain");
 };
 </script>
@@ -121,5 +130,11 @@ const unboxAgainFunc = () => {
 }
 .marg-r {
   margin-right: 1.875rem;
+}
+</style>
+<style>
+.show-top-walletvb {
+  position: relative;
+  z-index: 5000;
 }
 </style>

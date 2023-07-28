@@ -199,6 +199,18 @@ export default {
     },
   },
   watch: {
+    showDialog(newData) {
+      const dialog = ["yourReard", "chainDialog", "beenSold", "partSold"];
+      if (dialog.includes(newData)) {
+        document
+          .getElementsByClassName("header-wallet")[0]
+          .classList.add("show-top-walletvb");
+      } else {
+        document
+          .getElementsByClassName("header-wallet")[0]
+          .classList.remove("show-top-walletvb");
+      }
+    },
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {
         this.awardItem = shuffle(newVal.data);
@@ -306,7 +318,9 @@ export default {
       this.chooseIds = [];
       this.failList = [];
       this.showResult = false;
-      this.$emit("closeRollFun");
+      setTimeout(() => {
+        this.$emit("closeRollFun");
+      });
     },
     showResultFun() {
       this.showResult = true;

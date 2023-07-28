@@ -151,8 +151,9 @@ export default {
       return;
     }
     setTimeout(() => {
-      this.subAwardsWidth =
-        this.$refs.subAwards[0].getBoundingClientRect().width;
+      const subAwardsRef = this.$refs.subAwards[0];
+      if (!subAwardsRef) return;
+      this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
       this.offetNum = clientWidth / this.subAwardsWidth / 2;
       this.linearTime = this.boxOffsetWidth * 0.00016;
@@ -180,6 +181,7 @@ export default {
     // 获取匀速动画最后的位置
     getCurrentTranslateX() {
       const myElement = this.$refs.boxesContainer;
+      if (!myElement) return;
       const computedStyle = window.getComputedStyle(myElement);
       const transformValue = computedStyle.transform;
       const matrix = transformValue.match(/^matrix\((.+)\)$/);

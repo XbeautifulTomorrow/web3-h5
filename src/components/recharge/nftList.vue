@@ -144,7 +144,7 @@ import Image from "@/components/imageView";
 import { ElMessage } from "element-plus";
 import nft721Abi from "@/config/721.json";
 import nft1155Abi from "@/config/1155.json";
-import { withdrawalNft } from "@/services/api/user";
+import { withdrawalNft, getTheUserSPayoutAddress } from "@/services/api/user";
 import config from "@/services/env";
 import {
   getSystemNft,
@@ -158,15 +158,7 @@ const props = defineProps({
   isDeposit: {
     type: Boolean,
     default: true,
-  },
-  tokenChoose: {
-    type: Number,
-    default: 3,
-  },
-  receiver: {
-    type: String,
-    default: localStorage.getItem("receiver"),
-  },
+  }
 });
 
 const page = ref(1);
@@ -174,6 +166,7 @@ const size = ref(8);
 const count = ref(0);
 
 const show = ref(true);
+const receiver = ref("");
 
 const emit = defineEmits("closeDialogFun");
 const accountAddress = ref("");
@@ -187,12 +180,16 @@ onMounted(() => {
   if (props.isDeposit) {
     page.value = 0;
     getWalletNftApi();
+
+    const { web3 } = useWalletStore();
+    accountAddress.value = web3?.eth?.defaultAccount;
   } else {
     page.value = 1;
     fetchSystemNft();
   }
 
   fetchExternalSeries();
+  getTheUserSPayoutAddressApi();
 });
 
 const changeSeries = () => {
@@ -253,21 +250,19 @@ const depositOne = async (item) => {
   const { web3 } = useWalletStore();
   accountAddress.value = web3?.eth?.defaultAccount;
 
-  const receiver = localStorage.getItem("receiver");
-
   if (item.contractType == "ERC1155") {
     let nft1155Contract = new web3.eth.Contract(
       nft1155Abi,
       item.contractAddress
     );
     nft1155Contract.methods
-      .safeTransferFrom(accountAddress.value, receiver, item.tokenId, 1, "0x")
+      .safeTransferFrom(accountAddress.value, receiver.value, item.tokenId, 1, "0x")
       .send({ from: accountAddress.value });
     return;
   }
   let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
   nftContract.methods
-    .transferFrom(accountAddress.value, receiver, item.tokenId)
+    .transferFrom(accountAddress.value, receiver.value, item.tokenId)
     .send({ from: accountAddress.value });
 };
 
@@ -457,6 +452,16 @@ const handleCurrentChange = (event) => {
     fetchSystemNft(false);
   }
 }
+
+const getTheUserSPayoutAddressApi = async () => {
+  const res = getTheUserSPayoutAddress();
+  if (res && res.code == 200) {
+    receiver.value = res.data;
+    localStorage.setItem("receiver", res.data);
+  } else {
+    receiver.value = localStorage.getItem("receiver");
+  }
+};
 </script>
 <style lang="scss" scoped>
 @import "./nftList.scss";

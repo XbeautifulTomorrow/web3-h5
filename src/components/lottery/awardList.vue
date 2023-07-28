@@ -162,12 +162,12 @@ export default {
 .LEGEND {
   background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
   background-size: cover;
-  color: #ce42ff;
+  color: #ef962e;
 }
 .EPIC {
   background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
   background-size: cover;
-  color: #ef962e;
+  color: #ce42ff;
 }
 .RARE {
   background-image: url("@/assets/img/lottery/RARE_more_choose.png");
@@ -209,7 +209,7 @@ export default {
     background-image: url("@/assets/img/lottery/LEGEND_more_choose.png");
   }
   .lottery-moreLuck-seriesName {
-    color: #ce42ff;
+    color: #ef962e;
   }
 }
 .award-EPIC {
@@ -217,7 +217,7 @@ export default {
     background-image: url("@/assets/img/lottery/EPIC_more_choose.png");
   }
   .lottery-moreLuck-seriesName {
-    color: #ef962e;
+    color: #ce42ff;
   }
 }
 .award-RARE {

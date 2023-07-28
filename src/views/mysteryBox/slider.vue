@@ -79,7 +79,7 @@ export default {
       if (event.qualityType == "LEGEND") {
         return "1"
       }
-      if (event.qualityType == "EPIC") {
+      if (event.qualityType == "RARE") {
         return "2"
       }
       if (event.qualityType == "RARE") {

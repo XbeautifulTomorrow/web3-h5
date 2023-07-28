@@ -66,8 +66,7 @@
       </div>
     </div>
     <!-- 钱包链接弹窗 -->
-    <wallet v-if="showLink" :dialogVisible="showLink" :title="title" @linkWallet="linkWallet"
-      @closeDialogFun="handleClose" />
+    <wallet v-if="showLink" :dialogVisible="showLink" @linkWallet="linkWallet" @closeDialogFun="handleClose" />
 
     <!-- 创建一元购弹窗 -->
     <el-dialog v-model="showCompetition" width="43.75rem" lock-scroll class="dialog_competition"
@@ -164,8 +163,7 @@
         </div>
       </el-form>
     </el-dialog>
-    <recharge v-if="rechargeDialog" :isDeposit="title === 'DEPOSIT'" :dialogVisible="rechargeDialog"
-      @closeDialogFun="handleClose" />
+    <nft-list v-if="showNftOperating" :isDeposit="operatingType === 1" @closeDialogFun="handleClose()" />
   </div>
 </template>
 <script>
@@ -182,19 +180,18 @@ import { openUrl, timeFormat } from "@/utils";
 import { useUserStore } from "@/store/user.js";
 
 import wallet from "../wallet/index.vue";
-import recharge from "@/components/recharge/index.vue";
-import Image from "@/components/imageView"
+import Image from "@/components/imageView";
+import nftList from "@/components/recharge/nftList.vue";
 
 export default {
   name: "myInventory",
   components: {
     wallet,
-    recharge,
+    nftList,
     Image
   },
   data() {
     return {
-      rechargeDialog: false,
       title: "DEPOSIT",
       showLink: false, // 登录链上
       operatingType: 1, // 1 充NFT；2 提NFT；
@@ -233,6 +230,9 @@ export default {
       page: 1,
       size: 15,
       count: 0,
+
+      showNftOperating: false,
+
     };
   },
   watch: {
@@ -288,7 +288,6 @@ export default {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
     onDeposit() {
-      this.title = "DEPOSIT";
       this.operatingType = 1;
       const { web3 } = this.walletStore;
       const defaultAccount = web3?.eth?.defaultAccount || "";
@@ -299,18 +298,11 @@ export default {
       }
     },
     linkWallet() {
-      this.rechargeDialog = true;
+      this.showNftOperating = true;
     },
     onWithdraw() {
-      this.title = "WITHDRAW";
       this.operatingType = 2;
-      const { web3 } = this.walletStore;
-      const defaultAccount = web3?.eth?.defaultAccount || "";
-      if (defaultAccount) {
-        this.linkWallet();
-      } else {
-        this.showLink = true;
-      }
+      this.showNftOperating = true;
     },
     // 获取系统Nft列表
     async fetchSystemNft(isSearch = true) {
@@ -431,11 +423,12 @@ export default {
         done();
         return;
       }
+
       this.showCompetition = false;
       this.showReplenish = false;
       this.showLink = false;
       this.showRecharge = false;
-      this.rechargeDialog = false;
+      this.showNftOperating = false;
     },
     // 查看赛事
     viewNft(event) {

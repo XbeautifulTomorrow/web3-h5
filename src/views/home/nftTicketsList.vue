@@ -6,7 +6,7 @@
         <el-input v-model="searchVal" clearable @keyup.enter="fetchCheckAllOrders()" class="search_input" type="text"
           :placeholder="$t('homeReplenish.searchNft')">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon">
+            <el-icon class="el-input__icon search_icon" @click="fetchCheckAllOrders()">
               <search />
             </el-icon>
           </template>

@@ -7,7 +7,7 @@
         <el-input v-model="searchVal" clearable @keyup.enter="fetchBoxPageList()" class="search_input" type="text"
           :placeholder="$t('homeReplenish.searchBox')">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon">
+            <el-icon class="el-input__icon search_icon" @click="fetchBoxPageList()">
               <search />
             </el-icon>
           </template>

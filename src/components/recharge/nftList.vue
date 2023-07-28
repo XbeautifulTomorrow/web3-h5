@@ -49,9 +49,10 @@
     </div>
     <div class="choose_panel" v-if="showNft">
       <div class="search_box">
-        <el-input class="nft_input" v-if="!isDeposit" v-model="params.nftName" clearable placeholder="Search NFT TokenId">
+        <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
+          placeholder="Search NFT TokenId">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon" :size="24">
+            <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
               <search />
             </el-icon>
           </template>
@@ -71,9 +72,10 @@
           </el-select>
         </div>
         <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
-          v-model="params.nftName" v-if="isDeposit" clearable placeholder="Search NFT TokenId">
+          v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
+          placeholder="Search NFT TokenId">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon" :size="24">
+            <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
               <search />
             </el-icon>
           </template>

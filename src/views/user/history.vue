@@ -151,7 +151,6 @@ export default {
       const { activeType, size } = this;
       let _page = this.page;
       if (isSearch) {
-        this.finished = false;
         this.page = 1;
         _page = 1;
       }

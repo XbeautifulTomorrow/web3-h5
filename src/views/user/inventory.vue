@@ -289,13 +289,7 @@ export default {
     bigNumber: bigNumber,
     onDeposit() {
       this.operatingType = 1;
-      const { web3 } = this.walletStore;
-      const defaultAccount = web3?.eth?.defaultAccount || "";
-      if (defaultAccount) {
-        this.linkWallet();
-      } else {
-        this.showLink = true;
-      }
+      this.showLink = true;
     },
     linkWallet() {
       this.showNftOperating = true;

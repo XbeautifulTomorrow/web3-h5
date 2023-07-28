@@ -12,8 +12,8 @@ import Currency from "../views/virtualCurrency/index.vue";
 const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
 const Lottery = () => import("@/components/lottery/index.vue");
-const MysteryBox = () => import("../views/mysteryBox/index.vue");
-const MysteryBoxesList = () => import("../views/home/mysteryBoxesList.vue");
+const reffleBox = () => import("../views/mysteryBox/index.vue");
+const reffleBoxesList = () => import("../views/home/mysteryBoxesList.vue");
 const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
@@ -41,20 +41,20 @@ const routes = [
     },
   },
   {
-    path: "/mysteryBox",
-    name: "MysteryBox",
+    path: "/reffleBox",
+    name: "ReffleBox",
     components: {
-      default: MysteryBox,
+      default: reffleBox,
       Header,
       Footer,
       Currency,
     },
   },
   {
-    path: "/mysteryBoxesList",
-    name: "MysteryBoxesList",
+    path: "/reffleBoxesList",
+    name: "ReffleBoxesList",
     components: {
-      default: MysteryBoxesList,
+      default: reffleBoxesList,
       Header,
       Footer,
       Currency,
@@ -71,8 +71,8 @@ const routes = [
     },
   },
   {
-    path: "/competitions",
-    name: "Competitions",
+    path: "/wars",
+    name: "Wars",
     components: {
       default: nftTicketsList,
       Header,

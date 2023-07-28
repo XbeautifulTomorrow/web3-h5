@@ -195,7 +195,7 @@ export default {
     handleMysteryBox(event) {
       this.mouseLeave();
       // eslint-disable-next-line no-unreachable
-      this.$router.push({ path: "mysteryBox", query: { boxId: event.boxId } });
+      this.$router.push({ path: "/reffleBox", query: { boxId: event.boxId } });
     },
     /**
      * 鼠标悬停销毁定时器

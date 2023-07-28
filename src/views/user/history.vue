@@ -108,13 +108,7 @@ export default {
   data() {
     return {
       activeType: "MYSTERY_BOX",
-      tabsList: [{
-        label: "MYSTERY BOX",
-        value: "MYSTERY_BOX"
-      }, {
-        label: "COMPETITION",
-        value: "COMPETITION"
-      }],
+      tabsList: [],
       historyList: [],
       page: 1,
       size: 5,

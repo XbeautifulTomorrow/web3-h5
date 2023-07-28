@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
-const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "mystery-web-user/auth/getCode"];
+const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "mystery-web-user/auth/getCode", "mystery-web-user/oneNftOrders/getWalletNftEth"];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {

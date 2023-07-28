@@ -49,34 +49,43 @@
     </div>
     <div class="choose_panel" v-if="showNft">
       <div class="search_box">
-        <el-input class="nft_input" v-model="params.nftName" clearable placeholder="Search NFT TokenId">
+        <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
+          placeholder="Search NFT TokenId">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon" :size="24">
+            <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
               <search />
             </el-icon>
           </template>
         </el-input>
-        <div class="collections_box type_box">
+        <div class="collections_box type_box" v-if="!isDeposit">
           <div class="collections_text">Type:</div>
-          <el-select v-model="params.type" @change="changeType" class="nft_type" clearable placeholder="All">
+          <el-select v-model="params.type" @change="changeType" class="nft_type">
             <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </div>
         <div class="collections_box">
           <div class="collections_text">Collections:</div>
-          <el-select v-model="params.collections" class="nft_type" placeholder="All" clearable
+          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
             :popper-append-to-body="false">
             <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
               :value="item.contractAddress" />
           </el-select>
         </div>
+        <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
+          v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
+          placeholder="Search NFT TokenId">
+          <template #prefix>
+            <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
+              <search />
+            </el-icon>
+          </template>
+        </el-input>
       </div>
       <div class="choose_nft">
-        <div class="choose_nft_item" :class="[
-          { disabled: NFTSeries.includes(item.name) },
-        ]" v-for="(item, index) in chooseNftList" :key="index">
+        <div class="choose_nft_item" v-for="(item, index) in chooseNftData" :key="index">
           <div class="img_box">
-            <Image fit="cover" class="nft_img" :src="item.nftImg || item.img" />
+            <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
+            <Image fit="cover" class="nft_img" v-else :src="item.img" />
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
@@ -91,7 +100,28 @@
           </div>
         </div>
       </div>
-      <div class="pagination-box" v-if="count > size">
+      <div class="pagination_boxs" v-if="isDeposit">
+        <div class="total_box">
+          {{ `${startNum}-${endNum} of ${count}` }}
+        </div>
+        <div class="pagination not-select">
+          <div :class="['prev', !pageCount.prev && 'disabled']" @click="handlePageChange(-1)">
+            <el-icon>
+              <ArrowLeftBold />
+            </el-icon>
+          </div>
+          <div class="page_box">
+            <span>{{ page + 1 }}</span>
+            <span>{{ `/ ${Math.ceil(count / size) || 1}` }}</span>
+          </div>
+          <div :class="['next', !pageCount.next && 'disabled']" @click="handlePageChange(1)">
+            <el-icon>
+              <ArrowRightBold />
+            </el-icon>
+          </div>
+        </div>
+      </div>
+      <div class="pagination-box" v-if="!isDeposit && count > size">
         <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
           layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
@@ -109,12 +139,13 @@ import {
   onMounted,
 } from "vue";
 import { useUserStore } from "@/store/user.js";
+import { useWalletStore } from "@/store/wallet.js";
 import Image from "@/components/imageView";
 import { ElMessage } from "element-plus";
 import nft721Abi from "@/config/721.json";
 import nft1155Abi from "@/config/1155.json";
-import { withdrawalNft } from "@/services/api/user";
-import Web3 from "web3";
+import { withdrawalNft, getTheUserSPayoutAddress } from "@/services/api/user";
+import config from "@/services/env";
 import {
   getSystemNft,
   getWalletNft,
@@ -127,15 +158,7 @@ const props = defineProps({
   isDeposit: {
     type: Boolean,
     default: true,
-  },
-  tokenChoose: {
-    type: Number,
-    default: 3,
-  },
-  receiver: {
-    type: String,
-    default: localStorage.getItem("receiver"),
-  },
+  }
 });
 
 const page = ref(1);
@@ -143,6 +166,7 @@ const size = ref(8);
 const count = ref(0);
 
 const show = ref(true);
+const receiver = ref("");
 
 const emit = defineEmits("closeDialogFun");
 const accountAddress = ref("");
@@ -154,25 +178,27 @@ const nftTypes = [
 
 onMounted(() => {
   if (props.isDeposit) {
+    page.value = 0;
+    getWalletNftApi();
+
+    const { web3 } = useWalletStore();
+    accountAddress.value = web3?.eth?.defaultAccount;
+  } else {
+    page.value = 1;
+    fetchSystemNft();
+  }
+
+  fetchExternalSeries();
+  getTheUserSPayoutAddressApi();
+});
+
+const changeSeries = () => {
+  if (props.isDeposit) {
     getWalletNftApi();
   } else {
     fetchSystemNft();
-    fetchExternalSeries();
   }
-});
-
-const chooseNftList = computed(() => {
-  const { nftName } = params;
-  let chooseNfts = [];
-  if (nftName) {
-    chooseNftData.forEach((element) => {
-      if (`${element.tokenId}`.indexOf(nftName) > -1) chooseNfts.push(element);
-    });
-  } else {
-    chooseNfts = JSON.parse(JSON.stringify(chooseNftData));
-  }
-  return chooseNfts;
-});
+};
 
 const seriesDrop = computed(() => {
   const { type } = params;
@@ -200,8 +226,6 @@ const showNft = computed(() => {
   }
 });
 
-const NFTSeries = reactive([]);
-
 const title = ref(props.isDeposit ? "DEPOSIT" : "WITHDRAW");
 
 const params = reactive({
@@ -211,7 +235,7 @@ const params = reactive({
   wallet: null,
   chain: null,
 });
-let chooseNftData = reactive([]);
+let chooseNftData = ref([]);
 let stockNftList = reactive([]);
 let collections = ref([]);
 const loading = ref(false);
@@ -222,26 +246,24 @@ const handleClose = () => {
 
 
 const depositOne = async (item) => {
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-  accountAddress.value = accounts[0];
-  const receiver = localStorage.getItem("receiver");
-  const web3 = new Web3(window.ethereum);
+
+  const { web3 } = useWalletStore();
+  accountAddress.value = web3?.eth?.defaultAccount;
+
   if (item.contractType == "ERC1155") {
     let nft1155Contract = new web3.eth.Contract(
       nft1155Abi,
       item.contractAddress
     );
     nft1155Contract.methods
-      .safeTransferFrom(accounts[0], receiver, item.tokenId, 1, "0x")
-      .send({ from: accounts[0] });
+      .safeTransferFrom(accountAddress.value, receiver.value, item.tokenId, 1, "0x")
+      .send({ from: accountAddress.value });
     return;
   }
   let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
   nftContract.methods
-    .transferFrom(accounts[0], receiver, item.tokenId)
-    .send({ from: accounts[0] });
+    .transferFrom(accountAddress.value, receiver.value, item.tokenId)
+    .send({ from: accountAddress.value });
 };
 
 // 提取Nft
@@ -277,6 +299,9 @@ const fetchSystemNft = async (isSearch = true) => {
   }
   loading.value = true;
   const res = await getSystemNft({
+    contractType: params.type,
+    contractAddress: params.collections,
+    keyword: params.nftName,
     page: _page,
     size: size.value,
   });
@@ -290,9 +315,8 @@ const fetchSystemNft = async (isSearch = true) => {
       if (!element.tokenId) return;
       stockNftList.push(element);
     });
-    stockNftList.forEach((item, index) => {
-      chooseNftData[index] = item;
-    });
+
+    chooseNftData.value = stockNftList;
   }
 };
 // 获取外部系列
@@ -308,14 +332,18 @@ const fetchExternalSeries = async () => {
 
 const changeType = () => {
   params.collections = null;
-  fetchSystemNft();
+  if (props.isDeposit) {
+    getWalletNftApi();
+  } else {
+    fetchSystemNft();
+  }
 }
 
 const getWalletNftApi = async (isSearch = true) => {
   let _page = page.value;
   if (isSearch) {
-    page.value = 1;
-    _page = 1;
+    page.value = 0;
+    _page = 0;
   }
 
   const { userInfo } = useUserStore();
@@ -327,9 +355,12 @@ const getWalletNftApi = async (isSearch = true) => {
   if (accounts && accounts[0]) {
     Promise.all([
       getWalletNft({
+        contractAddress: params.collections,
         address: accounts[0],
-        page: _page,
+        cursor: pageList[_page],
         size: size.value,
+        chatId: config.ENV == "pro" ? 1 : null,
+        keyword: params.nftName
       }),
       getTheExternalNFTSeries({
         userId: userInfo?.id,
@@ -346,28 +377,75 @@ const getWalletNftApi = async (isSearch = true) => {
         res[1].data
       ) {
         loading.value = false;
-        const contractType = props.tokenChoose == 3 ? "ERC721" : "ERC1155";
-        const walletNft = JSON.parse(
-          JSON.stringify(res[0].data.records)
-        ).filter((item) => item.contractType === contractType);
 
-        const systemNft = JSON.parse(JSON.stringify(res[1].data));
-        const _nameArr = systemNft.map((item1) => {
-          return item1.tokenId && item1.seriesName;
-        });
-        NFTSeries.values = _nameArr;
-        // const _data = walletNft.filter((item) => {
-        //   return _nameArr.includes(item.name);
-        // });
-        walletNft.forEach((item, index) => {
-          chooseNftData[index] = item;
-        });
+        count.value = res[0].data.total;
+        addCursor(res[0].data.cursor)
+
+        collections.value = JSON.parse(JSON.stringify(res[1].data));
+
+        chooseNftData.value = JSON.parse(
+          JSON.stringify(res[0].data.records)
+        )
       } else {
         getWalletNftApi();
       }
     });
   }
 };
+
+const pageList = ref([""])
+
+const startNum = computed(() => {
+  return page.value * size.value + 1;
+})
+
+const endNum = computed(() => {
+  const num = page.value * size.value + size.value;
+
+  if (count.value > num) {
+    return num;
+  }
+
+  return count.value;
+})
+
+const pageCount = computed(() => {
+  const pager = Math.ceil(count.value / size.value);
+  let isPrev = true;
+  let isNext = true;
+  if (page.value == 0) {
+    isPrev = false;
+  }
+
+  if ((page.value + 1) == pager) {
+    isNext = false;
+  }
+
+  if (!pager > 0) {
+    return {
+      prev: false,
+      next: false
+    }
+  }
+
+  return {
+    prev: isPrev,
+    next: isNext
+  }
+})
+
+const addCursor = (event) => {
+  const isRepeat = pageList.value.findIndex(e => e == event) > -1;
+  if (!isRepeat) {
+    pageList.value.push(event);
+  }
+}
+
+const handlePageChange = (event) => {
+  if (event < 0 && !this.pageCount.prev || event > 0 && !this.pageCount.next) return
+  this.page += event;
+  this.fetchWalletNft(false);
+}
 
 const handleCurrentChange = (event) => {
   page.value = event;
@@ -378,6 +456,16 @@ const handleCurrentChange = (event) => {
     fetchSystemNft(false);
   }
 }
+
+const getTheUserSPayoutAddressApi = async () => {
+  const res = getTheUserSPayoutAddress();
+  if (res && res.code == 200) {
+    receiver.value = res.data;
+    localStorage.setItem("receiver", res.data);
+  } else {
+    receiver.value = localStorage.getItem("receiver");
+  }
+};
 </script>
 <style lang="scss" scoped>
 @import "./nftList.scss";

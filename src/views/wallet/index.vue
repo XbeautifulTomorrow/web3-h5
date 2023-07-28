@@ -129,7 +129,7 @@ export default {
       //  Create WalletConnect Provider
       this.connectProvider = await EthereumProvider.init({
         projectId: process.env.VUE_APP_PROJECT_ID,
-        chains: [1],
+        chains: [1, 5],
         optionalMethods: ["eth_signTypedData_v4"],
         showQrModal: true,
         qrModalOptions: {

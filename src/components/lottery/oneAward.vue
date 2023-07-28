@@ -17,7 +17,10 @@
       >
         <div v-for="(list, index) in awardsList" :key="index">
           <div class="roll-one-carousel" ref="subAwards">
-            <div :class="['roll-one-carousel-list', list.qualityType]">
+            <div
+              :class="['roll-one-carousel-list', list.qualityType]"
+              :style="liStyle"
+            >
               <div class="roll-one-list-bor" ref="light" :style="borStyle">
                 <image-view
                   class="roll-one-list-img"
@@ -120,6 +123,10 @@ export default {
       borStyle: {
         width: `${itemWidth}px`,
         height: `${itemWidth}px`,
+      },
+      liStyle: {
+        margin: "0 3px",
+        padding: "5px 10px",
       },
       carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
       awardsList: JSON.parse(JSON.stringify(this.awards))
@@ -225,9 +232,13 @@ export default {
           this.playSound(advanced);
         }
       }
-      this.$emit("showResultFun");
+      setTimeout(() => {
+        this.$emit("showResultFun");
+      }, 500);
     },
-    slowScrollFunc(data) {
+    slowScrollFunc(data, state) {
+      const { clientWidth } = document.body;
+      this.offetNum = clientWidth / this.subAwardsWidth / 2;
       const remainPar = this.offetNum % 1;
       const remainW = (remainPar - 0.5) * this.subAwardsWidth;
       const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
@@ -253,7 +264,9 @@ export default {
       this.isActive = true;
       this.isAutoplay = false;
       clearInterval(this.intervalId);
-      this.musicSpeedFunc();
+      if (!state) {
+        this.musicSpeedFunc();
+      }
     },
   },
   watch: {
@@ -271,6 +284,9 @@ export default {
         // return;
         if (newData.length > 0) {
           this.slowScrollFunc(newData[0]);
+          window.addEventListener("resize", () => {
+            this.slowScrollFunc(newData[0], true);
+          });
           setTimeout(() => {
             this.stopScroll(newData[0]);
           }, this.slowTime * 1000);

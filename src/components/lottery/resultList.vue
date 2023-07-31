@@ -251,8 +251,8 @@ import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -272,9 +272,12 @@ const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUppe
 const link = [
   {
     src: process.env[chainType] + props.result[0].hash,
-    text: "Verify Faimess",
+    text: t("lottery.verify_faimess"),
   },
-  { src: `/snapshot?id=${props.result[0].snapshotId}`, text: "View Snapshot" },
+  {
+    src: `/snapshot?id=${props.result[0].snapshotId}`,
+    text: t("lottery.view_snapshot"),
+  },
 ];
 let timer = null;
 const visible = ref(true);

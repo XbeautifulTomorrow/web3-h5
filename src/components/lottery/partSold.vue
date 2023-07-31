@@ -169,10 +169,10 @@ import {
   watchEffect,
   onUpdated,
 } from "vue";
-import { useI18n } from "vue-i18n";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
-const { t } = useI18n();
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 
 const props = defineProps({
   chooseIds: {
@@ -209,11 +209,9 @@ const text = ref("");
 onBeforeMount(() => {
   const { failList } = props;
   if (failList.length) {
-    text.value =
-      "The reward has been transferred to your inventory, please go to the inventory to check it.Due to the congestion on the chain, some of the prizes are not available, we will convert them directly to ETH at the current price of that NFT to transfer to your balance.";
+    text.value = t("lottery.tips2");
   } else {
-    text.value =
-      "The reward has been transferred to your inventory,please go to the inventory to check it.";
+    text.value = t("lottery.tips3");
   }
   totalFun();
 });

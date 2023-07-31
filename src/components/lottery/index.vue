@@ -375,7 +375,7 @@ export default {
       return Math.floor(Math.random() * (end - start + 1) + start);
     },
     awardsFun(_showNumber = this.showNumber) {
-      const itemList = this.transformArr();
+      const itemList = this.transformArr(50);
       let _items = [];
       let _item = [];
       const _itemList = JSON.parse(JSON.stringify(itemList));
@@ -404,14 +404,14 @@ export default {
       this.fiveList = this.moreListFun(5);
       this.tenList = this.moreListFun(10);
     },
-    transformArr() {
+    transformArr(len = 100) {
       const lottoList = JSON.parse(JSON.stringify(this.lottoList));
       let awards = [];
       const arr = shuffle(lottoList);
-      this._transformArr(arr, awards);
+      this._transformArr(arr, awards, len);
       return shuffle(awards);
     },
-    _transformArr(arr, newArr) {
+    _transformArr(arr, newArr, len) {
       let state = false;
       for (let i = 0; i < arr.length; i++) {
         const item = arr[i];
@@ -427,14 +427,14 @@ export default {
       for (let i = 0; i < arr.length; i++) {
         const item = arr[i];
         if (item.boxNftInfos.length > 0) {
-          if (newArr.length >= 100) return;
+          if (newArr.length >= len) return;
           newArr.push({ ...item, ...item.boxNftInfos[0] });
           if (item.nftType !== "PLATFORM") {
             arr[i].boxNftInfos.splice(0, 1);
           }
         }
       }
-      this._transformArr(arr, newArr);
+      this._transformArr(arr, newArr, len);
     },
   },
   mounted() {

@@ -21,15 +21,14 @@
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">{{ $t("lottery.warning") }}</h2>
-      <p class="public-dialog-text magin-text">
-        Congratulations ! We regret that your
-        <span class="public-dialog-special">
-          {{ sold?.seriesName }} # {{ sold?.orderId }}
-        </span>
-        may not be available due to congestion on the chain. To cover your
-        losses, we will convert it to ETH at the current price into your
-        balance, which you will earn:
-      </p>
+      <p
+        class="public-dialog-text magin-text"
+        v-html="
+          $t('lottery.tips1', {
+            name: `${soldList[0]?.seriesName} #${soldList[0]?.orderId}`,
+          })
+        "
+      ></p>
       <div class="public-dialog-pointer-box" v-if="sold?.point">
         <img
           class="public-dialog-pointer-icon"

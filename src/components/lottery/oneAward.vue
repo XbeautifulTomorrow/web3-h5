@@ -276,7 +276,6 @@ export default {
       if (newData) {
         this.isAutoplay = false;
         clearInterval(this.intervalId);
-        console.log(this.intervalId, "this.intervalId");
       }
     },
     awardItem: {

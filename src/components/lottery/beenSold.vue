@@ -21,16 +21,14 @@
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title margin-b">{{ $t("lottery.notice") }}</h2>
-      <p class="public-dialog-text">
-        <span class="public-dialog-special"
-          >{{ soldList[0]?.seriesName }} #{{ soldList[0]?.orderId }}</span
-        >
-        {{
-          $t("lottery.success_receive", {
-            name: $t("lottery.yacht_club") + " #" + soldList[0]?.orderId,
+      <p
+        class="public-dialog-text"
+        v-html="
+          $t('lottery.success_receive', {
+            name: `${soldList[0]?.seriesName} #${soldList[0]?.orderId}`,
           })
-        }}
-      </p>
+        "
+      ></p>
       <div class="public-dialog-total">
         <img
           class="public-dialog-icon"

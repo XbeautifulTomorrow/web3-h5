@@ -145,7 +145,7 @@
                     <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
                   <p v-else class="result-sell-get">
-                    You Get {{ item.price }} ETH
+                    {{ $t("lottery.get_eth", { num: item.price }) }}
                   </p>
                 </template>
               </div>
@@ -173,10 +173,11 @@
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else-if="nfts.length > 0 && nfts.length != result.length">
-                Take <span class="font4">{{ nfts.length }}</span> NFTs and sell
-                the rest for<span class="result-total font1"
-                  >{{ total }}&nbsp;ETH</span
-                >
+                <span
+                  v-html="
+                    $t('lottery.get_eth_nft', { takeNum: nfts.length, total })
+                  "
+                ></span>
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else>
@@ -380,14 +381,9 @@ const getTheUserBalanceApi = async () => {
 .font3 {
   color: #a9a4b4;
 }
-.font4 {
-  font-family: LeagueSpartan;
-  font-weight: bold;
-  color: #2761f5;
-}
 
 .font5 {
-  color: #11cde9;
+  color: #11cde9 !important;
 }
 .hold-btn {
   font-family: Medium;
@@ -419,6 +415,20 @@ const getTheUserBalanceApi = async () => {
 }
 </style>
 <style lang="scss">
+.result-dialog-content {
+  .font4 {
+    font-family: LeagueSpartan;
+    font-weight: bold;
+    color: #2761f5;
+  }
+  .result-total-other {
+    font-family: LeagueSpartan;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #2761f5;
+    margin: 0 0.625rem;
+  }
+}
 .take {
   font-weight: 500;
   color: #13151f;

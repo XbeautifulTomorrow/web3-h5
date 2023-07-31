@@ -156,7 +156,7 @@ export default {
       this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
       this.offetNum = clientWidth / this.subAwardsWidth / 2;
-      this.linearTime = this.boxOffsetWidth * 0.0002;
+      this.linearTime = this.boxOffsetWidth * 0.00016;
 
       document.documentElement.style.setProperty(
         "--linear-time",
@@ -172,9 +172,11 @@ export default {
       setTimeout(() => {
         if (!this.apiIsError) {
           this.isAutoplay = true;
-          this.musicSpeedFunc("up");
         }
       }, 100);
+      setTimeout(() => {
+        this.musicSpeedFunc("up");
+      }, 500);
     }
   },
   methods: {

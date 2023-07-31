@@ -302,10 +302,6 @@
     display: none;
     align-items: center;
     justify-content: center;
-
-    img {
-      width: 3rem;
-    }
   }
 
   &.active {
@@ -327,6 +323,14 @@
   font-weight: 500;
   color: #13151f;
   cursor: pointer;
+
+  &.disabled {
+    border-color: rgba(228, 231, 245, 0.15);
+    background-color: #292c36;
+    background-image: none;
+    color: rgba(169, 164, 180, 0.6);
+    cursor: not-allowed;
+  }
 }
 
 .valuable_text {

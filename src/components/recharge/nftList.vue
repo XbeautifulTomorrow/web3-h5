@@ -92,11 +92,11 @@
           <div class="confirm_btn" v-if="isDeposit" @click="depositOne(item)">
             DEPOSIT
           </div>
-          <div class="confirm_btn" v-else @click.stop="onWithdrawalNft(item)">
+          <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'WITHDRAW'">
             WITHDRAW
           </div>
-          <div class="mask_box">
-            <img src="@/assets/svg/user/icon_selected.svg" alt="" />
+          <div class="confirm_btn" v-else @click.stop="onWithdrawalNft(item)">
+            WITHDRAW
           </div>
         </div>
       </div>

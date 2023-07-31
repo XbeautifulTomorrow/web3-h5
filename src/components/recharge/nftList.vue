@@ -138,6 +138,9 @@ import {
   defineEmits,
   onMounted,
 } from "vue";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
+
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
 import Image from "@/components/imageView";
@@ -153,6 +156,7 @@ import {
 } from "@/services/api/oneBuy";
 
 import Loading from "@/components/loading/index";
+import { isValidEthAddress } from "@/utils";
 
 const props = defineProps({
   isDeposit: {
@@ -276,6 +280,16 @@ const onWithdrawalNft = async (item) => {
     });
     return;
   }
+
+  if (!isValidEthAddress(wallet)) {
+    ElMessage({
+      message: t("user.enterError2"),
+      type: "error",
+    });
+    return;
+  }
+
+
 
   const res = await withdrawalNft({
     knapsackIds: [item.id], //背包ID

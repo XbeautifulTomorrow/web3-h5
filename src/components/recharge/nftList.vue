@@ -456,9 +456,9 @@ const addCursor = (event) => {
 }
 
 const handlePageChange = (event) => {
-  if (event < 0 && !this.pageCount.prev || event > 0 && !this.pageCount.next) return
-  this.page += event;
-  this.fetchWalletNft(false);
+  if (event < 0 && !pageCount.value.prev || event > 0 && !pageCount.value.next) return
+  page.value += event;
+  getWalletNftApi(false);
 }
 
 const handleCurrentChange = (event) => {

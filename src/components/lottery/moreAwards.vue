@@ -33,9 +33,9 @@
 </template>
 <script>
 import ResultLink from "../resultLink";
-import slipe from "@/assets/music/slipe.mp3";
-import advanced from "@/assets/music/advanced.mp3";
-import usually from "@/assets/music/usually.mp3";
+import slipe from "@/assets/music/more-slipe.ogg";
+import advanced from "@/assets/music/more-advanced.mp3";
+import usually from "@/assets/music/more-usually.mp3";
 
 import AwardsList from "./awardList.vue";
 export default {
@@ -82,16 +82,14 @@ export default {
       numberTest: 0,
       musicLoop: true,
       delayTimer: 0,
-      intervalId: null,
+      slipeMusic: null,
     };
   },
   mounted() {
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
-      this.intervalId = setInterval(() => {
-        this.playSound(slipe);
-      }, 70);
+      this.slipeMusic = this.playSound(slipe, true);
     }
   },
   methods: {
@@ -120,7 +118,6 @@ export default {
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         setTimeout(() => {
-          clearInterval(this.intervalId);
           if (
             data[numberTest].qualityType === "NORMAL" ||
             data[numberTest].qualityType === "RARE"
@@ -145,6 +142,7 @@ export default {
           this.clearTimerFun();
           this.numberTest = 0;
           setTimeout(() => {
+            this.slipeMusic && this.slipeMusic.pause();
             this.$emit("showResultFun");
           }, Number(this.delayTimer * 1000 + 1000));
         }
@@ -159,7 +157,7 @@ export default {
   },
   beforeUnmount() {
     this.clearTimerFun();
-    clearInterval(this.intervalId);
+    this.slipeMusic && this.slipeMusic.pause();
   },
   watch: {
     awardItem: {
@@ -174,7 +172,7 @@ export default {
       if (newData) {
         this.autoplayFun();
         this.clearTimerFun();
-        clearInterval(this.intervalId);
+        this.slipeMusic && this.slipeMusic.pause();
       }
     },
   },

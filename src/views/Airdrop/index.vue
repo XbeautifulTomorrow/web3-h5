@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="connect_wallet_r">
-          <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">{{ $t("common.login") }}</div>
+          <!-- <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">{{ $t("common.login") }}</div> -->
           <!-- <div v-else-if="dateDiff(setting.regCountdownTime, currentTime) != 'ENDED'">
             <div class="countdown_tips external">{{ $t("airdrop.timeTips") }}</div>
             <div class="countdown">

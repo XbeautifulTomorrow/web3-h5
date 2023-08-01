@@ -568,7 +568,8 @@
     "transaction_id_does_not_exist": "Transaction ID does not exist.",
     "": "The server is busy, please try again later",
     "null": "The server is busy, please try again later",
-    "undefined": "The server is busy, please try again later"
+    "undefined": "The server is busy, please try again later",
+    "network_not_available": "The server is busy, please try again later"
   },
   "lottery": {
     "notice": "NOTICE",

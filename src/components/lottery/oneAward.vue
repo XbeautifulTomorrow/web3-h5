@@ -328,6 +328,7 @@ $linearEnd-translateX: var(--linearEnd-translateX);
 .sub-con {
   display: flex;
   flex-wrap: nowrap;
+  will-change: transform;
 }
 
 @keyframes slide-up {

@@ -569,7 +569,8 @@
     "transaction_id_does_not_exist": "交易ID不存在",
     "": "服務器繁忙，請稍後重試",
     "null": "服務器繁忙，請稍後重試",
-    "undefined": "服務器繁忙，請稍後重試"
+    "undefined": "服務器繁忙，請稍後重試",
+    "network_not_available": "服務器繁忙，請稍後重試"
   },
   "lottery": {
     "notice": "提示",

@@ -99,7 +99,12 @@ export default {
     },
     // 关闭弹窗
     handleClose(done) {
-      this.$emit("cancelDialogFun");
+      if (this.dialogType == 1) {
+        this.$emit("cancelDialogFun");
+      }
+      else if (this.dialogType == 2) {
+        this.$emit("closeDialogFun");
+      }
 
       if (done) {
         done();

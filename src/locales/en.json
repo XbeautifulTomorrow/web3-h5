@@ -37,7 +37,7 @@
     "profile": "Profile",
     "balances": "Balances",
     "inventory": "Inventory",
-    "competition": "Token war",
+    "competition": "Token War",
     "history": "Purchase History",
     "referrals": "Referrals",
     "settings": "Settings"
@@ -353,6 +353,15 @@
     "newPass": "New Password",
     "confirmPass": "Confirm password",
     "resetPass": "Reset password"
+  },
+  "recharge": {
+    "confirmTitle": "CONFIRM WITHDRAW",
+    "confirmDescription1": "To withdraw NFT, you need to pay as { gas } gas fee,",
+    "confirmDescription2": "make sure you have enough balance. Are you sure you want to withdraw the following NFT?",
+    "wthdrawBtnText": "REQUEST WTHDRAW",
+    "waitTitle": "Your withdrawal request is being validated.",
+    "waitText": "After verification, your NFTs will be automatically transferred to the wallet address you provided.",
+    "continue": "Continue"
   },
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",

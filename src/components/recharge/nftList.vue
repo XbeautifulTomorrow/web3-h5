@@ -92,11 +92,11 @@
           <div class="confirm_btn" v-if="isDeposit" @click="depositOne(item)">
             DEPOSIT
           </div>
-          <div class="confirm_btn" v-else @click.stop="onWithdrawalNft(item)">
+          <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'WITHDRAW'">
             WITHDRAW
           </div>
-          <div class="mask_box">
-            <img src="@/assets/svg/user/icon_selected.svg" alt="" />
+          <div class="confirm_btn" v-else @click.stop="onWithdrawConfirm(item)">
+            WITHDRAW
           </div>
         </div>
       </div>
@@ -127,6 +127,8 @@
       </div>
     </div>
     <Loading :loading="loading" />
+    <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" @confirm="onWithdrawalNft()"
+      @cancelDialogFun="showWithdraw = false" @closeDialogFun="handleClose()"></withdraw>
   </el-dialog>
 </template>
 <script setup>
@@ -138,6 +140,9 @@ import {
   defineEmits,
   onMounted,
 } from "vue";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
+
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
 import Image from "@/components/imageView";
@@ -146,6 +151,9 @@ import nft721Abi from "@/config/721.json";
 import nft1155Abi from "@/config/1155.json";
 import { withdrawalNft, getTheUserSPayoutAddress } from "@/services/api/user";
 import config from "@/services/env";
+
+import withdraw from "./withdrawConfirm.vue";
+
 import {
   getSystemNft,
   getWalletNft,
@@ -153,6 +161,7 @@ import {
 } from "@/services/api/oneBuy";
 
 import Loading from "@/components/loading/index";
+import { isValidEthAddress } from "@/utils";
 
 const props = defineProps({
   isDeposit: {
@@ -166,6 +175,10 @@ const size = ref(8);
 const count = ref(0);
 
 const show = ref(true);
+const showWithdraw = ref(false);
+const dialogType = ref(1);
+
+const chooseNft = ref({});
 const receiver = ref("");
 
 const emit = defineEmits("closeDialogFun");
@@ -266,8 +279,9 @@ const depositOne = async (item) => {
     .send({ from: accountAddress.value });
 };
 
-// 提取Nft
-const onWithdrawalNft = async (item) => {
+
+// 打开确认弹窗
+const onWithdrawConfirm = (item) => {
   const { wallet } = params;
   if (!wallet) {
     ElMessage({
@@ -277,19 +291,30 @@ const onWithdrawalNft = async (item) => {
     return;
   }
 
+  if (!isValidEthAddress(wallet)) {
+    ElMessage({
+      message: t("user.enterError2"),
+      type: "error",
+    });
+    return;
+  }
+
+  chooseNft.value = item;
+  showWithdraw.value = true;
+}
+// 提取Nft
+const onWithdrawalNft = async () => {
+  const { wallet } = params;
+
   const res = await withdrawalNft({
-    knapsackIds: [item.id], //背包ID
+    knapsackIds: [chooseNft.value.id], //背包ID
     walletAddress: wallet, //钱包地址
   });
   if (res && res.code == 200) {
-    ElMessage({
-      message: "Created successfully",
-      type: "success",
-    });
-    handleClose();
-    fetchSystemNft();
+    dialogType.value = 2;
   }
 };
+
 // 获取系统Nft列表
 const fetchSystemNft = async (isSearch = true) => {
   let _page = page.value;
@@ -442,9 +467,9 @@ const addCursor = (event) => {
 }
 
 const handlePageChange = (event) => {
-  if (event < 0 && !this.pageCount.prev || event > 0 && !this.pageCount.next) return
-  this.page += event;
-  this.fetchWalletNft(false);
+  if (event < 0 && !pageCount.value.prev || event > 0 && !pageCount.value.next) return
+  page.value += event;
+  getWalletNftApi(false);
 }
 
 const handleCurrentChange = (event) => {

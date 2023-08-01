@@ -381,7 +381,6 @@ export default {
           if (res && res.code == 200) {
             this.handleClose();
             this.$message.success(t("user.createSuccess"));
-            this.fetchSystemNft(false);
           }
         } else {
           console.log("error submit!!");
@@ -411,6 +410,7 @@ export default {
         this.$refs["competitionForm"].resetFields();
       }
 
+      this.fetchSystemNft(false);
       this.$forceUpdate();
 
       if (done) {

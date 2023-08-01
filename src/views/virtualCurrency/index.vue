@@ -169,7 +169,7 @@ export default {
     },
     typrFormat(event) {
       const { qualityType } = event;
-      if (qualityType == "LEGEND") {
+      if (qualityType == "NORMAL") {
         return "1";
       }
       if (qualityType == "RARE") {

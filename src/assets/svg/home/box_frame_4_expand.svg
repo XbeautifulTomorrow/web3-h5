@@ -1,46 +1,42 @@
 <svg width="328" height="346" viewBox="0 0 328 346" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#4ct8tdksga)">
-        <rect width="328" height="346" rx="8" fill="url(#i9fq74737b)"/>
-        <rect x=".5" y=".5" width="327" height="345" rx="7.5" fill="url(#7895csohdc)"/>
-        <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#244z82lpsd)"/>
-        <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#h795xvycie)"/>
-        <g style="mix-blend-mode:lighten" filter="url(#kaldb3m8jf)">
-            <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#632ermiw2g)"/>
-            <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#yavy4knn5h)"/>
+    <g clip-path="url(#gyw0maujma)">
+        <path fill="#000" fill-opacity=".01" d="M0 0h328v346H0z"/>
+        <rect x=".5" y=".5" width="327" height="345" rx="7.5" fill="url(#i24m6l8d5b)"/>
+        <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#dugk4tmshc)"/>
+        <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#afawq0elqd)"/>
+        <g style="mix-blend-mode:lighten" filter="url(#gdjjf8pyle)">
+            <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#ga4603f81f)"/>
+            <rect x=".5" y=".5" width="327" height="345" rx="7.5" stroke="url(#agu2owmmcg)"/>
         </g>
     </g>
     <defs>
-        <linearGradient id="i9fq74737b" x1="4" y1="-.001" x2="352.139" y2="26.284" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#1C3441"/>
-            <stop offset="1" stop-color="#091E29"/>
+        <linearGradient id="i24m6l8d5b" x1="4" y1="-.001" x2="352.139" y2="26.284" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#302211"/>
+            <stop offset="1" stop-color="#231607"/>
         </linearGradient>
-        <linearGradient id="7895csohdc" x1="4" y1="-.001" x2="352.139" y2="26.284" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#292C36"/>
-            <stop offset="1" stop-color="#16171D"/>
-        </linearGradient>
-        <linearGradient id="244z82lpsd" x1="0" y1="-.001" x2="116.746" y2="31.041" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#4A4D58"/>
+        <linearGradient id="dugk4tmshc" x1="0" y1="-.001" x2="116.746" y2="31.041" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EF962E"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="h795xvycie" x1="328" y1="345.999" x2="236.01" y2="327.554" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#4A4D58"/>
+        <linearGradient id="afawq0elqd" x1="328" y1="345.999" x2="236.01" y2="327.554" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EF962E"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="632ermiw2g" x1="0" y1="-.001" x2="116.746" y2="31.041" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#4A4D58"/>
+        <linearGradient id="ga4603f81f" x1="0" y1="-.001" x2="116.746" y2="31.041" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EF962E"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <linearGradient id="yavy4knn5h" x1="328" y1="345.999" x2="236.01" y2="327.554" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#4A4D58"/>
+        <linearGradient id="agu2owmmcg" x1="328" y1="345.999" x2="236.01" y2="327.554" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#EF962E"/>
             <stop offset="1" stop-opacity="0"/>
         </linearGradient>
-        <clipPath id="4ct8tdksga">
-            <rect width="328" height="346" rx="8" fill="#fff"/>
+        <clipPath id="gyw0maujma">
+            <path fill="#fff" d="M0 0h328v346H0z"/>
         </clipPath>
-        <filter id="kaldb3m8jf" x="-3" y="-3" width="334" height="352" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="gdjjf8pyle" x="-3" y="-3" width="334" height="352" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
             <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-            <feGaussianBlur stdDeviation="1.5" result="effect1_foregroundBlur_190_789"/>
+            <feGaussianBlur stdDeviation="1.5" result="effect1_foregroundBlur_165_168"/>
         </filter>
     </defs>
 </svg>

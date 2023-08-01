@@ -25,7 +25,7 @@
         class="public-dialog-text magin-text"
         v-html="
           $t('lottery.tips1', {
-            name: `${soldList[0]?.seriesName} #${soldList[0]?.orderId}`,
+            name: `${sold?.seriesName} #${sold?.orderId}`,
           })
         "
       ></p>

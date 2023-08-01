@@ -147,7 +147,7 @@ export default {
             this.slipeMusic && this.slipeMusic.pause();
           }, this.delayTimer * 1000);
           setTimeout(() => {
-            this.$emit("showResultFun");
+            this.$emit("showResultFun", true);
           }, Number(this.delayTimer * 1000 + 1000));
         }
       }, 1000);

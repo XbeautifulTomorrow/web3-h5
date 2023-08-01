@@ -33,6 +33,7 @@
     <result-list
       v-if="showResult"
       :result="awardItem"
+      :idLotteryIn="idLotteryIn"
       :localDateTime="localDateTime"
       @chooseLotteryHold="chooseLotteryHold"
       @closeDialogFun="closeDialogFun"
@@ -167,6 +168,7 @@ export default {
       moreLuck: [],
       localDateTime: new Date(),
       checkInterVal: null,
+      idLotteryIn: false,
     };
   },
   computed: {
@@ -322,8 +324,9 @@ export default {
         this.$emit("closeRollFun");
       });
     },
-    showResultFun() {
+    showResultFun(data) {
       this.showResult = true;
+      this.idLotteryIn = data || false;
     },
     async chooseLotteryHold(type, _choose, isSell) {
       const { awardItem } = this;

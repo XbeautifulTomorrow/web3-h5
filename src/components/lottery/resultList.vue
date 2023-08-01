@@ -268,6 +268,10 @@ const props = defineProps({
     type: String,
     default: new Date(),
   },
+  idLotteryIn: {
+    type: Boolean,
+    requird: false,
+  },
 });
 const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
 const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUpperCase()}_ADDR`;
@@ -300,7 +304,7 @@ onUnmounted(() => {
   clearTimerFun();
 });
 const audioPlay = () => {
-  if (props.result.length > 1) {
+  if (props.result.length > 1 && props.idLotteryIn) {
     _audioPlay(flop);
     setTimeout(() => {
       _audioPlay(flopAfter);

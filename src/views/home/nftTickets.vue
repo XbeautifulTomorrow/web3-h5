@@ -12,8 +12,8 @@
             <div class="type-box">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
-                <span v-if="dateDiff(item && item.endTime) > 1">
-                  {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
+                <span v-if="dateDiff(item.endTime) > 1">
+                  {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(item.endTime)) }) }}
                 </span>
                 <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders(false)" :time="item.endTime">
                   {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}

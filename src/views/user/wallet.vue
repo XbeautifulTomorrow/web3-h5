@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <el-table :data="historyData" class="table_container" style="width: 100%">
+      <el-table :data="historyData" class="table_container">
         <el-table-column prop="logType" :label="$t('user.balanceTabel1')" align="center" />
         <el-table-column prop="amount" :label="$t('user.balanceTabel2')" align="center">
           <template #default="scope">
@@ -164,7 +164,7 @@ export default {
   data() {
     return {
       coin: "ETH",
-      coinList: ["ETH", "USDT", "BTC"],
+      coinList: ["ETH", "USDT", "NFT", "BTC"],
       historyData: [],
       userPoints: null,
       userTickets: null,

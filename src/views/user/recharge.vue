@@ -87,14 +87,14 @@
           <div class="price_convert">
             <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
               <template #prefix>
-                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
               </template>
             </el-input>
             <div class="convert_interval">~</div>
             <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
               <template #prefix>
-                <img src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
               </template>
             </el-input>
           </div>
@@ -127,15 +127,15 @@
                 <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')" v-model="walletAmount"
                   type="number">
                   <template #prefix>
-                    <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                    <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                   </template>
                 </el-input>
                 <div class="convert_interval">~</div>
                 <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                   type="number">
                   <template #prefix>
-                    <img src="@/assets/svg/user/icon_eth.svg" alt="" />
+                    <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                    <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                   </template>
                 </el-input>
               </div>
@@ -235,6 +235,7 @@ export default {
   watch: {
     walletAmount(newV) {
       if (!this.isConvert) return;
+
       const { operatingCoin, exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
@@ -247,13 +248,14 @@ export default {
         }
 
         this.ethNum = accurateDecimal(
-          new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
+          new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
           8
         ) || 0;
       }, 300);
     },
     ethNum(newV) {
       if (this.isConvert) return;
+
       const { operatingCoin, exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
@@ -266,7 +268,7 @@ export default {
         }
 
         this.walletAmount = accurateDecimal(
-          new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
+          new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
           8
         ) || 0;
       }, 300);
@@ -374,8 +376,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          Number(this.walletAmount) + Number(withdrawalFee) >
-          Number(this.ethBalance)
+          (Number(this.walletAmount) + Number(withdrawalFee)) > Number(this.ethBalance)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

@@ -227,6 +227,7 @@ const seriesDrop = computed(() => {
 
 const showNft = computed(() => {
   const { chain } = params;
+  
 
   if (props.isDeposit) {
     return true;

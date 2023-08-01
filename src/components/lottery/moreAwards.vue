@@ -33,6 +33,7 @@
 </template>
 <script>
 import ResultLink from "../resultLink";
+import slipeStart from "@/assets/music/more-slipe-start.mp3";
 import slipe from "@/assets/music/more-slipe.mp3";
 import advanced from "@/assets/music/more-advanced.mp3";
 import usually from "@/assets/music/more-usually.mp3";
@@ -89,6 +90,7 @@ export default {
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
+      this.playSound(slipeStart);
       this.slipeMusic = this.playSound(slipe, true);
     }
   },

@@ -251,6 +251,8 @@ import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
+import flop from "@/assets/music/flop.mp3";
+import flopAfter from "@/assets/music/flop-after.mp3";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 
@@ -287,16 +289,29 @@ let second = ref(60);
 let nfts = ref([]);
 const cardRef = ref(null);
 onMounted(async () => {
+  audioPlay();
   getTheUserBalanceApi();
   timerFun();
   nftsInitializationFun();
-  // secondFun();
   totalFun();
   await nextTick();
 });
 onUnmounted(() => {
   clearTimerFun();
 });
+const audioPlay = () => {
+  if (props.result.length > 1) {
+    _audioPlay(flop);
+    setTimeout(() => {
+      _audioPlay(flopAfter);
+    }, 1500);
+  }
+};
+const _audioPlay = (_music) => {
+  const audioObj = new Audio(_music);
+  audioObj.pause();
+  audioObj.play();
+};
 // const secondFun = () => {
 //   const { localDateTime } = props;
 //   const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;

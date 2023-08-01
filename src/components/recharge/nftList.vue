@@ -50,7 +50,7 @@
     <div class="choose_panel" v-if="showNft">
       <div class="search_box">
         <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
-          placeholder="Search NFT TokenId">
+          placeholder="Search NFTs">
           <template #prefix>
             <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
               <search />
@@ -73,7 +73,7 @@
         </div>
         <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
           v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
-          placeholder="Search NFT TokenId">
+          placeholder="Search NFTs">
           <template #prefix>
             <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
               <search />
@@ -371,8 +371,6 @@ const getWalletNftApi = async (isSearch = true) => {
     _page = 0;
   }
 
-  const { userInfo } = useUserStore();
-
   loading.value = true;
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
@@ -388,7 +386,6 @@ const getWalletNftApi = async (isSearch = true) => {
         keyword: params.nftName
       }),
       getTheExternalNFTSeries({
-        userId: userInfo?.id,
         type: "ALL"
       }),
     ]).then((res) => {

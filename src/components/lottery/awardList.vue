@@ -286,6 +286,8 @@ $stop-time: var(--stop-time);
   }
 }
 .el-carousel__container {
+  transform-style: preserve-3d;
+  will-change: transform;
   height: auto !important;
   animation: verticalScroll $linear-time linear infinite;
   animation-fill-mode: forwards;

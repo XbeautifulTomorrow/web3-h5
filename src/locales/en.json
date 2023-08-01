@@ -579,8 +579,6 @@
     "return": "RETURN",
     "balance": "BALANCE",
     "click_hold": "CLICK TO HOLD",
-    "yacht_club": "Mutant Ape Yacht Club",
-    "bored_yacht_club": "Bored Ape Yacht Club",
     "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> has been successfully sold and you will receive:",
     "loading_tip1": "Your purchase is being processed.",
     "loading_tip2": "Your transaction is being processed and will be confirmed on the blockchain soon",

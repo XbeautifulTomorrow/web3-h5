@@ -4,73 +4,75 @@
       <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
       <p class="roll-text-offcial">{{ $t("lottery.tips_txt") }}</p>
     </div>
-    <div :class="['con']">
-      <div
-        ref="boxesContainer"
-        :class="[
-          'sub-con',
-          {
-            'scroll-linear': isAutoplay,
-            active: isActive,
-          },
-        ]"
-      >
-        <div v-for="(list, index) in awardsList" :key="index">
-          <div class="roll-one-carousel" ref="subAwards">
-            <div
-              :class="['roll-one-carousel-list', list.qualityType]"
-              :style="liStyle"
-            >
-              <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                <image-view
-                  class="roll-one-list-img"
-                  :src="list.nftCompressImg"
-                />
-              </div>
-              <p class="roll-one-list-seriesName">
-                <span class="roll-one-list-seriesName-text text-ellipsis">
-                  {{ list.seriesName }}
-                </span>
-                <img
-                  class="roll-one-list-seriesName-img"
-                  src="@/assets/svg/user/icon_ethereum.svg"
-                  alt=""
-                />
-              </p>
-              <div class="roll-one-list-text">
-                <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
-                <div class="roll-one-list-price">
-                  <span class="roll-one-list-minPrice text-ellipsis">
+    <div class="con-box">
+      <div :class="['con']">
+        <div
+          ref="boxesContainer"
+          :class="[
+            'sub-con',
+            {
+              'scroll-linear': isAutoplay,
+              active: isActive,
+            },
+          ]"
+        >
+          <div v-for="(list, index) in awardsList" :key="index">
+            <div class="roll-one-carousel" ref="subAwards">
+              <div
+                :class="['roll-one-carousel-list', list.qualityType]"
+                :style="liStyle"
+              >
+                <div class="roll-one-list-bor" ref="light" :style="borStyle">
+                  <image-view
+                    class="roll-one-list-img"
+                    :src="list.nftCompressImg"
+                  />
+                </div>
+                <p class="roll-one-list-seriesName">
+                  <span class="roll-one-list-seriesName-text text-ellipsis">
+                    {{ list.seriesName }}
+                  </span>
+                  <img
+                    class="roll-one-list-seriesName-img"
+                    src="@/assets/svg/user/icon_ethereum.svg"
+                    alt=""
+                  />
+                </p>
+                <div class="roll-one-list-text">
+                  <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
+                  <div class="roll-one-list-price">
+                    <span class="roll-one-list-minPrice text-ellipsis">
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="`${list.price}`"
+                      >
+                        &nbsp;{{ list.price }}
+                      </el-tooltip>
+                    </span>
+                    <span class="roll-one-list-conin">
+                      {{ list.coin }}
+                    </span>
+                  </div>
+                  <div
+                    class="roll-one-list-nftNumber text-ellipsis"
+                    v-if="list.tokenId"
+                  >
                     <el-tooltip
                       class="box-item"
                       effect="dark"
-                      :content="`${list.price}`"
+                      :content="`# ${list.tokenId}`"
                     >
-                      &nbsp;{{ list.price }}
+                      #&nbsp;{{ list.tokenId }}
                     </el-tooltip>
-                  </span>
-                  <span class="roll-one-list-conin">
-                    {{ list.coin }}
-                  </span>
-                </div>
-                <div
-                  class="roll-one-list-nftNumber text-ellipsis"
-                  v-if="list.tokenId"
-                >
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="`# ${list.tokenId}`"
-                  >
-                    #&nbsp;{{ list.tokenId }}
-                  </el-tooltip>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="list_mask"></div>
       </div>
-      <div class="list_mask"></div>
     </div>
     <div class="result-link-box">
       <result-link></result-link>
@@ -113,12 +115,8 @@ export default {
   components: { resultLink, ImageView },
   data() {
     return {
-      slowTranslateXPer: 0.6, //横向平移百分比
-      slowTranslateX: "-60%", //横向平移距离
-      isSpeedUp: false,
       isAutoplay: false,
       isActive: false,
-      offetNum: 0,
       itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
         width: `${itemWidth}px`,
@@ -128,13 +126,11 @@ export default {
         margin: "0 3px",
         padding: "5px 10px",
       },
-      carouselStyle: { transform: `translateX(-${(itemWidth + 20) / 2}px)` },
       awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
         JSON.parse(JSON.stringify(this.awards))
       ),
       intervalId: null,
       delay: 50,
-      upTime: 8, //加速动画duration时间
       linearTime: 3, //匀速动画duration时间
       slowTime: 6, //减速动画duration时间
       increment: 10,
@@ -143,9 +139,7 @@ export default {
     };
   },
   async mounted() {
-    document.documentElement.style.setProperty("--up-time", this.upTime + "s");
     this.getAwardsListFunc();
-    const { clientWidth } = document.body;
     const result = localStorage.getItem("result");
     if (this.apiIsError) {
       return;
@@ -155,9 +149,7 @@ export default {
       if (!subAwardsRef) return;
       this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-      this.offetNum = clientWidth / this.subAwardsWidth / 2;
       this.linearTime = this.boxOffsetWidth * 0.00016;
-
       document.documentElement.style.setProperty(
         "--linear-time",
         this.linearTime + "s"
@@ -241,30 +233,20 @@ export default {
       }, 500);
     },
     slowScrollFunc(data, state) {
-      const { clientWidth } = document.body;
-      this.offetNum = clientWidth / this.subAwardsWidth / 2;
-      const remainPar = this.offetNum % 1;
-      const remainW = (remainPar - 0.5) * this.subAwardsWidth;
-      const translatePar = this.getCurrentTranslateX() / this.boxOffsetWidth;
-      const slowTranslateXPer = translatePar - 12 / this.awardsList.length;
+      const getCurrentTranslateX = this.getCurrentTranslateX();
+      const translateLen = getCurrentTranslateX / this.subAwardsWidth;
+      const len = parseInt(Math.abs(translateLen)) + 12;
+      const slowTranslateX = -this.subAwardsWidth * len + "px";
       document.documentElement.style.setProperty(
         "--linearEnd-translateX",
-        translatePar * 100 + "%"
+        getCurrentTranslateX + "px"
       );
-      this.slowTranslateX =
-        this.subAwardsWidth *
-          parseInt(slowTranslateXPer * this.awardsList.length) +
-        remainW +
-        "px";
       document.documentElement.style.setProperty(
         "--slow-translateX",
-        this.slowTranslateX
+        slowTranslateX
       );
-      const len =
-        Math.floor(this.awardsList.length * Math.abs(slowTranslateXPer)) +
-        parseInt(this.offetNum);
       data.nftCompressImg = data.nftImg;
-      this.awardsList.splice(len, 1, data);
+      this.awardsList.splice(len + 2, 1, data);
       this.isActive = true;
       this.isAutoplay = false;
       clearInterval(this.intervalId);
@@ -283,13 +265,8 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
-        // this.stopScroll(newData[0]);
-        // return;
         if (newData.length > 0) {
           this.slowScrollFunc(newData[0]);
-          window.addEventListener("resize", () => {
-            this.slowScrollFunc(newData[0], true);
-          });
           setTimeout(() => {
             this.stopScroll(newData[0]);
           }, this.slowTime * 1000);
@@ -305,15 +282,22 @@ export default {
 <style lang="scss" scoped>
 @import url("./css/one.scss");
 $slow-translateX: var(--slow-translateX);
-$up-time: var(--up-time);
 $linear-time: var(--linear-time);
 $slow-time: var(--slow-time);
 $linearEnd-translateX: var(--linearEnd-translateX);
-
+.roll-one-content {
+  overflow: hidden;
+}
+.con-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .con {
-  overflow-y: hidden;
-  transform-style: preserve-3d;
+  position: relative;
+  width: 1120px;
   margin-top: 6.3vh;
+  overflow: inherit;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -328,7 +312,12 @@ $linearEnd-translateX: var(--linearEnd-translateX);
 .sub-con {
   display: flex;
   flex-wrap: nowrap;
+  transform-style: preserve-3d;
   will-change: transform;
+  transform: translate3d(-10%, 0, 0);
+  & > div {
+    display: inline-block;
+  }
 }
 
 @keyframes slide-up {
@@ -343,11 +332,11 @@ $linearEnd-translateX: var(--linearEnd-translateX);
 
 @keyframes slide {
   0% {
-    transform: translate3d(-0%, 0, 0);
+    transform: translate3d(-10%, 0, 0);
   }
 
   100% {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-60%, 0, 0);
   }
 }
 

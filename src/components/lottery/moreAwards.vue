@@ -33,7 +33,7 @@
 </template>
 <script>
 import ResultLink from "../resultLink";
-import slipe from "@/assets/music/more-slipe.ogg";
+import slipe from "@/assets/music/more-slipe.mp3";
 import advanced from "@/assets/music/more-advanced.mp3";
 import usually from "@/assets/music/more-usually.mp3";
 
@@ -143,6 +143,8 @@ export default {
           this.numberTest = 0;
           setTimeout(() => {
             this.slipeMusic && this.slipeMusic.pause();
+          }, this.delayTimer * 1000);
+          setTimeout(() => {
             this.$emit("showResultFun");
           }, Number(this.delayTimer * 1000 + 1000));
         }

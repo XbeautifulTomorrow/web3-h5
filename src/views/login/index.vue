@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog" width="43.75rem"
-    :before-close="closeDialogFun">
+  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog"
+    width="43.75rem" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
         <el-icon>
@@ -45,8 +45,8 @@
 <script setup>
 import { ref, reactive, onBeforeMount, defineEmits } from "vue";
 import { ElMessage } from "element-plus";
-// import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
+import { useHeaderStore } from "@/store/header.js";
 import { getLogin } from "@/services/api/user";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
@@ -119,6 +119,8 @@ const loginFun = async (formEl) => {
           });
         }
         userStore.setLogin(res.data);
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
         closeDialogFun();
       }
     } else {

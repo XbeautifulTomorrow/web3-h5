@@ -249,15 +249,6 @@
   position: relative;
   padding-bottom: 1.25rem;
 
-  &:hover {
-    .img_box {
-      .nft_img {
-        transition: all 0.3s;
-        transform: scale(1.15);
-      }
-    }
-  }
-
   .img_box {
     position: relative;
     width: 16.25rem;
@@ -292,23 +283,39 @@
     padding: 1.25rem 0 0.625rem;
   }
 
-  .mask_box {
+  .disabled_mask {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(19, 7, 27, 0.45);
-    display: none;
-    align-items: center;
+    background-color: rgba(19, 7, 27, 0.8);
+    display: flex;
+    align-items: flex-start;
     justify-content: center;
-  }
+    cursor: not-allowed;
 
-  &.active {
-    .mask_box {
-      display: flex;
+    .tips_text {
+      display: none;
+      width: 12rem;
+      height: 14.875rem;
+      align-items: center;
+      justify-content: center;
+
+      font-family: BlenderPro;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      color: white;
+    }
+
+    &:hover {
+      .tips_text {
+        display: flex;
+      }
     }
   }
+
+
 }
 
 .confirm_btn {

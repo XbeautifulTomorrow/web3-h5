@@ -361,7 +361,9 @@
     "wthdrawBtnText": "提現請求",
     "waitTitle": "您的提現請求正在驗證中。",
     "waitText": "驗證後，您的NFT將自動轉入您提供的錢包地址。",
-    "continue": "繼續"
+    "continue": "繼續",
+    "depositWaitTitle": "您的交易正在處理中。",
+    "depositWaitText": "您的交易正在處理中，並將很快在區塊鏈上得到確認"
   },
   "airdrop": {
     "airdropText1": "連結你的錢包以",

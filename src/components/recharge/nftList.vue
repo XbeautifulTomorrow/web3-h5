@@ -97,6 +97,9 @@
           <div class="confirm_btn disabled" v-else>
             WITHDRAW
           </div>
+          <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
+            <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>
+          </div>
         </div>
       </div>
       <div class="pagination_boxs" v-if="isDeposit">
@@ -174,8 +177,8 @@ const size = ref(8);
 const count = ref(0);
 
 const show = ref(true);
-const showWithdraw = ref(false);
-const dialogType = ref(1);
+const showWithdraw = ref(true);
+const dialogType = ref(2);
 
 const chooseNft = ref({});
 const receiver = ref("");
@@ -264,7 +267,7 @@ const depositOne = async (item) => {
   accountAddress.value = web3?.eth?.defaultAccount;
 
   if (item.contractType == "ERC1155") {
-    let nft1155Contract = new web3.eth.Contract(
+    let nft1155Contract = web3.eth.Contract(
       nft1155Abi,
       item.contractAddress
     );
@@ -273,10 +276,16 @@ const depositOne = async (item) => {
       .send({ from: accountAddress.value });
     return;
   }
-  let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
+  let nftContract = web3.eth.Contract(nft721Abi, item.contractAddress);
   nftContract.methods
     .transferFrom(accountAddress.value, receiver.value, item.tokenId)
-    .send({ from: accountAddress.value });
+    .send({ from: accountAddress.value })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
 };
 
 
@@ -302,6 +311,7 @@ const onWithdrawConfirm = (item) => {
   chooseNft.value = item;
   showWithdraw.value = true;
 }
+
 // 提取Nft
 const onWithdrawalNft = async () => {
   const { wallet } = params;
@@ -314,6 +324,10 @@ const onWithdrawalNft = async () => {
     dialogType.value = 2;
   }
 };
+
+const findSeries = (event) => {
+  return collections.value.findIndex(e => e.contractAddress == event) > -1;
+}
 
 // 获取系统Nft列表
 const fetchSystemNft = async (isSearch = true) => {

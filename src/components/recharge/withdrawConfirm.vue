@@ -11,7 +11,7 @@
     <div class="public-dialog-content form-content">
       <p class="public-dialog-title" v-if="dialogType == 1">{{ $t("recharge.confirmTitle") }}</p>
       <Image v-else-if="dialogType == 4" fit="cover" class="nft_img" />
-      <Image v-else fit="cover" class="loading-img" />
+      <Image v-else fit="cover" :src="require('@/assets/img/home/loading.png')" class="loading-img" />
       <div class="confirm-description" v-if="dialogType == 1">
         <span class="description-text" v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"></span>
         <span>{{ $t("recharge.confirmDescription2") }}</span>
@@ -19,6 +19,10 @@
       <div v-else-if="dialogType == 2">
         <div class="wait-title">{{ $t("recharge.waitTitle") }}</div>
         <div class="wait-text">{{ $t("recharge.waitText") }}</div>
+      </div>
+      <div v-else-if="dialogType == 3">
+        <div class="wait-title">{{ $t("recharge.depositWaitTitle") }}</div>
+        <div class="wait-text">{{ $t("recharge.depositWaitText") }}</div>
       </div>
       <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
       <div class="nft-info" v-if="dialogType == 1">
@@ -60,7 +64,7 @@ export default {
     },
     dialogType: {
       type: Number,
-      default: 1 // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
+      default: 2 // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
     },
   },
   data() {
@@ -150,7 +154,7 @@ export default {
   height: 5rem;
   border-radius: 50%;
   transform: rotate(0);
-  animation: rotation 3s linear infinite;
+  animation: rotation 0.5s linear infinite;
 }
 
 @keyframes rotation {
@@ -159,7 +163,7 @@ export default {
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   }
 }
 

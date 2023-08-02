@@ -80,10 +80,8 @@
   </div>
 </template>
 <script>
+import { Howl } from "howler";
 import resultLink from "../resultLink";
-import slipe from "@/assets/music/slipe.mp3";
-import advanced from "@/assets/music/advanced.mp3";
-import usually from "@/assets/music/usually.mp3";
 import ImageView from "../imageView";
 const itemWidth = 200;
 export default {
@@ -136,6 +134,9 @@ export default {
       increment: 10,
       boxOffsetWidth: 0,
       subAwardsWidth: 0,
+      slipe: "https://www.bitzing.io/prd/music/slipe.mp3",
+      advanced: "https://www.bitzing.io/prd/music/advanced.mp3",
+      usually: "https://www.bitzing.io/prd/music/usually.mp3",
     };
   },
   async mounted() {
@@ -159,7 +160,6 @@ export default {
         this.slowTime + "s"
       );
     }, 1000);
-
     if (!result) {
       setTimeout(() => {
         if (!this.apiIsError) {
@@ -193,8 +193,8 @@ export default {
       }
     },
     playSound(_music) {
-      const audioObj = new Audio(_music);
-      audioObj.pause();
+      const audioObj = new Howl({ src: [_music] });
+      audioObj.stop();
       audioObj.play();
     },
     slowPlayFunc() {
@@ -204,7 +204,7 @@ export default {
         } else {
           this.slowPlayFunc();
         }
-        this.playSound(slipe);
+        this.playSound(this.slipe);
         this.delay += this.increment;
         this.increment *= 1.5;
         clearInterval(intervalId);
@@ -213,7 +213,7 @@ export default {
     musicSpeedFunc(type) {
       if (type == "up") {
         this.intervalId = setInterval(() => {
-          this.playSound(slipe);
+          this.playSound(this.slipe);
         }, 50);
       } else {
         this.slowPlayFunc();
@@ -223,9 +223,9 @@ export default {
       clearInterval(this.intervalId);
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
-          this.playSound(usually);
+          this.playSound(this.usually);
         } else {
-          this.playSound(advanced);
+          this.playSound(this.advanced);
         }
       }
       setTimeout(() => {

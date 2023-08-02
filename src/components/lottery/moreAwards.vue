@@ -32,12 +32,8 @@
   </div>
 </template>
 <script>
+import { Howl } from "howler";
 import ResultLink from "../resultLink";
-import slipeStart from "@/assets/music/more-slipe-start.mp3";
-import slipe from "@/assets/music/more-slipe.mp3";
-import advanced from "@/assets/music/more-advanced.mp3";
-import usually from "@/assets/music/more-usually.mp3";
-
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
@@ -84,14 +80,18 @@ export default {
       musicLoop: true,
       delayTimer: 0,
       slipeMusic: null,
+      slipeStart: "https://www.bitzing.io/prd/music/more-slipe-start.mp3",
+      slipe: "https://www.bitzing.io/prd/music/more-slipe.mp3",
+      advanced: "https://www.bitzing.io/prd/music/more-advanced.mp3",
+      usually: "https://www.bitzing.io/prd/music/more-usually.mp3",
     };
   },
   mounted() {
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
-      this.playSound(slipeStart);
-      this.slipeMusic = this.playSound(slipe, true);
+      this.playSound(this.slipeStart);
+      this.slipeMusic = this.playSound(this.slipe, true);
     }
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
       this.delayTimer = param;
     },
     playSound(_music, musicLoop = false) {
-      const audioObj = new Audio(_music);
+      const audioObj = new Howl({ src: [_music] });
       audioObj.loop = musicLoop;
       audioObj.pause();
       audioObj.play();
@@ -124,9 +124,9 @@ export default {
             data[numberTest].qualityType === "NORMAL" ||
             data[numberTest].qualityType === "RARE"
           ) {
-            this.playSound(advanced);
+            this.playSound(this.advanced);
           } else {
-            this.playSound(usually);
+            this.playSound(this.usually);
           }
         }, this.delayTimer * 1000);
         if (this.winData.length >= this.prizeList.length) {
@@ -135,9 +135,9 @@ export default {
               data[numberTest].qualityType === "NORMAL" ||
               data[numberTest].qualityType === "RARE"
             ) {
-              this.playSound(advanced);
+              this.playSound(this.advanced);
             } else {
-              this.playSound(usually);
+              this.playSound(this.usually);
             }
           }, this.delayTimer * 1000);
           this.autoplayFun();

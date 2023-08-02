@@ -3,17 +3,16 @@
     <div class="ntf_tickets_list_wrapper">
       <div class="banner_box"></div>
       <div class="search_box">
-        <el-input v-model="searchVal" clearable @keyup.enter="fetchCheckAllOrders()" class="search_input" type="text"
+        <el-input v-model="searchVal" clearable @input="handleSearch" class="search_input" type="text"
           :placeholder="$t('homeReplenish.searchNft')">
           <template #prefix>
-            <el-icon class="el-input__icon search_icon" @click="fetchCheckAllOrders()">
+            <el-icon class="el-input__icon search_icon">
               <search />
             </el-icon>
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" clearable @change="fetchCheckAllOrders()" class="select_box"
-            :placeholder="$t('homeReplenish.all')" size="large">
+          <el-select v-model="sort" @change="fetchCheckAllOrders()" class="select_box" size="large">
             <el-option v-for="( item, index ) in  sortDrop " :key="index" :label="item.label" :value="item.value" />
           </el-select>
           <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
@@ -110,13 +109,15 @@ export default {
     return {
       collections: [],
       searchVal: null,
-      sort: null,
+      sort: "popularity",
       sortDrop: [],
       nftId: null,
       ticketList: [],
       page: 1,
       size: 20,
-      count: 0
+      count: 0,
+
+      timer: null
     };
   },
   computed: {},
@@ -152,6 +153,16 @@ export default {
         this.count = res.data.total;
       }
     },
+    handleSearch() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        this.fetchCheckAllOrders();
+      }, 300);
+    },
     handleTickets(event) {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
@@ -160,15 +171,14 @@ export default {
       this.fetchCheckAllOrders(false);
     },
   },
-  watch: {},
   created() {
     this.fetchAllSeries();
     this.fetchCheckAllOrders();
 
     this.sortDrop = [
       { label: t("homeReplenish.sortPopularity"), value: "popularity" },
-      { label: t("homeReplenish.sortPriceLow"), value: "price_desc" },
-      { label: t("homeReplenish.sortPriceHigh"), value: "price_asc" }
+      { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
+      { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" }
     ]
   }
 };

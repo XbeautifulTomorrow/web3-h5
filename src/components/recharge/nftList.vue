@@ -95,7 +95,7 @@
             WITHDRAW
           </div>
           <div class="confirm_btn disabled" v-else>
-            WITHDRAW
+            WITHDRAWLING
           </div>
           <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
             <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>

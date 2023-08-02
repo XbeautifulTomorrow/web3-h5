@@ -88,8 +88,7 @@
 }
 
 .choose_panel {
-  margin: 0 auto;
-  width: 70.6875rem;
+  margin: 0 1.875rem auto;
   padding: 1.25rem;
   border-radius: 0.625rem;
   box-sizing: border-box;
@@ -230,7 +229,7 @@
   flex-wrap: wrap;
 
   &>div+div {
-    margin-left: 10px;
+    margin-left: 0.625rem;
   }
 
   &>div:nth-child(4n + 1) {
@@ -238,11 +237,12 @@
   }
 
   &>div:nth-child(n + 5) {
-    margin-top: 10px;
+    margin-top: 0.625rem;
   }
 }
 
 .choose_nft_item {
+  width: 16.25rem;
   border-radius: 0.5rem;
   background-color: #1d0f36;
   overflow: hidden;
@@ -260,7 +260,7 @@
 
   .img_box {
     position: relative;
-    width: 16.5625rem;
+    width: 16.25rem;
     height: 14.875rem;
     overflow: hidden;
     background-color: #20222d;

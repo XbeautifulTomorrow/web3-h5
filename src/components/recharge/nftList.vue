@@ -72,8 +72,7 @@
           </el-select>
         </div>
         <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
-          v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
-          placeholder="Search NFTs">
+          v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable placeholder="Search NFTs">
           <template #prefix>
             <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
               <search />
@@ -227,7 +226,7 @@ const seriesDrop = computed(() => {
 
 const showNft = computed(() => {
   const { chain } = params;
-  
+
 
   if (props.isDeposit) {
     return true;
@@ -381,7 +380,7 @@ const getWalletNftApi = async (isSearch = true) => {
       getWalletNft({
         contractAddress: params.collections,
         address: accounts[0],
-        cursor: pageList[_page],
+        cursor: pageList.value[_page],
         size: size.value,
         chatId: config.ENV == "pro" ? 1 : null,
         keyword: params.nftName
@@ -402,7 +401,7 @@ const getWalletNftApi = async (isSearch = true) => {
         loading.value = false;
 
         count.value = res[0].data.total;
-        addCursor(res[0].data.cursor)
+        addCursor(res[0].data.cursor);
 
         collections.value = JSON.parse(JSON.stringify(res[1].data));
 
@@ -459,6 +458,7 @@ const pageCount = computed(() => {
 
 const addCursor = (event) => {
   const isRepeat = pageList.value.findIndex(e => e == event) > -1;
+
   if (!isRepeat) {
     pageList.value.push(event);
   }
@@ -492,17 +492,4 @@ const getTheUserSPayoutAddressApi = async () => {
 </script>
 <style lang="scss" scoped>
 @import "./nftList.scss";
-</style>
-<style>
-@media screen and (max-width: 1980px) {
-  .choose_nft_item {
-    width: calc(25% - 7px);
-  }
-}
-
-@media screen and (min-width: 1981px) {
-  .choose_nft_item {
-    width: calc(20% - 7px);
-  }
-}
 </style>

@@ -154,6 +154,12 @@ export default {
           this.nftId = nftList;
         }
 
+        setTimeout(() => {
+          for (let i = 0; i < this.currencyList.length; i++) {
+            this.currencyList[i].animation = false;
+          }
+        }, 2000);
+
         this.$forceUpdate();
       }
     },

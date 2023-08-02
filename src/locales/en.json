@@ -215,7 +215,11 @@
     "price": "Price",
     "usdPrice": "USD",
     "resalePrice": "Resale Price",
-    "rewardId": "Reward ID"
+    "rewardId": "Reward ID",
+    "boxTipsTitle": "THIS BOX CONTAINS AN EXTERNAL NFT",
+    "boxTipsDescription1": "Please be mindful that there is no guarantee that if you win this NFT we will be able to purchase it on your behalf.",
+    "boxTipsDescription2": "In case we fail to acquire the NFT, you will be able to claim a ETH reward amounting to the won NFT's value.",
+    "boxTipsClose": "I ACKNOWLEDGE"
   },
   "user": {
     "changePwd": "CHANGE PASSWORD",

@@ -215,7 +215,11 @@
     "price": "價值",
     "usdPrice": "USD價值",
     "resalePrice": "轉賣價值",
-    "rewardId": "獎品ID"
+    "rewardId": "獎品ID",
+    "boxTipsTitle": "此盲盒包含外部NFT",
+    "boxTipsDescription1": "請注意，我們不能保證當您贏得NFT時就能為您購買。",
+    "boxTipsDescription2": "如果我們未能獲得NFT，您將能夠領取相當於贏得NFT價值的ETH獎勵。",
+    "boxTipsClose": "我知道了"
   },
   "user": {
     "changePwd": "修改密碼",
@@ -355,6 +359,7 @@
     "resetPass": "重置密碼"
   },
   "recharge": {
+    "notDeposit": "{ name }不支持",
     "confirmTitle": "確認提現",
     "confirmDescription1": "提現NFT需要支付{gas }Gas,",
     "confirmDescription2": "請確保您有足夠的餘額。您確定要提取以下NFT嗎？",

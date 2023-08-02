@@ -356,7 +356,8 @@
     "oldPass": "舊密碼",
     "newPass": "新密碼",
     "confirmPass": "確認密碼",
-    "resetPass": "重置密碼"
+    "resetPass": "重置密碼",
+    "priceError": "總价值必須大於0"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

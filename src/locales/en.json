@@ -569,7 +569,10 @@
     "": "The server is busy, please try again later",
     "null": "The server is busy, please try again later",
     "undefined": "The server is busy, please try again later",
-    "network_not_available": "The server is busy, please try again later"
+    "network_not_available": "The server is busy, please try again later",
+    "WITHDRAW_NOT_CONTEST": "This operation is not available for NFTs in withdrawal.",
+    "not_less_than_fee": "The withdrawal amount cannot be less than the handling fee.",
+    "nft_not_supported": "NFT not supported."
   },
   "lottery": {
     "notice": "NOTICE",

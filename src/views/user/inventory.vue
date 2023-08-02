@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="type_tabs">
-        <div :class="['tabs_item', activeType == 'LIMITED_TIME' && 'active']" @click="activeType = 'LIMITED_TIME'">
+        <div :class="['tabs_item','disabled']">
           {{ $t("user.timeLimit") }}
         </div>
         <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">
@@ -210,7 +210,7 @@ export default {
       // 一元购创建
       showCompetition: false,
       nftIndex: null, // 需要记录索引来即时更改列表
-      activeType: "LIMITED_TIME",
+      activeType: "LIMITED_PRICE",
       competitionNft: null,
       competitionForm: {
         price: null, //价格
@@ -365,6 +365,11 @@ export default {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
           const { activeType, competitionNft } = this;
+
+          if (this.competitionForm.price == 0) {
+            this.$message.error(t("user.priceError"));
+            return
+          }
 
           if (this.competitionForm.price.length > 5) {
             this.competitionForm.price = this.competitionForm.price.slice(0, 5);

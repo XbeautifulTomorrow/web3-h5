@@ -910,6 +910,10 @@
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       color: #13151f;
     }
+
+    &.disabled {
+      cursor: not-allowed;
+    }
   }
 }
 

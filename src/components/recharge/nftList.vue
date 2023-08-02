@@ -91,10 +91,10 @@
           <div class="confirm_btn" v-if="isDeposit" @click="depositOne(item)">
             DEPOSIT
           </div>
-          <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'WITHDRAW'">
+          <div class="confirm_btn" v-else-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
             WITHDRAW
           </div>
-          <div class="confirm_btn" v-else @click.stop="onWithdrawConfirm(item)">
+          <div class="confirm_btn disabled" v-else>
             WITHDRAW
           </div>
         </div>

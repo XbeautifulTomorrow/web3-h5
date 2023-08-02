@@ -81,6 +81,9 @@
 </template>
 <script>
 import { Howl } from "howler";
+import slipe from "@/assets/music/slipe.mp3";
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;
@@ -134,9 +137,6 @@ export default {
       increment: 10,
       boxOffsetWidth: 0,
       subAwardsWidth: 0,
-      slipe: "https://www.bitzing.io/prd/music/slipe.mp3",
-      advanced: "https://www.bitzing.io/prd/music/advanced.mp3",
-      usually: "https://www.bitzing.io/prd/music/usually.mp3",
     };
   },
   async mounted() {
@@ -204,7 +204,7 @@ export default {
         } else {
           this.slowPlayFunc();
         }
-        this.playSound(this.slipe);
+        this.playSound(slipe);
         this.delay += this.increment;
         this.increment *= 1.5;
         clearInterval(intervalId);
@@ -213,7 +213,7 @@ export default {
     musicSpeedFunc(type) {
       if (type == "up") {
         this.intervalId = setInterval(() => {
-          this.playSound(this.slipe);
+          this.playSound(slipe);
         }, 50);
       } else {
         this.slowPlayFunc();
@@ -223,9 +223,9 @@ export default {
       clearInterval(this.intervalId);
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
-          this.playSound(this.usually);
+          this.playSound(usually);
         } else {
-          this.playSound(this.advanced);
+          this.playSound(advanced);
         }
       }
       setTimeout(() => {

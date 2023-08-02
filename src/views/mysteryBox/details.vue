@@ -406,7 +406,9 @@ export default {
     this.$nextTick(() => {
       setTimeout(() => {
         const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo.scrollHeight > contentInfo.clientHeight;
+        this.isShowMore = contentInfo
+          ? contentInfo.scrollHeight > contentInfo.clientHeight
+          : false;
       }, 100);
     });
   },

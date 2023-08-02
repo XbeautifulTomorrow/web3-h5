@@ -61,6 +61,17 @@ import { ElNotification } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet.js";
 
+import { Howl } from "howler";
+import slipe from "@/assets/music/slipe.mp3";
+import advanced from "@/assets/music/advanced.mp3";
+import usually from "@/assets/music/usually.mp3";
+import slipeStart from "@/assets/music/more-slipe-start.mp3";
+import moreSlipe from "@/assets/music/more-slipe.mp3";
+import moreAdvanced from "@/assets/music/more-advanced.mp3";
+import moreUsually from "@/assets/music/more-usually.mp3";
+import flop from "@/assets/music/flop.mp3";
+import flopAfter from "@/assets/music/flop-after.mp3";
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -104,6 +115,7 @@ export default {
   mounted() {
     this.boxId = this.$route.query.boxId;
     this.getBlindBoxDetail();
+    this.audioPreloadFunc();
   },
   watch: {
     showRoll(val) {
@@ -113,6 +125,20 @@ export default {
     },
   },
   methods: {
+    audioPreloadFunc() {
+      const audioSrc = [
+        moreSlipe,
+        slipe,
+        advanced,
+        usually,
+        slipeStart,
+        moreAdvanced,
+        moreUsually,
+        flop,
+        flopAfter,
+      ];
+      audioSrc.map((x) => new Howl({ src: x }));
+    },
     rollNumberFun(number) {
       const result = localStorage.getItem("result");
       if (result) {

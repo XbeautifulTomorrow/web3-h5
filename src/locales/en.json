@@ -368,7 +368,10 @@
     "waitText": "After verification, your NFTs will be automatically transferred to the wallet address you provided.",
     "continue": "Continue",
     "depositWaitTitle": "Your transaction is being processed.",
-    "depositWaitText": "Your transaction is being processed and will be confirmed on the blockchain soon"
+    "depositWaitText": "Your transaction is being processed and will be confirmed on the blockchain soon",
+    "completeTitle1": "Your deposit is complete!",
+    "nftLabel": "You deposited",
+    "transactionId": "TRANSACTION ID"
   },
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",

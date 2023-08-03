@@ -88,15 +88,22 @@
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
-          <div class="confirm_btn" v-if="isDeposit" @click="depositOne(item)">
-            DEPOSIT
-          </div>
-          <div class="confirm_btn" v-else-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
-            WITHDRAW
-          </div>
-          <div class="confirm_btn disabled" v-else>
-            WITHDRAWLING
-          </div>
+          <template v-if="isDeposit">
+            <div class="confirm_btn" v-if="!depositConfirm(item.id)" @click="depositOne(item)">
+              DEPOSIT
+            </div>
+            <div class="confirm_btn disabled" v-else>
+              DEPOSITING
+            </div>
+          </template>
+          <template v-else>
+            <div class="confirm_btn" v-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
+              WITHDRAW
+            </div>
+            <div class="confirm_btn disabled" v-else>
+              WITHDRAWLING
+            </div>
+          </template>
           <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
             <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>
           </div>
@@ -180,6 +187,8 @@ const show = ref(true);
 const showWithdraw = ref(false);
 const dialogType = ref(1);
 const transactionId = ref("");
+const confirmNft = ref([]); // 确认中id
+const confirmIndex = ref(""); // 当前确认索引
 
 const chooseNft = ref({});
 const receiver = ref("");
@@ -266,6 +275,8 @@ const depositOne = async (item) => {
   chooseNft.value = item;
   showWithdraw.value = true;
   dialogType.value = 3;
+  confirmNft.value.push(item.id);
+  confirmIndex.value = confirmNft.value.length - 1;
 
   const { web3 } = useWalletStore();
   accountAddress.value = web3?.eth?.defaultAccount;
@@ -280,12 +291,14 @@ const depositOne = async (item) => {
       .send({ from: accountAddress.value })
       .catch((error) => {
         console.error(error.message);
+        delDeposit(); // 交互失败，删除确认状态
       })
       .then((res) => {
         if (res) {
           dialogType.value = 4;
           transactionId.value = res.transactionHash;
         } else {
+          delDeposit(); // 交互失败，删除确认状态
           handleCancel();
         }
       });
@@ -297,16 +310,32 @@ const depositOne = async (item) => {
     .send({ from: accountAddress.value })
     .catch((error) => {
       console.error(error.message);
+      delDeposit(); // 交互失败，删除确认状态
     })
     .then((res) => {
       if (res) {
         dialogType.value = 4;
         transactionId.value = res.transactionHash;
       } else {
+        delDeposit(); // 交互失败，删除确认状态
         handleCancel();
       }
     });
 };
+
+// 确认中状态
+const depositConfirm = (item) => {
+  if (!confirmNft.value > 0) return false;
+  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
+
+  return confirm
+}
+
+// 删除确认中状态
+const delDeposit = () => {
+  confirmNft.value.splice(confirmIndex.value, 1);
+}
+
 
 
 // 打开确认弹窗

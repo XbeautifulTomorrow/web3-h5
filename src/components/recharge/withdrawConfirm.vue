@@ -33,7 +33,7 @@
       </div>
       <div class="deposit_tx_id" v-if="dialogType == 4">
         <span>{{ $t("recharge.transactionId") }}</span>
-        <span @click="viewTxid()">{{ formatAddr(txId) }}</span>
+        <span @click="viewTxid()">{{ txId }}</span>
       </div>
       <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
       <div class="nft-info" v-if="dialogType == 1">

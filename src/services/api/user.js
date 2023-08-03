@@ -10,6 +10,7 @@ const updateUserInfo = (params) =>
   apiService.post("mystery-web-user/user/updateInfo", params);
 
 
+
 const getTheUserSPayoutAddress = (params) =>
   apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params); //收款地址
 
@@ -62,7 +63,9 @@ const getTheUserPoint = params =>
   apiService.get('mystery-web-user/user/getTheUserPoint', params); // 积分余额
 
 const resetPassword = params =>
-  apiService.post('mystery-web-user/auth/account/resetPassword', params); // 积分余额
+  apiService.post('mystery-web-user/auth/account/resetPassword', params); // 重置密码
+const verifyNickname = params =>
+  apiService.get('/mystery-web-user/user/verifyNickname', params); // 重复昵称校验
 
 
 export {
@@ -86,5 +89,6 @@ export {
   rechargeByHash,
   statisticsClick,
   getTheUserPoint,
-  resetPassword
+  resetPassword,
+  verifyNickname
 };

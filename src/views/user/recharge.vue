@@ -389,14 +389,19 @@ export default {
     },
     // 提款余额
     async onWithdrawalBalance() {
-      const { walletAmount, walletAddr, operatingCoin } = this;
+      const { walletAmount, walletAddr, operatingCoin, exchangeRate } = this;
       this.onVerify("submit");
       if (!this.verifys) return;
+
+      let withdrawAmount = walletAmount;
+      if (operatingCoin == "USDT") {
+        withdrawAmount = new bigNumber(walletAmount || 0).multipliedBy(exchangeRate || 0);
+      }
 
       const res = await withdrawalBalance({
         targetCoin: operatingCoin, //目标币种
         walletAddress: walletAddr, //钱包地址
-        amount: walletAmount, //扣除的ETH金额
+        amount: withdrawAmount, //扣除的ETH金额
       });
       if (res && res.code == 200) {
         this.renewBalance();

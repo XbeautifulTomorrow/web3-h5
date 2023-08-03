@@ -129,8 +129,8 @@
       </div>
     </div>
     <Loading :loading="loading" />
-    <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" @confirm="onWithdrawalNft()"
-      @cancelDialogFun="showWithdraw = false" @closeDialogFun="handleClose()"></withdraw>
+    <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" :txId="transactionId"
+      @confirm="onWithdrawalNft()" @cancelDialogFun="handleCancel()"></withdraw>
   </el-dialog>
 </template>
 <script setup>
@@ -177,8 +177,9 @@ const size = ref(8);
 const count = ref(0);
 
 const show = ref(true);
-const showWithdraw = ref(true);
-const dialogType = ref(2);
+const showWithdraw = ref(false);
+const dialogType = ref(1);
+const transactionId = ref("");
 
 const chooseNft = ref({});
 const receiver = ref("");
@@ -262,29 +263,48 @@ const handleClose = () => {
 
 
 const depositOne = async (item) => {
+  chooseNft.value = item;
+  showWithdraw.value = true;
+  dialogType.value = 3;
 
   const { web3 } = useWalletStore();
   accountAddress.value = web3?.eth?.defaultAccount;
 
   if (item.contractType == "ERC1155") {
-    let nft1155Contract = web3.eth.Contract(
+    let nft1155Contract = new web3.eth.Contract(
       nft1155Abi,
       item.contractAddress
     );
     nft1155Contract.methods
       .safeTransferFrom(accountAddress.value, receiver.value, item.tokenId, 1, "0x")
-      .send({ from: accountAddress.value });
+      .send({ from: accountAddress.value })
+      .catch((error) => {
+        console.error(error.message);
+      })
+      .then((res) => {
+        if (res) {
+          dialogType.value = 4;
+          transactionId.value = res.transactionHash;
+        } else {
+          handleCancel();
+        }
+      });
     return;
   }
-  let nftContract = web3.eth.Contract(nft721Abi, item.contractAddress);
+  let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
   nftContract.methods
     .transferFrom(accountAddress.value, receiver.value, item.tokenId)
     .send({ from: accountAddress.value })
-    .then((res) => {
-      console.log(res);
-    })
     .catch((error) => {
       console.error(error.message);
+    })
+    .then((res) => {
+      if (res) {
+        dialogType.value = 4;
+        transactionId.value = res.transactionHash;
+      } else {
+        handleCancel();
+      }
     });
 };
 
@@ -294,7 +314,7 @@ const onWithdrawConfirm = (item) => {
   const { wallet } = params;
   if (!wallet) {
     ElMessage({
-      message: "Please enter wallet address",
+      message: t("airdrop.enterTips"),
       type: "error",
     });
     return;
@@ -309,6 +329,7 @@ const onWithdrawConfirm = (item) => {
   }
 
   chooseNft.value = item;
+  dialogType.value = 1;
   showWithdraw.value = true;
 }
 
@@ -429,6 +450,21 @@ const getWalletNftApi = async (isSearch = true) => {
   }
 };
 
+// 关闭弹窗
+const handleCancel = async () => {
+  dialogType.value = 1;
+  showWithdraw.value = false;
+  chooseNft.value = [];
+  transactionId.value = "";
+
+  // 加载数据
+  if (props.isDeposit) {
+    getWalletNftApi(false);
+  } else {
+    fetchSystemNft(false);
+  }
+};
+
 const pageList = ref([""])
 
 const startNum = computed(() => {
@@ -470,6 +506,7 @@ const pageCount = computed(() => {
   }
 })
 
+// 翻页
 const addCursor = (event) => {
   const isRepeat = pageList.value.findIndex(e => e == event) > -1;
 
@@ -478,12 +515,14 @@ const addCursor = (event) => {
   }
 }
 
+// 翻页
 const handlePageChange = (event) => {
   if (event < 0 && !pageCount.value.prev || event > 0 && !pageCount.value.next) return
   page.value += event;
   getWalletNftApi(false);
 }
 
+// 翻页
 const handleCurrentChange = (event) => {
   page.value = event;
 

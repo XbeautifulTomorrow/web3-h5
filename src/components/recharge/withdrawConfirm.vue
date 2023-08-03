@@ -10,7 +10,7 @@
     </template>
     <div class="public-dialog-content form-content">
       <p class="public-dialog-title" v-if="dialogType == 1">{{ $t("recharge.confirmTitle") }}</p>
-      <Image v-else-if="dialogType == 4" fit="cover" class="nft_img" />
+      <Image v-else-if="dialogType == 4" :src="nftInfo.nftImg" fit="cover" :class="['nft_img', 'depositImg']" />
       <Image v-else fit="cover" :src="require('@/assets/img/home/loading.png')" class="loading-img" />
       <div class="confirm-description" v-if="dialogType == 1">
         <span class="description-text" v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"></span>
@@ -24,12 +24,23 @@
         <div class="wait-title">{{ $t("recharge.depositWaitTitle") }}</div>
         <div class="wait-text">{{ $t("recharge.depositWaitText") }}</div>
       </div>
+      <div v-else-if="dialogType == 4">
+        <div class="wait-title">{{ $t("recharge.completeTitle1") }}</div>
+        <div class="wait-text deposit_nft">
+          <span>{{ $t("recharge.nftLabel") }}</span>
+          <span>{{ nftInfo.name || "-" }}</span>
+        </div>
+      </div>
+      <div class="deposit_tx_id" v-if="dialogType == 4">
+        <span>{{ $t("recharge.transactionId") }}</span>
+        <span>{{ txId }}</span>
+      </div>
       <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
       <div class="nft-info" v-if="dialogType == 1">
-        <span>{{ nftInfo.name || "--" }}</span>
+        <span>{{ nftInfo.name || "-" }}</span>
         <span>#{{ nftInfo.tokenId }}</span>
       </div>
-      <div class="form-buttons">
+      <div class="form-buttons" v-if="dialogType < 3">
         <el-button v-if="dialogType == 1" class="public-button cancel-button" @click="handleClose()">
           {{ $t("common.cancelUpper") }}
         </el-button>
@@ -49,6 +60,7 @@ import Image from "@/components/imageView";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import { ElMessage } from "element-plus";
+import { openUrl } from "@/utils";
 
 export default {
   name: 'modifyName',
@@ -64,8 +76,12 @@ export default {
     },
     dialogType: {
       type: Number,
-      default: 2 // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
+      default: 1 // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
     },
+    txId: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {
@@ -98,17 +114,16 @@ export default {
         }
         this.$emit("confirm");
       } else if (this.dialogType == 2) {
-        this.$emit("closeDialogFun");
+        this.$emit("cancelDialogFun");
       }
+    },
+    viewTxid() {
+      const transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
+      openUrl(transactionUrl + this.txId);
     },
     // 关闭弹窗
     handleClose(done) {
-      if (this.dialogType == 1) {
-        this.$emit("cancelDialogFun");
-      }
-      else if (this.dialogType == 2) {
-        this.$emit("closeDialogFun");
-      }
+      this.$emit("cancelDialogFun");
 
       if (done) {
         done();
@@ -146,6 +161,12 @@ export default {
   width: 22.375rem;
   height: 22.375rem;
   border-radius: 0.5rem;
+
+  &.depositImg {
+    margin: 1.875rem 0;
+    width: 7.375rem;
+    height: 7.375rem;
+  }
 }
 
 .loading-img {
@@ -183,6 +204,49 @@ export default {
   text-align: center;
   color: #a9a4b4;
   padding: 0.5rem 0 1.25rem;
+
+  &.deposit_nft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span+span {
+      padding-left: 0.25rem;
+    }
+
+    span:last-child {
+      font-family: Inter;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      text-align: center;
+      color: #11cde9;
+    }
+  }
+}
+
+.deposit_tx_id {
+  padding: 1.25rem 0 1.875rem;
+
+  span+span {
+    padding-left: 0.25rem;
+  }
+
+  span:nth-child(1) {
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+    color: white;
+  }
+
+  span:last-child {
+    font-family: Inter;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #11cde9;
+  }
 }
 
 .nft-info {

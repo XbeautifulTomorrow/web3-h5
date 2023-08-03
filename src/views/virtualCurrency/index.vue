@@ -73,9 +73,7 @@
           <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.chain") }}</span>
           <span class="popup-list-text text-ellipsis">
             {{
-              (currencyList[activeIndex] &&
-                currencyList[activeIndex].chainId) ||
-              "-"
+              formatNetwork(currencyList[activeIndex])
             }}
           </span>
         </li>
@@ -123,7 +121,8 @@ export default {
       currencyList: [],
       nftId: [], // 当前已有nft
       translateNum: 0,
-      timer: null
+      timer: null,
+      networkList: [{ label: "Goerli", value: 5 }, { label: "Main", value: 1 }]
     };
   },
   beforeUnmount() {
@@ -226,6 +225,16 @@ export default {
       if (!event) return "";
       var reg = /^(\S{2})\S+(\S{6})$/;
       return event.replace(reg, "$1...$2");
+    },
+    /**
+     * @description: 格式化网络
+     */
+    formatNetwork(event) {
+      const { chainId } = event;
+      if (!chainId) return "-";
+      const { networkList } = this;
+      const network = networkList.find(e => e.value == chainId);
+      return network.label;
     },
     /**
      * 判断id是否已存在

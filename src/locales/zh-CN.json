@@ -356,7 +356,8 @@
     "oldPass": "舊密碼",
     "newPass": "新密碼",
     "confirmPass": "確認密碼",
-    "resetPass": "重置密碼"
+    "resetPass": "重置密碼",
+    "priceError": "總价值必須大於0"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",
@@ -368,7 +369,10 @@
     "waitText": "驗證後，您的NFT將自動轉入您提供的錢包地址。",
     "continue": "繼續",
     "depositWaitTitle": "您的交易正在處理中。",
-    "depositWaitText": "您的交易正在處理中，並將很快在區塊鏈上得到確認"
+    "depositWaitText": "您的交易正在處理中，並將很快在區塊鏈上得到確認",
+    "completeTitle1": "您的充值已完成！",
+    "nftLabel": "您已存入",
+    "transactionId": "交易 ID"
   },
   "airdrop": {
     "airdropText1": "連結你的錢包以",

@@ -135,15 +135,11 @@ export default {
       const res = await getTicketList();
       if (res && res.code == 200) {
         this.currencyList = res.data;
-        const nftList = []
+        const nftList = res.data;
 
-        res.data.forEach(element => {
-          nftList.push(element);
-        });
-
-        if (this.nftId > 0) {
+        if (this.nftId.length > 0) {
           for (let i = 0; i < this.currencyList.length; i++) {
-            if (this.findNftId(this.currencyList[i].id)) {
+            if (!this.findNftId(this.currencyList[i].id)) {
               this.currencyList[i].animation = true;
             }
           }
@@ -241,7 +237,7 @@ export default {
      */
     findNftId(event) {
       const { nftId } = this;
-      return nftId.findIndex(e => e == event) > -1;
+      return nftId.findIndex(e => e.id == event) > -1;
     },
   },
   created() {

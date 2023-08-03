@@ -33,7 +33,7 @@
       </div>
       <div class="deposit_tx_id" v-if="dialogType == 4">
         <span>{{ $t("recharge.transactionId") }}</span>
-        <span>{{ txId }}</span>
+        <span @click="viewTxid()">{{ formatAddr(txId) }}</span>
       </div>
       <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
       <div class="nft-info" v-if="dialogType == 1">
@@ -120,6 +120,14 @@ export default {
     viewTxid() {
       const transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
       openUrl(transactionUrl + this.txId);
+    },
+    /**
+ * @description: 格式化地址
+ */
+    formatAddr(event) {
+      if (!event) return "";
+      var reg = /^(\S{6})\S+(\S{4})$/;
+      return event.replace(reg, "$1...$2");
     },
     // 关闭弹窗
     handleClose(done) {
@@ -231,6 +239,10 @@ export default {
     padding-left: 0.25rem;
   }
 
+  span {
+    display: block;
+  }
+
   span:nth-child(1) {
     font-family: Inter;
     font-size: 0.75rem;
@@ -246,6 +258,7 @@ export default {
     line-height: 1.6;
     text-align: center;
     color: #11cde9;
+    cursor: pointer;
   }
 }
 

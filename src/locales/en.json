@@ -583,7 +583,9 @@
     "network_not_available": "The server is busy, please try again later",
     "WITHDRAW_NOT_CONTEST": "This operation is not available for NFTs in withdrawal.",
     "not_less_than_fee": "The withdrawal amount cannot be less than the handling fee.",
-    "nft_not_supported": "NFT not supported."
+    "nft_not_supported": "NFT not supported.",
+    "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
+    "this_nft_withdrawal": "This NFT is being withdrawn."
   },
   "lottery": {
     "notice": "NOTICE",

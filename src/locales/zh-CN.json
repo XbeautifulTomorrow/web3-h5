@@ -584,7 +584,9 @@
     "network_not_available": "服務器繁忙，請稍後重試",
     "WITHDRAW_NOT_CONTEST": "此操作不適用於提現中的NFT",
     "not_less_than_fee": "提幣金額不能低於手續費",
-    "nft_not_supported": "不支持的NFT"
+    "nft_not_supported": "不支持的NFT",
+    "unable_nft_on_sale": "無法提取正在競賽中的NFT",
+    "this_nft_withdrawal": "該NFT正在提取中"
   },
   "lottery": {
     "notice": "提示",

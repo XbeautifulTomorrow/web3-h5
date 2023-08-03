@@ -11,29 +11,31 @@ const LANG_MENU = {
 // 获取当前语言
 function getLang() {
   // 优先 去localstore
-  if (localStorage.lang) {
-    const lang = localStorage.lang;
-    if (Object.keys(LANG_MENU).indexOf(lang) > -1)
-      // eslint-disable-next-line
-      return LANG_MENU[lang];
-  } else {
-    let language = null;
-    if (navigator.appName == 'Netscape') {
-      language = navigator.language;
-    }
-    else {
-      language = navigator.browserLanguage;
-    }
+  // if (localStorage.lang) {
+  //   const lang = localStorage.lang;
+  //   if (Object.keys(LANG_MENU).indexOf(lang) > -1)
+  //     // eslint-disable-next-line
+  //     return LANG_MENU[lang];
+  // } else {
+  //   let language = null;
+  //   if (navigator.appName == 'Netscape') {
+  //     language = navigator.language;
+  //   }
+  //   else {
+  //     language = navigator.browserLanguage;
+  //   }
 
-    if (language.indexOf("zh") > -1) {
-      localStorage.setItem("lang", "cn")
-      return "zh_CN"
-    } else {
-      localStorage.setItem("lang", "en")
-      return "en_US"
-    }
-  }
-  return "zh_CN";
+  //   if (language.indexOf("zh") > -1) {
+  //     localStorage.setItem("lang", "cn")
+  //     return "zh_CN"
+  //   } else {
+  //     localStorage.setItem("lang", "en")
+  //     return "en_US"
+  //   }
+  // }
+
+  // 現在只要英文
+  return "en_US";
 }
 
 const messages = {
@@ -60,7 +62,8 @@ const i18n = new createI18n({
 // 设置当前语言
 function setLang(lang) {
   Object.keys(LANG_MENU).forEach(key => {
-    i18n.locale = lang;
+    // i18n.locale = lang;
+    i18n.locale = "en_US";
     if (LANG_MENU[key] === lang) localStorage.setItem("lang", key);
   });
 }

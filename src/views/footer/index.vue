@@ -33,9 +33,9 @@
             <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
           </li>
         </ul>
-        <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
+        <!-- <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
           <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
-        </el-select>
+        </el-select> -->
       </div>
     </div>
   </div>
@@ -100,11 +100,14 @@ const nav = computed(() => {
 });
 
 const year = ref(new Date().getUTCFullYear());
+
+// eslint-disable-next-line no-unused-vars
 const langDrop = reactive([
   { name: "English", key: "en_US" },
   { name: "繁體中文", key: "zh_CN" },
 ]);
 
+// eslint-disable-next-line no-unused-vars
 const languageChange = (event) => {
   setLang(event);
   locale.value = event;

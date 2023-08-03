@@ -31,7 +31,7 @@
 <script>
 import { i18n } from '@/locales';
 const { t } = i18n.global;
-import { updateUserInfo } from "@/services/api/user";
+import { updateUserInfo, verifyNickname } from "@/services/api/user";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       showModify: true,
+      isRepeat: false,
       formUser: {
         name: null
       },
@@ -50,6 +51,10 @@ export default {
     ...mapStores(useUserStore)
   },
   methods: {
+    // 重复昵称校验
+    async verifyNickname() {
+
+    },
     // 更改用户名
     async resetUserName(formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -89,10 +94,20 @@ export default {
     },
   },
   created() {
+    const validateName = async (rule, value, callback) => {
+      const res = await verifyNickname({ name: value });
+      if (res.data) {
+        callback(new Error(t("errorTips.username_already_exist")));
+      } else {
+        callback();
+      }
+    };
+    
     this.rules = {
       name: [
         { required: true, message: t("airdrop.pleaseName"), trigger: ["blur", "change"] },
-        { min: 8, max: 20, message: t("airdrop.nameTips"), trigger: ["blur", "change"] }
+        { min: 8, max: 20, message: t("airdrop.nameTips"), trigger: ["blur", "change"] },
+        { validator: validateName, trigger: ["blur", "change"] }
       ]
     }
   }

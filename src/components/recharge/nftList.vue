@@ -100,6 +100,9 @@
             <div class="confirm_btn" v-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
               WITHDRAW
             </div>
+            <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
+              {{ $t("user.onSale") }}
+            </div>
             <div class="confirm_btn disabled" v-else>
               WITHDRAWLING
             </div>
@@ -304,6 +307,7 @@ const depositOne = async (item) => {
       });
     return;
   }
+
   let nftContract = new web3.eth.Contract(nft721Abi, item.contractAddress);
   nftContract.methods
     .transferFrom(accountAddress.value, receiver.value, item.tokenId)

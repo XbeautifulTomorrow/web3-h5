@@ -219,7 +219,8 @@
     "boxTipsTitle": "此盒子包含外部NFT",
     "boxTipsDescription1": "請注意，我們不能保證如果您贏得此NFT，我們就能代表您購買。",
     "boxTipsDescription2": "如果我們未能獲得 NFT，您將能夠領取相當於贏得的NFT價值的現金獎勵。",
-    "boxTipsClose": "我承認"
+    "boxTipsClose": "我知道了",
+    "onSale": "售賣中"
   },
   "user": {
     "changePwd": "修改密碼",
@@ -357,7 +358,8 @@
     "newPass": "新密碼",
     "confirmPass": "確認密碼",
     "resetPass": "重置密碼",
-    "priceError": "總价值必須大於0"
+    "priceError": "總价值必須大於0",
+    "onSale": "售賣中"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

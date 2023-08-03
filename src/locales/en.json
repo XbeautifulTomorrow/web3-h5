@@ -357,7 +357,8 @@
     "newPass": "New Password",
     "confirmPass": "Confirm password",
     "resetPass": "Reset password",
-    "priceError": "The total value must be more than 0."
+    "priceError": "The total value must be more than 0.",
+    "onSale": "ON SALE"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

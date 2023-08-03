@@ -143,7 +143,7 @@ export default {
 
         if (this.nftId > 0) {
           for (let i = 0; i < this.currencyList.length; i++) {
-            if (this.findNftId(this.currencyList[i].id)) {
+            if (!this.findNftId(this.currencyList[i].id)) {
               this.currencyList[i].animation = true;
             }
           }

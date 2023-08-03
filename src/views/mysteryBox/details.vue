@@ -98,7 +98,10 @@
                 </span>
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
-                {{ `${item.minPrice} ETH - ${item.maxPrice} ETH` }}
+                <span v-if="item.minPrice == item.maxPrice">
+                  {{ `${item.minPrice} ETH` }}
+                </span>
+                <span v-else>{{ `${item.minPrice} ETH - ${item.maxPrice} ETH` }}</span>
               </div>
               <div v-else class="series_price">
                 {{ `${item.maxPrice} ETH` }}

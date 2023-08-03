@@ -5,9 +5,9 @@
         <div class="title_box">
           <div class="title_text">{{ blindDetailInfo.boxName }}</div>
           <div class="title_description">{{ $t("mysteryBox.titleHint") }}</div>
-          <div class="title_btn">
+          <!-- <div class="title_btn">
             <span class="title_btn_text">{{ $t("mysteryBox.titleTips") }}</span>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="lottery_boxs">

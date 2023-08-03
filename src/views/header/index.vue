@@ -63,6 +63,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import { accurateDecimal, openUrl } from "@/utils";
+import emitter from "@/utils/event-bus.js";
 
 export default {
   name: "HeaderCom",
@@ -191,6 +192,9 @@ export default {
     }
   },
   created() {
+    emitter.on("pageTypeChange", (type) => {
+      this.pageType = type;
+    });
     this.active = this.$route.name;
 
     if (this.isLogin && this.userInfo?.id) {

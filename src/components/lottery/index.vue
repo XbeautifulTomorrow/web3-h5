@@ -95,6 +95,7 @@ import { ElMessage } from "element-plus";
 
 import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
 import { useHeaderStore } from "@/store/header.js";
+import { useUserStore } from "@/store/user.js";
 
 import { shuffle } from "@/assets/js";
 
@@ -117,6 +118,9 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import emitter from "@/utils/event-bus.js";
 import bigNumber from "bignumber.js";
+
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -172,7 +176,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore),
+    ...mapStores(useHeaderStore, useUserStore),
     newValue: {
       get: function () {
         return this.showRoll;
@@ -309,6 +313,25 @@ export default {
       this.closeDialogFun();
     },
     unboxAgain() {
+      const { blindDetailInfo } = this;
+      this.headerStoreStore.getTheUserBalanceApi();
+      const { balance } = this.headerStoreStore;
+      const { userInfo } = this.userStore;
+      const type = this.rollNumber;
+      if (!userInfo) {
+        this.messageFun(t("mysteryBox.loginHint"));
+        return;
+      }
+      if (
+        (type === "ONE" && blindDetailInfo.price > balance) ||
+        (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) ||
+        (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance)
+      ) {
+        this.messageFun();
+        // 充值弹框
+        emitter.emit("pageTypeChange", "recharge");
+        return;
+      }
       localStorage.removeItem("result");
       this.closeDialogFun();
       setTimeout(() => {
@@ -441,6 +464,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.$root);
     const { clientWidth } = document.body;
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;

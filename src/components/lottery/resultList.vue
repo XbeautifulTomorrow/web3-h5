@@ -310,7 +310,7 @@ const audioPlay = () => {
     _audioPlay(flop);
     setTimeout(() => {
       _audioPlay(flopAfter);
-    }, 1200);
+    }, 1000);
   }
 };
 const _audioPlay = (_music) => {

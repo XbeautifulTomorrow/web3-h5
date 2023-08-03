@@ -31,13 +31,26 @@
     </div>
   </div>
 </template>
+
 <script>
 import { Howl } from "howler";
 import ResultLink from "../resultLink";
+
+// const slipeStart = "https://www.bitzing.io/prd/music/more-slipe-start.mp3"
+// const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3"
+// const advanced = "https://www.bitzing.io/prd/music/more-advanced.mp3"
+// const usually = "https://www.bitzing.io/prd/music/more-usually.mp3"
 import slipeStart from "@/assets/music/more-slipe-start.mp3";
 import slipe from "@/assets/music/more-slipe.mp3";
-import advanced from "@/assets/music/more-advanced.mp3";
-import usually from "@/assets/music/more-usually.mp3";
+import EPIC1 from "@/assets/music/more-EPIC1.mp3";
+import EPIC2 from "@/assets/music/more-EPIC2.mp3";
+import EPIC3 from "@/assets/music/more-EPIC3.mp3";
+import LEGEND from "@/assets/music/more-LEGEND.wav";
+import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
+import NORMAL2 from "@/assets/music/more-NORMAL2.mp3";
+import NORMAL3 from "@/assets/music/more-NORMAL3.mp3";
+import NORMAL4 from "@/assets/music/more-NORMAL4.mp3";
+import NORMAL5 from "@/assets/music/more-NORMAL5.mp3";
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
@@ -111,6 +124,30 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
     },
+    
+    playAwardsFunc(index) {
+      const audioFiles = {
+        EPIC: [EPIC1, EPIC2, EPIC3],
+        LEGEND: [LEGEND],
+        RARE: [NORMAL1, NORMAL2, NORMAL3, NORMAL4, NORMAL5]
+      };
+      let targetAwardType = this.winData[index].qualityType
+      const sametype = this.winData.filter(x => x.qualityType == targetAwardType)
+      if (targetAwardType == 'NORMAL') {
+        this.playSound(NORMAL1)
+      }else if (sametype?.length) {
+        let file = null
+        // let type = targetAwardType == 'RARE' ? 'NORMAL' : targetAwardType
+        let type = targetAwardType
+        let audioArr = audioFiles[type]
+        if (sametype?.length >= audioArr.length ) {
+          file = audioArr[audioArr.length - 1];
+        } else {
+          file = audioArr[sametype?.length-1]
+        }
+        this.playSound(file)
+      }
+    },
     stopScroll(data) {
       this.clearTimerFun();
       this.timer = setInterval(() => {
@@ -119,25 +156,11 @@ export default {
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         setTimeout(() => {
-          if (
-            data[numberTest].qualityType === "NORMAL" ||
-            data[numberTest].qualityType === "RARE"
-          ) {
-            this.playSound(advanced);
-          } else {
-            this.playSound(usually);
-          }
+          this.playAwardsFunc(Number(numberTest))
         }, this.delayTimer * 1000);
         if (this.winData.length >= this.prizeList.length) {
           setTimeout(() => {
-            if (
-              data[numberTest].qualityType === "NORMAL" ||
-              data[numberTest].qualityType === "RARE"
-            ) {
-              this.playSound(advanced);
-            } else {
-              this.playSound(usually);
-            }
+            this.playAwardsFunc(Number(numberTest))
           }, this.delayTimer * 1000);
           this.autoplayFun();
           this.clearTimerFun();

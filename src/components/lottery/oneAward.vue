@@ -84,6 +84,7 @@ import { Howl } from "howler";
 import slipe from "@/assets/music/slipe.mp3";
 import advanced from "@/assets/music/advanced.mp3";
 import usually from "@/assets/music/usually.mp3";
+import oneSlow from "@/assets/music/one-slow.mp3";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;
@@ -198,17 +199,18 @@ export default {
       audioObj.play();
     },
     slowPlayFunc() {
-      const intervalId = setInterval(() => {
-        if (this.delay > this.slowTime * 500) {
-          clearInterval(this.intervalId);
-        } else {
-          this.slowPlayFunc();
-        }
-        this.playSound(slipe);
-        this.delay += this.increment;
-        this.increment *= 1.5;
-        clearInterval(intervalId);
-      }, this.delay);
+      this.playSound(oneSlow);
+      // const intervalId = setInterval(() => {
+      //   if (this.delay > this.slowTime * 500) {
+      //     clearInterval(this.intervalId);
+      //   } else {
+      //     this.slowPlayFunc();
+      //   }
+      //   this.playSound(slipe);
+      //   this.delay += this.increment;
+      //   this.increment *= 1.5;
+      //   clearInterval(intervalId);
+      // }, this.delay);
     },
     musicSpeedFunc(type) {
       if (type == "up") {

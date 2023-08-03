@@ -1,22 +1,50 @@
 <template>
   <div class="blind-detail">
-    <template v-if="blindDetailInfo &&
-      blindDetailInfo.series &&
-      blindDetailInfo.series.length > 0
-      ">
-      <Lottory v-if="showRoll" ref="roll" :rollNumber="rollNumber" :showRoll="showRoll"
-        :lottoList="blindDetailInfo.series" :blindDetailInfo="blindDetailInfo" :lottResult="lottResult"
-        :apiIsError="apiIsError" :errorText="errorText" @apiIsErrorFun="apiIsErrorFun" @closeRollFun="closeRollFun" />
+    <template
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
+      <Lottory
+        v-if="showRoll"
+        ref="roll"
+        :rollNumber="rollNumber"
+        :showRoll="showRoll"
+        :lottoList="blindDetailInfo.series"
+        :blindDetailInfo="blindDetailInfo"
+        :lottResult="lottResult"
+        :apiIsError="apiIsError"
+        :errorText="errorText"
+        @apiIsErrorFun="apiIsErrorFun"
+        @closeRollFun="closeRollFun"
+      />
     </template>
-    <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
+    <boxDetails
+      :blindDetailInfo="blindDetailInfo"
+      @rollNumberFun="rollNumberFun"
+    ></boxDetails>
     <Loading :loading="loading" />
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
-      <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
+      <img
+        v-for="(item, index) in preloadingImg"
+        :src="item"
+        :key="`img-${index}`"
+      />
     </div>
   </div>
-  <el-dialog v-model="showTips" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="800px" :before-close="handleClose">
+  <el-dialog
+    v-model="showTips"
+    destroy-on-close
+    :close-on-click-modal="false"
+    :show-close="false"
+    :align-center="true"
+    class="public-dialog"
+    width="800px"
+    :before-close="handleClose"
+  >
     <template #header>
       <div class="close_btn" @click="handleClose()">
         <el-icon>
@@ -28,7 +56,9 @@
       <p class="public-dialog-title">{{ $t("mysteryBox.boxTipsTitle") }}</p>
       <div class="tips-box">
         <div class="tips-text">{{ $t("mysteryBox.boxTipsDescription1") }}</div>
-        <div class="tips-text bottom">{{ $t("mysteryBox.boxTipsDescription2") }}</div>
+        <div class="tips-text bottom">
+          {{ $t("mysteryBox.boxTipsDescription2") }}
+        </div>
       </div>
       <div class="form-buttons">
         <el-button class="public-button" @click="handleClose()">
@@ -73,8 +103,18 @@ import moreAdvanced from "@/assets/music/more-advanced.mp3";
 import moreUsually from "@/assets/music/more-usually.mp3";
 import flop from "@/assets/music/flop.mp3";
 import flopAfter from "@/assets/music/flop-after.mp3";
+import EPIC1 from "@/assets/music/more-EPIC1.mp3";
+import EPIC2 from "@/assets/music/more-EPIC2.mp3";
+import EPIC3 from "@/assets/music/more-EPIC3.mp3";
+import LEGEND from "@/assets/music/more-LEGEND.wav";
+import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
+import NORMAL2 from "@/assets/music/more-NORMAL2.mp3";
+import NORMAL3 from "@/assets/music/more-NORMAL3.mp3";
+import NORMAL4 from "@/assets/music/more-NORMAL4.mp3";
+import NORMAL5 from "@/assets/music/more-NORMAL5.mp3";
+import oneSlow from "@/assets/music/one-slow.mp3";
 
-import { setSessionStore, getSessionStore } from '@/utils';
+import { setSessionStore, getSessionStore } from "@/utils";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -108,7 +148,7 @@ export default {
       resultTimer: null,
       errorText: undefined,
 
-      showTips: true
+      showTips: true,
     };
   },
   computed: {
@@ -142,6 +182,16 @@ export default {
         moreUsually,
         flop,
         flopAfter,
+        EPIC1,
+        EPIC2,
+        EPIC3,
+        LEGEND,
+        NORMAL1,
+        NORMAL2,
+        NORMAL3,
+        NORMAL4,
+        NORMAL5,
+        oneSlow,
       ];
       audioSrc.map((x) => new Howl({ src: x }));
     },
@@ -351,10 +401,9 @@ export default {
     },
     // 关闭弹窗
     handleClose(done) {
-
       if (done) {
         done();
-        return
+        return;
       }
 
       setSessionStore("showTips", 2);
@@ -362,7 +411,7 @@ export default {
     },
   },
   created() {
-    const showTips = getSessionStore("showTips")
+    const showTips = getSessionStore("showTips");
     if (showTips && showTips == 2) {
       this.showTips = false;
     }
@@ -418,9 +467,11 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(228deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0) 62%);
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
 
   &:last-child {
     margin-right: 0;
@@ -456,10 +507,12 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   border-image-slice: 1;
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
@@ -469,10 +522,12 @@ body {
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

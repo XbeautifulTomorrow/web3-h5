@@ -99,8 +99,7 @@ export default {
       this.delayTimer = param;
     },
     playSound(_music, musicLoop = false) {
-      const audioObj = new Howl({ src: [_music] });
-      audioObj.loop = musicLoop;
+      const audioObj = new Howl({ src: [_music] ,loop:musicLoop});
       audioObj.pause();
       audioObj.play();
       return audioObj;

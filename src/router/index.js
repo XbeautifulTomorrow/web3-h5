@@ -71,8 +71,8 @@ const routes = [
     },
   },
   {
-    path: "/wars",
-    name: "Wars",
+    path: "/treasureDraws",
+    name: "TreasureDraws",
     components: {
       default: nftTicketsList,
       Header,

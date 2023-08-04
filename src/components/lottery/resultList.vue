@@ -253,8 +253,8 @@ import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
-import flop from "@/assets/music/flop.mp3";
-import flopAfter from "@/assets/music/flop-after.mp3";
+const flop = "https://www.bitzing.io/prd/music/flop.mp3";
+const flopAfter = "https://www.bitzing.io/prd/music/flop-after.mp3";
 
 const { t } = i18n.global;
 

@@ -81,10 +81,10 @@
 </template>
 <script>
 import { Howl } from "howler";
-import slipe from "@/assets/music/slipe.mp3";
-import advanced from "@/assets/music/advanced.mp3";
-import usually from "@/assets/music/usually.mp3";
-import oneSlow from "@/assets/music/one-slow.mp3";
+const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
+const advanced = "https://www.bitzing.io/prd/music/advanced.mp3";
+const usually = "https://www.bitzing.io/prd/music/usually.mp3";
+const oneSlow = "https://www.bitzing.io/prd/music/one-slow.mp3";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;
@@ -138,6 +138,7 @@ export default {
       increment: 10,
       boxOffsetWidth: 0,
       subAwardsWidth: 0,
+      slipeMusic:null
     };
   },
   async mounted() {
@@ -168,7 +169,7 @@ export default {
         }
       }, 100);
       setTimeout(() => {
-        this.musicSpeedFunc("up");
+        this.slipeMusic = this.playSound(slipe,true);
       }, 500);
     }
   },
@@ -193,36 +194,14 @@ export default {
         this.awardsList = [...newArray];
       }
     },
-    playSound(_music) {
-      const audioObj = new Howl({ src: [_music] });
-      audioObj.stop();
+    playSound(_music, musicLoop = false) {
+      const audioObj = new Howl({ src: [_music] ,loop:musicLoop});
+      audioObj.pause();
       audioObj.play();
-    },
-    slowPlayFunc() {
-      this.playSound(oneSlow);
-      // const intervalId = setInterval(() => {
-      //   if (this.delay > this.slowTime * 500) {
-      //     clearInterval(this.intervalId);
-      //   } else {
-      //     this.slowPlayFunc();
-      //   }
-      //   this.playSound(slipe);
-      //   this.delay += this.increment;
-      //   this.increment *= 1.5;
-      //   clearInterval(intervalId);
-      // }, this.delay);
-    },
-    musicSpeedFunc(type) {
-      if (type == "up") {
-        this.intervalId = setInterval(() => {
-          this.playSound(slipe);
-        }, 50);
-      } else {
-        this.slowPlayFunc();
-      }
+      return audioObj;
     },
     stopScroll(data) {
-      clearInterval(this.intervalId);
+      this.stopAudioFunc()
       if (data && data.qualityType) {
         if (data.qualityType === "NORMAL") {
           this.playSound(usually);
@@ -251,17 +230,20 @@ export default {
       this.awardsList.splice(len + 2, 1, data);
       this.isActive = true;
       this.isAutoplay = false;
-      clearInterval(this.intervalId);
+      this.stopAudioFunc()
       if (!state) {
-        this.musicSpeedFunc();
+        this.playSound(oneSlow);
       }
     },
+    stopAudioFunc() {
+      this.slipeMusic && this.slipeMusic.pause();
+    }
   },
   watch: {
     apiIsError: function (newData) {
       if (newData) {
         this.isAutoplay = false;
-        clearInterval(this.intervalId);
+        this.stopAudioFunc()
       }
     },
     awardItem: {
@@ -277,7 +259,7 @@ export default {
     },
   },
   beforeUnmount() {
-    clearInterval(this.intervalId);
+    this.stopAudioFunc()
   },
 };
 </script>

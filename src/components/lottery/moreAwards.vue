@@ -34,23 +34,19 @@
 
 <script>
 import { Howl } from "howler";
-import ResultLink from "../resultLink";
+const slipeStart = "https://www.bitzing.io/prd/music/more-slipe-start.mp3";
+const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
+const EPIC1 = "https://www.bitzing.io/prd/music/more-EPIC1.mp3";
+const EPIC2 = "https://www.bitzing.io/prd/music/more-EPIC2.mp3";
+const EPIC3 = "https://www.bitzing.io/prd/music/more-EPIC3.mp3";
+const LEGEND = "https://www.bitzing.io/prd/music/more-LEGEND.wav";
+const NORMAL1 = "https://www.bitzing.io/prd/music/more-NORMAL1.mp3";
+const NORMAL2 = "https://www.bitzing.io/prd/music/more-NORMAL2.mp3";
+const NORMAL3 = "https://www.bitzing.io/prd/music/more-NORMAL3.mp3";
+const NORMAL4 = "https://www.bitzing.io/prd/music/more-NORMAL4.mp3";
+const NORMAL5 = "https://www.bitzing.io/prd/music/more-NORMAL5.mp3";
 
-// const slipeStart = "https://www.bitzing.io/prd/music/more-slipe-start.mp3"
-// const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3"
-// const advanced = "https://www.bitzing.io/prd/music/more-advanced.mp3"
-// const usually = "https://www.bitzing.io/prd/music/more-usually.mp3"
-import slipeStart from "@/assets/music/more-slipe-start.mp3";
-import slipe from "@/assets/music/more-slipe.mp3";
-import EPIC1 from "@/assets/music/more-EPIC1.mp3";
-import EPIC2 from "@/assets/music/more-EPIC2.mp3";
-import EPIC3 from "@/assets/music/more-EPIC3.mp3";
-import LEGEND from "@/assets/music/more-LEGEND.wav";
-import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
-import NORMAL2 from "@/assets/music/more-NORMAL2.mp3";
-import NORMAL3 from "@/assets/music/more-NORMAL3.mp3";
-import NORMAL4 from "@/assets/music/more-NORMAL4.mp3";
-import NORMAL5 from "@/assets/music/more-NORMAL5.mp3";
+import ResultLink from "../resultLink";
 import AwardsList from "./awardList.vue";
 export default {
   name: "MoreAwards",
@@ -129,7 +125,7 @@ export default {
       const audioFiles = {
         EPIC: [EPIC1, EPIC2, EPIC3],
         LEGEND: [LEGEND],
-        RARE: [NORMAL1, NORMAL2, NORMAL3, NORMAL4, NORMAL5]
+        RARE: [NORMAL2, NORMAL3, NORMAL4, NORMAL5]
       };
       let targetAwardType = this.winData[index].qualityType
       const sametype = this.winData.filter(x => x.qualityType == targetAwardType)

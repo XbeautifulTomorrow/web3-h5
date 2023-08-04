@@ -245,7 +245,6 @@ import {
 } from "vue";
 import * as workerTimers from "worker-timers";
 import { BigNumber } from "bignumber.js";
-import { Howl } from "howler";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -253,8 +252,8 @@ import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
-const flop = "https://www.bitzing.io/prd/music/flop.mp3";
-const flopAfter = "https://www.bitzing.io/prd/music/flop-after.mp3";
+import { Howl } from "howler";
+import { flop, flopAfter } from "@/utils/audioResource";
 
 const { t } = i18n.global;
 

@@ -81,10 +81,7 @@
 </template>
 <script>
 import { Howl } from "howler";
-const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
-const advanced = "https://www.bitzing.io/prd/music/advanced.mp3";
-const usually = "https://www.bitzing.io/prd/music/usually.mp3";
-const oneSlow = "https://www.bitzing.io/prd/music/one-slow.mp3";
+import {slipe,advanced,usually,oneSlow} from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;

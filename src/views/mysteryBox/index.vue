@@ -94,26 +94,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet.js";
 
 import { Howl } from "howler";
-const usually = "https://www.bitzing.io/prd/music/usually.mp3";
-const advanced = "https://www.bitzing.io/prd/music/advanced.mp3";
-const oneSlow = "https://www.bitzing.io/prd/music/one-slow.mp3";
-const moreSlipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
-const moreAdvanced = "https://www.bitzing.io/prd/music/more-advanced.mp3";
-const moreUsually = "https://www.bitzing.io/prd/music/more-usually.mp3";
-const flop = "https://www.bitzing.io/prd/music/flop.mp3";
-const flopAfter = "https://www.bitzing.io/prd/music/flop-after.mp3";
-const slipeStart = "https://www.bitzing.io/prd/music/more-slipe-start.mp3";
-const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
-const EPIC1 = "https://www.bitzing.io/prd/music/more-EPIC1.mp3";
-const EPIC2 = "https://www.bitzing.io/prd/music/more-EPIC2.mp3";
-const EPIC3 = "https://www.bitzing.io/prd/music/more-EPIC3.mp3";
-const LEGEND = "https://www.bitzing.io/prd/music/more-LEGEND.wav";
-const NORMAL1 = "https://www.bitzing.io/prd/music/more-NORMAL1.mp3";
-const NORMAL2 = "https://www.bitzing.io/prd/music/more-NORMAL2.mp3";
-const NORMAL3 = "https://www.bitzing.io/prd/music/more-NORMAL3.mp3";
-const NORMAL4 = "https://www.bitzing.io/prd/music/more-NORMAL4.mp3";
-const NORMAL5 = "https://www.bitzing.io/prd/music/more-NORMAL5.mp3";
-
+import * as audioResource from "@/utils/audioResource";
 import { setSessionStore, getSessionStore } from "@/utils";
 
 dayjs.extend(utc);
@@ -172,28 +153,8 @@ export default {
   },
   methods: {
     audioPreloadFunc() {
-      const audioSrc = [
-        slipe,
-        slipeStart,
-        oneSlow,
-        moreSlipe,
-        advanced,
-        usually,
-        moreAdvanced,
-        moreUsually,
-        flop,
-        flopAfter,
-        EPIC1,
-        EPIC2,
-        EPIC3,
-        LEGEND,
-        NORMAL1,
-        NORMAL2,
-        NORMAL3,
-        NORMAL4,
-        NORMAL5,
-      ];
-      audioSrc.map((x) => new Howl({ src: x }));
+      const audioSrc = audioResource
+      Object.values(audioSrc).forEach(x=>new Howl({ src: x }))
     },
     rollNumberFun(number) {
       const result = localStorage.getItem("result");

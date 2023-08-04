@@ -34,17 +34,7 @@
 
 <script>
 import { Howl } from "howler";
-const slipeStart = "https://www.bitzing.io/prd/music/more-slipe-start.mp3";
-const slipe = "https://www.bitzing.io/prd/music/more-slipe.mp3";
-const EPIC1 = "https://www.bitzing.io/prd/music/more-EPIC1.mp3";
-const EPIC2 = "https://www.bitzing.io/prd/music/more-EPIC2.mp3";
-const EPIC3 = "https://www.bitzing.io/prd/music/more-EPIC3.mp3";
-const LEGEND = "https://www.bitzing.io/prd/music/more-LEGEND.wav";
-const NORMAL1 = "https://www.bitzing.io/prd/music/more-NORMAL1.mp3";
-const NORMAL2 = "https://www.bitzing.io/prd/music/more-NORMAL2.mp3";
-const NORMAL3 = "https://www.bitzing.io/prd/music/more-NORMAL3.mp3";
-const NORMAL4 = "https://www.bitzing.io/prd/music/more-NORMAL4.mp3";
-const NORMAL5 = "https://www.bitzing.io/prd/music/more-NORMAL5.mp3";
+import {slipeStart,slipe,EPIC1,EPIC2,EPIC3,LEGEND,NORMAL1,NORMAL2,NORMAL3,NORMAL4,NORMAL5} from "@/utils/audioResource";
 
 import ResultLink from "../resultLink";
 import AwardsList from "./awardList.vue";

@@ -80,12 +80,13 @@
           </template>
         </el-input>
       </div>
-      <div class="choose_nft">
+      <div class="choose_nft" v-if="count > 0">
         <div class="choose_nft_item" v-for="(item, index) in chooseNftData" :key="index">
           <div class="img_box">
             <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
             <Image fit="cover" class="nft_img" v-else :src="item.img" />
             <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
+            <div v-if="isDeposit" class="num_tips text-ellipsis">{{ `x ${item.amount}` }}</div>
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
           <template v-if="isDeposit">
@@ -112,7 +113,12 @@
           </div>
         </div>
       </div>
-      <div class="pagination_boxs" v-if="isDeposit">
+      <div class="choose_nft" v-else>
+        <div class="no_date">
+          <span>{{ $t("user.noDataNft") }}</span>
+        </div>
+      </div>
+      <div class="pagination_boxs" v-if="isDeposit && count > size">
         <div class="total_box">
           {{ `${startNum}-${endNum} of ${count}` }}
         </div>

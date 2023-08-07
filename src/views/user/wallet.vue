@@ -53,8 +53,22 @@
         </div>
       </div>
       <el-table :data="historyData" class="table_container">
-        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" align="center" />
-        <el-table-column prop="amount" :label="$t('user.balanceTabel2')" align="center">
+        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" align="center" key="1" />
+        <el-table-column prop="seriesName" v-if="coin == 'NFT'" label="COLLECTION" align="center" key="2" show-overflow-tooltip />
+        <el-table-column prop="tokenId" v-if="coin == 'NFT'" label="TOKEN ID" align="center" key="3">
+          <template #default="scope">
+            {{ `#${scope.row.tokenId}` }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="serviceFee" v-if="coin == 'NFT'" label="GAS FEE" align="center" key="4">
+          <template #default="scope">
+            <div class="amount_box">
+              <span>{{ scope.row.serviceFee }}</span>
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="amount" v-if="coin != 'NFT'" :label="$t('user.balanceTabel2')" align="center" key="5">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.criditAmount }}</span>
@@ -64,7 +78,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="eth_amount" :label="$t('user.balanceTabel3')" align="center">
+        <el-table-column prop="eth_amount" v-if="coin != 'NFT'" :label="$t('user.balanceTabel3')" align="center" key="6">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.amount }}</span>
@@ -74,7 +88,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" align="center">
+        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" align="center" key="7">
           <template #default="scope">
             <div :class="['sync_status', scope.row.syncStatus]">
               <span> {{ scope.row.syncStatus }}</span>
@@ -93,12 +107,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" align="center">
+        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" align="center" key="8">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('user.balanceTabel6')" align="center">
+        <el-table-column :label="$t('user.balanceTabel6')" align="center" key="9">
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
@@ -147,7 +161,8 @@ import { useUserStore } from "@/store/user.js";
 import {
   getWithdrawalHistory,
   rechargeByHash,
-  getTheUserPoint
+  getTheUserPoint,
+  getNftWithdrawalList
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
@@ -217,6 +232,7 @@ export default {
         this.userPoints = res.data.balance;
       }
     },
+    // 充值补充
     async onRechargeByHash() {
       const { transactionId } = this;
       if (!transactionId) {
@@ -253,6 +269,13 @@ export default {
     // 检索历史
     searchHistory(event) {
       this.coin = event;
+      if (this.coin == "NFT") {
+        this.fetchNftWithdrawalList(false);
+        return
+      }
+
+
+      this.historyData = [];
       this.fetchHistory();
     },
     // 充值提款历史
@@ -276,12 +299,37 @@ export default {
         this.count = res.data.total;
       }
     },
+
+    // NFT充值提款历史
+    async fetchNftWithdrawalList(isSearch = true) {
+      const { size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.finished = false;
+        this.page = 1;
+        _page = 1;
+      }
+
+      const res = await getNftWithdrawalList({
+        page: _page,
+        size: size
+      });
+
+      if (res && res.code == 200) {
+        this.historyData = res.data.records;
+        this.count = res.data.total;
+      }
+    },
     viewTxid(event) {
       const transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
       openUrl(transactionUrl + event);
     },
     handleCurrentChange(page) {
       this.page = page;
+      if (this.coin == "NFT") {
+        this.fetchNftWithdrawalList(false);
+        return
+      }
       this.fetchHistory(false);
     }
   },

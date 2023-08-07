@@ -66,6 +66,8 @@ const resetPassword = params =>
   apiService.post('mystery-web-user/auth/account/resetPassword', params); // 重置密码
 const verifyNickname = params =>
   apiService.get('/mystery-web-user/user/verifyNickname', params); // 重复昵称校验
+const getNftWithdrawalList = params =>
+  apiService.get('/mystery-web-user/withdrawal/nft/pageList', params); // NFT充提记录
 
 
 export {
@@ -90,5 +92,6 @@ export {
   statisticsClick,
   getTheUserPoint,
   resetPassword,
-  verifyNickname
+  verifyNickname,
+  getNftWithdrawalList
 };

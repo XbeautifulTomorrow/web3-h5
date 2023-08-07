@@ -30,8 +30,8 @@
             </div>
             <div class="box-price">
               <div class="price-box">
+                <img src="@/assets/svg/box/icon_eth.svg" alt="">
                 <span>{{ item.price }}</span>
-                <img v-if="item.coin == 'ETH'" src="@/assets/svg/box/icon_eth.svg" alt="">
               </div>
             </div>
             <div class="other">

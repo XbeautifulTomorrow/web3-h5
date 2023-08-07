@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     async fetchTicketList() {
-      const res = await getTicketList();
+      const res = await getTicketList({ limit: 20 });
       if (res && res.code == 200) {
         this.currencyList = res.data;
         const nftList = res.data;

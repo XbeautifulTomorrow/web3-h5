@@ -33,8 +33,8 @@
                 <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
+                <img src="@/assets/svg/box/icon_eth.svg" alt="">
                 <span>{{ blindDetailInfo && blindDetailInfo.price }}</span>
-                <img v-if="blindDetailInfo.coin == 'ETH'" src="@/assets/svg/box/icon_eth.svg" alt="">
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -47,11 +47,11 @@
                 <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
+                <img src="@/assets/svg/box/icon_eth.svg" alt="">
                 <span>{{
                   blindDetailInfo &&
                   new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
                 }}</span>
-                <img v-if="blindDetailInfo.coin == 'ETH'" src="@/assets/svg/box/icon_eth.svg" alt="">
               </div>
             </div>
           </div>
@@ -65,11 +65,11 @@
               <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
+              <img src="@/assets/svg/box/icon_eth.svg" alt="">
               <span>{{
                 blindDetailInfo &&
                 new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
               }}</span>
-              <img v-if="blindDetailInfo.coin == 'ETH'" src="@/assets/svg/box/icon_eth.svg" alt="">
             </div>
           </div>
         </div>

@@ -204,18 +204,17 @@
             <div class="traits_list">
               <div class="traits_item" v-for="(item, index) in attrData" :key="index">
                 <div class="traits_item_top">
+                  <div class="traits_item_name">{{ item.attrName }}</div>
+                </div>
+                <div class="traits_item_val">
                   <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                     <template #content>
-                      <span>{{ item.attrName }}</span>
+                      <span>{{ item.attrValue }}</span>
                     </template>
-                    <div class="traits_item_name">{{ item.attrName }}</div>
+                    <div class="item_val">{{ item.attrValue }}</div>
                   </el-tooltip>
-                  <div class="traits_item_num">
-                    <img src="@/assets/svg/home/nft_tickets_attr.svg" alt="">
-                    <span>{{ item.attrNum }}</span>
-                  </div>
+                  <span class="item_ratio">{{ new bigNumber(item.attrRate).multipliedBy(100) }}%</span>
                 </div>
-                <div class="traits_item_val">{{ item.attrValue }}</div>
               </div>
             </div>
           </div>
@@ -243,7 +242,7 @@
                 <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
                 <span v-if="item.orderType == 'LIMITED_TIME'">
                   <span v-if="dateDiff(item && item.endTime) > 1">
-                    {{ $t("home.daysLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
+                    {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
 
                   </span>
                   <countDown v-else v-slot="timeObj" :time="item && item.endTime">

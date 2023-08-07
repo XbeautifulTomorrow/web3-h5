@@ -34,7 +34,7 @@
 
 <script>
 import { Howl } from "howler";
-import {slipeStart,slipe,EPIC1,EPIC2,EPIC3,LEGEND,NORMAL1,NORMAL2,NORMAL3,NORMAL4,NORMAL5} from "@/utils/audioResource";
+import {slipeStart,slipe,EPIC1,EPIC2,EPIC3,LEGEND,NORMAL1,NORMAL2,NORMAL3,NORMAL4,NORMAL5,moreUsually} from "@/utils/audioResource";
 
 import ResultLink from "../resultLink";
 import AwardsList from "./awardList.vue";
@@ -115,15 +115,13 @@ export default {
       const audioFiles = {
         EPIC: [EPIC1, EPIC2, EPIC3],
         LEGEND: [LEGEND],
-        RARE: [NORMAL2, NORMAL3, NORMAL4, NORMAL5]
+        RARE: [NORMAL1,NORMAL2, NORMAL3, NORMAL4, NORMAL5],
+        NORMAL:[moreUsually]
       };
       let targetAwardType = this.winData[index].qualityType
       const sametype = this.winData.filter(x => x.qualityType == targetAwardType)
-      if (targetAwardType == 'NORMAL') {
-        this.playSound(NORMAL1)
-      }else if (sametype?.length) {
+      if (sametype?.length) {
         let file = null
-        // let type = targetAwardType == 'RARE' ? 'NORMAL' : targetAwardType
         let type = targetAwardType
         let audioArr = audioFiles[type]
         if (sametype?.length >= audioArr.length ) {

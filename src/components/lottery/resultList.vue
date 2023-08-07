@@ -305,7 +305,7 @@ onUnmounted(() => {
   clearTimerFun();
 });
 const audioPlay = () => {
-  if (props.result.length > 1 && props.idLotteryIn) {
+  if (props.idLotteryIn) {
     _audioPlay(flop);
     setTimeout(() => {
       _audioPlay(flopAfter);

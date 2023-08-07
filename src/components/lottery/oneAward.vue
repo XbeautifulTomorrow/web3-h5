@@ -81,7 +81,7 @@
 </template>
 <script>
 import { Howl } from "howler";
-import {slipe,advanced,usually,oneSlow} from "@/utils/audioResource";
+import {slipe,oneSlow} from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;
@@ -199,15 +199,15 @@ export default {
     },
     stopScroll(data) {
       this.stopAudioFunc()
-      if (data && data.qualityType) {
-        if (data.qualityType === "NORMAL") {
-          this.playSound(usually);
-        } else {
-          this.playSound(advanced);
-        }
-      }
+      // if (data && data.qualityType) {
+      //   if (data.qualityType === "NORMAL") {
+      //     this.playSound(moreUsually);
+      //   } else {
+      //     this.playSound(moreUsually);
+      //   }
+      // }
       setTimeout(() => {
-        this.$emit("showResultFun");
+        this.$emit("showResultFun", true);
       }, 500);
     },
     slowScrollFunc(data, state) {

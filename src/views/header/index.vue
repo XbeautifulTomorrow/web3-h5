@@ -152,8 +152,8 @@ export default {
         if (this.isLogin && this.userInfo?.id) {
           this.getTheUserBalanceInfo();
           this.timer = null;
-          this.timeoutBalance();
         }
+        this.timeoutBalance();
       }, 30000);
     },
     goTo(page = "home") {

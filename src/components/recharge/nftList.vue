@@ -163,6 +163,7 @@ const { t } = i18n.global;
 
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
+import { useHeaderStore } from "@/store/header.js";
 import Image from "@/components/imageView";
 import { ElMessage } from "element-plus";
 import nft721Abi from "@/config/721.json";
@@ -333,6 +334,11 @@ const depositOne = async (item) => {
     });
 };
 
+const getTheUserBalanceInfo = () => {
+  const headerStore = useHeaderStore();
+  headerStore.getTheUserBalanceApi();
+}
+
 // 确认中状态
 const depositConfirm = (item) => {
   if (!confirmNft.value > 0) return false;
@@ -345,8 +351,6 @@ const depositConfirm = (item) => {
 const delDeposit = () => {
   confirmNft.value.splice(confirmIndex.value, 1);
 }
-
-
 
 // 打开确认弹窗
 const onWithdrawConfirm = (item) => {
@@ -382,6 +386,7 @@ const onWithdrawalNft = async () => {
   });
   if (res && res.code == 200) {
     dialogType.value = 2;
+    getTheUserBalanceInfo();
   }
 };
 

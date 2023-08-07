@@ -54,13 +54,14 @@
       </div>
       <el-table :data="historyData" class="table_container">
         <el-table-column prop="logType" :label="$t('user.balanceTabel1')" align="center" key="1" />
-        <el-table-column prop="seriesName" v-if="coin == 'NFT'" label="COLLECTION" align="center" key="2" show-overflow-tooltip />
+        <el-table-column prop="seriesName" v-if="coin == 'NFT'" :label="$t('user.balanceTabel7')" align="center" key="2"
+          show-overflow-tooltip />
         <el-table-column prop="tokenId" v-if="coin == 'NFT'" label="TOKEN ID" align="center" key="3">
           <template #default="scope">
             {{ `#${scope.row.tokenId}` }}
           </template>
         </el-table-column>
-        <el-table-column prop="serviceFee" v-if="coin == 'NFT'" label="GAS FEE" align="center" key="4">
+        <el-table-column prop="serviceFee" v-if="coin == 'NFT'" :label="$t('user.balanceTabel8')" align="center" key="4">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.serviceFee }}</span>

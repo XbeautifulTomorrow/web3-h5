@@ -12,11 +12,11 @@
           </div>
           <div class="mystery-boxs-title text-ellipsis">
             <div class="box-name text-ellipsis">{{ item.boxName }}</div>
-            <img src="@/assets/svg/box/icon_eth.svg" alt="">
           </div>
           <div class="box-price">
             <div class="price-box">
-              {{ `${item.price} ${item.coin}` }}
+              <span>{{ item.price }}</span>
+              <img v-if="item.coin == 'ETH'" src="@/assets/svg/box/icon_eth.svg" alt="">
             </div>
           </div>
           <div class="other">

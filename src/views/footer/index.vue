@@ -74,7 +74,7 @@ const nav = computed(() => {
     },
     {
       text: t("header.competitions"),
-      page: "Wars",
+      page: "TreasureDraws",
     },
     {
       text: t("header.stake"),

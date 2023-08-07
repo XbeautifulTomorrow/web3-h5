@@ -122,7 +122,7 @@ export default {
       nftId: [], // 当前已有nft
       translateNum: 0,
       timer: null,
-      networkList: [{ label: "Goerli", value: 5 }, { label: "Main", value: 1 }]
+      networkList: [{ label: "Goerli", value: 5 }, { label: "Ethereum", value: 1 }]
     };
   },
   beforeUnmount() {
@@ -190,7 +190,7 @@ export default {
       const { left } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left + window.scrollX}px`,
-        top: `${25}px`,
+        top: "1.5625rem",
       };
     },
     handleMysteryBox(event) {

@@ -6,8 +6,8 @@
     "prev": "上一頁",
     "next": "下一頁",
     "login": "登錄",
-    "loginText": "登錄",
     "register": "註冊",
+    "loginText": "登錄",
     "cancel": "取消",
     "cancelUpper": "取消",
     "confirm": "確認",
@@ -219,8 +219,7 @@
     "boxTipsTitle": "此盲盒包含外部NFT",
     "boxTipsDescription1": "請注意，我們不能保證當您贏得NFT時就能為您購買。",
     "boxTipsDescription2": "如果我們未能獲得NFT，您將能夠領取相當於贏得NFT價值的ETH獎勵。",
-    "boxTipsClose": "我知道了",
-    "onSale": "售賣中"
+    "boxTipsClose": "我知道了"
   },
   "user": {
     "changePwd": "修改密碼",
@@ -465,7 +464,6 @@
     "connectWalletTips": "選擇錢包連接方式",
     "setCodeHint": "設置邀請碼",
     "connectHint": "請在 MetaMask 中打開此網站",
-    "share": "分享",
     "CLICKS": "點擊",
     "REFERRALS": "邀請",
     "POINT": "積分",
@@ -598,7 +596,6 @@
     "return": "返回",
     "balance": "餘額",
     "click_hold": "點擊以持有",
-    "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> 已成功售出，您將獲得：",
     "loading_tip1": "您的交易正在進行中",
     "loading_tip2": "您的交易正在處理中，很快就會在區塊鏈上得到確認",
     "choose_token": "選擇代幣",
@@ -627,6 +624,7 @@
     "tips6": "上一筆訂單尚未處理，請先處理後再抽獎",
     "tips7": "倒計時結束後將自動轉售所有NFT。",
     "tips9": "此交易公平性可驗證",
-    "tips10": "[進階用戶]"
+    "tips10": "[進階用戶]",
+    "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> 已成功售出，您將獲得："
   }
 }

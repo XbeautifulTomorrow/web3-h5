@@ -239,6 +239,29 @@
   &>div:nth-child(n + 5) {
     margin-top: 0.625rem;
   }
+
+  .no_date {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+    height: 25rem;
+
+    &>span {
+      margin: 0 auto;
+      display: block;
+      padding: 1.25rem;
+      border-radius: 0.5rem;
+      background-color: #191b27;
+      font-family: BlenderPro;
+      font-size: 1.125rem;
+      font-weight: bold;
+      line-height: 1.2;
+      text-align: center;
+      color: #a9a4b4;
+    }
+  }
 }
 
 .choose_nft_item {
@@ -272,6 +295,25 @@
     &>.nft_img {
       width: 100%;
       height: 100%;
+    }
+
+    .num_tips {
+      position: absolute;
+      right: 0.5rem;
+      bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.125rem 0.5rem;
+      border-radius: 3.125rem;
+      border: solid 1px rgba(255, 255, 255, 0.05);
+      background-color: rgba(195, 222, 254, 0.2);
+
+      font-family: Inter;
+      font-size: 0.75rem;
+      font-weight: bold;
+      line-height: 1.5;
+      color: white;
     }
   }
 

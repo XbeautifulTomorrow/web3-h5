@@ -61,6 +61,7 @@ import { i18n } from '@/locales';
 const { t } = i18n.global;
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
+import { getSetting } from "@/services/api/invite";
 
 export default {
   name: 'modifyName',
@@ -85,7 +86,8 @@ export default {
   },
   data() {
     return {
-      show: true
+      show: true,
+      setting: {}
     };
   },
   computed: {
@@ -96,10 +98,21 @@ export default {
     },
   },
   methods: {
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH"
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        this.$forceUpdate();
+      }
+    },
     gasContent() {
       let strV = `<div style="display: inline-flex;align-items: center;">`;
       strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
-      strV += `<span style='font-size: 1.25rem;color: #fad54d;' >0.02</span></div>`;
+      strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.setting.nftWithdrawalFees}</span></div>`;
       return strV;
     },
     onConfirm() {
@@ -138,6 +151,9 @@ export default {
         return
       }
     },
+  },
+  created() {
+    this.fetchSetting();
   }
 };
 </script>

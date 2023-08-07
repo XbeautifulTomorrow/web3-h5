@@ -193,6 +193,7 @@
   box-sizing: border-box;
   height: 21.625rem;
   z-index: 10;
+  background-size: cover;
 
   &.box_frame_1 {
     background-image: url("@/assets/svg/home/box_frame_1_expand.svg");

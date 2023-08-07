@@ -49,6 +49,7 @@ const messages = {
 
 //对比语言包json属性
 getDifferent(messages["en_US"], messages["zh_CN"]);
+getDifferent(messages["zh_CN"], messages["en_US"]);
 
 const i18n = new createI18n({
   allowComposition: true,

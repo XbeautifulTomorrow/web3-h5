@@ -99,7 +99,7 @@ export default {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
     },
     openAll() {
-      this.$router.push({ name: "Wars" });
+      this.$router.push({ name: "TreasureDraws" });
     }
   },
   created() {

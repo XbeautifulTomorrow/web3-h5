@@ -114,8 +114,16 @@
   align-items: center;
   flex-wrap: wrap;
 
-  li+li {
-    margin-left: 1.875rem;
+  &>li+li {
+    margin-left: 1.8125rem;
+  }
+
+  &>li:nth-child(n+5) {
+    margin-top: 1.875rem;
+  }
+
+  &>li:nth-child(4n+1) {
+    margin-left: 0;
   }
 }
 

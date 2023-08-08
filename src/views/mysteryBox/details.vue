@@ -179,6 +179,7 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
     <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
       <div class="close_btn">
         <el-icon @click="showSeriesDialog = false">
@@ -211,6 +212,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 import emitter from "@/utils/event-bus.js";
+import Recharge from "@/views/user/recharge.vue";
 
 export default {
   name: "boxDetails",
@@ -221,6 +223,7 @@ export default {
     Forgot,
     Modify,
     Image,
+    Recharge
   },
   props: {
     blindDetailInfo: {
@@ -301,12 +304,15 @@ export default {
       }
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
+        this.pageType = 'recharge';
         return;
       } else if (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) {
         this.messageFun();
+        this.pageType = 'recharge';
         return;
       } else if (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance) {
         this.messageFun();
+        this.pageType = 'recharge';
         return;
       }
       this.$emit("rollNumberFun", type);

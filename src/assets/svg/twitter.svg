@@ -1,17 +1,20 @@
-<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#6rux2bsi2a)">
-        <path fill="#000" fill-opacity=".01" d="M0 .667h40v40H0z"/>
-        <rect y=".667" width="40" height="40" rx="8" fill="#11CDE9"/>
-        <g clip-path="url(#97aqsm21rb)">
-            <path d="M28.5 15.621a7.45 7.45 0 0 1-2.089.565 3.601 3.601 0 0 0 1.6-1.98 7.301 7.301 0 0 1-2.31.869 3.662 3.662 0 0 0-2.656-1.134c-2.01 0-3.636 1.603-3.636 3.579-.002.274.03.549.094.816a10.368 10.368 0 0 1-7.497-3.741 3.535 3.535 0 0 0-.495 1.798 3.57 3.57 0 0 0 1.625 2.98 3.6 3.6 0 0 1-1.654-.446v.044c0 1.736 1.256 3.18 2.918 3.509a3.72 3.72 0 0 1-.958.125c-.23 0-.459-.022-.684-.066.462 1.421 1.807 2.456 3.4 2.485a7.371 7.371 0 0 1-5.386 1.481 10.292 10.292 0 0 0 5.568 1.618c6.698 0 10.357-5.455 10.357-10.186 0-.155-.004-.31-.012-.462a7.33 7.33 0 0 0 1.815-1.854z" fill="#13151F"/>
-        </g>
-    </g>
-    <defs>
-        <clipPath id="6rux2bsi2a">
-            <path fill="#fff" transform="translate(0 .667)" d="M0 0h40v40H0z"/>
-        </clipPath>
-        <clipPath id="97aqsm21rb">
-            <path fill="#fff" transform="translate(10.183 11.576)" d="M0 0h18.909v18.909H0z"/>
-        </clipPath>
-    </defs>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1125_7587)">
+<rect width="40" height="40" fill="black" fill-opacity="0.01"/>
+<rect width="40" height="40" rx="8" fill="#11CDE9"/>
+<path d="M21.7145 18.6226L28.4161 11H26.8282L21.0066 17.6172L16.3602 11H11L18.0278 21.0073L11 29H12.5879L18.7319 22.0104L23.6398 29H29L21.7145 18.6226ZM19.539 21.0951L18.8258 20.098L13.1605 12.1713H15.5998L20.1732 18.5708L20.8834 19.5679L26.8275 27.8857H24.3882L19.539 21.0951Z" fill="#0F1419"/>
+<g clip-path="url(#clip1_1125_7587)">
+<rect width="40" height="40" fill="black" fill-opacity="0.01"/>
+<rect width="40" height="40" rx="8" fill="#11CDE9"/>
+<path d="M21.4287 18.8521L27.0134 12.5H25.6902L20.8388 18.0143L16.9669 12.5H12.5L18.3565 20.8394L12.5 27.5H13.8232L18.9432 21.6753L23.0331 27.5H27.5L21.4287 18.8521ZM19.6158 20.9126L19.0215 20.0817L14.3004 13.4761H16.3331L20.1443 18.809L20.7361 19.6399L25.6896 26.5715H23.6568L19.6158 20.9126Z" fill="#0F1419"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_1125_7587">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+<clipPath id="clip1_1125_7587">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+</defs>
 </svg>

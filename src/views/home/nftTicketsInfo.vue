@@ -38,9 +38,15 @@
           <div class="nft_details_r">
             <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
             <div class="nft_activity">
-              <div class="price">
-                <span class="title">{{ $t("ticketsInfo.marketValue") }}</span>
-                <span class="val">{{ `${nftInfo && nftInfo.totalPrice} ETH` }}</span>
+              <div class="price_box">
+                <div class="price">
+                  <span class="title">{{ $t("ticketsInfo.marketValue") }}</span>
+                  <span class="val">{{ `${nftInfo && nftInfo.totalPrice} ETH` }}</span>
+                </div>
+                <div class="floor_price">
+                  <span class="title">{{ $t("ticketsInfo.floorPrice") }}</span>
+                  <span class="val">{{ `${nftInfo && nftInfo.floorPrice} ETH` }}</span>
+                </div>
               </div>
               <div class="time" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
                 <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_info_price.svg"
@@ -94,6 +100,14 @@
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
                   type="number" min="0" :max="maxBuyNum" :placeholder="buyText(nftInfo)">
                 </el-input>
+                <div class="choose_nums">
+                  <div v-for="(item, index) in numData" :key="index" :class="[
+                    'choose_nums_item',
+                    buyVotes == item.value && 'active',
+                  ]" @click="buyVotes = item.value">
+                    <span>{{ item.label }}</span>
+                  </div>
+                </div>
               </div>
               <div class="payment_box">
                 <el-button v-if="dateDiff(nftInfo && nftInfo.endTime) > 0 && maxBuyNum > 0" style="width: 100%;"
@@ -293,6 +307,7 @@
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
     <buyConfirm :nftInfo="nftInfo" :tickets="buyVotes" :price="buyPrice" v-if="pageType === 'confirm'"
       @closeDialogFun="closeDialogFun"></buyConfirm>
+    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
   </div>
 </template>
 <script>
@@ -325,6 +340,7 @@ import Forgot from "../forgot/index.vue";
 import buyConfirm from "./buyConfirm.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
+import Recharge from "@/views/user/recharge.vue";
 import {
   openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
@@ -338,7 +354,8 @@ export default {
     Forgot,
     Modify,
     Image,
-    buyConfirm
+    buyConfirm,
+    Recharge
   },
   data() {
     return {
@@ -365,6 +382,10 @@ export default {
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
+    ethBalance() {
+      const headerStore = useHeaderStore();
+      return headerStore.balance;
+    },
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
@@ -413,6 +434,26 @@ export default {
       }
 
       return maxNum
+    },
+    numData() {
+      return [
+        {
+          label: "25%",
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.25))
+        },
+        {
+          label: "50%",
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.5))
+        },
+        {
+          label: "75%",
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.75))
+        },
+        {
+          label: "Max",
+          value: this.maxBuyNum
+        },
+      ]
     }
   },
   methods: {
@@ -482,12 +523,18 @@ export default {
         return
       }
 
-      const { orderId, buyVotes } = this;
+      const { orderId, buyVotes, ethBalance, buyPrice } = this;
 
       if (!buyVotes || buyVotes < 1) {
         this.$message.error(t("ticketsInfo.enterHint"));
         return
       }
+      if (Number(ethBalance) > buyPrice) {
+        this.$message.error(t("mysteryBox.rechargeHint"));
+        this.pageType = 'recharge';
+        return
+      }
+
 
       const res = await buyNftBalance({
         orderNumber: orderId,

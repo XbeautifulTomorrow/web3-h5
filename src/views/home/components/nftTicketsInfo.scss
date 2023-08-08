@@ -122,10 +122,14 @@
     align-items: flex-end;
     justify-content: space-between;
 
+    .price_box {
+      display: flex;
+      align-items: flex-end;
+    }
+
     .price {
       display: flex;
       align-items: flex-end;
-      color: #FF7200;
 
       .title {
         font-size: 1.25rem;
@@ -143,6 +147,30 @@
         line-height: 1;
         text-align: left;
         color: #11cde9;
+      }
+    }
+
+    .floor_price {
+      display: flex;
+      align-items: flex-end;
+      padding-left: 1rem;
+
+      .title {
+        font-family: Inter;
+        font-size: 0.75rem;
+        line-height: 1.6;
+        text-align: left;
+        color: #a9a4b4;
+      }
+
+      .val,
+      .unit {
+        font-family: Inter;
+        font-size: 1.125rem;
+        font-weight: bold;
+        line-height: 1.2;
+        text-align: left;
+        color: #9f8fef;
       }
     }
 
@@ -300,7 +328,8 @@
       font-weight: bold;
       color: #13151f;
 
-      &>img {
+      img {
+        margin-left: 0.25rem;
         width: 1.5rem;
         height: auto;
       }
@@ -937,4 +966,64 @@
   line-height: 1.6;
   text-align: left;
   color: #a9a4b4;
+}
+
+.choose_nums {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.625rem;
+
+  .choose_nums_item+.choose_nums_item {
+    margin-left: 1.5rem;
+  }
+
+  .choose_nums_item {
+    flex: 1;
+    height: 3.125rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    background-color: #13151f;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1;
+    color: rgba(169, 164, 180, 0.6);
+
+    &.active,
+    &:hover {
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+      color: #13151f;
+    }
+
+    // &:hover {
+    //   border-style: solid;
+    //   border-image-source: linear-gradient(to top, #e3a406, #fbd851);
+    //   border-image-slice: 1;
+    //   background-image: linear-gradient(to bottom, #13151f, #13151f), linear-gradient(to top, #e3a406, #fbd851);
+    //   background-origin: border-box;
+    //   background-clip: content-box, border-box;
+    // }
+  }
+}
+
+:deep(.dialog_box) {
+  border-radius: 1.25rem;
+  box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
+  background-color: #20222d;
+
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+    position: relative;
+    padding: 3.75rem 0;
+  }
 }

@@ -18,8 +18,12 @@
       </div>
       <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
         <div class="header-wallet">
+          <img class="header-wallet-img" src="@/assets/svg/user/icon_profile.svg" alt="" />
+          <span class="header-wallet-money">{{ Number(userPoints).toLocaleString() }}</span>
+        </div>
+        <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <span class="header-wallet-money">{{ accurateDecimal(ethBalance, 4) }}</span>
+          <span class="header-wallet-money">{{ Number(accurateDecimal(ethBalance, 4)).toLocaleString() }}</span>
           <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
@@ -64,6 +68,7 @@ import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import { accurateDecimal, openUrl } from "@/utils";
 import emitter from "@/utils/event-bus.js";
+import { getTheUserPoint } from "@/services/api/user";
 
 export default {
   name: "HeaderCom",
@@ -100,7 +105,7 @@ export default {
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
-
+      userPoints: null,
       timer: null
     };
   },
@@ -144,6 +149,13 @@ export default {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
     },
+    // 积分余额
+    async fetchTheUserPoint() {
+      const res = await getTheUserPoint();
+      if (res && res.code == 200) {
+        this.userPoints = res.data.balance;
+      }
+    },
     timeoutBalance() {
       if (this.timer) {
         clearTimeout(this.timer);
@@ -151,6 +163,7 @@ export default {
       this.timer = setTimeout(() => {
         if (this.isLogin && this.userInfo?.id) {
           this.getTheUserBalanceInfo();
+          this.fetchTheUserPoint();
           this.timer = null;
         }
         this.timeoutBalance();
@@ -199,6 +212,7 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
+      this.fetchTheUserPoint();
     }
 
     this.timeoutBalance();
@@ -220,18 +234,6 @@ export default {
       {
         text: t("header.competitions"),
         page: "TreasureDraws",
-      },
-      {
-        text: t("header.stake"),
-        page: "Stake",
-      },
-      {
-        text: t("header.ino"),
-        page: "INO",
-      },
-      {
-        text: t("header.marketPlace"),
-        page: "MarketPlace",
       },
       {
         text: t("header.whitebook"),

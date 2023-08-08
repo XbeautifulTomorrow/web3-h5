@@ -69,8 +69,8 @@
           </div>
           <div class="price_box">
             <div class="price">
-              <span v-if="activeType == 'MYSTERY_BOX'">{{ `${item.buyPrice} ETH` }}</span>
-              <span v-else>{{ `${item.expenditure} ETH` }}</span>
+              <span v-if="activeType == 'MYSTERY_BOX'">{{ `${item.buyPrice}` }}</span>
+              <span v-else>{{ `${item.expenditure}` }}</span>
               <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             </div>
             <div class="time" v-if="activeType == 'MYSTERY_BOX'">{{ timeFormat(item.createTime) }}</div>

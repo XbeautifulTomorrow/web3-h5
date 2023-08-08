@@ -144,6 +144,7 @@
     "aborted": "已中止",
     "cancelled": "已取消",
     "marketValue": "市場價值：",
+    "floorPrice": "底價：",
     "close": "結束於：{time}",
     "created": "創建者",
     "owner": "擁有者：",

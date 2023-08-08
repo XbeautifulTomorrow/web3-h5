@@ -32,7 +32,7 @@
           <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type"
             :placeholder="$t('homeReplenish.all')" clearable :popper-append-to-body="false">
             <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
-              :value="item.contractAddress" />
+              :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
           </el-select>
         </div>
       </div>
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="type_tabs">
-        <div :class="['tabs_item','disabled']">
+        <div :class="['tabs_item', 'disabled']">
           {{ $t("user.timeLimit") }}
         </div>
         <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">
@@ -307,10 +307,15 @@ export default {
         this.page = 1;
         _page = 1;
       }
+
+
+      const collections = nftParams.collections && nftParams.collections.split("+") || [];
+
       const res = await getSystemNft({
         contractType: nftParams.type,
-        contractAddress: nftParams.collections,
+        contractAddress: collections[0],
         keyword: nftParams.nftName,
+        tokenId: collections[1] && collections[1] || undefined,
         page: _page,
         size: size,
       });

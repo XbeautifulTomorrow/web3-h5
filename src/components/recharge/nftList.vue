@@ -68,7 +68,7 @@
           <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
             :popper-append-to-body="false">
             <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
-              :value="item.contractAddress" />
+              :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
           </el-select>
         </div>
         <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
@@ -401,11 +401,15 @@ const fetchSystemNft = async (isSearch = true) => {
     page.value = 1;
     _page = 1;
   }
+
+  const collections = params.collections && params.collections.split("+") || [];
+
   loading.value = true;
   const res = await getSystemNft({
     contractType: params.type,
-    contractAddress: params.collections,
+    contractAddress: collections[0],
     keyword: params.nftName,
+    tokenId: collections[1] && collections[1] || undefined,
     page: _page,
     size: size.value,
   });
@@ -450,6 +454,8 @@ const getWalletNftApi = async (isSearch = true) => {
     _page = 0;
   }
 
+  const collections = params.collections && params.collections.split("+") || [];
+
   loading.value = true;
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
@@ -457,12 +463,13 @@ const getWalletNftApi = async (isSearch = true) => {
   if (accounts && accounts[0]) {
     Promise.all([
       getWalletNft({
-        contractAddress: params.collections,
+        contractAddress: collections[0],
         address: accounts[0],
         cursor: pageList.value[_page],
         size: size.value,
         chatId: config.ENV == "pro" ? 1 : null,
-        keyword: params.nftName
+        keyword: params.nftName,
+        tokenId: collections[1] && collections[1] || undefined,
       }),
       getTheExternalNFTSeries({
         type: "ALL"

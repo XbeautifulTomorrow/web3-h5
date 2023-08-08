@@ -175,7 +175,12 @@
     "buyHint": "Ticket Limit Reached. No further purchases allowed.",
     "soldOut": "Tickets are sold out.",
     "enterHint": "Please enter the amount you would like to purchase.",
-    "buySuccess": "Purchase Successful!"
+    "buySuccess": "Purchase Successful!",
+    "buyTipsTitle": "PURCHASE SUCCESSFUL",
+    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
+    "buyTipsText2": " so keep checking back to see how the competition progresses.",
+    "buyTipsShare": "SHARE THIS COMPETITION",
+    "buyTipsCheck":"CHECK COMPETITION"
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",
@@ -305,7 +310,7 @@
     "endStatus": "Ended on { date }",
     "abortedStatus": "Aborted on { date }",
     "buyMore": "BUY MORE",
-    "yuo": "YUO",
+    "you": "YOU",
     "refunded": "REFUNDED",
     "buyTickets": "You used <span style=\"color: #11cde9;\">{ userNum }</span> of <span style=\"color: #11cde9;\">{ maxNum }</span> tickets",
     "sale": "SALE",

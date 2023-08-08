@@ -77,18 +77,6 @@ const nav = computed(() => {
       page: "TreasureDraws",
     },
     {
-      text: t("header.stake"),
-      page: "Stake",
-    },
-    {
-      text: t("header.ino"),
-      page: "INO",
-    },
-    {
-      text: t("header.marketPlace"),
-      page: "MarketPlace",
-    },
-    {
       text: t("header.whitebook"),
       page: "Whitebook",
     },

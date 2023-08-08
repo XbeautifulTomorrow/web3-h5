@@ -305,7 +305,7 @@
     "endStatus": "結束於 { date }",
     "abortedStatus": "中止於 { date }",
     "buyMore": "購買更多",
-    "yuo": "你",
+    "you": "你",
     "refunded": "已退款",
     "buyTickets": "您已使用<span style=\"color: #11cde9;\">{ maxNum }</span>中的<span style=\"color: #11cde9;\">{ userNum }</span>張票",
     "sale": "已售出",

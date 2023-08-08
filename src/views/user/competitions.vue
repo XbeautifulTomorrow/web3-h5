@@ -74,7 +74,7 @@
             <span v-if="userInfo.id != item.winningAddress">
               {{ item.winningName || item.winningAddress }}
             </span>
-            <span v-else>{{ $t("user.yuo") }}</span>
+            <span v-else>{{ $t("user.you") }}</span>
           </div>
           <div class="buy_btn winner refunded" v-else>
             <span>{{ new bigNumber(item.userNum || 0).multipliedBy(item.ticketPrice) }}</span>

@@ -117,7 +117,7 @@ export default {
     },
     onConfirm() {
       if (this.dialogType == 1) {
-        if (this.ethBalance < 0.02) {
+        if (this.ethBalance < Number(this.setting.nftWithdrawalFees)) {
           ElMessage({
             message: t("lottery.tips5"),
             type: "error",

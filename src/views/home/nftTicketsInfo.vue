@@ -243,7 +243,6 @@
                 <span v-if="item.orderType == 'LIMITED_TIME'">
                   <span v-if="dateDiff(item && item.endTime) > 1">
                     {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo && nftInfo.endTime)) }) }}
-
                   </span>
                   <countDown v-else v-slot="timeObj" :time="item && item.endTime">
                     {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
@@ -292,6 +291,8 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <buyConfirm :nftInfo="nftInfo" :tickets="buyVotes" :price="buyPrice" v-if="pageType === 'confirm'"
+      @closeDialogFun="closeDialogFun"></buyConfirm>
   </div>
 </template>
 <script>
@@ -321,6 +322,7 @@ import { CScrollbar } from "c-scrollbar";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
+import buyConfirm from "./buyConfirm.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 import {
@@ -335,7 +337,8 @@ export default {
     Register,
     Forgot,
     Modify,
-    Image
+    Image,
+    buyConfirm
   },
   data() {
     return {
@@ -492,8 +495,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.$message.success(t("ticketsInfo.buySuccess"));
-        this.buyVotes = null;
+        this.pageType = 'confirm';
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
@@ -708,6 +710,7 @@ export default {
     },
     closeDialogFun() {
       this.pageType = "";
+      this.buyVotes = 1;
     },
     changeTypeFun(page) {
       this.pageType = page;

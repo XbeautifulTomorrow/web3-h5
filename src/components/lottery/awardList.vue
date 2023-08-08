@@ -97,19 +97,17 @@ export default {
         JSON.parse(JSON.stringify(this.prizePoolList))
       ),
       autoPlay: this.autoplay,
-      stopTime: 0,
+      linearTime: null,
+      stopTime: null,
       stopPlay: false,
     };
   },
   mounted() {
     const time = this.poolList.length * 0.13;
-    this.stopTime = time / 5;
-    this.$emit("delayTime", this.stopTime);
-    document.documentElement.style.setProperty("--linear-time", time + "s");
-    document.documentElement.style.setProperty(
-      "--stop-time",
-      this.stopTime + "s"
-    );
+    const stopTime = time / 5;
+    this.linearTime = time + "s"
+    this.stopTime = stopTime + "s"
+    this.$emit("delayTime", stopTime);
   },
   methods: {
     changeFun(index) {
@@ -262,8 +260,6 @@ export default {
 }
 </style>
 <style lang="scss">
-$linear-time: var(--linear-time);
-$stop-time: var(--stop-time);
 @keyframes verticalScroll {
   0% {
     transform: translateY(0);
@@ -289,7 +285,7 @@ $stop-time: var(--stop-time);
   transform-style: preserve-3d;
   will-change: transform;
   height: auto !important;
-  animation: verticalScroll $linear-time linear infinite;
+  animation: verticalScroll v-bind('linearTime') linear infinite;
   animation-fill-mode: forwards;
 }
 
@@ -321,7 +317,7 @@ $stop-time: var(--stop-time);
   }
   &.no-autoplay-box {
     .el-carousel__container {
-      animation: verticalScroll2 $stop-time linear 1;
+      animation: verticalScroll2 v-bind('stopTime') linear 1;
       animation-fill-mode: forwards;
     }
   }

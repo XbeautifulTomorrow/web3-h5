@@ -128,14 +128,13 @@ export default {
       awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
         JSON.parse(JSON.stringify(this.awards))
       ),
-      intervalId: null,
-      delay: 50,
-      linearTime: 3, //匀速动画duration时间
-      slowTime: 6, //减速动画duration时间
-      increment: 10,
+      linearTime: null, //匀速动画duration时间
+      slowTime: '6s', //减速动画duration时间
       boxOffsetWidth: 0,
       subAwardsWidth: 0,
-      slipeMusic:null
+      slipeMusic: null,
+      linearEndTranslateX: null,
+      slowTranslateX: null
     };
   },
   async mounted() {
@@ -149,16 +148,8 @@ export default {
       if (!subAwardsRef) return;
       this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
       this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-      this.linearTime = this.boxOffsetWidth * 0.00016;
-      document.documentElement.style.setProperty(
-        "--linear-time",
-        this.linearTime + "s"
-      );
-      document.documentElement.style.setProperty(
-        "--slow-time",
-        this.slowTime + "s"
-      );
-    }, 1000);
+      this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+    }, 100);
     if (!result) {
       setTimeout(() => {
         if (!this.apiIsError) {
@@ -197,15 +188,8 @@ export default {
       audioObj.play();
       return audioObj;
     },
-    stopScroll(data) {
+    stopScroll() {
       this.stopAudioFunc()
-      // if (data && data.qualityType) {
-      //   if (data.qualityType === "NORMAL") {
-      //     this.playSound(moreUsually);
-      //   } else {
-      //     this.playSound(moreUsually);
-      //   }
-      // }
       setTimeout(() => {
         this.$emit("showResultFun", true);
       }, 500);
@@ -214,15 +198,9 @@ export default {
       const getCurrentTranslateX = this.getCurrentTranslateX();
       const translateLen = getCurrentTranslateX / this.subAwardsWidth;
       const len = parseInt(Math.abs(translateLen)) + 12;
-      const slowTranslateX = -this.subAwardsWidth * len + "px";
-      document.documentElement.style.setProperty(
-        "--linearEnd-translateX",
-        getCurrentTranslateX + "px"
-      );
-      document.documentElement.style.setProperty(
-        "--slow-translateX",
-        slowTranslateX
-      );
+      const slowTranslateX = -this.subAwardsWidth * len;
+      this.linearEndTranslateX = getCurrentTranslateX + "px";
+      this.slowTranslateX = slowTranslateX + "px";
       data.nftCompressImg = data.nftImg;
       this.awardsList.splice(len + 2, 1, data);
       this.isActive = true;
@@ -250,7 +228,7 @@ export default {
           this.slowScrollFunc(newData[0]);
           setTimeout(() => {
             this.stopScroll(newData[0]);
-          }, this.slowTime * 1000);
+          }, parseFloat(this.slowTime) * 1000);
         }
       },
     },
@@ -262,10 +240,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url("./css/one.scss");
-$slow-translateX: var(--slow-translateX);
-$linear-time: var(--linear-time);
-$slow-time: var(--slow-time);
-$linearEnd-translateX: var(--linearEnd-translateX);
 .roll-one-content {
   overflow: hidden;
 }
@@ -320,14 +294,13 @@ $linearEnd-translateX: var(--linearEnd-translateX);
     transform: translate3d(-60%, 0, 0);
   }
 }
-
 @keyframes slide-down {
   0% {
-    transform: translate3d($linearEnd-translateX, 0, 0);
+    transform: translate3d(v-bind('linearEndTranslateX'), 0, 0);
   }
 
   100% {
-    transform: translate3d($slow-translateX, 0, 0);
+    transform: translate3d(v-bind('slowTranslateX'), 0, 0);
   }
 }
 
@@ -337,12 +310,12 @@ $linearEnd-translateX: var(--linearEnd-translateX);
 }
 
 .scroll-linear {
-  animation: slide $linear-time infinite linear;
+  animation: slide v-bind('linearTime') infinite linear;
   animation-fill-mode: forwards;
 }
 
 .active {
-  animation: slide-down $slow-time 1 cubic-bezier(0, 0.08, 0.11, 1);
+  animation: slide-down v-bind('slowTime') 1 cubic-bezier(0, 0.08, 0.11, 1);
   animation-fill-mode: forwards;
 }
 .roll-text {

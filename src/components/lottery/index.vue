@@ -39,10 +39,7 @@
       @closeDialogFun="closeDialogFun"
     />
     <!-- 弹窗 -->
-    <choose-token
-      v-if="showDialog === 'chooseToken'"
-      @closeDialogFun="closeDialogFun"
-    />
+    <choose-token v-if="showDialog === 'chooseToken'" @closeDialogFun="closeDialogFun" />
     <your-reard
       v-else-if="showDialog === 'yourReard'"
       :sold="awardItem[0]"
@@ -141,15 +138,7 @@ export default {
     Loading,
     CheckLoading,
   },
-  props: [
-    "lottoList",
-    "lottResult",
-    "apiIsError",
-    "errorText",
-    "showRoll",
-    "rollNumber",
-    "blindDetailInfo",
-  ],
+  props: ["lottoList", "lottResult", "apiIsError", "errorText", "showRoll", "rollNumber", "blindDetailInfo"],
   data() {
     return {
       loading: false,
@@ -191,13 +180,9 @@ export default {
         if (this.rollNumber === "ONE") {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
-          price = new bigNumber(
-            this.blindDetailInfo.fivePrice || 0
-          ).multipliedBy(5);
+          price = new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5);
         } else if (this.rollNumber === "TEN") {
-          price = new bigNumber(
-            this.blindDetailInfo.tenPrice || 0
-          ).multipliedBy(10);
+          price = new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10);
         }
       }
 
@@ -208,13 +193,11 @@ export default {
     showDialog(newData) {
       const dialog = ["yourReard", "chainDialog", "beenSold", "partSold"];
       if (dialog.includes(newData)) {
-        document
-          .getElementsByClassName("header-wallet")[0]
-          .classList.add("show-top-walletvb");
+        document.getElementsByClassName("header-wallet")[0].classList.add("show-top-walletvb");
+        document.getElementsByClassName("header-wallet")[1].classList.add("show-top-walletvb");
       } else {
-        document
-          .getElementsByClassName("header-wallet")[0]
-          .classList.remove("show-top-walletvb");
+        document.getElementsByClassName("header-wallet")[0].classList.remove("show-top-walletvb");
+        document.getElementsByClassName("header-wallet")[1].classList.remove("show-top-walletvb");
       }
     },
     lottResult: function (newVal) {
@@ -231,9 +214,7 @@ export default {
         this.$emit("apiIsErrorFun", true);
         this.showDialog = "transactionWarning";
         this.warningText =
-          errorText && errorText[2] && errorText[2].message
-            ? this.$t("errorTips.image_enum_error")
-            : this.$t("lottery.tips4");
+          errorText && errorText[2] && errorText[2].message ? this.$t("errorTips.image_enum_error") : this.$t("lottery.tips4");
       }
     },
   },
@@ -252,9 +233,7 @@ export default {
         let waitData = data.filter((x) => x.lotteryStatus == "WAIT");
         if (waitData?.length == 0) {
           this.checkInterVal && clearInterval(this.checkInterVal);
-          this.failList = data
-            .filter((x) => x.lotteryStatus == "FAIL")
-            .map((x) => x.id);
+          this.failList = data.filter((x) => x.lotteryStatus == "FAIL").map((x) => x.id);
           if (typeof dialog === "string") {
             this.showDialog = dialog;
           } else {
@@ -541,11 +520,7 @@ $borWidth: 180px;
   align-content: center;
 
   .lottery-carousel-list {
-    background-image: linear-gradient(
-      228deg,
-      hsla(0, 0%, 100%, 0.3),
-      hsla(0, 0%, 100%, 0) 62%
-    );
+    background-image: linear-gradient(228deg, hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0) 62%);
     background-color: #e38d4c;
     border-radius: 5px;
     overflow: hidden;
@@ -592,5 +567,9 @@ $borWidth: 180px;
   left: 50%;
   transform: translate(-50%, -50%);
   margin-top: 0;
+}
+.show-top-walletvb {
+  position: relative;
+  z-index: 5000;
 }
 </style>

@@ -11,12 +11,7 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img
-          class="public-dialog-header-icon"
-          src="@/assets/svg/close.svg"
-          alt=""
-          v-on="{ click: [close, closeDialogFun] }"
-        />
+        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -30,18 +25,10 @@
         "
       ></p>
       <div class="public-dialog-total">
-        <img
-          class="public-dialog-icon"
-          src="@/assets/svg/user/icon_ethereum.svg"
-          alt=""
-        />
+        <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
         <span class="public-dialog-total-number marg-r">{{ total }}</span>
         <template v-if="soldList[0].point > 0">
-          <img
-            class="public-dialog-icon"
-            src="@/assets/svg/user/icon_point.svg"
-            alt=""
-          />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_point.svg" alt="" />
           <span class="public-dialog-total-number">
             {{ soldList[0].point }}
           </span>
@@ -50,11 +37,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img
-            class="public-dialog-icon"
-            src="@/assets/svg/user/icon_ethereum.svg"
-            alt=""
-          />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           {{ blindPrice }}
         </p>
       </el-button>
@@ -119,11 +102,5 @@ const unboxAgainFunc = () => {
 }
 .marg-r {
   margin-right: 1.875rem;
-}
-</style>
-<style>
-.show-top-walletvb {
-  position: relative;
-  z-index: 5000;
 }
 </style>

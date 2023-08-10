@@ -368,7 +368,7 @@ export const accurateDecimal = (number, format, zeroFill) => {
       n = n * 10;
     }
 
-    //四舍五入
+    // 向下取整
     number = Math.floor(Number(new bigNumber(number).multipliedBy(n)));
     number = new bigNumber(number).div(n);
     let str = number.toString();

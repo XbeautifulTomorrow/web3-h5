@@ -19,11 +19,17 @@
       <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
         <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/svg/user/icon_profile.svg" alt="" />
-          <span class="header-wallet-money">{{ Number(userPoints).toLocaleString() }}</span>
+          <span class="header-wallet-money">{{ Number(userPoints).toLocaleString(undefined, {
+              minimumFractionDigits: 4
+            }) }}</span>
         </div>
         <div class="header-wallet">
           <img class="header-wallet-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <span class="header-wallet-money">{{ Number(accurateDecimal(ethBalance, 4)).toLocaleString() }}</span>
+          <span class="header-wallet-money">
+            {{ Number(accurateDecimal(ethBalance, 4)).toLocaleString(undefined, {
+              minimumFractionDigits: 4
+            })
+            }}</span>
           <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">

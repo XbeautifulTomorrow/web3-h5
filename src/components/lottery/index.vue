@@ -485,9 +485,9 @@ export default {
   background-color: transparent !important;
 }
 .roll-dialog {
-  margin-top: 15.5rem;
+  margin-top: 12.5rem;
   width: 100%;
-  height: calc(100% - 15.5rem);
+  height: calc(100% - 12.5rem);
   margin-bottom: 0;
   background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
   background-size: cover;

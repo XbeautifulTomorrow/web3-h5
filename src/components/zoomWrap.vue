@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from "vue";
 const designWidth = 1920;
-const designHeight = 1080 - 250;
+const designHeight = 1080 - 200;
 const wrapRef = ref(null);
 const state = reactive({
   ratio: 1,
@@ -10,7 +10,7 @@ const state = reactive({
 
 const onResize = () => {
   const { innerWidth } = window;
-  const innerHeight = window.innerHeight - window.innerWidth * 0.1302;
+  const innerHeight = window.innerHeight - window.innerWidth * 0.1;
   const xRatio = innerWidth / designWidth;
   const yRatio = innerHeight / designHeight;
   const ratio = Math.min(xRatio, yRatio);
@@ -30,10 +30,7 @@ onUnmounted(() => {
 
 <template>
   <div class="wrap" ref="wrapRef">
-    <div
-      class="scale"
-      :style="`transform: scale(${state.ratio});transform-origin: ${state.origin}`"
-    >
+    <div class="scale" :style="`transform: scale(${state.ratio});transform-origin: ${state.origin}`">
       <div class="content">
         <slot />
       </div>

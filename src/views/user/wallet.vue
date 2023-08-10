@@ -12,7 +12,7 @@
         <div class="balance_item_l">
           <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           <div class="num">
-            <span>{{ accurateDecimal(ethBalance, 4) || 0 }}</span>
+            <span>{{ Number(accurateDecimal(ethBalance, 4)).toLocaleString() || 0 }}</span>
             <span>ETH</span>
           </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="balance_item_l">
           <img src="@/assets/svg/user/icon_profile.svg" alt="" />
           <div class="num">
-            <span>{{ userPoints || 0 }}</span>
+            <span>{{ Number(userPoints).toLocaleString() || 0 }}</span>
             <span>{{ $t("user.point") }}</span>
           </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="balance_item_l">
           <img src="@/assets/svg/user/icon_tickets.svg" alt="" />
           <div class="num">
-            <span>{{ userTickets || 0 }}</span>
+            <span>{{ Number(userTickets).toLocaleString() || 0 }}</span>
             <span>{{ $t("user.tickets") }}</span>
           </div>
         </div>

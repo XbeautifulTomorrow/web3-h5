@@ -246,8 +246,8 @@ export default {
       if (!newV) return;
 
       this.timer = setTimeout(() => {
-        if (newV.length > 5) {
-          this.competitionForm.price = newV.slice(0, 5);
+        if (Number(newV) > 99999) {
+          this.competitionForm.price = 99999;
         }
         this.$forceUpdate();
       }, 300);

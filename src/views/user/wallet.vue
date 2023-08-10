@@ -70,8 +70,8 @@
         <el-table-column prop="serviceFee" v-if="coin == 'NFT'" :label="$t('user.balanceTabel8')" align="center" key="4">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ scope.row.serviceFee }}</span>
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <span>{{ scope.row.serviceFee || "--" }}</span>
+              <img v-if="scope.row.serviceFee" src="@/assets/svg/user/icon_ethereum.svg" alt="">
             </div>
           </template>
         </el-table-column>

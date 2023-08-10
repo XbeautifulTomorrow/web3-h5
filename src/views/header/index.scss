@@ -106,21 +106,26 @@
 }
 
 .header-wallet {
-  width: 12rem;
+  max-width: 12rem;
   height: 3.75rem;
   border-radius: 0.5rem;
   background-color: #1d0f36;
-  padding: 0 0.5rem;
+  padding: 0 1.25rem;
   display: flex;
   align-items: center;
   align-content: center;
-  justify-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+
+  .balance {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .header-wallet-img {
   width: 1.5rem;
   height: 1.5rem;
+  margin-right: 0.625rem;
 }
 
 .header-wallet-money {
@@ -135,6 +140,7 @@
 }
 
 .header-wallet-add {
+  margin-left: 1.25rem;
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;

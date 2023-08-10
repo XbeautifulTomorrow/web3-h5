@@ -16,7 +16,7 @@
       </div>
       <div class="deposit_tx_id">
         <span>SHARE THIS COMPETITION</span>
-        <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
+        <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink()" alt="">
       </div>
       <div class="form-buttons">
         <el-button class="public-button" @click="handleClose()">
@@ -39,6 +39,10 @@ export default {
         return {}
       }
     },
+    orderId: {
+      type: String,
+      default: ""
+    },
     tickets: {
       type: Number,
       default: 0
@@ -47,6 +51,10 @@ export default {
       type: Number,
       default: 0
     },
+    inviteCode: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {
@@ -71,7 +79,7 @@ export default {
       this.$emit("closeDialogFun");
     },
     // 分享邀请链接到推特
-    shareInviteLink(event) {
+    shareInviteLink() {
       const series = `I've entered BITZING's ${this.nftInfo.name} competition, come compete with me\n\n`;
       let description = null;
       if (this.nftInfo.orderType == 'LIMITED_TIME') {
@@ -99,7 +107,7 @@ export default {
       }
       const inviteLink = `\nEnter HERE:`;
       const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo/" + event + "?id=" + this.orderId;
+      let link = currentLink.origin + "/NftTicketsInfo/" + this.inviteCode + "?id=" + this.orderId;
 
       let inviteText = series;
       inviteText += description;

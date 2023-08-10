@@ -40,6 +40,7 @@
         <div class="nft_item" v-for="(item, index) in stockNftList" @click="viewNft(item)" :key="index">
           <div class="img_box">
             <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</div>
+            <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
@@ -172,8 +173,9 @@ import { mapStores } from "pinia";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
-import { useWalletStore } from "@/store/wallet"
-import { addNftOrder, getSystemNft, getTheExternalNFTSeries } from "@/services/api/oneBuy";
+import { useHeaderStore } from "@/store/header.js";
+import { useWalletStore } from "@/store/wallet";
+import { addNftOrder, getSystemNft, getTheExternalNFTSeries, delNewWalletNftMark } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -266,7 +268,7 @@ export default {
     },
   },
   computed: {
-    ...mapStores(useUserStore, useWalletStore),
+    ...mapStores(useUserStore, useWalletStore, useHeaderStore),
     // 总票数
     limitNum() {
       const { price, ticketPrice } = this.competitionForm;
@@ -334,6 +336,10 @@ export default {
 
         this.stockNftList = stockNft;
         this.$forceUpdate();
+
+        await delNewWalletNftMark();
+        const headerStore = useHeaderStore();
+        headerStore.fetchGlobalNew();
       }
     },
     handleCurrentChange(page) {

@@ -98,6 +98,7 @@ const goTo = (page) => {
   //   router.push({ path: `${page}` });
   emit("changeTypeFun", page);
 };
+
 const loginFun = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -121,6 +122,7 @@ const loginFun = async (formEl) => {
         userStore.setLogin(res.data);
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
+        headerStore.fetchTheUserPoint();
         closeDialogFun();
       }
     } else {

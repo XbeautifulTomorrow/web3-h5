@@ -64,11 +64,23 @@
     text-align: center;
     color: rgba(169, 164, 180, 0.6);
     cursor: pointer;
+    position: relative;
 
     &:hover,
     &.active {
       background-color: #13151f;
       color: white;
+    }
+
+    .new_dot {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      box-shadow: 0 0 0.25rem 0 #df4328;
+      background-color: #df4328;
     }
   }
 }
@@ -214,6 +226,18 @@
       color: #0cbb3e;
       line-height: 1;
       background-color: rgba(6, 91, 30, 0.8);
+    }
+
+    .new_dot {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      box-shadow: 0 0 0.25rem 0 #df4328;
+      background-color: #df4328;
+      z-index: 3;
     }
 
     .nft_img {

@@ -36,6 +36,7 @@
             <ul class="header-user-content">
               <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
                 @click="othersideBoxFun(item)">
+                <div class="new_dot" v-if="item.showDot"></div>
                 <img class="header-user-list-img" :src="item.icon" alt="">
                 <span>{{ item.text }}</span>
               </li>
@@ -68,7 +69,6 @@ import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import { accurateDecimal, openUrl } from "@/utils";
 import emitter from "@/utils/event-bus.js";
-import { getTheUserPoint } from "@/services/api/user";
 
 export default {
   name: "HeaderCom",
@@ -91,7 +91,6 @@ export default {
       showConnect: false,
       pageType: "",
       nav: [],
-      userList: [],
       NFTID: {
         tokenid: "",
         amount: 1,
@@ -105,7 +104,6 @@ export default {
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
-      userPoints: null,
       timer: null
     };
   },
@@ -114,6 +112,14 @@ export default {
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
+    },
+    userPoints() {
+      const headerStore = useHeaderStore();
+      return headerStore.points;
+    },
+    newStatus() {
+      const headerStore = useHeaderStore();
+      return headerStore.newStatus;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -131,6 +137,58 @@ export default {
       const { regInfo } = this.userStore;
       return regInfo;
     },
+    userList() {
+      const { walletNftSystemStatus, oneNftStatus } = this.newStatus
+      return [
+        {
+          text: t("header.profile"),
+          page: "profile",
+          icon: require("@/assets/svg/user/nav/icon_profile.svg"),
+          showDota: false
+        },
+        {
+          text: t("header.balances"),
+          page: "balances",
+          icon: require("@/assets/svg/user/nav/icon_balances.svg"),
+          showDota: false
+        },
+        {
+          text: t("header.inventory"),
+          page: "inventory",
+          icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
+          showDot: walletNftSystemStatus
+        },
+        {
+          text: t("header.competition"),
+          page: "competition",
+          icon: require("@/assets/svg/user/nav/icon_competition.svg"),
+          showDot: oneNftStatus
+        },
+        {
+          text: t("header.history"),
+          page: "history",
+          icon: require("@/assets/svg/user/nav/icon_history.svg"),
+          showDota: false
+        },
+        {
+          text: t("header.referrals"),
+          page: "referrals",
+          icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
+          showDota: false
+        },
+        // {
+        //   text: t("header.settings"),
+        //   page: "settings",
+        //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
+        // },
+        {
+          text: t("header.logout"),
+          page: "logout",
+          icon: require("@/assets/svg/user/nav/icon_logout.svg"),
+          showDota: false
+        },
+      ]
+    }
   },
   methods: {
     accurateDecimal: accurateDecimal,
@@ -148,13 +206,8 @@ export default {
     async getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
-    },
-    // 积分余额
-    async fetchTheUserPoint() {
-      const res = await getTheUserPoint();
-      if (res && res.code == 200) {
-        this.userPoints = res.data.balance;
-      }
+      headerStore.fetchTheUserPoint();
+      headerStore.fetchGlobalNew();
     },
     timeoutBalance() {
       if (this.timer) {
@@ -163,7 +216,6 @@ export default {
       this.timer = setTimeout(() => {
         if (this.isLogin && this.userInfo?.id) {
           this.getTheUserBalanceInfo();
-          this.fetchTheUserPoint();
           this.timer = null;
         }
         this.timeoutBalance();
@@ -212,7 +264,6 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
-      this.fetchTheUserPoint();
     }
 
     this.timeoutBalance();
@@ -242,49 +293,6 @@ export default {
       {
         text: t("header.faq"),
         page: "FAQ",
-      },
-    ]
-
-    this.userList = [
-      {
-        text: t("header.profile"),
-        page: "profile",
-        icon: require("@/assets/svg/user/nav/icon_profile.svg"),
-      },
-      {
-        text: t("header.balances"),
-        page: "balances",
-        icon: require("@/assets/svg/user/nav/icon_balances.svg"),
-      },
-      {
-        text: t("header.inventory"),
-        page: "inventory",
-        icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
-      },
-      {
-        text: t("header.competition"),
-        page: "competition",
-        icon: require("@/assets/svg/user/nav/icon_competition.svg"),
-      },
-      {
-        text: t("header.history"),
-        page: "history",
-        icon: require("@/assets/svg/user/nav/icon_history.svg"),
-      },
-      {
-        text: t("header.referrals"),
-        page: "referrals",
-        icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
-      },
-      // {
-      //   text: t("header.settings"),
-      //   page: "settings",
-      //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
-      // },
-      {
-        text: t("header.logout"),
-        page: "logout",
-        icon: require("@/assets/svg/user/nav/icon_logout.svg"),
       },
     ]
   },

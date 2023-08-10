@@ -118,6 +118,16 @@ const getUserTotalTicket = (params) =>
 const getNftAttrRate = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getNftAttrRate", params);
 
+const getGlobalNew = params =>
+  apiService.get(serviceUrl + '/oneNftOrders/global/redDots', params); // 全局new
+
+const delNewWalletNftMark = params =>
+  apiService.get(serviceUrl + '/oneNftOrders/remove/walletNftSystemRedDots', params); // 取消标记
+
+const delNewOrderMark = params =>
+  apiService.get(serviceUrl + '/oneNftOrders/remove/oneNftOrderRedDots', params); // 取消标记
+
+
 export {
   getWalletNft,
   getSystemNft,
@@ -136,5 +146,8 @@ export {
   getTheExternalNFTSeries,
   getUserOneOrder,
   getUserTotalTicket,
-  getNftAttrRate
+  getNftAttrRate,
+  getGlobalNew,
+  delNewWalletNftMark,
+  delNewOrderMark
 };

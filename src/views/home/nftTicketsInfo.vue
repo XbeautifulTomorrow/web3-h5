@@ -232,14 +232,9 @@
               </div>
             </div>
           </div>
-          <div class="invite_box" v-if="inviteDrop.length > 0">
+          <div class="invite_box">
             <div class="invite_text">{{ $t("ticketsInfo.share") }}</div>
             <div class="choose_invite_code">
-              <div>{{ $t("ticketsInfo.choose") }}</div>
-              <el-select v-model="inviteVal">
-                <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
-                  :value="item.inviteCode" />
-              </el-select>
               <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(inviteVal)" alt="">
               <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
             </div>
@@ -305,8 +300,8 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <buyConfirm :nftInfo="nftInfo" :tickets="buyVotes" :price="buyPrice" v-if="pageType === 'confirm'"
-      @closeDialogFun="closeDialogFun"></buyConfirm>
+    <buyConfirm :nftInfo="nftInfo" :orderId="orderId" :inviteCode="inviteVal" :tickets="buyVotes" :price="buyPrice"
+      v-if="pageType === 'confirm'" @closeDialogFun="closeDialogFun"></buyConfirm>
     <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
   </div>
 </template>
@@ -321,7 +316,7 @@ import {
   getNftAttrRate
 } from "@/services/api/oneBuy";
 import {
-  rebatesFindList,
+  getSetting,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
@@ -529,12 +524,11 @@ export default {
         this.$message.error(t("ticketsInfo.enterHint"));
         return
       }
-      if (Number(ethBalance) > buyPrice) {
+      if (Number(ethBalance) < buyPrice) {
         this.$message.error(t("mysteryBox.rechargeHint"));
         this.pageType = 'recharge';
         return
       }
-
 
       const res = await buyNftBalance({
         orderNumber: orderId,
@@ -623,14 +617,11 @@ export default {
       this.page++;
       this.fetchBuyRecord(false)
     },
-    // 邀请资产列表
-    async fetchRebatesFindList() {
-      const res = await rebatesFindList();
+    // 默认邀请码
+    async fetchSetting() {
+      const res = await getSetting({ coin: "ETH" });
       if (res && res.code == 200) {
-        this.inviteDrop = res.data;
-        if (this.inviteDrop.length > 0) {
-          this.inviteVal = this.inviteDrop[0].inviteCode;
-        }
+        this.inviteVal = res.data.defaultInviteCode;
       }
     },
     // 参加赛事
@@ -689,7 +680,7 @@ export default {
       this.fetchEndingSoon();
       if (this.isLogin && this.userInfo?.id) {
         this.fetchUserBuyRecord();
-        this.fetchRebatesFindList(); // 邀请
+        this.fetchSetting(); // 邀请
       }
     },
     durationFormatter(diff) {

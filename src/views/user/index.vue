@@ -4,6 +4,7 @@
       <div class="nav_box">
         <div :class="['nav_item', userPage == item.page && 'active']" @click="chooseNav(item)"
           v-for="(item, index) in navList" :key="index">
+          <div class="new_dot" v-if="item.showDot"></div>
           <img class="default" :src="item.icon" alt="">
           <img class="active" :src="item.iconActive" alt="">
           <span>{{ item.text }}</span>
@@ -45,7 +46,6 @@ export default {
   },
   data() {
     return {
-      navList: []
     };
   },
   computed: {
@@ -53,6 +53,10 @@ export default {
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
+    },
+    newStatus() {
+      const headerStore = useHeaderStore();
+      return headerStore.newStatus;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -65,54 +69,62 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
+    },
+    navList() {
+      const { walletNftSystemStatus, oneNftStatus } = this.newStatus
+      return [
+        {
+          text: t("header.profile"),
+          page: "profile",
+          icon: require("@/assets/svg/user/nav/icon_profile.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_profile_active.svg"),
+          showDot: false
+        },
+        {
+          text: t("header.balances"),
+          page: "balances",
+          icon: require("@/assets/svg/user/nav/icon_balances.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_balances_active.svg"),
+          showDot: false
+        },
+        {
+          text: t("header.inventory"),
+          page: "inventory",
+          icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg"),
+          showDot: walletNftSystemStatus
+        },
+        {
+          text: t("header.competition"),
+          page: "competition",
+          icon: require("@/assets/svg/user/nav/icon_competition.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_competition_active.svg"),
+          showDot: oneNftStatus
+        },
+        {
+          text: t("header.history"),
+          page: "history",
+          icon: require("@/assets/svg/user/nav/icon_history.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_history_active.svg"),
+          showDot: false
+        },
+        {
+          text: t("header.referrals"),
+          page: "referrals",
+          icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg"),
+          showDot: false
+        },
+        // {
+        //   text: "Settings",
+        //   page: "settings",
+        //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
+        //   iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
+        // }
+      ]
     }
   },
   created() {
-    this.navList = [
-      {
-        text: t("header.profile"),
-        page: "profile",
-        icon: require("@/assets/svg/user/nav/icon_profile.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_profile_active.svg")
-      },
-      {
-        text: t("header.balances"),
-        page: "balances",
-        icon: require("@/assets/svg/user/nav/icon_balances.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_balances_active.svg")
-      },
-      {
-        text: t("header.inventory"),
-        page: "inventory",
-        icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg")
-      },
-      {
-        text: t("header.competition"),
-        page: "competition",
-        icon: require("@/assets/svg/user/nav/icon_competition.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_competition_active.svg")
-      },
-      {
-        text: t("header.history"),
-        page: "history",
-        icon: require("@/assets/svg/user/nav/icon_history.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_history_active.svg")
-      },
-      {
-        text: t("header.referrals"),
-        page: "referrals",
-        icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
-        iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg")
-      },
-      // {
-      //   text: "Settings",
-      //   page: "settings",
-      //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
-      //   iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
-      // }
-    ]
-
     if (this.isLogin && this.userInfo?.id) {
       // 获取类型
       const { id } = this.$route.params;

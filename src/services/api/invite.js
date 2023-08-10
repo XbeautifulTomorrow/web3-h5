@@ -18,11 +18,16 @@ const getSetting = (
   params
 ) => apiService.get('mystery-web-user/index/setUp', params); // 获取设置
 
+const setDefaultCode = (
+  params
+) => apiService.get('mystery-web-user/rebates/defaultCodeSetUp', params); // 获取设置
+
 export {
   userInvateStatistics,
   rebatesCreateCode,
   rebatesFindList,
   rebatesDetailPageList,
   rebatesReceive,
-  getSetting
+  getSetting,
+  setDefaultCode
 };

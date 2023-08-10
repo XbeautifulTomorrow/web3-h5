@@ -209,10 +209,22 @@
   display: flex;
   align-content: center;
   align-items: center;
+  position: relative;
 
   &:hover {
     color: #f5e1d6;
     background-color: rgba(168, 150, 181, 0.1);
+  }
+
+  .new_dot {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 0 0.25rem 0 #df4328;
+    background-color: #df4328;
   }
 }
 

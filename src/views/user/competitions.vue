@@ -9,7 +9,8 @@
         <div class="choose_box">
           <div class="coin_item" v-for="(item, index) in tabsList" :key="index" @click="handleChange(item)"
             :class="[activeType == item.value && 'active']">
-            {{ item.label }}
+            <span>{{ item.label }}</span>
+            <div class="new_dot" v-if="item.showDot"></div>
           </div>
         </div>
         <div class="status_box">
@@ -52,6 +53,7 @@
                 </span>
               </span>
             </div>
+            <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
               {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
@@ -194,12 +196,14 @@
 import {
   getOneBuyList,
   cancelNftOrder,
-  delNftOrder
+  delNftOrder,
+  delNewOrderMark
 } from "@/services/api/oneBuy";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
 import { mapStores } from "pinia";
+import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
 import bigNumber from "bignumber.js";
@@ -214,7 +218,6 @@ export default {
   },
   data() {
     return {
-      tabsList: [],
       activeType: "ENTERED",
       competitionStatus: null,
       statuDrop: [
@@ -233,7 +236,11 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useHeaderStore),
+    newStatus() {
+      const headerStore = useHeaderStore();
+      return headerStore.newStatus;
+    },
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
@@ -241,6 +248,19 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
+    },
+    tabsList() {
+      const { enteredStatus, myTreasureDrawStatus } = this.newStatus;
+
+      return [{
+        label: t("user.entered"),
+        value: "ENTERED",
+        showDot: enteredStatus
+      }, {
+        label: t("user.myCopmetitions"),
+        value: "MY_COMPETITIONS",
+        showDot: myTreasureDrawStatus
+      }];
     }
   },
   methods: {
@@ -271,6 +291,11 @@ export default {
       if (res && res.code == 200) {
         this.count = res.data.total;
         this.enteredList = res.data.records;
+
+        await delNewOrderMark({ type: this.activeType });
+
+        const headerStore = useHeaderStore();
+        headerStore.fetchGlobalNew();
       }
     },
     // 计算可购买最大票数
@@ -343,14 +368,6 @@ export default {
     },
   },
   created() {
-    this.tabsList = [{
-      label: t("user.entered"),
-      value: "ENTERED"
-    }, {
-      label: t("user.myCopmetitions"),
-      value: "MY_COMPETITIONS"
-    }];
-
     this.statuDrop = [
       { label: t("user.inProgress"), value: "IN_PROGRESS" },
       { label: t("user.sale"), value: "DRAWN" },

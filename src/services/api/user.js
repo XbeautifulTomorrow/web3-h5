@@ -69,7 +69,6 @@ const verifyNickname = params =>
 const getNftWithdrawalList = params =>
   apiService.get('/mystery-web-user/withdrawal/nft/pageList', params); // NFT充提记录
 
-
 export {
   getKey,
   authLogin,

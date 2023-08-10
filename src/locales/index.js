@@ -56,6 +56,7 @@ const i18n = new createI18n({
   locale: getLang(),
   messages: messages,
   warnHtmlMessage: false,
+  warnHtmlInMessage: "off",
   silentFallbackWarn: true,
   silentTranslationWarn: true //去除警告信息
 });

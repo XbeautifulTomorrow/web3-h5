@@ -53,6 +53,13 @@
           </div>
         </div>
         <el-table :data="inviteList" height="18.625rem" class="table_container" style="width: 100%">
+          <el-table-column prop="traAmount" :label="$t('user.consumption')" align="center">
+            <template #default="scope">
+              <img class="setCode" v-if="scope.row.defaultStatus == 'TRUE'" src="@/assets/svg/icon_choose_active.svg"
+                alt="">
+              <img class="setCode" v-else @click="setDefault(scope.row)" src="@/assets/svg/icon_choose.svg" alt="">
+            </template>
+          </el-table-column>
           <el-table-column prop="inviteCode" :label="$t('user.code')" align="center" />
           <el-table-column prop="receiveAmount" :label="$t('user.claimed')" align="center" />
           <el-table-column prop="invitePeople" :label="$t('user.refs')" align="center" />
@@ -146,7 +153,8 @@ import {
   rebatesFindList,
   rebatesReceive,
   rebatesDetailPageList,
-  getSetting
+  getSetting,
+  setDefaultCode
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import { onCopy, timeFormat, openUrl, accurateDecimal } from "@/utils";
@@ -222,7 +230,7 @@ export default {
       this.inviteTips = "";
       this.verifys = true;
     },
-    // 邀请统计
+    // 创建邀请吗
     async createInvite() {
       this.onVerify();
       if (!this.verifys) return
@@ -245,6 +253,16 @@ export default {
         }
 
         this.statisticsRow = invites;
+      }
+    },
+    // 设置默认邀请码
+    async setDefault(event) {
+      const res = await setDefaultCode({
+        inviteCode: event.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.$message.success(t("common.operationTips"));
+        this.fetchRebatesFindList();
       }
     },
     // 邀请资产列表

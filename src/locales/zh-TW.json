@@ -176,7 +176,12 @@
     "buyHint": "您不能購買更多入場券了。",
     "soldOut": "入場券已售罄。",
     "enterHint": "請輸入您想要購買的數量。",
-    "buySuccess": "購買成功！"
+    "buySuccess": "購買成功！",
+    "buyTipsTitle": "PURCHASE SUCCESSFUL",
+    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
+    "buyTipsText2": " so keep checking back to see how the competition progresses.",
+    "buyTipsShare": "SHARE THIS COMPETITION",
+    "buyTipsCheck": "CHECK COMPETITION"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",

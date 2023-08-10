@@ -1,9 +1,20 @@
 import { defineStore } from "pinia";
 
-import { getTheUserBalance } from "@/services/api/user";
+import { getTheUserBalance, getTheUserPoint } from "@/services/api/user";
+import { getGlobalNew } from "@/services/api/oneBuy";
 
 export const useHeaderStore = defineStore("headerStore", {
-  state: () => ({ balance: "", walletAddr: "" }),
+  state: () => ({
+    balance: "",
+    points: "",
+    newStatus: {
+      walletNftSystemStatus: false,
+      oneNftStatus: false,
+      enteredStatus: false,
+      myTreasureDrawStatus: false
+    },
+    walletAddr: ""
+  }),
   persist: {
     enabled: true,
     strategies: [
@@ -15,6 +26,20 @@ export const useHeaderStore = defineStore("headerStore", {
       const res = await getTheUserBalance(params);
       if (res && res.data) {
         this.balance = res.data[0].balance;
+      }
+    },
+    // 积分余额
+    async fetchTheUserPoint() {
+      const res = await getTheUserPoint();
+      if (res && res.data) {
+        this.points = res.data.balance;
+      }
+    },
+    // 积分余额
+    async fetchGlobalNew() {
+      const res = await getGlobalNew();
+      if (res && res.data) {
+        this.newStatus = res.data
       }
     },
     setBalance(data) {

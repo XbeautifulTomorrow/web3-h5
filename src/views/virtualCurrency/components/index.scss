@@ -1,6 +1,5 @@
 .virtual-currency {
-  height: 8.875rem;
-  padding-left: 6.25rem;
+  padding: 1.125rem 0 1.125rem 6.25rem;
   box-sizing: border-box;
   display: flex;
   align-content: center;
@@ -76,7 +75,7 @@
 .interval {
   width: 0.5px;
   background-color: #25293e;
-  height: 4.875rem;
+  height: 4.3125rem;
   position: relative;
   margin: 0 2.9875rem;
 
@@ -115,10 +114,10 @@
 }
 
 .virtual-currency-item {
-  width: 20.5rem;
+  width: 15.375rem;
   box-sizing: border-box;
   padding: 1rem 0.8125rem 1rem 1rem;
-  height: 5.75rem;
+  height: 4.3125rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -136,8 +135,8 @@
   }
 
   .virtual-currency-item-img {
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 2.8125rem;
+    height: 2.8125rem;
     border-radius: 0.5rem;
     margin-right: 1.25rem;
   }
@@ -149,22 +148,22 @@
   }
 
   .list-nam {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     line-height: 1.4;
     font-family: 'BlenderPro';
   }
 
   .list-currency {
     font-family: 'LeagueSpartan';
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 500;
     line-height: 1.4;
     color: #11cde9;
   }
 
   .virtual-currency-item-r {
-    width: 1.875rem;
-    height: 1.875rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -189,9 +188,10 @@
   border-radius: 0 0 0.5rem 0.5rem;
   padding: 0 0 1rem;
   position: absolute;
-  width: 20.5rem;
+
+  width: 15.375rem;
   box-sizing: border-box;
-  height: 21.625rem;
+  height: 16.21875rem;
   z-index: 10;
   background-size: cover;
 
@@ -235,8 +235,8 @@
 
 
 .popup-list {
-  padding: 0 1rem;
-  font-size: 1rem;
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -245,14 +245,14 @@
 
 .popup-list-title {
   flex: 1;
-  line-height: 1.6;
+  line-height: 1.4;
   text-align: left;
   color: #e4e7f5;
 }
 
 .popup-list-text {
   text-align: right;
-  line-height: 1.6;
+  line-height: 1.4;
   color: #e4e7f5;
   flex: 1;
 }
@@ -263,13 +263,13 @@
 }
 
 .mystery-box-button {
-  height: 2.5rem;
-  line-height: 2.5rem;
+  height: 1.875rem;
+  line-height: 1.875rem;
   margin-top: 1.25rem;
   border-radius: 0.3125rem;
   background-color: #11cde9;
   color: #13151f;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
 }

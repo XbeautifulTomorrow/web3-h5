@@ -190,7 +190,7 @@ export default {
       const { left } = e.target.getBoundingClientRect();
       this.style = {
         left: `${left + window.scrollX}px`,
-        top: "1.5625rem",
+        top: "1.125rem",
       };
     },
     handleMysteryBox(event) {

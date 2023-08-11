@@ -111,6 +111,7 @@ import { getTicketList } from "@/services/api/index";
 export default {
   name: "VirtualCurrency",
   components: { Image },
+  inject: ["reload"],
   data() {
     return {
       activeIndex: null,
@@ -197,6 +198,9 @@ export default {
       this.mouseLeave();
       // eslint-disable-next-line no-unreachable
       this.$router.push({ path: "/reffleBox", query: { boxId: event.boxId } });
+      setTimeout(() => {
+        this.reload();
+      }, 300);
     },
     /**
      * 鼠标悬停销毁定时器

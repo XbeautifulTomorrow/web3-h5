@@ -32,7 +32,11 @@
               })
               }}</span>
           </div>
-          <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
+          <span class="header-wallet-add" @click="pageType = 'recharge'">
+            <el-icon>
+              <Plus />
+            </el-icon>
+          </span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
           <div class="user_info">
@@ -284,11 +288,10 @@ export default {
         text: t("header.home"),
         page: "Home",
       },
-      // {
-      //   text: t("header.airdrop"),
-      //   page: "Airdrop",
-      // },
-
+      {
+        text: t("header.airdrop"),
+        page: "Airdrop",
+      },
       {
         text: t("header.mysteryBox"),
         page: "ReffleBoxesList",

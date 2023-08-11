@@ -140,7 +140,10 @@
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != result.length">
-                <span class="public-dialog-button-p" v-html="$t('lottery.get_eth_nft', { takeNum: nfts.length, total, src: src })"></span>
+                <span
+                  class="public-dialog-button-p"
+                  v-html="$t('lottery.get_eth_nft', { takeNum: nfts.length, total, src: coinSrc })"
+                ></span>
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p v-else>
@@ -192,7 +195,8 @@ import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
 import { Howl } from "howler";
 import { flop, flopAfter } from "@/utils/audioResource";
-const src = require("@/assets/svg/user/icon_ethereum.svg");
+import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
+
 const { t } = i18n.global;
 
 dayjs.extend(utc);

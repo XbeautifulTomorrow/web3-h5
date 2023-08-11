@@ -8,7 +8,7 @@
     </div>
     <div class="recharge_box">
       <div class="operating_box">
-        <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
+        <div class="operating_btn" :class="[walletOperating == 1 && 'active']">
           {{ $t("user.deposit") }}
         </div>
         <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
@@ -196,7 +196,7 @@ export default {
   data() {
     return {
       showRecharge: true,
-      walletOperating: 1, // 1 充币；2 提币；
+      walletOperating: 2, // 1 充币；2 提币；
       receiverAddr: null, // 收款地址
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种

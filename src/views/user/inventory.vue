@@ -7,7 +7,7 @@
           <span>{{ $t("user.inventory") }}</span>
         </div>
         <div class="operating_btns">
-          <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div>
+          <!-- <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div> -->
           <div class="operating_item" @click="onWithdraw()">{{ $t("user.withdraw") }}</div>
         </div>
       </div>

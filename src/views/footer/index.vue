@@ -63,11 +63,10 @@ const nav = computed(() => {
       text: t("header.home"),
       page: "Home",
     },
-    // {
-    //   text: t("header.airdrop"),
-    //   page: "Airdrop",
-    // },
-
+    {
+      text: t("header.airdrop"),
+      page: "Airdrop",
+    },
     {
       text: t("header.mysteryBox"),
       page: "ReffleBoxesList",

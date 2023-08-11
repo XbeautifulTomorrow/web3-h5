@@ -150,7 +150,7 @@ router.afterEach(() => {
 })
 
 router.beforeEach(async (to, from, next) => {
-  const { path } = to;
+  const { path, query } = to;
   let res = null;
 
   if (config.ENV == "dev" || config.ENV == "test") {
@@ -188,6 +188,19 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next({ name: "Home" });
+  }
+
+  if (path && path.indexOf("/NftTicketsInfo/") > -1) {
+    const code = path.replace("/NftTicketsInfo/", "");
+
+    // 保存邀请码到本地存储
+    if (code) {
+      setSessionStore("invateCode", code);
+      // 统计邀请链接打开数量
+      statisticsClick({ code: code });
+    }
+
+    next({ name: "NftTicketsInfo", query: { id: query.id } });
   }
   // else if (path && path.indexOf("/Airdrop/") > -1) {
   //   const code = path.replace("/Airdrop/", "")

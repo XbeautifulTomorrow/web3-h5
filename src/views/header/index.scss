@@ -165,7 +165,7 @@
   align-items: center;
   align-content: center;
   justify-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   &:hover {
     border-radius: 0.5rem 0.5rem 0 0;
@@ -179,6 +179,12 @@
       transform: rotate(0);
     }
   }
+}
+
+.user_info {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .header-user-popup {
@@ -221,16 +227,23 @@
     color: #f5e1d6;
     background-color: rgba(168, 150, 181, 0.1);
   }
+}
 
-  .new_dot {
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    box-shadow: 0 0 0.25rem 0 #df4328;
-    background-color: #df4328;
+.new_dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+  left: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0.25rem 0 white;
+  background-color: #df4328;
+
+  &.header_dot {
+    top: 0;
+    left: 0;
+    transform: none
   }
 }
 

@@ -20,9 +20,7 @@
         <div class="header-wallet">
           <div class="balance">
             <img class="header-wallet-img" src="@/assets/svg/user/icon_profile.svg" alt="" />
-            <span class="header-wallet-money">{{ Number(userPoints).toLocaleString(undefined, {
-              minimumFractionDigits: 4
-            }) }}</span>
+            <span class="header-wallet-money">{{ Number(userPoints).toLocaleString() }}</span>
           </div>
         </div>
         <div class="header-wallet">
@@ -37,10 +35,13 @@
           <span class="header-wallet-add" @click="pageType = 'recharge'">+</span>
         </div>
         <div class="header-user" v-if="isLogin && userInfo?.id">
-          <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
-          <span class="header-user-text text-ellipsis">
-            {{ userInfo?.userName || userInfo?.email }}
-          </span>
+          <div class="user_info">
+            <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
+            <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
+            <span class="header-user-text text-ellipsis">
+              {{ userInfo?.userName || userInfo?.email }}
+            </span>
+          </div>
           <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
           <div class="header-user-popup">
             <ul class="header-user-content">

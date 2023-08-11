@@ -217,6 +217,7 @@ export default {
   img {
     width: 2rem;
     height: auto;
+    cursor: pointer;
   }
 }
 

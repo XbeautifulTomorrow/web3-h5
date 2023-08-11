@@ -53,7 +53,7 @@
           </div>
         </div>
         <el-table :data="inviteList" height="18.625rem" class="table_container" style="width: 100%">
-          <el-table-column prop="traAmount" :label="$t('user.balanceTabel0')" align="center">
+          <el-table-column prop="traAmount" :label="$t('user.default')" align="center">
             <template #default="scope">
               <img class="setCode" v-if="scope.row.defaultStatus == 'TRUE'" src="@/assets/svg/icon_choose_active.svg"
                 alt="">

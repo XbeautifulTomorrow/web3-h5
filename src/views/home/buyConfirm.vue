@@ -14,7 +14,7 @@
         <span v-html="$t('ticketsInfo.buyTipsText1', { tickets: ticketsNum(), num: buyNum() })"></span>
         <span v-html="$t('ticketsInfo.buyTipsText2')"></span>
       </div>
-      <div class="deposit_tx_id">
+      <div class="deposit_tx_id" v-if="inviteCode">
         <span>SHARE THIS COMPETITION</span>
         <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink()" alt="">
       </div>

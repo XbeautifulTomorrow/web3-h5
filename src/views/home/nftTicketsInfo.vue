@@ -234,7 +234,7 @@
           </div>
           <div class="invite_box">
             <div class="invite_text">{{ $t("ticketsInfo.share") }}</div>
-            <div class="choose_invite_code">
+            <div class="choose_invite_code" v-if="inviteVal">
               <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(inviteVal)" alt="">
               <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
             </div>

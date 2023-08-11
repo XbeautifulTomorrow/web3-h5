@@ -181,7 +181,7 @@
     "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
     "buyTipsText2": " so keep checking back to see how the competition progresses.",
     "buyTipsShare": "SHARE THIS COMPETITION",
-    "buyTipsCheck":"CHECK COMPETITION"
+    "buyTipsCheck": "CHECK COMPETITION"
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",
@@ -617,7 +617,7 @@
     "take_nft": "Take the NFT",
     "take_all": "Take All",
     "get_eth": "You got {num} ETH.",
-    "get_eth_nft": "Take <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <span class=\"result-total-other\">{total} ETH</span>.",
+    "get_eth_nft": "Take <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "Your Reward",
     "no_win": "Sorry, you didn't win.",
     "tips_txt": "Offcial Boxes by Bitzing",

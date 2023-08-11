@@ -18,53 +18,32 @@
         >
           <div v-for="(list, index) in awardsList" :key="index">
             <div class="roll-one-carousel" ref="subAwards">
-              <div
-                :class="['roll-one-carousel-list', list.qualityType]"
-                :style="liStyle"
-              >
+              <div :class="['roll-one-carousel-list', list.qualityType]" :style="liStyle">
                 <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                  <image-view
-                    class="roll-one-list-img"
-                    :src="list.nftCompressImg"
-                  />
+                  <image-view class="roll-one-list-img" :src="list.nftCompressImg" />
                 </div>
                 <p class="roll-one-list-seriesName">
                   <span class="roll-one-list-seriesName-text text-ellipsis">
                     {{ list.seriesName }}
                   </span>
-                  <img
-                    class="roll-one-list-seriesName-img"
-                    src="@/assets/svg/user/icon_ethereum.svg"
-                    alt=""
-                  />
                 </p>
                 <div class="roll-one-list-text">
                   <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
                   <div class="roll-one-list-price">
                     <span class="roll-one-list-minPrice text-ellipsis">
-                      <el-tooltip
-                        class="box-item"
-                        effect="dark"
-                        :content="`${list.price}`"
-                      >
-                        &nbsp;{{ list.price }}
+                      <el-tooltip class="box-item" effect="dark" :content="`${list.price}`">
+                        <p class="price-box">
+                          <img class="coin-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                          <span>{{ list.price }}</span>
+                        </p>
                       </el-tooltip>
                     </span>
-                    <span class="roll-one-list-conin">
+                    <!-- <span class="roll-one-list-conin">
                       {{ list.coin }}
-                    </span>
+                    </span> -->
                   </div>
-                  <div
-                    class="roll-one-list-nftNumber text-ellipsis"
-                    v-if="list.tokenId"
-                  >
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`# ${list.tokenId}`"
-                    >
-                      #&nbsp;{{ list.tokenId }}
-                    </el-tooltip>
+                  <div class="roll-one-list-nftNumber text-ellipsis" v-if="list.tokenId">
+                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }} </el-tooltip>
                   </div>
                 </div>
               </div>
@@ -81,7 +60,7 @@
 </template>
 <script>
 import { Howl } from "howler";
-import {slipe,oneSlow} from "@/utils/audioResource";
+import { slipe, oneSlow } from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 const itemWidth = 200;
@@ -125,16 +104,14 @@ export default {
         margin: "0 3px",
         padding: "5px 10px",
       },
-      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
-        JSON.parse(JSON.stringify(this.awards))
-      ),
+      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(JSON.parse(JSON.stringify(this.awards))),
       linearTime: null, //匀速动画duration时间
-      slowTime: '6s', //减速动画duration时间
+      slowTime: "6s", //减速动画duration时间
       boxOffsetWidth: 0,
       subAwardsWidth: 0,
       slipeMusic: null,
       linearEndTranslateX: null,
-      slowTranslateX: null
+      slowTranslateX: null,
     };
   },
   async mounted() {
@@ -157,7 +134,7 @@ export default {
         }
       }, 100);
       setTimeout(() => {
-        this.slipeMusic = this.playSound(slipe,true);
+        this.slipeMusic = this.playSound(slipe, true);
       }, 500);
     }
   },
@@ -183,13 +160,13 @@ export default {
       }
     },
     playSound(_music, musicLoop = false) {
-      const audioObj = new Howl({ src: [_music] ,loop:musicLoop});
+      const audioObj = new Howl({ src: [_music], loop: musicLoop });
       audioObj.pause();
       audioObj.play();
       return audioObj;
     },
     stopScroll() {
-      this.stopAudioFunc()
+      this.stopAudioFunc();
       setTimeout(() => {
         this.$emit("showResultFun", true);
       }, 500);
@@ -205,20 +182,20 @@ export default {
       this.awardsList.splice(len + 2, 1, data);
       this.isActive = true;
       this.isAutoplay = false;
-      this.stopAudioFunc()
+      this.stopAudioFunc();
       if (!state) {
         this.playSound(oneSlow);
       }
     },
     stopAudioFunc() {
       this.slipeMusic && this.slipeMusic.pause();
-    }
+    },
   },
   watch: {
     apiIsError: function (newData) {
       if (newData) {
         this.isAutoplay = false;
-        this.stopAudioFunc()
+        this.stopAudioFunc();
       }
     },
     awardItem: {
@@ -234,7 +211,7 @@ export default {
     },
   },
   beforeUnmount() {
-    this.stopAudioFunc()
+    this.stopAudioFunc();
   },
 };
 </script>
@@ -296,11 +273,11 @@ export default {
 }
 @keyframes slide-down {
   0% {
-    transform: translate3d(v-bind('linearEndTranslateX'), 0, 0);
+    transform: translate3d(v-bind("linearEndTranslateX"), 0, 0);
   }
 
   100% {
-    transform: translate3d(v-bind('slowTranslateX'), 0, 0);
+    transform: translate3d(v-bind("slowTranslateX"), 0, 0);
   }
 }
 
@@ -310,12 +287,12 @@ export default {
 }
 
 .scroll-linear {
-  animation: slide v-bind('linearTime') infinite linear;
+  animation: slide v-bind("linearTime") infinite linear;
   animation-fill-mode: forwards;
 }
 
 .active {
-  animation: slide-down v-bind('slowTime') 1 cubic-bezier(0, 0.08, 0.11, 1);
+  animation: slide-down v-bind("slowTime") 1 cubic-bezier(0, 0.08, 0.11, 1);
   animation-fill-mode: forwards;
 }
 .roll-text {

@@ -230,7 +230,7 @@
     "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
     "buyTipsText2": " so keep checking back to see how the competition progresses.",
     "buyTipsShare": "SHARE THIS COMPETITION",
-    "buyTipsCheck":"CHECK COMPETITION"
+    "buyTipsCheck": "CHECK COMPETITION"
   },
   "user": {
     "changePwd": "修改密碼",
@@ -622,7 +622,7 @@
     "take_nft": "持有 NFT",
     "take_all": "全都要",
     "get_eth": "您獲得 {num} ETH",
-    "get_eth_nft": "持有 <span class=\"font4\">{takeNum}</span>  NFTs 並賣出其他的以獲得 <span class=\"result-total-other\">{total} ETH</span>",
+    "get_eth_nft": "持有 <span class=\"font4\">{takeNum}</span>  NFTs 並賣出其他的以獲得 <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "你的獎勵",
     "no_win": "對不起，您失敗了。",
     "tips_txt": "來自 BITZING 的官方盲盒",

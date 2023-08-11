@@ -348,6 +348,7 @@
     "REVENUE": "收益",
     "code": "邀請碼",
     "refs": "已邀請",
+    "default": "默認",
     "consumption": "總消費",
     "claim": "領取",
     "referralCode": "邀請碼",

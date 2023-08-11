@@ -9,7 +9,7 @@ import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
 import Currency from "../views/virtualCurrency/index.vue";
 
-const welcome = () => import("../views/welcome/index.vue");
+// const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
 const Lottery = () => import("@/components/lottery/index.vue");
 const reffleBox = () => import("../views/mysteryBox/index.vue");
@@ -27,9 +27,9 @@ const routes = [
   //redirect 重定向也是通过 routes 配置来完成，下面就是从 / 重定向到 /home
   {
     path: "/",
-    redirect: "/welcome",
+    redirect: "/home",
   },
-  { path: "/welcome", component: welcome },
+  // { path: "/welcome", component: welcome },
   {
     path: "/home",
     name: "Home",

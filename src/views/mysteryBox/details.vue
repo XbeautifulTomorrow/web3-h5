@@ -134,7 +134,7 @@
       <el-table :data="snapshotData" class="table_container" style="width: 100%">
         <el-table-column prop="id" :label="$t('mysteryBox.snapshotId')" align="center">
         </el-table-column>
-        <el-table-column prop="boxName" :label="$t('mysteryBox.boxName')" align="center" />
+        <el-table-column prop="boxName" :label="$t('mysteryBox.boxName')" align="center" show-overflow-tooltip />
         <el-table-column prop="legendNum" label="Legend" align="center">
           <template #default="scope">
             {{ `${probabilityFormat(scope.row, scope.row.legendNum)}% ` }}

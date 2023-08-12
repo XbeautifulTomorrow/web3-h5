@@ -3,7 +3,7 @@
     <div class="lottery-moreLuck-sub">
       <div class="roll-text">
         <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
-        <p class="roll-text-offcial">{{ $t("lottery.tips_txt") }}</p>
+        <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
       </div>
       <div class="lottery-moreLuck-bg">
         <div

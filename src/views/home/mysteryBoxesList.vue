@@ -137,7 +137,7 @@ export default {
       }, 300);
     },
     handleMysteryBoxes(event) {
-      this.$router.push({ path: "/reffleBox", query: { boxId: event.id } });
+      this.$router.push({ path: "/raffleBox", query: { boxId: event.id } });
     },
     handleCurrentChange(page) {
       this.page = page;

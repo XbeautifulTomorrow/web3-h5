@@ -197,7 +197,7 @@ export default {
     handleMysteryBox(event) {
       this.mouseLeave();
       // eslint-disable-next-line no-unreachable
-      this.$router.push({ path: "/reffleBox", query: { boxId: event.boxId } });
+      this.$router.push({ path: "/raffleBox", query: { boxId: event.boxId } });
       setTimeout(() => {
         this.reload();
       }, 300);

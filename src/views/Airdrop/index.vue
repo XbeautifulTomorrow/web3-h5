@@ -3,9 +3,10 @@
     <div class="airdrop_container">
       <div class="banner_container">
         <div class="banner_l">
-          <div class="operation">{{ $t("airdrop.airdropText1") }}</div>
-          <div class="title">{{ $t("airdrop.airdropText2") }}</div>
-          <div class="description">{{ $t("airdrop.airdropTips") }}</div>
+          <!-- <div class="operation">{{ $t("airdrop.airdropText1") }}</div> -->
+          <!-- <div class="title">{{ $t("airdrop.airdropText2") }}</div> -->
+          <div class="title">{{ $t("airdrop.airdropText3") }}</div>
+          <!-- <div class="description">{{ $t("airdrop.airdropTips") }}</div> -->
         </div>
         <div class="banner_r">
           <img v-if="isTest" @click="handleConnect()" src="@/assets/svg/airdrop/banner.svg" alt="" />
@@ -218,6 +219,7 @@ export default {
     Login,
     Register,
     Forgot,
+    // eslint-disable-next-line vue/no-unused-components
     countDown,
     Modify
   },

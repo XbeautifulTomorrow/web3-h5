@@ -2,20 +2,17 @@
   <div class="roll-one-content">
     <div class="roll-text">
       <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
-      <p class="roll-text-offcial">{{ $t("lottery.tips_txt") }}</p>
+      <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
     </div>
     <div class="con-box">
       <div :class="['con']">
-        <div
-          ref="boxesContainer"
-          :class="[
-            'sub-con',
-            {
-              'scroll-linear': isAutoplay,
-              active: isActive,
-            },
-          ]"
-        >
+        <div ref="boxesContainer" :class="[
+          'sub-con',
+          {
+            'scroll-linear': isAutoplay,
+            active: isActive,
+          },
+        ]">
           <div v-for="(list, index) in awardsList" :key="index">
             <div class="roll-one-carousel" ref="subAwards">
               <div :class="['roll-one-carousel-list', list.qualityType]" :style="liStyle">
@@ -43,7 +40,8 @@
                     </span> -->
                   </div>
                   <div class="roll-one-list-nftNumber text-ellipsis" v-if="list.tokenId">
-                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }} </el-tooltip>
+                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }}
+                    </el-tooltip>
                   </div>
                 </div>
               </div>
@@ -216,20 +214,24 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("./css/one.scss");
+@import "./css/one.scss";
+
 .roll-one-content {
   overflow: hidden;
 }
+
 .con-box {
   width: 100%;
   display: flex;
   justify-content: center;
 }
+
 .con {
   position: relative;
   width: 1120px;
   margin-top: 6.3vh;
   overflow: inherit;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -247,7 +249,8 @@ export default {
   transform-style: preserve-3d;
   will-change: transform;
   transform: translate3d(-10%, 0, 0);
-  & > div {
+
+  &>div {
     display: inline-block;
   }
 }
@@ -271,6 +274,7 @@ export default {
     transform: translate3d(-60%, 0, 0);
   }
 }
+
 @keyframes slide-down {
   0% {
     transform: translate3d(v-bind("linearEndTranslateX"), 0, 0);
@@ -295,27 +299,33 @@ export default {
   animation: slide-down v-bind("slowTime") 1 cubic-bezier(0, 0.08, 0.11, 1);
   animation-fill-mode: forwards;
 }
+
 .roll-text {
   margin-top: 0;
 }
+
 .result-link-box {
   margin-top: 6vh;
 }
+
 @media screen and (max-width: 1600px) {
+
   .con,
   .roll-text {
     margin: 0;
   }
 }
+
 @media (max-height: 900px) {
   .roll-text {
     margin-top: 0;
   }
+
   .con {
     margin-top: 0;
   }
+
   .result-link-box {
     margin-top: 0;
   }
-}
-</style>
+}</style>

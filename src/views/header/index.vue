@@ -294,11 +294,11 @@ export default {
       },
       {
         text: t("header.mysteryBox"),
-        page: "ReffleBoxesList",
+        page: "RaffleBoxesList",
       },
       {
         text: t("header.competitions"),
-        page: "TreasureDraws",
+        page: "TreasureDraw",
       },
       {
         text: t("header.whitebook"),

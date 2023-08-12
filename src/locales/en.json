@@ -387,6 +387,7 @@
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",
     "airdropText2": "CLAIM AIRDROP",
+    "airdropText3": "AIRDROP IS CLOSED",
     "airdropTips": "To earn point rewards, connect your wallets. The rewards you can earn will be determined by the transaction history of your wallet.",
     "tabText1": "MY POINTS",
     "tabText2": "LEADERBOARD",
@@ -607,7 +608,7 @@
     "get_eth_nft": "Take <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "Your Reward",
     "no_win": "Sorry, you didn't win.",
-    "tips_txt": "Offcial Boxes by Bitzing",
+    "tips_txt": "Official Boxes by Bitzing",
     "congratulations": "CONGRATULATIONS",
     "verify_faimess": "Verify Fairness",
     "view_snapshot": "View Snapshot",

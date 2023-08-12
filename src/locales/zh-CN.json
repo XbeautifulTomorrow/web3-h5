@@ -392,6 +392,7 @@
   "airdrop": {
     "airdropText1": "連結你的錢包以",
     "airdropText2": "獲取空投",
+    "airdropText3": "空投已關閉",
     "airdropTips": "連結錢包來獲得積分獎勵，錢包的交易歷史將會決定您所能獲得的積分數量。",
     "tabText1": "我的積分",
     "tabText2": "排行榜",

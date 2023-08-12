@@ -78,10 +78,10 @@ export default {
   },
   methods: {
     handleMysteryBoxes(event) {
-      this.$router.push({ path: "/reffleBox", query: { boxId: event.id } });
+      this.$router.push({ path: "/raffleBox", query: { boxId: event.id } });
     },
     openAll() {
-      this.$router.push({ name: "ReffleBoxesList" });
+      this.$router.push({ name: "RaffleBoxesList" });
     },
   }
 };

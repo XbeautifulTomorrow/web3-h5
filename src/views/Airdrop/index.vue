@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="connect_wallet_r">
+        <!-- <div class="connect_wallet_r">
           <div class="connect_btn" v-if="!userInfo?.id" @click="pageType = 'login'">{{ $t("common.login") }}</div>
           <div v-else-if="dateDiff(setting.regCountdownTime) != 'ENDED'">
             <div class="countdown_tips external">{{ $t("airdrop.timeTips") }}</div>
@@ -98,7 +98,7 @@
           <div class="connect_tips" v-if="dateDiff(setting.regCountdownTime) == 'ENDED'">
             {{ $t("airdrop.connectTips") }}
           </div>
-        </div>
+        </div> -->
       </div>
       <div v-else class="content_container">
         <Point @onModify="fetchAirdropData()" :airdrop="airdropData" v-if="currentActive == 'point'"></Point>

@@ -234,7 +234,7 @@
           </div>
           <div class="invite_box">
             <div class="invite_text">{{ $t("ticketsInfo.share") }}</div>
-            <div class="choose_invite_code" v-if="inviteVal">
+            <div class="choose_invite_code">
               <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(inviteVal)" alt="">
               <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
             </div>
@@ -702,7 +702,11 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo/" + event + "?id=" + this.orderId;
+      let link = currentLink.origin + "/NftTicketsInfo";
+      if (event) {
+        link += "/" + event;
+      }
+      link += "?id=" + this.orderId;
       onCopy(link);
     },
     // 分享邀请链接到推特
@@ -734,7 +738,11 @@ export default {
       }
       const inviteLink = `Enter HERE:`;
       const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo/" + event + "?id=" + this.orderId;
+      let link = currentLink.origin + "/NftTicketsInfo"
+      if (event) {
+        link += "/" + event;
+      }
+      link += "?id=" + this.orderId;
 
       let inviteText = series;
       inviteText += description;

@@ -180,56 +180,7 @@ export default {
         isExpand: false,
         height: null,
         minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion13"),
-        description: t("faq.faqAnswer13"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion14"),
-        description: t("faq.faqAnswer14"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion15"),
-        description: t("faq.faqAnswer15"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion16"),
-        description: t("faq.faqAnswer16"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion17"),
-        description: t("faq.faqAnswer17"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion18"),
-        description: t("faq.faqAnswer18"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
-      {
-        title: t("faq.faqQuestion19"),
-        description: t("faq.faqAnswer19"),
-        isExpand: false,
-        height: null,
-        minHeight: null
-      },
+      }
     ]
   },
   mounted() {

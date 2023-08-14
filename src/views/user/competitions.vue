@@ -57,7 +57,7 @@
             <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
               {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
-            <div class="tips_round aborted" v-else>
+            <div class="tips_round aborted" v-else-if="item.currentStatus == 'CLOSED'">
               {{ $t("user.abortedStatus", { date: timeFormat(item.endTime) }) }}
             </div>
             <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>

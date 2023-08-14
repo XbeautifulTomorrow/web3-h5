@@ -211,7 +211,7 @@
               <span class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}`
               }}</span>
             </div>
-            <div class="nft_description" v-html="detailData && detailData.description"></div>
+            <div class="nft_description" v-html="nftInfo && nftInfo.remark"></div>
           </div>
           <div class="traits_box">
             <div class="traits_text">{{ $t("ticketsInfo.traits") }}</div>
@@ -227,7 +227,7 @@
                     </template>
                     <div class="item_val">{{ item.attrValue }}</div>
                   </el-tooltip>
-                  <span class="item_ratio">{{ new bigNumber(item.attrRate).multipliedBy(100) }}%</span>
+                  <span class="item_ratio">{{ item.attrNum }}</span>
                 </div>
               </div>
             </div>

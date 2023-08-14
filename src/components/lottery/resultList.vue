@@ -446,7 +446,11 @@ const getTheUserBalanceApi = async () => {
     background-color: transparent;
   }
 }
-
+.result-footer-button > span {
+  display: block;
+  height: 2.375rem;
+  line-height: 2.5rem;
+}
 .result-one-footer {
   .sell {
     margin-bottom: 10px;

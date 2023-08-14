@@ -609,7 +609,7 @@
     "sell_for": "轉售並獲得",
     "take_nft": "持有 NFT",
     "take_all": "全都要",
-    "get_eth": "您獲得 {num} ETH",
+    "get_eth": "您獲得",
     "get_eth_nft": "持有 <span class=\"font4\">{takeNum}</span>  NFTs 並賣出其他的以獲得 <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "你的獎勵",
     "no_win": "對不起，您失敗了。",

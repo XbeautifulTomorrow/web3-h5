@@ -119,7 +119,9 @@
                     <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
                   <p v-else class="result-sell-get">
-                    {{ $t("lottery.get_eth", { num: item.price }) }}
+                    {{ $t("lottery.get_eth") }}
+                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    {{ item.price }}
                   </p>
                 </template>
               </div>
@@ -377,8 +379,14 @@ const getTheUserBalanceApi = async () => {
   gap: 0.625rem;
 }
 .public-dialog-icon {
-  width: 1.875rem;
-  height: 1.875rem;
+  width: 1.375rem;
+  height: 1.375rem;
+}
+.public-dialog-icon-two {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: sub;
+  opacity: 0.7;
 }
 .result-total {
   margin: 0;

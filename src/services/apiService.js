@@ -1,8 +1,8 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
-import config from './env';
-import { i18n } from '@/locales';
+import config from "./env";
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 // import qs from 'qs'
 
@@ -13,7 +13,12 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
-const notMessage = ["mystery-web-user/auth/check/captcha", "mystery-web-user/auth/getIp", "mystery-web-user/auth/getCode", "mystery-web-user/oneNftOrders/getWalletNftEth"];
+const notMessage = [
+  "mystery-web-user/auth/check/captcha",
+  "mystery-web-user/auth/getIp",
+  "mystery-web-user/auth/getCode",
+  "mystery-web-user/oneNftOrders/getWalletNftEth",
+];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
@@ -25,7 +30,7 @@ axiosInstance.interceptors.request.use(
     }
 
     if (config.url.indexOf("mystery-web-user/auth/getCode") > -1) {
-      config.responseType = "blob"
+      config.responseType = "blob";
     }
     return config;
   },
@@ -39,6 +44,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    ElMessage.closeAll();
     ElMessage({
       message: error,
       type: "warning",
@@ -49,24 +55,21 @@ axiosInstance.interceptors.response.use(
 
 // eslint-disable-next-line no-unused-vars
 const handleRes = ({ headers, url, data }) => {
-
   // 取得服务器时间
   const { setCurrentTime } = useUserStore();
   if (data && data.localDateTime) {
-    setCurrentTime(data.localDateTime)
+    setCurrentTime(data.localDateTime);
   }
 
   if (data.code === 200) {
     return data;
   } else if (data.code === 20011) {
-
     const { logoutApi } = useUserStore();
     logoutApi();
-
     return [false, data.code, data];
   } else {
-
     if (!notMessage.includes(url)) {
+      ElMessage.closeAll();
       ElMessage({
         message: t("errorTips." + data.messageKey),
         type: "warning",
@@ -90,6 +93,7 @@ export async function post(url, params, config = {}) {
       data: res.data,
     });
   } catch (err) {
+    ElMessage.closeAll();
     ElMessage({
       message: err,
       type: "warning",

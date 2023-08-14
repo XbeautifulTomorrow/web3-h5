@@ -2,7 +2,7 @@
   "common": {
     "copy": "Copy",
     "copySuccess": "Copy successful.",
-    "tipsText": "Comming soon!",
+    "tipsText": "Coming soon!",
     "prev": "Prev",
     "next": "Next",
     "login": "Login",
@@ -132,7 +132,7 @@
     "sortPopularity": "Popularity",
     "sortPriceLow": "Price Low",
     "sortPriceHigh": "Price High",
-    "noDataBox": "NO REFFLE BOX",
+    "noDataBox": "NO RAFFLE BOX",
     "viewCompetitions": "View All Treasure Draws",
     "searchNft": "Search a Collection",
     "type": "Type:",

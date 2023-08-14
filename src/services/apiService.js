@@ -60,13 +60,6 @@ const handleRes = ({ headers, url, data }) => {
     return data;
   } else if (data.code === 20011) {
 
-    if (!notMessage.includes(url)) {
-      ElMessage({
-        message: t("errorTips." + data.messageKey),
-        type: "warning",
-      });
-    }
-
     const { logoutApi } = useUserStore();
     logoutApi();
 

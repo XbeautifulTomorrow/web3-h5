@@ -78,8 +78,8 @@ const unboxAgainFunc = () => {
 </script>
 <style lang="scss" scoped>
 .public-dialog-icon {
-  width: 1.875rem;
-  height: 1.875rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .public-dialog-total {
   display: flex;

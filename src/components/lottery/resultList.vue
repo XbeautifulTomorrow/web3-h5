@@ -332,7 +332,7 @@ const getTheUserBalanceApi = async () => {
   const res = await getTheUserBalance();
   if (res && res.localDateTime) {
     const timer = parseInt(60 - Math.ceil(new Date(res.localDateTime) - new Date(result[0].lotteryTime)) / 1000);
-    const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 9 : 14;
+    const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 13;
     second.value = parseInt(timer + extraTime);
   }
 };

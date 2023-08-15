@@ -172,15 +172,15 @@ export default {
     async getBoxCatGasFunc() {
       let res = await getBoxCatGas();
       if (res) {
-        if (res.data) {
-          this.apiIsError = false;
-          this.errorText = undefined;
-        } else {
+        if (res.data === false) {
           this.apiIsError = true;
           this.errorText = this.$t("lottery.tips4");
+        } else {
+          this.apiIsError = false;
+          this.errorText = undefined;
         }
       }
-      return res && res.data ? true : false;
+      return res && res.data === false ? false : true;
     },
     async setBalanceOrder(coiledType) {
       // 判断gas

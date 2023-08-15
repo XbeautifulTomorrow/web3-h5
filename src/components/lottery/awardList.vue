@@ -28,7 +28,10 @@
         :class="['lottery-moreLuck-list-content', _img.qualityType, { 'is-active-item': winData.tokenId == _img.tokenId && stopPlay }]"
         :key="`img-${imgIndex}`"
       >
-        <image-view class="lottery-moreLuck-list-img" :src="winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg" />
+        <image-view
+          class="lottery-moreLuck-list-img"
+          :src="winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg || _img.nftImg"
+        />
         <div v-if="winData && winData.nftImg == _img.nftImg && stopPlay">
           <p class="lottery-moreLuck-seriesName">
             {{ winData.seriesName }}

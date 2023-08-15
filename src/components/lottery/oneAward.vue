@@ -6,18 +6,21 @@
     </div>
     <div class="con-box">
       <div :class="['con']">
-        <div ref="boxesContainer" :class="[
-          'sub-con',
-          {
-            'scroll-linear': isAutoplay,
-            active: isActive,
-          },
-        ]">
+        <div
+          ref="boxesContainer"
+          :class="[
+            'sub-con',
+            {
+              'scroll-linear': isAutoplay,
+              active: isActive,
+            },
+          ]"
+        >
           <div v-for="(list, index) in awardsList" :key="index">
             <div class="roll-one-carousel" ref="subAwards">
               <div :class="['roll-one-carousel-list', list.qualityType]" :style="liStyle">
                 <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                  <image-view class="roll-one-list-img" :src="list.nftCompressImg" />
+                  <image-view class="roll-one-list-img" :src="list.nftCompressImg || list.nftImg" />
                 </div>
                 <p class="roll-one-list-seriesName">
                   <span class="roll-one-list-seriesName-text text-ellipsis">
@@ -40,8 +43,7 @@
                     </span> -->
                   </div>
                   <div class="roll-one-list-nftNumber text-ellipsis" v-if="list.tokenId">
-                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }}
-                    </el-tooltip>
+                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }} </el-tooltip>
                   </div>
                 </div>
               </div>
@@ -250,7 +252,7 @@ export default {
   will-change: transform;
   transform: translate3d(-10%, 0, 0);
 
-  &>div {
+  & > div {
     display: inline-block;
   }
 }
@@ -309,7 +311,6 @@ export default {
 }
 
 @media screen and (max-width: 1600px) {
-
   .con,
   .roll-text {
     margin: 0;
@@ -328,4 +329,5 @@ export default {
   .result-link-box {
     margin-top: 0;
   }
-}</style>
+}
+</style>

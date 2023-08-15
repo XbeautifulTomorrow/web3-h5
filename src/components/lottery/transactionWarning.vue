@@ -6,17 +6,12 @@
     :align-center="true"
     :append-to-body="true"
     class="public-dialog mystery-dialog"
-    width="700"
+    width="43.75rem"
     :before-close="closeDialogFun"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img
-          class="public-dialog-header-icon"
-          src="@/assets/svg/close.svg"
-          alt=""
-          v-on="{ click: [close, closeDialogFun] }"
-        />
+        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -27,11 +22,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img
-            class="public-dialog-icon"
-            src="@/assets/svg/user/icon_ethereum.svg"
-            alt=""
-          />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           {{ blindPrice }}
         </p>
       </el-button>

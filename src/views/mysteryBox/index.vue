@@ -146,12 +146,10 @@ export default {
         const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
         if (_time > 60) {
           localStorage.removeItem("result");
-          console.log(1);
         } else {
           this.rollNumber = _result.rollNumber;
           this.showRoll = true;
           this.lottResult = _result.result;
-          console.log(2);
           return;
         }
       }
@@ -173,10 +171,22 @@ export default {
     },
     async getBoxCatGasFunc() {
       let res = await getBoxCatGas();
-      console.log(res);
+      if (res) {
+        if (res.data) {
+          this.apiIsError = false;
+          this.errorText = undefined;
+        } else {
+          this.apiIsError = true;
+          this.errorText = this.$t("lottery.tips4");
+        }
+      }
+      return res && res.data ? true : false;
     },
     async setBalanceOrder(coiledType) {
-      // this.getBoxCatGasFunc();
+      // 判断gas
+      if (!this.getBoxCatGasFunc()) {
+        return;
+      }
       const headerStore = useHeaderStore();
       this.loading = true;
       this.apiIsError = false;
@@ -228,7 +238,7 @@ export default {
           }
         } else {
           this.apiIsError = true;
-          this.errorText = result;
+          this.errorText = this.$t("errorTips.image_enum_error");
           this.clearTimerFun();
         }
       }, 2000);

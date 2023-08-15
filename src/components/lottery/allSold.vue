@@ -6,24 +6,16 @@
     :align-center="true"
     :append-to-body="true"
     class="public-dialog mystery-dialog"
-    width="700"
+    width="43.75rem"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img
-          class="public-dialog-header-icon"
-          src="@/assets/svg/close.svg"
-          alt=""
-          v-on="{ click: [close, closeDialogFun] }"
-        />
+        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
       </div>
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">NOTICE</h2>
-      <p class="public-dialog-illustrate">
-        The prize is in your backpack. Please go to your backpack and check it
-        out
-      </p>
+      <p class="public-dialog-illustrate">The prize is in your backpack. Please go to your backpack and check it out</p>
       <h3 class="public-dialog-title-other">NFTs</h3>
       <ul class="public-dialog-lists">
         <el-tooltip
@@ -39,12 +31,8 @@
           </li>
         </el-tooltip>
       </ul>
-      <el-button class="public-button" @click="goInventory">
-        CHECK MY INVENTORY
-      </el-button>
-      <el-button class="public-button public-continue" @click="closeDialogFun">
-        CONTINUE
-      </el-button>
+      <el-button class="public-button" @click="goInventory"> CHECK MY INVENTORY </el-button>
+      <el-button class="public-button public-continue" @click="closeDialogFun"> CONTINUE </el-button>
     </div>
   </el-dialog>
 </template>

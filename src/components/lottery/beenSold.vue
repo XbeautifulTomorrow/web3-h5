@@ -6,7 +6,7 @@
     :align-center="true"
     :append-to-body="true"
     class="public-dialog mystery-dialog"
-    width="700"
+    width="43.75rem"
     :before-close="closeDialogFun"
   >
     <template #header="{ close }">

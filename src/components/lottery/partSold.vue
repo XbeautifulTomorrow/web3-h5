@@ -4,18 +4,13 @@
     destroy-on-close
     :show-close="false"
     class="public-dialog mystery-dialog"
-    width="700"
+    width="43.75rem"
     :before-close="closeDialogFun"
     :append-to-body="true"
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img
-          class="public-dialog-header-icon"
-          src="@/assets/svg/close.svg"
-          alt=""
-          v-on="{ click: [close, closeDialogFun] }"
-        />
+        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -23,17 +18,9 @@
       <p class="public-dialog-illustrate">
         {{ text }}
       </p>
-      <div
-        class="public-dialog-module"
-        v-if="chooseIds.length && chooseIds.length > failList.length"
-      >
+      <div class="public-dialog-module" v-if="chooseIds.length && chooseIds.length > failList.length">
         <h3 class="public-dialog-title-other">NFTs</h3>
-        <ul
-          :class="[
-            'public-dialog-lists',
-            { 'public-dialog-lists-all': chooseIds.length == soldList.length },
-          ]"
-        >
+        <ul :class="['public-dialog-lists', { 'public-dialog-lists-all': chooseIds.length == soldList.length }]">
           <template v-for="(item, index) in soldList">
             <el-tooltip
               class="item"
@@ -50,10 +37,7 @@
           </template>
         </ul>
       </div>
-      <div
-        class="public-dialog-module"
-        v-if="chooseIds.length !== soldList.length || failList.length"
-      >
+      <div class="public-dialog-module" v-if="chooseIds.length !== soldList.length || failList.length">
         <h3 class="public-dialog-title-other">{{ $t("lottery.balance") }}</h3>
         <ul class="public-dialog-lists">
           <template v-for="(item, index) in soldList">
@@ -67,20 +51,13 @@
             >
               <li class="public-dialog-list">
                 <div :class="['portrait-img', item.qualityType]">
-                  <image-view
-                    class="public-dialog-portrait"
-                    :src="item.nftImg"
-                  />
+                  <image-view class="public-dialog-portrait" :src="item.nftImg" />
                   <span class="public-dialog-list-result refund">
                     {{ $t("lottery.refund") }}
                   </span>
                 </div>
                 <p class="public-dialog-list-text">
-                  <img
-                    class="public-dialog-list-img"
-                    src="@/assets/svg/user/icon_ethereum.svg"
-                    alt=""
-                  />
+                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                   <span class="public-dialog-list-number">
                     {{ item.initPrice }}
                   </span>
@@ -99,20 +76,13 @@
             >
               <li class="public-dialog-list">
                 <div :class="['portrait-img', item.qualityType]">
-                  <image-view
-                    class="public-dialog-portrait"
-                    :src="item.nftImg"
-                  />
+                  <image-view class="public-dialog-portrait" :src="item.nftImg" />
                   <span class="public-dialog-list-result sold">
                     {{ $t("lottery.sold") }}
                   </span>
                 </div>
                 <p class="public-dialog-list-text">
-                  <img
-                    class="public-dialog-list-img"
-                    src="@/assets/svg/user/icon_ethereum.svg"
-                    alt=""
-                  />
+                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                   <span class="public-dialog-list-number">
                     {{ item.price }}
                   </span>
@@ -122,21 +92,11 @@
           </template>
         </ul>
         <div class="public-dialog-funds">
-          <span class="public-dialog-total-title"
-            >{{ $t("lottery.total") }}:</span
-          >
-          <img
-            class="public-dialog-list-img"
-            src="@/assets/svg/user/icon_ethereum.svg"
-            alt=""
-          />
+          <span class="public-dialog-total-title">{{ $t("lottery.total") }}:</span>
+          <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           <span class="public-dialog-total-number"> {{ total }} </span>
           <template v-if="soldList[0].point > 0">
-            <img
-              class="public-dialog-list-img"
-              src="@/assets/svg/user/icon_point.svg"
-              alt=""
-            />
+            <img class="public-dialog-list-img" src="@/assets/svg/user/icon_point.svg" alt="" />
             <span class="public-dialog-total-number">
               {{ soldList[0].point }}
             </span>
@@ -146,11 +106,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img
-            class="public-dialog-icon"
-            src="@/assets/svg/user/icon_ethereum.svg"
-            alt=""
-          />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           {{ blindPrice }}
         </p>
       </el-button>
@@ -161,14 +117,7 @@
   </el-dialog>
 </template>
 <script setup>
-import {
-  ref,
-  defineEmits,
-  defineProps,
-  onBeforeMount,
-  watchEffect,
-  onUpdated,
-} from "vue";
+import { ref, defineEmits, defineProps, onBeforeMount, watchEffect, onUpdated } from "vue";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
 import { i18n } from "@/locales";
@@ -224,10 +173,7 @@ const totalFun = () => {
   total.value = 0;
   const { soldList, chooseIds, failList } = props;
   soldList.forEach((item) => {
-    if (
-      !chooseIds.includes(item.id) ||
-      (chooseIds.includes(item.id) && failList.includes(item.id))
-    ) {
+    if (!chooseIds.includes(item.id) || (chooseIds.includes(item.id) && failList.includes(item.id))) {
       if (failList.includes(item.id)) {
         total.value = BigNumber(total.value).plus(Number(item.initPrice));
       } else {

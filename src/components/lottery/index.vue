@@ -213,8 +213,7 @@ export default {
         const { errorText } = this;
         this.$emit("apiIsErrorFun", true);
         this.showDialog = "transactionWarning";
-        this.warningText =
-          errorText && errorText[2] && errorText[2].message ? this.$t("errorTips.image_enum_error") : this.$t("lottery.tips4");
+        this.warningText = typeof errorText === "string" ? errorText : this.$t("errorTips.image_enum_error");
       }
     },
   },

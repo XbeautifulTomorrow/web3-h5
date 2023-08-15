@@ -48,11 +48,7 @@ li {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  background-image: linear-gradient(to bottom,
-      #dd82af 20%,
-      #dd81af 20%,
-      #d12398 50%,
-      #fab597 69%);
+  background-image: linear-gradient(to bottom, #dd82af 20%, #dd81af 20%, #d12398 50%, #fab597 69%);
   font-size: 32px;
   font-weight: bold;
 }
@@ -63,10 +59,7 @@ li {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  background-image: linear-gradient(to bottom,
-      #c7c3cc 3%,
-      #e2e3cf 24%,
-      #d94ba5 78%);
+  background-image: linear-gradient(to bottom, #c7c3cc 3%, #e2e3cf 24%, #d94ba5 78%);
   font-size: 24px;
   font-weight: bold;
 }
@@ -136,7 +129,6 @@ input[type="number"] {
     font-size: 14px;
   }
 }
-
 
 /*>=1680的设备*/
 @media screen and (min-width: 1600px) {

@@ -52,7 +52,7 @@ onUnmounted(() => {
   height: 1px;
 }
 .content {
-  width: 1920px;
+  width: 98vw;
   transform: translate(-50%, -50%);
 }
 @media screen and (max-width: 1650px) {

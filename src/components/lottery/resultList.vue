@@ -36,7 +36,7 @@
         >
           <li
             :class="['result-list', { flop: result.length > 0 }, { 'result-more-list': result.length > 1 }]"
-            :style="{ height: cardRefH }"
+            :style="{ height: result.length > 1 ? cardRefH : '' }"
             v-for="(item, index) in result"
             :key="`result-${index}`"
           >
@@ -247,14 +247,17 @@ onMounted(async () => {
   totalFun();
   await nextTick();
   getListHeight();
+  window.addEventListener("resize", getListHeight);
 });
 onUnmounted(() => {
   clearTimerFun();
 });
 const getListHeight = () => {
   nextTick(() => {
-    const height = cardRef?.value[0].offsetHeight;
-    cardRefH.value = height + "px";
+    if (cardRef.value && cardRef.value[0]) {
+      const height = cardRef?.value[0].offsetHeight;
+      cardRefH.value = height + "px";
+    }
   });
 };
 const audioPlay = () => {

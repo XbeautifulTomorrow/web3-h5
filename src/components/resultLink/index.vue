@@ -1,11 +1,7 @@
 <template>
   <div class="result-link">
     <img class="result-link-img" src="@/assets/img/lottery/fair2.png" alt="" />
-    <img
-      class="result-link-line"
-      src="@/assets/img/lottery/Line14.svg"
-      alt=""
-    />
+    <img class="result-link-line" src="@/assets/img/lottery/Line14.svg" alt="" />
     <p class="result-link-text">
       The unboxing results are being calculated on<br />
       the blockchain, so please be patient.
@@ -14,8 +10,10 @@
 </template>
 <style lang="scss" scoped>
 .result-link {
-  width: 23rem;
-  display: flex;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
   align-items: center;
   align-content: center;
   justify-items: center;

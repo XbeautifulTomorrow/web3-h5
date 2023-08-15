@@ -619,7 +619,7 @@
     "tips5": "餘額不足，請先充值。",
     "tips6": "上一筆訂單尚未處理，請先處理後再抽獎",
     "tips7": "倒計時結束後將自動轉售所有NFT。",
-    "tips9": "此交易公平性可驗證",
+    "tips9": "此交易公平性\n可驗證",
     "tips10": "[進階用戶]",
     "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> 已成功售出，您將獲得："
   }

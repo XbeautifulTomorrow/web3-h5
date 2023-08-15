@@ -36,6 +36,7 @@
         >
           <li
             :class="['result-list', { flop: result.length > 0 }, { 'result-more-list': result.length > 1 }]"
+            :style="{ height: cardRefH }"
             v-for="(item, index) in result"
             :key="`result-${index}`"
           >
@@ -237,6 +238,7 @@ let total = ref(0);
 let second = ref(60);
 let nfts = ref([]);
 const cardRef = ref(null);
+const cardRefH = ref(200);
 onMounted(async () => {
   audioPlay();
   getTheUserBalanceApi();
@@ -244,10 +246,17 @@ onMounted(async () => {
   nftsInitializationFun();
   totalFun();
   await nextTick();
+  getListHeight();
 });
 onUnmounted(() => {
   clearTimerFun();
 });
+const getListHeight = () => {
+  nextTick(() => {
+    const height = cardRef?.value[0].offsetHeight;
+    cardRefH.value = height + "px";
+  });
+};
 const audioPlay = () => {
   if (props.idLotteryIn) {
     _audioPlay(flop);
@@ -364,9 +373,6 @@ const getTheUserBalanceApi = async () => {
       margin-right: 0.375rem;
     }
   }
-}
-.result-link-go-text {
-  width: 13rem;
 }
 .result-coin-number {
   display: flex;

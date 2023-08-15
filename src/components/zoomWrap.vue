@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from "vue";
-const designWidth = 1920;
+const designWidth = 1140;
 const designHeight = 1080 - 200;
 const wrapRef = ref(null);
 const state = reactive({
@@ -54,5 +54,10 @@ onUnmounted(() => {
 .content {
   width: 1920px;
   transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 1650px) {
+  .scale {
+    transform: scale(1) !important;
+  }
 }
 </style>

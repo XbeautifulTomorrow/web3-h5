@@ -48,16 +48,15 @@
   justify-content: center;
   margin: 0 auto;
   margin-top: 3.75rem;
-  gap: 10px;
+  gap: 0.625rem;
 }
 .result-main .result-list {
   width: calc((100% - 40px) / 5);
-  margin-top: 10px;
   transform-style: preserve-3d;
   transform-origin: 50% 0%;
   &.result-more-list {
     width: 13.75rem;
-    height: 19.6rem !important;
+    min-height: 19.8rem !important;
   }
 }
 .onlyTen {
@@ -327,8 +326,7 @@
   background: rgba(19, 7, 27, 0.8) url("@/assets/img/lottery/hold.png") center no-repeat;
 }
 .result-link {
-  width: 28rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   align-content: center;
   justify-items: center;
@@ -339,6 +337,9 @@
   border: solid 1px #25293e;
   background-color: #110429;
   font-size: 0.875rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .result-link-img {
   width: 2.5rem;
@@ -350,6 +351,7 @@
 .result-link-text {
   color: #a9a4b4;
   text-align: left;
+  white-space: break-spaces;
 }
 .result-link-go-view {
   color: #fad54d;

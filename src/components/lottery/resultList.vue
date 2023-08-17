@@ -65,7 +65,7 @@
                         {{ item.seriesName }}
                       </span>
                     </el-tooltip>
-                    <el-icon color="#11cde9" class="el-icon" size="19">
+                    <el-icon color="#11cde9" class="el-icon">
                       <CircleCheckFilled />
                     </el-icon>
                   </div>
@@ -74,7 +74,8 @@
                   </span>
                 </div>
                 <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
-                  <p class="result-coin" v-if="second < 1">
+                  <p class="result-coin" v-if="!item.contractAddress || second < 1">
+                    <span class="amount" v-if="!item.contractAddress">{{ $t("lottery.amount") }}</span>
                     <span class="result-coin-number text-ellipsis">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                       {{ item.initPrice }}
@@ -89,27 +90,41 @@
                   </p>
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
-                  <el-button
-                    :class="['result-one-button sell', { 'not-click': isSell }]"
-                    type="warning"
-                    round
-                    @click="chooseLotteryHold('hold')"
-                  >
-                    {{ $t("lottery.take_nft") }}
-                    <span v-if="second > 0">（{{ second }}s）</span>
-                  </el-button>
-                  <el-button class="result-one-button take" round @click="chooseLotteryHold">
+                  <!-- 币类型 -->
+                  <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="!item.contractAddress">
                     <p class="public-dialog-button-p">
-                      <span>{{ $t("lottery.sell_for") }}</span>
+                      <span>{{ $t("lottery.take") }}</span>
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                       <span class="result-total">
                         {{ item.price }}
                       </span>
+                      <span v-if="second > 0">（{{ second }}s）</span>
                     </p>
                   </el-button>
+                  <!-- 图类型 -->
+                  <template v-else>
+                    <el-button
+                      :class="['result-one-button sell', { 'not-click': isSell }]"
+                      type="warning"
+                      round
+                      @click="chooseLotteryHold('hold')"
+                    >
+                      {{ $t("lottery.take_nft") }}
+                      <span v-if="second > 0">（{{ second }}s）</span>
+                    </el-button>
+                    <el-button class="result-one-button take" round @click="chooseLotteryHold">
+                      <p class="public-dialog-button-p">
+                        <span>{{ $t("lottery.sell_for") }}</span>
+                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                        <span class="result-total">
+                          {{ item.price }}
+                        </span>
+                      </p>
+                    </el-button>
+                  </template>
                 </div>
                 <template v-else>
-                  <div class="result-sell pointer" v-if="second > 0">
+                  <div class="result-sell pointer" v-if="second > 0 && item.contractAddress">
                     <!-- <span class="result-sell-text">Sell for </span>
                       <span class="result-sell-number text-ellipsis">
                         {{ item.price }}
@@ -135,23 +150,29 @@
           <div class="resule-footer-buttons">
             <el-button :class="['result-footer-button', nfts.length == 0 ? 'sell-more' : 'take']" round @click="chooseLotteryHold('hold')">
               <p class="public-dialog-button-p" v-if="nfts.length == 0">
-                <span>{{ $t("lottery.sell_for") }}</span>
+                <span>{{ $t("lottery.sell_all_for") }}</span>
                 <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 <span class="result-total font5">
                   {{ total }}
                 </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
-              <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != result.length">
+              <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != picNftLen">
                 <span
                   class="public-dialog-button-p"
                   v-html="$t('lottery.get_eth_nft', { takeNum: nfts.length, total, src: coinSrc })"
                 ></span>
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
-              <p v-else>
-                {{ $t("lottery.take_all") }}
-                <span class="font1" v-if="second > 0">({{ second }}s)</span>
+              <p class="public-dialog-button-p" v-else>
+                <template v-if="picNftLen > 0">
+                  <span class="public-dialog-button-p" v-html="$t('lottery.take_all_eth', { src: coinSrc, numEth: coinTypeTotal })"></span>
+                  <span class="font1" v-if="second > 0">({{ second }}s)</span>
+                </template>
+                <template v-else>
+                  {{ $t("lottery.take_all") }}
+                  <span class="font1" v-if="second > 0">({{ second }}s)</span>
+                </template>
               </p>
             </el-button>
           </div>
@@ -234,9 +255,11 @@ const link = [
 let timer = null;
 const visible = ref(true);
 const isSell = ref(false);
-let total = ref(0);
-let second = ref(60);
-let nfts = ref([]);
+const total = ref(0);
+const coinTypeTotal = ref(0);
+const second = ref(60);
+const nfts = ref([]);
+const picNftLen = ref(0);
 const cardRef = ref(null);
 const cardRefH = ref(200);
 onMounted(async () => {
@@ -245,6 +268,7 @@ onMounted(async () => {
   timerFun();
   nftsInitializationFun();
   totalFun();
+  resultPicLen();
   await nextTick();
   getListHeight();
   window.addEventListener("resize", getListHeight);
@@ -252,6 +276,14 @@ onMounted(async () => {
 onUnmounted(() => {
   clearTimerFun();
 });
+const resultPicLen = () => {
+  const picNft = props.result.filter((x) => x.contractAddress);
+  const coinNft = props.result.filter((x) => !x.contractAddress);
+  coinTypeTotal.value = coinNft.reduce(function (sum, item) {
+    return sum + item.price;
+  }, 0);
+  picNftLen.value = picNft.length;
+};
 const getListHeight = () => {
   nextTick(() => {
     if (cardRef.value && cardRef.value[0]) {
@@ -288,6 +320,7 @@ const nftsInitializationFun = () => {
   }
 };
 const nftsFun = (_data) => {
+  if (!_data.contractAddress && !_data.tokenId) return;
   if (props.result.length < 2 || !second.value) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
@@ -352,6 +385,11 @@ const getTheUserBalanceApi = async () => {
 .font5 {
   color: #11cde9 !important;
 }
+.amount {
+  font-size: 0.625rem;
+  color: #a9a4b4;
+  font-weight: normal;
+}
 .hold-btn {
   font-family: Medium;
   font-size: 0.875rem;
@@ -398,6 +436,8 @@ const getTheUserBalanceApi = async () => {
   opacity: 0.7;
 }
 .result-total {
+  position: relative;
+  top: 0.0625rem;
   margin: 0;
 }
 .el-icon {
@@ -414,7 +454,7 @@ const getTheUserBalanceApi = async () => {
   }
   .result-total-other {
     position: relative;
-    top: 0.125rem;
+    top: 0.0625rem;
     font-family: LeagueSpartan;
     font-weight: bold;
     font-size: 1.5rem;
@@ -461,6 +501,10 @@ const getTheUserBalanceApi = async () => {
   line-height: 2.5rem;
 }
 .result-one-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 6.25rem;
   .sell {
     margin-bottom: 10px;
     margin-left: 0 !important;

@@ -621,6 +621,10 @@
     "tips7": "At the end of the countdown, all NFTs will be automatically sold.",
     "tips9": "THIS TRANSACTION IS \n PROVABLY FAIR",
     "tips10": "[Advanced Users]",
-    "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> has been successfully sold, and you will receive:"
+    "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> has been successfully sold, and you will receive:",
+    "take": "Take",
+    "amount": "Amount",
+    "sell_all_for": "Sell all for",
+    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
   }
 }

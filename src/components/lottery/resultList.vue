@@ -74,8 +74,8 @@
                   </span>
                 </div>
                 <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
-                  <p class="result-coin" v-if="!item.contractAddress || second < 1">
-                    <span class="amount" v-if="!item.contractAddress">{{ $t("lottery.amount") }}</span>
+                  <p class="result-coin" v-if="item.tokenId === null || second < 1">
+                    <span class="amount" v-if="item.tokenId === null">{{ $t("lottery.amount") }}</span>
                     <span class="result-coin-number text-ellipsis">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                       {{ item.initPrice }}
@@ -91,7 +91,7 @@
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
                   <!-- 币类型 -->
-                  <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="!item.contractAddress">
+                  <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
                     <p class="public-dialog-button-p">
                       <span>{{ $t("lottery.take") }}</span>
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
@@ -124,7 +124,7 @@
                   </template>
                 </div>
                 <template v-else>
-                  <div class="result-sell pointer" v-if="second > 0 && item.contractAddress">
+                  <div class="result-sell pointer" v-if="second > 0 && item.tokenId !== null">
                     <!-- <span class="result-sell-text">Sell for </span>
                       <span class="result-sell-number text-ellipsis">
                         {{ item.price }}
@@ -277,8 +277,8 @@ onUnmounted(() => {
   clearTimerFun();
 });
 const resultPicLen = () => {
-  const picNft = props.result.filter((x) => x.contractAddress);
-  const coinNft = props.result.filter((x) => !x.contractAddress);
+  const picNft = props.result.filter((x) => x.tokenId !== null);
+  const coinNft = props.result.filter((x) => x.tokenId === null);
   coinTypeTotal.value = coinNft.reduce(function (sum, item) {
     return sum + item.price;
   }, 0);
@@ -320,7 +320,7 @@ const nftsInitializationFun = () => {
   }
 };
 const nftsFun = (_data) => {
-  if (!_data.contractAddress && !_data.tokenId) return;
+  if (_data.tokenId === null) return;
   if (props.result.length < 2 || !second.value) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {

@@ -74,15 +74,12 @@
                   </span>
                 </div>
                 <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
-                  <p class="result-coin" v-if="item.tokenId === null || second < 1">
-                    <span class="amount" v-if="item.tokenId === null">{{ $t("lottery.amount") }}</span>
-                    <span class="result-coin-number text-ellipsis">
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                      {{ item.initPrice }}
-                    </span>
-                  </p>
-                  <p class="result-sell-text-box" v-else>
-                    <span class="result-sell-text">{{ $t("lottery.sell_for") }}</span>
+                  <p class="result-sell-text-box">
+                    <template v-if="item.tokenId !== null">
+                      <span class="amount" v-if="second < 1">{{ $t("virtualCurrency.price") }}</span>
+                      <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
+                    </template>
+                    <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
                     <span class="result-sell-coin">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                       {{ item.price }}
@@ -125,13 +122,6 @@
                 </div>
                 <template v-else>
                   <div class="result-sell pointer" v-if="second > 0 && item.tokenId !== null">
-                    <!-- <span class="result-sell-text">Sell for </span>
-                      <span class="result-sell-number text-ellipsis">
-                        {{ item.price }}
-                      </span>
-                    <span class="result-sell-coin">
-                      {{ item.coin }}
-                    </span> -->
                     <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
                   <p v-else class="result-sell-get">
@@ -207,7 +197,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, defineProps, defineEmits, onMounted, onUnmounted, nextTick, watch } from "vue";
 import * as workerTimers from "worker-timers";
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
@@ -239,6 +229,10 @@ const props = defineProps({
     type: Boolean,
     requird: false,
   },
+  clearResultTimer: {
+    type: Boolean,
+    requird: false,
+  },
 });
 const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
 const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUpperCase()}_ADDR`;
@@ -262,6 +256,15 @@ const nfts = ref([]);
 const picNftLen = ref(0);
 const cardRef = ref(null);
 const cardRefH = ref(200);
+watch(
+  () => props.clearResultTimer,
+  (val) => {
+    if (val) {
+      clearTimerFun();
+    }
+  },
+  { immediate: true }
+);
 onMounted(async () => {
   audioPlay();
   getTheUserBalanceApi();
@@ -386,7 +389,7 @@ const getTheUserBalanceApi = async () => {
   color: #11cde9 !important;
 }
 .amount {
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   color: #a9a4b4;
   font-weight: normal;
 }
@@ -407,10 +410,10 @@ const getTheUserBalanceApi = async () => {
   .result-sell-coin {
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 1.25rem;
     img {
-      width: 1rem;
-      height: 1rem;
+      width: 1.25rem;
+      height: 1.25rem;
       margin-right: 0.375rem;
     }
   }

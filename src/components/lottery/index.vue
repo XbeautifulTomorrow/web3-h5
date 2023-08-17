@@ -35,6 +35,7 @@
       :result="awardItem"
       :idLotteryIn="idLotteryIn"
       :localDateTime="localDateTime"
+      :clearResultTimer="clearResultTimer"
       @chooseLotteryHold="chooseLotteryHold"
       @closeDialogFun="closeDialogFun"
     />
@@ -162,6 +163,7 @@ export default {
       localDateTime: new Date(),
       checkInterVal: null,
       idLotteryIn: false,
+      clearResultTimer: false, //清除中奖页倒计时
     };
   },
   computed: {
@@ -199,6 +201,7 @@ export default {
         document.getElementsByClassName("header-wallet")[0].classList.remove("show-top-walletvb");
         document.getElementsByClassName("header-wallet")[1].classList.remove("show-top-walletvb");
       }
+      this.clearResultTimer = true;
     },
     lottResult: function (newVal) {
       if (newVal && newVal.data && newVal.data.length) {

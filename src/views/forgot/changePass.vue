@@ -80,7 +80,7 @@ const closeDialogFun = () => {
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error(t("login.captchaErrText1")));
-  } else if (value !== formForgot.passWord) {
+  } else if (value !== formForgot.password) {
     callback(new Error(t("login.captchaErrText2")));
   } else {
     callback();

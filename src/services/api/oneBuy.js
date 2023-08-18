@@ -122,11 +122,16 @@ const getGlobalNew = params =>
   apiService.get(serviceUrl + '/oneNftOrders/global/redDots', params); // 全局new
 
 const delNewWalletNftMark = params =>
-  apiService.get(serviceUrl + '/oneNftOrders/remove/walletNftSystemRedDots', params); // 取消标记
+  apiService.get(serviceUrl + '/oneNftOrders/remove/walletNftSystemRedDots', params); // 取消背包标记
 
 const delNewOrderMark = params =>
-  apiService.get(serviceUrl + '/oneNftOrders/remove/oneNftOrderRedDots', params); // 取消标记
+  apiService.get(serviceUrl + '/oneNftOrders/remove/oneNftOrderRedDots', params); // 取消一元购标记
 
+/**
+ * @description 获取一元购历史
+ */
+const getNftActivity = (params) =>
+apiService.get(serviceUrl + "/oneNftOrders/nftActivity", params);
 
 export {
   getWalletNft,
@@ -149,5 +154,6 @@ export {
   getNftAttrRate,
   getGlobalNew,
   delNewWalletNftMark,
-  delNewOrderMark
+  delNewOrderMark,
+  getNftActivity
 };

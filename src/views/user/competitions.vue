@@ -25,6 +25,7 @@
         <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box" @click="enterNow(item)">
             <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
+            <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="['tips_round', item.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
               <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
@@ -53,7 +54,6 @@
                 </span>
               </span>
             </div>
-            <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
               {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
@@ -93,6 +93,7 @@
           <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
             <div class="image_box" @click="enterNow(item)">
               <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
+              <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
                 :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
                 <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
@@ -291,7 +292,6 @@ export default {
       if (res && res.code == 200) {
         this.count = res.data.total;
         this.enteredList = res.data.records;
-
         await delNewOrderMark({ type: this.activeType });
 
         const headerStore = useHeaderStore();

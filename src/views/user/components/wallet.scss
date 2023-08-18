@@ -929,6 +929,43 @@
   }
 }
 
+.choose_price {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.625rem;
+
+  &>div+div {
+    margin-left: 0.625rem;
+  }
+
+  .price_item {
+    flex: 1;
+    font-family: Inter;
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.6;
+    text-align: center;
+    color: #a9a4b4;
+    text-align: center;
+    cursor: pointer;
+
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    border: solid 1px #363945;
+    background-color: #13151f;
+
+    &>.val {
+      padding-left: 0.625rem;
+      color: white;
+    }
+
+    &:hover {
+      border: solid 1px #a9a4b4;
+    }
+  }
+}
+
 :deep(.form_box) {
   padding: 0 1.875rem;
 
@@ -1046,6 +1083,41 @@
     text-align: right;
     color: #a9a4b4;
     margin-left: 1.875rem;
+  }
+}
+
+.form-item_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  :deep(.el-form-item__label) {
+    margin-bottom: 0 !important;
+  }
+
+
+  :deep(.el-form-item__content) {
+    flex: none;
+  }
+}
+
+.num_item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  font-family: Inter;
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.44;
+  text-align: right;
+  color: #a9a4b4;
+
+
+  img {
+    width: 1.5rem;
+    height: auto;
+    margin-left: 0.625rem;
   }
 }
 

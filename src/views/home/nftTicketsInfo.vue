@@ -167,43 +167,126 @@
         </div>
       </div>
       <div class="nft_buy_info">
-        <div class="nft_buy_info_l border_bg">
-          <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
-            <el-tab-pane :label="$t('ticketsInfo.active')" name="activity"></el-tab-pane>
-            <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
-              name="participants"></el-tab-pane>
-          </el-tabs>
-          <c-scrollbar class="choose_nft" width="100%" height="48.25rem">
-            <div class="buy_list">
-              <div class="buy_item" v-for="(item, index) in buyData" :key="index">
-                <div class="buy_item_l">
-                  <img :src="item.userImg || avatarImg">
-                </div>
-                <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
-                  <div class="buy_info">
-                    <div class="buy_name">{{ item.address || item.userId }}</div>
-                    <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
+        <div class="nft_buy_info_l ">
+          <div class="buy_record border_bg">
+            <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
+              <el-tab-pane :label="$t('ticketsInfo.active')" name="activity"></el-tab-pane>
+              <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
+                name="participants"></el-tab-pane>
+            </el-tabs>
+            <c-scrollbar class="choose_nft" width="100%" height="22.6875rem">
+              <div class="buy_list">
+                <div class="buy_item" v-for="(item, index) in buyData" :key="index">
+                  <div class="buy_item_l">
+                    <img :src="item.userImg || avatarImg">
                   </div>
-                  <div class="buy_other">
-                    <div class="buy_val" v-if="item.total > 1">{{ $t("ticketsInfo.numTickets", { num: item.total }) }}
+                  <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
+                    <div class="buy_info">
+                      <div class="buy_name">{{ item.address || item.userId }}</div>
+                      <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
                     </div>
-                    <div class="buy_val" v-else>{{ $t("ticketsInfo.numTicket", { num: item.total }) }} </div>
-                    <div class="buy_id" v-if="activeType != 'participants'">
-                      {{ $t("ticketsInfo.rewardId", { start: item.startNum, end: item.endNum }) }}
+                    <div class="buy_other">
+                      <div class="buy_val" v-if="item.total > 1">{{ $t("ticketsInfo.numTickets", { num: item.total }) }}
+                      </div>
+                      <div class="buy_val" v-else>{{ $t("ticketsInfo.numTicket", { num: item.total }) }} </div>
+                      <div class="buy_id" v-if="activeType != 'participants'">
+                        {{ $t("ticketsInfo.rewardId", { start: item.startNum, end: item.endNum }) }}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
-              <div class="load_btn">
-                <span>{{ $t("ticketsInfo.more") }}</span>
-                <img src="@/assets/svg/user/icon_more.svg" alt="">
+              <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
+                <div class="load_btn">
+                  <span>{{ $t("ticketsInfo.more") }}</span>
+                  <img src="@/assets/svg/user/icon_more.svg" alt="">
+                </div>
               </div>
+            </c-scrollbar>
+          </div>
+          <div class="buy_history">
+            <div class="history_title">
+              <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
+              <span>NFT ACTIVITY</span>
             </div>
-          </c-scrollbar>
+            <div class="history_filter">
+              <el-select v-model="chooseVal" class="status_type" clearable @change="historyFilter">
+                <el-option v-for="(item, index) in statusDrop" :key="index" :label="item.label" :value="item.value" />
+              </el-select>
+              <div class="choose_array" v-if="chooseStatus.length > 0">
+                <div class="status_item" v-for="(item, index) in chooseStatus" :key="index">
+                  <span>{{ statusFormat(item) }}</span>
+                  <img @click="delStatus(index)" src="@/assets/svg/home/icon_close.svg" alt="">
+                </div>
+              </div>
+              <el-table :data="historyList" class="table_container" height="13.5rem">
+                <el-table-column label="Event" width="90" prop="currentStatus" align="left">
+                  <template #default="scope">
+                    <div class="price_box">
+                      <img v-if="scope.row.currentStatus == 'IN_PROGRESS'" src="@/assets/svg/home/icon_nft_create.svg">
+                      <img v-else-if="scope.row.currentStatus == 'DRAWN'" src="@/assets/svg/home/icon_nft_sale.svg">
+                      <img v-else-if="scope.row.currentStatus == 'CANCELLED'" src="@/assets/svg/home/icon_nft_cancel.svg">
+                      <img v-else src="@/assets/svg/home/icon_nft_abort.svg">
+                      <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Sale</span>
+                      <span v-else-if="scope.row.currentStatus == 'DRAWN'">Create</span>
+                      <span v-else-if="scope.row.currentStatus == 'CANCELLED'">Cancel</span>
+                      <span v-else>Abort</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="Price" width="80" prop="price" align="left">
+                  <template #default="scope">
+                    <div class="price_box">
+                      <img v-if="scope.row.price" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                      <span>{{ scope.row.price || "--" }}</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="Creator" prop="userName" align="left" show-overflow-tooltip>
+                  <template #default="scope">
+                    <div class="price_box">
+                      <img v-if="scope.row.userName" :src="avatarImg" alt="">
+                      <span>{{ scope.row.userName || "--" }}</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="Winner" prop="winner" align="left" show-overflow-tooltip>
+                  <template #default="scope">
+                    <div class="price_box">
+                      <img v-if="scope.row.winner" :src="avatarImg" alt="">
+                      <span>{{ scope.row.winner || "--" }}</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="Date" min-width="100" prop="endTime" align="left">
+                  <template #default="scope">
+                    <div class="price_box date">
+                      <span>{{ timeFormat(scope.row.endTime) }}</span>
+                      <img v-if="scope.row.txid" @click="openLenk(scope.row)" src="@/assets/svg/home/icon_share.svg"
+                        alt="">
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
         </div>
         <div class="nft_buy_info_r border_bg">
+          <div class="charts_box">
+            <div class="charts_title_box">
+              <div class="charts_title">
+                <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
+                <span>NFT ACTIVITY</span>
+              </div>
+              <div class="charts_price">
+                <div class="price_title">Last sale:</div>
+                <div class="price_val">{{ historyPrice }} ETH</div>
+              </div>
+            </div>
+            <div class="chart-box">
+              <line-chart ref="lienChart" :chart-data="lineChartData" />
+            </div>
+          </div>
           <div class="description_box">
             <div class="description_text">{{ $t("ticketsInfo.description") }}</div>
             <div class="nft_info">
@@ -313,7 +396,8 @@ import {
   getAListOfParticipants,
   getEndingSoon,
   getLottery,
-  getNftAttrRate
+  getNftAttrRate,
+  getNftActivity
 } from "@/services/api/oneBuy";
 import {
   getSetting,
@@ -336,6 +420,7 @@ import buyConfirm from "./buyConfirm.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
+import LineChart from "@/components/charts";
 import {
   openUrl, onCopy, dateDiff, timeFormat
 } from "@/utils";
@@ -350,7 +435,8 @@ export default {
     Modify,
     Image,
     buyConfirm,
-    Recharge
+    Recharge,
+    LineChart
   },
   data() {
     return {
@@ -367,12 +453,23 @@ export default {
       buyData: [],
       participantsTotal: 0,
       page: 1,
-      size: 20,
+      size: 4,
       total: 0,
       finished: false,
       timer: null,
       drawnInfo: null,
-      avatarImg: require("@/assets/svg/user/default_avatar.svg")
+      avatarImg: require("@/assets/svg/user/default_avatar.svg"),
+
+      chooseVal: null,
+      statusDrop: [],
+      chooseStatus: [],
+      historyList: [],
+      historyPrice: null,
+      historyPage: 1,
+      historySize: 50,
+      historyTotal: 0,
+      historyFinished: false,
+      lineChartData: {}
     };
   },
   computed: {
@@ -467,6 +564,8 @@ export default {
         const userStore = useUserStore();
         const { userInfo } = userStore;
         this.fetchNftAttrRate();
+        this.fetchNftActivity();
+        this.fetchNftActivitySale();
 
         if (this.isLogin && this.userInfo?.id) {
           const resDrawn = await getLottery({
@@ -617,6 +716,108 @@ export default {
       this.page++;
       this.fetchBuyRecord(false)
     },
+    // 一元购历史
+    async fetchNftActivity(isSearch = true) {
+      const { nftInfo, historySize, chooseStatus } = this;
+      let _page = this.historyPage;
+      if (isSearch) {
+        this.historyFinished = false;
+        this.page = 1;
+        _page = 1;
+      }
+
+      let res = await getNftActivity({
+        contractAddress: nftInfo.contractAddress,
+        tokenId: nftInfo.tokenId,
+        page: _page,
+        size: historySize,
+        currentStatus: chooseStatus.join(",")
+      });
+
+      if (res && res.code == 200) {
+        this.total = res.data.total;
+
+        if (isSearch) {
+          this.historyList = res.data.records;
+          return
+        }
+
+        if (res.data.records.length == 0) {
+          this.historyFinished = true;
+        }
+
+        this.historyList.push.apply(this.historyList, res.data.records);
+      }
+    },
+    // 一元购历史折线图
+    async fetchNftActivitySale() {
+      let that = this;
+      const { nftInfo, historySize } = this;
+      let _page = this.historyPage;
+
+      let res = await getNftActivity({
+        contractAddress: nftInfo.contractAddress,
+        tokenId: nftInfo.tokenId,
+        page: _page,
+        size: historySize,
+        currentStatus: "DRAWN"
+      });
+
+      if (res && res.code == 200) {
+        if (res.data.records.length > 0) {
+          this.historyPrice = res.data.records[res.data.records.length - 1].price;
+        }
+        let series = [];
+        series.push({
+          type: "line",
+          data: res.data.records.map(function (item) {
+            return item.price
+          }),
+          smooth: true,
+          symbol: "none",
+          showSymbol: false,
+          showLegendSymbol: false,
+          animationDuration: 2800,
+          animationEasing: "quadraticOut",
+        }, {
+          name: t("virtualCurrency.winner"),
+          type: "line",
+          data: res.data.records.map(function (item) {
+            return item.winner
+          }),
+          smooth: true,
+          symbol: "none",
+          showSymbol: false,
+          showLegendSymbol: false,
+          animationDuration: 2800,
+          animationEasing: "quadraticOut",
+        });
+
+        let xAxis = res.data.records.map(function (item) {
+          return timeFormat(item.endTime);
+        });
+
+        let chatrs = {
+          xAxis: xAxis,
+          series: series,
+        };
+        that.setOptions(chatrs);
+      }
+    },
+    // 筛选历史
+    historyFilter(event) {
+      const status = this.chooseStatus.findIndex(e => e == event);
+
+      if (!(status > -1)) {
+        this.chooseStatus.push(event);
+      }
+
+      this.fetchNftActivity();
+    },
+    delStatus(index) {
+      this.chooseStatus.splice(index, 1);
+      this.fetchNftActivity();
+    },
     // 默认邀请码
     async fetchSetting() {
       const res = await getSetting({ coin: "ETH" });
@@ -761,6 +962,79 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
+    statusFormat(event) {
+      const status = this.statusDrop.find(e => e.value == event);
+      return status.label;
+    },
+    setOptions({ xAxis, series } = {}) {
+
+      this.lineChartData = {
+        color: ["#fad54d"],
+        xAxis: {
+          data: xAxis,
+          boundaryGap: false,
+          axisTick: {
+            show: false,
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#D4E2F1",
+            },
+          },
+          axisLabel: {
+            color: "#c4bfbd",
+          },
+        },
+        grid: {
+          left: 10,
+          right: 10,
+          bottom: 20,
+          top: 30,
+          containLabel: true,
+        },
+        tooltip: {
+          trigger: "axis",
+          textStyle: {
+            color: "#B9C3C3",
+            fontSize: "12"
+          },
+          backgroundColor: "#2c115b",
+          padding: [10, 10],
+          formatter: function (datas) {
+            var res = "<div style='text-align: center;font-size: 0.875rem;color:white;'>" + datas[0].data + " ETH</div>";
+            res += "Date：";
+            res += datas[0].name + "<br/>";
+            for (var i = 0, length = datas.length; i < length; i++) {
+              if (i != 0) {
+                res += datas[i].seriesName + "：";
+                res += datas[i].data;
+                res += "<br/>";
+              }
+            }
+            return res;
+          },
+        },
+        yAxis: {
+          axisTick: {
+            show: false,
+          },
+          axisLine: {
+            show: false,
+            lineStyle: {
+              color: "#D4E2F1",
+            },
+          },
+          axisLabel: {
+            color: "#c4bfbd",
+          },
+          splitLine: {
+            lineStyle: { color: "rgba(255,255,255,0.1)" },
+          }, //网格线配置
+          splitArea: { show: false }, //去掉网格颜色
+        },
+        series: series,
+      };
+    }
   },
   watch: {
     buyVotes: function (newVal) {
@@ -789,6 +1063,33 @@ export default {
     this.orderId = id;
 
     this.loadInterface();
+
+    this.statusDrop = [{
+      label: "Create",
+      value: "IN_PROGRESS"
+    }, {
+      label: "Sale",
+      value: "DRAWN"
+    }, {
+      label: "Cancel",
+      value: "CANCELLED"
+    }, {
+      label: "Abort",
+      value: "CLOSED"
+    }
+    ]
+
+    this.$nextTick(() => {
+      document.querySelector(".el-scrollbar__wrap.el-scrollbar__wrap--hidden-default").addEventListener('scroll', (res) => {
+        let scrollTop = res.target.scrollTop;
+        let winHeight = res.target.clientHeight;
+        let scrollHeight = res.target.scrollHeight;
+        if (scrollTop + winHeight + 50 > scrollHeight && !this.busyScroll) {
+          this.historyPage += 1;
+          this.fetchNftActivity(false);
+        }
+      })
+    })
   }
 };
 </script>
@@ -807,7 +1108,7 @@ export default {
 
   .el-select-dropdown__item {
     color: #a9a4b4;
-    font-size: 1rem;
+    font-size: 0.875rem;
     line-height: 1.6;
     padding: 0.625rem 1.25rem;
     height: auto;

@@ -4,6 +4,7 @@
     "module": "esnext",
     "baseUrl": "./",
     "moduleResolution": "node",
+    "ignoreDeprecations": "5.0",
     "paths": {
       "@/*": [
         "src/*"

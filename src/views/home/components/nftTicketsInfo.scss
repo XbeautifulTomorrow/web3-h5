@@ -347,9 +347,9 @@
   padding-top: 1.875rem;
 }
 
-.nft_buy_info_l {
+.buy_record {
   width: 38.5rem;
-  min-height: 55rem;
+  min-height: 31rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -410,7 +410,7 @@
 }
 
 .buy_item {
-  padding: 1.25rem 0;
+  padding: 0.625rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -494,6 +494,180 @@
   }
 }
 
+.buy_history {
+  height: 27rem;
+  background-image: url("@/assets/svg/home/nft_tickets_bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 1.875rem;
+  box-sizing: border-box;
+  margin-top: 1.875rem;
+
+  .history_title {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.625rem;
+    }
+
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+    color: white;
+  }
+
+}
+
+.history_filter {
+  padding-top: 1.25rem;
+
+  :deep(.status_type) {
+    width: 100%;
+
+    .el-input__wrapper {
+      box-shadow: none !important;
+      border: none !important;
+      padding: 0.375rem 0.625rem;
+      border-radius: 0.5rem;
+      background-color: #1d0f36;
+
+      &>.el-input__inner {
+        height: 1.25rem;
+        font-family: Inter;
+        font-size: 0.875rem;
+        line-height: 1.43;
+        text-align: left;
+        color: #a9a4b4;
+      }
+    }
+  }
+
+  .choose_array {
+    padding-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+
+    &>div+div {
+      margin-left: 0.625rem;
+    }
+
+    .status_item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.375rem;
+      border-radius: 0.5rem;
+      border: solid 1px #363945;
+      background-color: #1d0f36;
+
+      font-family: Inter;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      text-align: center;
+      color: #a9a4b4;
+
+      img {
+        margin-left: 0.25rem;
+        width: 0.75rem;
+        height: auto;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+:deep(.table_container) {
+  margin-top: 1.25rem;
+  background-color: #191c28;
+
+  .cell {
+    line-height: 2.25rem;
+    font-size: 0.875rem;
+    color: #a9a4b4;
+    padding-right: 0;
+  }
+
+  th {
+    &.el-table__cell {
+      background-color: #191c28;
+      border-bottom-color: #23172A;
+      padding: 0;
+
+      .cell {
+        font-size: 0.875rem;
+        line-height: 2.25rem;
+        padding-right: 0;
+      }
+    }
+  }
+
+  tr {
+    background-color: #151722;
+
+    .el-table__cell {
+      padding: 0;
+    }
+  }
+
+  td {
+    &.el-table__cell {
+      border-bottom-color: #23172A;
+    }
+  }
+
+  .el-table__empty-block {
+    background-color: #151722;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  .el-table__body tr:hover>td {
+    background-color: transparent;
+  }
+
+  .el-table__body {
+    &>tbody {
+      &>.el-table__row:nth-child(2n) {
+        background-color: #281d31;
+      }
+    }
+  }
+
+  .el-table__inner-wrapper::before {
+    display: none;
+  }
+
+  .price_box {
+    display: flex;
+    align-items: center;
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    img {
+      width: 1rem;
+      height: auto;
+      margin-right: 0.25rem;
+    }
+
+    &.date {
+      img {
+        margin-left: 0.25rem;
+        margin-right: 0;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .nft_buy_info_r {
   flex: 1;
   margin-left: 1.875rem;
@@ -533,6 +707,57 @@
   }
 }
 
+.charts_box {
+  padding: 1.875rem 1.875rem 0;
+}
+
+.charts_title_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .charts_title {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.625rem;
+    }
+
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+    color: white;
+  }
+
+  .charts_price {
+    display: flex;
+    align-items: center;
+
+    .price_title {
+      font-family: Inter;
+      font-size: 0.75rem;
+      font-weight: normal;
+      line-height: 1.6;
+      text-align: right;
+      color: #a9a4b4;
+      padding-right: 0.25rem;
+    }
+
+    .price_val {
+      font-size: 1.125rem;
+      font-weight: bold;
+      line-height: 1.44;
+      text-align: right;
+      color: #9f8fef;
+    }
+  }
+}
+
 .traits_box {
   padding: 0 1.875rem 3.75rem;
 }
@@ -555,7 +780,7 @@
   }
 
   .traits_item {
-    width: 11.75rem;
+    width: 11.7rem;
     box-sizing: border-box;
     padding: 1.25rem;
     border-radius: 0.625rem;

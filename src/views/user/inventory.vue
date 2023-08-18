@@ -7,7 +7,7 @@
           <span>{{ $t("user.inventory") }}</span>
         </div>
         <div class="operating_btns">
-          <!-- <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div> -->
+          <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div>
           <div class="operating_item" @click="onWithdraw()">{{ $t("user.withdraw") }}</div>
         </div>
       </div>
@@ -98,18 +98,27 @@
       <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
         label-position="top">
         <el-form-item :label="$t('user.totalPrice')" prop="price">
+          <div class="choose_price">
+            <div class="price_item" @click="competitionForm.price = competitionNft.floorPrice">
+              <span class="title">Floor Price</span>
+              <span class="val">{{ competitionNft.floorPrice || "-" }} ETH</span>
+            </div>
+            <div class="price_item" @click="competitionForm.price = historyPrice">
+              <span class="title">Last Sale</span>
+              <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "-" }} </span>
+            </div>
+          </div>
           <el-input v-model="competitionForm.price" type="number" min="0">
             <template #prefix>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.totalEntries')" v-if="activeType == 'LIMITED_PRICE'">
-          <el-input readonly="readonly" class="disabled" v-model.number="limitNum" type="number" min="2">
-            <template #prefix>
-              <img class="icon_eth" src="@/assets/svg/user/icon_tiket.svg" alt="" />
-            </template>
-          </el-input>
+        <el-form-item class="form-item_wrap" :label="$t('user.totalEntries')" v-if="activeType == 'LIMITED_PRICE'">
+          <div class="num_item">
+            <span>{{ limitNum }}</span>
+            <img class="icon_eth" src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
+          </div>
         </el-form-item>
         <el-form-item :label="$t('user.duration')" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
           <div class="input_days">
@@ -129,12 +138,11 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item :label="$t('user.entriesPrice')">
-          <el-input readonly="readonly" class="disabled" v-model="competitionForm.ticketPrice" placeholder="">
-            <template #prefix>
-              <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            </template>
-          </el-input>
+        <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
+          <div class="num_item">
+            <span>{{ competitionForm.ticketPrice }}</span>
+            <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          </div>
         </el-form-item>
         <el-form-item :label="$t('user.maxDuration')" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
           <div class="input_days">
@@ -175,7 +183,7 @@ const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet";
-import { addNftOrder, getSystemNft, getTheExternalNFTSeries, delNewWalletNftMark } from "@/services/api/oneBuy";
+import { addNftOrder, getSystemNft, getTheExternalNFTSeries, delNewWalletNftMark, getNftActivity } from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -234,7 +242,7 @@ export default {
       count: 0,
 
       showNftOperating: false,
-
+      historyPrice: null
     };
   },
   watch: {
@@ -342,6 +350,23 @@ export default {
         headerStore.fetchGlobalNew();
       }
     },
+    // 一元购历史折线图
+    async fetchNftActivitySale(event) {
+
+      let res = await getNftActivity({
+        contractAddress: event.tokenAddress,
+        tokenId: event.tokenId,
+        page: 1,
+        size: 100,
+        currentStatus: "DRAWN"
+      });
+
+      if (res && res.code == 200) {
+        if (res.data.records.length > 0) {
+          this.historyPrice = res.data.records[res.data.records.length - 1].price;
+        }
+      }
+    },
     handleCurrentChange(page) {
       this.page = page;
       this.fetchSystemNft(false);
@@ -370,6 +395,7 @@ export default {
     createCompetition(event) {
       this.competitionNft = event;
       this.showCompetition = true;
+      this.fetchNftActivitySale(event)
     },
     // 创建一元购赛事
     submitCompetition() {

@@ -192,6 +192,11 @@ export default {
     },
   },
   watch: {
+    loading(newData) {
+      if (newData) {
+        this.clearResultTimer = true;
+      }
+    },
     showDialog(newData) {
       const dialog = ["yourReard", "chainDialog", "beenSold", "partSold"];
       if (dialog.includes(newData)) {

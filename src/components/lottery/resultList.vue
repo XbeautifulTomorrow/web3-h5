@@ -65,9 +65,7 @@
                         {{ item.seriesName }}
                       </span>
                     </el-tooltip>
-                    <el-icon color="#11cde9" class="el-icon">
-                      <CircleCheckFilled />
-                    </el-icon>
+                    <img src="@/assets/svg/home/icon_certified.svg" alt="" class="verity-icon" />
                   </div>
                   <span class="result-club-serial text-ellipsis" v-if="item.tokenId || item.tokenId === 0">
                     <el-tooltip class="box-item" effect="dark" :content="`# ${item.tokenId}`"> #&nbsp;{{ item.tokenId }} </el-tooltip>
@@ -75,19 +73,20 @@
                 </div>
                 <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
                   <p class="result-sell-text-box">
+                    <!-- 图类型 -->
                     <template v-if="item.tokenId !== null">
                       <span class="amount" v-if="second < 1">{{ $t("virtualCurrency.price") }}</span>
                       <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
                     </template>
+                    <!-- 币类型 -->
                     <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
                     <span class="result-sell-coin">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                      {{ item.price }}
+                      {{ item.nftType == "EXTERNAL" && second < 1 ? item.initPrice : item.price }}
                     </span>
                   </p>
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
-                  <!-- 币类型 -->
                   <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
                     <p class="public-dialog-button-p">
                       <span>{{ $t("lottery.take") }}</span>
@@ -95,10 +94,8 @@
                       <span class="result-total">
                         {{ item.price }}
                       </span>
-                      <span v-if="second > 0">（{{ second }}s）</span>
                     </p>
                   </el-button>
-                  <!-- 图类型 -->
                   <template v-else>
                     <el-button
                       :class="['result-one-button sell', { 'not-click': isSell }]"
@@ -443,8 +440,8 @@ const getTheUserBalanceApi = async () => {
   top: 0.0625rem;
   margin: 0;
 }
-.el-icon {
-  font-size: 1.1875rem;
+.verity-icon {
+  width: 1rem;
   margin-left: 0.375rem;
 }
 </style>

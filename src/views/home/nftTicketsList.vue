@@ -31,7 +31,7 @@
           <li class="ntf-tickets-item" @click="handleTickets(item)">
             <div class="img-box">
               <Image fit="cover" class="nft_img" :src="item.nftImage" />
-              <div class="type-box">
+              <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
                 <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                   <img src="@/assets/svg/home/icon_time.svg" alt="">
                   <span v-if="dateDiff(item && item.endTime) > 1">
@@ -58,6 +58,9 @@
                   </span>
                 </div>
               </div>
+              <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
+                {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
+              </div>
             </div>
             <div class="nft-name">
               <div class="nft-name-l">
@@ -69,8 +72,16 @@
             <div class="price-box">
               {{ `${item.price} ETH` }}
             </div>
-            <div class="boxes-button">
+            <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
               <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
+            </div>
+            <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
+              <span>{{ $t("ticketsInfo.winner") }}</span>
+              <img src="@/assets/svg/user/default_avatar.svg" alt="">
+              <span v-if="userInfo.id != item.winningAddress">
+                {{ item.winningName || item.winningAddress }}
+              </span>
+              <span v-else class="you">{{ $t("user.you") }}</span>
             </div>
             <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
               {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
@@ -92,10 +103,13 @@
   </div>
 </template>
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
 import { getCheckAllOrders, getTheExternalNFTSeries } from "@/services/api/oneBuy";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { dateDiff } from "@/utils";
+import { dateDiff, timeFormat } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import Image from "@/components/imageView";
@@ -120,10 +134,21 @@ export default {
       timer: null
     };
   },
-  computed: {},
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
+  },
   methods: {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
+    timeFormat: timeFormat,
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({

@@ -227,8 +227,8 @@
                       <img v-else-if="scope.row.currentStatus == 'DRAWN'" src="@/assets/svg/home/icon_nft_sale.svg">
                       <img v-else-if="scope.row.currentStatus == 'CANCELLED'" src="@/assets/svg/home/icon_nft_cancel.svg">
                       <img v-else src="@/assets/svg/home/icon_nft_abort.svg">
-                      <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Sale</span>
-                      <span v-else-if="scope.row.currentStatus == 'DRAWN'">Create</span>
+                      <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Create</span>
+                      <span v-else-if="scope.row.currentStatus == 'DRAWN'">Sale</span>
                       <span v-else-if="scope.row.currentStatus == 'CANCELLED'">Cancel</span>
                       <span v-else>Abort</span>
                     </div>
@@ -469,6 +469,7 @@ export default {
       historySize: 50,
       historyTotal: 0,
       historyFinished: false,
+      chartData: [],
       lineChartData: {}
     };
   },
@@ -752,20 +753,23 @@ export default {
     // 一元购历史折线图
     async fetchNftActivitySale() {
       let that = this;
-      const { nftInfo, historySize } = this;
+      const { nftInfo } = this;
       let _page = this.historyPage;
 
       let res = await getNftActivity({
         contractAddress: nftInfo.contractAddress,
         tokenId: nftInfo.tokenId,
         page: _page,
-        size: historySize,
+        size: 500,
         currentStatus: "DRAWN"
       });
 
       if (res && res.code == 200) {
         if (res.data.records.length > 0) {
           this.historyPrice = res.data.records[res.data.records.length - 1].price;
+
+          const charts = res.data.records;
+          this.chartData = charts.reverse();
         }
         let series = [];
         series.push({
@@ -773,21 +777,28 @@ export default {
           data: res.data.records.map(function (item) {
             return item.price
           }),
+          areaStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "#fad54d", // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
+          },
           smooth: true,
-          symbol: "none",
-          showSymbol: false,
-          showLegendSymbol: false,
-          animationDuration: 2800,
-          animationEasing: "quadraticOut",
-        }, {
-          name: t("virtualCurrency.winner"),
-          type: "line",
-          data: res.data.records.map(function (item) {
-            return item.winner
-          }),
-          smooth: true,
-          symbol: "none",
-          showSymbol: false,
+          symbol: "circle",
           showLegendSymbol: false,
           animationDuration: 2800,
           animationEasing: "quadraticOut",
@@ -966,8 +977,12 @@ export default {
       const status = this.statusDrop.find(e => e.value == event);
       return status.label;
     },
+    echartFormat(event) {
+      const chart = this.chartData.find(e => this.timeFormat(e.endTime) == event)
+      return chart;
+    },
     setOptions({ xAxis, series } = {}) {
-
+      let that = this;
       this.lineChartData = {
         color: ["#fad54d"],
         xAxis: {
@@ -982,14 +997,14 @@ export default {
             },
           },
           axisLabel: {
-            color: "#c4bfbd",
+            color: "#c4bfbd"
           },
         },
         grid: {
-          left: 10,
-          right: 10,
-          bottom: 20,
-          top: 30,
+          left: 30,
+          right: 40,
+          bottom: 10,
+          top: 20,
           containLabel: true,
         },
         tooltip: {
@@ -1011,6 +1026,14 @@ export default {
                 res += "<br/>";
               }
             }
+
+            const chatrs = that.echartFormat(datas[0].name);
+            res += t("ticketsInfo.participants") + "：";
+            res += chatrs.numberOfTicketsSold;
+            res += "<br/>";
+            res += t("virtualCurrency.winner") + "：";
+            res += chatrs.winner;
+            res += "<br/>";
             return res;
           },
         },
@@ -1025,7 +1048,7 @@ export default {
             },
           },
           axisLabel: {
-            color: "#c4bfbd",
+            color: "#c4bfbd"
           },
           splitLine: {
             lineStyle: { color: "rgba(255,255,255,0.1)" },
@@ -1076,8 +1099,7 @@ export default {
     }, {
       label: "Abort",
       value: "CLOSED"
-    }
-    ]
+    }]
 
     this.$nextTick(() => {
       document.querySelector(".el-scrollbar__wrap.el-scrollbar__wrap--hidden-default").addEventListener('scroll', (res) => {

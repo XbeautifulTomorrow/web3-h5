@@ -181,7 +181,8 @@
     "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
     "buyTipsText2": " so keep checking back to see how the competition progresses.",
     "buyTipsShare": "SHARE THIS COMPETITION",
-    "buyTipsCheck": "CHECK COMPETITION"
+    "buyTipsCheck": "CHECK COMPETITION",
+    "participants": "參與者"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",

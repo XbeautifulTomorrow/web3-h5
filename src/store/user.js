@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
 
-import localeZH from 'element-plus/lib/locale/lang/zh-tw';
-import localeEN from 'element-plus/lib/locale/lang/en';
+import localeZH from "element-plus/dist/locale/zh-tw.mjs";
+import localeEN from "element-plus/dist/locale/en.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
 
@@ -13,7 +13,7 @@ export const useUserStore = defineStore("user", {
     regInfo: undefined,
     userPage: null,
     currentTime: null,
-    isLogin: getLocalStore("certificate") ? true : false
+    isLogin: getLocalStore("certificate") ? true : false,
   }),
   persist: {
     enabled: true,

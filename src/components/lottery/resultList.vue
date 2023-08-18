@@ -407,10 +407,10 @@ const getTheUserBalanceApi = async () => {
   .result-sell-coin {
     display: flex;
     align-items: center;
-    font-size: 1.25rem;
+    font-size: 1rem;
     img {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.125rem;
+      height: 1.125rem;
       margin-right: 0.375rem;
     }
   }

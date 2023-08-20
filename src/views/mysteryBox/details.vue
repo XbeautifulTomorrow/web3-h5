@@ -131,48 +131,22 @@
           </el-input>
         </div>
       </div>
-      <el-table :data="snapshotData" class="table_container" style="width: 100%">
-        <el-table-column prop="id" :label="$t('mysteryBox.snapshotId')" align="center">
-        </el-table-column>
-        <el-table-column prop="boxName" :label="$t('mysteryBox.boxName')" align="center" show-overflow-tooltip />
-        <el-table-column prop="legendNum" label="Legend" align="center">
-          <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.legendNum)}% ` }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="epicNum" :label="$t('mysteryBox.epic')" align="center">
-          <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.epicNum)}% ` }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="rareNum" :label="$t('mysteryBox.rare')" align="center">
-          <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.rareNum)}% ` }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="normalNum" :label="$t('mysteryBox.common')" align="center">
-          <template #default="scope">
-            {{ `${probabilityFormat(scope.row, scope.row.normalNum)}% ` }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="createTime" :label="$t('mysteryBox.timestamp')" align="center">
-          <template #default="scope">
-            {{ timeFormat(scope.row.createTime) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="date" :label="$t('mysteryBox.details')" align="center">
-          <template #default="scope">
+      <div class="snapshot_box">
+        <div class="snapshot_panel">
+          <div class="snapshot_item" v-for="(item, index) in snapshotData" :key="index">
             <div class="active_btn">
-              <img class="nft_info" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" @click="handleActive(scope.row)" src="@/assets/svg/box/icon_info_active.svg"
+              <img class="nft_info" @click="handleActive(item)" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" @click="handleActive(item)" src="@/assets/svg/box/icon_info_active.svg"
                 alt="" />
             </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pagination-box" v-if="count > size">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+            <div class="snapshot_num">{{ `NO.${index + 1}` }}</div>
+            <div class="snapshot_date">{{ timeFormat(item.createTime) }}</div>
+          </div>
+        </div>
+        <div class="pagination-box" v-if="count > size">
+          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+        </div>
       </div>
     </div>
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />

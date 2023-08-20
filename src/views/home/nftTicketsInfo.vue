@@ -228,9 +228,10 @@
                       <img v-else-if="scope.row.currentStatus == 'CANCELLED'" src="@/assets/svg/home/icon_nft_cancel.svg">
                       <img v-else src="@/assets/svg/home/icon_nft_abort.svg">
                       <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Create</span>
-                      <span v-else-if="scope.row.currentStatus == 'DRAWN'">Sale</span>
+                      <span v-else-if="scope.row.currentStatus == 'DRAWN'"
+                        style="color:rgba(9, 139, 46, 0.8)">Sale</span>
                       <span v-else-if="scope.row.currentStatus == 'CANCELLED'">Cancel</span>
-                      <span v-else>Abort</span>
+                      <span v-else style="color:rgba(187, 54, 12, 0.8)">Abort</span>
                     </div>
                   </template>
                 </el-table-column>

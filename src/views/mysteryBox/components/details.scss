@@ -472,6 +472,67 @@
   margin-top: 10.625rem;
 }
 
+.snapshot_box {
+  width: 100%;
+  height: 29.625rem;
+  background-image: url("@/assets/svg/box/snapshot_bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.snapshot_panel {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1.25rem;
+
+  &>div+div {
+    margin-left: 0.625rem;
+  }
+
+  &>div:nth-child(n+13) {
+    margin-top: 0.625rem;
+  }
+
+  &>div:nth-child(12n+1) {
+    margin-left: 0;
+  }
+
+  .snapshot_item {
+    width: 7.125rem;
+    height: 7.1875rem;
+    background-image: url("@/assets/svg/box/snapshot_item.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .snapshot_num {
+      padding-top: 0.25rem;
+      font-family: Inter;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: center;
+      color: #a9a4b4;
+    }
+
+    .snapshot_date {
+      padding-top: 0.625rem;
+      font-family: Inter;
+      font-size: 0.5rem;
+      text-align: center;
+      color: #a9a4b4;
+    }
+
+    &:hover {
+      background-image: url("@/assets/svg/box/snapshot_item_active.svg");
+    }
+  }
+}
+
 .home-public-title {
   display: flex;
   align-items: center;
@@ -579,83 +640,28 @@
   }
 }
 
-:deep(.table_container) {
-  .cell {
-    line-height: 2.5rem;
-    font-size: 1.125rem;
-    line-height: 1.6;
-    color: #a9a4b4;
+.active_btn {
+  img {
+    width: 1.5rem;
+    height: auto;
+    cursor: pointer;
   }
 
-  th {
-    &.el-table__cell {
-      background-color: #191c28;
-      border-bottom-color: #23172a;
-    }
+  &>.nft_info {
+    display: inline-block;
   }
 
-  tr {
-    background-color: #151722;
-  }
-
-  td {
-    &.el-table__cell {
-      border-bottom-color: #23172a;
-    }
-  }
-
-  .el-table__empty-block {
-    background-color: #151722;
-    font-size: 1.125rem;
-    color: #a9a4b4;
-  }
-
-  .el-table__body tr:hover>td {
-    background-color: #281d31 !important;
-  }
-
-  .el-table__inner-wrapper::before {
+  &>.nft_info_active {
     display: none;
   }
 
-  .user_info {
-    display: inline-flex;
-    align-items: center;
-
-    img {
-      width: 3.125rem;
-      height: auto;
-      border-radius: 0.5rem;
-    }
-
-    span {
-      padding-left: 0.75rem;
-    }
-  }
-
-  .active_btn {
-    img {
-      width: 1.125rem;
-      height: auto;
-      cursor: pointer;
-    }
-
+  &:hover {
     &>.nft_info {
-      display: inline-block;
-    }
-
-    &>.nft_info_active {
       display: none;
     }
 
-    &:hover {
-      &>.nft_info {
-        display: none;
-      }
-
-      &>.nft_info_active {
-        display: inline-block;
-      }
+    &>.nft_info_active {
+      display: inline-block;
     }
   }
 }
@@ -663,7 +669,7 @@
 .pagination-box {
   display: flex;
   justify-content: center;
-  padding-top: 2.8125rem;
+  padding-top: 0.625rem;
 
   :deep(.el-pagination) {
     button {

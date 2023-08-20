@@ -131,7 +131,7 @@ const delNewOrderMark = params =>
  * @description 获取一元购历史
  */
 const getNftActivity = (params) =>
-apiService.get(serviceUrl + "/oneNftOrders/nftActivity", params);
+apiService.get(serviceUrl + "/oneNftOrders/nftActivityLog", params);
 
 export {
   getWalletNft,

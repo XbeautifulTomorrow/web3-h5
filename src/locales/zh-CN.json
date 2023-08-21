@@ -137,7 +137,10 @@
     "searchNft": "搜索NFT",
     "type": "類型",
     "sortCollections": "系列",
-    "noDataCompetition": "没找到任何竞赛"
+    "noDataCompetition": "没找到任何竞赛",
+    "status": "狀態",
+    "inProgress": "進行中",
+    "ended": "已結束"
   },
   "ticketsInfo": {
     "completed": "已完成",

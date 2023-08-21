@@ -51,7 +51,7 @@
               <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                 <template #content>
                   <span>
-                    {{ `${event.seriesName} #${event.tokenId}` }}
+                    {{ `${event.seriesName} ${event.tokenId && ("#" + event.tokenId) || ""}` }}
                   </span>
                 </template>
                 <div class="img_box">
@@ -201,7 +201,7 @@ export default {
       label: t("user.competition"),
       value: "COMPETITION"
     }];
-    
+
     if (this.isLogin && this.userInfo?.id) {
       this.fetchUserBuyHistory();
     }

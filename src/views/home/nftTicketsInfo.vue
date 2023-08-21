@@ -210,7 +210,7 @@
               <span>NFT ACTIVITY</span>
             </div>
             <div class="history_filter">
-              <el-select v-model="chooseVal" class="status_type" clearable @change="historyFilter">
+              <el-select v-model="chooseVal" class="status_type" @change="historyFilter">
                 <el-option v-for="(item, index) in statusDrop" :key="index" :label="item.label" :value="item.value" />
               </el-select>
               <div class="choose_array" v-if="chooseStatus.length > 0">
@@ -228,8 +228,7 @@
                       <img v-else-if="scope.row.currentStatus == 'CANCELLED'" src="@/assets/svg/home/icon_nft_cancel.svg">
                       <img v-else src="@/assets/svg/home/icon_nft_abort.svg">
                       <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Create</span>
-                      <span v-else-if="scope.row.currentStatus == 'DRAWN'"
-                        style="color:rgba(9, 139, 46, 0.8)">Sale</span>
+                      <span v-else-if="scope.row.currentStatus == 'DRAWN'" style="color:rgba(9, 139, 46, 0.8)">Sale</span>
                       <span v-else-if="scope.row.currentStatus == 'CANCELLED'">Cancel</span>
                       <span v-else style="color:rgba(187, 54, 12, 0.8)">Abort</span>
                     </div>
@@ -263,7 +262,7 @@
                   <template #default="scope">
                     <div class="price_box date">
                       <span>{{ timeFormat(scope.row.endTime) }}</span>
-                      <img v-if="scope.row.txid" @click="openLenk(scope.row)" src="@/assets/svg/home/icon_share.svg"
+                      <img v-if="scope.row.orderNumber" @click="enterNow(scope.row)" src="@/assets/svg/home/icon_share.svg"
                         alt="">
                     </div>
                   </template>
@@ -1108,6 +1107,7 @@ export default {
         let winHeight = res.target.clientHeight;
         let scrollHeight = res.target.scrollHeight;
         if (scrollTop + winHeight + 50 > scrollHeight && !this.busyScroll) {
+          if (this.historyFinished) return;
           this.historyPage += 1;
           this.fetchNftActivity(false);
         }

@@ -90,7 +90,7 @@ export default {
     bigNumber: bigNumber,
     // 获取一元购列表
     async fetchCheckAllOrders() {
-      const res = await getCheckAllOrders({ page: 1, size: 5 })
+      const res = await getCheckAllOrders({ currentStatus: "IN_PROGRESS", page: 1, size: 5 })
       if (res && res.code == 200) {
         this.ticketList = res.data.records;
       }

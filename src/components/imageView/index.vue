@@ -25,7 +25,6 @@ defineProps({
 </script>
 <style lang="scss" scoped>
 .lottery-img {
-
   .image-slot {
     width: 100%;
     height: 100%;
@@ -35,6 +34,9 @@ defineProps({
     width: 100%;
     height: 100%;
     transform: scale(1.2);
+  }
+  :deep(.el-image__inner) {
+    object-fit: cover;
   }
 }
 </style>

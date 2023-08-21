@@ -2,7 +2,10 @@
   <div class="footer">
     <div class="footer-container">
       <div class="footer-logo">
-        <img src="@/assets/img/headerFooter/footer_logo.png" alt="logo" />
+        <div class="header-logo">
+          <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
+          <div class="tips">BETA</div>
+        </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
       </div>
       <div class="footer-nav-box">

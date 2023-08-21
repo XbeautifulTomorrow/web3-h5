@@ -133,9 +133,7 @@ export default {
           this.isAutoplay = true;
         }
       }, 100);
-      setTimeout(() => {
-        this.slipeMusic = this.playSound(slipe, true);
-      }, 500);
+      this.slipeMusic = this.playSound(slipe, true);
     }
   },
   methods: {

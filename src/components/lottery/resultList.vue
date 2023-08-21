@@ -253,6 +253,11 @@ const nfts = ref([]);
 const picNftLen = ref(0);
 const cardRef = ref(null);
 const cardRefH = ref(200);
+const clearTimerFun = () => {
+  timer && workerTimers.clearInterval(timer);
+  timer = null;
+};
+
 watch(
   () => props.clearResultTimer,
   (val) => {
@@ -349,10 +354,7 @@ const timerFun = () => {
     }
   }, 1000);
 };
-const clearTimerFun = () => {
-  timer && workerTimers.clearInterval(timer);
-  timer = null;
-};
+
 const chooseLotteryHold = (data) => {
   // if (isSell.value && data === "hold") return;
   if (!data) {

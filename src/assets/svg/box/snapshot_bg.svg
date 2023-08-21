@@ -1,0 +1,78 @@
+<svg width="1520" height="474" viewBox="0 0 1520 474" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#qnv1mogq4a)">
+        <path fill="#000" fill-opacity=".01" d="M0 0h1520v474H0z"/>
+        <rect x=".5" y=".5" width="1519" height="473" rx="9.5" fill="#13151F"/>
+        <rect x=".5" y=".5" width="1519" height="473" rx="9.5" stroke="url(#2gmztx03hb)"/>
+        <rect x=".5" y=".5" width="1519" height="473" rx="9.5" stroke="url(#n3vbz3l2cc)"/>
+        <mask id="u65mlzx9rf" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1520" height="474">
+            <path d="M10 .5h1500c5.25 0 9.5 4.253 9.5 9.5v454c0 5.247-4.25 9.5-9.5 9.5H10A9.5 9.5 0 0 1 .5 464V10A9.5 9.5 0 0 1 10 .5z" fill="#13151F"/>
+            <path d="M10 .5h1500c5.25 0 9.5 4.253 9.5 9.5v454c0 5.247-4.25 9.5-9.5 9.5H10A9.5 9.5 0 0 1 .5 464V10A9.5 9.5 0 0 1 10 .5z" stroke="url(#ua0g6gajfd)"/>
+            <path d="M10 .5h1500c5.25 0 9.5 4.253 9.5 9.5v454c0 5.247-4.25 9.5-9.5 9.5H10A9.5 9.5 0 0 1 .5 464V10A9.5 9.5 0 0 1 10 .5z" stroke="url(#qflw5dvfqe)"/>
+        </mask>
+        <g mask="url(#u65mlzx9rf)">
+            <g filter="url(#46e5x7j6ig)">
+                <ellipse cx="526" cy="735.5" rx="154" ry="152.5" fill="#A21AE2"/>
+            </g>
+            <g filter="url(#4zdysq72nh)">
+                <ellipse cx="418.5" cy="-15" rx="164.5" ry="163" fill="#A21AE2"/>
+            </g>
+            <g filter="url(#h2kazccani)">
+                <ellipse cx="-5.54" cy="552.5" rx="97.46" ry="96.5" fill="#A21AE2"/>
+            </g>
+            <g filter="url(#0xkh52j26j)">
+                <ellipse cx="1242" cy="329.5" rx="185" ry="182.5" fill="#A21AE2"/>
+            </g>
+            <path d="m477.654-224.371-.002.001-730.099 597.335-46.853 38.276-.016.012.616.787c31.7-23.819 67.231-42.415 104.892-55.371h.001L32.11 279.308c8.155-2.792 15.515 5.846 11.463 13.454L-222.24 791.849c-5.325 9.997 6.77 20.178 15.712 13.225l799.552-621.62c10.065-7.825.106-23.451-11.238-17.631L230.916 345.845c-9.139 4.689-18.184-6.448-11.72-14.431l141.735-175.047c7.529-9.298-3.864-21.935-13.89-15.407L189.24 243.707c-8.652 5.633-18.813-4.634-13.091-13.227l291.153-437.231.002-.004c7.646-11.054 16.563-21.061 26.751-29.607l-.636-.772-.006.005-15.759 12.758z" stroke="url(#7h0zwjhtuk)" stroke-opacity=".1"/>
+            <path d="m515.666 424.387 882.704-722.282 19.06-15.432c-12.37 10.372-23.18 22.516-32.46 35.924l-357.64 537.151c-6.02 9.046 4.68 19.852 13.78 13.922l210.4-137.009c9.55-6.217 20.4 5.817 13.23 14.672L1078.8 380.996c-6.8 8.403 2.72 20.125 12.34 15.189l452.88-232.391c10.81-5.543 20.29 9.338 10.71 16.792L562.699 951.949c-8.517 6.622-20.036-3.073-14.965-12.594l328.468-616.811c4.264-8.009-3.483-17.101-12.067-14.161l-278.152 95.259c-45.59 15.686-88.605 38.202-126.983 67.042l56.666-46.297z" fill="url(#u08zetpuil)" fill-opacity=".1"/>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="2gmztx03hb" x1="0" y1="-.001" x2="320.211" y2="288.014" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF25C2"/>
+            <stop offset="1" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="n3vbz3l2cc" x1="1520" y1="473.999" x2="1216.29" y2="267.999" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF25C2"/>
+            <stop offset="1" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="ua0g6gajfd" x1="0" y1="-.002" x2="416.244" y2="260.493" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF25C2"/>
+            <stop offset="1" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="qflw5dvfqe" x1="1520" y1="681.248" x2="1157.34" y2="510.096" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF25C2"/>
+            <stop offset="1" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="7h0zwjhtuk" x1="189" y1="-213.182" x2="189" y2="513.364" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fff"/>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="u08zetpuil" x1="1049" y1="-955.436" x2="1049" y2="569.818" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fff" stop-opacity=".6"/>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="46e5x7j6ig" x="-158" y="53" width="1368" height="1365" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="265" result="effect1_foregroundBlur_1177_11031"/>
+        </filter>
+        <filter id="4zdysq72nh" x="-276" y="-708" width="1389" height="1386" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="265" result="effect1_foregroundBlur_1177_11031"/>
+        </filter>
+        <filter id="h2kazccani" x="-633" y="-74" width="1254.92" height="1253" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="265" result="effect1_foregroundBlur_1177_11031"/>
+        </filter>
+        <filter id="0xkh52j26j" x="527" y="-383" width="1430" height="1425" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="265" result="effect1_foregroundBlur_1177_11031"/>
+        </filter>
+        <clipPath id="qnv1mogq4a">
+            <path fill="#fff" d="M0 0h1520v474H0z"/>
+        </clipPath>
+    </defs>
+</svg>

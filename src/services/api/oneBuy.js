@@ -133,6 +133,12 @@ const delNewOrderMark = params =>
 const getNftActivity = (params) =>
 apiService.get(serviceUrl + "/oneNftOrders/nftActivityLog", params);
 
+/**
+ * @description 获取一元购历史 折线图
+ */
+const getNftActivityCharts = (params) =>
+apiService.get(serviceUrl + "/oneNftOrders/nftActivity", params);
+
 export {
   getWalletNft,
   getSystemNft,
@@ -155,5 +161,6 @@ export {
   getGlobalNew,
   delNewWalletNftMark,
   delNewOrderMark,
+  getNftActivityCharts,
   getNftActivity
 };

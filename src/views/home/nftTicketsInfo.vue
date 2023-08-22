@@ -403,7 +403,8 @@ import {
   getEndingSoon,
   getLottery,
   getNftAttrRate,
-  getNftActivity
+  getNftActivity,
+  getNftActivityCharts
 } from "@/services/api/oneBuy";
 import {
   getSetting,
@@ -762,7 +763,7 @@ export default {
       const { nftInfo } = this;
       let _page = this.historyPage;
 
-      let res = await getNftActivity({
+      let res = await getNftActivityCharts({
         contractAddress: nftInfo.contractAddress,
         tokenId: nftInfo.tokenId,
         page: _page,

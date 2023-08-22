@@ -183,7 +183,13 @@ const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet";
-import { addNftOrder, getSystemNft, getTheExternalNFTSeries, delNewWalletNftMark, getNftActivity } from "@/services/api/oneBuy";
+import {
+  addNftOrder,
+  getSystemNft,
+  getTheExternalNFTSeries,
+  delNewWalletNftMark,
+  getNftActivityCharts
+} from "@/services/api/oneBuy";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -353,7 +359,7 @@ export default {
     // 一元购历史折线图
     async fetchNftActivitySale(event) {
 
-      let res = await getNftActivity({
+      let res = await getNftActivityCharts({
         contractAddress: event.tokenAddress,
         tokenId: event.tokenId,
         page: 1,

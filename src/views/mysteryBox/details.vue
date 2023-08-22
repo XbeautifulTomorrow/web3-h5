@@ -133,13 +133,12 @@
       </div>
       <div class="snapshot_box">
         <div class="snapshot_panel">
-          <div class="snapshot_item" v-for="(item, index) in snapshotData" :key="index">
+          <div class="snapshot_item" v-for="(item, index) in snapshotData" @click="handleActive(item)" :key="index">
             <div class="active_btn">
-              <img class="nft_info" @click="handleActive(item)" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" @click="handleActive(item)" src="@/assets/svg/box/icon_info_active.svg"
-                alt="" />
+              <img class="nft_info" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" src="@/assets/svg/box/icon_info_active.svg" alt="" />
             </div>
-            <div class="snapshot_num">{{ `NO.${index + 1}` }}</div>
+            <div class="snapshot_num">{{ `NO.${item.id}` }}</div>
             <div class="snapshot_date">{{ timeFormat(item.createTime) }}</div>
           </div>
         </div>
@@ -149,21 +148,21 @@
         </div>
       </div>
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
-    <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
-      <div class="close_btn">
-        <el-icon @click="showSeriesDialog = false">
-          <CircleClose />
-        </el-icon>
-      </div>
-      <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-        @closeFun="showSeriesDialog = false"></series-slider>
-    </el-dialog>
   </div>
+  <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+  <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
+  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
+    <div class="close_btn">
+      <el-icon @click="showSeriesDialog = false">
+        <CircleClose />
+      </el-icon>
+    </div>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
+      @closeFun="showSeriesDialog = false"></series-slider>
+  </el-dialog>
 </template>
 
 <script>
@@ -218,7 +217,7 @@ export default {
       seriesType: null,
       nftList: [],
       page: 1,
-      size: 10,
+      size: 36,
       count: 0,
       isShowMore: false,
     };

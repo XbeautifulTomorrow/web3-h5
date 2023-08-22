@@ -207,7 +207,7 @@
           <div class="buy_history">
             <div class="history_title">
               <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
-              <span>NFT ACTIVITY</span>
+              <span>{{ $t("ticketsInfo.nftAtivity") }}</span>
             </div>
             <div class="history_filter">
               <el-select v-model="chooseVal" class="status_type" @change="historyFilter">
@@ -262,8 +262,8 @@
                   <template #default="scope">
                     <div class="price_box date">
                       <span>{{ timeFormat(scope.row.endTime) }}</span>
-                      <img v-if="scope.row.orderNumber" @click="enterNow(scope.row)" src="@/assets/svg/home/icon_share.svg"
-                        alt="">
+                      <img v-if="scope.row.currentStatus == 'DRAWN'" @click="enterNow(scope.row)"
+                        src="@/assets/svg/home/icon_share.svg" alt="">
                     </div>
                   </template>
                 </el-table-column>
@@ -276,7 +276,7 @@
             <div class="charts_title_box">
               <div class="charts_title">
                 <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
-                <span>NFT ACTIVITY</span>
+                <span>{{ $t("ticketsInfo.priceHistory") }}</span>
               </div>
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
@@ -288,7 +288,10 @@
             </div>
           </div>
           <div class="description_box">
-            <div class="description_text">{{ $t("ticketsInfo.description") }}</div>
+            <div class="description_text">
+              <img src="@/assets/svg/home/icon_description.svg" alt="">
+              <span>{{ $t("ticketsInfo.description") }}</span>
+            </div>
             <div class="nft_info">
               <span>{{ $t("ticketsInfo.nftDescription") }}</span>
               <span class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}`
@@ -297,7 +300,10 @@
             <div class="nft_description" v-html="nftInfo && nftInfo.remark"></div>
           </div>
           <div class="traits_box">
-            <div class="traits_text">{{ $t("ticketsInfo.traits") }}</div>
+            <div class="traits_text">
+              <img src="@/assets/svg/home/icon_traits.svg" alt="">
+              <span>{{ $t("ticketsInfo.traits") }}</span>
+            </div>
             <div class="traits_list">
               <div class="traits_item" v-for="(item, index) in attrData" :key="index">
                 <div class="traits_item_top">
@@ -462,7 +468,7 @@ export default {
 
       chooseVal: null,
       statusDrop: [],
-      chooseStatus: [],
+      chooseStatus: ['DRAWN'],
       historyList: [],
       historyPrice: null,
       historyPage: 1,
@@ -766,7 +772,7 @@ export default {
 
       if (res && res.code == 200) {
         if (res.data.records.length > 0) {
-          this.historyPrice = res.data.records[res.data.records.length - 1].price;
+          this.historyPrice = res.data.records[0].price;
 
           const charts = res.data.records;
           this.chartData = charts.reverse();

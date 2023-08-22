@@ -363,7 +363,7 @@ export default {
 
       if (res && res.code == 200) {
         if (res.data.records.length > 0) {
-          this.historyPrice = res.data.records[res.data.records.length - 1].price;
+          this.historyPrice = res.data.records[0].price;
         }
       }
     },

@@ -137,7 +137,10 @@
     "searchNft": "搜索NFT",
     "type": "類型",
     "sortCollections": "系列",
-    "noDataCompetition": "没找到任何竞赛"
+    "noDataCompetition": "没找到任何竞赛",
+    "status": "狀態",
+    "inProgress": "進行中",
+    "ended": "已結束"
   },
   "ticketsInfo": {
     "completed": "已完成",
@@ -182,7 +185,9 @@
     "buyTipsText2": " so keep checking back to see how the competition progresses.",
     "buyTipsShare": "SHARE THIS COMPETITION",
     "buyTipsCheck": "CHECK COMPETITION",
-    "participants": "參與者"
+    "participants": "參與者",
+    "nftAtivity": "NFT ACTIVITY",
+    "priceHistory": "PRICE HISTORY"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",

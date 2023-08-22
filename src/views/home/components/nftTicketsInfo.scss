@@ -549,6 +549,7 @@
   }
 
   .choose_array {
+    box-sizing: border-box;
     padding-top: 1rem;
     display: flex;
     flex-wrap: wrap;
@@ -687,6 +688,15 @@
     font-size: 1.25rem;
     font-weight: 500;
     color: white;
+
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.625rem;
+    }
   }
 
   .nft_info {

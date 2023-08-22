@@ -12,7 +12,15 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" @change="fetchCheckAllOrders()" class="select_box" size="large">
+          <el-select v-model="currentStatus" @change="fetchCheckAllOrders()" :placeholder="$t('homeReplenish.all')"
+            clearable class="select_box" size="large">
+            <el-option v-for="( item, index ) in  statusDrop " :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+          <div class="sort_title">{{ $t("homeReplenish.status") }}</div>
+        </div>
+        <div class="sort_box">
+          <el-select v-model="sort" @change="fetchCheckAllOrders()" :placeholder="$t('homeReplenish.all')"
+            class="select_box" size="large">
             <el-option v-for="( item, index ) in  sortDrop " :key="index" :label="item.label" :value="item.value" />
           </el-select>
           <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
@@ -123,7 +131,9 @@ export default {
     return {
       collections: [],
       searchVal: null,
+      currentStatus: null,
       sort: "popularity",
+      statusDrop: [],
       sortDrop: [],
       nftId: null,
       ticketList: [],
@@ -158,7 +168,7 @@ export default {
     },
     // 最新购买
     async fetchCheckAllOrders(isSearch = true) {
-      const { searchVal, sort, nftId, size } = this;
+      const { searchVal, currentStatus, sort, nftId, size } = this;
       let _page = this.page;
       if (isSearch) {
         this.page = 1;
@@ -167,6 +177,7 @@ export default {
 
       let res = await getCheckAllOrders({
         keyWord: searchVal,
+        currentStatus: currentStatus,
         sortBy: sort,
         contractAddress: nftId,
         page: _page,
@@ -200,6 +211,10 @@ export default {
     this.fetchAllSeries();
     this.fetchCheckAllOrders();
 
+    this.statusDrop = [
+      { label: t("homeReplenish.inProgress"), value: "IN_PROGRESS" },
+      { label: t("homeReplenish.ended"), value: "DRAWN" }
+    ];
     this.sortDrop = [
       { label: t("homeReplenish.sortPopularity"), value: "popularity" },
       { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },

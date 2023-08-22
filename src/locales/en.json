@@ -137,7 +137,10 @@
     "searchNft": "Search a Collection",
     "type": "Type:",
     "sortCollections": "Collection：",
-    "noDataCompetition": "NO TREASURE DRAW FOUND"
+    "noDataCompetition": "NO TREASURE DRAW FOUND",
+    "status": "Status",
+    "inProgress": "In progress",
+    "ended": "End"
   },
   "ticketsInfo": {
     "completed": "COMPLETED",
@@ -182,7 +185,9 @@
     "buyTipsText2": " so keep checking back to see how the competition progresses.",
     "buyTipsShare": "SHARE THIS COMPETITION",
     "buyTipsCheck": "CHECK COMPETITION",
-    "participants":"Participants"
+    "participants": "Participants",
+    "nftAtivity": "NFT ACTIVITY",
+    "priceHistory": "PRICE HISTORY"
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",

@@ -72,7 +72,7 @@
     }
 
     :deep(.select_box) {
-      width: 18.75rem;
+      width: 15.5rem;
 
       .el-select__caret {
         font-size: 1.5rem;
@@ -100,6 +100,7 @@
 
     &.collections {
       :deep(.select_box) {
+        min-width: 18rem;
 
         .el-input__wrapper {
           padding-left: 8.75rem;

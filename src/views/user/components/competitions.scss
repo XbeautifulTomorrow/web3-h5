@@ -369,7 +369,11 @@
         font-weight: 400;
         -webkit-text-fill-color: white;
         color: white;
+
+
       }
+
+
 
       &>img {
         width: 1.25rem;
@@ -380,6 +384,12 @@
       &>span:last-child {
         -webkit-text-fill-color: #a9a4b4;
         color: #a9a4b4;
+
+        &.you {
+          color: #fbd851;
+          -webkit-text-fill-color: #fbd851;
+          font-weight: 500;
+        }
       }
     }
 

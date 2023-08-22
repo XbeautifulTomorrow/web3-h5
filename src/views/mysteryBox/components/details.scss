@@ -508,6 +508,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     .snapshot_num {
       padding-top: 0.25rem;
@@ -517,6 +518,7 @@
       line-height: 1.6;
       text-align: center;
       color: #a9a4b4;
+      transition: all 0.3s;
     }
 
     .snapshot_date {
@@ -527,8 +529,54 @@
       color: #a9a4b4;
     }
 
+    .active_btn {
+      width: 1.5rem;
+      height: 1.5rem;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      &>.nft_info {
+        display: inline-block;
+        transition: all 0.3s;
+      }
+
+      &>.nft_info_active {
+        // display: none;
+        transform: scale(0);
+        transition: all 0.3s;
+      }
+    }
+
     &:hover {
       background-image: url("@/assets/svg/box/snapshot_item_active.svg");
+
+      .snapshot_num {
+        padding-top: 0.625rem;
+        transform: scale(1.2);
+      }
+
+      .active_btn {
+        &>.nft_info {
+          // display: none;
+          transform: scale(0);
+        }
+
+        &>.nft_info_active {
+          display: inline-block;
+          transform: scale(1.5);
+        }
+      }
     }
   }
 }
@@ -636,32 +684,6 @@
           height: 1.125rem;
         }
       }
-    }
-  }
-}
-
-.active_btn {
-  img {
-    width: 1.5rem;
-    height: auto;
-    cursor: pointer;
-  }
-
-  &>.nft_info {
-    display: inline-block;
-  }
-
-  &>.nft_info_active {
-    display: none;
-  }
-
-  &:hover {
-    &>.nft_info {
-      display: none;
-    }
-
-    &>.nft_info_active {
-      display: inline-block;
     }
   }
 }

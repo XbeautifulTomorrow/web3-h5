@@ -275,7 +275,7 @@
           <div class="charts_box">
             <div class="charts_title_box">
               <div class="charts_title">
-                <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
+                <img src="@/assets/svg/home/icon_price_history.svg" alt="">
                 <span>{{ $t("ticketsInfo.priceHistory") }}</span>
               </div>
               <div class="charts_price">

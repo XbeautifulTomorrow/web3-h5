@@ -427,7 +427,7 @@ export default {
       let state = false;
       for (let i = 0; i < arr.length; i++) {
         const item = arr[i];
-        if (item.nftType === "EXTERNAL" && item.boxNftInfos.length > 0) {
+        if (item.nftType !== "PLATFORM" && item.boxNftInfos.length > 0) {
           state = true;
           break;
         }

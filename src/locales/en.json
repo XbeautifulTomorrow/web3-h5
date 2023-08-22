@@ -93,7 +93,8 @@
     "verificationHint": "Please check your email for the verification code.",
     "sendAgain": "Send again",
     "sendAgainErr": "Verification code error, please re-enter.",
-    "ok": "OK"
+    "ok": "OK",
+    "loginTips":"All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
   },
   "home": {
     "bannerText1": "Raffle Box &",
@@ -164,8 +165,8 @@
     "verify2": "PROVABLY FAIR",
     "verify3": "Verify Faimess",
     "verify4": "[Advanced Users]",
-    "closeHint": "The draw did not reach its sell-out target, and your purchased tickets have been refunded to the balance, worth <span style=\"color： white;\">{ num }</span> {coin}",
-    "cancelHint": "The holder of <span style=\"color： white;\">{ name }</span> canceled this draw.",
+    "closeHint": "The draw did not reach its sell-out target, and your purchased tickets have been refunded to the balance, worth <span style=\"color: white;\">{ num }</span> {coin}",
+    "cancelHint": "The holder of <span style=\"color: white;\">{ name }</span> canceled this draw.",
     "active": "ACTIVITY",
     "participant": "PARTICIPANTS({ num })",
     "rewardId": "Reward ID: { start }-{ end }",
@@ -344,7 +345,7 @@
     "mysteryBox": "RAFFLE BOX",
     "referrals": "REFERRAL",
     "inviteTitle": "Earn ETH and cent by sharing BITZING!",
-    "inviteDescription": "Share your unique tracker on your social media and Discord. Send it to anyone passionate about NFTs, along with a brief explanation of Bitzing. You will be handsomely rewarded with up to <span style=\"color： white\">{ num }%</span> of their daily purchases, paid to you in ETH.",
+    "inviteDescription": "Share your unique tracker on your social media and Discord. Send it to anyone passionate about NFTs, along with a brief explanation of Bitzing. You will be handsomely rewarded with up to <span style=\"color: white\">{ num }%</span> of their daily purchases, paid to you in ETH.",
     "createTitle": "Set custom referral code",
     "createEnterHint": "Set referral code...",
     "create": "CREATE",

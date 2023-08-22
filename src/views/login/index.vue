@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="visible" destroy-on-close :show-close="false" :align-center="true" class="public-dialog"
-    width="43.75rem" :before-close="closeDialogFun">
+  <el-dialog v-model="visible" destroy-on-close :show-close="false" :close-on-click-modal="false" :align-center="true"
+    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
     <template #header="{ close }">
       <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
         <el-icon>
@@ -9,7 +9,7 @@
         </el-icon>
       </div>
     </template>
-    <div class="public-dialog-content form-content">
+    <div class="public-dialog-content form-content" v-if="!isLogin">
       <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
@@ -40,6 +40,14 @@
         </span>
       </p>
     </div>
+    <div class="public-dialog-content form-content" v-else>
+      <p class="public-dialog-title">{{ $t("lottery.notice") }}</p>
+      <p class="public-dialog-description"
+        v-html="$t('login.loginTips', { network: '<span style=\'color: white;\'>GOERLI NETWORK</span>' })"></p>
+      <el-button class="public-button form-button" @click="closeDialogFun()">
+        {{ $t("airdrop.confirm") }}
+      </el-button>
+    </div>
   </el-dialog>
 </template>
 <script setup>
@@ -57,6 +65,7 @@ const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const visible = ref(true);
 const rememberMe = ref(false);
 const ruleFormRef = ref();
+const isLogin = ref(false);
 let formLogin = reactive({
   account: "",
   passWord: "",
@@ -123,7 +132,8 @@ const loginFun = async (formEl) => {
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
         headerStore.fetchTheUserPoint();
-        closeDialogFun();
+        // closeDialogFun();
+        isLogin.value = true;
       }
     } else {
       console.log("error submit!", fields);

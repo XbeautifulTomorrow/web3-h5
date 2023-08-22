@@ -93,7 +93,8 @@
     "verificationHint": "請檢查您的電子郵箱以查看驗證碼",
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
-    "ok": "好"
+    "ok": "好",
+    "loginTips":"All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
   },
   "home": {
     "bannerText1": "邀請用户加入",

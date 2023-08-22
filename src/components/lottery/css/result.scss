@@ -289,7 +289,9 @@
 }
 
 .more-list {
-  cursor: pointer;
+  &.pointer-box {
+    cursor: pointer;
+  }
   &.LEGEND {
     background-image: url("@/assets/img/lottery/LEGEND_more.png");
   }

@@ -51,6 +51,7 @@
                 item.qualityType,
                 { 'choose-list': nfts.includes(item.id) },
                 { 'more-list': result.length > 1 },
+                { 'pointer-box': second > 0 && item.tokenId !== null },
               ]"
               @click="nftsFun(item)"
             >
@@ -118,7 +119,7 @@
                   </template>
                 </div>
                 <template v-else>
-                  <div class="result-sell pointer" v-if="second > 0 && item.tokenId !== null">
+                  <div class="result-sell" v-if="second > 0 && item.tokenId !== null">
                     <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
                   <p v-else class="result-sell-get">

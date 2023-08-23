@@ -94,7 +94,7 @@
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
     "ok": "好",
-    "loginTips":"All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
+    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
   },
   "home": {
     "bannerText1": "邀請用户加入",
@@ -634,9 +634,9 @@
     "tips9": "此交易公平性\n可驗證",
     "tips10": "[進階用戶]",
     "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> 已成功售出，您將獲得：",
-    "take": "Take",
-    "amount": "Amount",
-    "sell_all_for": "Sell all for",
-    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> {numEth}"
+    "take": "收下",
+    "amount": "數量",
+    "sell_all_for": "轉售全部以獲得",
+    "take_all_eth": "收下所有NFT和<img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
   }
 }

@@ -180,6 +180,13 @@ export default {
         isExpand: false,
         height: null,
         minHeight: null
+      },
+      {
+        title: t("faq.faqQuestion13"),
+        description: t("faq.faqAnswer13"),
+        isExpand: false,
+        height: null,
+        minHeight: null
       }
     ]
   },

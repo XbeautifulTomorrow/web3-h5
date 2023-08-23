@@ -52,7 +52,7 @@
             <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
             <div class="wallet_addr">
               <div class="tips_text">
-                {{ $t("user.sendHint") }}
+                {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Goerli Ethereum' : 'Bitzing USDT'}` }) }}
               </div>
               <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                 :placeholder="$t('user.enterAddrHint')">
@@ -73,7 +73,7 @@
                 {{ $t("user.hintText1") }}
               </div>
             </div>
-            <div class="hint_item">
+            <div class="hint_item" v-if="operatingCoin == 'ETH'">
               <div class="hint_l">
                 <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
               </div>
@@ -162,7 +162,7 @@
           </div>
           <div class="withdraw_hint">
             <p>
-              {{ $t("user.addrTips1") }}
+              {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Goerli Ethereum' : 'Bitzing USDT'}` }) }}
             </p>
             <p>
               {{ $t("user.addrTips2") }}

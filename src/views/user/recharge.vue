@@ -23,11 +23,17 @@
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
             <img src="@/assets/svg/user/icon_eth.svg" alt="" />
-            <span>Ethereum [ETH]</span>
+            <span class="wallet_operating_val">
+              <span>Goerli Ethereum</span>
+              <span>[GETH]</span>
+            </span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('USDT')">
             <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
-            <span>Tether [USDT]</span>
+            <span class="wallet_operating_val">
+              <span>Bitzing Tether</span>
+              <span>[USDT]</span>
+            </span>
           </div>
         </div>
       </div>

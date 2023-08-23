@@ -1324,6 +1324,12 @@
         background-color: #13151f;
         color: #fad54d;
       }
+
+      .wallet_operating_val {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
     }
   }
 }

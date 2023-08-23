@@ -9,7 +9,7 @@
         <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
           <div class="img-box">
             <Image fit="cover" class="nft_img" :src="item.nftImage" />
-            <div class="type-box">
+            <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
                 <span v-if="dateDiff(item.endTime) > 1">
@@ -36,6 +36,9 @@
                 </span>
               </div>
             </div>
+            <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
+              {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
+            </div>
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
@@ -47,8 +50,16 @@
           <div class="price-box">
             {{ `${item.price} ETH` }}
           </div>
-          <div class="boxes-button">
+          <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
+          </div>
+          <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
+            <span>{{ $t("ticketsInfo.winner") }}</span>
+            <img src="@/assets/svg/user/default_avatar.svg" alt="">
+            <span v-if="userInfo.id != item.winningAddress">
+              {{ item.winningName || item.winningAddress }}
+            </span>
+            <span v-else class="you">{{ $t("user.you") }}</span>
           </div>
           <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
             {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
@@ -67,9 +78,12 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { dateDiff } from "@/utils";
+import { dateDiff, timeFormat } from "@/utils";
 
 import { getCheckAllOrders } from "@/services/api/oneBuy";
 
@@ -85,12 +99,24 @@ export default {
       ticketList: []
     };
   },
+  computed: {
+    ...mapStores(useUserStore),
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
+  },
   methods: {
     dateDiff: dateDiff,
+    timeFormat: timeFormat,
     bigNumber: bigNumber,
     // 获取一元购列表
     async fetchCheckAllOrders() {
-      const res = await getCheckAllOrders({ currentStatus: "IN_PROGRESS", page: 1, size: 5 })
+      const res = await getCheckAllOrders({ page: 1, size: 5 })
       if (res && res.code == 200) {
         this.ticketList = res.data.records;
       }

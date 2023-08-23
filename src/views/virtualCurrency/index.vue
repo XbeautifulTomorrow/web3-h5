@@ -20,7 +20,7 @@
             <div class="virtual-currency-item-text">
               <p class="list-nam">{{ item.seriesName }}</p>
               <p class="list-currency">
-                {{ item.price ? Number(item.price).toFixed(2) : 0 }}&nbsp;{{
+                {{ accurateDecimal(item.price || 0, 4) }}&nbsp;{{
                   item.coin
                 }}
               </p>
@@ -44,7 +44,7 @@
               <p class="list-currency">
                 {{
                   currencyList[activeIndex].price
-                  ? Number(currencyList[activeIndex].price).toFixed(2)
+                  ? accurateDecimal(currencyList[activeIndex].price, 4)
                   : 0
                 }}&nbsp;{{ currencyList[activeIndex].coin }}
               </p>
@@ -108,6 +108,7 @@
 <script>
 import Image from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
+import { accurateDecimal } from "@/utils";
 export default {
   name: "VirtualCurrency",
   components: { Image },
@@ -132,6 +133,7 @@ export default {
     }
   },
   methods: {
+    accurateDecimal: accurateDecimal,
     async fetchTicketList() {
       const res = await getTicketList({ limit: 20 });
       if (res && res.code == 200) {

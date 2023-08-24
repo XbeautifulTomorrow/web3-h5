@@ -15,7 +15,7 @@
           <div class="img_box">
             <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
-          <div class="description_box">
+          <div :class="['description_box', { 'description-loaing': !isShowMore }]">
             <div class="title">{{ $t("mysteryBox.description") }}</div>
             <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
             <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
@@ -33,7 +33,7 @@
                 <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="">
+                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
                 <span>{{ blindDetailInfo && blindDetailInfo.price }}</span>
               </div>
             </div>
@@ -47,11 +47,8 @@
                 <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="">
-                <span>{{
-                  blindDetailInfo &&
-                  new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
-                }}</span>
+                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <span>{{ blindDetailInfo && new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5) }}</span>
               </div>
             </div>
           </div>
@@ -65,11 +62,8 @@
               <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
-              <img src="@/assets/svg/box/icon_eth.svg" alt="">
-              <span>{{
-                blindDetailInfo &&
-                new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
-              }}</span>
+              <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+              <span>{{ blindDetailInfo && new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10) }}</span>
             </div>
           </div>
         </div>
@@ -80,8 +74,13 @@
         <div class="title_text">{{ $t("mysteryBox.seriesTitle") }}</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series" :key="index">
+        <div
+          class="nft_series_item"
+          @click="handleShowNft(item)"
+          :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series"
+          :key="index"
+        >
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -121,8 +120,12 @@
         </div>
         <div class="title-box-r">
           <div class="title">{{ $t("mysteryBox.snapshotId") }}</div>
-          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
-            :placeholder="$t('mysteryBox.snapshotIdHint')">
+          <el-input
+            v-model.number="snapshotId"
+            @keyup.enter="handleSearch()"
+            class="snapshot_input"
+            :placeholder="$t('mysteryBox.snapshotIdHint')"
+          >
             <template #suffix>
               <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
@@ -143,8 +146,16 @@
           </div>
         </div>
         <div class="pagination-box" v-if="count > size">
-          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+          <el-pagination
+            v-model="page"
+            :page-size="size"
+            @current-change="handleCurrentChange"
+            :pager-count="7"
+            layout="prev, pager, next"
+            :total="count"
+            :prev-text="$t('common.prev')"
+            :next-text="$t('common.next')"
+          />
         </div>
       </div>
     </div>
@@ -160,8 +171,7 @@
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-      @closeFun="showSeriesDialog = false"></series-slider>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName" @closeFun="showSeriesDialog = false"></series-slider>
   </el-dialog>
 </template>
 
@@ -171,7 +181,7 @@ import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { getSnapshotList } from "@/services/api/blindBox";
@@ -196,7 +206,7 @@ export default {
     Forgot,
     Modify,
     Image,
-    Recharge
+    Recharge,
   },
   props: {
     blindDetailInfo: {
@@ -219,7 +229,7 @@ export default {
       page: 1,
       size: 36,
       count: 0,
-      isShowMore: false,
+      isShowMore: null,
     };
   },
   computed: {
@@ -254,10 +264,7 @@ export default {
   methods: {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
-    messageFun(
-      message = t("mysteryBox.rechargeHint"),
-      type = "warning"
-    ) {
+    messageFun(message = t("mysteryBox.rechargeHint"), type = "warning") {
       ElMessage({
         message,
         type,
@@ -277,15 +284,15 @@ export default {
       }
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       } else if (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       } else if (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       }
       this.$emit("rollNumberFun", type);
@@ -343,13 +350,8 @@ export default {
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(
-        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
-      );
-      return new bigNumber(num)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
+      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     /**
      * @description Nft概率计算
@@ -364,10 +366,7 @@ export default {
         numTotal += +series[i].nftNumber;
       }
 
-      return new bigNumber(event)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     closeDialogFun() {
       this.pageType = "";
@@ -388,10 +387,8 @@ export default {
     this.$nextTick(() => {
       setTimeout(() => {
         const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo
-          ? contentInfo.scrollHeight > contentInfo.clientHeight
-          : false;
-      }, 100);
+        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
+      }, 300);
     });
   },
 };

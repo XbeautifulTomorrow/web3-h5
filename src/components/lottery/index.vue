@@ -516,6 +516,12 @@ export default {
   margin-right: 1.875rem;
   cursor: pointer;
 }
+@media screen and (max-width: 950px) {
+  .roll-dialog {
+    margin-top: 6rem;
+    height: calc(100% - 6rem);
+  }
+}
 </style>
 <style lang="scss">
 $borWidth: 180px;

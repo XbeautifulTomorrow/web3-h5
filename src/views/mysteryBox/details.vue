@@ -388,7 +388,7 @@ export default {
       setTimeout(() => {
         const contentInfo = this.$refs.contentInfo;
         this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
-      }, 300);
+      }, 200);
     });
   },
 };

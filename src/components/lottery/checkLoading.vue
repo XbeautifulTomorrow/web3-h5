@@ -5,7 +5,7 @@
     :show-close="false"
     :align-center="true"
     :append-to-body="true"
-    class="public-dialog"
+    class="public-dialog result-loading-dialog"
     width="522"
     :before-close="closeDialogFun"
   >

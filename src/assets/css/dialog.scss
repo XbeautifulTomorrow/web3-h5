@@ -318,8 +318,38 @@
 
 @media (max-width: 950px) {
   .public-dialog {
-    &.mystery-dialog {
+    &.result-loading-dialog {
       width: 20.4375rem;
+      .public-dialog-content {
+        padding: 1.875rem 0;
+      }
+      .el-dialog__header {
+        height: 0;
+      }
+      .el-dialog__body {
+        padding: 0 1rem;
+      }
+      .public-dialog-loading {
+        img {
+          width: 3rem;
+          height: 3rem;
+          margin-top: 0;
+        }
+      }
+      .public-dialog-loading-text {
+        margin-top: 1.25rem;
+        font-size: 0.875rem;
+      }
+      .public-dialog-illustrate {
+        font-size: 0.5rem;
+        margin-bottom: 0;
+      }
+    }
+    &.mystery-dialog {
+      width: 87vw;
+      .public-dialog-content {
+        padding: 1.875rem 0;
+      }
       .public-dialog-header-icon {
         width: 1.5rem;
         margin-top: 1rem;
@@ -377,7 +407,7 @@
     }
 
     .public-dialog-content {
-      padding: 1.875rem 0;
+      padding: 1rem 0;
     }
 
     .public-dialog-title {
@@ -429,7 +459,10 @@
         }
       }
     }
-
+    .public-button {
+      height: 2.5rem;
+      font-size: 0.75rem;
+    }
     .tips_btn {
       font-size: 0.75rem;
     }

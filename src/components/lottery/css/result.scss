@@ -22,6 +22,7 @@
 }
 
 .result-title {
+  font-family: Tomorrow;
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
@@ -160,7 +161,6 @@
 }
 .result-club-title {
   font-size: 1.125rem;
-  font-weight: bold;
   color: var(--white);
   width: 80%;
   text-align: left;
@@ -274,16 +274,16 @@
 .result-main {
   .result-list {
     .LEGEND {
-      background-image: url("@/assets/img/lottery/LEGEND.png");
+      background-image: url("@/assets/img/lottery/more_LEGEND.webp");
     }
     .EPIC {
-      background-image: url("@/assets/img/lottery/EPIC.png");
+      background-image: url("@/assets/img/lottery/more_EPIC.webp");
     }
     .RARE {
-      background-image: url("@/assets/img/lottery/RARE.png");
+      background-image: url("@/assets/img/lottery/more_RARE.webp");
     }
     .NORMAL {
-      background-image: url("@/assets/img/lottery/NORMAL.png");
+      background-image: url("@/assets/img/lottery/more_NORMAL.webp");
     }
   }
 }
@@ -396,5 +396,82 @@
 @media (max-height: 1200px) {
   .result-dialog-content-ten {
     margin-top: -10rem;
+  }
+}
+
+@media (max-width: 950px) {
+  .result-dialog-content {
+    .result-title {
+      font-size: 1.125rem;
+    }
+    .result-illustrate {
+      display: none;
+    }
+    .result-main {
+      margin-top: 1.25rem !important;
+    }
+    .result-sub-list {
+      padding: 0.625rem;
+    }
+    .result-club-title {
+      font-size: 0.625rem;
+    }
+    .verity-icon {
+      width: 0.875rem;
+    }
+    .result-club-serial {
+      transform: scale(0.7);
+      transform-origin: right bottom;
+    }
+    .result-sell-text-box {
+      margin-top: 0;
+    }
+    .result-sell-coin {
+      font-size: 0.625rem !important;
+      img {
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+      }
+    }
+    .result-one-button {
+      padding: 0.7rem;
+      font-size: 0.5rem;
+    }
+    .result-one-footer {
+      height: 4rem;
+    }
+    .public-dialog-icon {
+      width: 1rem;
+    }
+    .result-total {
+      font-size: 1rem;
+      top: 0.1rem;
+    }
+    .result-end {
+      margin-top: 1.25rem !important;
+    }
+    .result-link {
+      padding: 0.625rem;
+      font-size: 0.5rem /* 8/16 */;
+      .result-link-img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      .result-link-line {
+        padding: 0 0.5625rem;
+      }
+    }
+    .onlyOne {
+      .result-list {
+        width: 13.25rem;
+        min-height: 20.7rem;
+      }
+      .result-club {
+        margin-top: 0.625rem;
+      }
+      .amount {
+        font-size: 0.16rem;
+      }
+    }
   }
 }

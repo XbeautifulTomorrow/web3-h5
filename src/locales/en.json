@@ -628,7 +628,7 @@
     "tips5": "Insufficient balance, please make a deposit first.",
     "tips6": "Please process the previous order before drawing a prize.",
     "tips7": "At the end of the countdown, all NFTs will be automatically sold.",
-    "tips9": "TRANSACTION PROVABLY \n FAIR",
+    "tips9": "TRANSACTION \nPROVABLY  FAIR",
     "tips10": "[Advanced Users]",
     "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> has been successfully sold, and you will receive:",
     "take": "Take",

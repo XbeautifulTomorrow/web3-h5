@@ -63,6 +63,7 @@ import { Howl } from "howler";
 import { slipe, oneSlow } from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
+
 const itemWidth = 200;
 const itemWidthH5 = 84;
 export default {
@@ -115,6 +116,7 @@ export default {
     };
   },
   async mounted() {
+    this.formatDataList();
     this.getAwardsListFunc();
     const result = localStorage.getItem("result");
     if (this.apiIsError) {
@@ -134,9 +136,18 @@ export default {
     }
   },
   methods: {
+    formatDataList() {
+      if (this.awardsList?.length < 30) {
+        var arr = [];
+        for (var i = 0; i < 30; i++) {
+          arr.push(this.awardsList[i % this.awardsList.length]);
+        }
+        this.awardsList = arr;
+      }
+    },
     matchWidth() {
       let deviceMax = document.documentElement.clientWidth;
-      if (deviceMax > 750) {
+      if (deviceMax > 950) {
         this.borStyle = {
           width: `${itemWidth}px`,
           height: `${itemWidth}px`,
@@ -355,12 +366,14 @@ export default {
 @media screen and (max-width: 950px) {
   .roll-one-content {
     .con {
-      width: 470px;
+      width: 518px;
       height: 10rem;
       margin-top: 1.25rem;
     }
     .list_mask {
-      height: 11rem;
+      height: 11.5rem;
+      background: url("@/assets/img/h5/list_mask.png") no-repeat;
+      background-size: contain;
     }
     .public-color-one {
       font-size: 1.125rem;

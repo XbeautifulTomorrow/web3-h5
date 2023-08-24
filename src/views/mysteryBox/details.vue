@@ -15,7 +15,7 @@
           <div class="img_box">
             <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
-          <div :class="['description_box', { 'description-loaing': !isShowMore }]">
+          <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
             <div class="title">{{ $t("mysteryBox.description") }}</div>
             <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
             <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">

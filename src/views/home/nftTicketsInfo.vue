@@ -452,7 +452,6 @@ export default {
       nftInfo: {},
       inviteVal: null,
       inviteDrop: [],
-      detailData: null,
       attrData: [],
       endingSoon: [],
       buyVotes: 1,
@@ -568,7 +567,6 @@ export default {
       });
       if (res && res.code == 200) {
         this.nftInfo = res.data;
-        this.detailData = this.nftInfo && JSON.parse(this.nftInfo.detail);
         const userStore = useUserStore();
         const { userInfo } = userStore;
         this.fetchNftAttrRate();

@@ -86,7 +86,7 @@
             <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
               <span>{{ $t("ticketsInfo.winner") }}</span>
               <img src="@/assets/svg/user/default_avatar.svg" alt="">
-              <span v-if="userInfo.id != item.winningAddress">
+              <span v-if="userInfo && (userInfo?.id != item.winningAddress)">
                 {{ item.winningName || item.winningAddress }}
               </span>
               <span v-else class="you">{{ $t("user.you") }}</span>

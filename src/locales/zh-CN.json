@@ -521,7 +521,9 @@
     "faqQuestion11": "為什麼盲盒的內容會發生變化？",
     "faqAnswer11": "BITZING將不斷審查每個NFT的價值並確保它們保持最新狀態。但是，某些NFT的價值可能會發生波動，從而導致盒子中的內容發生波動。<br><br>在BITZING，您從盒子中獲得的物品遵循\"獲得價值\"規則。如果您獲得了價值1ETH的物品，並且其價格上漲超過1ETH，您將無法獲得該物品。但是，我們將退還購買時物品當前價值的100%作為補償。需要注意的是，持有NFT作為資產可能存在風險，因為其價值可能會下降。因此，我們建議及時提取和出售它們，以避免潛在的損失。<br><br>如果您希望持有NFT以供將來使用，我們建將其轉售，這樣可以收回資金用於以後再玩。",
     "faqQuestion12": "我們如何確保公平？",
-    "faqAnswer12": "為了保證透明度和公開性，BITZING會在盲盒內容發生變化時對其進行快照。在盲盒詳細信息頁面，您可以找到7天的快照信息。通過查看快照詳細信息，您可以看到盲盒中包含的NFT及其對應的每個特定時間段的獎勵ID。<br><br>BITZING通過智能合約執行的抽獎算法。這使您可以檢查智能合約的精確邏輯並驗證抽獎區塊鏈上的結果。您可以將結果與快照中各個NFT的獎勵ID進行比較，確保透明且公平的抽獎過程。"
+    "faqAnswer12": "為了保證透明度和公開性，BITZING會在盲盒內容發生變化時對其進行快照。在盲盒詳細信息頁面，您可以找到7天的快照信息。通過查看快照詳細信息，您可以看到盲盒中包含的NFT及其對應的每個特定時間段的獎勵ID。<br><br>BITZING通過智能合約執行的抽獎算法。這使您可以檢查智能合約的精確邏輯並驗證抽獎區塊鏈上的結果。您可以將結果與快照中各個NFT的獎勵ID進行比較，確保透明且公平的抽獎過程。",
+    "faqQuestion13": "What are the Bitzing Disk NFTs?",
+    "faqAnswer13": "In addition to the Blue-Chip NFTs, the Bitzing Disk NFTs are assets found within Raffle Boxes. They feature 9 different variations, including: Wooden Disk (0.001ETH), Rock Disk (0.002ETH), Steel Disk (0.005ETH), Bronze Disk (0.01ETH), Silver Disk (0.02ETH), Golden Disk (0.05ETH), Diamond Disk (0.1ETH), Gem Disk (0.2ETH), and the highest-ranking Galaxy Disk (0.5ETH). The prices vary depending on the rarity, with the Galaxy Disk NFT being the most valuable and the Wooden Disk being the least valuable. The collection has an unlimited supply and the NFTs cannot be sold on Treasure Draw, however withdrawal to users' wallets is possible. We are also working on developing utilities for the assets."
   },
   "errorTips": {
     "no_access": "沒有權限。",

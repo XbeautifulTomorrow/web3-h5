@@ -80,4 +80,23 @@ const unboxAgainFunc = () => {
 .margin-t {
   margin-top: 3.75rem;
 }
+@media (max-width: 950px) {
+  .public-dialog-illustrate {
+    font-size: 0.5rem;
+    margin-bottom: 0.625rem;
+  }
+  .public-dialog-title-other {
+    font-size: 0.625rem;
+    margin-bottom: 0.25rem;
+  }
+  .public-dialog-pointer-box {
+    font-size: 0.625rem;
+  }
+  .public-dialog-pointer-icon {
+    width: 1.25rem;
+  }
+  .margin-t {
+    margin-top: 0;
+  }
+}
 </style>

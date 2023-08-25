@@ -38,7 +38,7 @@
 @media screen and (max-width: 950px) {
   .result-link-box {
     min-width: 12.6875rem;
-    margin: 0 auto;
+    margin: 0 0.625rem;
     margin-top: 1.25rem;
     .result-link {
       padding: 0.625rem;

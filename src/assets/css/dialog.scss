@@ -346,7 +346,7 @@
       }
     }
     &.mystery-dialog {
-      width: 87vw;
+      width: 20.4375rem;
       .public-dialog-content {
         padding: 1.875rem 0;
       }
@@ -362,7 +362,7 @@
         height: 0;
       }
       .el-dialog__body {
-        padding: 0 1rem;
+        padding: 0 0.6875rem;
       }
       .public-dialog-text {
         font-size: 0.5rem;
@@ -466,5 +466,10 @@
     .tips_btn {
       font-size: 0.75rem;
     }
+  }
+}
+@media (max-width: 340px) {
+  .el-dialog.is-align-center {
+    margin: auto 0.625rem !important;
   }
 }

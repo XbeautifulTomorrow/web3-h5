@@ -293,4 +293,46 @@ watchEffect();
 .public-dialog-lists-all {
   margin-bottom: 0;
 }
+@media (max-width: 950px) {
+  .public-dialog-illustrate {
+    font-size: 0.5rem;
+  }
+  .public-dialog-title-other {
+    font-size: 0.625rem;
+  }
+  .public-dialog-list {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  .portrait-img {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  .public-dialog-list-result {
+    height: 0.875rem;
+    line-height: 0.875rem;
+    font-size: 0.5rem;
+  }
+  .public-dialog-lists {
+    gap: 0.25rem;
+  }
+  .public-dialog-module {
+    padding: 0.25rem;
+  }
+  .public-dialog-illustrate {
+    line-height: inherit;
+  }
+  .public-dialog-total-title {
+    font-size: 0.5rem;
+  }
+  .public-dialog-list-img {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin-right: 0.3rem;
+  }
+  .public-dialog-total-number {
+    font-size: 0.875rem !important;
+    margin-right: 0.625rem;
+  }
+}
 </style>

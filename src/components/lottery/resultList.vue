@@ -291,11 +291,18 @@ const resultPicLen = () => {
   picNftLen.value = picNft.length;
 };
 const getListHeight = () => {
+  const { innerWidth } = window;
   nextTick(() => {
-    if (cardRef.value && cardRef.value[0]) {
-      const height = cardRef?.value[0].offsetHeight;
-      cardRefH.value = height + "px";
-    }
+    setTimeout(() => {
+      if (cardRef.value && cardRef.value[0]) {
+        let ratio = 1;
+        if (innerWidth < 950) {
+          ratio = 0.6;
+        }
+        const height = cardRef?.value[0].offsetHeight * ratio;
+        cardRefH.value = height + "px";
+      }
+    }, 200);
   });
 };
 const audioPlay = () => {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from "vue";
-const designWidth = 1140;
+let designWidth = 1140;
 const designHeight = 1080 - 200;
 const wrapRef = ref(null);
 const state = reactive({
@@ -10,10 +10,13 @@ const state = reactive({
 
 const onResize = () => {
   const { innerWidth } = window;
+  if (window.innerWidth < 950) {
+    designWidth = window.innerWidth;
+  }
   const innerHeight = window.innerHeight - window.innerWidth * 0.1;
   const xRatio = innerWidth / designWidth;
   const yRatio = innerHeight / designHeight;
-  const ratio = Math.min(xRatio, yRatio);
+  const ratio = window.innerWidth < 950 ? xRatio : Math.min(xRatio, yRatio);
   state.ratio = ratio;
   state.origin = xRatio > yRatio ? "center" : "top";
 };
@@ -55,7 +58,7 @@ onUnmounted(() => {
   width: 98vw;
   transform: translate(-50%, -50%);
 }
-@media screen and (max-width: 1650px) {
+@media (min-width: 950px) and (max-width: 1650px) {
   .scale {
     transform: scale(1) !important;
   }

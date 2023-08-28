@@ -876,6 +876,7 @@
       .nft_series_list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.625rem;
         & > div {
           margin-bottom: 0.5rem;
         }
@@ -883,6 +884,8 @@
           width: auto;
           height: auto;
           box-sizing: border-box;
+          margin-left: 0 !important;
+          margin-bottom: 0 !important;
           .series_probability {
             flex-wrap: wrap;
           }
@@ -934,7 +937,7 @@
     }
     .contents-info {
       width: 100%;
-      margin-top: 0.625rem;
+      margin-top: 1.5rem;
       .home-public-title {
         flex-wrap: wrap;
         margin-bottom: 1.5rem;

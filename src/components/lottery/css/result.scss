@@ -475,3 +475,38 @@
     }
   }
 }
+@media (max-width: 950px) {
+  .result-main {
+    gap: 0.25rem;
+    .result-list {
+      &.result-more-list {
+        width: 31.3%;
+        min-height: auto !important;
+        .result-sub-list {
+          padding: 0.5rem;
+          zoom: 0.6;
+        }
+        .result-club {
+          margin-top: 0.25rem;
+        }
+        .result-sell-get {
+          margin: 0.25rem 0;
+          font-size: 0.625rem;
+        }
+      }
+    }
+  }
+  .onlyTen {
+    .result-list {
+      &.result-more-list {
+        width: 22.5%;
+      }
+    }
+  }
+  .result-footer-button {
+    height: 1.5rem;
+  }
+  .result-footer {
+    margin-top: 1.25rem;
+  }
+}

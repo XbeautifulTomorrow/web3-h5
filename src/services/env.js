@@ -3,8 +3,7 @@ const config = {
     api: "/",
   },
   test: {
-    // api: 'http://221.236.31.34:6599/',
-    api: "https://asd987sdf.e-vo.io:23080/",
+    api: "http://221.236.31.34:6599/",
   },
   pro: {
     api: "/",

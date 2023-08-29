@@ -68,6 +68,8 @@
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
     <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
+    <createVerification v-if="pageType === 'auth'" @closeDialogFun="changeNameFun">
+    </createVerification>
   </div>
 </template>
 
@@ -85,6 +87,7 @@ import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
+import createVerification from "@/views/user/createVerification.vue";
 import { accurateDecimal, openUrl } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
@@ -95,7 +98,8 @@ export default {
     Register,
     Forgot,
     Modify,
-    Recharge
+    Recharge,
+    createVerification
   },
   inject: ["reload"],
   data() {
@@ -217,6 +221,9 @@ export default {
       } else if (this.regInfo) {
         console.log(this.regInfo);
       }
+    },
+    changeNameFun() {
+      this.pageType = "modify";
     },
     changeTypeFun(page) {
       this.pageType = page;

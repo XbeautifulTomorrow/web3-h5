@@ -9,7 +9,7 @@
 
 .user_panel {
   margin: 0 auto;
-  width: 25rem;
+  min-width: 25rem;
   box-sizing: border-box;
   padding: 1.875rem 0;
   background-repeat: no-repeat;
@@ -35,7 +35,7 @@
 }
 
 .username_box {
-  margin: 1.875rem 0 3.75rem;
+  margin: 1.875rem 0 1.25rem;
 
   .name_text {
     display: flex;
@@ -63,7 +63,9 @@
 }
 
 .username_modify {
-  margin-bottom: 3.4375rem;
+  margin: 0 auto;
+  width: 25rem;
+  margin-bottom: 1.25rem;
 
   .modify_btn {
     height: 3.75rem;
@@ -77,6 +79,9 @@
 }
 
 .communication_setting {
+  margin: 0 auto;
+  width: 25rem;
+
   .setting_text {
     font-family: Tomorrow;
     font-size: 1.5rem;
@@ -88,8 +93,7 @@
   .email_setting {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding-top: 1.25rem;
+    padding-top: 0.625rem;
 
     font-size: 0.875rem;
     line-height: 1.6;
@@ -98,6 +102,7 @@
 
     &>span {
       padding-left: 1.25rem;
+      white-space: nowrap;
     }
 
     :deep(.el-switch) {
@@ -130,6 +135,129 @@
   }
 }
 
+.safety_verification {
+  padding: 1.25rem 0 0;
+}
+
+.title_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.625rem;
+
+  .title_text {
+    font-family: Tomorrow;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .switch_btn {
+    padding-left: 0.625rem;
+    display: flex;
+    align-items: center;
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-align: center;
+    color: #a9a4b4;
+
+    &.turn_on {
+      color: #0cbb3e;
+    }
+
+    img {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 0.25rem;
+    }
+  }
+}
+
+.recommended_info {
+  margin: 0 auto;
+  width: 28rem;
+  font-family: Inter;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #a9a4b4;
+}
+
+.verification_operating {
+  margin: 0 auto;
+  width: 25rem;
+  padding-top: 1.25rem;
+
+  &.close {
+    width: 30.625rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.625rem;
+    border-radius: 0.5rem;
+    background-color: #13151f;
+  }
+}
+
+.verification_close {
+  width: 100%;
+
+  .close_title {
+    opacity: 0.9;
+    font-family: Inter;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    color: white;
+    padding-bottom: 0.75rem;
+  }
+
+  :deep(.verification_input) {
+    margin-bottom: 0.75rem;
+
+    .el-input__wrapper {
+      width: 100%;
+      height: 3rem;
+      border-radius: 0.5rem;
+      border: solid 1px #363945;
+      background-color: #13151f;
+      box-shadow: none !important;
+      outline: none !important;
+
+      &>input {
+        color: white;
+      }
+    }
+  }
+
+  .error_box {
+    padding-bottom: 1.25rem;
+    opacity: 0.9;
+    font-family: Inter;
+    font-size: 1rem;
+    text-align: left;
+    color: #df4328;
+  }
+}
+
+.create_verification_btn {
+  width: 100%;
+  height: 3.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-image: linear-gradient(to top, #e3a406, #fbd851);
+
+  font-family: Inter;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #13151f;
+  cursor: pointer;
+}
+
 .other_box {
   width: 22rem;
   padding-top: 3.125rem;
@@ -137,6 +265,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  &.close {
+    padding-top: 1.25rem;
+  }
 
   .exit_btn {
     width: 100%;

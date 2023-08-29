@@ -21,7 +21,8 @@
     "refresh": "Refresh",
     "verifyEnter": "Enter CAPTCHA",
     "captcha": "CAPTCHA",
-    "submitLower": "Submit"
+    "submitLower": "Submit",
+    "skip": "SKIP"
   },
   "header": {
     "home": "Home",
@@ -94,7 +95,8 @@
     "sendAgain": "Send again",
     "sendAgainErr": "Verification code error, please re-enter.",
     "ok": "OK",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
+    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
+    "resetAuth": "Reset secondary verification"
   },
   "home": {
     "bannerText1": "Raffle Box &",
@@ -374,7 +376,20 @@
     "confirmPass": "Confirm password",
     "resetPass": "Reset password",
     "priceError": "The total value must be more than 0.",
-    "onSale": "ON SALE"
+    "onSale": "ON SALE",
+    "authTitle": "TWO-FACTOR AUTHENTICATION",
+    "authStatus1": "ENABLED",
+    "authStatus2": "DISABLE",
+    "authRecommended": "Using two-factor authentication is highly recommended because it protects your account with both your password and your phone.",
+    "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
+    "codeRequired": "2FA Code is required",
+    "confirmBtn": "ENABLE 2FA",
+    "bindTitle": "Set up google authenticator",
+    "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
+    "bindText2": "2. Save the following Account Token (Key) in a secure place",
+    "bindText3": "3. Scan QR Code with the Google Authenticator app",
+    "inputTitle": "2FA CODE",
+    "bindSuccess": "Bind successfully!"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -591,7 +606,8 @@
     "not_less_than_fee": "The withdrawal amount cannot be less than the handling fee.",
     "nft_not_supported": "NFT not supported.",
     "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
-    "this_nft_withdrawal": "This NFT is being withdrawn."
+    "this_nft_withdrawal": "This NFT is being withdrawn.",
+    "test_account_cannot_withdrawal": "Test account cannot withdrawal"
   },
   "lottery": {
     "notice": "NOTICE",

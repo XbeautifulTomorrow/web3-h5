@@ -23,7 +23,40 @@
             <span>{{ $t("user.sendSetting") }}</span>
           </div>
         </div>
-        <div class="other_box">
+        <div class="safety_verification">
+          <div class="verification_title">
+            <div class="title_box">
+              <div class="title_text">{{ $t("user.authTitle") }}</div>
+              <div :class="['switch_btn', googleValidate && 'turn_on']">
+                <span>{{ googleValidate ? $t("user.authStatus1") : $t("user.authStatus2") }}</span>
+                <img v-if="!googleValidate" src="@/assets/svg/user/icon_shield.svg" alt="">
+                <img v-else src="@/assets/svg/user/icon_shield_check.svg" alt="">
+              </div>
+            </div>
+            <div class="recommended_info" v-if="!googleValidate">
+              {{ $t("user.authRecommended") }}
+            </div>
+          </div>
+          <div :class="['verification_operating', googleValidate && 'close']">
+            <div class="verification_close" v-if="googleValidate">
+              <div class="close_title">
+                {{ $t("user.unAuthTitle") }}
+              </div>
+              <el-input class="verification_input" v-model="googleCode" @blur="onVerify('auth')" placeholder="Code"
+                type="number"></el-input>
+              <div class="error_box">
+                {{ walletAddrTips }}
+              </div>
+            </div>
+            <div class="create_verification_btn" v-if="googleValidate" @click="closeAuth()">
+              {{ $t("user.confirmBtn") }}
+            </div>
+            <div class="create_verification_btn" v-else @click="pageType = 'auth'">
+              {{ $t("user.confirmBtn") }}
+            </div>
+          </div>
+        </div>
+        <div :class="['other_box', googleValidate && 'close']">
           <div class="exit_btn" @click="onLogout()">
             <span class="exit_text">{{ $t("user.logout") }}</span>
             <img src="@/assets/svg/user/log_out.svg" alt="">
@@ -33,6 +66,8 @@
     </div>
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <createVerification v-if="pageType === 'auth'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun">
+    </createVerification>
   </div>
 </template>    
 <script>
@@ -40,12 +75,16 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import Forgot from "../forgot/changePass.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
-import { updateUserInfo } from "@/services/api/user";
+import createVerification from "./createVerification.vue";
+import { updateUserInfo, getGoogleValidateStatus } from "@/services/api/user";
+import { i18n } from '@/locales';
+const { t } = i18n.global;
 export default {
   name: 'myWallet',
   components: {
     Forgot,
-    Modify
+    Modify,
+    createVerification
   },
   inject: ["reload"],
   data() {
@@ -53,10 +92,13 @@ export default {
       avatarImg: require("@/assets/svg/user/default_avatar.svg"),
       username: null,
       communication: false,
-      pageType: null
+      pageType: null,
+      googleCode: null,
+      googleValidate: false,
+      walletAddrTips: null,
+      verifys: false,
     };
   },
-
   computed: {
     ...mapStores(useUserStore),
     userInfo() {
@@ -72,6 +114,7 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       const { emailSubStatus } = this.userInfo;
       this.communication = emailSubStatus == "TRUE";
+      this.fetchGoogleValidateStatus();
     }
   },
   watch: {
@@ -82,6 +125,9 @@ export default {
   },
   methods: {
     closeDialogFun() {
+      if (this.pageType == "auth") {
+        this.fetchGoogleValidateStatus();
+      }
       this.pageType = "";
     },
     changeTypeFun(page) {
@@ -92,13 +138,48 @@ export default {
       let res = await updateUserInfo({
         "emailSubStatus": status
       });
-      if (res) {
+      if (res && res == 200) {
         const { userInfo } = this.userStore;
         const users = {
           ...userInfo,
           emailSubStatus: status
         }
         this.userStore.setLogin(users);
+      }
+    },
+    async fetchGoogleValidateStatus() {
+      const res = await getGoogleValidateStatus({
+        email: this.userInfo.email
+      })
+      if (res && res.code == 200) {
+        this.googleValidate = res.data == "TRUE"
+      }
+    },
+    async closeAuth() {
+      this.onVerify("submit");
+      if (!this.verifys) return;
+
+      let res = await updateUserInfo({
+        "googleValidateStatus": "FALSE",
+        code: this.googleCode
+      });
+      if (res && res.code == 200) {
+        this.$message.success(t("common.operationTips"));
+        this.fetchGoogleValidateStatus();
+      }
+    },
+    // 验证
+    onVerify(type) {
+      const { googleCode } = this;
+      if (type == "submit" || type == "auth") {
+        if (!googleCode) {
+          this.walletAddrTips = t("user.codeRequired");
+          this.verifys = false;
+          return;
+        }
+
+        this.walletAddrTips = "";
+        this.verifys = true;
       }
     },
     onLogout() {

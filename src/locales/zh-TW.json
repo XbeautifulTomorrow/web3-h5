@@ -21,7 +21,8 @@
     "refresh": "換一個",
     "verifyEnter": "請輸入圖形驗證碼",
     "captcha": "驗證碼",
-    "submitLower": "提交"
+    "submitLower": "提交",
+    "skip": "跳過"
   },
   "header": {
     "home": "首頁",
@@ -94,7 +95,8 @@
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
     "ok": "好",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
+    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
+    "resetAuth": "重置二級驗證"
   },
   "home": {
     "bannerText1": "邀請用户加入",
@@ -374,7 +376,20 @@
     "confirmPass": "確認密碼",
     "resetPass": "重置密碼",
     "priceError": "總价值必須大於0",
-    "onSale": "售賣中"
+    "onSale": "售賣中",
+    "authTitle": "TWO-FACTOR AUTHENTICATION",
+    "authStatus1": "ENABLED",
+    "authStatus2": "DISABLE",
+    "authRecommended": "Using two-factor authentication is highly recommended because it protects your account with both your password and your phone.",
+    "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
+    "codeRequired": "2FA Code is required",
+    "confirmBtn": "ENABLE 2FA",
+    "bindTitle": "Set up google authenticator",
+    "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
+    "bindText2": "2. Save the following Account Token (Key) in a secure place",
+    "bindText3": "3. Scan QR Code with the Google Authenticator app",
+    "inputTitle": "2FA CODE",
+    "bindSuccess":"Bind successfully!"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",
@@ -591,7 +606,8 @@
     "not_less_than_fee": "提幣金額不能低於手續費",
     "nft_not_supported": "不支持的NFT",
     "unable_nft_on_sale": "無法提取正在競賽中的NFT",
-    "this_nft_withdrawal": "該NFT正在提取中"
+    "this_nft_withdrawal": "該NFT正在提取中",
+    "test_account_cannot_withdrawal":"测试账户无法提现"
   },
   "lottery": {
     "notice": "提示",

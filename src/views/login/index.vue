@@ -9,15 +9,20 @@
         </el-icon>
       </div>
     </template>
-    <div class="public-dialog-content form-content" v-if="!isLogin">
+    <div class="public-dialog-content form-content">
       <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
         <el-form-item :label="$t('login.email')" prop="account">
-          <el-input class="public-input" v-model="formLogin.account" :placeholder="$t('login.emailHint')" />
+          <el-input class="public-input" v-model="formLogin.account" @blur="fetchGoogleAuth"
+            :placeholder="$t('login.emailHint')" />
         </el-form-item>
         <el-form-item :label="$t('login.password')" prop="passWord">
           <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')"
+            type="password" />
+        </el-form-item>
+        <el-form-item :label="$t('user.inputTitle')" prop="validatCode" v-if="isAuth">
+          <el-input class="public-input" v-model="formLogin.validatCode" :placeholder="$t('login.captchaHint')"
             type="password" />
         </el-form-item>
       </el-form>
@@ -26,7 +31,7 @@
           <span class="form-rember-rectangle" @click="showRememberFun">
             <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
           </span>
-          <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
+          <span class="form-rember-text">{{ $t("login.resetAuth") }}</span>
         </div>
         <div class="form-forgot" @click="goTo('forgot')">{{ $t("login.goForgot") }}</div>
       </div>
@@ -40,22 +45,14 @@
         </span>
       </p>
     </div>
-    <div class="public-dialog-content form-content" v-else>
-      <p class="public-dialog-title">{{ $t("lottery.notice") }}</p>
-      <p class="public-dialog-description"
-        v-html="$t('login.loginTips', { network: '<span style=\'color: white;\'>GOERLI NETWORK</span>' })"></p>
-      <el-button class="public-button form-button" @click="closeDialogFun()">
-        {{ $t("airdrop.confirm") }}
-      </el-button>
-    </div>
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive, onBeforeMount, defineEmits } from "vue";
+import { ref, reactive, onBeforeMount, onMounted, defineEmits } from "vue";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
-import { getLogin } from "@/services/api/user";
+import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -65,10 +62,11 @@ const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const visible = ref(true);
 const rememberMe = ref(false);
 const ruleFormRef = ref();
-const isLogin = ref(false);
+const isAuth = ref(false);
 let formLogin = reactive({
   account: "",
   passWord: "",
+  validatCode: ""
 });
 const rules = reactive({
   account: [
@@ -83,6 +81,13 @@ const rules = reactive({
     {
       required: true,
       message: t("login.passwordErr"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  validatCode: [
+    {
+      required: true,
+      message: t("user.codeRequired"),
       trigger: ["blur", "change"],
     },
   ],
@@ -108,6 +113,15 @@ const goTo = (page) => {
   emit("changeTypeFun", page);
 };
 
+const fetchGoogleAuth = async () => {
+  const res = await getGoogleValidateStatus({
+    email: formLogin.account
+  });
+  if (res && res.code == 200) {
+    isAuth.value = res.data == "TRUE"
+  }
+}
+
 const loginFun = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -132,14 +146,19 @@ const loginFun = async (formEl) => {
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
         headerStore.fetchTheUserPoint();
-        // closeDialogFun();
-        isLogin.value = true;
+        closeDialogFun();
       }
     } else {
       console.log("error submit!", fields);
     }
   });
 };
+
+onMounted(() => {
+  if (formLogin.account) {
+    fetchGoogleAuth();
+  }
+});
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";

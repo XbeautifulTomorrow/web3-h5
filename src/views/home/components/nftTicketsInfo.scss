@@ -766,6 +766,31 @@
   }
 }
 
+.chart-box {
+  min-height: 12.5rem;
+
+  .no_date {
+    min-height: 12.5rem;
+    margin: 0 1.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #191b27;
+
+    &>span {
+      margin: 0 auto;
+      display: block;
+      border-radius: 0.5rem;
+      font-family: BlenderPro;
+      font-size: 1.125rem;
+      font-weight: bold;
+      line-height: 1.2;
+      text-align: center;
+      color: #a9a4b4;
+    }
+  }
+}
+
 .traits_box {
   padding: 0 1.875rem 3.75rem;
 }

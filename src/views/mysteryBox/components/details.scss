@@ -757,7 +757,7 @@
 
 .close_dialog_btn {
   margin: 0 auto;
-  width: 1.875rem;
+  width: 19.875rem;
   height: 2.875rem;
   border-radius: 3.75rem;
   background-image: linear-gradient(to top, #e3a406, #fbd851);
@@ -787,15 +787,20 @@
 @media (max-width: 950px) {
   .details_wrapper {
     padding: 0 1rem;
+    background-image: none;
     .lottery_panel {
       width: 100%;
     }
     .title_text {
       font-size: 1.125rem;
     }
+    .home-public-title {
+      margin-top: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
     .title_description {
       font-size: 0.625rem;
-      padding-top: 0.625rem;
+      padding-top: 0.25rem;
     }
     .lottery_boxs {
       width: 100%;

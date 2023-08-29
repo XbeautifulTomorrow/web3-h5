@@ -8,7 +8,7 @@
           </div>
         </div>
         <el-table :data="snapshotData" class="table_container" style="width: 100%">
-          <el-table-column prop="snapshot_id" :label="$t('mysteryBox.snapshotId')" align="left" show-overflow-tooltip>
+          <el-table-column prop="snapshot_id" min-width="85" :label="$t('mysteryBox.snapshotId')" align="left">
             <template #header>
               <el-input v-model="rewardId" @keyup.enter="fetchSnapshotDetail()" class="search_input"
                 :placeholder="$t('mysteryBox.searchRewardId')">
@@ -20,7 +20,7 @@
               </el-input>
             </template>
             <template #default="scope">
-              <div class="user_info text-ellipsis">
+              <div class="user_info">
                 <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
                 <div class="nft_name">{{ scope.row.nftName }}</div>
               </div>

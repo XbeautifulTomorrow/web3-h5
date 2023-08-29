@@ -62,11 +62,15 @@
       </el-button>
     </div>
     <div class="public-dialog-content form-content" v-else>
-      <p class="public-dialog-title">{{ $t("lottery.notice") }}</p>
-      <p class="public-dialog-description"
-        v-html="$t('login.loginTips', { network: '<span style=\'color: white;\'>GOERLI NETWORK</span>' })"></p>
+      <p class="public-dialog-title">{{ $t("user.authTitle") }}</p>
+      <p class="public-dialog-description">
+        Using two-factor authentication is highly recommended because it protects your account with both your password and
+        your phone.</p>
       <el-button class="public-button form-button" @click="emit('changeTypeFun', 'modify')">
-        {{ $t("airdrop.confirm") }}
+        {{ $t("common.skip") }}
+      </el-button>
+      <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
+        {{ $t("user.confirmBtn") }}
       </el-button>
     </div>
     <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>

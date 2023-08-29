@@ -9,6 +9,14 @@
       <el-input v-model="formForgot.confirm" placeholder="Confirm password" class="public-input" type="password"
         show-password />
     </el-form-item>
+    <div class="form-link">
+      <div class="form-rember">
+        <span class="form-rember-rectangle" @click="showRememberFun">
+          <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
+        </span>
+        <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
+      </div>
+    </div>
     <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
       Reset password
     </el-button>
@@ -27,12 +35,17 @@ const props = defineProps({
     requird: true,
   },
 });
+const rememberMe = ref(false);
 const ruleFormRef = ref();
 const isSure = ref(false);
 const formForgot = reactive({
   password: "",
   confirm: "",
 });
+
+const showRememberFun = () => {
+  rememberMe.value = !rememberMe.value;
+};
 
 const validatePass = (rule, value, callback) => {
   const upperStr = /^(?=.*[A-Z]).{8,}$/
@@ -82,6 +95,7 @@ const forgotFun = async (formEl) => {
         email: props.formLogin.email,
         passWord: password,
         captcha: props.formLogin.captcha,
+        resetGoogleCheck: rememberMe.value ? "TRUE" : "FALSE"
       };
       const res = await getForgetPasswordtcha(formLogin);
       if (res && res.code === 200) {
@@ -96,6 +110,33 @@ const forgotFun = async (formEl) => {
 <style lang="scss" scoped>
 .public-form {
   margin-top: 1.875rem;
+}
+
+.form-rember-rectangle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  border-radius: 0.1875rem;
+  border: solid 1px #a9a4b4;
+  cursor: pointer;
+}
+
+.form-rember-rectangle-fill {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.125rem;
+  background-color: #fad54d;
+}
+
+.form-rember-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  color: #a9a4b4;
 }
 
 .form-button {

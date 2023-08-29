@@ -17,6 +17,7 @@ const notMessage = [
   "mystery-web-user/auth/check/captcha",
   "mystery-web-user/auth/getIp",
   "mystery-web-user/auth/getCode",
+  "mystery-web-user/auth/genQrCode",
   "mystery-web-user/oneNftOrders/getWalletNftEth",
 ];
 axiosInstance.interceptors.request.use(
@@ -30,6 +31,10 @@ axiosInstance.interceptors.request.use(
     }
 
     if (config.url.indexOf("mystery-web-user/auth/getCode") > -1) {
+      config.responseType = "blob";
+    }
+
+    if (config.url.indexOf("mystery-web-user/auth/genQrCode") > -1) {
       config.responseType = "blob";
     }
     return config;

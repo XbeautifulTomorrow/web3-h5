@@ -163,7 +163,7 @@ export default {
         "googleValidateStatus": "FALSE",
         code: this.googleCode
       });
-      if (res && res == 200) {
+      if (res && res.code == 200) {
         this.$message.success(t("common.operationTips"));
         this.fetchGoogleValidateStatus();
       }

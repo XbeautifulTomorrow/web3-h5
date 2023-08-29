@@ -21,8 +21,8 @@
           <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')"
             type="password" />
         </el-form-item>
-        <el-form-item :label="$t('user.inputTitle')" prop="code" v-if="isAuth">
-          <el-input class="public-input" v-model="formLogin.code" :placeholder="$t('login.captchaHint')"
+        <el-form-item :label="$t('user.inputTitle')" prop="validatCode" v-if="isAuth">
+          <el-input class="public-input" v-model="formLogin.validatCode" :placeholder="$t('login.captchaHint')"
             type="password" />
         </el-form-item>
       </el-form>
@@ -66,7 +66,7 @@ const isAuth = ref(false);
 let formLogin = reactive({
   account: "",
   passWord: "",
-  code: ""
+  validatCode: ""
 });
 const rules = reactive({
   account: [
@@ -84,7 +84,7 @@ const rules = reactive({
       trigger: ["blur", "change"],
     },
   ],
-  code: [
+  validatCode: [
     {
       required: true,
       message: t("user.codeRequired"),

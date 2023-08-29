@@ -41,7 +41,7 @@
     margin: 0 0.625rem;
     margin-top: 1.25rem;
     .result-link {
-      padding: 0.625rem;
+      padding: 0.25rem;
       border-radius: 0.5rem;
     }
     .result-link-img {

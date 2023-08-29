@@ -8,7 +8,7 @@
     :append-to-body="true"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }]"
+    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }, { 'roll-lottery-dialog': !showResult }]"
   >
     <!-- 单个中奖 -->
     <keep-alive v-if="rollNumber === 'ONE'">
@@ -520,6 +520,9 @@ export default {
   .roll-dialog {
     margin-top: 6rem;
     height: calc(100% - 6rem);
+  }
+  .roll-lottery-dialog {
+    background-image: none !important;
   }
 }
 </style>

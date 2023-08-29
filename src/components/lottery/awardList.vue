@@ -10,7 +10,6 @@
     arrow="never"
     direction="vertical"
     ref="carousel"
-    @change="changeFun"
     :style="{ height: `${height * 3}px` }"
   >
     <el-carousel-item
@@ -77,7 +76,6 @@ export default {
   },
   data() {
     return {
-      index: 0,
       poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(JSON.parse(JSON.stringify(this.prizePoolList))),
       autoPlay: this.autoplay,
       linearTime: null,
@@ -92,14 +90,7 @@ export default {
     this.stopTime = stopTime + "s";
     this.$emit("delayTime", stopTime);
   },
-  methods: {
-    changeFun(index) {
-      this.index = index;
-    },
-    winFun(data) {
-      this.poolList.splice(this.index, 1, data);
-    },
-  },
+  methods: {},
   watch: {
     winData: function (newData) {
       if (newData) {

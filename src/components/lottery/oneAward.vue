@@ -372,7 +372,7 @@ export default {
     }
     .list_mask {
       height: 11.5rem;
-      background: url("@/assets/img/h5/list_mask.png") no-repeat;
+      background: url("@/assets/img/h5/lottery/list_mask.png") no-repeat;
       background-size: contain;
     }
     .public-color-one {

@@ -3,7 +3,7 @@ const config = {
     api: "/",
   },
   test: {
-    api: "http://221.236.31.34:6599/",
+    api: "http://221.236.31.34:16082/",
   },
   pro: {
     api: "/",

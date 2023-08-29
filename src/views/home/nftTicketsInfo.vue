@@ -280,11 +280,14 @@
               </div>
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
-                <div class="price_val">{{ historyPrice }} ETH</div>
+                <div class="price_val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </div>
               </div>
             </div>
             <div class="chart-box">
-              <line-chart ref="lienChart" :chart-data="lineChartData" />
+              <line-chart v-if="chartData.length > 0" ref="lienChart" :chart-data="lineChartData" />
+              <div class="no_date" v-else>
+                <span>No data</span>
+              </div>
             </div>
           </div>
           <div class="description_box">

@@ -1,6 +1,7 @@
 import bigNumber from "bignumber.js";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
+import CryptoJS from 'crypto-js'
 
 export function openUrl(url) {
   if (typeof window !== "object") return;
@@ -447,4 +448,101 @@ export const isEthTransactionHashValid = (hash) => {
 
   // 使用正则表达式进行验证
   return ethTxHashRegex.test(hash);
+}
+
+/**
+ * @description: ECB模式 加密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const encryptECB = (word, keyStr) => {
+  keyStr = keyStr || 'JokerJokerXtreme' // 密文（密钥）
+  var key = CryptoJS.enc.Utf8.parse(keyStr)
+  var srcs = CryptoJS.enc.Utf8.parse(word)
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
+  return encrypted.toString()
+}
+
+/**
+ * @description: ECB模式 解密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const decryptECB = (word, keyStr) => {
+  keyStr = keyStr || 'JokerJokerXtreme'  // 密文（密钥）
+  var key = CryptoJS.enc.Utf8.parse(keyStr)// Latin1 w8m31+Yy/Nw6thPsMpO5fg==
+  var decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
+  return CryptoJS.enc.Utf8.stringify(decrypt).toString()
+}
+
+/**
+ * @description: CBC模式 加密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const encryptCBC = (word, keyStr) => {
+
+
+  keyStr = keyStr || "JokerJokerXtreme"; // 密钥
+
+  let ivStr = "JokerLoseCyclone"; // 偏移量
+
+  try {
+    let key = CryptoJS.enc.Utf8.parse(keyStr);
+
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+
+    let srcs = CryptoJS.enc.Utf8.parse(word);
+
+    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+
+      iv: iv,
+
+      mode: CryptoJS.mode.CBC,
+
+      padding: CryptoJS.pad.Pkcs7
+
+    });
+
+    return encrypted.toString();
+  }
+  catch {
+    return word;
+  }
+}
+
+/**
+ * @description:CBC模式 解密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const decryptCBC = (word, keyStr) => {
+  keyStr = keyStr || "JokerJokerXtreme"; // 密钥
+
+  let ivStr = "JokerLoseCyclone";
+
+  try {
+    let base64 = CryptoJS.enc.Utf8.parse(word)
+
+    var key = CryptoJS.enc.Utf8.parse(keyStr);
+
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+
+    let src = CryptoJS.enc.Utf8.stringify(base64)
+
+    var decrypt = CryptoJS.AES.decrypt(src, key, {
+
+      iv,
+
+      mode: CryptoJS.mode.CBC,
+
+      padding: CryptoJS.pad.Pkcs7
+
+    });
+
+    return decrypt.toString(CryptoJS.enc.Utf8);
+  }
+  catch {
+    return word;
+  }
 }

@@ -86,7 +86,7 @@ import errorTips from "./errorTips.vue";
 import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
-import { getSessionStore, setSessionStore, openUrl, encodeStr } from "@/utils";
+import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -268,7 +268,7 @@ const registerFun = async (formEl) => {
       const res = await getReg(data);
       if (res && res.code === 200) {
         if (res.data.certificate) {
-          localStorage.setItem("certificate", encodeStr(res.data.certificate));
+          localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
 
         userStore.setLogin(res.data);

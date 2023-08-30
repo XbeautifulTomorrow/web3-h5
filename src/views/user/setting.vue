@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="create_verification_btn" v-if="googleValidate" @click="closeAuth()">
-              {{ $t("user.confirmBtn") }}
+              {{ $t("user.close2FABtn") }}
             </div>
             <div class="create_verification_btn" v-else @click="pageType = 'auth'">
               {{ $t("user.confirmBtn") }}

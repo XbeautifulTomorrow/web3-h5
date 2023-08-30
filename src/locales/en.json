@@ -384,6 +384,7 @@
     "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
     "codeRequired": "2FA Code is required",
     "confirmBtn": "ENABLE 2FA",
+    "close2FABtn": "DISABLE 2FA",
     "bindTitle": "Set up google authenticator",
     "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
     "bindText2": "2. Save the following Account Token (Key) in a secure place",
@@ -607,7 +608,8 @@
     "nft_not_supported": "NFT not supported.",
     "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
     "this_nft_withdrawal": "This NFT is being withdrawn.",
-    "test_account_cannot_withdrawal": "Test account cannot withdrawal"
+    "test_account_cannot_withdrawal": "Test account cannot withdrawal",
+    "twofa_code_is_invalid": "2FA Code is invalid"
   },
   "lottery": {
     "notice": "NOTICE",

@@ -207,6 +207,7 @@ export default {
 
       &>input {
         color: white;
+        font-size: 1.25rem;
       }
     }
   }

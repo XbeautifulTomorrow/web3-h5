@@ -112,6 +112,11 @@ const forgotFun = async (formEl) => {
   margin-top: 1.875rem;
 }
 
+.form-rember {
+  display: flex;
+  align-items: center;
+}
+
 .form-rember-rectangle {
   display: flex;
   align-items: center;

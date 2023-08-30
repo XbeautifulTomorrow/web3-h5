@@ -96,7 +96,7 @@
     "sendAgainErr": "Verification code error, please re-enter.",
     "ok": "OK",
     "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
-    "resetAuth": "Reset secondary verification"
+    "resetAuth": "Disable two-factor authentication"
   },
   "home": {
     "bannerText1": "Raffle Box &",

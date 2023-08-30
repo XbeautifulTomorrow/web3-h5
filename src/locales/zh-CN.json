@@ -95,8 +95,8 @@
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
     "ok": "好",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
-    "resetAuth": "重置二級驗證"
+    "loginTips": "本次測試涉及的所有資產均完全基於{network}，請不要使用任何ERC20或TRC20資產參與測試。所有未提現的資產將在測試結束後清零。",
+    "resetAuth": "禁用二級身份驗證"
   },
   "home": {
     "bannerText1": "邀請用户加入",

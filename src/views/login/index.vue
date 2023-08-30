@@ -31,7 +31,7 @@
           <span class="form-rember-rectangle" @click="showRememberFun">
             <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
           </span>
-          <span class="form-rember-text">{{ $t("login.resetAuth") }}</span>
+          <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
         </div>
         <div class="form-forgot" @click="goTo('forgot')">{{ $t("login.goForgot") }}</div>
       </div>

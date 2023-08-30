@@ -14,7 +14,7 @@
         <span class="form-rember-rectangle" @click="showRememberFun">
           <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
         </span>
-        <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
+        <span class="form-rember-text">{{ $t("login.resetAuth") }}</span>
       </div>
     </div>
     <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">

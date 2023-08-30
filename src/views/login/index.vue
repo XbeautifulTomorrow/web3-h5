@@ -53,6 +53,7 @@ import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
 import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
+import { encodeStr } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -134,7 +135,7 @@ const loginFun = async (formEl) => {
           localStorage.removeItem("loginInfo");
         }
         if (res.data.certificate) {
-          localStorage.setItem("certificate", res.data.certificate);
+          localStorage.setItem("certificate", encodeStr(res.data.certificate));
         }
         if (res.data.userType !== "NORMAL") {
           ElMessage({

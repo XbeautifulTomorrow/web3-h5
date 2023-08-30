@@ -3,6 +3,7 @@ import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
 import config from "./env";
 import { i18n } from "@/locales";
+import { decodeStr } from "@/utils";
 const { t } = i18n.global;
 // import qs from 'qs'
 
@@ -23,7 +24,7 @@ const notMessage = [
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
-      config.headers.certificate = localStorage.getItem("certificate");
+      config.headers.certificate = decodeStr(localStorage.getItem("certificate"));
     }
 
     if (sessionStorage.getItem("verify")) {

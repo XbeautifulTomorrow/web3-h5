@@ -18,7 +18,7 @@
           <div class="virtual-currency-item-l">
             <Image fit="cover" class="virtual-currency-item-img" :src="item.nftImg" />
             <div class="virtual-currency-item-text">
-              <p class="list-nam">{{ item.seriesName }}</p>
+              <p class="list-nam text-ellipsis">{{ item.seriesName }}</p>
               <p class="list-currency">
                 {{ accurateDecimal(item.price || 0, 4) }}&nbsp;{{
                   item.coin
@@ -40,7 +40,7 @@
             <Image fit="cover" class="virtual-currency-item-img" :src="currencyList[activeIndex] && currencyList[activeIndex].nftImg
               " />
             <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
-              <p class="list-nam">{{ currencyList[activeIndex].seriesName }}</p>
+              <p class="list-nam text-ellipsis">{{ currencyList[activeIndex].seriesName }}</p>
               <p class="list-currency">
                 {{
                   currencyList[activeIndex].price
@@ -57,16 +57,22 @@
         <li class="popup-list" :style="{ visibility: !currencyList[activeIndex].tokenId ? 'hidden' : 'inherit' }">
           <span class="popup-list-title text-ellipsis">NFT ID</span>
           <span class="popup-list-text text-ellipsis">
-            {{ currencyList[activeIndex] && currencyList[activeIndex].nftId }}
+            <span v-if="currencyList[activeIndex].tokenId">
+              {{ currencyList[activeIndex] && currencyList[activeIndex].nftId }}
+            </span>
+            <span v-else>--</span>
           </span>
         </li>
         <li class="popup-list">
           <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.contract") }}</span>
           <span class="popup-list-text text-ellipsis">
-            {{
-              currencyList[activeIndex] &&
-              currencyList[activeIndex].contractAddress
-            }}
+            <span v-if="currencyList[activeIndex].tokenId">
+              {{
+                currencyList[activeIndex] &&
+                currencyList[activeIndex].contractAddress
+              }}
+            </span>
+            <span v-else>--</span>
           </span>
         </li>
         <li class="popup-list">

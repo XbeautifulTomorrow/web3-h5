@@ -1381,8 +1381,8 @@
     background-color: #ffff;
 
     .nft_img {
-      width: 100%;
-      height: 100%;
+      width: 100% !important;
+      height: auto !important;
     }
   }
 

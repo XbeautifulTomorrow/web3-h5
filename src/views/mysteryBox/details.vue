@@ -34,7 +34,7 @@
               </div>
               <div class="lottery_btn">
                 <img src="@/assets/svg/box/icon_eth.svg" alt="" />
-                <span>{{ blindDetailInfo && blindDetailInfo.price }}</span>
+                <span>{{ blindDetailInfo && formatNumber(blindDetailInfo.price) }}</span>
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -48,7 +48,7 @@
               </div>
               <div class="lottery_btn">
                 <img src="@/assets/svg/box/icon_eth.svg" alt="" />
-                <span>{{ blindDetailInfo && new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5) }}</span>
+                <span>{{ blindDetailInfo && formatNumber(new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)) }}</span>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="lottery_btn">
               <img src="@/assets/svg/box/icon_eth.svg" alt="" />
-              <span>{{ blindDetailInfo && new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10) }}</span>
+              <span>{{ blindDetailInfo && formatNumber(new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)) }}</span>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ const { t } = i18n.global;
 import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
-import { timeFormat, setSessionStore, accurateDecimal } from "@/utils";
+import { timeFormat, setSessionStore, accurateDecimal, formatNumber } from "@/utils";
 
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -263,6 +263,7 @@ export default {
   },
   methods: {
     timeFormat: timeFormat,
+    formatNumber: formatNumber,
     bigNumber: bigNumber,
     messageFun(message = t("mysteryBox.rechargeHint"), type = "warning") {
       ElMessage({

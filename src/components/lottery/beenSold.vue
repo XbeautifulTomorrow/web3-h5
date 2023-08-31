@@ -26,7 +26,7 @@
       ></p>
       <div class="public-dialog-total">
         <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-        <span class="public-dialog-total-number marg-r">{{ total }}</span>
+        <span class="public-dialog-total-number marg-r">{{ formatNumber(total) }}</span>
         <template v-if="soldList[0].point > 0">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_point.svg" alt="" />
           <span class="public-dialog-total-number">
@@ -38,7 +38,7 @@
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ blindPrice }}
+          {{ formatNumber(blindPrice) }}
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -50,7 +50,7 @@
 <script setup>
 import { ref, defineEmits, defineProps, onBeforeMount } from "vue";
 import { BigNumber } from "bignumber.js";
-
+import { formatNumber } from "@/utils";
 const props = defineProps({
   soldList: {
     type: Array,

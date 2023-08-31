@@ -32,7 +32,7 @@
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ blindPrice }}
+          {{ formatNumber(blindPrice) }}
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -44,7 +44,7 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 import ImageView from "../imageView";
-
+import { formatNumber } from "@/utils";
 defineProps({
   sold: {
     type: Object,

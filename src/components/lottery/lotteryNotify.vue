@@ -25,7 +25,7 @@
           </div>
           <div class="lottery-price" v-if="item.lotteryStatus == 'FAIL'">
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            {{ item.initPrice }}
+            {{ formatNumber(item.initPrice) }}
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
 </template>
 <script setup>
 import { ref, defineProps } from "vue";
-
+import { formatNumber } from "@/utils";
 defineProps({
   type: {
     type: String,
@@ -56,7 +56,7 @@ const isShowRes = ref(false);
     align-items: center;
     font-size: 0.75rem;
     color: #e4e7f5;
-    line-height: 1rem;
+    line-height: 1.5;
     img {
       width: 2.5rem;
       height: 2.5rem;
@@ -83,11 +83,12 @@ const isShowRes = ref(false);
       margin-left: 3.125rem;
       margin-top: 0.25rem;
       .lottery-item {
+        width: 4rem;
+        margin-right: 0.5rem;
         .lottery-img {
           position: relative;
           width: 4rem;
           height: 4rem;
-          margin-right: 0.5rem;
 
           img {
             width: 100%;
@@ -117,6 +118,7 @@ const isShowRes = ref(false);
           font-size: 0.75rem;
           margin-top: 0.25rem;
           color: #e4e7f5;
+          font-weight: bold;
           transform: scale(0.83);
           transform-origin: center;
           img {

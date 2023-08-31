@@ -110,7 +110,7 @@
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ blindPrice }}
+          {{ formatNumber(blindPrice) }}
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -123,6 +123,7 @@
 import { ref, defineEmits, defineProps, onBeforeMount, watchEffect, onUpdated } from "vue";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
+import { formatNumber } from "@/utils";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 

@@ -37,7 +37,7 @@
           </p>
           <p class="lottery-moreLuck-price">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            {{ winData.initPrice }}
+            {{ formatNumber(winData.initPrice) }}
           </p>
         </div>
       </div>
@@ -46,6 +46,7 @@
 </template>
 <script>
 import ImageView from "../imageView";
+import { formatNumber } from "@/utils";
 export default {
   name: "AwardsList",
   props: {
@@ -90,14 +91,18 @@ export default {
     this.stopTime = stopTime + "s";
     this.$emit("delayTime", stopTime);
   },
-  methods: {},
+  methods: {
+    formatNumber: formatNumber,
+  },
   watch: {
     winData: function (newData) {
       if (newData) {
         this.autoPlay = false;
         let index = parseInt(this.poolList.length * Math.abs(0.5));
+        const data = { ...newData };
+        data.price = data.initPrice;
         this.poolList[index] = [...this.poolList[index].map((x) => (x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x))];
-        this.poolList[index].splice(1, 1, newData);
+        this.poolList[index].splice(1, 1, data);
       }
     },
     autoplay: function (newData) {

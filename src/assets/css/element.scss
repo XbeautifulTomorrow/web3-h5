@@ -36,6 +36,9 @@
   padding: 0.625rem;
   padding-right: 2.5rem;
   z-index: 4000 !important;
+  .el-notification__content {
+    text-align: inherit;
+  }
   &.lottery-warning-notify {
     width: 32rem;
   }

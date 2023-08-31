@@ -21,7 +21,7 @@
         </div>
         <div class="award-price">
           <img class="award-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ item.initPrice }}
+          {{ formatNumber(item.initPrice) }}
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@
 <script>
 import ResultLink from "../resultLink";
 import ImageView from "../imageView";
+import { formatNumber } from "@/utils";
 export default {
   name: "AwardsList",
   props: {
@@ -59,7 +60,9 @@ export default {
   mounted() {
     this.$emit("delayTime", 6);
   },
-  methods: {},
+  methods: {
+    formatNumber: formatNumber,
+  },
   watch: {
     winData: function (newData) {
       if (newData?.length > 0) {

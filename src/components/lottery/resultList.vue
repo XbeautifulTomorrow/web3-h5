@@ -83,7 +83,7 @@
                     <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
                     <span class="result-sell-coin">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                      {{ item.nftType == "EXTERNAL" && second < 1 ? item.initPrice : item.price }}
+                      {{ item.nftType == "EXTERNAL" && second < 1 ? formatNumber(item.initPrice) : formatNumber(item.price) }}
                     </span>
                   </p>
                 </el-tooltip>
@@ -93,7 +93,7 @@
                       <span>{{ $t("lottery.take") }}</span>
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                       <span class="result-total">
-                        {{ item.price }}
+                        {{ formatNumber(item.price) }}
                       </span>
                     </p>
                   </el-button>
@@ -112,7 +112,7 @@
                         <span>{{ $t("lottery.sell_for") }}</span>
                         <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                         <span class="result-total">
-                          {{ item.price }}
+                          {{ formatNumber(item.price) }}
                         </span>
                       </p>
                     </el-button>
@@ -125,7 +125,7 @@
                   <p v-else class="result-sell-get">
                     {{ $t("lottery.get_eth") }}
                     <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                    {{ item.price }}
+                    {{ formatNumber(item.price) }}
                   </p>
                 </template>
               </div>
@@ -141,7 +141,7 @@
                 <span>{{ $t("lottery.sell_all_for") }}</span>
                 <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 <span class="result-total font5">
-                  {{ total }}
+                  {{ formatNumber(total) }}
                 </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
@@ -207,6 +207,7 @@ import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
 import { Howl } from "howler";
 import { flop, flopAfter } from "@/utils/audioResource";
+import { formatNumber } from "@/utils";
 import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
 
 const { t } = i18n.global;
@@ -513,7 +514,7 @@ const getTheUserBalanceApi = async () => {
 .result-one-footer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   height: 6.25rem;
   .sell {
     margin-bottom: 10px;

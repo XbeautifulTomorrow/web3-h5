@@ -32,6 +32,9 @@
             >
               <li :class="['public-dialog-list', item.qualityType]">
                 <image-view class="public-dialog-portrait" :src="item.nftImg" />
+                <span class="public-dialog-list-result waiting" v-if="item.nftType == 'EXTERNAL'">
+                  {{ $t("lottery.waiting") }}
+                </span>
               </li>
             </el-tooltip>
           </template>
@@ -199,6 +202,9 @@ const unboxAgainFunc = () => {
 watchEffect();
 </script>
 <style lang="scss" scoped>
+.public-dialog-list {
+  height: 7.375rem;
+}
 .public-dialog-list-text {
   margin-top: 0.3125rem;
 }

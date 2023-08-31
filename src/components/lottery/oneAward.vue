@@ -214,8 +214,10 @@ export default {
       const slowTranslateX = -this.subAwardsWidth * len;
       this.linearEndTranslateX = getCurrentTranslateX + "px";
       this.slowTranslateX = slowTranslateX + "px";
-      data.nftCompressImg = data.nftImg;
-      this.awardsList.splice(len + 2, 1, data);
+      const dataNew = { ...data };
+      dataNew.nftCompressImg = dataNew.nftImg;
+      dataNew.price = dataNew.initPrice;
+      this.awardsList.splice(len + 2, 1, dataNew);
       this.isActive = true;
       this.isAutoplay = false;
       this.stopAudioFunc();

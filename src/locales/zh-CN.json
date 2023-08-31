@@ -95,8 +95,8 @@
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
     "ok": "好",
-    "loginTips": "本次測試涉及的所有資產均完全基於{network}，請不要使用任何ERC20或TRC20資產參與測試。所有未提現的資產將在測試結束後清零。",
-    "resetAuth": "禁用二級身份驗證"
+    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
+    "resetAuth": "重置二級驗證"
   },
   "home": {
     "bannerText1": "邀請用户加入",
@@ -389,7 +389,6 @@
     "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
     "codeRequired": "2FA Code is required",
     "confirmBtn": "ENABLE 2FA",
-    "close2FABtn": "DISABLE 2FA",
     "bindTitle": "Set up google authenticator",
     "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
     "bindText2": "2. Save the following Account Token (Key) in a secure place",
@@ -613,8 +612,7 @@
     "nft_not_supported": "不支持的NFT",
     "unable_nft_on_sale": "無法提取正在競賽中的NFT",
     "this_nft_withdrawal": "該NFT正在提取中",
-    "test_account_cannot_withdrawal": "测试账户无法提现",
-    "twofa_code_is_invalid": "2FA Code is invalid"
+    "test_account_cannot_withdrawal": "测试账户无法提现"
   },
   "lottery": {
     "notice": "提示",
@@ -657,6 +655,7 @@
     "take": "收下",
     "amount": "數量",
     "sell_all_for": "轉售全部以獲得",
-    "take_all_eth": "收下所有NFT和<img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
+    "take_all_eth": "收下所有NFT和<img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
+    "waiting": "Waiting"
   }
 }

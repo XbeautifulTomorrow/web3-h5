@@ -96,7 +96,7 @@
     "sendAgainErr": "Verification code error, please re-enter.",
     "ok": "OK",
     "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
-    "resetAuth": "Disable two-factor authentication"
+    "resetAuth": "Reset secondary verification"
   },
   "home": {
     "bannerText1": "Raffle Box &",
@@ -384,7 +384,6 @@
     "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
     "codeRequired": "2FA Code is required",
     "confirmBtn": "ENABLE 2FA",
-    "close2FABtn": "DISABLE 2FA",
     "bindTitle": "Set up google authenticator",
     "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
     "bindText2": "2. Save the following Account Token (Key) in a secure place",
@@ -510,7 +509,7 @@
     "faqTitle3": "QUESTIONS",
     "faqTips": "If you have any questions for which you couldn't find an answer, don't hesitate to reach out to our supportive community on Telegram and Discord. The Bitzing Team is here to provide you with assistance!",
     "faqQuestion1": "What is BITZING?",
-    "faqAnswer1": "We are Bitzing, a Web3 entertainment platform on a mission to transform the space by expanding the realm of Cryptocurrency and Non-Fungible Tokens. Introducing, our Funfair segment, which includes the exciting 'Raffle Box' and the thrilling 'Treasure Draw' to excite and delight Bitzers everywhere.",
+    "faqAnswer1": "Bitzing is an innovative Web3 marketplace that combines blue-chip NFTs and cryptocurrencies with captivating gamification. Discover a curated collection of valuable NFTs and cryptocurrencies while immersing yourself in an enjoyable gaming experience. Utilize the spare change in your wallets to earn what you desire. Our platform is dedicated to providing liquidity to the current market, ensuring a seamless and rewarding experience for all users.",
     "faqQuestion2": "What is Bitzing's Raffle Box? ",
     "faqAnswer2": "Bitzing's Raffle Box offers an innovative way to acquire exclusive NFTs effortlessly. Each box contains NFTs listed on our website, with disclosed probabilities for each item. Additionally, you can sell your NFT within a specified time after the draw and receive a percentage of your investment back based on blockchain validations. Participants also earn points and ETH upon selling their NFTs. These points can be exchanged for $BZG tokens in Q4, 2023 when the Mainnet is live.<br><br>Our integration with Opensea ensures seamless NFT acquisitions, and in case of a transaction failure, you will receive a refund for your invested amount. Coming soon, we will introduce customized Raffle Box on our marketplace.",
     "faqQuestion3": "How to participate in Bitzing's Raffle Box?",
@@ -608,8 +607,7 @@
     "nft_not_supported": "NFT not supported.",
     "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
     "this_nft_withdrawal": "This NFT is being withdrawn.",
-    "test_account_cannot_withdrawal": "Test account cannot withdrawal",
-    "twofa_code_is_invalid": "2FA Code is invalid"
+    "test_account_cannot_withdrawal": "Test account cannot withdrawal"
   },
   "lottery": {
     "notice": "NOTICE",
@@ -652,6 +650,7 @@
     "take": "Take",
     "amount": "Amount",
     "sell_all_for": "Sell all for",
-    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
+    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
+    "waiting": "Waiting"
   }
 }

@@ -2,9 +2,9 @@
   <div class="header">
     <div class="header-main">
       <div class="header-left">
-        <div class="header-logo" @click="goTo()">
-          <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
-          <div class="tips">BETA</div>
+        <div class="header-logo">
+          <img class="menu_btn" src="@/assets/svg/home/icon_menu.svg" alt="logo" />
+          <img src="@/assets/img/headerFooter/logo.png" @click="goTo()" alt="logo" />
         </div>
         <ul class="header-nav">
           <li :class="['header-nav-text', active == item.page && 'active']" v-for="(item, index) in nav"

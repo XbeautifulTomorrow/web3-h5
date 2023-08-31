@@ -4,7 +4,6 @@
       <div class="header-left">
         <div class="header-logo" @click="goTo()">
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
-          <div class="tips">BETA</div>
         </div>
         <ul class="header-nav">
           <li :class="['header-nav-text', active == item.page && 'active']" v-for="(item, index) in nav"

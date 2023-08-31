@@ -4,7 +4,6 @@
       <div class="footer-logo">
         <div class="header-logo">
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
-          <div class="tips">BETA</div>
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
       </div>

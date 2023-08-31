@@ -205,7 +205,7 @@ const receiver = ref("");
 
 const emit = defineEmits("closeDialogFun");
 const accountAddress = ref("");
-const networkList = [{ label: "Goerli", value: "goerli" }];
+const networkList = [{ label: "Ethereum", value: "ethereum" }];
 const nftTypes = [
   { label: "ERC-721", value: "ERC721" },
   { label: "ERC-1155", value: "ERC1155" },

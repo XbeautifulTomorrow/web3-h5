@@ -9,7 +9,7 @@
         </el-icon>
       </div>
     </template>
-    <div class="public-dialog-content form-content" v-if="!isLogin">
+    <div class="public-dialog-content form-content">
       <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
@@ -61,14 +61,14 @@
         {{ $t("login.completeUpper") }}
       </el-button>
     </div>
-    <div class="public-dialog-content form-content" v-else>
+    <!-- <div class="public-dialog-content form-content" v-else>
       <p class="public-dialog-title">{{ $t("lottery.notice") }}</p>
       <p class="public-dialog-description"
         v-html="$t('login.loginTips', { network: '<span style=\'color: white;\'>GOERLI NETWORK</span>' })"></p>
       <el-button class="public-button form-button" @click="emit('changeTypeFun', 'modify')">
         {{ $t("airdrop.confirm") }}
       </el-button>
-    </div>
+    </div> -->
     <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
     <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
   </el-dialog>
@@ -269,7 +269,8 @@ const registerFun = async (formEl) => {
 
         userStore.setLogin(res.data);
         userStore.setReg(res.data);
-        isLogin.value = true;
+        // isLogin.value = true;
+        emit('changeTypeFun', 'modify')
       }
     } else {
       console.log("error submit!", fields);

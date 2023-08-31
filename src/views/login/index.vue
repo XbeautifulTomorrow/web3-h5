@@ -9,7 +9,7 @@
         </el-icon>
       </div>
     </template>
-    <div class="public-dialog-content form-content" v-if="!isLogin">
+    <div class="public-dialog-content form-content">
       <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
       <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
         :hide-required-asterisk="true" :status-icon="true" class="public-form">
@@ -40,14 +40,6 @@
         </span>
       </p>
     </div>
-    <div class="public-dialog-content form-content" v-else>
-      <p class="public-dialog-title">{{ $t("lottery.notice") }}</p>
-      <p class="public-dialog-description"
-        v-html="$t('login.loginTips', { network: '<span style=\'color: white;\'>GOERLI NETWORK</span>' })"></p>
-      <el-button class="public-button form-button" @click="closeDialogFun()">
-        {{ $t("airdrop.confirm") }}
-      </el-button>
-    </div>
   </el-dialog>
 </template>
 <script setup>
@@ -65,7 +57,6 @@ const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const visible = ref(true);
 const rememberMe = ref(false);
 const ruleFormRef = ref();
-const isLogin = ref(false);
 let formLogin = reactive({
   account: "",
   passWord: "",
@@ -132,8 +123,7 @@ const loginFun = async (formEl) => {
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
         headerStore.fetchTheUserPoint();
-        // closeDialogFun();
-        isLogin.value = true;
+        closeDialogFun();
       }
     } else {
       console.log("error submit!", fields);

@@ -62,15 +62,15 @@
       </el-button>
     </div>
     <div class="public-dialog-content form-content" v-else>
-      <p class="public-dialog-title">{{ $t("user.authTitle") }}</p>
+      <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
       <p class="public-dialog-description">
         Using two-factor authentication is highly recommended because it protects your account with both your password and
         your phone.</p>
-      <el-button class="public-button form-button" @click="emit('changeTypeFun', 'modify')">
-        {{ $t("common.skip") }}
-      </el-button>
       <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
         {{ $t("user.confirmBtn") }}
+      </el-button>
+      <el-button class="public-button form-button cancel-button" @click="emit('changeTypeFun', 'modify')">
+        {{ $t("common.skip") }}
       </el-button>
     </div>
     <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
@@ -287,6 +287,13 @@ const registerFun = async (formEl) => {
   color: #a9a4b4;
 }
 
+.public-dialog-title {
+  &.auth {
+    padding-top: 1.875rem;
+    font-size: 3rem;
+  }
+}
+
 .form-rember-rectangle {
   display: flex;
   align-content: center;
@@ -341,6 +348,11 @@ const registerFun = async (formEl) => {
 
 .form-button {
   margin: 2.5rem 0 0;
+}
+
+.form-button+.form-button {
+  margin-top: 1.5rem !important;
+  margin-left: 0 !important;
 }
 
 .tips_btn {

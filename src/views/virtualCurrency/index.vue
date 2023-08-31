@@ -54,7 +54,7 @@
             <img src="@/assets/svg/virtualCurrency/arrow-up-right.svg" alt="" />
           </div>
         </li>
-        <li class="popup-list" :style="{ visibility: !currencyList[activeIndex].tokenId ? 'hidden' : 'inherit' }">
+        <li class="popup-list">
           <span class="popup-list-title text-ellipsis">NFT ID</span>
           <span class="popup-list-text text-ellipsis">
             <span v-if="currencyList[activeIndex].tokenId">

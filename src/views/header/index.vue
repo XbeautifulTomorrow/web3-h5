@@ -3,7 +3,7 @@
     <div class="header-main">
       <div class="header-left">
         <div class="header-logo">
-          <img class="menu_btn" src="@/assets/svg/home/icon_menu.svg" alt="logo" />
+          <img class="menu_btn" src="@/assets/svg/home/icon_menu.svg" @click="showNav = true" />
           <img src="@/assets/img/headerFooter/logo.png" @click="goTo()" alt="logo" />
         </div>
         <ul class="header-nav">
@@ -12,6 +12,15 @@
             {{ item.text }}
           </li>
         </ul>
+        <el-drawer v-model="showNav" direction="ltr" lock-scroll class="menu_drawer" :with-header="false">
+          <ul class="menu-list">
+            <li :class="['menu-list-text', active == item.page && 'active']" v-for="(item, index) in nav"
+              :key="`nav-${index}`" @click="goTo(item.page)">
+              <img :src="item.icon" alt="">
+              <span>{{ item.text }}</span>
+            </li>
+          </ul>
+        </el-drawer>
       </div>
       <div class="header-right" v-if="!isLogin || !userInfo?.id">
         <div class="btn-box login" @click="changeTypeFun('login')">{{ $t("common.login") }}</div>
@@ -41,7 +50,7 @@
             </el-icon>
           </span>
         </div>
-        <div class="header-user" v-if="isLogin && userInfo?.id">
+        <div class="header-user" @click="openUser()" v-if="isLogin && userInfo?.id">
           <div class="user_info">
             <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
             <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
@@ -60,6 +69,24 @@
               </li>
             </ul>
           </div>
+          <el-drawer v-model="showUser" direction="rtl" lock-scroll class="menu_drawer" :with-header="false">
+
+            <ul class="menu-list">
+              <div class="user_info">
+                <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
+                <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
+                <span class="header-user-text text-ellipsis">
+                  {{ userInfo?.userName || userInfo?.email }}
+                </span>
+              </div>
+              <li :class="['menu-list-text']" v-for="(item, index) in userList" :key="`box-${index}`"
+                @click="othersideBoxFun(item)">
+                <div class="new_dot" v-if="item.showDot"></div>
+                <img class="header-user-list-img" :src="item.icon" alt="">
+                <span>{{ item.text }}</span>
+              </li>
+            </ul>
+          </el-drawer>
         </div>
       </div>
     </div>
@@ -88,7 +115,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
-import { accurateDecimal, openUrl } from "@/utils";
+import { accurateDecimal, openUrl, handleWindowResize } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
 export default {
@@ -126,7 +153,10 @@ export default {
       transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       // lottContractAddress: "0xfe05ed99354bef7d5f7e47a60ba06ef2a04a66c1", //抽奖合约 bsc
       lottContractAddress: "0x4bc6a8b7b471493c4f99d36a2d123d0aa60df59d", //抽奖合约
-      timer: null
+      timer: null,
+      showNav: false,
+      showUser: false,
+      screenWidth: null
     };
   },
   computed: {
@@ -247,6 +277,7 @@ export default {
       }, 30000);
     },
     goTo(page = "home") {
+      this.showNav = false;
       if (page === "Whitebook") {
         openUrl("https://bitzing.gitbook.io/litepaper/");
         return
@@ -269,6 +300,11 @@ export default {
       }
 
       this.userStore.setUserPage(this.$route.path, item.page);
+    },
+    openUser() {
+      if (this.screenWidth <= 950) {
+        this.showUser = true;
+      }
     },
   },
   // 监听,当路由发生变化的时候执行
@@ -297,29 +333,45 @@ export default {
       {
         text: t("header.home"),
         page: "Home",
+        icon: require("@/assets/svg/home/mini/icon_home.svg"),
       },
       // {
       //   text: t("header.airdrop"),
       //   page: "Airdrop",
+      //   icon: require("@/assets/svg/home/mini/icon_aridrop.svg"),
       // },
       {
         text: t("header.mysteryBox"),
         page: "RaffleBoxesList",
+        icon: require("@/assets/svg/home/mini/icon_boxs.svg"),
       },
       {
         text: t("header.competitions"),
         page: "TreasureDraw",
+        icon: require("@/assets/svg/home/mini/icon_treasure_draw.svg"),
       },
       {
         text: t("header.whitebook"),
         page: "Whitebook",
+        icon: require("@/assets/svg/home/mini/icon_white_book.svg"),
       },
       {
         text: t("header.faq"),
         page: "FAQ",
+        icon: require("@/assets/svg/home/mini/icon_faq.svg"),
       },
     ]
   },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
+  }
 };
 </script>
 

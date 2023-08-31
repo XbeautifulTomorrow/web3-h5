@@ -185,6 +185,7 @@ export default {
       height: 1.5rem;
       line-height: 1.5rem;
       font-size: 0.75rem;
+      padding: 0 0.25rem;
     }
   }
 }

@@ -254,13 +254,12 @@
 
   .boxes-content {
     margin: 0 auto;
-    width: 17rem;
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
 
     &>li+li {
-      margin-left: 0.25rem;
+      margin-left: 0.5rem;
     }
 
     &>li:nth-child(n+3) {
@@ -273,8 +272,9 @@
   }
 
   .mystery-boxes-item {
-    width: 8.375rem;
-    height: auto;
+    width: 9.75rem;
+    height: 13rem;
+    background-image: url("@/assets/svg/home/mini/nft_box_bg.svg");
 
     &:hover {
       .mystery-boxs-list-img {
@@ -285,7 +285,9 @@
 
     .img_box {
       width: 100%;
-      height: 5rem;
+      height: 6.5rem;
+      padding: 2px;
+      box-sizing: border-box;
     }
 
     .mystery-boxs-list-img {
@@ -316,6 +318,12 @@
       .price-box {
         font-size: 1rem;
         line-height: 1.2;
+
+        img {
+          margin-right: 0.5rem;
+          width: 1rem;
+          height: auto;
+        }
       }
     }
 
@@ -336,5 +344,20 @@
   .boxes-button-name {
     font-size: 0.75rem;
     line-height: 1;
+  }
+
+  .ntf-tickets-all {
+    margin-top: 2rem;
+    cursor: pointer;
+  
+    font-size: 0.75rem;
+    line-height: 1;
+    color: #a9a4b4;
+  
+    img {
+      width: 0.75rem;
+      height: auto;
+      margin-left: 0.5rem;
+    }
   }
 }

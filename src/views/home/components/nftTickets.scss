@@ -254,7 +254,7 @@
   line-height: 2.875rem;
   border-radius: 1.875rem;
   box-sizing: border-box;
-  padding: 1px;
+  padding: 0.125rem;
   cursor: pointer;
 
   &.winner {
@@ -311,7 +311,7 @@
   .ntf-tickets {
     width: 100%;
     padding: 0 1.5rem;
-    margin: 1.5rem auto 4rem;
+    margin: 1.5rem auto 1.5rem;
   }
 
   .home-public-title {
@@ -324,7 +324,7 @@
 
     .title_description {
       padding-top: 0.5rem;
-      width: 80%;
+      width: 100%;
       font-size: 0.75rem;
       line-height: 1.2;
     }
@@ -335,10 +335,9 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: 17rem;
 
     &>li+li {
-      margin-left: 0.25rem;
+      margin-left: 0.5rem;
     }
 
     &>li:nth-child(n+3) {
@@ -351,12 +350,12 @@
   }
 
   .ntf-tickets-item {
-    width: 8.375rem;
-    height: auto;
+    width: 9.75rem;
+    height: 14.625rem;
     border-radius: 0.25rem;
 
     .img-box {
-      height: 7.5rem;
+      height: 8rem;
 
       .type-box {
         top: 0.25rem;
@@ -367,7 +366,7 @@
           padding: 0.25rem;
           border-radius: 0.25rem;
 
-          font-size: 0.75rem;
+          font-size: 0.625rem;
           font-weight: 500;
           line-height: 1.2;
           text-align: right;
@@ -393,6 +392,15 @@
           width: 0.75rem;
           margin-right: 0.25rem;
         }
+      }
+
+      .tips_round {
+        top: 0.25rem;
+        right: 0.25rem;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+
+        font-size: 0.625rem;
       }
     }
 
@@ -430,7 +438,7 @@
 
     .sold-box {
       padding-top: 0.5rem;
-      font-size: 0.75rem;
+      font-size: 0.625rem;
       line-height: 1.6;
       color: #a9a4b4;
     }
@@ -442,6 +450,39 @@
     border-radius: 1.5rem;
     margin: 0 auto;
     margin-top: 0.5rem;
+    padding: 1px !important;
+  }
+
+  .buy_btn {
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    width: 80%;
+    height: 1.625rem;
+    line-height: 1.625rem;
+    border-radius: 1.5rem;
+
+    &.winner {
+
+      &>span {
+        font-size: 0.75rem;
+        font-weight: bold;
+        font-weight: 400;
+        color: white;
+      }
+
+      &>img {
+        width: 0.75rem;
+        height: auto;
+        margin: 0 0.25rem;
+      }
+
+      &>span:last-child {
+        -webkit-text-fill-color: #a9a4b4;
+        color: #a9a4b4;
+        width: 1.875rem;
+        overflow: hidden;
+      }
+    }
   }
 
   .boxes-button-name {
@@ -451,13 +492,12 @@
 
   .ntf-tickets-all {
     margin-top: 2rem;
-    font-size: 1rem;
+    font-size: 0.75rem;
 
     img {
-      width: 1rem;
+      width: 0.75rem;
       height: auto;
       margin-left: 0.5rem;
     }
   }
-
 }

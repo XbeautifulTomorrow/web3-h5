@@ -14,7 +14,7 @@
           `box_frame_${typrFormat(item)}`,
           { isHide: activeIndex == index },
           item.animation && 'animation'
-        ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @mouseleave="mouseLeave()">
+        ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @click="openBoxs(item)" @mouseleave="mouseLeave()">
           <div class="virtual-currency-item-l">
             <Image fit="cover" class="virtual-currency-item-img" :src="item.nftImg" />
             <div class="virtual-currency-item-text">
@@ -108,7 +108,7 @@
 <script>
 import Image from "@/components/imageView";
 import { getTicketList } from "@/services/api/index";
-import { accurateDecimal } from "@/utils";
+import { accurateDecimal, handleWindowResize } from "@/utils";
 export default {
   name: "VirtualCurrency",
   components: { Image },
@@ -124,6 +124,7 @@ export default {
       nftId: [], // 当前已有nft
       translateNum: 0,
       timer: null,
+      screenWidth: null,
       networkList: [{ label: "Goerli", value: 5 }, { label: "Ethereum", value: 1 }]
     };
   },
@@ -186,15 +187,25 @@ export default {
       }
     },
     mouseenterFun(data, index, e) {
+      if (this.screenWidth <= 950) return
+
       this.showPopup = true;
       this.activeIndex = index;
       this.currentIndex = index;
       this.currentData = data;
       const { left } = e.target.getBoundingClientRect();
-      this.style = {
-        left: `${left + window.scrollX}px`,
-        top: "1.125rem",
-      };
+
+      if (this.screenWidth <= 950) {
+        this.style = {
+          left: `${left + window.scrollX}px`,
+          top: "0.75rem",
+        };
+      } else {
+        this.style = {
+          left: `${left + window.scrollX}px`,
+          top: "1.125rem",
+        };
+      }
     },
     handleMysteryBox(event) {
       this.mouseLeave();
@@ -245,11 +256,30 @@ export default {
       const { nftId } = this;
       return nftId.findIndex(e => e.id == event) > -1;
     },
+    openBoxs(event) {
+      if (this.screenWidth <= 950) {
+        // eslint-disable-next-line no-unreachable
+        this.$router.push({ path: "/raffleBox", query: { boxId: event.boxId } });
+        setTimeout(() => {
+          this.reload();
+        }, 300);
+      }
+    },
   },
   created() {
     this.fetchTicketList();
     this.timeoutTickets();
   },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
+  }
 };
 </script>
 

@@ -260,8 +260,8 @@
   .contents-info {
     box-sizing: border-box;
     width: 100%;
-    padding: 4rem 1.5rem 0;
-    margin-top: 1.5rem;
+    padding: 0 1.5rem 0;
+    margin-top: 0;
   }
 
   .home-public-title {
@@ -274,22 +274,71 @@
     .title_text {
       font-size: 1.5rem;
       line-height: 1.2;
-      text-align: center;
+      text-align: left;
     }
 
     .title_description {
       margin: 0 auto;
-      padding-top: 1rem;
-      width: 80%;
-      font-size: 0.75rem;
+      padding-top: 0;
+      width: 100%;
+      font-size: 0.625rem;
       line-height: 1.2;
       color: #a9a4b4;
-      text-align: center;
+      text-align: left;
     }
   }
 
   .title-box-r {
     display: none;
+  }
+
+  :deep(.nft_type) {
+    .el-input {
+      .el-select__caret {
+        font-size: 0.75rem;
+      }
+    }
+
+    .el-input__wrapper {
+      height: 2rem;
+      padding: 0 0.5rem;
+
+      &>input {
+        height: 2rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .collections_box {
+    width: 12rem;
+    display: flex;
+    align-items: center;
+    border-radius: 0.75rem;
+    background-color: #1d0f36;
+    position: relative;
+
+    .collections_text {
+      position: absolute;
+      left: 0.25rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      text-align: left;
+      color: rgba(169, 164, 180, 0.6);
+    }
+
+    :deep(.nft_type) {
+      width: 100%;
+
+      .el-input__wrapper {
+        background-color: transparent;
+        padding-left: 5rem;
+
+        &>input::placeholder {
+          color: #fad54d;
+        }
+      }
+    }
   }
 
   :deep(.table_container) {
@@ -327,13 +376,15 @@
       display: inline-flex;
       align-items: center;
 
-      img {
+      .image_box {
         width: 2rem;
         height: auto;
         border-radius: 0.25rem;
       }
 
-      span {
+
+      .user_text {
+        width: 2rem;
         padding-left: 0.5rem;
       }
     }

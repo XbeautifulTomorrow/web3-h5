@@ -45,37 +45,29 @@
 @media screen and (max-width: 950px) {
   .banner_wrapper {
     margin: 0 auto;
-    padding: 0 1.5rem;
-    height: auto;
     max-width: 120rem;
-    background-position: center bottom;
-    background-size: cover;
-    flex-direction: column;
+    height: 10.875rem;
+    background-size: 100% 10.875rem;
+    background-position: center center;
+  }
+
+  .banner_box {
+    height: 10.875rem;
+    background-size: 100% 10.875rem;
+    justify-content: flex-start;
   }
 
   .banner_l {
-    margin-top: 1.5rem;
-    margin-left: 0;
+    margin-left: 1rem;
   }
 
   .level_description {
-    font-size: 2rem;
-    line-height: 1.2;
-    text-align: center;
+    width: 8rem;
+    font-size: 1rem;
   }
 
   .level_description_text {
-    display: none;
-  }
-
-  .invite_button {
-    margin: 0 auto;
-    margin-top: 0.875rem;
-    width: 10rem;
-    height: 2rem;
-    line-height: 2rem;
-    border-radius: 0.5rem;
-
-    font-size: 1rem;
+    padding-top: 1rem;
+    font-size: 0.5rem;
   }
 }

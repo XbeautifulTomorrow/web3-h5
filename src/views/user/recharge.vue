@@ -24,15 +24,13 @@
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
             <img src="@/assets/svg/user/icon_eth.svg" alt="" />
             <span class="wallet_operating_val">
-              <span>Goerli Ethereum</span>
-              <span>[GETH]</span>
+              Ethereum[ETH]
             </span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('USDT')">
             <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
             <span class="wallet_operating_val">
-              <span>Bitzing Tether</span>
-              <span>[USDT]</span>
+              Tether[USDT]
             </span>
           </div>
         </div>
@@ -58,7 +56,7 @@
             <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
             <div class="wallet_addr">
               <div class="tips_text">
-                {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Goerli Ethereum' : 'Bitzing USDT'}` }) }}
+                {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
               </div>
               <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                 :placeholder="$t('user.enterAddrHint')">
@@ -76,7 +74,11 @@
                 <img src="@/assets/svg/user/icon_warning.svg" alt="" />
               </div>
               <div class="hint_r">
-                {{ $t("user.hintText1") }}
+                {{ $t("user.hintText1", {
+                  coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'ERC-20'}`,
+                  network1: `${operatingCoin == 'ETH' ? 'BNB' : 'ERC20'}`,
+                  network2: `${operatingCoin == 'ETH' ? 'BSC' : 'TRC20'}`
+                }) }}
               </div>
             </div>
             <div class="hint_item" v-if="operatingCoin == 'ETH'">
@@ -84,7 +86,7 @@
                 <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
               </div>
               <div class="hint_r">
-                {{ $t("user.hintText2") }}
+                {{ $t("user.hintText2", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'ERC-20'}` }) }}
               </div>
             </div>
           </div>
@@ -105,20 +107,22 @@
             </el-input>
           </div>
           <div class="price_convert_text">
-            {{ $t("user.hintText3") }}
+            {{ $t("user.hintText3", { coin: `${operatingCoin == 'ETH' ? 'ETH' : 'USDT'}` }) }}
           </div>
         </div>
         <div class="withdraw_relevant" v-else>
           <div class="withdraw_tips_text">
-            {{ $t("user.hintText4") }}
+            {{ $t("user.hintText4", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
           </div>
           <div class="withdraw_item">
             <div class="withdraw_item_lable">
-              <span>{{ $t("user.receivingAddr") }}</span>
+              <span>
+                {{ $t("user.receivingAddr", { network: `${operatingCoin == 'ETH' ? 'ETHEREUM' : 'TETHER'}` }) }}
+              </span>
               <span class="required">*</span>
             </div>
             <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
-              :placeholder="$t('user.receivingAddrHint')"></el-input>
+              :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` })"></el-input>
             <div class="withdraw_item_error">
               {{ walletAddrTips }}
             </div>
@@ -168,7 +172,7 @@
           </div>
           <div class="withdraw_hint">
             <p>
-              {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Goerli Ethereum' : 'Bitzing USDT'}` }) }}
+              {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
             </p>
             <p>
               {{ $t("user.addrTips2") }}
@@ -353,17 +357,17 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { setting, walletAmount, walletAddr } = this;
+      const { operatingCoin, setting, walletAmount, walletAddr } = this;
       const withdrawalFee = setting.withdrawalFees || 0;
       if (type == "submit" || type == "address") {
         if (!walletAddr) {
-          this.walletAddrTips = t("user.enterError1");
+          this.walletAddrTips = t("user.enterError1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` });
           this.verifys = false;
           return;
         }
 
         if (!isValidEthAddress(walletAddr)) {
-          this.walletAddrTips = t("user.enterError2");
+          this.walletAddrTips = t("user.enterError2", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` });
           this.verifys = false;
           return;
         }

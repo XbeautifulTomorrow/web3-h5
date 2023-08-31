@@ -386,7 +386,7 @@ export default {
           const res = await lotteryHold(_data);
           this.loading = false;
           if (res && res.code === 200) {
-            if (res.data.length) {
+            if (res.data?.length) {
               this.showDialog = "chainDialog";
             } else {
               this.showDialog = "yourReard";

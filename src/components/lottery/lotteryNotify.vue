@@ -104,7 +104,7 @@ const isShowRes = ref(false);
             border-radius: 0 0 0.25rem 0.25rem;
             p {
               font-size: 0.75rem;
-              transform: scale(0.83);
+              zoom: 0.83;
               transform-origin: center;
               text-align: center;
             }

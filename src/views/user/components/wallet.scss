@@ -1380,7 +1380,7 @@
     box-sizing: border-box;
     background-color: #ffff;
 
-    .nft_img {
+    &>img {
       width: 100% !important;
       height: auto !important;
     }

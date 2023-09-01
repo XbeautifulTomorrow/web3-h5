@@ -80,7 +80,7 @@
 
 .communication_setting {
   margin: 0 auto;
-  width: 25rem;
+  width: 43.75rem;
 
   .setting_text {
     font-family: Tomorrow;
@@ -93,6 +93,7 @@
   .email_setting {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding-top: 0.625rem;
 
     font-size: 0.875rem;

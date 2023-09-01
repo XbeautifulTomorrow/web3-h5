@@ -30,7 +30,7 @@
           <div class="wallet_operating_item" @click="handleChoose('USDT')">
             <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
             <span class="wallet_operating_val">
-              Tether[USDT]
+              ERC-20[USDT]
             </span>
           </div>
         </div>

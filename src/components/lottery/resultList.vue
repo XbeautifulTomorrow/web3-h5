@@ -200,7 +200,7 @@ import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
 import { Howl } from "howler";
-import { flop, flopAfter } from "@/utils/audioResource";
+import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
 
 import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
 
@@ -301,10 +301,21 @@ const getListHeight = () => {
   });
 };
 const audioPlay = () => {
+  let flopAfterAudio = flopAfter;
+  const flopAfterAudioObj = {
+    EPIC: EPIC1,
+    LEGEND: LEGEND,
+    RARE: NORMAL1,
+    NORMAL: moreUsually,
+  };
+  if (props.result?.length == 1) {
+    flopAfterAudio = flopAfterAudioObj[props.result[0].qualityType];
+  }
+
   if (props.idLotteryIn) {
     _audioPlay(flop);
     setTimeout(() => {
-      _audioPlay(flopAfter);
+      _audioPlay(flopAfterAudio);
     }, 1000);
   }
 };
@@ -451,7 +462,13 @@ const getTheUserBalanceApi = async () => {
 }
 </style>
 <style lang="scss">
+.result-dialog-content-ten {
+  // background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
+  // background-size: cover;
+}
 .result-dialog-content {
+  // background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
+  // background-size: cover;
   .font4 {
     font-family: LeagueSpartan;
     font-weight: bold;

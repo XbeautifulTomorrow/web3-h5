@@ -2,27 +2,36 @@
 import { ref, reactive, onMounted, onUnmounted } from "vue";
 let designWidth = 1140;
 const designHeight = 1080 - 200;
-const wrapRef = ref(null);
+const content = ref(null);
+const translateY = ref(null);
 const state = reactive({
   ratio: 1,
   origin: "center",
 });
 
 const onResize = () => {
-  const { innerWidth } = window;
-  if (window.innerWidth < 950) {
-    designWidth = window.innerWidth;
+  const { innerWidth, innerHeight } = window;
+  const contentHeight = content.value.offsetHeight;
+  if (contentHeight > innerHeight) {
+    translateY.value = innerHeight / innerWidth > 0.5 ? 50 : (innerHeight / innerWidth) * 100;
+  } else {
+    translateY.value = 50;
   }
-  const innerHeight = window.innerHeight - window.innerWidth * 0.1;
+  if (innerWidth < 950) {
+    designWidth = innerWidth;
+  }
+  const innerHeights = innerHeight - innerWidth * 0.1;
   const xRatio = innerWidth / designWidth;
-  const yRatio = innerHeight / designHeight;
-  const ratio = window.innerWidth < 950 ? xRatio : Math.min(xRatio, yRatio);
+  const yRatio = innerHeights / designHeight;
+  const ratio = innerWidth < 950 ? xRatio : Math.min(xRatio, yRatio);
   state.ratio = ratio;
   state.origin = xRatio > yRatio ? "center" : "top";
 };
 
 onMounted(() => {
-  onResize();
+  setTimeout(() => {
+    onResize();
+  }, 200);
   window.addEventListener("resize", onResize);
 });
 
@@ -34,7 +43,7 @@ onUnmounted(() => {
 <template>
   <div class="wrap" ref="wrapRef">
     <div class="scale" :style="`transform: scale(${state.ratio});transform-origin: ${state.origin}`">
-      <div class="content">
+      <div class="content" ref="content" :style="{ transform: `translate(-50%, -${translateY}%)` }">
         <slot />
       </div>
     </div>

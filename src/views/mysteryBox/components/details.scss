@@ -272,7 +272,7 @@
 .five .discount {
   background-image: url("@/assets/img/box/five_bg.png");
   background-repeat: no-repeat;
-
+  background-size: contain;
   .val {
     color: #13151f;
   }
@@ -284,7 +284,7 @@
   .discount {
     background-image: url("@/assets/img/box/ten_bg.png");
     background-repeat: no-repeat;
-
+    background-size: contain;
     .val {
       color: white;
     }

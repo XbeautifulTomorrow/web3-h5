@@ -436,8 +436,8 @@ export default {
     createQrcode() {
       new QRCode(this.$refs.qrCodeDiv, {
         text: this.receiverAddr,
-        width: 142,
-        height: 142,
+        width: 125,
+        height: 125,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
@@ -464,5 +464,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./components/wallet.scss";
+</style>
+<style>
+.qr_code_box>.img_box>img {
+  width: 100% !important;
+  height: auto !important;
+}
 </style>
   

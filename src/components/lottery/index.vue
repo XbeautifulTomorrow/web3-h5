@@ -292,7 +292,6 @@ export default {
         lotteryIds: chooseIds.length > 0 ? chooseIds.join(",") : undefined,
         orderId: awardItem[0]?.orderId,
       };
-      this.showDialog = "checkLoading";
       const res = await lotteryHold(_data);
       this.loading = false;
       localStorage.removeItem("result");

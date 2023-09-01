@@ -97,7 +97,7 @@
         <div class="public-dialog-funds">
           <span class="public-dialog-total-title">{{ $t("lottery.total") }}:</span>
           <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <span class="public-dialog-total-number"> {{ total }} </span>
+          <span class="public-dialog-total-number" v-priceFormat="total"></span>
           <template v-if="soldList[0].point > 0">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_point.svg" alt="" />
             <span class="public-dialog-total-number">
@@ -110,7 +110,7 @@
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ formatNumber(blindPrice) }}
+          <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -123,7 +123,7 @@
 import { ref, defineEmits, defineProps, onBeforeMount, watchEffect, onUpdated } from "vue";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
-import { formatNumber } from "@/utils";
+
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 

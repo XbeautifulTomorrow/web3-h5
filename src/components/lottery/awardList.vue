@@ -37,7 +37,7 @@
           </p>
           <p class="lottery-moreLuck-price">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            {{ formatNumber(winData.initPrice) }}
+            <span v-priceFormat="winData.initPrice"></span>
           </p>
         </div>
       </div>
@@ -46,7 +46,6 @@
 </template>
 <script>
 import ImageView from "../imageView";
-import { formatNumber } from "@/utils";
 export default {
   name: "AwardsList",
   props: {
@@ -91,9 +90,7 @@ export default {
     this.stopTime = stopTime + "s";
     this.$emit("delayTime", stopTime);
   },
-  methods: {
-    formatNumber: formatNumber,
-  },
+  methods: {},
   watch: {
     winData: function (newData) {
       if (newData) {

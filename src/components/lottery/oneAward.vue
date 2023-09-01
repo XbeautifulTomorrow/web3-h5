@@ -34,7 +34,7 @@
                       <el-tooltip class="box-item" effect="dark" :content="`${list.price}`">
                         <p class="price-box">
                           <img class="coin-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                          <span>{{ formatNumber(list.price) }}</span>
+                          <span v-priceFormat="list.price"></span>
                         </p>
                       </el-tooltip>
                     </span>
@@ -63,7 +63,6 @@ import { Howl } from "howler";
 import { slipe, oneSlow } from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
-import { formatNumber } from "@/utils";
 
 const itemWidth = 200;
 const itemWidthH5 = 84;
@@ -137,7 +136,6 @@ export default {
     }
   },
   methods: {
-    formatNumber: formatNumber,
     formatDataList() {
       if (this.awardsList?.length < 30) {
         var arr = [];

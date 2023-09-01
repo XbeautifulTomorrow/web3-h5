@@ -4,6 +4,7 @@
       <div class="banner_l">
         <div class="level_description">{{ $t("home.bannerText1") }}</div>
         <div class="level_description">{{ $t("home.bannerText2") }}</div>
+        <div class="level_description">{{ $t("home.bannerText3") }}</div>
         <div class="level_description_text">
           {{ $t('home.bannerTips') }}
         </div>

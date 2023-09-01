@@ -99,9 +99,9 @@
     "resetAuth": "重置二級驗證"
   },
   "home": {
-    "bannerText1": "邀請用户加入",
-    "bannerText2": "獲得更多獎勵",
-    "bannerText3": " ",
+    "bannerText1": "Raffle Box",
+    "bannerText2": "&",
+    "bannerText3": "Treasure Draw",
     "bannerTips": "將Bitzing分享給你的朋友以獲得額外10%的註冊積分獎勵。",
     "bannerBtn": "前往空投",
     "boxTitle": "盲盒",
@@ -538,7 +538,9 @@
     "faqQuestion12": "我們如何確保公平？",
     "faqAnswer12": "為了保證透明度和公開性，BITZING會在盲盒內容發生變化時對其進行快照。在盲盒詳細信息頁面，您可以找到7天的快照信息。通過查看快照詳細信息，您可以看到盲盒中包含的NFT及其對應的每個特定時間段的獎勵ID。<br><br>BITZING通過智能合約執行的抽獎算法。這使您可以檢查智能合約的精確邏輯並驗證抽獎區塊鏈上的結果。您可以將結果與快照中各個NFT的獎勵ID進行比較，確保透明且公平的抽獎過程。",
     "faqQuestion13": "What are the Bitzing Disk NFTs?",
-    "faqAnswer13": "In addition to the Blue-Chip NFTs, the Bitzing Disk NFTs are assets found within Raffle Boxes. They feature 9 different variations, including: Wooden Disk (0.001ETH), Rock Disk (0.002ETH), Steel Disk (0.005ETH), Bronze Disk (0.01ETH), Silver Disk (0.02ETH), Golden Disk (0.05ETH), Diamond Disk (0.1ETH), Gem Disk (0.2ETH), and the highest-ranking Galaxy Disk (0.5ETH). The prices vary depending on the rarity, with the Galaxy Disk NFT being the most valuable and the Wooden Disk being the least valuable. The collection has an unlimited supply and the NFTs cannot be sold on Treasure Draw, however withdrawal to users' wallets is possible. We are also working on developing utilities for the assets."
+    "faqAnswer13": "In addition to the Blue-Chip NFTs, the Bitzing Disk NFTs are assets found within Raffle Boxes. They feature 9 different variations, including: Wooden Disk (0.001ETH), Rock Disk (0.002ETH), Steel Disk (0.005ETH), Bronze Disk (0.01ETH), Silver Disk (0.02ETH), Golden Disk (0.05ETH), Diamond Disk (0.1ETH), Gem Disk (0.2ETH), and the highest-ranking Galaxy Disk (0.5ETH). The prices vary depending on the rarity, with the Galaxy Disk NFT being the most valuable and the Wooden Disk being the least valuable. The collection has an unlimited supply and the NFTs cannot be sold on Treasure Draw, however withdrawal to users' wallets is possible. We are also working on developing utilities for the assets.",
+    "faqQuestion14": "Can I earn ETH and other  cryptocurrencies by participating in Raffle Box?",
+    "faqAnswer14": "Certainly! You can currently earn $ETH, and in the future, we plan to incorporate additional cryptocurrencies into the boxes."
   },
   "errorTips": {
     "no_access": "沒有權限。",

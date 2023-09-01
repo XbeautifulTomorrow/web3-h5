@@ -436,8 +436,8 @@ export default {
     createQrcode() {
       new QRCode(this.$refs.qrCodeDiv, {
         text: this.receiverAddr,
-        width: 125,
-        height: 125,
+        width: 126,
+        height: 126,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
@@ -471,4 +471,3 @@ export default {
   height: auto !important;
 }
 </style>
-  

@@ -182,7 +182,7 @@ export default {
   data() {
     return {
       coin: "ETH",
-      coinList: ["ETH", "USDT", "NFT", "BTC"],
+      coinList: ["ETH", "USDT", "NFT"],
       historyData: [],
       userPoints: null,
       userTickets: null,

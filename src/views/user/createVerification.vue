@@ -14,7 +14,6 @@
         <div class="explanation_text">
           <p>{{ $t("user.bindText1") }}</p>
           <p>{{ $t("user.bindText2") }}</p>
-          <p>{{ $t("user.bindText3") }}</p>
         </div>
         <img class="img_box" :src="qrCode" alt="">
       </div>

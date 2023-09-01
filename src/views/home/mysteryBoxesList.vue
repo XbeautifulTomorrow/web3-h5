@@ -31,7 +31,7 @@
             <div class="box-price">
               <div class="price-box">
                 <img src="@/assets/svg/box/icon_eth.svg" alt="">
-                <span>{{ item.price }}</span>
+                <span v-priceFormat="item.price"></span>
               </div>
             </div>
             <div class="other">

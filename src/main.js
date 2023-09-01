@@ -39,7 +39,7 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   }
 };
 // 价格小数不满两位保留两位，超过显示全部
-const formatElement = (el, value) => {
+const formatPrice = (el, value) => {
   if (value == null || value == undefined) {
     el.textContent = "0.0";
   } else if (value % 1 === 0) {
@@ -50,10 +50,10 @@ const formatElement = (el, value) => {
 };
 app.directive("priceFormat", {
   beforeMount(el, binding) {
-    formatElement(el, binding.value);
+    formatPrice(el, binding.value);
   },
   updated(el, binding) {
-    formatElement(el, binding.value);
+    formatPrice(el, binding.value);
   },
 });
 

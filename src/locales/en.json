@@ -344,7 +344,7 @@
     "noDataHistory": "NO PURCHASE HISTORY FOUND",
     "mysteryBox": "RAFFLE BOX",
     "referrals": "REFERRAL",
-    "inviteTitle": "Earn ETH and cent by sharing BITZING!",
+    "inviteTitle": "Earn ETH by sharing BITZING!",
     "inviteDescription": "Share your unique tracker on your social media and send it to anyone passionate about NFTs, along with a brief explanation of Bitzing. You will be handsomely rewarded with up to <span style=\"color： white\">{ num }%</span> of their daily purchases, paid to you in ETH.",
     "createTitle": "Set custom referral code",
     "createEnterHint": "Set referral code...",

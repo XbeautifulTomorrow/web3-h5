@@ -53,7 +53,7 @@
         <div class="header-user" @click="openUser()" v-if="isLogin && userInfo?.id">
           <div class="user_info">
             <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
-            <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
+            <div class="new_dot header_dot" ></div>
             <span class="header-user-text text-ellipsis">
               {{ userInfo?.userName || userInfo?.email }}
             </span>
@@ -70,7 +70,6 @@
             </ul>
           </div>
           <el-drawer v-model="showUser" direction="rtl" lock-scroll class="menu_drawer" :with-header="false">
-
             <ul class="menu-list">
               <div class="user_info">
                 <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />

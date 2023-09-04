@@ -53,7 +53,7 @@
         <div class="header-user" @click="openUser()" v-if="isLogin && userInfo?.id">
           <div class="user_info">
             <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
-            <div class="new_dot header_dot" ></div>
+            <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
             <span class="header-user-text text-ellipsis">
               {{ userInfo?.userName || userInfo?.email }}
             </span>

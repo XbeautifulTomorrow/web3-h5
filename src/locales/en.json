@@ -211,7 +211,7 @@
     "seriesTitle": "NFTS IN THE BOX",
     "range": "RANGE:{ range }",
     "odds": "ODDS:{ odds }%",
-    "showNfts": "Show NFTs",
+    "showNfts": "Show Details",
     "snapshotTitle": "BOX SNAPSHOT",
     "snapshotId": "Snapshot ID",
     "snapshotIdHint": "Search by Snapshot ID",

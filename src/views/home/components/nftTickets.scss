@@ -310,7 +310,7 @@
 @media screen and (max-width: 950px) {
   .ntf-tickets {
     width: 100%;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     margin: 1.5rem auto 1.5rem;
   }
 
@@ -350,7 +350,9 @@
   }
 
   .ntf-tickets-item {
-    width: 9.75rem;
+    flex: 1;
+    min-width: 45%;
+    max-width: 48%;
     height: 14.625rem;
     border-radius: 0.25rem;
 

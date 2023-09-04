@@ -95,8 +95,7 @@
     "sendAgain": "Send again",
     "sendAgainErr": "Verification code error, please re-enter.",
     "ok": "OK",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test.",
-    "resetAuth": "Reset secondary verification"
+    "resetAuth": "Disable two-factor authentication"
   },
   "home": {
     "bannerText1": "Raffle Box",
@@ -609,7 +608,7 @@
     "nft_not_supported": "NFT not supported.",
     "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
     "this_nft_withdrawal": "This NFT is being withdrawn.",
-    "test_account_cannot_withdrawal": "Test account cannot withdrawal"
+    "twofa_code_is_invalid": "2FA Code is invalid"
   },
   "lottery": {
     "notice": "NOTICE",

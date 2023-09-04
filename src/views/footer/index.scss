@@ -54,6 +54,19 @@
   }
 }
 
+.friendship-logo {
+  width: fit-content;
+  height: 3.625rem;
+  cursor: pointer;
+  position: relative;
+  margin-top: 1.25rem;
+
+  img {
+    width: auto;
+    height: 100%;
+  }
+}
+
 .footer-nav-box {
   display: flex;
 }

@@ -4,7 +4,6 @@ import { useUserStore } from "@/store/user.js";
 import config from "./env";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
-import router from "@/router";
 // import qs from 'qs'
 
 const axiosInstance = axios.create({
@@ -67,9 +66,6 @@ const handleRes = ({ headers, url, data }) => {
   } else if (data.code === 20011) {
     const { logoutApi } = useUserStore();
     logoutApi();
-    return [false, data.code, data];
-  } else if (data.code === 503) {
-    router.push({ path: "/home" });
     return [false, data.code, data];
   } else {
     if (!notMessage.includes(url)) {

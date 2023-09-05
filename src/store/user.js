@@ -59,7 +59,9 @@ export const useUserStore = defineStore("user", {
       this.isLogin = false;
       this.userInfo = undefined;
       this.regInfo = undefined;
-      router.push({ path: "/home" });
+      window.NavigationPreloadManager;
+      window.location.href = "/home";
+      // router.push({ path: "/home" });
     },
   },
 });

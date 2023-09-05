@@ -285,7 +285,7 @@
     outline: none;
   }
 
-  .public-button+.public-button {
+  .public-button + .public-button {
     margin-left: 1.25rem;
   }
 
@@ -418,6 +418,11 @@
           font-size: 1.25rem;
         }
       }
+      .public-dialog-list-result {
+        height: 0.875rem;
+        line-height: 0.875rem;
+        font-size: 0.5rem;
+      }
     }
 
     .el-dialog__body {
@@ -507,7 +512,6 @@
     margin: auto 0.625rem !important;
   }
 }
-
 
 .menu_drawer {
   width: auto !important;

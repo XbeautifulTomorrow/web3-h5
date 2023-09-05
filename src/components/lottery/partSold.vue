@@ -315,11 +315,7 @@ watchEffect();
     width: 3.5rem;
     height: 3.5rem;
   }
-  .public-dialog-list-result {
-    height: 0.875rem;
-    line-height: 0.875rem;
-    font-size: 0.5rem;
-  }
+
   .public-dialog-lists {
     gap: 0.25rem;
   }

@@ -16,10 +16,13 @@
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">{{ $t("lottery.notice") }}</h2>
-      <p class="public-dialog-illustrate">{{ $t("lottery.tips3") }}</p>
+      <p class="public-dialog-illustrate">{{ sold?.nftType == "EXTERNAL" ? $t("lottery.loading_tip2") : $t("lottery.tips3") }}</p>
       <h3 class="public-dialog-title-other">{{ $t("lottery.your_reward") }}</h3>
       <div class="public-dialog-img">
         <image-view class="public-dialog-portrait" :src="sold?.nftImg" />
+        <span class="public-dialog-list-result waiting" v-if="sold?.nftType == 'EXTERNAL'">
+          {{ $t("lottery.waiting") }}
+        </span>
       </div>
       <p class="public-dialog-club">{{ sold?.seriesName }}</p>
       <div class="public-dialog-pointer-box" v-if="sold?.point > 0">
@@ -74,6 +77,7 @@ const unboxAgainFunc = () => {
   color: #4473eb;
 }
 .public-dialog-img {
+  position: relative;
   width: 20%;
   margin: 10px auto;
 }
@@ -96,7 +100,7 @@ const unboxAgainFunc = () => {
     width: 1.25rem;
   }
   .margin-t {
-    margin-top: 0;
+    margin-top: 1rem;
   }
 }
 </style>

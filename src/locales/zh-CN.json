@@ -388,6 +388,7 @@
     "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
     "codeRequired": "2FA Code is required",
     "confirmBtn": "ENABLE 2FA",
+    "close2FABtn": "DISABLE 2FA",
     "bindTitle": "Set up google authenticator",
     "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
     "bindText2": "2. Scan QR Code with the Google Authenticator app",

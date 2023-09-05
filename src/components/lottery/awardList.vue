@@ -37,7 +37,7 @@
           </p>
           <p class="lottery-moreLuck-price">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            <span v-priceFormat="winData.initPrice"></span>
+            <span v-priceFormat="winData.initPrice" :config="{ maxDecimalPlaces: 4 }"></span>
           </p>
         </div>
       </div>
@@ -96,10 +96,8 @@ export default {
       if (newData) {
         this.autoPlay = false;
         let index = parseInt(this.poolList.length * Math.abs(0.5));
-        const data = { ...newData };
-        data.price = data.initPrice;
         this.poolList[index] = [...this.poolList[index].map((x) => (x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x))];
-        this.poolList[index].splice(1, 1, data);
+        this.poolList[index].splice(1, 1, newData);
       }
     },
     autoplay: function (newData) {

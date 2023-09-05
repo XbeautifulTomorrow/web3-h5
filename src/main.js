@@ -39,13 +39,15 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   }
 };
 // 价格小数不满两位保留两位，超过显示全部
-const formatPrice = (el, value) => {
+const formatPrice = (el, value, config) => {
   if (value == null || value == undefined) {
     el.textContent = "0.0";
   } else if (value % 1 === 0) {
     el.textContent = parseFloat(value).toFixed(2);
   } else {
-    el.textContent = parseFloat(value).toFixed(Math.max(value.toString().split(".")[1].length, 2));
+    let decimalPlaces = config && config.maxDecimalPlaces ? config.maxDecimalPlaces : Math.max(value.toString().split(".")[1].length, 2);
+    decimalPlaces = Math.min(decimalPlaces, 4);
+    el.textContent = parseFloat(value).toFixed(decimalPlaces);
   }
 };
 app.directive("priceFormat", {

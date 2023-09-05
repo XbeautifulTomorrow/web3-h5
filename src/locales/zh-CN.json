@@ -295,6 +295,7 @@
     "enterError4": "餘額不足",
     "enterError5": "提款金額不足以支付提款費用",
     "submitHint": "申請成功，請稍後查看系統轉賬",
+    "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "庫存",
     "viewCompetitions": "查看競賽",
     "withdrawing": "提取中",

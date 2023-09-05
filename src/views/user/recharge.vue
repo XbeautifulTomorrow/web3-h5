@@ -410,7 +410,12 @@ export default {
       });
       if (res && res.code == 200) {
         this.renewBalance();
-        this.$message.success(t("user.submitHint"));
+        if (
+          this.userInfo.userType == "NORMAL") {
+          this.$message.success(t("user.submitTestHint"));
+        } else {
+          this.$message.success(t("user.submitHint"));
+        }
         this.handleClose();
       }
     },

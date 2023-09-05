@@ -70,7 +70,6 @@
             </ul>
           </div>
           <el-drawer v-model="showUser" direction="rtl" lock-scroll class="menu_drawer" :with-header="false">
-
             <ul class="menu-list">
               <div class="user_info">
                 <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />

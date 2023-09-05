@@ -6,6 +6,10 @@
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
+        <div class="friendship-logo">
+          <img src="@/assets/svg/certik_logo.svg" alt="logo" />
+        </div>
+
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" alt="">

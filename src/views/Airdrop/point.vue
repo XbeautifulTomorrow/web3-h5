@@ -58,11 +58,11 @@
         </div>
       </div>
       <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
-        <div class="no_date" v-if="!accountPoint || !nftList.length > 0">
+        <div class="no_date" v-if="!accountPoint || !nftList?.length > 0">
           <div class="tips_text" v-if="!accountPoint">{{ $t("airdrop.syncNft") }}</div>
           <div class="tips_text" v-else>{{ $t("airdrop.noData") }}</div>
         </div>
-        <div class="nft_box" v-if="accountPoint && nftList.length > 0">
+        <div class="nft_box" v-if="accountPoint && nftList?.length > 0">
           <div class="nft_item" v-for="(item, index) in nftList" :key="index">
             <div class="image_box">
               <Image fit="cover" class="nft_img" :src="item.nftImg" />
@@ -271,11 +271,11 @@ export default {
         chatId: 1
       });
       if (res && res.code == 200) {
-        this.nftList = res.data.records;
-        this.count = res.data.total;
+        this.nftList = res.data?.records || [];
+        this.count = res.data?.total || 0;
         this.loading = false;
-        if (!res.data.cursor) return;
-        this.addCursor(res.data.cursor)
+        if (!res.data?.cursor) return;
+        this.addCursor(res.data?.cursor)
       }
     },
     addCursor(event) {

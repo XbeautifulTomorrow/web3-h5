@@ -231,13 +231,13 @@
 @media screen and (max-width: 950px) {
   .mystery-boxes {
     width: 100%;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     margin: 0 auto;
     margin-top: 1.5rem;
   }
 
   .home-public-title {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
 
     .title_text {
       font-size: 2rem;
@@ -253,17 +253,14 @@
   }
 
   .boxes-content {
-    margin: 0 auto;
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap;
+    margin: 0 auto 1rem;
 
     &>li+li {
       margin-left: 0.5rem;
     }
 
     &>li:nth-child(n+3) {
-      margin-top: 0.5rem;
+      margin-top: 0;
     }
 
     &>li:nth-child(2n+1) {
@@ -272,8 +269,10 @@
   }
 
   .mystery-boxes-item {
-    width: 9.75rem;
-    height: 13rem;
+    flex: 1;
+    min-width: 45%;
+    max-width: 48%;
+    height: 15rem;
     background-image: url("@/assets/svg/home/mini/nft_box_bg.svg");
 
     &:hover {
@@ -302,8 +301,8 @@
 
       .box-name {
         flex: 1;
+        line-height: 1.6;
         font-size: 0.75rem;
-        line-height: 0.8;
       }
 
       img {
@@ -328,7 +327,15 @@
     }
 
     .other {
-      display: none;
+      padding: 0 0.5rem;
+
+      .sale {
+        font-size: 0.75rem;
+      }
+
+      .sale-val {
+        font-size: 0.625rem;
+      }
     }
   }
 
@@ -337,8 +344,7 @@
     height: 1.5rem;
     border-radius: 1.5rem;
     margin: 0 auto;
-    margin-top: 0.95rem;
-    margin-bottom: 0.6rem;
+    margin-top: 0.5rem;
   }
 
   .boxes-button-name {
@@ -349,11 +355,11 @@
   .ntf-tickets-all {
     margin-top: 2rem;
     cursor: pointer;
-  
+
     font-size: 0.75rem;
     line-height: 1;
     color: #a9a4b4;
-  
+
     img {
       width: 0.75rem;
       height: auto;

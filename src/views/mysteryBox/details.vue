@@ -94,17 +94,17 @@
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
                 <p v-if="item.minPrice == item.maxPrice">
-                  <span v-priceFormat="item.minPrice"></span>
+                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
                   <span> ETH</span>
                 </p>
                 <p v-else>
-                  <span v-priceFormat="item.minPrice"></span>
+                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
                   <span> ETH - </span>
-                  <span v-priceFormat="item.maxPrice"></span>
+                  <span v-priceFormat="formatPrice(item.maxPrice)"></span>
                   <span> ETH</span>
                 </p>
               </div>
-              <div v-else class="series_price"><span v-priceFormat="item.maxPrice"></span> ETH</div>
+              <div v-else class="series_price"><span v-priceFormat="formatPrice(item.maxPrice)"></span> ETH</div>
             </div>
           </div>
           <div class="mask_box">
@@ -364,6 +364,15 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
+    formatPrice(event) {
+      if (!event) return event;
+      const arr = String(event).split(".");
+      if (arr.length > 1 && arr[1].length > 2) {
+        return accurateDecimal(event, 4);
+      } else {
+        return event
+      }
+    }
   },
   watch: {
     blindDetailInfo() {

@@ -290,6 +290,7 @@
     "enterError4": "Insufficient Balance",
     "enterError5": "Insufficient amount to cover withdrawal fee.",
     "submitHint": "Application successful. Please check system transfer status later.",
+    "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "INVENTORY",
     "viewCompetitions": "VIEW TREASURE DRAW",
     "withdrawing": "WITHDRAWLING",

@@ -137,12 +137,12 @@ const loginFun = async (formEl) => {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
-        if (res.data.userType !== "NORMAL") {
-          ElMessage({
-            message: t("common.abnormal"),
-            type: "warning",
-          });
-        }
+        // if (res.data.userType !== "NORMAL") {
+        //   ElMessage({
+        //     message: t("common.abnormal"),
+        //     type: "warning",
+        //   });
+        // }
         userStore.setLogin(res.data);
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();

@@ -39,23 +39,30 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   }
 };
 // 价格小数不满两位保留两位，超过显示全部
-const formatPrice = (el, value, config) => {
+const formatPrice = (el, value, maxDecimalPlaces) => {
   if (value == null || value == undefined) {
     el.textContent = "0.0";
   } else if (value % 1 === 0) {
     el.textContent = parseFloat(value).toFixed(2);
   } else {
-    let decimalPlaces = config && config.maxDecimalPlaces ? config.maxDecimalPlaces : Math.max(value.toString().split(".")[1].length, 2);
-    decimalPlaces = Math.min(decimalPlaces, 4);
-    el.textContent = parseFloat(value).toFixed(decimalPlaces);
+    if (maxDecimalPlaces) {
+      const decimalPlaces = value.toString().split(".")[1].length;
+      if (decimalPlaces > maxDecimalPlaces) {
+        el.textContent = parseFloat(value).toFixed(maxDecimalPlaces);
+      } else {
+        el.textContent = parseFloat(value).toFixed(Math.max(value.toString().split(".")[1].length, 2));
+      }
+    } else {
+      el.textContent = parseFloat(value).toFixed(Math.max(value.toString().split(".")[1].length, 2));
+    }
   }
 };
 app.directive("priceFormat", {
   beforeMount(el, binding) {
-    formatPrice(el, binding.value);
+    formatPrice(el, binding.value, binding.arg);
   },
   updated(el, binding) {
-    formatPrice(el, binding.value);
+    formatPrice(el, binding.value, binding.arg);
   },
 });
 

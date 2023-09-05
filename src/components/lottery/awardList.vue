@@ -37,7 +37,7 @@
           </p>
           <p class="lottery-moreLuck-price">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            <span v-priceFormat="winData.initPrice" :config="{ maxDecimalPlaces: 4 }"></span>
+            <span v-priceFormat:4="winData.initPrice"></span>
           </p>
         </div>
       </div>

@@ -2,20 +2,20 @@
   <div class="award-multi-h5">
     <div class="turntable-box">
       <div class="turntable-content">
-        <img src="@/assets/img/h5/lottery/03.webp" :class="['nft-img', , { autoplay: play }]" alt="" />
+        <img :src="blindDetailInfo.showImgTwo" :class="['nft-img', , { autoplay: play }]" alt="" />
       </div>
       <div class="turntable-middle">
-        <img src="@/assets/img/h5/lottery/04.webp" class="nft-logo" alt="" />
-        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': !play }]" alt="" />
+        <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
+        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': winData?.length > 0 }]" alt="" />
         <img src="@/assets/img/h5/lottery/light.gif" class="light" v-if="isLight" alt="" />
-        <img src="@/assets/img/h5/lottery/03.webp" :class="['ball', { 'ball-big': isBall, 'ball-hidden': isStop }]" alt="" />
+        <img :src="awardImg" :class="['ball', { 'ball-big': isBall, 'ball-hidden': isStop }]" alt="" />
       </div>
     </div>
     <div class="result-link-box">
       <result-link></result-link>
     </div>
-    <div class="award-multi-result" v-if="isStop">
-      <div class="award-item" v-for="(item, index) in winData" :key="index">
+    <div class="award-multi-result">
+      <div class="award-item" v-for="(item, index) in winDataArr" :key="index">
         <div :class="item.qualityType" class="award-item-img">
           <ImageView :src="item.nftCompressImg || item.nftImg" />
         </div>
@@ -40,6 +40,12 @@ export default {
         return [];
       },
     },
+    blindDetailInfo: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
     winData: {
       default: [],
     },
@@ -55,26 +61,46 @@ export default {
       isLight: false,
       isBall: false,
       isStop: false,
+      awardImg: "",
+      winDataArr: [],
+      winDataArrClone: [],
+      delayTime: 0,
     };
   },
   mounted() {
-    this.$emit("delayTime", 6);
+    this.$emit("delayTime", this.delayTime);
   },
-  methods: {},
+  methods: {
+    animationFunc() {
+      if (this.winDataArrClone.length === 0) {
+        this.play = false;
+        return;
+      }
+      this.isLight = false;
+      this.isBall = false;
+      this.isStop = false;
+
+      const currentItem = this.winDataArrClone.shift();
+      this.awardImg = currentItem.nftImg;
+      setTimeout(() => {
+        this.isLight = true;
+      }, 300);
+      setTimeout(() => {
+        this.isLight = false;
+        this.isBall = true;
+      }, 800);
+      setTimeout(() => {
+        this.isStop = true;
+        this.winDataArr.push(currentItem);
+        this.animationFunc(this.winDataArrClone);
+      }, 1000);
+    },
+  },
   watch: {
     winData: function (newData) {
-      if (newData?.length > 0) {
-        this.play = false;
-        setTimeout(() => {
-          this.isLight = true;
-        }, 300);
-        setTimeout(() => {
-          this.isLight = false;
-          this.isBall = true;
-        }, 2000);
-        setTimeout(() => {
-          this.isStop = true;
-        }, 4500);
+      if (newData) {
+        this.winDataArrClone = JSON.parse(JSON.stringify(newData));
+        this.animationFunc(newData);
       }
     },
   },
@@ -96,11 +122,12 @@ export default {
     position: relative;
     width: 60%;
     margin: 0 auto;
-    padding: 0.75rem;
+    padding: 0.2rem;
     .turntable-content {
       display: flex;
-      background: url("@/assets/img/h5/lottery/01.webp") no-repeat;
+      background: url("@/assets/img/h5/lottery/01.webp") no-repeat center;
       background-size: 100% 100%;
+      padding: 5%;
     }
     .nft-img {
       width: 100%;
@@ -117,22 +144,24 @@ export default {
       bottom: 0;
       left: 0;
       right: 0;
-      background: url("@/assets/img/h5/lottery/05.webp") no-repeat;
+      background: url("@/assets/img/h5/lottery/05.gif") no-repeat;
       background-size: 100% 100%;
       .nft-logo {
-        width: 75%;
+        width: 76%;
+        height: 52.97%;
         position: absolute;
-        bottom: 0;
-        left: 50%;
+        bottom: 4%;
+        left: 50.5%;
         transform: translateX(-50%);
+        border-radius: 0.25rem;
       }
       .nft-close {
         position: absolute;
         top: 0.3125rem;
-        left: 26%;
-        width: 49.52%;
+        left: 28%;
+        width: 48%;
         &.nft-open {
-          left: 12%;
+          left: 10%;
         }
       }
       .light {
@@ -150,10 +179,10 @@ export default {
       }
       .ball-big {
         width: 30%;
-        top: 160%;
+        top: 200%;
         left: 50%;
         transform: translateX(-50%);
-        transition: all 1s ease-out;
+        transition: all 0.3s ease-out;
       }
       .ball-hidden {
         display: none;
@@ -166,6 +195,8 @@ export default {
     grid-gap: 0.25rem;
     margin-top: 1.875rem;
     .award-item-img {
+      width: 100%;
+      min-height: calc((100vw - 5rem) / 5);
       padding: 0.25rem;
       padding-bottom: 0;
       img {

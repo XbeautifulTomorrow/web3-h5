@@ -632,7 +632,7 @@
     "take_nft": "Take the NFT",
     "take_all": "Take All",
     "get_eth": "You got",
-    "get_eth_nft": "Keep <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
+    "get_eth_nft": "Keep <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img class=\"public-dialog-icon\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "Your Reward",
     "no_win": "Sorry, you didn't win.",
     "tips_txt": "Official Boxes by Bitzing",
@@ -652,7 +652,7 @@
     "take": "Take",
     "amount": "Amount",
     "sell_all_for": "Sell all for",
-    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
+    "take_all_eth": "Take all NFTs and <img class=\"public-dialog-icon\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
     "waiting": "Waiting"
   }
 }

@@ -442,6 +442,7 @@
     }
     .public-dialog-icon {
       width: 1rem;
+      height: 1rem;
     }
     .result-total {
       font-size: 1rem;
@@ -490,8 +491,9 @@
           margin-top: 0.25rem;
         }
         .result-sell-get {
-          margin: 0.25rem 0;
           font-size: 0.625rem;
+          margin-top: 1rem;
+          margin-bottom: 0.5rem;
         }
       }
     }
@@ -511,5 +513,13 @@
     .public-dialog-button-p {
       font-size: 0.75rem;
     }
+  }
+  .result-total-other {
+    font-size: 1rem;
+    top: 0.1rem;
+  }
+  .public-dialog-icon {
+    width: 1rem;
+    height: 1rem;
   }
 }

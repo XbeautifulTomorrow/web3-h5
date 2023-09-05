@@ -52,3 +52,12 @@
     color: #df4328;
   }
 }
+
+@media screen and (max-width: 950px) {
+  .custom-notify {
+    width: 20rem;
+    &.lottery-warning-notify {
+      width: 20rem;
+    }
+  }
+}

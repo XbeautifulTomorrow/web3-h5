@@ -147,7 +147,7 @@
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else>
-                <template v-if="picNftLen > 0">
+                <template v-if="picNftLen > 0 && coinTypeTotal > 0">
                   <span class="public-dialog-button-p" v-html="$t('lottery.take_all_eth', { src: coinSrc, numEth: coinTypeTotal })"></span>
                   <span class="font1" v-if="second > 0">({{ second }}s)</span>
                 </template>
@@ -535,13 +535,22 @@ const getTheUserBalanceApi = async () => {
     margin-left: 0 !important;
   }
 }
-@media (min-height: 1200px) {
+@media (max-width: 950px) {
   .result-dialog-content {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    .font4 {
+      position: relative;
+      top: 1px;
+    }
+  }
+  .result-footer {
+    .result-total-other {
+      font-size: 1rem;
+      top: 0.1rem;
+    }
+    .public-dialog-icon {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }
 </style>

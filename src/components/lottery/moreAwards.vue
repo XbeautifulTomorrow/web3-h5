@@ -5,7 +5,7 @@
         <p class="public-color-one roll-title">{{ blindDetailInfo.boxName }}</p>
         <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
       </div>
-      <div class="lottery-moreLuck-bg" v-if="innerWidth > 950">
+      <div class="lottery-moreLuck-bg">
         <div :class="['lottery-moreLuck', { 'lottery-moreLuck-Big': prizeList?.length > 5 }]">
           <p class="lottery-moreLuck-line"></p>
           <awards-list
@@ -20,10 +20,15 @@
           />
         </div>
       </div>
-      <div class="result-link-box" v-if="innerWidth > 950">
+      <div class="result-link-box">
         <result-link></result-link>
       </div>
-      <award-multi-h5 v-if="innerWidth <= 950" :winData="awardItem" @delayTime="delayTime"></award-multi-h5>
+      <!-- <award-multi-h5
+        v-if="innerWidth <= 950"
+        :winData="awardItem"
+        :blindDetailInfo="blindDetailInfo"
+        @delayTime="delayTime"
+      ></award-multi-h5> -->
     </div>
   </div>
 </template>
@@ -152,6 +157,7 @@ export default {
       this.timer = setInterval(() => {
         const { numberTest } = this;
         this.winData.push(data[numberTest]);
+        console.log(this.winData, "---------------");
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         setTimeout(() => {
@@ -173,13 +179,6 @@ export default {
         }
       }, 1000);
     },
-    stopScrollH5() {
-      this.slipeMusic && this.slipeMusic.pause();
-      this.playSound(moreUsually);
-      setTimeout(() => {
-        this.$emit("showResultFun", true);
-      }, this.delayTimer * 1000);
-    },
     autoplayFun(data = false) {
       const number = this.prizeList.length;
       for (let i = 0; i < number; i++) {
@@ -195,13 +194,8 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
-        const { innerWidth } = window;
         if (newData.length > 0) {
-          if (innerWidth > 950) {
-            this.stopScroll(newData);
-          } else {
-            this.stopScrollH5();
-          }
+          this.stopScroll(newData);
         }
       },
     },

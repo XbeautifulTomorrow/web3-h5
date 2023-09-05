@@ -317,7 +317,13 @@ export default {
         }
         this.headerStoreStore.getTheUserBalanceApi();
       } else {
-        this.showDialog = "";
+        if (res?.length == 3 && res[2].messageKey == "already_automatically_recycled") {
+          localStorage.removeItem("result");
+          this.showDialog = dialog;
+          this.headerStoreStore.getTheUserBalanceApi();
+        } else {
+          this.showDialog = "";
+        }
       }
     },
     getTheUserBalanceApiFun() {

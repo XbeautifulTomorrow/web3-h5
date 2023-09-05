@@ -20,6 +20,7 @@ const Snapshot = () => import("../views/snapshot/index.vue");
 const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
 const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
+const toError = () => import(/* webpackChunkName: "1020" */ "../views/503/index.vue");
 const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
 
 //2. 路由配置
@@ -116,6 +117,13 @@ const routes = [
       default: FAQ,
       Header,
       Footer
+    },
+  },
+  {
+    path: "/503",
+    name: "503",
+    components: {
+      default: toError
     },
   },
   {

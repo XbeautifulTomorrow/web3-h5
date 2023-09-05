@@ -28,7 +28,7 @@
     :close-on-click-modal="false"
     :show-close="false"
     :align-center="true"
-    class="public-dialog"
+    class="public-dialog mystery-dialog"
     width="800px"
     :before-close="handleClose"
   >
@@ -369,6 +369,14 @@ export default {
   line-height: 1.6;
   text-align: left;
   color: #a9a4b4;
+}
+@media (max-width: 950px) {
+  .public-dialog-title {
+    font-size: 1.125rem !important;
+  }
+  .tips-text {
+    font-size: 0.75rem !important;
+  }
 }
 </style>
 <style lang="scss">

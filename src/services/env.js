@@ -1,13 +1,12 @@
 const config = {
   dev: {
-    api: "https://www.bitzing.io/",
+    api: "/",
   },
   test: {
-    // api: "http://221.236.31.34:16082/",
-    api: "https://www.bitzing.io/",
+    api: "http://221.236.31.34:16082/",
   },
   pro: {
-    api: "https://www.bitzing.io/",
+    api: "/",
   },
 };
 

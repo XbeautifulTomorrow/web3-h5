@@ -16,8 +16,7 @@
             <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
           <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
-            <div class="title"><img src="@/assets/svg/box/icon_description.svg" alt="" /> {{ $t("mysteryBox.description")
-            }}</div>
+            <div class="title"><img src="@/assets/svg/box/icon_description.svg" alt="" /> {{ $t("mysteryBox.description") }}</div>
             <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
             <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
               <span>See more</span>
@@ -75,8 +74,13 @@
         <div class="title_text">{{ $t("mysteryBox.seriesTitle") }}</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series" :key="index">
+        <div
+          class="nft_series_item"
+          @click="handleShowNft(item)"
+          :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series"
+          :key="index"
+        >
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -120,8 +124,12 @@
         </div>
         <div class="title-box-r">
           <div class="title">{{ $t("mysteryBox.snapshotId") }}</div>
-          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
-            :placeholder="$t('mysteryBox.snapshotIdHint')">
+          <el-input
+            v-model.number="snapshotId"
+            @keyup.enter="handleSearch()"
+            class="snapshot_input"
+            :placeholder="$t('mysteryBox.snapshotIdHint')"
+          >
             <template #suffix>
               <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
@@ -142,8 +150,16 @@
           </div>
         </div>
         <div class="pagination-box" v-if="count > size">
-          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+          <el-pagination
+            v-model="page"
+            :page-size="size"
+            @current-change="handleCurrentChange"
+            :pager-count="7"
+            layout="prev, pager, next"
+            :total="count"
+            :prev-text="$t('common.prev')"
+            :next-text="$t('common.next')"
+          />
         </div>
       </div>
     </div>
@@ -159,8 +175,7 @@
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-      @closeFun="showSeriesDialog = false"></series-slider>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName" @closeFun="showSeriesDialog = false"></series-slider>
   </el-dialog>
 </template>
 
@@ -370,24 +385,22 @@ export default {
       if (arr.length > 1 && arr[1].length > 2) {
         return accurateDecimal(event, 4);
       } else {
-        return event
+        return event;
       }
-    }
+    },
   },
   watch: {
     blindDetailInfo() {
       this.fetchSnapshotList();
+      this.$nextTick(() => {
+        const contentInfo = this.$refs.contentInfo;
+        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
+      });
     },
   },
   mounted() {
     emitter.on("unBoxAgainFunc", (type) => {
       this.rollNumberFun(type);
-    });
-    this.$nextTick(() => {
-      setTimeout(() => {
-        const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
-      }, 200);
     });
   },
 };

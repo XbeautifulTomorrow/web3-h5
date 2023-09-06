@@ -382,7 +382,7 @@ const getTheUserBalanceApi = async () => {
   if (res && res.localDateTime) {
     const timer = parseInt(60 - Math.ceil(new Date(res.localDateTime) - new Date(result[0].lotteryTime)) / 1000);
     const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 11;
-    second.value = parseInt(timer + extraTime);
+    second.value = parseInt(timer + extraTime) > 60 ? 60 : parseInt(timer + extraTime);
   }
 };
 </script>

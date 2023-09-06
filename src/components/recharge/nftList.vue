@@ -65,7 +65,7 @@
         </div>
         <div class="collections_box">
           <div class="collections_text">Collections:</div>
-          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
+          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All"
             :popper-append-to-body="false">
             <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
               :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
@@ -192,7 +192,6 @@ const props = defineProps({
 const page = ref(1);
 const size = ref(8);
 const count = ref(0);
-const timer = ref("");
 
 const show = ref(true);
 const showWithdraw = ref(false);
@@ -215,7 +214,6 @@ const nftTypes = [
 onMounted(() => {
   if (props.isDeposit) {
     page.value = 0;
-    getWalletNftApi();
 
     const { web3 } = useWalletStore();
     accountAddress.value = web3?.eth?.defaultAccount;
@@ -432,11 +430,15 @@ const fetchSystemNft = async (isSearch = true) => {
 const fetchExternalSeries = async () => {
   const { userInfo } = useUserStore();
   const res = await getTheExternalNFTSeries({
-    userId: userInfo?.id,
+    userId: props.isDeposit ? null : userInfo?.id,
     type: "ALL"
   });
 
   collections.value = res.data;
+
+  if (props.isDeposit) {
+    getWalletNftApi();
+  }
 };
 
 const changeType = () => {
@@ -458,46 +460,27 @@ const getWalletNftApi = async (isSearch = true) => {
   const collections = params.collections && params.collections.split("+") || [];
 
   loading.value = true;
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-  if (accounts && accounts[0]) {
-    Promise.all([
-      getWalletNft({
-        contractAddress: collections[0],
-        address: accounts[0],
-        cursor: pageList.value[_page],
-        size: size.value,
-        chatId: config.ENV == "pro" ? 1 : null,
-        keyword: params.nftName,
-        tokenId: collections[1] && collections[1] || undefined,
-      }),
-      getTheExternalNFTSeries({
-        type: "ALL"
-      }),
-    ]).then((res) => {
-      if (
-        res &&
-        res[0] &&
-        res[1] &&
-        res[0].code === 200 &&
-        res[1].code === 200 &&
-        res[0].data &&
-        res[1].data
-      ) {
+  if (accountAddress.value) {
+    const res = await getWalletNft({
+      contractAddress: collections[0] && collections[0],
+      address: accountAddress.value,
+      cursor: pageList.value[_page],
+      size: size.value,
+      chatId: config.ENV == "pro" ? 1 : null,
+      keyword: params.nftName,
+      tokenId: collections[1] && collections[1] || undefined,
+    })
 
-        loading.value = false;
+    loading.value = false;
 
-        count.value = res[0].data.total;
-        addCursor(res[0].data.cursor);
+    if (res && res.code === 200 && res.data) {
+      count.value = res.data.total;
+      addCursor(res.data.cursor);
 
-        collections.value = JSON.parse(JSON.stringify(res[1].data));
-
-        chooseNftData.value = JSON.parse(
-          JSON.stringify(res[0].data.records)
-        )
-      }
-    });
+      chooseNftData.value = JSON.parse(
+        JSON.stringify(res.data.records)
+      )
+    }
   }
 };
 

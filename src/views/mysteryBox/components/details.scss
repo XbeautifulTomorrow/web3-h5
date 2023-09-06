@@ -109,14 +109,14 @@
       opacity: 0;
     }
 
-    & > .title {
+    &>.title {
       font-size: 1.25rem;
       font-weight: 500;
       line-height: 1.5;
       color: white;
     }
 
-    & > .text {
+    &>.text {
       width: 100%;
       height: 9rem;
       white-space: pre-wrap;
@@ -137,7 +137,7 @@
       }
     }
 
-    & > .see-more {
+    &>.see-more {
       display: flex;
       align-items: center;
       font-size: 1.125rem;
@@ -214,6 +214,7 @@
   }
 
   .lottery_info {
+
     .open_text,
     .box_text {
       font-family: BlenderPro;
@@ -309,15 +310,15 @@
     display: flex;
     flex-wrap: wrap;
 
-    & > div {
+    &>div {
       margin-bottom: 1.875rem;
     }
 
-    & > div + div {
+    &>div+div {
       margin-left: 1.875rem;
     }
 
-    & > div:nth-child(4n + 1) {
+    &>div:nth-child(4n + 1) {
       margin-left: 0;
     }
   }
@@ -458,7 +459,7 @@
     }
 
     &:hover {
-      & > .mask_box {
+      &>.mask_box {
         display: flex;
       }
     }
@@ -485,15 +486,15 @@
   flex-wrap: wrap;
   padding: 1.25rem;
 
-  & > div + div {
+  &>div+div {
     margin-left: 0.625rem;
   }
 
-  & > div:nth-child(n + 13) {
+  &>div:nth-child(n + 13) {
     margin-top: 0.625rem;
   }
 
-  & > div:nth-child(12n + 1) {
+  &>div:nth-child(12n + 1) {
     margin-left: 0;
   }
 
@@ -545,12 +546,12 @@
         bottom: 0;
       }
 
-      & > .nft_info {
+      &>.nft_info {
         display: inline-block;
         transition: all 0.3s;
       }
 
-      & > .nft_info_active {
+      &>.nft_info_active {
         // display: none;
         transform: scale(0);
         transition: all 0.3s;
@@ -566,12 +567,12 @@
       }
 
       .active_btn {
-        & > .nft_info {
+        &>.nft_info {
           // display: none;
           transform: scale(0);
         }
 
-        & > .nft_info_active {
+        &>.nft_info_active {
           display: inline-block;
           transform: scale(1.5);
         }
@@ -713,7 +714,7 @@
   }
 
   :deep(.el-pager) {
-    & > li + li {
+    &>li+li {
       margin-left: 0.75rem;
     }
 
@@ -911,7 +912,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 0.625rem;
 
-        & > div {
+        &>div {
           margin-bottom: 0.5rem;
         }
 
@@ -926,8 +927,7 @@
             flex-wrap: wrap;
           }
 
-          .item_bg {
-          }
+          .item_bg {}
 
           .img_box {
             height: auto;
@@ -977,7 +977,7 @@
           }
         }
 
-        & > div + div {
+        &>div+div {
           margin-left: 0.5rem;
         }
       }
@@ -1067,11 +1067,11 @@
             }
 
             .active_btn {
-              & > .nft_info {
+              &>.nft_info {
                 transform: scale(1);
               }
 
-              & > .nft_info_active {
+              &>.nft_info_active {
                 transform: scale(1);
               }
             }
@@ -1079,8 +1079,7 @@
         }
       }
 
-      .nft_info_active {
-      }
+      .nft_info_active {}
 
       .pagination-box {
         padding-bottom: 0.625rem;
@@ -1111,9 +1110,11 @@
         font-size: 0.75rem;
       }
     }
+
     .discount {
       width: 5rem;
       height: 5rem;
+
       .val {
         font-size: 0.75rem;
         padding-bottom: 1.3rem;
@@ -1126,21 +1127,5 @@
   .nft_series_list {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-:deep(.dialog_box) {
-  border-radius: 1.25rem;
-  box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
-  background-color: #20222d;
-
-  .el-dialog__header {
-    display: none;
-  }
-
-  .el-dialog__body {
-    padding: 0;
-    position: relative;
-    padding: 3.75rem 0;
   }
 }

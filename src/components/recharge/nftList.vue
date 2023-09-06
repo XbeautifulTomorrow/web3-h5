@@ -192,6 +192,7 @@ const props = defineProps({
 const page = ref(1);
 const size = ref(8);
 const count = ref(0);
+const timer = ref("");
 
 const show = ref(true);
 const showWithdraw = ref(false);
@@ -484,6 +485,7 @@ const getWalletNftApi = async (isSearch = true) => {
         res[0].data &&
         res[1].data
       ) {
+
         loading.value = false;
 
         count.value = res[0].data.total;
@@ -494,8 +496,6 @@ const getWalletNftApi = async (isSearch = true) => {
         chooseNftData.value = JSON.parse(
           JSON.stringify(res[0].data.records)
         )
-      } else {
-        getWalletNftApi();
       }
     });
   }

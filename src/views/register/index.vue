@@ -1,81 +1,84 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content" v-if="!isLogin">
-      <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
-      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
-        :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item :label="$t('login.email')" prop="email">
-          <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
-        </el-form-item>
-        <el-form-item :label="$t('login.password')" prop="passWord">
-          <el-input v-model="formRegister.passWord" class="public-input" :placeholder="$t('login.passwordHint')"
-            type="password" show-password />
-        </el-form-item>
-        <el-form-item :label="$t('login.confirmPwd')" prop="confirm">
-          <el-input v-model="formRegister.confirm" class="public-input" :placeholder="$t('login.confirmPwdHint')"
-            type="password" show-password />
-        </el-form-item>
-        <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
-          <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
-            <template #suffix>
-              <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
+  <div>
+    <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content" v-if="!isLogin">
+        <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
+        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
+          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+          <el-form-item :label="$t('login.email')" prop="email">
+            <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
+          </el-form-item>
+          <el-form-item :label="$t('login.password')" prop="passWord">
+            <el-input v-model="formRegister.passWord" class="public-input" :placeholder="$t('login.passwordHint')"
+              type="password" show-password />
+          </el-form-item>
+          <el-form-item :label="$t('login.confirmPwd')" prop="confirm">
+            <el-input v-model="formRegister.confirm" class="public-input" :placeholder="$t('login.confirmPwdHint')"
+              type="password" show-password />
+          </el-form-item>
+          <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
+            <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
+              <template #suffix>
+                <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
 
-              <el-button type="warning" v-loading="loading" @click.stop="sendVerify(ruleFormRef)">
-                {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <!-- <el-form-item label="InviteCode (Not Required)">
+                <el-button type="warning" v-loading="loading" @click.stop="sendVerify(ruleFormRef)">
+                  {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
+              </template>
+            </el-input>
+          </el-form-item>
+          <!-- <el-form-item label="InviteCode (Not Required)">
           <el-input
             v-model="formRegister.inviteCode"
             placeholder="Enter your inviteCode"
           />
         </el-form-item> -->
-      </el-form>
-      <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
-      <div class="form-link">
-        <div class="form-rember">
-          <span class="form-rember-rectangle" @click="showRememberFun">
-            <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
-          </span>
-          <span class="form-rember-text">
-            <span>{{ $t("login.termsText") }}</span>
-            <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
-          </span>
+        </el-form>
+        <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
+        <div class="form-link">
+          <div class="form-rember">
+            <span class="form-rember-rectangle" @click="showRememberFun">
+              <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
+            </span>
+            <span class="form-rember-text">
+              <span>{{ $t("login.termsText") }}</span>
+              <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
+            </span>
+          </div>
         </div>
+        <el-button v-if="!showRemember" class="public-button form-button disabled">
+          {{ $t("login.completeUpper") }}
+        </el-button>
+        <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
+          {{ $t("login.completeUpper") }}
+        </el-button>
       </div>
-      <el-button v-if="!showRemember" class="public-button form-button disabled">
-        {{ $t("login.completeUpper") }}
-      </el-button>
-      <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
-        {{ $t("login.completeUpper") }}
-      </el-button>
-    </div>
-    <div class="public-dialog-content form-content" v-else>
-      <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
-      <p class="public-dialog-description">
-        Using two-factor authentication is highly recommended because it protects your account with both your password and
-        your phone.</p>
-      <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
-        {{ $t("user.confirmBtn") }}
-      </el-button>
-      <el-button class="public-button form-button cancel-button" @click="emit('changeTypeFun', 'modify')">
-        {{ $t("common.skip") }}
-      </el-button>
-    </div>
-    <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
-    <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
-  </el-dialog>
+      <div class="public-dialog-content form-content" v-else>
+        <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
+        <p class="public-dialog-description">
+          Using two-factor authentication is highly recommended because it protects your account with both your password
+          and
+          your phone.</p>
+        <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
+          {{ $t("user.confirmBtn") }}
+        </el-button>
+        <el-button class="public-button form-button cancel-button" @click="emit('changeTypeFun', 'modify')">
+          {{ $t("common.skip") }}
+        </el-button>
+      </div>
+      <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
+      <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
 import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";

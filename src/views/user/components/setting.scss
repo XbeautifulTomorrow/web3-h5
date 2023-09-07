@@ -292,3 +292,177 @@
     }
   }
 }
+
+@media screen and (max-width: 950px) {
+  .my_setting_wrapper {
+    width: 100%;
+    background-image: none;
+    min-height: auto;
+  }
+
+  .user_panel {
+    min-width: auto;
+    padding: 0.5rem 0;
+  }
+
+  .avatar_box {
+
+    .avatar_img {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  .username_box {
+    margin: 0.5rem 0 0.5rem;
+
+    .name_text {
+      font-size: 0.875rem;
+
+      .edit {
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-left: 0.25rem;
+      }
+    }
+
+    .wallet_text {
+      font-size: 0.75rem;
+    }
+  }
+
+  .username_modify {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 0.75rem;
+
+    .modify_btn {
+      height: 2rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .communication_setting {
+    margin: 0 auto;
+    width: 100%;
+
+    .setting_text {
+      font-size: 0.875rem;
+    }
+
+    .email_setting {
+      justify-content: flex-start;
+      padding-top: 0.5rem;
+
+      font-size: 0.75rem;
+
+      &>span {
+        padding-left: 1rem;
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+  .safety_verification {
+    padding: 1.25rem 0 0;
+  }
+
+  .title_box {
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+
+    .title_text {
+      font-size: 0.875rem;
+    }
+
+    .switch_btn {
+      padding-left: 0.5rem;
+      font-size: 0.75rem;
+
+      &.turn_on {
+        color: #0cbb3e;
+      }
+
+      img {
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-left: 0.25rem;
+      }
+    }
+  }
+
+  .recommended_info {
+    width: 100%;
+    font-size: 0.625rem;
+    text-align: left;
+  }
+
+  .verification_operating {
+    width: 100%;
+    padding-top: 1.25rem;
+    box-sizing: border-box;
+
+    &.close {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      box-sizing: border-box;
+    }
+  }
+
+  .verification_close {
+    width: 100%;
+
+    .close_title {
+      font-size: 0.75rem;
+      padding-bottom: 0.5rem;
+    }
+
+    :deep(.verification_input) {
+      margin-bottom: 0.75rem;
+
+      .el-input__wrapper {
+        height: 1.5rem;
+        border-radius: 0.25rem;
+
+        &>input {
+          font-size: 0.75rem;
+          height: 1.5rem;
+        }
+      }
+    }
+
+    .error_box {
+      padding-bottom: 1.25rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .create_verification_btn {
+    height: 2rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .other_box {
+    width: 100%;
+    padding-top: 1.25rem;
+
+    &.close {
+      padding-top: 1.25rem;
+    }
+
+    .exit_btn {
+      .exit_text {
+        font-size: 1rem;
+        padding-right: 0.5rem;
+      }
+
+      img {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}

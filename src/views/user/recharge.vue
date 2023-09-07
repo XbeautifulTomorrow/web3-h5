@@ -75,11 +75,7 @@
                   <img src="@/assets/svg/user/icon_warning.svg" alt="" />
                 </div>
                 <div class="hint_r">
-                  {{ $t("user.hintText1", {
-                    coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'ERC-20'}`,
-                    network1: `${operatingCoin == 'ETH' ? 'Binance Smart Chain' : 'ERC20'}`,
-                    network2: `${operatingCoin == 'ETH' ? 'third-party smart contracts' : 'TRC20'}`
-                  }) }}
+                  {{ $t("user.hintText1") }}
                 </div>
               </div>
               <div class="hint_item" v-if="operatingCoin == 'ETH'">

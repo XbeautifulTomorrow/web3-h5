@@ -292,6 +292,7 @@ export default {
       this.$router.push({ path: `/${page}` });
     },
     othersideBoxFun(item) {
+      this.showUser = false;
       if (item.page === "logout") {
         this.userStore.logoutApi();
         this.reload();

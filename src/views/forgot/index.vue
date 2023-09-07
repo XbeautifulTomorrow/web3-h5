@@ -1,49 +1,51 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ title }}</p>
-      <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
-        :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item :label="$t('login.email')" prop="email">
-          <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
-        </el-form-item>
-        <el-form-item prop="code">
-          <div class="auth_code">
-            <el-input v-model="formLogin.code" class="public-input" :placeholder="$t('common.verifyEnter')" />
-            <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
-            <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
-          </div>
-        </el-form-item>
-        <div class="form-buttons">
-          <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
-            {{ $t("common.cancel") }}
-          </el-button>
-          <el-button class="public-button" @click="resetFun(ruleFormRef)" v-loading="loading">
-            {{ $t("login.resetPwd") }}
-          </el-button>
+  <div>
+    <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
+      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+          <el-icon>
+            <Close />
+          </el-icon>
         </div>
-      </el-form>
-      <code-popup v-else-if="type === 1" :email="formLogin.email" @changeTypeFun="changeTypeFun" />
-      <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" :formLogin="formLogin" />
-      <template v-else>
-        <p class="public-dialog-illustrate">
-          {{ $t("login.resetSuccess") }}
-        </p>
-        <el-button class="public-button" @click="goTo('login')">
-          {{ $t("common.login") }}
-        </el-button>
       </template>
-    </div>
-  </el-dialog>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">{{ title }}</p>
+        <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
+          :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-form">
+          <el-form-item :label="$t('login.email')" prop="email">
+            <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
+          </el-form-item>
+          <el-form-item prop="code">
+            <div class="auth_code">
+              <el-input v-model="formLogin.code" class="public-input" :placeholder="$t('common.verifyEnter')" />
+              <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
+              <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
+            </div>
+          </el-form-item>
+          <div class="form-buttons">
+            <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
+              {{ $t("common.cancel") }}
+            </el-button>
+            <el-button class="public-button" @click="resetFun(ruleFormRef)" v-loading="loading">
+              {{ $t("login.resetPwd") }}
+            </el-button>
+          </div>
+        </el-form>
+        <code-popup v-else-if="type === 1" :email="formLogin.email" @changeTypeFun="changeTypeFun" />
+        <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" :formLogin="formLogin" />
+        <template v-else>
+          <p class="public-dialog-illustrate">
+            {{ $t("login.resetSuccess") }}
+          </p>
+          <el-button class="public-button" @click="goTo('login')">
+            {{ $t("common.login") }}
+          </el-button>
+        </template>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
 import { ref, reactive, defineEmits, onMounted } from "vue";

@@ -1,20 +1,22 @@
 <template>
-  <el-dialog v-model="newValue" destroy-on-close width="43.75rem" class="public-dialog recharge-coin" :show-close="false"
-    :align-center="true" :append-to-body="true">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <h2 class="wallet-title">{{ title }} NFT'S</h2>
-    <p class="wallet-text">Choose a wallet connection method</p>
-    <Link class="login-margin-top" v-loading="connectType == 1" :src="require('@/assets/svg/user/meta_mask.svg')"
-      text="MetaMask" :showIcon="connectType == 1" link="home" @click="connectMetaMask" />
-    <Link class="login-margin-top" v-loading="connectType == 2" :src="require('@/assets/svg/user/wallet_connect.svg')"
-      text="WalletConnect" :showIcon="connectType == 2" link="https://translate.google.com" @click="connectWallet()" />
-  </el-dialog>
+  <div>
+    <el-dialog v-model="newValue" destroy-on-close width="43.75rem" class="public-dialog recharge-coin"
+      :show-close="false" :align-center="true" :before-close="closeDialogFun" :append-to-body="true">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <h2 class="wallet-title">{{ title }} NFT'S</h2>
+      <p class="wallet-text">Choose a wallet connection method</p>
+      <Link class="login-margin-top" v-loading="connectType == 1" :src="require('@/assets/svg/user/meta_mask.svg')"
+        text="MetaMask" :showIcon="connectType == 1" link="home" @click="connectMetaMask" />
+      <Link class="login-margin-top" v-loading="connectType == 2" :src="require('@/assets/svg/user/wallet_connect.svg')"
+        text="WalletConnect" :showIcon="connectType == 2" link="https://translate.google.com" @click="connectWallet()" />
+    </el-dialog>
+  </div>
 </template>
 <script>
 import Web3 from "web3";

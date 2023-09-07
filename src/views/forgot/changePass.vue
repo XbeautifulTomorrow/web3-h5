@@ -1,35 +1,37 @@
 <template>
-  <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-    class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
-        <el-icon>
-          <Close />
-        </el-icon>
+  <div>
+    <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
+      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">{{ $t("user.changePass") }}</p>
+        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
+          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+          <el-form-item prop="oldPassword">
+            <el-input v-model="formForgot.oldPassword" :placeholder="$t('user.oldPass')" class="public-input"
+              type="password" show-password />
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input v-model="formForgot.password" :placeholder="$t('user.newPass')" class="public-input" type="password"
+              show-password />
+          </el-form-item>
+          <el-form-item prop="confirm">
+            <el-input v-model="formForgot.confirm" :placeholder="$t('user.confirmPass')" class="public-input"
+              type="password" show-password />
+          </el-form-item>
+          <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
+            {{ $t("user.resetPass") }}
+          </el-button>
+        </el-form>
       </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ $t("user.changePass") }}</p>
-      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
-        :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item prop="oldPassword">
-          <el-input v-model="formForgot.oldPassword" :placeholder="$t('user.oldPass')" class="public-input"
-            type="password" show-password />
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="formForgot.password" :placeholder="$t('user.newPass')" class="public-input" type="password"
-            show-password />
-        </el-form-item>
-        <el-form-item prop="confirm">
-          <el-input v-model="formForgot.confirm" :placeholder="$t('user.confirmPass')" class="public-input"
-            type="password" show-password />
-        </el-form-item>
-        <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
-          {{ $t("user.resetPass") }}
-        </el-button>
-      </el-form>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
 import { ref, reactive, defineEmits } from "vue";

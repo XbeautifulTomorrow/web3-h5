@@ -273,7 +273,7 @@
     "sendHint": "Send the amount of { coin } of your choice to the following address to receive the equivalent in Coins.",
     "enterAddrHint": "Paste your ERC20 wallet address here.",
     "copy": "COPY",
-    "hintText1": "Use only the { coin } network for deposits and avoid both { network1 } and { network2 } for transfers.",
+    "hintText1": "Use only the Ethereum network for deposits and avoid both Binance Smart Chain and third-party smart contracts for transfers.",
     "hintText2": "Do NOT send NFTs to this deposit address. To recover NFTs deposited to this address in error, an administrative fee will be charged.",
     "hintText3": "The value of { coin } may change between now and the time we receive your payment",
     "hintText4": "Please enter the { coin } wallet address you wish to receive the funds on. Once confirmed, the withdrawal is usually processed within a few minutes.",

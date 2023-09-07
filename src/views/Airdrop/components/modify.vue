@@ -1,31 +1,33 @@
 <template>
-  <el-dialog v-model="showModify" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-    class="public-dialog" width="43.75rem" :before-close="handleClose">
-    <template #header>
-      <div class="close_btn" @click="handleClose()">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ $t("airdrop.pleaseNameTitle") }}</p>
-      <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
-        :hide-required-asterisk="true" :status-icon="true" class="public-form">
-        <el-form-item prop="name">
-          <el-input class="public-input" v-model="formUser.name" :placeholder="$t('airdrop.nameHint')" />
-        </el-form-item>
-        <div class="form-buttons">
-          <el-button class="public-button cancel-button" @click="handleClose()">
-            {{ $t("common.cancelUpper") }}
-          </el-button>
-          <el-button class="public-button" @click="resetUserName('ruleFormRef')">
-            {{ $t("common.submit") }}
-          </el-button>
+  <div>
+    <el-dialog v-model="showModify" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
+      class="public-dialog" width="43.75rem" :before-close="handleClose">
+      <template #header>
+        <div class="close_btn" @click="handleClose()">
+          <el-icon>
+            <Close />
+          </el-icon>
         </div>
-      </el-form>
-    </div>
-  </el-dialog>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">{{ $t("airdrop.pleaseNameTitle") }}</p>
+        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formUser" :rules="rules"
+          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+          <el-form-item prop="name">
+            <el-input class="public-input" v-model="formUser.name" :placeholder="$t('airdrop.nameHint')" />
+          </el-form-item>
+          <div class="form-buttons">
+            <el-button class="public-button cancel-button" @click="handleClose()">
+              {{ $t("common.cancelUpper") }}
+            </el-button>
+            <el-button class="public-button" @click="resetUserName('ruleFormRef')">
+              {{ $t("common.submit") }}
+            </el-button>
+          </div>
+        </el-form>
+      </div>
+    </el-dialog>
+  </div>
 </template>
     
 <script>
@@ -102,7 +104,7 @@ export default {
         callback();
       }
     };
-    
+
     this.rules = {
       name: [
         { required: true, message: t("airdrop.pleaseName"), trigger: ["blur", "change"] },

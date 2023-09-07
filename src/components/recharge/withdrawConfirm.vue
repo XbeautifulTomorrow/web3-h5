@@ -1,56 +1,58 @@
 <template>
-  <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" :width="dialogType == 1 ? '43.75rem' : '32.625rem'" :before-close="handleClose">
-    <template #header>
-      <div class="close_btn" @click="handleClose()">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title" v-if="dialogType == 1">{{ $t("recharge.confirmTitle") }}</p>
-      <Image v-else-if="dialogType == 4" :src="nftInfo.nftImg" fit="cover" :class="['nft_img', 'depositImg']" />
-      <Image v-else fit="cover" :src="require('@/assets/img/home/loading.png')" class="loading-img" />
-      <div class="confirm-description" v-if="dialogType == 1">
-        <span class="description-text" v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"></span>
-        <span>{{ $t("recharge.confirmDescription2") }}</span>
-      </div>
-      <div v-else-if="dialogType == 2">
-        <div class="wait-title">{{ $t("recharge.waitTitle") }}</div>
-        <div class="wait-text">{{ $t("recharge.waitText") }}</div>
-      </div>
-      <div v-else-if="dialogType == 3">
-        <div class="wait-title">{{ $t("recharge.depositWaitTitle") }}</div>
-        <div class="wait-text">{{ $t("recharge.depositWaitText") }}</div>
-      </div>
-      <div v-else-if="dialogType == 4">
-        <div class="wait-title">{{ $t("recharge.completeTitle1") }}</div>
-        <div class="wait-text deposit_nft">
-          <span>{{ $t("recharge.nftLabel") }}</span>
+  <div>
+    <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+      class="public-dialog" :width="dialogType == 1 ? '43.75rem' : '32.625rem'" :before-close="handleClose">
+      <template #header>
+        <div class="close_btn" @click="handleClose()">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title" v-if="dialogType == 1">{{ $t("recharge.confirmTitle") }}</p>
+        <Image v-else-if="dialogType == 4" :src="nftInfo.nftImg" fit="cover" :class="['nft_img', 'depositImg']" />
+        <Image v-else fit="cover" :src="require('@/assets/img/home/loading.png')" class="loading-img" />
+        <div class="confirm-description" v-if="dialogType == 1">
+          <span class="description-text" v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"></span>
+          <span>{{ $t("recharge.confirmDescription2") }}</span>
+        </div>
+        <div v-else-if="dialogType == 2">
+          <div class="wait-title">{{ $t("recharge.waitTitle") }}</div>
+          <div class="wait-text">{{ $t("recharge.waitText") }}</div>
+        </div>
+        <div v-else-if="dialogType == 3">
+          <div class="wait-title">{{ $t("recharge.depositWaitTitle") }}</div>
+          <div class="wait-text">{{ $t("recharge.depositWaitText") }}</div>
+        </div>
+        <div v-else-if="dialogType == 4">
+          <div class="wait-title">{{ $t("recharge.completeTitle1") }}</div>
+          <div class="wait-text deposit_nft">
+            <span>{{ $t("recharge.nftLabel") }}</span>
+            <span>{{ nftInfo.name || "-" }}</span>
+          </div>
+        </div>
+        <div class="deposit_tx_id" v-if="dialogType == 4">
+          <span>{{ $t("recharge.transactionId") }}</span>
+          <span @click="viewTxid()">{{ txId }}</span>
+        </div>
+        <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
+        <div class="nft-info" v-if="dialogType == 1">
           <span>{{ nftInfo.name || "-" }}</span>
+          <span>#{{ nftInfo.tokenId }}</span>
+        </div>
+        <div class="form-buttons" v-if="dialogType < 3">
+          <el-button v-if="dialogType == 1" class="public-button cancel-button" @click="handleClose()">
+            {{ $t("common.cancelUpper") }}
+          </el-button>
+          <el-button class="public-button" @click="onConfirm()">
+            <span v-if="dialogType == 1">{{ $t("recharge.wthdrawBtnText") }}</span>
+            <span v-if="dialogType == 2">{{ $t("recharge.continue") }}</span>
+          </el-button>
         </div>
       </div>
-      <div class="deposit_tx_id" v-if="dialogType == 4">
-        <span>{{ $t("recharge.transactionId") }}</span>
-        <span @click="viewTxid()">{{ txId }}</span>
-      </div>
-      <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
-      <div class="nft-info" v-if="dialogType == 1">
-        <span>{{ nftInfo.name || "-" }}</span>
-        <span>#{{ nftInfo.tokenId }}</span>
-      </div>
-      <div class="form-buttons" v-if="dialogType < 3">
-        <el-button v-if="dialogType == 1" class="public-button cancel-button" @click="handleClose()">
-          {{ $t("common.cancelUpper") }}
-        </el-button>
-        <el-button class="public-button" @click="onConfirm()">
-          <span v-if="dialogType == 1">{{ $t("recharge.wthdrawBtnText") }}</span>
-          <span v-if="dialogType == 2">{{ $t("recharge.continue") }}</span>
-        </el-button>
-      </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
     
 <script>

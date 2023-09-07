@@ -174,7 +174,7 @@
               <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
                 name="participants"></el-tab-pane>
             </el-tabs>
-            <c-scrollbar class="choose_nft" width="100%" height="22.6875rem">
+            <c-scrollbar class="choose_nft" width="100%" :height="screenWidth > 950 ? '22.6875rem' : '14rem'">
               <div class="buy_list">
                 <div class="buy_item" v-for="(item, index) in buyData" :key="index">
                   <div class="buy_item_l">
@@ -258,7 +258,7 @@
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Date" min-width="100" prop="endTime" align="left">
+                <el-table-column label="Date" min-width="100" prop="endTime" align="left" fixed="right">
                   <template #default="scope">
                     <div class="price_box date">
                       <span>{{ timeFormat(scope.row.endTime) }}</span>
@@ -432,7 +432,7 @@ import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
 import LineChart from "@/components/charts";
 import {
-  openUrl, onCopy, dateDiff, timeFormat
+  openUrl, onCopy, dateDiff, timeFormat, handleWindowResize
 } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
@@ -479,7 +479,8 @@ export default {
       historyTotal: 0,
       historyFinished: false,
       chartData: [],
-      lineChartData: {}
+      lineChartData: {},
+      screenWidth: null
     };
   },
   computed: {
@@ -1087,6 +1088,16 @@ export default {
     isLogin() {
       this.loadInterface();
     }
+  },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
   },
   created() {
     // 获取一元购 ID

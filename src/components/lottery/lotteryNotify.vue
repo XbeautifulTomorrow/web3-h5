@@ -2,26 +2,27 @@
   <div class="lottery-notify-box">
     <div class="lottery-notify-loading notification-title" v-if="type == 'loading'">
       <img src="@/assets/img/lottery/loading.png" class="loading-img" alt="" />
-      <span>Your transaction is being processed and will be confirmed on the blockchain soon</span>
+      <span>{{ $t("lottery.loading_tip2") }}</span>
     </div>
     <div class="lottery-notify">
       <div class="notification-title" v-if="type == 'success'">
         <img src="@/assets/img/lottery/notice1.png" class="type-img" alt="" />
-        <span>Reward successfully transferred to your inventory</span>
+        <span>{{ $t("lottery.noticeSuccess") }}</span>
       </div>
       <div class="notification-title" v-if="type == 'warning'">
         <img src="@/assets/img/lottery/notice2.png" class="type-img" alt="" v-if="type == 'warning'" />
-        <span
-          >Some of the prizes may not be available. We will convert them to ETH at the current price of that NFT and transfer it to your
-          balance.</span
-        >
+        <span>{{ $t("lottery.noticeFail") }}</span>
       </div>
-      <div class="click-txt" v-if="type != 'loading' && !isShowRes"><span @click="isShowRes = true">Click to check it</span></div>
+      <div class="click-txt" v-if="type != 'loading' && !isShowRes">
+        <span @click="isShowRes = true">{{ $t("lottery.clickCheck") }}</span>
+      </div>
       <div class="lottery-notify-result" v-if="isShowRes">
         <div class="lottery-item" v-for="item in data" :key="item.id">
           <div class="lottery-img">
             <img :src="item.nftImg" alt="" />
-            <div class="lottery-refund" v-if="item.lotteryStatus == 'FAIL'"><p>Refund</p></div>
+            <div class="lottery-refund" v-if="item.lotteryStatus == 'FAIL'">
+              <p>{{ $t("lottery.refund") }}</p>
+            </div>
           </div>
           <div class="lottery-price" v-if="item.lotteryStatus == 'FAIL'">
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />

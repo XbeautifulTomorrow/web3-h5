@@ -81,8 +81,6 @@
       :text="warningText"
       :blindPrice="blindPrice"
     />
-    <CheckLoading v-else-if="showDialog === 'checkLoading'" />
-
     <Loading :loading="loading" />
   </el-dialog>
 </template>
@@ -107,7 +105,6 @@ import ChainDialog from "./chainDialog.vue";
 import BeenSold from "./beenSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
-import CheckLoading from "./checkLoading.vue";
 
 import Loading from "../loading/index.vue";
 import LotteryNotify from "@/components/lottery/lotteryNotify";
@@ -139,7 +136,6 @@ export default {
     TransactionWarning,
     oneAward,
     Loading,
-    CheckLoading,
   },
   props: ["lottoList", "lottResult", "apiIsError", "errorText", "showRoll", "rollNumber", "blindDetailInfo"],
   data() {
@@ -251,7 +247,6 @@ export default {
         duration: 0,
         dangerouslyUseHTMLString: true,
         message: h(LotteryNotify, { type, data }),
-        // showClose: false,
       });
       this.notifyGroup[`${type}_${orderId}`] = notifyObj;
     },

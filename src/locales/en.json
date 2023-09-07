@@ -655,6 +655,9 @@
     "amount": "Amount",
     "sell_all_for": "Sell all for",
     "take_all_eth": "Take all NFTs and <img class=\"public-dialog-icon\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
-    "waiting": "Waiting"
+    "waiting": "Waiting",
+    "noticeSuccess": "Reward successfully transferred to your inventory.",
+    "noticeFail": "Some of the prizes may not be available. We will convert them to ETH at the current price of that NFT and transfer it to your balance.",
+    "clickCheck": "Click to check it"
   }
 }

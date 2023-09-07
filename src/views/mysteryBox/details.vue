@@ -406,20 +406,4 @@ export default {
     box-sizing: border-box;
   }
 }
-
-.dialog_box {
-  border-radius: 1.25rem;
-  box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
-  background-color: #20222d;
-
-  .el-dialog__header {
-    display: none;
-  }
-
-  .el-dialog__body {
-    padding: 0;
-    position: relative;
-    padding: 3.75rem 0;
-  }
-}
 </style>

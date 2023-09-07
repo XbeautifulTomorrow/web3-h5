@@ -1,39 +1,41 @@
 <template>
-  <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="49.0625rem" :before-close="handleClose">
-    <template #header>
-      <div class="close_btn" @click="handleClose()">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ $t("user.bindTitle") }}</p>
-      <div class="explanation_box">
-        <div class="explanation_text">
-          <p>{{ $t("user.bindText1") }}</p>
-          <p>{{ $t("user.bindText2") }}</p>
+  <div>
+    <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+      class="public-dialog" width="49.0625rem" :before-close="handleClose">
+      <template #header>
+        <div class="close_btn" @click="handleClose()">
+          <el-icon>
+            <Close />
+          </el-icon>
         </div>
-        <img class="img_box" :src="qrCode" alt="">
-      </div>
-      <div class="verification_code">
-        <div class="label_text">
-          <span>{{ $t("user.inputTitle") }} </span><span class="required">*</span>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">{{ $t("user.bindTitle") }}</p>
+        <div class="explanation_box">
+          <div class="explanation_text">
+            <p>{{ $t("user.bindText1") }}</p>
+            <p>{{ $t("user.bindText2") }}</p>
+          </div>
+          <img class="img_box" :src="qrCode" alt="">
         </div>
-        <el-input class="verification_input" @blur="onVerify('auth')" v-model="googleCode" placeholder="Code"
-          type="number"></el-input>
-        <div class="error_box">
-          <span>{{ walletAddrTips }}</span>
+        <div class="verification_code">
+          <div class="label_text">
+            <span>{{ $t("user.inputTitle") }} </span><span class="required">*</span>
+          </div>
+          <el-input class="verification_input" @blur="onVerify('auth')" v-model="googleCode" placeholder="Code"
+            type="number"></el-input>
+          <div class="error_box">
+            <span>{{ walletAddrTips }}</span>
+          </div>
+        </div>
+        <div class="form-buttons">
+          <el-button class="public-button" @click="bindGoogleAuth()">
+            <span>{{ $t("user.confirmBtn") }}</span>
+          </el-button>
         </div>
       </div>
-      <div class="form-buttons">
-        <el-button class="public-button" @click="bindGoogleAuth()">
-          <span>{{ $t("user.confirmBtn") }}</span>
-        </el-button>
-      </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
     
 <script>
@@ -157,11 +159,6 @@ export default {
     text-align: left;
     color: white;
   }
-
-  .qr_code {
-    width: 7.5rem;
-    height: 7.5rem;
-  }
 }
 
 .img_box {
@@ -232,6 +229,76 @@ export default {
 
   &>.public-button+.public-button {
     margin: 1.5rem 0 0;
+  }
+}
+
+
+@media screen and (max-width: 950px) {
+
+  .public-dialog {
+
+
+    .public-dialog-title {
+      padding-top: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .explanation_box {
+      padding-top: 0.5rem;
+      padding-bottom: 1.25rem;
+
+      .explanation_text {
+        flex: 1;
+        font-size: 0.75rem;
+        line-height: 1.4;
+      }
+    }
+
+    .img_box {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .verification_code {
+      .label_text {
+        font-size: 0.75rem;
+        line-height: 1.6;
+
+        .required {
+          color: #df4328;
+        }
+      }
+
+      :deep(.verification_input) {
+        margin: 0.75rem 0;
+
+        .el-input__wrapper {
+          width: 100%;
+          height: 2.5rem;
+          border-radius: 0.25rem;
+
+          &>input {
+            color: white;
+            font-size: 0.75rem;
+          }
+        }
+      }
+
+      .error_box {
+        opacity: 0.9;
+        font-family: Inter;
+        font-size: 0.75rem;
+        font-weight: normal;
+        text-align: left;
+        color: #df4328;
+        box-sizing: border-box;
+        padding-bottom: 1.5rem;
+      }
+    }
+
+    .form-buttons {
+      padding-bottom: 0;
+    }
   }
 }
 </style>

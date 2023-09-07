@@ -410,7 +410,8 @@
     "depositWaitText": "您的交易正在處理中，並將很快在區塊鏈上得到確認",
     "completeTitle1": "您的充值已完成！",
     "nftLabel": "您已存入",
-    "transactionId": "交易 ID"
+    "transactionId": "交易 ID",
+    "free": "Free"
   },
   "airdrop": {
     "airdropText1": "連結你的錢包以",

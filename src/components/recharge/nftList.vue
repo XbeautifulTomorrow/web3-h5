@@ -65,7 +65,7 @@
         </div>
         <div class="collections_box">
           <div class="collections_text">Collections:</div>
-          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All"
+          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
             :popper-append-to-body="false">
             <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
               :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
@@ -90,7 +90,7 @@
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
           <template v-if="isDeposit">
-            <div class="confirm_btn" v-if="!depositConfirm(item.id)" @click="depositOne(item)">
+            <div class="confirm_btn" v-if="!depositConfirm(item.tokenId)" @click="depositOne(item)">
               DEPOSIT
             </div>
             <div class="confirm_btn disabled" v-else>
@@ -284,7 +284,7 @@ const depositOne = async (item) => {
   chooseNft.value = item;
   showWithdraw.value = true;
   dialogType.value = 3;
-  confirmNft.value.push(item.id);
+  confirmNft.value.push(item.tokenId);
   confirmIndex.value = confirmNft.value.length - 1;
 
   const { web3 } = useWalletStore();
@@ -341,8 +341,8 @@ const getTheUserBalanceInfo = () => {
 // 确认中状态
 const depositConfirm = (item) => {
   if (!confirmNft.value > 0) return false;
-  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
 
+  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
   return confirm
 }
 

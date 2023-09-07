@@ -466,7 +466,7 @@
   }
 }
 
-:deep(.el-dialog) {
+:deep(.dialog_box) {
   border-radius: 1.25rem;
   box-shadow: inset 0 0.125rem 0 0 rgba(255, 255, 255, 0.05);
   background-color: #20222d;
@@ -486,7 +486,6 @@
     }
   }
 }
-
 
 .close_btn {
   position: absolute;
@@ -1610,6 +1609,17 @@
       line-height: 1.6;
       text-align: left;
       color: #a9a4b4;
+
+      &.free {
+        .fee_val {
+          text-decoration: line-through;
+        }
+      }
+
+      .free_text {
+        padding-left: 0.25rem;
+        color: rgba(13, 191, 3, 1);
+      }
     }
 
     .withdraw_item_error {

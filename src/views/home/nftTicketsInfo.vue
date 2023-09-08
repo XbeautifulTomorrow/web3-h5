@@ -174,7 +174,7 @@
               <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
                 name="participants"></el-tab-pane>
             </el-tabs>
-            <c-scrollbar class="choose_nft" width="100%" :height="screenWidth > 950 ? '22.6875rem' : '14rem'">
+            <c-scrollbar class="choose_nft" width="100%" :height="screenWidth > 950 ? '27.5rem' : '14rem'">
               <div class="buy_list">
                 <div class="buy_item" v-for="(item, index) in buyData" :key="index">
                   <div class="buy_item_l">
@@ -196,7 +196,7 @@
                   </div>
                 </div>
               </div>
-              <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
+              <div class="load_more" v-if="total > 4 && !finished" @click="nextPage()">
                 <div class="load_btn">
                   <span>{{ $t("ticketsInfo.more") }}</span>
                   <img src="@/assets/svg/user/icon_more.svg" alt="">
@@ -696,6 +696,7 @@ export default {
         }
 
         this.buyData.push.apply(this.buyData, res.data.records);
+
       }
     },
     // 获取参与者总数
@@ -745,7 +746,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.total = res.data.total;
+        this.historyTotal = res.data.total;
 
         if (isSearch) {
           this.historyList = res.data.records;

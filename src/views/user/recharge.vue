@@ -150,7 +150,7 @@
                   {{ $t("user.requestBtn") }}
                 </div>
               </div>
-              <div :class="['withdraw_fee', !setting.freeFeeStatus && 'free']">
+              <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
                 <span class="fee_title">
                   {{ $t("user.fee") }}
                 </span>
@@ -163,7 +163,7 @@
                                     ${operatingCoin}`
                   }}
                 </span>
-                <span class="free_text" v-if="!setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
+                <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
               </div>
               <div class="withdraw_item_error">
                 {{ tipsText }}
@@ -397,7 +397,7 @@ export default {
         this.verifys = true;
       }
     },
-    // 提款余额
+    // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
       const { walletAmount, walletAddr, operatingCoin } = this;
       this.onVerify("submit");

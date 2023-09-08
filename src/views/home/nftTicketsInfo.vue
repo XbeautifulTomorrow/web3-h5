@@ -580,17 +580,14 @@ export default {
         this.fetchNftActivity();
         this.fetchNftActivitySale();
 
-        if (this.isLogin && this.userInfo?.id) {
-          const resDrawn = await getLottery({
-            orderNumber: this.orderId,
-            userId: userInfo?.id || null
-          })
+        const resDrawn = await getLottery({
+          orderNumber: this.orderId,
+          userId: userInfo?.id || null
+        })
 
-          if (resDrawn && resDrawn.code == 200) {
-            this.drawnInfo = resDrawn.data;
-          }
+        if (resDrawn && resDrawn.code == 200) {
+          this.drawnInfo = resDrawn.data;
         }
-
       }
     },
     // 购买提示

@@ -33,6 +33,7 @@
           </el-select>
           <div class="sort_title">{{ $t('homeReplenish.sortCollections') }}</div>
         </div>
+        <div class="create_btn create" @click="toDraw()">START A DRAW</div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
         <template v-for="( item, index ) in ticketList" :key="`tickets-${index}`">
@@ -201,6 +202,9 @@ export default {
     },
     handleTickets(event) {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+    },
+    toDraw() {
+      this.userStore.setUserPage(this.$route.path, 'inventory');
     },
     handleCurrentChange(page) {
       this.page = page;

@@ -52,7 +52,7 @@
   .operating_btns {
     display: flex;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.625rem;
     }
 
@@ -74,23 +74,21 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(5n+1) {
+  & > div:nth-child(5n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n+6) {
+  & > div:nth-child(n + 6) {
     margin-top: 0.625rem;
   }
 
-
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
-
 
   .nft_item {
     width: 15.3125rem;
@@ -101,7 +99,7 @@
 
     &:hover {
       .img_box {
-        &>.nft_img {
+        & > .nft_img {
           transform: scale(1.15);
           transition: all 0.3s;
         }
@@ -187,7 +185,6 @@
       cursor: not-allowed;
     }
   }
-
 }
 
 .no_date {
@@ -195,7 +192,7 @@
   align-items: center;
   margin-top: 5rem;
 
-  &>span {
+  & > span {
     margin: 0 auto;
     display: block;
     padding: 1.25rem;
@@ -273,7 +270,7 @@
     padding-bottom: 1.25rem;
   }
 
-  .condition_item+.condition_item {
+  .condition_item + .condition_item {
     margin-top: 1.25rem;
   }
 
@@ -299,7 +296,6 @@
     }
 
     :deep(.wallet_input) {
-
       .el-input__wrapper {
         height: 4.3125rem;
         border-radius: 0.5rem;
@@ -308,13 +304,12 @@
         box-shadow: none;
         padding: 0 1.25rem;
 
-        &>input {
+        & > input {
           font-size: 0.875rem;
           line-height: 1.6;
           text-align: left;
           color: white;
         }
-
       }
     }
   }
@@ -329,7 +324,7 @@
     display: flex;
     align-items: center;
 
-    &>img {
+    & > img {
       margin-right: 0.875rem;
     }
   }
@@ -350,7 +345,7 @@
   align-items: center;
   padding-bottom: 1.25rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
@@ -365,7 +360,7 @@
       box-shadow: none;
       padding: 0 1.25rem;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
@@ -405,7 +400,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -448,7 +443,7 @@
       background-color: transparent;
       padding-left: 8.75rem;
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: #fad54d;
       }
     }
@@ -459,7 +454,6 @@
     width: 14.6875rem;
 
     :deep(.nft_type) {
-
       .el-input__wrapper {
         padding-left: 5.4375rem;
       }
@@ -471,15 +465,15 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(4n+1) {
+  & > div:nth-child(4n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n+5) {
+  & > div:nth-child(n + 5) {
     margin-top: 0.625rem;
   }
 }
@@ -518,7 +512,7 @@
       color: #0cbb3e;
     }
 
-    &>img {
+    & > img {
       width: 100%;
       height: auto;
     }
@@ -586,7 +580,6 @@
     line-height: 1.2;
     color: white;
     padding-bottom: 1.875rem;
-
   }
 
   .image_box {
@@ -670,7 +663,7 @@
   width: 100%;
   margin-bottom: 0.625rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
@@ -690,7 +683,7 @@
     border: solid 1px #363945;
     background-color: #13151f;
 
-    &>.val {
+    & > .val {
       padding-left: 0.625rem;
       color: white;
     }
@@ -727,7 +720,7 @@
       background-color: #13151f;
       box-shadow: none !important;
 
-      &>input {
+      & > input {
         font-size: 1.5rem;
         font-weight: bold;
         line-height: 1.25;
@@ -738,9 +731,9 @@
 
     &.disabled {
       .el-input__wrapper {
-        background-color: #282A34;
+        background-color: #282a34;
 
-        &>input {
+        & > input {
           color: rgba(169, 164, 180, 0.3);
         }
       }
@@ -764,7 +757,7 @@
     .el-input__wrapper {
       background-color: #1d0f36;
 
-      &>input {
+      & > input {
         text-align: left;
         font-size: 1.5rem;
       }
@@ -830,7 +823,6 @@
     margin-bottom: 0 !important;
   }
 
-
   :deep(.el-form-item__content) {
     flex: none;
   }
@@ -847,7 +839,6 @@
   line-height: 1.44;
   text-align: right;
   color: #a9a4b4;
-
 
   img {
     width: 1.5rem;
@@ -876,7 +867,7 @@
   text-align: left;
   color: #a9a4b4;
 
-  &>p+p {
+  & > p + p {
     margin-top: 0.625rem;
   }
 }
@@ -910,8 +901,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -940,4 +930,263 @@
   }
 }
 
-@media screen and (max-width: 950px) {}
+@media screen and (max-width: 950px) {
+  .my_inventory_wrapper {
+    min-height: auto;
+    background: none;
+    padding: 0;
+    margin-bottom: 1.875rem;
+    &.no_data_bg {
+      background: none;
+    }
+    .no_date {
+      margin-top: 1.875rem;
+      height: 1.875rem;
+      line-height: 1.875rem;
+      span {
+        padding: 0 1rem;
+        font-size: 0.875rem;
+        line-height: inherit;
+      }
+    }
+    .nft_operating {
+      margin-bottom: 0.625rem;
+    }
+    .collections_box {
+      border-radius: 0.25rem;
+    }
+    .nft_input {
+      width: 7.8rem;
+      :deep(.el-input__wrapper) {
+        padding: 0 0.5rem;
+        .el-input__prefix {
+          display: none;
+        }
+      }
+    }
+    .title_text {
+      font-size: 1.125rem;
+    }
+    .operating_btns {
+      .operating_item {
+        height: 1.125rem;
+        line-height: 1.125rem;
+        width: auto;
+        padding: 0 0.5rem;
+        font-size: 0.5rem;
+      }
+    }
+    .search_box {
+      & > div + div {
+        margin-left: 0.25rem;
+      }
+      .collections_text {
+        font-size: 0.75rem;
+        left: 0.5rem;
+      }
+      .nft_type {
+        :deep(.el-input__wrapper) {
+          padding-left: 4.7rem;
+        }
+      }
+      .type_box {
+        :deep(.el-input__wrapper) {
+          padding-left: 2.7rem !important;
+          padding-right: 0.5rem;
+        }
+      }
+      .type_box {
+        width: 8rem !important;
+        margin-top: 0;
+      }
+      :deep(.el-input__wrapper) {
+        height: 1.5rem;
+        border-radius: 0.25rem;
+        input {
+          font-size: 0.5rem;
+        }
+        .el-select__caret {
+          font-size: 0.75rem;
+        }
+      }
+      .el-icon svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+    .nft_list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 0.25rem;
+      & > div:nth-child(n + 6) {
+        margin-top: 0;
+      }
+      & > div + div {
+        margin-left: 0;
+      }
+      .nft_item {
+        width: auto;
+        height: auto;
+        padding-bottom: 0.25rem;
+        border-radius: 0.25rem;
+        .img_box {
+          height: auto;
+        }
+      }
+      .nft_name {
+        font-size: 0.75rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0 0.25rem;
+        margin: 0.25rem 0;
+      }
+      .nft_btn {
+        width: 90%;
+        font-size: 0.75rem;
+        height: 1.5rem;
+        line-height: 1.5rem;
+      }
+    }
+  }
+  :deep(.dialog_competition) {
+    width: 90% !important;
+    border-radius: 0.5rem;
+    margin-top: 5vh;
+    .el-dialog__body {
+      padding: 1rem 0;
+    }
+    .close_btn {
+      width: 1.5rem;
+      height: 1.5rem;
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+    .create_title {
+      font-size: 1.5rem;
+      padding-bottom: 0.5rem;
+    }
+    .image_box {
+      width: 37% !important;
+      height: auto;
+    }
+    .nft_info {
+      .nft_name {
+        font-size: 1rem;
+      }
+      .nft_id {
+        font-size: 1rem;
+      }
+    }
+    .type_tabs {
+      margin: 0.5rem 0;
+      .tabs_item {
+        height: 1.5rem;
+        font-size: 0.75rem;
+        border-radius: 0.25rem;
+        &:first-child {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+    .el-form-item__label {
+      margin-bottom: 0.25rem !important;
+    }
+    .form_box {
+      .el-form-item {
+        margin-bottom: 0;
+        &.is-required {
+          margin-bottom: 0.5rem;
+        }
+      }
+      .el-form-item__label {
+        font-size: 0.75rem;
+        margin-bottom: 0 !important;
+        font-weight: normal;
+      }
+      .num_item {
+        font-size: 0.75rem;
+      }
+      .icon_eth {
+        width: 1rem;
+        height: 1rem;
+      }
+      .days_text {
+        font-size: 0.75rem;
+        margin-left: 0.875rem;
+      }
+      .choose_days {
+        padding-top: 0.25rem;
+        .choose_days_item {
+          width: auto;
+          height: 1.5rem;
+          flex: 1;
+          margin-right: 0.25rem;
+          font-size: 0.75rem;
+          border-radius: 0.25rem;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .continue_btn {
+        height: 1.5rem;
+        line-height: 1.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+      }
+      .hint-text {
+        font-size: 0.75rem;
+      }
+      .el-input {
+        .el-input__wrapper {
+          height: 1.5rem;
+          padding: 0 0.5rem;
+          border-radius: 0.25rem;
+          img {
+            width: 0.75rem;
+            height: 0.75rem;
+          }
+          input {
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+    .choose_price {
+      margin-bottom: 0.25rem;
+      .price_item {
+        font-size: 0.75rem;
+        padding: 0 0.25rem;
+        height: 1.5rem;
+        line-height: 1.375rem;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .my_inventory_wrapper {
+    .nft_list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+@media screen and (max-width: 440px) {
+  .my_inventory_wrapper {
+    .search_box {
+      flex-wrap: wrap;
+      .nft_input {
+        width: 100%;
+      }
+      .collections_box {
+        margin-top: 0.25rem;
+      }
+    }
+    .nft_list {
+      .nft_btn {
+        font-family: BlenderPro;
+      }
+    }
+  }
+}

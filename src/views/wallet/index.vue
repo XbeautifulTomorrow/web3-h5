@@ -225,3 +225,32 @@ export default {
   }
 }
 </style>
+<style lang="scss">
+@media screen and (max-width: 950px) {
+  .recharge-coin {
+    width: 90%;
+    .wallet-title {
+      font-size: 1.5rem;
+    }
+    .wallet-text {
+      font-size: 0.75rem;
+    }
+    .link {
+      height: 2.5rem;
+      padding: 0 0.625rem;
+      margin-top: 0.625rem;
+      .link-img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      .link-text {
+        font-size: 0.875rem;
+      }
+      .link-img-go {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}
+</style>

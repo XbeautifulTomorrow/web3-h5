@@ -103,6 +103,25 @@ input[type="number"] {
     bottom: 30% !important;
     transform: rotate(0, -30%) !important;
   }
+  .pagination-box {
+    .el-pagination {
+      button {
+        font-size: 12px !important;
+
+        &.btn-prev {
+          margin-right: 0.625rem !important;
+        }
+        &.btn-next {
+          margin-left: 0.625rem !important;
+        }
+      }
+      .el-pager li {
+        width: 2rem !important;
+        height: 1.5rem !important;
+        font-size: 0.75rem !important;
+      }
+    }
+  }
 }
 
 /*>=951的设备*/

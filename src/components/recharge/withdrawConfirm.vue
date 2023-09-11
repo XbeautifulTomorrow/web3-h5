@@ -310,4 +310,22 @@ export default {
   align-items: center;
   padding-bottom: 1.875rem;
 }
+@media screen and (max-width: 950px) {
+  .public-dialog{
+    width: 90% !important;
+  }
+  .form-content{
+    .confirm-description{
+      font-size: 0.75rem;
+    }
+    .nft_img{
+      width: 40%;
+      height: auto;
+    }
+    .nft-info{
+      font-size: 1rem;
+    }
+  }
+  
+}
 </style>

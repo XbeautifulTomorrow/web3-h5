@@ -473,3 +473,112 @@
     }
   }
 }
+
+@media screen and (max-width: 950px) {
+  .my_invite_wrapper{
+    background-image: none;
+    padding: 1.875rem 0;
+    padding-top: 1rem;
+    &.small_bg{
+      background-image: none;
+    }
+    .invite_text > span{
+      font-size: 1.125rem;
+    }
+    .choose_box{
+      padding-bottom: .625rem;
+      .coin_item{
+        width: 50%;
+        height: 1.75rem;
+        line-height: 1.75rem;
+        font-size: .75rem;
+        padding: 0 ;
+        border-radius: .25rem;
+      }
+    }
+    .summary_box{
+      .invite_panel{
+        height: auto;
+        padding: .5rem;
+        .title_text{
+          font-size: 1rem;
+        }
+        .invite_description{
+          font-size: .75rem;
+        }
+      }
+      .create_invite_code{
+        padding-top: .5rem;
+        .create_title{
+          font-size: 1rem;
+          padding-bottom: .25rem;
+        }
+        .create_input{
+          width: 100%;
+        }
+        :deep(.create_input) {
+          .el-input__wrapper{
+            height: 2rem;
+            line-height: 2rem;
+            border-radius: 0.25rem 0 0 0.25rem;
+            input{
+              font-size: .75rem;
+            }
+          }
+          .create_btn{
+            height: 2rem;
+            line-height: 2rem;
+            font-size: 1rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+          }
+        }
+      }
+      .statistics_panel{
+        padding-top: 0;
+        .statistics_title{
+          font-size: 1rem;
+          padding-bottom: .25rem;
+        }
+        .statistics_type{
+          padding-bottom: 0;
+        }
+        .statistics_item{
+          padding: .625rem;
+          .title{
+            font-size: .75rem;
+          }
+          .val{
+            font-size: 1rem;
+          }
+          .statistics_time{
+            height: 2rem;
+          }
+        }
+      }
+    }
+    :deep(.table_container) {
+      th.el-table__cell .cell{
+        font-size: .75rem;
+      }
+      .el-table__empty-text{
+        font-size: .75rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .my_invite_wrapper{
+    .statistics_panel{
+      .statistics_box{
+        display: block;
+        &> .statistics_item + .statistics_item{
+          margin-left: 0;
+        }
+        .statistics_item{
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+}

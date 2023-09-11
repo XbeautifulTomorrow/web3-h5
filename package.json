@@ -39,7 +39,7 @@
     "vue-echarts": "^6.6.1",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.13",
-    "web3": "^4.1.1",
+    "web3": "^1.9.0",
     "worker-timers": "^7.0.74"
   },
   "devDependencies": {

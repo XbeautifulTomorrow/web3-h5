@@ -36,7 +36,10 @@
         </div>
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
-            <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
+            <div class="nft_name text-ellipsis">
+              <span>{{ nftInfo && nftInfo.name }}</span>
+              <span v-if="formatSeries(nftInfo)">{{ ` #${nftInfo && nftInfo.tokenId}` }}</span>
+            </div>
             <div class="nft_activity">
               <div class="price_box">
                 <div class="price">
@@ -577,17 +580,14 @@ export default {
         this.fetchNftActivity();
         this.fetchNftActivitySale();
 
-        if (this.isLogin && this.userInfo?.id) {
-          const resDrawn = await getLottery({
-            orderNumber: this.orderId,
-            userId: userInfo?.id || null
-          })
+        const resDrawn = await getLottery({
+          orderNumber: this.orderId,
+          userId: userInfo?.id || null
+        })
 
-          if (resDrawn && resDrawn.code == 200) {
-            this.drawnInfo = resDrawn.data;
-          }
+        if (resDrawn && resDrawn.code == 200) {
+          this.drawnInfo = resDrawn.data;
         }
-
       }
     },
     // 购买提示
@@ -1067,6 +1067,13 @@ export default {
         },
         series: series,
       };
+    },
+    formatSeries(event) {
+      if (!event) return false;
+      const { name, tokenId } = event;
+      if (!name || !tokenId) return false;
+      const isShow = name.indexOf(tokenId) > -1;
+      return !isShow
     }
   },
   watch: {

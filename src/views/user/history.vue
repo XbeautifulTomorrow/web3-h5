@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="purchase_history_box" v-if="this.count > 0">
-      <div class="history_item" v-for="(item, index) in historyList" :key="index">
+      <div :class="['history_item',{'history_competition':activeType != 'MYSTERY_BOX'}]" v-for="(item, index) in historyList" :key="index">
         <div class="box_info">
           <div class="box_img">
             <Image fit="cover" class="nft_img" v-if="activeType == 'MYSTERY_BOX'" :src="item.boxImg" />
@@ -83,7 +83,7 @@
       <span>{{ $t("user.noDataHistory") }}</span>
     </div>
     <div class="pagination-box" v-if="count > size">
-      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="5"
         layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
   </div>

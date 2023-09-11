@@ -324,3 +324,97 @@
     }
   }
 }
+@media screen and (max-width: 950px) {
+  .my_history_wrapper{
+    background-image: none;
+    padding: 0;
+    min-height: auto;
+    margin-bottom: 1.875rem;
+    .choose_box{
+      padding-bottom: .625rem;
+      .coin_item{
+        width: 50%;
+        height: 1.75rem;
+        line-height: 1.75rem;
+        font-size: .75rem;
+        padding: 0 ;
+        border-radius: .25rem;
+      }
+    }
+    .history_item{
+      display: block;
+      padding: 0.625rem 0;
+      &.history_competition{
+        display: flex;
+        .box_img{
+          width: 2rem !important;
+          height: 2rem !important;
+        }
+      }
+      .box_info{
+        .box_img{
+          width: 2.8125rem;
+          height:2.8125rem;
+          margin-right: 0.25rem;
+        }
+        .box_num{
+          font-size: .75rem;
+          .btns{
+            margin-left: 0.25rem;
+            img{
+              width:  .75rem;
+            }
+          }
+        }
+        .box_order{
+          font-size: .75rem;
+        }
+      }
+      .nft_list{
+        width: 13rem;
+        min-width: auto;
+        padding: 0 0.25rem;
+        margin-right: 0.25rem;
+        flex-wrap: wrap;
+        .img_box{
+          width: 2rem;
+          height: 2rem;
+          margin-bottom: 0.25rem;
+          &:nth-child(5n+1){
+            margin-left: 0;
+          }
+          .nft_img{
+            border-radius: .25rem;
+          }
+          .mask_box{
+            .status_img{
+              width: .75rem;
+            }
+          }
+        }
+      }
+      .price_box{
+        min-width: auto;
+        .price{
+          font-size: .75rem;
+          img{
+            width: 1rem;
+            margin-left: .25rem;
+          }
+        }
+        .time{
+          font-size: .75rem;
+        }
+      }
+    }
+    .no_date{
+      span{
+        height: 1.875rem;
+        line-height: 1.875rem;
+        font-size: .875rem;
+        padding: 0 1rem;
+        border-radius: .25rem;
+      }
+    }
+  }
+}

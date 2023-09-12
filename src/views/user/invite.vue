@@ -53,22 +53,22 @@
           </div>
         </div>
         <el-table :data="inviteList" height="18.625rem" class="table_container" style="width: 100%">
-          <el-table-column prop="traAmount" :label="$t('user.default')" align="center">
+          <el-table-column prop="traAmount" :label="$t('user.default')" align="center" show-overflow-tooltip>
             <template #default="scope">
               <img class="setCode" v-if="scope.row.defaultStatus == 'TRUE'" src="@/assets/svg/icon_choose_active.svg"
                 alt="">
               <img class="setCode" v-else @click="setDefault(scope.row)" src="@/assets/svg/icon_choose.svg" alt="">
             </template>
           </el-table-column>
-          <el-table-column prop="inviteCode" :label="$t('user.code')" align="center" />
-          <el-table-column prop="receiveAmount" :label="$t('user.claimed')" align="center" />
-          <el-table-column prop="invitePeople" :label="$t('user.refs')" align="center" />
-          <el-table-column label="%" align="center">
+          <el-table-column prop="inviteCode" :label="$t('user.code')" align="center" show-overflow-tooltip />
+          <el-table-column prop="receiveAmount" :label="$t('user.claimed')" align="center" show-overflow-tooltip />
+          <el-table-column prop="invitePeople" :label="$t('user.refs')" align="center" show-overflow-tooltip />
+          <el-table-column label="%" align="center" show-overflow-tooltip>
             <template #default>
               {{ `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(100)}%` }}
             </template>
           </el-table-column>
-          <el-table-column prop="traAmount" :label="$t('user.default')" align="center">
+          <el-table-column prop="traAmount" :label="$t('user.default')" align="center" show-overflow-tooltip>
             <template #default="scope">
               <div class="consumption_box">
                 <span>{{ scope.row.traAmount }}</span>
@@ -76,7 +76,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.claim')" width="200" align="center">
+          <el-table-column :label="$t('user.claim')" width="200" align="center" show-overflow-tooltip>
             <template #default="scope">
               <div v-if="extraMoney(scope.row) > 0" :class="['claim_box']" @click="handleReceive(scope.row)">
                 <span>{{ $t("user.claim") }}</span>
@@ -92,7 +92,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.copy')" align="center">
+          <el-table-column :label="$t('user.copy')" align="center" fixed="right" show-overflow-tooltip>
             <template #default="scope">
               <div class="copy_btn">
                 <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="">
@@ -110,9 +110,9 @@
     </div>
     <div class="referred_user_box" v-else>
       <el-table :data="detailList" class="table_container" height="26.5rem" style="width: 100%">
-        <el-table-column prop="inviteCode" :label="$t('user.referralCode')" align="center" />
-        <el-table-column prop="userName" :label="$t('user.userName')" align="center" />
-        <el-table-column prop="traAmount" :label="$t('user.consumption')" align="center">
+        <el-table-column prop="inviteCode" :label="$t('user.referralCode')" align="center" show-overflow-tooltip />
+        <el-table-column prop="userName" :label="$t('user.userName')" align="center" show-overflow-tooltip />
+        <el-table-column prop="traAmount" :label="$t('user.consumption')" align="center" show-overflow-tooltip>
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.traAmount }}</span>
@@ -120,7 +120,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="rebatesAmount" :label="$t('user.rewards')" align="center">
+        <el-table-column prop="rebatesAmount" :label="$t('user.rewards')" align="center" show-overflow-tooltip>
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.rebatesAmount }}</span>
@@ -128,7 +128,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center">
+        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center" fixed="right" show-overflow-tooltip>
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>

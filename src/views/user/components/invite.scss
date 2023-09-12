@@ -479,8 +479,10 @@
     background-image: none;
     padding: 1.875rem 0;
     padding-top: 1rem;
+    min-height: auto;
     &.small_bg{
       background-image: none;
+      min-height: auto;
     }
     .invite_text > span{
       font-size: 1.125rem;

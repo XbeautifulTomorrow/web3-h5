@@ -230,6 +230,7 @@ import {
   delNftOrder,
   delNewOrderMark
 } from "@/services/api/oneBuy";
+import { getWithdrawalExchangeRate } from "@/services/api/user";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -396,6 +397,15 @@ export default {
       this.page = page;
       this.fetchOneBuyList(false);
     },
+    // 提款汇率
+    async fetchWithdrawalExchangeRate() {
+      const res = await getWithdrawalExchangeRate({
+        coinName: "ETH",
+      });
+      if (res && res.code == 200) {
+        this.exchangeRate = res.data;
+      }
+    },
     /**
      * @description: 格式化地址
      */
@@ -412,6 +422,8 @@ export default {
       { label: t("user.cancel"), value: "CANCELLED" },
       { label: t("user.aborted"), value: "CLOSED" }
     ];
+
+    this.fetchWithdrawalExchangeRate();
     if (this.isLogin && this.userInfo?.id) {
       this.fetchOneBuyList();
     }

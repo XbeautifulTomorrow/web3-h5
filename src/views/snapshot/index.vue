@@ -8,10 +8,14 @@
           </div>
         </div>
         <el-table :data="snapshotData" class="table_container" style="width: 100%">
-          <el-table-column prop="snapshot_id" min-width="85" :label="$t('mysteryBox.snapshotId')" align="left">
+          <el-table-column prop="snapshot_id" min-width="160" :label="$t('mysteryBox.snapshotId')" align="left" show-overflow-tooltip>
             <template #header>
-              <el-input v-model="rewardId" @keyup.enter="fetchSnapshotDetail()" class="search_input"
-                :placeholder="$t('mysteryBox.searchRewardId')">
+              <el-input
+                v-model="rewardId"
+                @keyup.enter="fetchSnapshotDetail()"
+                class="search_input"
+                :placeholder="$t('mysteryBox.searchRewardId')"
+              >
                 <template #prefix>
                   <el-icon class="el-input__icon" @click="fetchSnapshotDetail()">
                     <search />
@@ -26,46 +30,54 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="tokenId" label="TOKEN ID" align="left">
+          <el-table-column prop="tokenId" label="TOKEN ID" align="left" show-overflow-tooltip>
             <template #default="scope">
               <span class="text-ellipsis" v-if="scope.row.nftType == 'EXTERNAL'">{{ `#${scope.row.tokenId}` }}</span>
               <span class="text-ellipsis" v-else>--</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="Price" align="left">
+          <el-table-column prop="price" label="Price" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.price} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" align="left">
+          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `$${scope.row.usdtPrice}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" align="left">
+          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.refundValue} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="idx" :label="$t('mysteryBox.rewardId')" align="left" />
+          <el-table-column prop="idx" :label="$t('mysteryBox.rewardId')" align="left" fixed="right" show-overflow-tooltip />
         </el-table>
         <div class="pagination-box">
-          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-            layout="prev, pager, next" :total="count" prev-text="Pre" next-text="Next" />
+          <el-pagination
+            v-model="page"
+            :page-size="size"
+            @current-change="handleCurrentChange"
+            :pager-count="7"
+            layout="prev, pager, next"
+            :total="count"
+            prev-text="Pre"
+            next-text="Next"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
-  
+
 <script>
 import { getSnapshotDetail } from "@/services/api/blindBox";
 import Image from "@/components/imageView";
 import { getSessionStore } from "@/utils";
 export default {
-  name: 'boxSnapshot',
+  name: "boxSnapshot",
   components: {
-    Image
+    Image,
   },
   data() {
     return {
@@ -75,7 +87,7 @@ export default {
       page: 1,
       size: 10,
       count: 0,
-      snapshotData: []
+      snapshotData: [],
     };
   },
   methods: {
@@ -94,7 +106,7 @@ export default {
         snapshotId: snapshotId,
         idx: rewardId,
         page: _page,
-        size: size
+        size: size,
       });
 
       if (res && res.code == 200) {
@@ -114,7 +126,7 @@ export default {
     this.fetchSnapshotDetail();
     this.boxName = getSessionStore("boxName") || "BOX";
     this.boxName = this.boxName.toUpperCase();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

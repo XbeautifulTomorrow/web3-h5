@@ -27,7 +27,6 @@
 }
 
 :deep(.table_container) {
-
   .cell {
     line-height: 2.5rem;
     font-size: 1.125rem;
@@ -39,7 +38,7 @@
   th {
     &.el-table__cell {
       background-color: #191c28;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -49,7 +48,7 @@
 
   td {
     &.el-table__cell {
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -59,7 +58,7 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: #281d31 !important;
   }
 
@@ -93,20 +92,20 @@
       height: auto;
     }
 
-    &>.nft_info {
+    & > .nft_info {
       display: inline-block;
     }
 
-    &>.nft_info_active {
+    & > .nft_info_active {
       display: none;
     }
 
     &:hover {
-      &>.nft_info {
+      & > .nft_info {
         display: none;
       }
 
-      &>.nft_info_active {
+      & > .nft_info_active {
         display: inline-block;
       }
     }
@@ -171,8 +170,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -209,4 +207,53 @@
   color: white;
   cursor: pointer;
   z-index: 10;
+}
+
+@media screen and (max-width: 950px) {
+  .snapshot_wrapper {
+    width: 92%;
+    .home-public-title {
+      margin: 2rem;
+      .title_text {
+        font-size: 1.125rem;
+      }
+    }
+    :deep(.table_container) {
+      .cell {
+        line-height: 1.5rem;
+        font-size: 0.75rem;
+        line-height: 1.6;
+        padding: 0 0.5rem;
+        .nft_img {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+        .nft_name {
+          padding-left: 0.25rem;
+          zoom: 0.9;
+        }
+      }
+      .nft_img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.25rem;
+      }
+    }
+    .search_input {
+      :deep(.el-input__wrapper) {
+        height: 1.5rem;
+        padding: 0 0.25rem;
+        .el-input__icon {
+          font-size: 1rem;
+          margin-right: 0.25rem;
+        }
+        .el-input__inner {
+          font-size: 0.75rem;
+        }
+        .el-input__prefix-inner > :last-child {
+          // margin-left: 0.25rem;
+        }
+      }
+    }
+  }
 }

@@ -181,5 +181,8 @@ const goLink = (event) => {
       font-size: 0.75rem !important;
     }
   }
+  .footer {
+    margin-top: 2rem;
+  }
 }
 </style>

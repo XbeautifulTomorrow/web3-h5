@@ -230,7 +230,7 @@ import {
   delNftOrder,
   delNewOrderMark
 } from "@/services/api/oneBuy";
-import { getWithdrawalExchangeRate } from "@/services/api/user";
+import { getCacheTicker } from "@/services/api";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -337,14 +337,18 @@ export default {
     },
     // 计算可购买最大票数
     maxBuyNum(event) {
-      const { price, ticketPrice, orderType } = event;
+      const { price, ticketPrice, orderType, limitNum } = event;
 
       let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!price) return 0;
         if (!ticketPrice) return 0;
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
-      } else {
+      }
+      else if (orderType == "LIMITED_PRICE_COIN") {
+        maxNum = Number(Math.ceil(new bigNumber(limitNum).dividedBy(4)));
+      }
+      else {
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
       }
 
@@ -398,9 +402,10 @@ export default {
       this.fetchOneBuyList(false);
     },
     // 提款汇率
-    async fetchWithdrawalExchangeRate() {
-      const res = await getWithdrawalExchangeRate({
-        coinName: "ETH",
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -423,7 +428,7 @@ export default {
       { label: t("user.aborted"), value: "CLOSED" }
     ];
 
-    this.fetchWithdrawalExchangeRate();
+    this.fetchCacheTicker();
     if (this.isLogin && this.userInfo?.id) {
       this.fetchOneBuyList();
     }

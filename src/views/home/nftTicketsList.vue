@@ -127,7 +127,7 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import { getCheckAllOrders, getTheExternalNFTSeries } from "@/services/api/oneBuy";
-import { getWithdrawalExchangeRate } from "@/services/api/user";
+import { getCacheTicker } from "@/services/api";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
@@ -191,9 +191,10 @@ export default {
       this.collections = res.data;
     },
     // 提款汇率
-    async fetchWithdrawalExchangeRate() {
-      const res = await getWithdrawalExchangeRate({
-        coinName: "ETH",
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -257,7 +258,7 @@ export default {
   created() {
     this.fetchAllSeries();
     this.fetchCheckAllOrders();
-    this.fetchWithdrawalExchangeRate();
+    this.fetchCacheTicker();
 
     this.statusDrop = [
       { label: t("homeReplenish.inProgress"), value: "IN_PROGRESS" },

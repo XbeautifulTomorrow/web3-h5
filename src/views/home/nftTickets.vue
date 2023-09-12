@@ -93,7 +93,7 @@ import countDown from '@/components/countDown';
 import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
 
 import { getCheckAllOrders } from "@/services/api/oneBuy";
-import { getWithdrawalExchangeRate } from "@/services/api/user";
+import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
 export default {
@@ -132,9 +132,10 @@ export default {
       }
     },
     // 提款汇率
-    async fetchWithdrawalExchangeRate() {
-      const res = await getWithdrawalExchangeRate({
-        coinName: "ETH",
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -149,7 +150,7 @@ export default {
   },
   created() {
     this.fetchCheckAllOrders();
-    this.fetchWithdrawalExchangeRate();
+    this.fetchCacheTicker();
   }
 };
 </script>

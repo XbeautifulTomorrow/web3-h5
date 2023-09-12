@@ -106,11 +106,11 @@
                 <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
                   type="number" min="0" :max="maxBuyNum" :placeholder="buyText(nftInfo)">
                 </el-input>
-                <div class="choose_nums">
+                <div :class="[!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0) && 'disabled', 'choose_nums']">
                   <div v-for="(item, index) in numData" :key="index" :class="[
                     'choose_nums_item',
                     buyVotes == item.value && 'active',
-                  ]" @click="buyVotes = item.value">
+                  ]" @click="changeBuyVotes(item.value)">
                     <span>{{ item.label }}</span>
                   </div>
                 </div>
@@ -420,7 +420,7 @@ import {
   getNftActivity,
   getNftActivityCharts
 } from "@/services/api/oneBuy";
-import { getWithdrawalExchangeRate } from "@/services/api/user";
+import { getCacheTicker } from "@/services/api";
 import {
   getSetting,
 } from "@/services/api/invite";
@@ -532,20 +532,29 @@ export default {
     // 计算可购买最大票数
     maxBuyNum() {
       if (!this.nftInfo) return 0;
-      const { nftInfo: { totalPrice, price, orderType, maximumPurchaseQuantity }, drawnInfo } = this;
+      const { nftInfo: { totalPrice, price, orderType, maximumPurchaseQuantity, limitNum }, drawnInfo } = this;
 
       let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!totalPrice) return 0;
         if (!price) return 0;
         maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
-      } else {
+      }
+      else if (orderType == "LIMITED_PRICE_COIN") {
+        maxNum = Number(Math.ceil(new bigNumber(limitNum).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
+
+        // 如果余票不足最大票数，取余票数量
+        if (Number(maxNum) > Number(maximumPurchaseQuantity)) {
+          maxNum = maximumPurchaseQuantity;
+        }
+      }
+      else {
         if (!maximumPurchaseQuantity) return 0;
         maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
 
         // 如果余票不足最大票数，取余票数量
         if (Number(maxNum) > Number(maximumPurchaseQuantity)) {
-          maxNum = maximumPurchaseQuantity
+          maxNum = maximumPurchaseQuantity;
         }
       }
 
@@ -839,9 +848,10 @@ export default {
       }
     },
     // 提款汇率
-    async fetchWithdrawalExchangeRate() {
-      const res = await getWithdrawalExchangeRate({
-        coinName: "ETH",
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -998,6 +1008,11 @@ export default {
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
+    changeBuyVotes(event) {
+      const { nftInfo, maxBuyNum } = this;
+      if (!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0)) return
+      this.buyVotes = event;
+    },
     closeDialogFun() {
       this.pageType = "";
       this.buyVotes = 1;
@@ -1135,7 +1150,7 @@ export default {
     this.orderId = id;
 
     this.loadInterface();
-    this.fetchWithdrawalExchangeRate();
+    this.fetchCacheTicker();
 
     this.statusDrop = [{
       label: "Create",

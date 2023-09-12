@@ -20,8 +20,8 @@
           </div>
         </div>
         <div class="form-hint">
-          <p>要创建Treasure Draw, 清先将对应的数字资产转入您的账号。</p>
-          <p>只有Bitzing认可的NFT可以创建Treasure Draw。</p>
+          <p>{{ $t("user.createComTips1") }}</p>
+          <p>{{ $t("user.createComTips2") }}</p>
         </div>
       </div>
       <div class="dialog_competition" v-else>
@@ -261,9 +261,9 @@ import {
   addNftOrder,
   getSystemNft,
   getNftActivityCharts,
-  getTheExternalNFTSeries
+  getTheExternalNFTSeries,
+  getServiceFee
 } from "@/services/api/oneBuy";
-import { getSetting } from "@/services/api/invite";
 import Image from "@/components/imageView";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
@@ -276,7 +276,7 @@ export default {
     return {
       show: true,
       operatingType: null,
-      serverFees: 0.05,
+      serverFees: 0,
       activeType: "LIMITED_PRICE",
       rememberMe: false,
       competitionNft: null,
@@ -400,12 +400,9 @@ export default {
     },
     // 设置
     async fetchSetting() {
-      const res = await getSetting({
-        coin: "ETH"
-      });
-
+      const res = await getServiceFee();
       if (res && res.code == 200) {
-        this.setting = res.data;
+        this.serverFees = res.data;
         this.$forceUpdate();
       }
     },

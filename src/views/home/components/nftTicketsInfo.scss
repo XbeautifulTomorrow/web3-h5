@@ -335,7 +335,12 @@
       }
 
       &.is-disabled {
-        opacity: 0.68
+        border: 1px solid rgba(228, 231, 245, 0.15);
+        box-sizing: border-box;
+        background-color: #292c36;
+        background-image: none;
+        color: rgba(169, 164, 180, 0.6);
+        cursor: not-allowed;
       }
     }
   }
@@ -1271,6 +1276,28 @@
     &:hover {
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       color: #13151f;
+    }
+  }
+
+  &.disabled {
+
+    .choose_nums_item {
+      border: 1px solid rgba(228, 231, 245, 0.15);
+      box-sizing: border-box;
+      background-color: #292c36;
+      background-image: none;
+      color: rgba(169, 164, 180, 0.6);
+      cursor: not-allowed;
+
+      &.active,
+      &:hover {
+        border: 1px solid rgba(228, 231, 245, 0.15);
+        box-sizing: border-box;
+        background-color: #292c36;
+        background-image: none;
+        color: rgba(169, 164, 180, 0.6);
+        cursor: not-allowed;
+      }
     }
   }
 }

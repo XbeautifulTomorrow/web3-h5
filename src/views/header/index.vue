@@ -270,7 +270,6 @@ export default {
       this.timer = setTimeout(() => {
         if (this.isLogin && this.userInfo?.id) {
           this.getTheUserBalanceInfo();
-          this.timer = null;
         }
         this.timeoutBalance();
       }, 30000);

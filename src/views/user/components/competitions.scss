@@ -38,6 +38,33 @@
   }
 }
 
+.operating_btns {
+  display: flex;
+
+  &>div+div {
+    margin-left: 0.625rem;
+  }
+
+  .operating_item {
+    min-width: 7.875rem;
+    padding: 0 1.5rem;
+    height: 1.875rem;
+    line-height: 1.875rem;
+    border-radius: 1.875rem;
+    background-image: linear-gradient(to top, #e3a406, #fbd851);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #13151f;
+    cursor: pointer;
+  }
+}
+
+.competitions_operating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .operating_box {
   display: flex;
   align-items: center;

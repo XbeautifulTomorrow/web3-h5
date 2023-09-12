@@ -252,7 +252,7 @@ export default {
      */
     formatNetwork(event) {
       const { chainId } = event;
-      if (!chainId) return "-";
+      if (!chainId) return "--";
       const { networkList } = this;
       const network = networkList.find(e => e.value == chainId);
       return network.label;

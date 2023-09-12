@@ -101,11 +101,11 @@
           <div class="choose_price">
             <div class="price_item" @click="competitionForm.price = competitionNft.floorPrice">
               <span class="title">Floor Price</span>
-              <span class="val">{{ competitionNft.floorPrice || "-" }} ETH</span>
+              <span class="val">{{ competitionNft.floorPrice || "--" }} ETH</span>
             </div>
             <div class="price_item" @click="competitionForm.price = historyPrice">
               <span class="title">Last Sale</span>
-              <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "-" }} </span>
+              <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </span>
             </div>
           </div>
           <el-input v-model="competitionForm.price" type="number" min="0">

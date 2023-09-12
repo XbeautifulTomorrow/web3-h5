@@ -190,7 +190,8 @@
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "參與者",
     "nftAtivity": "NFT ACTIVITY",
-    "priceHistory": "PRICE HISTORY"
+    "priceHistory": "PRICE HISTORY",
+    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects."
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",

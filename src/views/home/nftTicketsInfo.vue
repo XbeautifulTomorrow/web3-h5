@@ -3,7 +3,9 @@
     <div class="ntf_tickets_info_wrapper">
       <div class="nft_details">
         <div class="nft_details_l border_bg">
-          <Image fit="cover" class="nft_img" :src="nftInfo && nftInfo.img" />
+          <Image fit="cover" class="nft_img" v-if="nftInfo.orderType == 'LIMITED_PRICE_COIN'"
+            :src="require('@/assets/svg/user/create_eth.svg')" />
+          <Image fit="cover" class="nft_img" v-else :src="nftInfo.img" />
           <div class="tips_round" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo && nftInfo.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
             <div v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'">
@@ -37,47 +39,55 @@
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
             <div class="nft_name text-ellipsis">
-              <span>{{ nftInfo && nftInfo.name }}</span>
-              <span v-if="formatSeries(nftInfo)">{{ ` #${nftInfo && nftInfo.tokenId}` }}</span>
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ nftInfo?.name || "--" }}</span>
+              <span v-else>{{ `${item.totalPrice} ETH` }}</span>
+              <span v-if="nftInfo.orderType != 'LIMITED_PRICE_COIN' && formatSeries(nftInfo)">
+                {{ ` #${nftInfo && nftInfo.tokenId}` }}
+              </span>
             </div>
             <div class="nft_activity">
               <div class="price_box">
                 <div class="price">
                   <span class="title">{{ $t("ticketsInfo.marketValue") }}</span>
-                  <span class="val">{{ `${nftInfo && nftInfo.totalPrice} ETH` }}</span>
+                  <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${nftInfo?.totalPrice} ETH` }}</span>
+                  <span v-else>
+                    {{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(nftInfo?.totalPrice), 4)} USDT` }}
+                  </span>
                 </div>
                 <div class="floor_price">
                   <span class="title">{{ $t("ticketsInfo.floorPrice") }}</span>
-                  <span class="val">{{ `${nftInfo && nftInfo.floorPrice} ETH` }}</span>
+                  <span class="val" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+                    {{ `${nftInfo?.floorPrice} ETH` }}
+                  </span>
+                  <span class="val" v-else>
+                    {{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(nftInfo?.floorPrice), 4)} USDT` }}
+                  </span>
                 </div>
               </div>
               <div class="time" v-if="nftInfo && nftInfo.orderStatus == 'IN_PROGRESS'">
-                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_info_price.svg"
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time.svg"
                   alt="">
-                <img v-else src="@/assets/svg/home/icon_info_time.svg" alt="">
-                <div v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" class="time-text">
-                  {{ $t("home.ticketsLeft", { num: nftInfo && nftInfo.maximumPurchaseQuantity || 0 }) }}
-                </div>
-                <div v-else class="time-text">
+                <img v-else src="@/assets/svg/home/icon_info_price.svg" alt="">
+                <div class="time-text">
                   {{ $t("ticketsInfo.close", { time: dateFormat(nftInfo && nftInfo.endTime) }) }}
                 </div>
               </div>
               <div class="finish" v-else-if="nftInfo && nftInfo.orderStatus == 'DRAWN'">
-                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_drawn.svg"
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_drawn.svg"
                   alt="">
-                <img v-else src="@/assets/svg/home/icon_time_drawn.svg" alt="">
+                <img v-else src="@/assets/svg/home/icon_price_drawn.svg" alt="">
                 <div class="time-text">{{ $t("ticketsInfo.completed") }}</div>
               </div>
               <div class="aborted" v-else-if="nftInfo && nftInfo.orderStatus == 'CLOSED'">
-                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_aborted.svg"
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_aborted.svg"
                   alt="">
-                <img v-else src="@/assets/svg/home/icon_time_aborted.svg" alt="">
+                <img v-else src="@/assets/svg/home/icon_price_aborted.svg" alt="">
                 <div class="time-text">{{ $t("ticketsInfo.aborted") }}</div>
               </div>
               <div class="cancel" v-else>
-                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_PRICE'" src="@/assets/svg/home/icon_price_cancel.svg"
+                <img v-if="nftInfo && nftInfo.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_cancel.svg"
                   alt="">
-                <img v-else src="@/assets/svg/home/icon_time_cancel.svg" alt="">
+                <img v-else src="@/assets/svg/home/icon_price_cancel.svg" alt="">
                 <div class="time-text">{{ $t("ticketsInfo.cancelled") }}</div>
               </div>
             </div>
@@ -300,10 +310,13 @@
             </div>
             <div class="nft_info">
               <span>{{ $t("ticketsInfo.nftDescription") }}</span>
-              <span class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}`
-              }}</span>
+              <span class="nft_name text-ellipsis">
+                {{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}
+              </span>
             </div>
-            <div class="nft_description" v-html="nftInfo && nftInfo.remark"></div>
+            <div class="nft_description" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+              v-html="nftInfo && nftInfo.remark"></div>
+            <div class="nft_description" v-else> {{ $t("ticketsInfo.ethDescription") }}</div>
           </div>
           <div class="traits_box">
             <div class="traits_text">
@@ -435,7 +448,7 @@ import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
 import LineChart from "@/components/charts";
 import {
-  openUrl, onCopy, dateDiff, timeFormat, handleWindowResize
+  accurateDecimal, openUrl, onCopy, dateDiff, timeFormat, handleWindowResize
 } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
@@ -483,7 +496,8 @@ export default {
       historyFinished: false,
       chartData: [],
       lineChartData: {},
-      screenWidth: null
+      screenWidth: null,
+      exchangeRate: null
     };
   },
   computed: {
@@ -567,6 +581,7 @@ export default {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
+    accurateDecimal: accurateDecimal,
     // 获取Nft信息
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({

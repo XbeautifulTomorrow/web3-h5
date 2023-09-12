@@ -190,7 +190,8 @@
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "Participants",
     "nftAtivity": "NFT ACTIVITY",
-    "priceHistory": "PRICE HISTORY"
+    "priceHistory": "PRICE HISTORY",
+    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects."
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",
@@ -394,8 +395,8 @@
     "bindSuccess": "Bind successfully!",
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
-    "chooseCodeHint":"Please select an invitation code",
-    "freeNumHint":"Number of free tickets",
+    "chooseCodeHint": "Please select an invitation code",
+    "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total entries.",
     "ticketsHint": "The maximum amount cannot exceed 120% of the original value"
   },

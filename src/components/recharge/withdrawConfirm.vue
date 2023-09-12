@@ -29,7 +29,7 @@
           <div class="wait-title">{{ $t("recharge.completeTitle1") }}</div>
           <div class="wait-text deposit_nft">
             <span>{{ $t("recharge.nftLabel") }}</span>
-            <span>{{ nftInfo.name || "-" }}</span>
+            <span>{{ nftInfo.name || "--" }}</span>
           </div>
         </div>
         <div class="deposit_tx_id" v-if="dialogType == 4">
@@ -38,7 +38,7 @@
         </div>
         <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
         <div class="nft-info" v-if="dialogType == 1">
-          <span>{{ nftInfo.name || "-" }}</span>
+          <span>{{ nftInfo.name || "--" }}</span>
           <span>#{{ nftInfo.tokenId }}</span>
         </div>
         <div class="form-buttons" v-if="dialogType < 3">

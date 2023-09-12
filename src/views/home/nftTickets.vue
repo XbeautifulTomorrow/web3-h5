@@ -8,7 +8,9 @@
       <template v-for="(item, index) in  ticketList ">
         <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
           <div class="img-box">
-            <Image fit="cover" class="nft_img" :src="item.nftImage" />
+            <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+              :src="require('@/assets/svg/user/create_eth.svg')" />
+            <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                 <img src="@/assets/svg/home/icon_time.svg" alt="">
@@ -42,13 +44,18 @@
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
-              <div class="name-text text-ellipsis">{{ item.seriesName || "-" }}</div>
+              <div class="name-text text-ellipsis">
+                <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+                <span v-else>{{ `${item.price} ETH` }}</span>
+              </div>
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
-            <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>
+            <div class="nft-name-r text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `#${item.tokenId}` }}
+            </div>
           </div>
           <div class="price-box">
-            {{ `${item.price} ETH` }}
+            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
+            <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
           </div>
           <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
@@ -61,7 +68,7 @@
               {{ item.winningName || item.winningAddress }}
             </span>
           </div>
-          <div class="sold-box" v-if=" item.numberOfTicketsSold > 1 ">
+          <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
             {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
           </div>
           <div class="sold-box" v-else>
@@ -83,9 +90,10 @@ import { useUserStore } from "@/store/user.js";
 
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { dateDiff, timeFormat } from "@/utils";
+import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
 
 import { getCheckAllOrders } from "@/services/api/oneBuy";
+import { getWithdrawalExchangeRate } from "@/services/api/user";
 
 import Image from "@/components/imageView";
 export default {
@@ -96,6 +104,7 @@ export default {
   },
   data() {
     return {
+      exchangeRate: null,
       ticketList: []
     };
   },
@@ -112,13 +121,23 @@ export default {
   },
   methods: {
     dateDiff: dateDiff,
-    timeFormat: timeFormat,
     bigNumber: bigNumber,
+    timeFormat: timeFormat,
+    accurateDecimal: accurateDecimal,
     // 获取一元购列表
     async fetchCheckAllOrders() {
       const res = await getCheckAllOrders({ page: 1, size: 5 })
       if (res && res.code == 200) {
         this.ticketList = res.data.records;
+      }
+    },
+    // 提款汇率
+    async fetchWithdrawalExchangeRate() {
+      const res = await getWithdrawalExchangeRate({
+        coinName: "ETH",
+      });
+      if (res && res.code == 200) {
+        this.exchangeRate = res.data;
       }
     },
     handleTickets(event) {
@@ -130,6 +149,7 @@ export default {
   },
   created() {
     this.fetchCheckAllOrders();
+    this.fetchWithdrawalExchangeRate();
   }
 };
 </script>

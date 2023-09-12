@@ -27,7 +27,8 @@
       <div class="dialog_competition" v-else>
         <div class="create_title">{{ $t("user.createCompetition") }}</div>
         <div class="image_box">
-          <Image fit="cover" class="nft_img" :src="competitionNft?.img" />
+          <Image fit="cover" class="nft_img" v-if="operatingType == 'NFT'" :src="competitionNft?.img" />
+          <Image fit="cover" class="nft_img" v-else :src="require('@/assets/svg/user/create_eth.svg')" />
         </div>
         <div class="nft_info" v-if="operatingType == 'NFT'">
           <div class="nft_name">{{ competitionNft?.name }}</div>
@@ -52,11 +53,11 @@
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div class="price_item" @click="competitionForm.price = competitionNft?.floorPrice">
                 <span class="title">Floor Price</span>
-                <span class="val">{{ competitionNft?.floorPrice || "-" }} ETH</span>
+                <span class="val">{{ competitionNft?.floorPrice || "--" }} ETH</span>
               </div>
               <div class="price_item" @click="competitionForm.price = historyPrice">
                 <span class="title">Last Sale</span>
-                <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "-" }} </span>
+                <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </span>
               </div>
             </div>
             <el-input v-model="competitionForm.price" type="number" min="0">
@@ -218,26 +219,22 @@
           <div class="choose_nft" v-if="count > 0">
             <div class="choose_nft_item" v-for="(item, index) in stockNftList" :key="index">
               <div class="img_box">
-                <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
-                <Image fit="cover" class="nft_img" v-else :src="item.img" />
+                <Image fit="cover" class="nft_img" :src="item.img" />
                 <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
-                <div v-if="isDeposit" class="num_tips text-ellipsis">{{ `x ${item.amount}` }}</div>
               </div>
               <div class="nft_name">{{ item.name || "--" }}</div>
-              <template>
-                <div class="confirm_btn disabled" v-if="item.currentStatus == 'WITHDRAW'">
-                  {{ $t("user.withdrawing") }}
-                </div>
-                <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
-                  {{ $t("user.onSale") }}
-                </div>
-                <div class="confirm_btn disabled" v-else-if="item.isType != 'EXTERNAL'">
-                  {{ $t("user.createCompetitions") }}
-                </div>
-                <div class="confirm_btn" v-else @click="chooseNft(item)">
-                  {{ $t("user.createCompetitions") }}
-                </div>
-              </template>
+              <div class="confirm_btn disabled" v-if="item.currentStatus == 'WITHDRAW'">
+                {{ $t("user.withdrawing") }}
+              </div>
+              <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
+                {{ $t("user.onSale") }}
+              </div>
+              <div class="confirm_btn disabled" v-else-if="item.isType != 'EXTERNAL'">
+                {{ $t("user.createCompetitions") }}
+              </div>
+              <div class="confirm_btn" v-else @click="handleChooseNft(item)">
+                {{ $t("user.createCompetitions") }}
+              </div>
             </div>
           </div>
           <div class="choose_nft" v-else>
@@ -267,10 +264,14 @@ import {
   getTheExternalNFTSeries
 } from "@/services/api/oneBuy";
 import { getSetting } from "@/services/api/invite";
+import Image from "@/components/imageView";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 export default {
   name: 'modifyName',
+  components: {
+    Image
+  },
   data() {
     return {
       show: true,
@@ -309,7 +310,7 @@ export default {
     ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
-      return headerStore.balance;
+      return headerStore?.balance;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -379,6 +380,7 @@ export default {
       this.competitionNft = event;
       this.fetchNftActivitySale(event);
       this.handleCloseChoose();
+      this.operatingType = "NFT";
     },
     // 一元购历史折线图
     async fetchNftActivitySale(event) {
@@ -452,6 +454,10 @@ export default {
       });
 
       this.collections = res.data;
+    },
+    findExternalSeries(event) {
+      const { collections } = this;
+      return collections.findIndex(e => e.contractAddress == event) > -1;
     },
     // 创建一元购赛事
     submitCompetition() {

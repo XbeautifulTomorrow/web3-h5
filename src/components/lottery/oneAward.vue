@@ -137,9 +137,9 @@ export default {
   },
   methods: {
     formatDataList() {
-      if (this.awardsList?.length < 30) {
+      if (this.awardsList?.length < 50) {
         var arr = [];
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 50; i++) {
           arr.push(this.awardsList[i % this.awardsList.length]);
         }
         this.awardsList = arr;
@@ -167,13 +167,14 @@ export default {
         };
       }
       this.$forceUpdate();
-      console.log(deviceMax, "deviceMax-------");
 
-      const subAwardsRef = this.$refs.subAwards[0];
-      if (!subAwardsRef) return;
-      this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
-      this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-      this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+      setTimeout(() => {
+        const subAwardsRef = this.$refs.subAwards[0];
+        if (!subAwardsRef) return;
+        this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
+        this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
+        this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+      });
     },
     // 获取匀速动画最后的位置
     getCurrentTranslateX() {

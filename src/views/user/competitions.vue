@@ -1,8 +1,13 @@
 <template>
   <div :class="['competitions_wrapper', !count > 0 && 'no_data_bg']">
-    <div class="competitions_text">
-      <img src="@/assets/svg/user/icon_competitions.svg" alt="">
-      <span>{{ $t("user.competition") }}</span>
+    <div class="competitions_operating">
+      <div class="competitions_text">
+        <img src="@/assets/svg/user/icon_competitions.svg" alt="">
+        <span>{{ $t("user.competition") }}</span>
+      </div>
+      <div class="operating_btns">
+        <div class="operating_item" @click="showCreateCom = true">{{ $t('homeReplenish.startBtn') }}</div>
+      </div>
     </div>
     <div class="competitions_panel">
       <div class="operating_box">
@@ -193,6 +198,7 @@
         <div v-if="isCancel" class="confirm" @click="onCancel()">{{ $t("user.cancelBtn") }}</div>
       </div>
     </el-dialog>
+    <create-com v-if="showCreateCom" @closeDialogFun="handleClose()"></create-com>
   </div>
 </template>    
 <script>
@@ -212,11 +218,13 @@ import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
 import { openUrl, dateDiff, timeFormat } from "@/utils";
+import createCom from "./components/createComponents.vue";
 import Image from "@/components/imageView";
 export default {
   name: 'UserCompetitions',
   components: {
     countDown,
+    createCom,
     Image
   },
   data() {
@@ -236,6 +244,8 @@ export default {
       page: 1,
       size: 30,
       count: 0,
+
+      showCreateCom: false
     };
   },
   computed: {
@@ -354,7 +364,9 @@ export default {
         done();
         return
       }
+
       this.showCabcel = false;
+      this.showCreateCom = false;
     },
     handleCurrentChange(page) {
       this.page = page;

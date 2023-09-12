@@ -130,6 +130,7 @@ export default {
       nftId: [], // 当前已有nft
       translateNum: 0,
       timer: null,
+      nftTimer: null,
       screenWidth: null,
       networkList: [{ label: "Goerli", value: 5 }, { label: "Ethereum", value: 1 }]
     };
@@ -159,9 +160,10 @@ export default {
           this.nftId = nftList;
         }
 
-        setTimeout(() => {
+        this.nftTimer = setTimeout(() => {
           for (let i = 0; i < this.currencyList.length; i++) {
             this.currencyList[i].animation = false;
+            clearTimeout(this.nftTimer);
           }
         }, 2000);
 
@@ -171,10 +173,10 @@ export default {
     timeoutTickets() {
       if (this.timer) {
         clearTimeout(this.timer);
+        this.timer = null;
       }
       this.timer = setTimeout(() => {
         this.fetchTicketList();
-        this.timer = null;
         this.timeoutTickets();
       }, 5000);
     },

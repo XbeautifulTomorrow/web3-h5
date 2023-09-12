@@ -53,7 +53,7 @@
           <div class="nft_btn withdrawling" v-else-if="item.isType != 'EXTERNAL'">
             {{ $t("user.createCompetitions") }}
           </div>
-          <div class="nft_btn create" @click="createCompetition(item, index)" v-else>
+          <div class="nft_btn create" @click="createCompetition(item)" v-else>
             {{ $t("user.createCompetitions") }}
           </div>
         </div>

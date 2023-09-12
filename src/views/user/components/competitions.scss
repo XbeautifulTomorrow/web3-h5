@@ -715,13 +715,14 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 0.25rem;
+      min-height: auto;
       .entered_item {
         width: auto;
         height: auto;
         margin-left: 0 !important;
         margin-top: 0 !important;
         border-radius: 0.25rem;
-        padding-bottom: 0.25rem;
+        padding-bottom: 0.5rem;
         .image_box {
           height: auto;
         }

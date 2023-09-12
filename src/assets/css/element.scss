@@ -1,9 +1,9 @@
 :root {
-  --el-overlay-color-lighter: rgba(19, 7, 27, 0.45);
+  --el-overlay-color-lighter: rgba(19, 7, 27, 0.8);
 }
 
 .el-overlay {
-  backdrop-filter: blur(5px);
+  // backdrop-filter: blur(5px);
 }
 
 .el-input__wrapper {

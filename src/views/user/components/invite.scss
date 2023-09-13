@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
 
-  &>span {
+  & > span {
     display: block;
     background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
     font-family: Tomorrow;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
 
-  &>.coin_item+.coin_item {
+  & > .coin_item + .coin_item {
     margin-left: 0.625rem;
   }
 
@@ -68,18 +68,17 @@
 }
 
 .invite_panel {
-  background-image: url("@/assets/svg/user/invite_bg.svg");
+  background-image: url("@/assets/img/user/invite_bg.webp");
   padding: 0 4.25rem;
   height: 16.125rem;
   box-sizing: border-box;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-
 
 .title_text {
   background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
@@ -128,17 +127,13 @@
       box-shadow: none;
 
       padding: 0.125rem 0 0.125rem 0.125rem;
-      border-image-source: linear-gradient(to bottom,
-          #1e90f9 12%,
-          #e022e3 70%);
+      border-image-source: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       border-image-slice: 1;
-      background-image: linear-gradient(to bottom, #13151F, #13151F),
-        linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+      background-image: linear-gradient(to bottom, #13151f, #13151f), linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       background-origin: border-box;
       background-clip: content-box, border-box;
 
-
-      &>input {
+      & > input {
         padding: 0 1.25rem;
         font-size: 1.125rem;
         line-height: 1.6;
@@ -202,7 +197,7 @@
     justify-content: space-between;
     padding-bottom: 1.25rem;
 
-    &>.statistics_item+.statistics_item {
+    & > .statistics_item + .statistics_item {
       margin-left: 1.25rem;
     }
   }
@@ -214,7 +209,7 @@
     border-radius: 0.5rem;
     background-color: #1d0f36;
 
-    &>div+div {
+    & > div + div {
       border-bottom: 0.125rem solid #1d1f2b;
     }
 
@@ -278,7 +273,7 @@
   th {
     &.el-table__cell {
       background-color: #191c28;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
       padding: 0;
 
       .cell {
@@ -298,7 +293,7 @@
   td {
     &.el-table__cell {
       background-color: #151722;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -308,14 +303,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: transparent;
   }
 
   .el-table__body {
-    &>tbody {
-
-      &>.el-table__row {
+    & > tbody {
+      & > .el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -323,7 +317,7 @@
         }
       }
 
-      &>.el-table__row:nth-child(2n) {
+      & > .el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -344,7 +338,7 @@
     align-items: center;
     justify-content: center;
 
-    &>img+img {
+    & > img + img {
       margin-left: 0.625rem;
     }
 
@@ -375,7 +369,7 @@
     }
 
     &.disabled {
-      background-color: #282A34;
+      background-color: #282a34;
       cursor: not-allowed;
     }
   }
@@ -444,8 +438,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -475,59 +468,59 @@
 }
 
 @media screen and (max-width: 950px) {
-  .my_invite_wrapper{
+  .my_invite_wrapper {
     background-image: none;
     padding: 1.875rem 0;
     padding-top: 1rem;
     min-height: auto;
-    &.small_bg{
+    &.small_bg {
       background-image: none;
       min-height: auto;
     }
-    .invite_text > span{
+    .invite_text > span {
       font-size: 1.125rem;
     }
-    .choose_box{
-      padding-bottom: .625rem;
-      .coin_item{
+    .choose_box {
+      padding-bottom: 0.625rem;
+      .coin_item {
         width: 50%;
         height: 1.75rem;
         line-height: 1.75rem;
-        font-size: .75rem;
-        padding: 0 ;
-        border-radius: .25rem;
+        font-size: 0.75rem;
+        padding: 0;
+        border-radius: 0.25rem;
       }
     }
-    .summary_box{
-      .invite_panel{
+    .summary_box {
+      .invite_panel {
         height: auto;
-        padding: .5rem;
-        .title_text{
+        padding: 0.5rem;
+        .title_text {
           font-size: 1rem;
         }
-        .invite_description{
-          font-size: .75rem;
+        .invite_description {
+          font-size: 0.75rem;
         }
       }
-      .create_invite_code{
-        padding-top: .5rem;
-        .create_title{
+      .create_invite_code {
+        padding-top: 0.5rem;
+        .create_title {
           font-size: 1rem;
-          padding-bottom: .25rem;
+          padding-bottom: 0.25rem;
         }
-        .create_input{
+        .create_input {
           width: 100%;
         }
         :deep(.create_input) {
-          .el-input__wrapper{
+          .el-input__wrapper {
             height: 2rem;
             line-height: 2rem;
             border-radius: 0.25rem 0 0 0.25rem;
-            input{
-              font-size: .75rem;
+            input {
+              font-size: 0.75rem;
             }
           }
-          .create_btn{
+          .create_btn {
             width: 5rem;
             height: 2rem;
             line-height: 2rem;
@@ -536,50 +529,50 @@
           }
         }
       }
-      .statistics_panel{
+      .statistics_panel {
         padding-top: 0;
-        .statistics_title{
+        .statistics_title {
           font-size: 1rem;
-          padding-bottom: .25rem;
+          padding-bottom: 0.25rem;
         }
-        .statistics_type{
+        .statistics_type {
           padding-bottom: 0;
         }
-        .statistics_item{
-          padding: .625rem;
-          .title{
-            font-size: .75rem;
+        .statistics_item {
+          padding: 0.625rem;
+          .title {
+            font-size: 0.75rem;
           }
-          .val{
+          .val {
             font-size: 1rem;
           }
-          .statistics_time{
+          .statistics_time {
             height: 2rem;
           }
         }
       }
     }
     :deep(.table_container) {
-      th.el-table__cell .cell{
-        font-size: .75rem;
+      th.el-table__cell .cell {
+        font-size: 0.75rem;
       }
-      .el-table__empty-text{
-        font-size: .75rem;
+      .el-table__empty-text {
+        font-size: 0.75rem;
       }
     }
   }
 }
 
 @media screen and (max-width: 520px) {
-  .my_invite_wrapper{
-    .statistics_panel{
-      .statistics_box{
+  .my_invite_wrapper {
+    .statistics_panel {
+      .statistics_box {
         display: block;
-        &> .statistics_item + .statistics_item{
+        & > .statistics_item + .statistics_item {
           margin-left: 0;
         }
-        .statistics_item{
-          margin-bottom: .5rem;
+        .statistics_item {
+          margin-bottom: 0.5rem;
         }
       }
     }

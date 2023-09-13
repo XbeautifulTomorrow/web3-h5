@@ -65,6 +65,9 @@
   .el-table__inner-wrapper::before {
     display: none;
   }
+  .el-table__body-wrapper tr td.el-table-fixed-column--right {
+    background: transparent;
+  }
 
   .user_info {
     display: inline-flex;
@@ -77,7 +80,7 @@
     }
 
     .nft_name {
-      width: 11rem;
+      width: 20rem;
       padding-left: 0.75rem;
       overflow: hidden;
       white-space: nowrap;

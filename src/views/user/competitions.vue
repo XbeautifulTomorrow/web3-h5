@@ -29,7 +29,9 @@
       <div class="entered_box" v-if="count > 0 && activeType == 'ENTERED'">
         <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box" @click="enterNow(item)">
-            <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
+            <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+              :src="require('@/assets/svg/user/create_eth.svg')" />
+            <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="['tips_round', item.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
@@ -68,10 +70,14 @@
             <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
           </div>
           <div class="nft_name">
-            <span>{{ item && item.seriesName }}</span>
+            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+            <span v-else>{{ `${item.price} ETH` }}</span>
             <img src="@/assets/svg/home/icon_certified.svg" alt="">
           </div>
-          <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
+          <div class="nft_price">
+            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
+            <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
+          </div>
           <div class="buy_btn" @click="enterNow(item)" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span>{{ $t("user.buyMore") }}</span>
           </div>
@@ -97,7 +103,9 @@
         <div class="my_competitions_box">
           <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
             <div class="image_box" @click="enterNow(item)">
-              <Image fit="cover" class="nft_img" :src="item && item.nftImage" />
+              <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+                :src="require('@/assets/svg/user/create_eth.svg')" />
+              <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
               <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
                 :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
@@ -138,8 +146,15 @@
               </div>
               <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
             </div>
-            <div class="nft_name">{{ item && item.seriesName }}</div>
-            <div class="nft_price">{{ `${item && item.price} ETH` }}</div>
+            <div class="nft_name">
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+              <span v-else>{{ `${item.price} ETH` }}</span>
+              <img src="@/assets/svg/home/icon_certified.svg" alt="">
+            </div>
+            <div class="nft_price">
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
+              <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
+            </div>
             <div class="cancel_btn" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">
               <span>{{ $t("user.cancelBtn") }}</span>
@@ -184,11 +199,18 @@
         <span v-else>{{ $t("user.noCancelHint") }}</span>
       </div>
       <div class="image_box">
-        <Image fit="cover" class="nft_img" :src="competitionNft && competitionNft.nftImage" />
+        <Image fit="cover" class="nft_img" v-if="competitionNft.orderType == 'LIMITED_PRICE_COIN'"
+          :src="require('@/assets/svg/user/create_eth.svg')" />
+        <Image fit="cover" class="nft_img" v-else :src="competitionNft?.nftImage" />
       </div>
       <div class="nft_info">
-        <div class="nft_name">{{ competitionNft && competitionNft.seriesName }}</div>
-        <div class="nft_id text-ellipsis">#{{ competitionNft && competitionNft.tokenId }}</div>
+        <div class="nft_name">
+          <span v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN'">{{ competitionNft.seriesName || "--" }}</span>
+          <span v-else>{{ `${competitionNft.price} ETH` }}</span>
+        </div>
+        <div class="nft_id text-ellipsis" v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN'">
+          {{ `#${competitionNft?.tokenId}` }}
+        </div>
       </div>
       <div class="btn-group">
         <div class="cancel" @click="handleClose()">
@@ -208,6 +230,7 @@ import {
   delNftOrder,
   delNewOrderMark
 } from "@/services/api/oneBuy";
+import { getCacheTicker } from "@/services/api";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 
@@ -217,7 +240,7 @@ import { useUserStore } from "@/store/user.js";
 
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { openUrl, dateDiff, timeFormat } from "@/utils";
+import { accurateDecimal, openUrl, dateDiff, timeFormat } from "@/utils";
 import createCom from "./components/createComponents.vue";
 import Image from "@/components/imageView";
 export default {
@@ -237,6 +260,7 @@ export default {
         { label: "CANCELLED", value: "CANCELLED" },
         { label: "ABORTED", value: "CLOSED" }
       ],
+      exchangeRate: null,
       enteredList: [],
       showCabcel: false,
       competitionNft: null,
@@ -280,6 +304,7 @@ export default {
     dateDiff: dateDiff,
     timeFormat: timeFormat,
     bigNumber: bigNumber,
+    accurateDecimal: accurateDecimal,
     handleChange(event) {
       this.enteredList = [];
       this.activeType = event.value;
@@ -312,14 +337,18 @@ export default {
     },
     // 计算可购买最大票数
     maxBuyNum(event) {
-      const { price, ticketPrice, orderType } = event;
+      const { price, ticketPrice, orderType, limitNum } = event;
 
       let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!price) return 0;
         if (!ticketPrice) return 0;
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
-      } else {
+      }
+      else if (orderType == "LIMITED_PRICE_COIN") {
+        maxNum = Number(Math.ceil(new bigNumber(limitNum).dividedBy(4)));
+      }
+      else {
         maxNum = Number(Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)));
       }
 
@@ -372,6 +401,16 @@ export default {
       this.page = page;
       this.fetchOneBuyList(false);
     },
+    // 提款汇率
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
+      });
+      if (res && res.code == 200) {
+        this.exchangeRate = res.data;
+      }
+    },
     /**
      * @description: 格式化地址
      */
@@ -388,6 +427,8 @@ export default {
       { label: t("user.cancel"), value: "CANCELLED" },
       { label: t("user.aborted"), value: "CLOSED" }
     ];
+
+    this.fetchCacheTicker();
     if (this.isLogin && this.userInfo?.id) {
       this.fetchOneBuyList();
     }

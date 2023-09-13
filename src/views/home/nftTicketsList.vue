@@ -39,7 +39,9 @@
         <template v-for="( item, index ) in ticketList" :key="`tickets-${index}`">
           <li class="ntf-tickets-item" @click="handleTickets(item)">
             <div class="img-box">
-              <Image fit="cover" class="nft_img" :src="item.nftImage" />
+              <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+                :src="require('@/assets/svg/user/create_eth.svg')" />
+              <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
               <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
                 <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
                   <img src="@/assets/svg/home/icon_time.svg" alt="">
@@ -73,13 +75,18 @@
             </div>
             <div class="nft-name">
               <div class="nft-name-l">
-                <div class="name-text text-ellipsis">{{ item.seriesName || "-" }}</div>
+                <div class="name-text text-ellipsis">
+                  <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+                  <span v-else>{{ `${item.price} ETH` }}</span>
+                </div>
                 <img src="@/assets/svg/home/icon_certified.svg" alt="">
               </div>
-              <div class="nft-name-r text-ellipsis">{{ `#${item.tokenId}` }}</div>
+              <div class="nft-name-r text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `#${item.tokenId}` }}
+              </div>
             </div>
             <div class="price-box">
-              {{ `${item.price} ETH` }}
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
+              <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
             </div>
             <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
               <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
@@ -120,9 +127,10 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import { getCheckAllOrders, getTheExternalNFTSeries } from "@/services/api/oneBuy";
+import { getCacheTicker } from "@/services/api";
 import bigNumber from "bignumber.js";
 import countDown from '@/components/countDown';
-import { dateDiff, timeFormat } from "@/utils";
+import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import Image from "@/components/imageView";
@@ -144,6 +152,7 @@ export default {
   data() {
     return {
       collections: [],
+      exchangeRate: null,
       searchVal: null,
       currentStatus: null,
       sort: "popularity",
@@ -173,12 +182,23 @@ export default {
     dateDiff: dateDiff,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
+    accurateDecimal: accurateDecimal,
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
         type: "EXTERNAL"
       });
       this.collections = res.data;
+    },
+    // 提款汇率
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT"
+      });
+      if (res && res.code == 200) {
+        this.exchangeRate = res.data;
+      }
     },
     // 最新购买
     async fetchCheckAllOrders(isSearch = true) {
@@ -238,6 +258,7 @@ export default {
   created() {
     this.fetchAllSeries();
     this.fetchCheckAllOrders();
+    this.fetchCacheTicker();
 
     this.statusDrop = [
       { label: t("homeReplenish.inProgress"), value: "IN_PROGRESS" },

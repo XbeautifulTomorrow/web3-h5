@@ -190,7 +190,8 @@
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "參與者",
     "nftAtivity": "NFT ACTIVITY",
-    "priceHistory": "PRICE HISTORY"
+    "priceHistory": "PRICE HISTORY",
+    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects."
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",
@@ -397,6 +398,8 @@
     "bindText3": "3. Scan QR Code with the Google Authenticator app",
     "inputTitle": "2FA CODE",
     "bindSuccess": "Bind successfully!",
+    "createComTips1": "要创建Treasure Draw, 清先将对应的数字资产转入您的账号。",
+    "createComTips2": "只有Bitzing认可的NFT可以创建Treasure Draw。",
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
     "chooseCodeHint": "Please select an invitation code",

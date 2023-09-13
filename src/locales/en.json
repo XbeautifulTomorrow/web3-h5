@@ -190,7 +190,8 @@
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "Participants",
     "nftAtivity": "NFT ACTIVITY",
-    "priceHistory": "PRICE HISTORY"
+    "priceHistory": "PRICE HISTORY",
+    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects."
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",
@@ -232,8 +233,8 @@
     "resalePrice": "Resale Price",
     "rewardId": "Reward ID",
     "boxTipsTitle": "THIS BOX CONTAINS EXTERNAL NFTS.",
-    "boxTipsDescription1": "Please understand that winning an NFT doesn't guarantee our ability to buy it on your behalf.",
-    "boxTipsDescription2": "In case we fail to acquire the NFT, you will be able to claim a ETH reward amounting to the won NFT's value.",
+    "boxTipsDescription1": "Please understand that winning an NFT doesn't guarantee our ability to buy it on your behalf. If we are unable to acquire the NFT, you will have the option to claim ETH equivalent to its value.",
+    "boxTipsDescription2": "If we are unable to acquire the NFT, you will have the option to claim ETH equivalent to its value.",
     "boxTipsClose": "I UNDERSTAND."
   },
   "user": {
@@ -392,10 +393,12 @@
     "bindText3": "3. Scan QR Code with the Google Authenticator app",
     "inputTitle": "2FA CODE",
     "bindSuccess": "Bind successfully!",
+    "createComTips1": "要创建Treasure Draw, 清先将对应的数字资产转入您的账号。",
+    "createComTips2": "只有Bitzing认可的NFT可以创建Treasure Draw。",
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
-    "chooseCodeHint":"Please select an invitation code",
-    "freeNumHint":"Number of free tickets",
+    "chooseCodeHint": "Please select an invitation code",
+    "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total entries.",
     "ticketsHint": "The maximum amount cannot exceed 120% of the original value"
   },

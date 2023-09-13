@@ -175,6 +175,7 @@
     }
 
     .time {
+      min-width: 11.625rem;
       display: flex;
       align-items: center;
       font-size: 1.25rem;
@@ -1432,6 +1433,7 @@
       }
 
       .time {
+        min-width: auto;
         font-size: 0.75rem;
 
         img {

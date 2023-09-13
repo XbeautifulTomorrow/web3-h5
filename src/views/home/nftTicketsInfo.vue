@@ -62,10 +62,10 @@
                 </div>
               </div>
               <div class="time" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
-                <img v-if="nftInfo?.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time.svg" alt="">
-                <img v-else src="@/assets/svg/home/icon_info_price.svg" alt="">
                 <div class="time-text">
-                  {{ $t("ticketsInfo.close", { time: dateFormat(nftInfo?.endTime) }) }}
+                  <countDown v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo?.endTime">
+                    {{ $t("ticketsInfo.close", { time: `${timeObj.dd}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+                  </countDown>
                 </div>
               </div>
               <div class="finish" v-else-if="nftInfo?.orderStatus == 'DRAWN'">
@@ -123,7 +123,7 @@
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
                 </el-button>
                 <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
-                  <span v-if="nftInfo?.orderType == 'LIMITED_TIME'">
+                  <span v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
                     {{ $t("ticketsInfo.endHint") }}
                   </span>
                   <span v-else>

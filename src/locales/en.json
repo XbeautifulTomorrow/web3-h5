@@ -151,7 +151,7 @@
     "cancelled": "CANCELLED",
     "marketValue": "Total Price：",
     "floorPrice": "Floor Price：",
-    "close": "End in: {time}",
+    "close": "Ends in: {time}",
     "created": "Created by",
     "owner": "Owner:",
     "enterCompetition": "ENTER TREASURE DRAW",

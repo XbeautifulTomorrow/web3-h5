@@ -120,6 +120,8 @@
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <createCom v-if="pageType === 'create'" @closeDialogFun="closeDialogFun"></createCom>
+
   </div>
 </template>
 <script>
@@ -139,6 +141,7 @@ import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
+import createCom from "@/views/user/components/createComponents.vue";
 export default {
   name: 'ntfTicketsList',
   components: {
@@ -147,6 +150,7 @@ export default {
     Register,
     Forgot,
     Modify,
+    createCom,
     Image
   },
   data() {
@@ -248,7 +252,7 @@ export default {
         this.pageType = "login";
         return
       }
-      this.userStore.setUserPage(this.$route.path, 'inventory');
+      this.pageType = "create";
     },
     handleCurrentChange(page) {
       this.page = page;

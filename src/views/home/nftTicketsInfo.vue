@@ -51,7 +51,7 @@
                   <span class="val" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">{{ `${nftInfo?.totalPrice} ETH`
                   }}</span>
                   <span class="val" v-else>
-                    {{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(nftInfo?.totalPrice), 4)} USDT` }}
+                    {{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(nftInfo?.totalPrice), 4)}` }}
                   </span>
                 </div>
                 <div class="floor_price" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
@@ -391,7 +391,7 @@
                 {{ `${item.price} ETH` }}
               </span>
               <span class="val" v-else>
-                {{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}
+                {{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}
               </span>
             </div>
             <div class="buy_btn">

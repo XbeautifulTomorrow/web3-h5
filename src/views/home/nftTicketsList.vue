@@ -86,7 +86,7 @@
             </div>
             <div class="price-box">
               <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
-              <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
+              <span v-else>{{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}</span>
             </div>
             <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
               <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>

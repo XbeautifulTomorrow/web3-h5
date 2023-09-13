@@ -76,7 +76,7 @@
           </div>
           <div class="nft_price">
             <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
-            <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
+            <span v-else>{{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}</span>
           </div>
           <div class="buy_btn" @click="enterNow(item)" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span>{{ $t("user.buyMore") }}</span>
@@ -153,7 +153,7 @@
             </div>
             <div class="nft_price">
               <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
-              <span v-else>{{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}</span>
+              <span v-else>{{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}</span>
             </div>
             <div class="cancel_btn" v-if="item.currentStatus == 'IN_PROGRESS'"
               :class="{ disabled: item.numberOfTicketsSold }" @click="cancelOrder(item)">

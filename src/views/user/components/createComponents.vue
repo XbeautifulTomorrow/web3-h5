@@ -11,7 +11,7 @@
         <p class="create_com_title">SELECT CRYPTO ASSET TYPE</p>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
-            <img src="@/assets/svg/user/icon_eth.svg" alt="" />
+            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             <span class="wallet_operating_val">ETH</span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('NFT')">

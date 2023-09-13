@@ -970,34 +970,20 @@ export default {
     },
     // 分享邀请链接到推特
     shareInviteLink(event) {
-      const series = `⚡️ WIN AN ${this.nftInfo?.name} in BITZING ⚡️\n`;
-      let description = null;
-      if (this.nftInfo?.orderType == 'LIMITED_TIME') {
-        description = `${this.nftInfo?.name} #${this.nftInfo?.tokenId} SWEEPSTAKES draws in `
-        const { dd, hh } = this.durationFormatter(this.duration);
-        if (dd <= 1 && hh <= 1) {
-          // 一小时以内
-          description += `in an hour!⏳\n`;
-        } else if (dd <= 1 && hh > 1) {
-          // 一小时以上，一天以内
-          description += `${Math.floor(hh)} hours!⏳\n`;
-        } else if (dd == 1 && hh > 1) {
-          // 两天以内
-          description += `${Math.floor(dd)} day ${Math.floor(hh)} hours!⏳\n`;
-        } else if (dd > 1 && hh <= 1) {
-          // 两天以上整数没有小时
-          description += `${Math.floor(dd)} days⏳\n`;
-        } else {
-          // 两天以上
-          description += `${Math.floor(dd)} days ${Math.floor(hh)} hours!⏳\n`;
-        }
-
+      let seriesName = null;
+      if (!this.formatSeries(this.nftInfo)) {
+        seriesName = `${this.nftInfo?.name}`;
       } else {
-        description = `${this.nftInfo?.name} #${this.nftInfo?.tokenId} will sell out with ${this.nftInfo?.maximumPurchaseQuantity || 0} TICKETS left.\n`;
+        seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
       }
-      const inviteLink = `Enter HERE:`;
+
+      const series = `⚡️ Bitzers! Grab a chance to WIN an ${seriesName} on BITZING!\n\n`;
+      const description = `Less than ${this.nftInfo?.maximumPurchaseQuantity || 0} TICKETS remaining.\n\n`;
+
+      const inviteLink = `Enter NOW:`;
       const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo"
+      let link = currentLink.origin + "/NftTicketsInfo";
+      console.log(event)
       if (event) {
         link += "/" + event;
       }

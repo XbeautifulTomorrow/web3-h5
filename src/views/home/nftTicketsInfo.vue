@@ -62,9 +62,10 @@
                 </div>
               </div>
               <div class="time" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
+                <img src="@/assets/svg/home/icon_info_time.svg" alt="">
                 <div class="time-text">
                   <countDown v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo?.endTime">
-                    {{ $t("ticketsInfo.close", { time: `${timeObj.dd}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+                    {{ $t("ticketsInfo.close", { time: `${timeObj.d}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                   </countDown>
                 </div>
               </div>

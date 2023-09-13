@@ -304,7 +304,7 @@
             <div class="nft_info">
               <span>{{ $t("ticketsInfo.nftDescription") }}</span>
               <span class="nft_name text-ellipsis" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
-                {{ `${nftInfo?.name} #${nftInfo?.tokenId}` }}
+                {{ formatSeries(nftInfo) ? `${nftInfo?.name} #${nftInfo?.tokenId}` : `${nftInfo?.name}` }}
               </span>
               <span class="nft_name text-ellipsis" v-else>
                 {{ `${nftInfo?.totalPrice} ETH` }}
@@ -376,14 +376,24 @@
                   </span>
                 </span>
               </div>
-              <div class="image_tag text-ellipsis">#{{ item.tokenId }}</div>
-              <Image fit="cover" class="nft_img" :src="item.nftImage" />
+              <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">#{{ item.tokenId }}</div>
+              <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+                :src="require('@/assets/svg/user/create_eth.svg')" />
+              <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             </div>
             <div class="nft_name">
-              <span>{{ item.seriesName }}</span>
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+              <span v-else>{{ `${item.price} ETH` }}</span>
               <img src="@/assets/svg/home/icon_certified.svg" alt="">
             </div>
-            <div class="nft_price">{{ item.price }}ETH</div>
+            <div class="nft_price">
+              <span class="val" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+                {{ `${item.price} ETH` }}
+              </span>
+              <span class="val" v-else>
+                {{ `${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)} USDT` }}
+              </span>
+            </div>
             <div class="buy_btn">
               <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
@@ -983,7 +993,7 @@ export default {
       const inviteLink = `Enter NOW:`;
       const currentLink = window.location;
       let link = currentLink.origin + "/NftTicketsInfo";
-      console.log(event)
+
       if (event) {
         link += "/" + event;
       }

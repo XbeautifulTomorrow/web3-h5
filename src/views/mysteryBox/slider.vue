@@ -4,15 +4,16 @@
       <div class="slider__viewport">
         <div class="slider__viewbox">
           <div class="slider__container" :style="{ transform: `translateX(-${50 * sliderActive}%)` }">
-            <div class="slider-item" :style="{ left: `${50 * index}%` }" :class="[
-              index - 1 == sliderActive && 'next',
-              sliderActive == index && 'active',
-              index + 1 == sliderActive && 'prev',
-            ]" v-for="(item, index) in nftParams" :key="index">
+            <div
+              class="slider-item"
+              :style="{ left: `${50 * index}%` }"
+              :class="[index - 1 == sliderActive && 'next', sliderActive == index && 'active', index + 1 == sliderActive && 'prev']"
+              v-for="(item, index) in nftParams"
+              :key="index"
+            >
               <div class="slider-item__inner">
                 <div class="slider-item__trigger" @click="sliderActive = index"></div>
-                <a class="card" :style="`--card-image:url('${item.nftImg}')`"
-                  :class="[`series_level_bg_${typrFormat(item)}`]">
+                <a class="card" :style="`--card-image:url('${item.nftImg}')`" :class="[`series_level_bg_${typrFormat(item)}`]">
                   <div class="card__container">
                     <div class="card__image"></div>
                     <div class="card__content">
@@ -24,7 +25,7 @@
                         <span v-show="nftType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</span>
                         <span>{{ $t("mysteryBox.rewardIdNum", { idx: item.idx }) }}</span>
                       </div>
-                      <div class="card-price">{{ item.price }}{{ item.coin }}</div>
+                      <div class="card-price"><span v-priceFormat="item.price"></span> {{ item.coin }}</div>
                       <div class="card-market">
                         <!-- 市场图标？ -->
                       </div>
@@ -48,7 +49,7 @@ export default {
   props: {
     nftType: {
       type: String,
-      default: null
+      default: null,
     },
     nftParams: {
       type: Array,
@@ -58,18 +59,18 @@ export default {
     },
     sName: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      sliderActive: 0
+      sliderActive: 0,
     };
   },
   watch: {
     nftParams() {
       this.sliderActive = Math.ceil(this.nftParams.length / 2) - 1;
-    }
+    },
   },
   methods: {
     handleActive(event) {
@@ -77,20 +78,20 @@ export default {
     },
     typrFormat(event) {
       if (event.qualityType == "LEGEND") {
-        return "1"
+        return "1";
       }
       if (event.qualityType == "RARE") {
-        return "2"
+        return "2";
       }
       if (event.qualityType == "EPIC") {
-        return "3"
+        return "3";
       } else {
-        return "4"
+        return "4";
       }
     },
     handleClose() {
-      this.$emit("closeFun")
-    }
+      this.$emit("closeFun");
+    },
   },
 };
 </script>

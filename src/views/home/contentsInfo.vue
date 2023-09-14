@@ -52,7 +52,7 @@
       </el-table-column>
     </el-table>
     <div class="pagination-box" v-if="count > size">
-      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="5"
         layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
     </div>
   </div>
@@ -185,6 +185,7 @@ export default {
       height: 1.5rem;
       line-height: 1.5rem;
       font-size: 0.75rem;
+      padding: 0 0.25rem;
     }
   }
 }

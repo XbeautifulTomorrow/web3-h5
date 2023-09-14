@@ -34,7 +34,7 @@
                       <el-tooltip class="box-item" effect="dark" :content="`${list.price}`">
                         <p class="price-box">
                           <img class="coin-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                          <span>{{ list.price }}</span>
+                          <span v-priceFormat="list.price"></span>
                         </p>
                       </el-tooltip>
                     </span>
@@ -63,7 +63,9 @@ import { Howl } from "howler";
 import { slipe, oneSlow } from "@/utils/audioResource";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
+
 const itemWidth = 200;
+const itemWidthH5 = 84;
 export default {
   name: "OneAward",
   props: {
@@ -95,7 +97,6 @@ export default {
     return {
       isAutoplay: false,
       isActive: false,
-      itemWidth: itemWidth, //每张卡牌的宽度
       borStyle: {
         width: `${itemWidth}px`,
         height: `${itemWidth}px`,
@@ -115,17 +116,15 @@ export default {
     };
   },
   async mounted() {
+    this.formatDataList();
     this.getAwardsListFunc();
     const result = localStorage.getItem("result");
     if (this.apiIsError) {
       return;
     }
+    window.addEventListener("resize", this.matchWidth);
     setTimeout(() => {
-      const subAwardsRef = this.$refs.subAwards[0];
-      if (!subAwardsRef) return;
-      this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
-      this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-      this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+      this.matchWidth();
     }, 100);
     if (!result) {
       setTimeout(() => {
@@ -137,6 +136,45 @@ export default {
     }
   },
   methods: {
+    formatDataList() {
+      if (this.awardsList?.length < 30) {
+        var arr = [];
+        for (var i = 0; i < 30; i++) {
+          arr.push(this.awardsList[i % this.awardsList.length]);
+        }
+        this.awardsList = arr;
+      }
+    },
+    matchWidth() {
+      let deviceMax = document.documentElement.clientWidth;
+      if (deviceMax > 950) {
+        this.borStyle = {
+          width: `${itemWidth}px`,
+          height: `${itemWidth}px`,
+        };
+        this.liStyle = {
+          margin: "0 3px",
+          padding: "5px 10px",
+        };
+      } else {
+        this.borStyle = {
+          width: `${itemWidthH5}px`,
+          height: `${itemWidthH5}px`,
+        };
+        this.liStyle = {
+          margin: "0 3px",
+          padding: "4px 4px 6px",
+        };
+      }
+      this.$forceUpdate();
+      console.log(deviceMax, "deviceMax-------");
+
+      const subAwardsRef = this.$refs.subAwards[0];
+      if (!subAwardsRef) return;
+      this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
+      this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
+      this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+    },
     // 获取匀速动画最后的位置
     getCurrentTranslateX() {
       const myElement = this.$refs.boxesContainer;
@@ -176,8 +214,10 @@ export default {
       const slowTranslateX = -this.subAwardsWidth * len;
       this.linearEndTranslateX = getCurrentTranslateX + "px";
       this.slowTranslateX = slowTranslateX + "px";
-      data.nftCompressImg = data.nftImg;
-      this.awardsList.splice(len + 2, 1, data);
+      const dataNew = { ...data };
+      dataNew.nftCompressImg = dataNew.nftImg;
+      dataNew.price = dataNew.initPrice;
+      this.awardsList.splice(len + 2, 1, dataNew);
       this.isActive = true;
       this.isAutoplay = false;
       this.stopAudioFunc();
@@ -315,7 +355,7 @@ export default {
   }
 }
 
-@media (max-height: 900px) {
+@media (max-height: 950px) {
   .roll-text {
     margin-top: 0;
   }
@@ -323,9 +363,57 @@ export default {
   .con {
     margin-top: 0;
   }
+}
 
-  .result-link-box {
-    margin-top: 0;
+@media screen and (max-width: 950px) {
+  .roll-one-content {
+    .con {
+      width: 518px;
+      height: 10rem;
+      margin-top: 1.25rem;
+    }
+    .list_mask {
+      height: 11.5rem;
+      background: url("@/assets/img/h5/lottery/list_mask.png") no-repeat;
+      background-size: contain;
+    }
+    .public-color-one {
+      font-size: 1.125rem;
+    }
+    .roll-text-official {
+      font-size: 0.625rem /* 10/16 */;
+      margin-top: 0.25rem;
+    }
+    .roll-one-list-seriesName {
+      margin-top: 0.08rem;
+      margin-bottom: 0.04rem;
+    }
+    .roll-one-list-seriesName-text {
+      font-size: 0.16rem;
+      font-weight: normal;
+      width: 4.375rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .roll-one-list-img {
+      border-radius: 0.125rem;
+    }
+    .roll-one-list-price {
+      font-size: 0.5rem;
+    }
+    .roll-one-list-nftNumber {
+      font-size: 0.08rem;
+      transform: scale(0.7);
+      transform-origin: right bottom;
+    }
+    .roll-one-list-text {
+      width: 5rem;
+      .coin-icon {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
   }
 }
 </style>

@@ -31,7 +31,7 @@
             <div class="box-price">
               <div class="price-box">
                 <img src="@/assets/svg/box/icon_eth.svg" alt="">
-                <span>{{ item.price }}</span>
+                <span v-priceFormat="item.price"></span>
               </div>
             </div>
             <div class="other">
@@ -189,6 +189,17 @@ export default {
 
   .el-popper__arrow {
     display: none;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+      padding: 0 0.25rem;
+    }
   }
 }
 </style>

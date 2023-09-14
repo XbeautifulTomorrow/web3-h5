@@ -511,7 +511,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./components/wallet.scss";
+@import "./components/inventory.scss";
 </style>
 
 <style lang="scss">

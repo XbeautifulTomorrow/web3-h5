@@ -107,8 +107,30 @@
         }
       }
     }
+
+  }
+
+  .create_btn {
+    width: 20rem;
+    height: 3.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2.5rem;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 1.125rem;
+    font-weight: 500;
+
+    &.create {
+      background-image: linear-gradient(to bottom, #1e90f9, #e022e3);
+      color: white;
+    }
   }
 }
+
+
 
 .boxes-content {
   display: flex;
@@ -450,6 +472,333 @@
         border-color: transparent;
         color: #13151f;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .wrapper_bg {
+    background-image: none;
+  }
+
+  .ntf_tickets_list_wrapper {
+    width: 100%;
+    padding: 0 1rem;
+    margin: 1.5rem auto 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .banner_box {
+    height: 7.5rem;
+    background-image: url("@/assets/img/home/treasure_draw_mini.webp");
+    background-size: cover;
+  }
+
+  .home-public-title {
+    margin: 0 0 1.5rem 0;
+
+    .title_text {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .title_description {
+      padding-top: 0.5rem;
+      width: 100%;
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+  }
+
+  .boxes-content {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &>li+li {
+      margin-left: 0.5rem;
+    }
+
+    &>li:nth-child(n+3) {
+      margin-top: 0.5rem;
+    }
+
+    &>li:nth-child(2n+1) {
+      margin-left: 0;
+    }
+  }
+
+  .ntf-tickets-item {
+    flex: 1;
+    min-width: 45%;
+    max-width: 48%;
+    height: 14.625rem;
+    border-radius: 0.25rem;
+
+    .img-box {
+      height: 8rem;
+
+      .type-box {
+        top: 0.25rem;
+        right: 0.25rem;
+
+        &>div {
+          height: auto;
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+
+          font-size: 0.625rem;
+          font-weight: 500;
+          line-height: 1.2;
+          text-align: right;
+          color: #e4e7f5;
+        }
+      }
+
+      .time {
+        border: solid 0.5px rgba(255, 255, 255, 0.1);
+        background-color: #2761f5;
+
+        img {
+          width: 0.75rem;
+          margin-right: 0.25rem;
+        }
+      }
+
+      .price {
+        border: solid 0.5px rgba(255, 255, 255, 0.1);
+        background-color: rgba(187, 54, 12, 0.8);
+
+        img {
+          width: 0.75rem;
+          margin-right: 0.25rem;
+        }
+      }
+
+      .tips_round {
+        top: 0.25rem;
+        right: 0.25rem;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+
+        font-size: 0.625rem;
+      }
+    }
+
+    .nft-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.5rem 0;
+
+      .nft-name-l {
+        max-width: 60%;
+        font-size: 0.75rem;
+        line-height: 1.6;
+
+        img {
+          width: 0.75rem;
+          height: auto;
+          margin: 0 0.25rem;
+        }
+      }
+
+      .nft-name-r {
+        max-width: 30%;
+        font-size: 0.75rem;
+        line-height: 1.6;
+      }
+    }
+
+    .price-box {
+      font-size: 1rem;
+      line-height: 1;
+      color: #11cde9;
+      padding: 0 0.5rem;
+    }
+
+    .sold-box {
+      padding-top: 0.5rem;
+      font-size: 0.625rem;
+      line-height: 1.6;
+      color: #a9a4b4;
+    }
+  }
+
+  .search_box {
+    margin: 0.5rem 0;
+    flex-wrap: wrap;
+
+    &>div+div {
+      margin-left: 0.25rem !important;
+    }
+
+    :deep(.search_input) {
+      width: 100%;
+
+      .el-input__wrapper {
+        height: 1.5rem;
+        box-shadow: none;
+        padding: 0 0.5rem;
+        box-sizing: border-box;
+        border-radius: 0.5rem;
+        background-color: #13151f;
+        border: solid 1px #363945;
+
+        &>input {
+          font-size: 0.75rem;
+          font-weight: 500;
+          line-height: 1.5rem;
+          text-align: left;
+          color: white;
+        }
+
+      }
+
+      .el-input__icon {
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
+    }
+
+    .sort_box:nth-child(1) {
+      margin-left: 0 !important;
+    }
+
+    :deep(.sort_box) {
+      flex: 1;
+      min-width: 30%;
+      margin-top: 0.25rem;
+
+      .el-input {
+        .el-select__caret {
+          font-size: 0.625rem;
+        }
+      }
+
+      .el-input__wrapper {
+        height: 1.5rem;
+        padding: 0 0.5rem;
+
+        &>input {
+          height: 2rem;
+          font-size: 0.625rem;
+        }
+      }
+    }
+
+    .sort_box {
+      width: auto;
+      display: flex;
+      align-items: center;
+      border-radius: 0.5rem;
+      background-color: #1d0f36;
+      position: relative;
+
+      .sort_title {
+        position: absolute;
+        left: 0.5rem;
+        font-size: 0.625rem;
+        line-height: 1.5rem;
+        text-align: left;
+        color: rgba(169, 164, 180, 0.6);
+      }
+
+      :deep(.select_box) {
+        width: 100%;
+
+        .el-input__wrapper {
+          height: 1.5rem;
+          background-color: transparent;
+          padding-left: 3rem;
+
+          &>input {
+            font-size: 0.75rem;
+            height: 1.5rem;
+          }
+
+          &>input::placeholder {
+            color: #fad54d;
+          }
+        }
+      }
+
+      &.collections {
+        :deep(.select_box) {
+          min-width: auto;
+
+          .el-input__wrapper {
+            padding-left: 4rem;
+          }
+        }
+      }
+    }
+
+    .create_btn {
+      width: 100%;
+      margin-top: 0.25rem;
+      border-radius: 0.25rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .boxes-button {
+    width: 80%;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    padding: 1px !important;
+  }
+
+  .buy_btn {
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    width: 80%;
+    height: 1.625rem;
+    line-height: 1.625rem;
+    border-radius: 1.5rem;
+
+    &.winner {
+
+      &>span {
+        font-size: 0.75rem;
+        font-weight: bold;
+        font-weight: 400;
+        color: white;
+      }
+
+      &>img {
+        width: 0.75rem;
+        height: auto;
+        margin: 0 0.25rem;
+      }
+
+      &>span:last-child {
+        -webkit-text-fill-color: #a9a4b4;
+        color: #a9a4b4;
+        width: 1.875rem;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .boxes-button-name {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  .ntf-tickets-all {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+
+    img {
+      width: 0.75rem;
+      height: auto;
+      margin-left: 0.5rem;
     }
   }
 }

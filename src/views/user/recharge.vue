@@ -1,187 +1,187 @@
 <template>
-  <el-dialog class="dialog_box" v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false"
-    :before-close="handleClose">
-    <div class="close_btn" @click="handleClose()">
-      <el-icon>
-        <Close />
-      </el-icon>
-    </div>
-    <div class="recharge_box">
-      <div class="operating_box">
-        <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
-          {{ $t("user.deposit") }}
-        </div>
-        <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
-          {{ $t("user.withdraw") }}
-        </div>
+  <div>
+    <el-dialog class="dialog_box" v-model="showRecharge" width="50rem" lock-scroll :close-on-click-modal="false"
+      :align-center="true" :before-close="handleClose">
+      <div class="close_btn" @click="handleClose()">
+        <el-icon>
+          <Close />
+        </el-icon>
       </div>
-      <div class="choose_operating" v-if="operatingCoin == null">
-        <div class="operating_title">
-          <span v-if="walletOperating == 1">{{ $t("user.depositType") }}</span>
-          <span v-else>{{ $t("user.withdrawType") }}</span>
-        </div>
-        <div class="wallet_operating">
-          <div class="wallet_operating_item" @click="handleChoose('ETH')">
-            <img src="@/assets/svg/user/icon_eth.svg" alt="" />
-            <span class="wallet_operating_val">
-              Ethereum[ETH]
-            </span>
+      <div class="recharge_box">
+        <div class="operating_box">
+          <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
+            {{ $t("user.deposit") }}
           </div>
-          <div class="wallet_operating_item" @click="handleChoose('USDT')">
-            <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
-            <span class="wallet_operating_val">
-              ERC-20[USDT]
-            </span>
+          <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
+            {{ $t("user.withdraw") }}
           </div>
         </div>
-      </div>
-      <div class="recharge_panel" v-else>
-        <div class="recharge_title">
-          <el-icon class="icon_arrow" @click="operatingCoin = null">
-            <ArrowLeftBold />
-          </el-icon>
-          <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-          <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
-          <div class="recharge_title_text">
-            <span v-if="walletOperating == 1">
-              {{ $t("user.depositCoin", { coin: operatingCoin }) }}
-            </span>
-            <span v-else>
-              {{ $t("user.withdrawCoin", { coin: operatingCoin }) }}
-            </span>
+        <div class="choose_operating" v-if="operatingCoin == null">
+          <div class="operating_title">
+            <span v-if="walletOperating == 1">{{ $t("user.depositType") }}</span>
+            <span v-else>{{ $t("user.withdrawType") }}</span>
+          </div>
+          <div class="wallet_operating">
+            <div class="wallet_operating_item" @click="handleChoose('ETH')">
+              <img src="@/assets/svg/user/icon_eth.svg" alt="" />
+              <span class="wallet_operating_val">
+                Ethereum[ETH]
+              </span>
+            </div>
+            <div class="wallet_operating_item" @click="handleChoose('USDT')">
+              <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
+              <span class="wallet_operating_val">
+                ERC-20[USDT]
+              </span>
+            </div>
           </div>
         </div>
-        <div class="recharge_relevant" v-if="walletOperating == 1">
-          <div class="qr_code_box">
-            <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
-            <div class="wallet_addr">
-              <div class="tips_text">
-                {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+        <div class="recharge_panel" v-else>
+          <div class="recharge_title">
+            <el-icon class="icon_arrow" @click="operatingCoin = null">
+              <ArrowLeftBold />
+            </el-icon>
+            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+            <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+            <div class="recharge_title_text">
+              <span v-if="walletOperating == 1">
+                {{ $t("user.depositCoin", { coin: operatingCoin }) }}
+              </span>
+              <span v-else>
+                {{ $t("user.withdrawCoin", { coin: operatingCoin }) }}
+              </span>
+            </div>
+          </div>
+          <div class="recharge_relevant" v-if="walletOperating == 1">
+            <div class="qr_code_box">
+              <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
+              <div class="wallet_addr">
+                <div class="tips_text">
+                  {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+                </div>
+                <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
+                  :placeholder="$t('user.enterAddrHint')">
+                  <template #append>
+                    <div class="copy_btn" @click="onCopy(receiverAddr)">
+                      {{ $t("user.copy") }}
+                    </div>
+                  </template>
+                </el-input>
               </div>
-              <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
-                :placeholder="$t('user.enterAddrHint')">
-                <template #append>
-                  <div class="copy_btn" @click="onCopy(receiverAddr)">
-                    {{ $t("user.copy") }}
-                  </div>
+            </div>
+            <div class="recharge_hint_box">
+              <div class="hint_item">
+                <div class="hint_l">
+                  <img src="@/assets/svg/user/icon_warning.svg" alt="" />
+                </div>
+                <div class="hint_r">
+                  {{ $t("user.hintText1") }}
+                </div>
+              </div>
+              <div class="hint_item" v-if="operatingCoin == 'ETH'">
+                <div class="hint_l">
+                  <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
+                </div>
+                <div class="hint_r">
+                  {{ $t("user.hintText2") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="recharge_estimated_price" v-if="walletOperating == 1">
+            <div class="price_convert">
+              <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
+                <template #prefix>
+                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                </template>
+              </el-input>
+              <div class="convert_interval">~</div>
+              <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
+                <template #prefix>
+                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
             </div>
-          </div>
-          <div class="recharge_hint_box">
-            <div class="hint_item">
-              <div class="hint_l">
-                <img src="@/assets/svg/user/icon_warning.svg" alt="" />
-              </div>
-              <div class="hint_r">
-                {{ $t("user.hintText1", {
-                  coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'ERC-20'}`,
-                  network1: `${operatingCoin == 'ETH' ? 'BNB' : 'ERC20'}`,
-                  network2: `${operatingCoin == 'ETH' ? 'BSC' : 'TRC20'}`
-                }) }}
-              </div>
-            </div>
-            <div class="hint_item" v-if="operatingCoin == 'ETH'">
-              <div class="hint_l">
-                <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
-              </div>
-              <div class="hint_r">
-                {{ $t("user.hintText2", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'ERC-20'}` }) }}
-              </div>
+            <div class="price_convert_text">
+              {{ $t("user.hintText3", { coin: `${operatingCoin == 'ETH' ? 'ETH' : 'USDT'}` }) }}
             </div>
           </div>
-        </div>
-        <div class="recharge_estimated_price" v-if="walletOperating == 1">
-          <div class="price_convert">
-            <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
-              <template #prefix>
-                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-              </template>
-            </el-input>
-            <div class="convert_interval">~</div>
-            <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
-              <template #prefix>
-                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
-              </template>
-            </el-input>
-          </div>
-          <div class="price_convert_text">
-            {{ $t("user.hintText3", { coin: `${operatingCoin == 'ETH' ? 'ETH' : 'USDT'}` }) }}
-          </div>
-        </div>
-        <div class="withdraw_relevant" v-else>
-          <div class="withdraw_tips_text">
-            {{ $t("user.hintText4", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
-          </div>
-          <div class="withdraw_item">
-            <div class="withdraw_item_lable">
-              <span>
-                {{ $t("user.receivingAddr", { network: `${operatingCoin == 'ETH' ? 'ETHEREUM' : 'TETHER'}` }) }}
-              </span>
-              <span class="required">*</span>
+          <div class="withdraw_relevant" v-else>
+            <div class="withdraw_tips_text">
+              {{ $t("user.hintText4", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
             </div>
-            <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
-              :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` })"></el-input>
-            <div class="withdraw_item_error">
-              {{ walletAddrTips }}
-            </div>
-          </div>
-          <div class="withdraw_item">
-            <div class="withdraw_item_lable">
-              <span>{{ $t("user.withdrawalAmount") }}</span>
-              <span class="required">*</span>
-            </div>
-            <div class="withdraw_convert">
-              <div class="price_convert">
-                <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')" v-model="walletAmount"
-                  type="number">
-                  <template #prefix>
-                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                  </template>
-                </el-input>
-                <div class="convert_interval">~</div>
-                <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
-                  type="number">
-                  <template #prefix>
-                    <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                    <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
-                  </template>
-                </el-input>
+            <div class="withdraw_item">
+              <div class="withdraw_item_lable">
+                <span>
+                  {{ $t("user.receivingAddr", { network: `${operatingCoin == 'ETH' ? 'ETHEREUM' : 'TETHER'}` }) }}
+                </span>
+                <span class="required">*</span>
               </div>
-              <div class="withdraw_btn" @click="onWithdrawalBalance()">
-                {{ $t("user.requestBtn") }}
+              <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
+                :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` })"></el-input>
+              <div class="withdraw_item_error">
+                {{ walletAddrTips }}
               </div>
             </div>
-            <div class="withdraw_fee" v-if="operatingCoin == 'ETH'">
-              {{
-                $t("user.fee", { num: setting.withdrawalFees || 0, coin: operatingCoin })
-              }}
+            <div class="withdraw_item">
+              <div class="withdraw_item_lable">
+                <span>{{ $t("user.withdrawalAmount") }}</span>
+                <span class="required">*</span>
+              </div>
+              <div class="withdraw_convert">
+                <div class="price_convert">
+                  <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')"
+                    v-model="walletAmount" type="number">
+                    <template #prefix>
+                      <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    </template>
+                  </el-input>
+                  <div class="convert_interval">~</div>
+                  <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
+                    type="number">
+                    <template #prefix>
+                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                    </template>
+                  </el-input>
+                </div>
+                <div class="withdraw_btn" @click="onWithdrawalBalance()">
+                  {{ $t("user.requestBtn") }}
+                </div>
+              </div>
+              <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
+                <span class="fee_title">
+                  {{ $t("user.fee") }}
+                </span>
+                <span class="fee_val" v-if="operatingCoin == 'ETH'">
+                  {{ `${setting.withdrawalFees || 0} ${operatingCoin}` }}
+                </span>
+                <span class="fee_val" v-else>
+                  {{
+                    `${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4) || 0}
+                                    ${operatingCoin}`
+                  }}
+                </span>
+                <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
+              </div>
+              <div class="withdraw_item_error">
+                {{ tipsText }}
+              </div>
             </div>
-            <div class="withdraw_fee" v-else>
-              {{
-                $t("user.fee", {
-                  num: accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4)
-                    || 0, coin: operatingCoin
-                })
-              }}
+            <div class="withdraw_hint">
+              <p>
+                {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+              </p>
+              <p>
+                {{ $t("user.addrTips2") }}
+              </p>
             </div>
-            <div class="withdraw_item_error">
-              {{ tipsText }}
-            </div>
-          </div>
-          <div class="withdraw_hint">
-            <p>
-              {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
-            </p>
-            <p>
-              {{ $t("user.addrTips2") }}
-            </p>
           </div>
         </div>
       </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import { mapStores } from "pinia";
@@ -397,7 +397,7 @@ export default {
         this.verifys = true;
       }
     },
-    // 提款余额
+    // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
       const { walletAmount, walletAddr, operatingCoin } = this;
       this.onVerify("submit");
@@ -410,7 +410,12 @@ export default {
       });
       if (res && res.code == 200) {
         this.renewBalance();
-        this.$message.success(t("user.submitHint"));
+        if (
+          this.userInfo.userType == "NORMAL") {
+          this.$message.success(t("user.submitTestHint"));
+        } else {
+          this.$message.success(t("user.submitHint"));
+        }
         this.handleClose();
       }
     },
@@ -465,7 +470,7 @@ export default {
 <style lang="scss" scoped>
 @import "./components/wallet.scss";
 </style>
-<style>
+<style lang="scss">
 .qr_code_box>.img_box>img {
   width: 100% !important;
   height: auto !important;

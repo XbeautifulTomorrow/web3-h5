@@ -24,10 +24,16 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     setLogin(data) {
+      if (data.certificate) {
+        delete data.certificate;
+      }
       this.userInfo = data;
       this.isLogin = true;
     },
     setReg(data) {
+      if (data.certificate) {
+        delete data.certificate;
+      }
       this.regInfo = data;
     },
     setLocale(data) {
@@ -53,7 +59,9 @@ export const useUserStore = defineStore("user", {
       this.isLogin = false;
       this.userInfo = undefined;
       this.regInfo = undefined;
-      router.push({ path: "/home" });
+      window.NavigationPreloadManager;
+      window.location.href = "/home";
+      // router.push({ path: "/home" });
     },
   },
 });

@@ -1,29 +1,31 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <el-dialog v-model="showVerify" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-    class="public-dialog" width="34.375rem" :before-close="closeDialogFun">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
-        <el-icon>
-          <Close />
-        </el-icon>
+  <div>
+    <el-dialog v-model="showVerify" destroy-on-close :close-on-click-modal="false" :show-close="false"
+      :align-center="true" class="public-dialog" width="34.375rem" :before-close="closeDialogFun">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <div class="verify_text">
+          <div>{{ $t("common.verifyHint") }}</div>
+          <div class="email">&nbsp;{{ email }}</div>
+        </div>
+        <div class="auth_code">
+          <el-input v-model="codeVerify" class="public-input" :placeholder="$t('common.verifyEnter')" />
+          <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
+          <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
+        </div>
+        <el-button class="public-button form-button" @click="changeTypeFun()">
+          {{ $t("common.confirm") }}
+        </el-button>
       </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <div class="verify_text">
-        <div>{{ $t("common.verifyHint") }}</div>
-        <div class="email">&nbsp;{{ email }}</div>
-      </div>
-      <div class="auth_code">
-        <el-input v-model="codeVerify" class="public-input" :placeholder="$t('common.verifyEnter')" />
-        <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
-        <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
-      </div>
-      <el-button class="public-button form-button" @click="changeTypeFun()">
-        {{ $t("common.confirm") }}
-      </el-button>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
 import { getSessionStore } from "@/utils";

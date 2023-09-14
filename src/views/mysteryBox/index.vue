@@ -28,7 +28,7 @@
     :close-on-click-modal="false"
     :show-close="false"
     :align-center="true"
-    class="public-dialog"
+    class="public-dialog mystery-dialog"
     width="800px"
     :before-close="handleClose"
   >
@@ -179,6 +179,9 @@ export default {
           this.apiIsError = false;
           this.errorText = undefined;
         }
+      } else {
+        this.apiIsError = true;
+        this.errorText = this.$t("lottery.tips4");
       }
       return res && res.data === false ? false : true;
     },
@@ -200,6 +203,7 @@ export default {
       this.showRoll = true;
       this.rollNumber = coiledType;
       headerStore.setBalance(this.ethBalance - price);
+
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({
@@ -365,6 +369,14 @@ export default {
   line-height: 1.6;
   text-align: left;
   color: #a9a4b4;
+}
+@media (max-width: 950px) {
+  .public-dialog-title {
+    font-size: 1.125rem !important;
+  }
+  .tips-text {
+    font-size: 0.75rem !important;
+  }
 }
 </style>
 <style lang="scss">

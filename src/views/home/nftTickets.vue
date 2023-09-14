@@ -5,7 +5,7 @@
       <div class="title_description">{{ $t("home.nftTicketTips") }}</div>
     </div>
     <ul class="boxes-content">
-      <template v-for="(item, index) in ticketList">
+      <template v-for="(item, index) in  ticketList ">
         <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
           <div class="img-box">
             <Image fit="cover" class="nft_img" :src="item.nftImage" />
@@ -56,12 +56,12 @@
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
             <span>{{ $t("ticketsInfo.winner") }}</span>
             <img src="@/assets/svg/user/default_avatar.svg" alt="">
-            <span v-if="userInfo && (userInfo?.id != item.winningAddress)">
+            <span v-if="userInfo && userInfo?.id == item.winningAddress" class="you">{{ $t("user.you") }}</span>
+            <span v-else class="text-ellipsis">
               {{ item.winningName || item.winningAddress }}
             </span>
-            <span v-else class="you">{{ $t("user.you") }}</span>
           </div>
-          <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
+          <div class="sold-box" v-if=" item.numberOfTicketsSold > 1 ">
             {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
           </div>
           <div class="sold-box" v-else>

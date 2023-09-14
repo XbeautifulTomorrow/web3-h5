@@ -9,21 +9,9 @@
         <img class="loading-img" src="@/assets/img/loading/i.png" alt="" />
         <img class="loading-img" src="@/assets/img/loading/n.png" alt="" />
         <img class="loading-img" src="@/assets/img/loading/g.png" alt="" />
-        <img
-          class="loading-img round-img one-round"
-          src="@/assets/img/loading/round.png"
-          alt=""
-        />
-        <img
-          class="loading-img round-img two-round"
-          src="@/assets/img/loading/round.png"
-          alt=""
-        />
-        <img
-          class="loading-img round-img three-round"
-          src="@/assets/img/loading/round.png"
-          alt=""
-        />
+        <img class="loading-img round-img one-round" src="@/assets/img/loading/round.png" alt="" />
+        <img class="loading-img round-img two-round" src="@/assets/img/loading/round.png" alt="" />
+        <img class="loading-img round-img three-round" src="@/assets/img/loading/round.png" alt="" />
       </div>
     </div>
   </Teleport>
@@ -112,6 +100,14 @@ $time: 0.2s;
   100% {
     opacity: 0;
     transform: translateY(145%);
+  }
+}
+@media (max-width: 950px) {
+  .loading-img {
+    height: 1.3rem;
+  }
+  .round-img {
+    height: 0.5rem;
   }
 }
 </style>

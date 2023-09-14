@@ -6,12 +6,7 @@
         <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
       </div>
       <div class="lottery-moreLuck-bg">
-        <div
-          :class="[
-            'lottery-moreLuck',
-            { 'lottery-moreLuck-Big': prizeList?.length > 5 },
-          ]"
-        >
+        <div :class="['lottery-moreLuck', { 'lottery-moreLuck-Big': prizeList?.length > 5 }]">
           <p class="lottery-moreLuck-line"></p>
           <awards-list
             v-for="(item, index) in prizeList"
@@ -28,19 +23,39 @@
       <div class="result-link-box">
         <result-link></result-link>
       </div>
+      <!-- <award-multi-h5
+        v-if="innerWidth <= 950"
+        :winData="awardItem"
+        :blindDetailInfo="blindDetailInfo"
+        @delayTime="delayTime"
+      ></award-multi-h5> -->
     </div>
   </div>
 </template>
 
 <script>
 import { Howl } from "howler";
-import {slipeStart,slipe,EPIC1,EPIC2,EPIC3,LEGEND,NORMAL1,NORMAL2,NORMAL3,NORMAL4,NORMAL5,moreUsually} from "@/utils/audioResource";
+import {
+  slipeStart,
+  slipe,
+  EPIC1,
+  EPIC2,
+  EPIC3,
+  LEGEND,
+  NORMAL1,
+  NORMAL2,
+  NORMAL3,
+  NORMAL4,
+  NORMAL5,
+  moreUsually,
+} from "@/utils/audioResource";
 
 import ResultLink from "../resultLink";
 import AwardsList from "./awardList.vue";
+import AwardMultiH5 from "./awardMultiH5";
 export default {
   name: "MoreAwards",
-  components: { AwardsList, ResultLink },
+  components: { AwardsList, ResultLink, AwardMultiH5 },
   props: {
     showMoreDialog: {
       type: Boolean,
@@ -83,9 +98,14 @@ export default {
       musicLoop: true,
       delayTimer: 0,
       slipeMusic: null,
+      innerWidth: null,
     };
   },
   mounted() {
+    this.innerWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      this.innerWidth = window.innerWidth;
+    });
     const result = localStorage.getItem("result");
     if (!result) {
       this.autoplayFun(true);
@@ -98,7 +118,7 @@ export default {
       this.delayTimer = param;
     },
     playSound(_music, musicLoop = false) {
-      const audioObj = new Howl({ src: [_music] ,loop:musicLoop});
+      const audioObj = new Howl({ src: [_music], loop: musicLoop });
       audioObj.pause();
       audioObj.play();
       return audioObj;
@@ -110,26 +130,26 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
     },
-    
+
     playAwardsFunc(index) {
       const audioFiles = {
         EPIC: [EPIC1, EPIC2, EPIC3],
         LEGEND: [LEGEND],
-        RARE: [NORMAL1,NORMAL2, NORMAL3, NORMAL4, NORMAL5],
-        NORMAL:[moreUsually]
+        RARE: [NORMAL1, NORMAL2, NORMAL3, NORMAL4, NORMAL5],
+        NORMAL: [moreUsually],
       };
-      let targetAwardType = this.winData[index].qualityType
-      const sametype = this.winData.filter(x => x.qualityType == targetAwardType)
+      let targetAwardType = this.winData[index].qualityType;
+      const sametype = this.winData.filter((x) => x.qualityType == targetAwardType);
       if (sametype?.length) {
-        let file = null
-        let type = targetAwardType
-        let audioArr = audioFiles[type]
-        if (sametype?.length >= audioArr.length ) {
+        let file = null;
+        let type = targetAwardType;
+        let audioArr = audioFiles[type];
+        if (sametype?.length >= audioArr.length) {
           file = audioArr[audioArr.length - 1];
         } else {
-          file = audioArr[sametype?.length-1]
+          file = audioArr[sametype?.length - 1];
         }
-        this.playSound(file)
+        this.playSound(file);
       }
     },
     stopScroll(data) {
@@ -137,14 +157,15 @@ export default {
       this.timer = setInterval(() => {
         const { numberTest } = this;
         this.winData.push(data[numberTest]);
+        console.log(this.winData, "---------------");
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         setTimeout(() => {
-          this.playAwardsFunc(Number(numberTest))
+          this.playAwardsFunc(Number(numberTest));
         }, this.delayTimer * 1000);
         if (this.winData.length >= this.prizeList.length) {
           setTimeout(() => {
-            this.playAwardsFunc(Number(numberTest))
+            this.playAwardsFunc(Number(numberTest));
           }, this.delayTimer * 1000);
           this.autoplayFun();
           this.clearTimerFun();
@@ -211,6 +232,14 @@ export default {
   }
   .result-link-box {
     margin-top: 1rem;
+  }
+}
+@media (max-width: 950px) {
+  .result-link-box {
+    margin-top: 1.25rem;
+  }
+  .lottery-moreLuck-box {
+    align-items: baseline;
   }
 }
 </style>

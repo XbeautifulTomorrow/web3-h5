@@ -297,6 +297,7 @@
 
   td {
     &.el-table__cell {
+      background-color: #151722;
       border-bottom-color: #23172A;
     }
   }
@@ -313,8 +314,21 @@
 
   .el-table__body {
     &>tbody {
+
+      &>.el-table__row {
+        background-color: #151722;
+
+        .el-table__cell {
+          background-color: #151722;
+        }
+      }
+
       &>.el-table__row:nth-child(2n) {
         background-color: #281d31;
+
+        .el-table__cell {
+          background-color: #281d31;
+        }
       }
     }
   }

@@ -21,7 +21,8 @@
     "refresh": "Refresh",
     "verifyEnter": "Enter CAPTCHA",
     "captcha": "CAPTCHA",
-    "submitLower": "Submit"
+    "submitLower": "Submit",
+    "skip": "SKIP"
   },
   "header": {
     "home": "Home",
@@ -94,7 +95,7 @@
     "sendAgain": "Send again",
     "sendAgainErr": "Verification code error, please re-enter.",
     "ok": "OK",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
+    "resetAuth": "Disable two-factor authentication"
   },
   "home": {
     "bannerText1": "Raffle Box",
@@ -128,7 +129,7 @@
   "homeReplenish": {
     "viewBox": "View All Raffle Boxes",
     "searchBox": "Search a Raffle Box",
-    "sort": "Sort by",
+    "sort": "Sort by：",
     "all": "All",
     "sortPopularity": "Popularity",
     "sortPriceLow": "Price Low",
@@ -136,10 +137,10 @@
     "noDataBox": "NO RAFFLE BOX",
     "viewCompetitions": "View All Treasure Draws",
     "searchNft": "Search a Collection",
-    "type": "Type:",
+    "type": "Type：",
     "sortCollections": "Collection：",
     "noDataCompetition": "NO TREASURE DRAW FOUND",
-    "status": "Status",
+    "status": "Status：",
     "inProgress": "In progress",
     "ended": "End"
   },
@@ -272,15 +273,15 @@
     "sendHint": "Send the amount of { coin } of your choice to the following address to receive the equivalent in Coins.",
     "enterAddrHint": "Paste your ERC20 wallet address here.",
     "copy": "COPY",
-    "hintText1": "Only deposit over the { coin } network. Do not use { network1 } or { network2 } networks. Also do not use third-party smart contracts for transfers.",
-    "hintText2": "Do NOT send NFT's to this { coin } deposit address. In order to recover NFTs deposited to this address an administrative fee will be charged.",
+    "hintText1": "Use only the Ethereum network for deposits and avoid both Binance Smart Chain and third-party smart contracts for transfers.",
+    "hintText2": "Do NOT send NFTs to this deposit address. To recover NFTs deposited to this address in error, an administrative fee will be charged.",
     "hintText3": "The value of { coin } may change between now and the time we receive your payment",
     "hintText4": "Please enter the { coin } wallet address you wish to receive the funds on. Once confirmed, the withdrawal is usually processed within a few minutes.",
     "receivingAddr": "RECEIVING { network } ADDRESS",
     "receivingAddrHint": "Paste your { coin } wallet address here",
     "withdrawalAmount": "WITHDRAWAL AMOUNT",
     "requestBtn": "REQUEST WITHDRAW",
-    "fee": "Network fee: {num} {coin}",
+    "fee": "Network fee: ",
     "addrTips1": "*You will receive the specified { coin } amount to your withdrawal address",
     "addrTips2": "*The value subtracted from your balance may vary between now and the time we process your withdrawal",
     "enterError1": "Please enter your { coin } wallet address here.",
@@ -289,6 +290,7 @@
     "enterError4": "Insufficient Balance",
     "enterError5": "Insufficient amount to cover withdrawal fee.",
     "submitHint": "Application successful. Please check system transfer status later.",
+    "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "INVENTORY",
     "viewCompetitions": "VIEW TREASURE DRAW",
     "withdrawing": "WITHDRAWLING",
@@ -314,7 +316,7 @@
     "priceEnter": "Enter a price.",
     "limitDayEnter": "Enter the number of days.",
     "competition": "TREASURE DRAW",
-    "status": "Status:",
+    "status": "Status：",
     "endStatus": "Ended on { date }",
     "abortedStatus": "Aborted on { date }",
     "buyMore": "BUY MORE",
@@ -374,7 +376,21 @@
     "confirmPass": "Confirm password",
     "resetPass": "Reset password",
     "priceError": "The total value must be more than 0.",
-    "onSale": "ON SALE"
+    "onSale": "ON SALE",
+    "authTitle": "TWO-FACTOR AUTHENTICATION",
+    "authStatus1": "ENABLED",
+    "authStatus2": "DISABLE",
+    "authRecommended": "Using two-factor authentication is highly recommended because it protects your account with both your password and your phone.",
+    "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
+    "codeRequired": "2FA Code is required",
+    "confirmBtn": "ENABLE 2FA",
+    "close2FABtn": "DISABLE 2FA",
+    "bindTitle": "Set up google authenticator",
+    "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
+    "bindText2": "2. Scan QR Code with the Google Authenticator app",
+    "bindText3": "3. Scan QR Code with the Google Authenticator app",
+    "inputTitle": "2FA CODE",
+    "bindSuccess": "Bind successfully!"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -389,7 +405,8 @@
     "depositWaitText": "Your transaction is being processed and will be confirmed on the blockchain soon",
     "completeTitle1": "Your deposit is complete!",
     "nftLabel": "You deposited",
-    "transactionId": "TRANSACTION ID"
+    "transactionId": "TRANSACTION ID",
+    "free": "Free"
   },
   "airdrop": {
     "airdropText1": "CONNECT YOUR WALLET TO",
@@ -493,14 +510,14 @@
     "faqTitle2": "ASKED",
     "faqTitle3": "QUESTIONS",
     "faqTips": "If you have any questions for which you couldn't find an answer, don't hesitate to reach out to our supportive community on Telegram and Discord. The Bitzing Team is here to provide you with assistance!",
-    "faqQuestion1": "What is BITZING?",
+    "faqQuestion1": "What is Bitzing?",
     "faqAnswer1": "Bitzing is the first web3 entertainment platform, driven by our unique emphasis on engaging Raffle Boxes and Treasure Draw. Our platform transforms accessibility, allowing users to acquire high-value NFTs and  cryptocurrencies like $ETH at a fraction of their actual cost. Our platform's gamified elements also make NFT listing more compelling and attractive for sellers.",
     "faqQuestion2": "What is Bitzing's Raffle Box? ",
     "faqAnswer2": "Bitzing's Raffle Box offers an innovative way to acquire high-valued NFTs and $ETH. Each box contains NFTs listed on our website, with disclosed probabilities for each item. Additionally, you can sell your NFT within a specified time after the draw and receive a percentage of your investment back based on blockchain validations. Participants also earn points and $ETH upon selling their NFTs. These points can be exchanged for $BZG tokens in Q4, 2023 when the Mainnet is live.<br><br>Our integration with Opensea ensures seamless NFT acquisitions, and in case of a transaction failure, you will receive a refund for your invested amount. Coming soon, we will introduce customized Raffle Box and implement more cryptocurrencies on our platform.",
     "faqQuestion3": "How to participate in Bitzing's Raffle Box?",
     "faqAnswer3": "You will need to begin by transferring cryptocurrencies to your account. Once you have cryptocurrencies in your account balance, you can use them to join the draw. Your account balance is fully withdrawable to your wallet whenever you desire. Currently, we support $ETH and $USDT, and our future plans include expanding our support to include more cryptocurrencies. <br><br>To participate in the raffle with zero gas fees, ensure your account balance covers the box cost. Click the desired box, enter the unboxing window, and press \"Unbox\". You can open up to 10 boxes at once, saving time for multiple boxes of the same kind.",
     "faqQuestion4": "What causes changes in the contents of Raffle Box?",
-    "faqAnswer4": "BITZING constantly reviews the value of each NFT and ensures they are kept up to date. However, the value of certain NFTs can be volatile, resulting in fluctuations in the contents of the box.<br><br>At BITZING, the value of the item you acquire from a box follows the \"value acquired\" rule. If you acquire an item worth 1 ETH and its price increases by more than 1 ETH, you will not be able to obtain it. However, we will compensate you by refunding 100% of the value of the item at the time of acquisition. It is important to note that holding NFTs as assets may carry risks, as their value can decrease. Therefore, we recommend exchanging and selling them promptly to avoid potential losses.<br><br>If you wish to hold NFTs for future use, we advise reselling them as they maintain a fixed value.",
+    "faqAnswer4": "Bitzing constantly reviews the value of each NFT and ensures they are kept up to date. However, the value of certain NFTs can be volatile, resulting in fluctuations in the contents of the box.<br><br>At BITZING, the value of the item you acquire from a box follows the \"value acquired\" rule. If you acquire an item worth 1 ETH and its price increases by more than 1 ETH, you will not be able to obtain it. However, we will compensate you by refunding 100% of the value of the item at the time of acquisition. It is important to note that holding NFTs as assets may carry risks, as their value can decrease. Therefore, we recommend exchanging and selling them promptly to avoid potential losses.<br><br>If you wish to hold NFTs for future use, we advise reselling them as they maintain a fixed value.",
     "faqQuestion5": "What is Treasure Draw?",
     "faqAnswer5": "Besides Raffle Box, Bitzing offers Treasure Draw, a unique and enjoyable method for acquiring blue-chip NFTs. Treasure Draw provides a more accessible avenue for buyers to acquire valuable NFTs at a fraction of their original value, while also offering NFT holders an opportunity to sell their collections.",
     "faqQuestion6": "How to participate in Bitzing's Treasure Draw?",
@@ -515,7 +532,7 @@
     "faqAnswer10": "Click on your profile picture, then select \"Inventory\" to view all your NFTs. To withdraw NFTs to your wallet, click the \"Withdraw\" button below each NFT with gas fee. For cost efficiency, withdraw multiple NFTs simultaneously instead of one by one.",
     "faqQuestion11": "How can I withdrawal cryptocurrency? ",
     "faqAnswer11": "Once you decide to sell the NFT, any transaction fees will be deducted, and the remaining amount will be transferred to your balance. To withdraw your crypto, navigate to your profile picture and select \"Balance\". From there, click the corresponding button to initiate the withdrawal process. Please be aware that crypto withdrawals are subject to a processing fee, which will be deducted upon your request.",
-    "faqQuestion12": "How does BITZING reward me for inviting my friends to join the platform?",
+    "faqQuestion12": "How does Bitzing reward me for inviting my friends to join the platform?",
     "faqAnswer12": "Bitzing's referral program offers you a chance to earn money by introducing the platform to friends and fellow NFT/crypto enthusiasts. Simply share your unique referral link, and with each purchase your friends make, you'll secure a commission. For every successful referral, you will enjoy 10% of the profit margin from every purchase of Raffle Box or Treasure Draw they make.",
     "faqQuestion13": "What are the Bitzing Disc NFTs?",
     "faqAnswer13": "In addition to the Blue-Chip NFTs, the Bitzing Disc NFTs are assets found within Raffle Boxes. They feature 9 different variations, including: Wooden Disc (0.001ETH), Rock Disc (0.002ETH), Steel Disc (0.005ETH), Bronze Disc (0.01ETH), Silver Disc (0.02ETH), Golden Disc (0.05ETH), Diamond Disc (0.1ETH), Gem Disc (0.2ETH), and the highest-ranking Galaxy Disc (0.5ETH). The prices vary depending on the rarity, with the Galaxy Disc NFT being the most valuable and the Wooden Disc being the least valuable. The collection has an unlimited supply and the NFTs cannot be sold on Treasure Draw, however withdrawal to users' wallets is possible. We are also working on developing utilities for the assets.",
@@ -593,7 +610,9 @@
     "not_less_than_fee": "The withdrawal amount cannot be less than the handling fee.",
     "nft_not_supported": "NFT not supported.",
     "unable_nft_on_sale": "Unable to withdraw NFTs that are on sale.",
-    "this_nft_withdrawal": "This NFT is being withdrawn."
+    "this_nft_withdrawal": "This NFT is being withdrawn.",
+    "test_account_cannot_withdrawal": "Test account cannot withdrawal",
+    "twofa_code_is_invalid": "2FA Code is invalid"
   },
   "lottery": {
     "notice": "NOTICE",
@@ -616,7 +635,7 @@
     "take_nft": "Take the NFT",
     "take_all": "Take All",
     "get_eth": "You got",
-    "get_eth_nft": "Keep <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
+    "get_eth_nft": "Keep <span class=\"font4\">{takeNum}</span> NFTs and sell the rest for <img class=\"public-dialog-icon\"  src=\"{src}\" /> <span class=\"result-total-other\">{total}</span>",
     "your_reward": "Your Reward",
     "no_win": "Sorry, you didn't win.",
     "tips_txt": "Official Boxes by Bitzing",
@@ -630,12 +649,16 @@
     "tips5": "Insufficient balance, please make a deposit first.",
     "tips6": "Please process the previous order before drawing a prize.",
     "tips7": "At the end of the countdown, all NFTs will be automatically sold.",
-    "tips9": "TRANSACTION PROVABLY \n FAIR",
+    "tips9": "TRANSACTION \nPROVABLY  FAIR",
     "tips10": "[Advanced Users]",
     "success_receive": "<span style=\"color: #e4e7f5;margin: 0 5px;\">{name}</span> has been successfully sold, and you will receive:",
     "take": "Take",
     "amount": "Amount",
     "sell_all_for": "Sell all for",
-    "take_all_eth": "Take all NFTs and <img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
+    "take_all_eth": "Take all NFTs and <img class=\"public-dialog-icon\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
+    "waiting": "Waiting",
+    "noticeSuccess": "Reward successfully transferred to your inventory.",
+    "noticeFail": "Some of the prizes may not be available. We will convert them to ETH at the current price of that NFT and transfer it to your balance.",
+    "clickCheck": "Click to check it"
   }
 }

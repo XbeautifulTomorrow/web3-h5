@@ -55,6 +55,7 @@ const i18n = new createI18n({
   allowComposition: true,
   locale: getLang(),
   messages: messages,
+  globalInjection: true,
   warnHtmlMessage: false,
   warnHtmlInMessage: "off",
   silentFallbackWarn: true,

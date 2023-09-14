@@ -35,4 +35,26 @@
   color: #11cde9;
   text-align: left;
 }
+@media screen and (max-width: 950px) {
+  .result-link-box {
+    min-width: 12.6875rem;
+    margin: 0 0.625rem;
+    margin-top: 1.25rem;
+    .result-link {
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+    }
+    .result-link-img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .result-link-line {
+      padding: 0.625rem;
+      height: 1.5rem;
+    }
+    .result-link-text {
+      font-size: 0.5rem;
+    }
+  }
+}
 </style>

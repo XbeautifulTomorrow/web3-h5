@@ -28,3 +28,36 @@
 .roll-message {
   z-index: 10000 !important;
 }
+
+.custom-notify {
+  width: 26rem;
+  background-color: #2b2451;
+  border: solid 1px rgba(169, 164, 180, 0.3);
+  padding: 0.625rem;
+  padding-right: 2.5rem;
+  z-index: 4000 !important;
+  .el-notification__content {
+    text-align: inherit;
+  }
+  &.lottery-warning-notify {
+    width: 32rem;
+  }
+  &.right {
+    right: 2.1875rem;
+  }
+  .el-notification__group {
+    margin-left: 0;
+  }
+  .el-notification--warning {
+    color: #df4328;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .custom-notify {
+    width: 20rem;
+    &.lottery-warning-notify {
+      width: 20rem;
+    }
+  }
+}

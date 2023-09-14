@@ -146,18 +146,12 @@ body {
         height: 100%;
         pointer-events: none;
         z-index: 1;
-        background-image: linear-gradient(90deg,
-            rgba(0, 0, 0, 0) 0%,
-            #000 50%,
-            rgba(0, 0, 0, 0) 100%);
+        background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000 50%, rgba(0, 0, 0, 0) 100%);
         background-repeat: repeat-x;
         background-size: 200% 100%;
         background-position: 0% 0%;
-        transition: opacity $transition-duration linear,
-          background-position ($transition-duration/2) linear;
+        transition: opacity $transition-duration linear, background-position ($transition-duration/2) linear;
       }
-
-
 
       &%item--active__inner {
         transform: scale(1);
@@ -208,7 +202,7 @@ body {
         @extend %item--inactive__inner;
       }
 
-      &~.#{$component}-item {
+      & ~ .#{$component}-item {
         transform: translate3d(0, 0, -15vh) rotateY(-45deg);
 
         & .#{$component}-item__inner {
@@ -230,43 +224,50 @@ body {
   border-radius: 0.25rem;
 
   &.series_level_bg_1 {
-    background-image: url("@/assets/svg/box/series_level_bg_1.svg");
+    background-image: url("@/assets/img/box/series_level_bg_1.webp");
     background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .card__container {
-      background-image: url("@/assets/svg/box/series_level_1.svg");
+      background-image: url("@/assets/img/box/series_level_1.webp");
       background-repeat: no-repeat;
+      background-size: 100% 100%;
     }
   }
 
   &.series_level_bg_2 {
-    background-image: url("@/assets/svg/box/series_level_bg_2.svg");
+    background-image: url("@/assets/img/box/series_level_bg_2.webp");
     background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .card__container {
-      background-image: url("@/assets/svg/box/series_level_2.svg");
+      background-image: url("@/assets/img/box/series_level_2.webp");
       background-repeat: no-repeat;
+      background-size: 100% 100%;
     }
   }
 
   &.series_level_bg_3 {
-    background-image: url("@/assets/svg/box/series_level_bg_3.svg");
+    background-image: url("@/assets/img/box/series_level_bg_3.webp");
     background-repeat: no-repeat;
-
+    background-size: 100% 100%;
 
     .card__container {
-      background-image: url("@/assets/svg/box/series_level_3.svg");
+      background-image: url("@/assets/img/box/series_level_3.webp");
       background-repeat: no-repeat;
+      background-size: 100% 100%;
     }
   }
 
   &.series_level_bg_4 {
-    background-image: url("@/assets/svg/box/series_level_bg_4.svg");
+    background-image: url("@/assets/img/box/series_level_bg_4.webp");
     background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .card__container {
-      background-image: url("@/assets/svg/box/series_level_4.svg");
+      background-image: url("@/assets/img/box/series_level_4.webp");
       background-repeat: no-repeat;
+      background-size: 100% 100%;
     }
   }
 
@@ -303,9 +304,9 @@ body {
     overflow: hidden;
     border-radius: inherit;
 
-    &>*,
-    &> ::before,
-    &> ::after {
+    & > *,
+    & > ::before,
+    & > ::after {
       border-radius: inherit;
     }
 
@@ -377,7 +378,7 @@ body {
     line-height: 1.6;
     color: #0cbb3e;
 
-    &>span:nth-child(1) {
+    & > span:nth-child(1) {
       flex: 1;
       max-width: 50%;
       overflow: hidden;
@@ -402,11 +403,11 @@ body {
     flex-wrap: wrap;
     padding-top: 0.625rem;
 
-    &>img+img {
+    & > img + img {
       margin-left: 1.25rem;
     }
 
-    &>img {
+    & > img {
       width: 3rem;
       height: auto;
       border-radius: 50%;
@@ -425,10 +426,27 @@ body {
   height: 2.875rem;
   border-radius: 3.75rem;
   background-image: linear-gradient(to top, #e3a406, #fbd851);
-
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 2.875rem;
   text-align: center;
   color: #13151f;
+}
+
+@media (max-width: 950px) {
+  .close_dialog_btn {
+    width: 80%;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.75rem;
+  }
+  .slider__viewbox {
+    width: 15rem;
+    &::before {
+      padding-bottom: 20rem;
+    }
+    .card-price {
+      font-size: 1rem;
+    }
+  }
 }

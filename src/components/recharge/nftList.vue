@@ -1,153 +1,156 @@
 <template>
-  <el-dialog v-model="show" :destroy-on-close="true" width="78.125rem" :append-to-body="true" :show-close="false"
-    :align-center="true" :before-close="handleClose" :close-on-click-modal="false" class="public-dialog recharge-coin">
-    <template #header="{ close }">
-      <div class="close_btn" v-on="{ click: [close, handleClose] }">
-        <el-icon>
-          <Close />
-        </el-icon>
+  <div>
+    <el-dialog v-model="show" :destroy-on-close="true" width="78.125rem" :append-to-body="true" :show-close="false"
+      :align-center="true" :before-close="handleClose" :close-on-click-modal="false" class="public-dialog recharge-coin">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, handleClose] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="operating_title">
+        <span>{{ title }} NFT'S</span>
       </div>
-    </template>
-    <div class="operating_title">
-      <span>{{ title }} NFT'S</span>
-    </div>
-    <div class="operating_tips" v-if="isDeposit">
-      Connecting wallet: {{ accountAddress }}
-    </div>
-    <div class="withdraw_condition" v-else>
-      <div class="condition_item">
-        <div class="condition_label">
-          <span>WITHDRAWAL NETWORK</span>
-          <span class="required">*</span>
-        </div>
-        <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
-          :popper-append-to-body="false">
-          <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
-        </el-select>
-        <div class="hint_text">
-          <img src="" alt="" />
-          <span>
-            Ensure you've selected the same network for both withdrawal and
-            deposit. Please check if the depositing platform supports the
-            selected network; otherwise, you may lose your assets.
-          </span>
-        </div>
+      <div class="operating_tips" v-if="isDeposit">
+        Connecting wallet: {{ accountAddress }}
       </div>
-      <div class="condition_item" v-if="params.chain">
-        <div class="withdraw_tpis">
-          Please enter the ERC20 wallet address you wish to receive the NFT'S
-          on. Once confirmed, the withdrawal is usually processed within a few
-          minutes.
-        </div>
-        <div class="condition_label">
-          <span>RECEIVING NFT'S ADDRESS</span>
-          <span class="required">*</span>
-        </div>
-        <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
-        </el-input>
-      </div>
-    </div>
-    <div class="choose_panel" v-if="showNft">
-      <div class="search_box">
-        <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
-          placeholder="Search NFTs">
-          <template #prefix>
-            <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
-              <search />
-            </el-icon>
-          </template>
-        </el-input>
-        <div class="collections_box type_box" v-if="!isDeposit">
-          <div class="collections_text">Type:</div>
-          <el-select v-model="params.type" @change="changeType" class="nft_type">
-            <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </div>
-        <div class="collections_box">
-          <div class="collections_text">Collections:</div>
-          <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
+      <div class="withdraw_condition" v-else>
+        <div class="condition_item">
+          <div class="condition_label">
+            <span>WITHDRAWAL NETWORK</span>
+            <span class="required">*</span>
+          </div>
+          <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
             :popper-append-to-body="false">
-            <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
-              :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
+            <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
           </el-select>
-        </div>
-        <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
-          v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable placeholder="Search NFTs">
-          <template #prefix>
-            <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
-              <search />
-            </el-icon>
-          </template>
-        </el-input>
-      </div>
-      <div class="choose_nft" v-if="count > 0">
-        <div class="choose_nft_item" v-for="(item, index) in chooseNftData" :key="index">
-          <div class="img_box">
-            <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
-            <Image fit="cover" class="nft_img" v-else :src="item.img" />
-            <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
-            <div v-if="isDeposit" class="num_tips text-ellipsis">{{ `x ${item.amount}` }}</div>
-          </div>
-          <div class="nft_name">{{ item.name || "--" }}</div>
-          <template v-if="isDeposit">
-            <div class="confirm_btn" v-if="!depositConfirm(item.id)" @click="depositOne(item)">
-              DEPOSIT
-            </div>
-            <div class="confirm_btn disabled" v-else>
-              DEPOSITING
-            </div>
-          </template>
-          <template v-else>
-            <div class="confirm_btn" v-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
-              WITHDRAW
-            </div>
-            <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
-              {{ $t("user.onSale") }}
-            </div>
-            <div class="confirm_btn disabled" v-else>
-              WITHDRAWLING
-            </div>
-          </template>
-          <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
-            <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>
+          <div class="hint_text">
+            <img src="" alt="" />
+            <span>
+              Ensure you've selected the same network for both withdrawal and
+              deposit. Please check if the depositing platform supports the
+              selected network; otherwise, you may lose your assets.
+            </span>
           </div>
         </div>
-      </div>
-      <div class="choose_nft" v-else>
-        <div class="no_date">
-          <span>{{ $t("user.noDataNft") }}</span>
+        <div class="condition_item" v-if="params.chain">
+          <div class="withdraw_tpis">
+            Please enter the ERC20 wallet address you wish to receive the NFT'S
+            on. Once confirmed, the withdrawal is usually processed within a few
+            minutes.
+          </div>
+          <div class="condition_label">
+            <span>RECEIVING NFT'S ADDRESS</span>
+            <span class="required">*</span>
+          </div>
+          <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
+          </el-input>
         </div>
       </div>
-      <div class="pagination_boxs" v-if="isDeposit && count > size">
-        <div class="total_box">
-          {{ `${startNum}-${endNum} of ${count}` }}
+      <div class="choose_panel" v-if="showNft">
+        <div class="search_box">
+          <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
+            placeholder="Search NFTs">
+            <template #prefix>
+              <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
+                <search />
+              </el-icon>
+            </template>
+          </el-input>
+          <div class="collections_box type_box" v-if="!isDeposit">
+            <div class="collections_text">Type:</div>
+            <el-select v-model="params.type" @change="changeType" class="nft_type">
+              <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </div>
+          <div class="collections_box">
+            <div class="collections_text">Collections:</div>
+            <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
+              :popper-append-to-body="false">
+              <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
+                :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
+            </el-select>
+          </div>
+          <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
+            v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
+            placeholder="Search NFTs">
+            <template #prefix>
+              <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
+                <search />
+              </el-icon>
+            </template>
+          </el-input>
         </div>
-        <div class="pagination not-select">
-          <div :class="['prev', !pageCount.prev && 'disabled']" @click="handlePageChange(-1)">
-            <el-icon>
-              <ArrowLeftBold />
-            </el-icon>
+        <div class="choose_nft" v-if="count > 0">
+          <div class="choose_nft_item" v-for="(item, index) in chooseNftData" :key="index">
+            <div class="img_box">
+              <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
+              <Image fit="cover" class="nft_img" v-else :src="item.img" />
+              <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
+              <div v-if="isDeposit" class="num_tips text-ellipsis">{{ `x ${item.amount}` }}</div>
+            </div>
+            <div class="nft_name">{{ item.name || "--" }}</div>
+            <template v-if="isDeposit">
+              <div class="confirm_btn" v-if="!depositConfirm(item.tokenId)" @click="depositOne(item)">
+                DEPOSIT
+              </div>
+              <div class="confirm_btn disabled" v-else>
+                DEPOSITING
+              </div>
+            </template>
+            <template v-else>
+              <div class="confirm_btn" v-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
+                WITHDRAW
+              </div>
+              <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
+                {{ $t("user.onSale") }}
+              </div>
+              <div class="confirm_btn disabled" v-else>
+                WITHDRAWLING
+              </div>
+            </template>
+            <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
+              <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>
+            </div>
           </div>
-          <div class="page_box">
-            <span>{{ page + 1 }}</span>
-            <span>{{ `/ ${Math.ceil(count / size) || 1}` }}</span>
+        </div>
+        <div class="choose_nft" v-else>
+          <div class="no_date">
+            <span>{{ $t("user.noDataNft") }}</span>
           </div>
-          <div :class="['next', !pageCount.next && 'disabled']" @click="handlePageChange(1)">
-            <el-icon>
-              <ArrowRightBold />
-            </el-icon>
+        </div>
+        <div class="pagination_boxs" v-if="isDeposit && count > size">
+          <div class="total_box">
+            {{ `${startNum}-${endNum} of ${count}` }}
           </div>
+          <div class="pagination not-select">
+            <div :class="['prev', !pageCount.prev && 'disabled']" @click="handlePageChange(-1)">
+              <el-icon>
+                <ArrowLeftBold />
+              </el-icon>
+            </div>
+            <div class="page_box">
+              <span>{{ page + 1 }}</span>
+              <span>{{ `/ ${Math.ceil(count / size) || 1}` }}</span>
+            </div>
+            <div :class="['next', !pageCount.next && 'disabled']" @click="handlePageChange(1)">
+              <el-icon>
+                <ArrowRightBold />
+              </el-icon>
+            </div>
+          </div>
+        </div>
+        <div class="pagination-box" v-if="!isDeposit && count > size">
+          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
+            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
         </div>
       </div>
-      <div class="pagination-box" v-if="!isDeposit && count > size">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
-      </div>
-    </div>
-    <Loading :loading="loading" />
-    <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" :txId="transactionId"
-      @confirm="onWithdrawalNft()" @cancelDialogFun="handleCancel()"></withdraw>
-  </el-dialog>
+      <Loading :loading="loading" />
+      <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" :txId="transactionId"
+        @confirm="onWithdrawalNft()" @cancelDialogFun="handleCancel()"></withdraw>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
 import {
@@ -192,7 +195,6 @@ const props = defineProps({
 const page = ref(1);
 const size = ref(8);
 const count = ref(0);
-const timer = ref("");
 
 const show = ref(true);
 const showWithdraw = ref(false);
@@ -215,7 +217,6 @@ const nftTypes = [
 onMounted(() => {
   if (props.isDeposit) {
     page.value = 0;
-    getWalletNftApi();
 
     const { web3 } = useWalletStore();
     accountAddress.value = web3?.eth?.defaultAccount;
@@ -286,7 +287,7 @@ const depositOne = async (item) => {
   chooseNft.value = item;
   showWithdraw.value = true;
   dialogType.value = 3;
-  confirmNft.value.push(item.id);
+  confirmNft.value.push(item.tokenId);
   confirmIndex.value = confirmNft.value.length - 1;
 
   const { web3 } = useWalletStore();
@@ -343,8 +344,8 @@ const getTheUserBalanceInfo = () => {
 // 确认中状态
 const depositConfirm = (item) => {
   if (!confirmNft.value > 0) return false;
-  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
 
+  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
   return confirm
 }
 
@@ -432,11 +433,15 @@ const fetchSystemNft = async (isSearch = true) => {
 const fetchExternalSeries = async () => {
   const { userInfo } = useUserStore();
   const res = await getTheExternalNFTSeries({
-    userId: userInfo?.id,
+    userId: props.isDeposit ? null : userInfo?.id,
     type: "ALL"
   });
 
   collections.value = res.data;
+
+  if (props.isDeposit) {
+    getWalletNftApi();
+  }
 };
 
 const changeType = () => {
@@ -458,46 +463,27 @@ const getWalletNftApi = async (isSearch = true) => {
   const collections = params.collections && params.collections.split("+") || [];
 
   loading.value = true;
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-  if (accounts && accounts[0]) {
-    Promise.all([
-      getWalletNft({
-        contractAddress: collections[0],
-        address: accounts[0],
-        cursor: pageList.value[_page],
-        size: size.value,
-        chatId: config.ENV == "pro" ? 1 : null,
-        keyword: params.nftName,
-        tokenId: collections[1] && collections[1] || undefined,
-      }),
-      getTheExternalNFTSeries({
-        type: "ALL"
-      }),
-    ]).then((res) => {
-      if (
-        res &&
-        res[0] &&
-        res[1] &&
-        res[0].code === 200 &&
-        res[1].code === 200 &&
-        res[0].data &&
-        res[1].data
-      ) {
+  if (accountAddress.value) {
+    const res = await getWalletNft({
+      contractAddress: collections[0] && collections[0],
+      address: accountAddress.value,
+      cursor: pageList.value[_page],
+      size: size.value,
+      chatId: config.ENV == "pro" ? 1 : null,
+      keyword: params.nftName,
+      tokenId: collections[1] && collections[1] || undefined,
+    })
 
-        loading.value = false;
+    loading.value = false;
 
-        count.value = res[0].data.total;
-        addCursor(res[0].data.cursor);
+    if (res && res.code === 200 && res.data) {
+      count.value = res.data.total;
+      addCursor(res.data.cursor);
 
-        collections.value = JSON.parse(JSON.stringify(res[1].data));
-
-        chooseNftData.value = JSON.parse(
-          JSON.stringify(res[0].data.records)
-        )
-      }
-    });
+      chooseNftData.value = JSON.parse(
+        JSON.stringify(res.data.records)
+      )
+    }
   }
 };
 

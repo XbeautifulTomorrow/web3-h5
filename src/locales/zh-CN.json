@@ -21,7 +21,8 @@
     "refresh": "換一個",
     "verifyEnter": "請輸入圖形驗證碼",
     "captcha": "驗證碼",
-    "submitLower": "提交"
+    "submitLower": "提交",
+    "skip": "跳過"
   },
   "header": {
     "home": "首頁",
@@ -94,7 +95,7 @@
     "sendAgain": "再次發送",
     "sendAgainErr": "驗證碼錯誤，請重新輸入。",
     "ok": "好",
-    "loginTips": "All assets involved in this test are based entirely on the { network }, please do not use any ERC20 or TRC20 assets to participate in the test. All unwithdrawn assets will be cleared after the test."
+    "resetAuth": "重置二級驗證"
   },
   "home": {
     "bannerText1": "Raffle Box",
@@ -294,6 +295,7 @@
     "enterError4": "餘額不足",
     "enterError5": "提款金額不足以支付提款費用",
     "submitHint": "申請成功，請稍後查看系統轉賬",
+    "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "庫存",
     "viewCompetitions": "查看競賽",
     "withdrawing": "提取中",
@@ -379,7 +381,21 @@
     "confirmPass": "確認密碼",
     "resetPass": "重置密碼",
     "priceError": "總价值必須大於0",
-    "onSale": "售賣中"
+    "onSale": "售賣中",
+    "authTitle": "TWO-FACTOR AUTHENTICATION",
+    "authStatus1": "ENABLED",
+    "authStatus2": "DISABLE",
+    "authRecommended": "Using two-factor authentication is highly recommended because it protects your account with both your password and your phone.",
+    "unAuthTitle": "Enter your 2FA code to disable two-factor authentication.",
+    "codeRequired": "2FA Code is required",
+    "confirmBtn": "ENABLE 2FA",
+    "close2FABtn": "DISABLE 2FA",
+    "bindTitle": "Set up google authenticator",
+    "bindText1": "1. Download the Google Authenticator app for iPhone or Android",
+    "bindText2": "2. Scan QR Code with the Google Authenticator app",
+    "bindText3": "3. Scan QR Code with the Google Authenticator app",
+    "inputTitle": "2FA CODE",
+    "bindSuccess": "Bind successfully!"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",
@@ -394,7 +410,8 @@
     "depositWaitText": "您的交易正在處理中，並將很快在區塊鏈上得到確認",
     "completeTitle1": "您的充值已完成！",
     "nftLabel": "您已存入",
-    "transactionId": "交易 ID"
+    "transactionId": "交易 ID",
+    "free": "Free"
   },
   "airdrop": {
     "airdropText1": "連結你的錢包以",
@@ -598,7 +615,9 @@
     "not_less_than_fee": "提幣金額不能低於手續費",
     "nft_not_supported": "不支持的NFT",
     "unable_nft_on_sale": "無法提取正在競賽中的NFT",
-    "this_nft_withdrawal": "該NFT正在提取中"
+    "this_nft_withdrawal": "該NFT正在提取中",
+    "test_account_cannot_withdrawal": "测试账户无法提现",
+    "twofa_code_is_invalid": "二級驗證碼無效"
   },
   "lottery": {
     "notice": "提示",
@@ -641,6 +660,10 @@
     "take": "收下",
     "amount": "數量",
     "sell_all_for": "轉售全部以獲得",
-    "take_all_eth": "收下所有NFT和<img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>"
+    "take_all_eth": "收下所有NFT和<img style=\"width: 1.875rem;height: 1.875rem;\"  src=\"{src}\" /> <span class=\"result-total-other\">{numEth}</span>",
+    "waiting": "Waiting",
+    "noticeSuccess": "獎勵已轉入您的庫存。",
+    "noticeFail": "由於鏈上擁堵，部分獎品無法領取，我們將按照該 NFT 當前價格直接兌換為 ETH 轉入您的餘額 。",
+    "clickCheck": "點擊查看"
   }
 }

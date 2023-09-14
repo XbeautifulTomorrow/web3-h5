@@ -15,8 +15,9 @@
           <div class="img_box">
             <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
-          <div class="description_box">
-            <div class="title">{{ $t("mysteryBox.description") }}</div>
+          <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
+            <div class="title"><img src="@/assets/svg/box/icon_description.svg" alt="" /> {{ $t("mysteryBox.description")
+            }}</div>
             <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
             <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
               <span>See more</span>
@@ -33,8 +34,8 @@
                 <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="">
-                <span>{{ blindDetailInfo && blindDetailInfo.price }}</span>
+                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <span v-priceFormat="blindDetailInfo?.price"></span>
               </div>
             </div>
             <div class="lottery_type five" @click="rollNumberFun('FIVE')">
@@ -47,11 +48,8 @@
                 <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="">
-                <span>{{
-                  blindDetailInfo &&
-                  new bigNumber(blindDetailInfo.fivePrice || 0).multipliedBy(5)
-                }}</span>
+                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
               </div>
             </div>
           </div>
@@ -65,11 +63,8 @@
               <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
-              <img src="@/assets/svg/box/icon_eth.svg" alt="">
-              <span>{{
-                blindDetailInfo &&
-                new bigNumber(blindDetailInfo.tenPrice || 0).multipliedBy(10)
-              }}</span>
+              <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+              <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
             </div>
           </div>
         </div>
@@ -98,14 +93,18 @@
                 </span>
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
-                <span v-if="item.minPrice == item.maxPrice">
-                  {{ `${item.minPrice} ETH` }}
-                </span>
-                <span v-else>{{ `${item.minPrice} ETH - ${item.maxPrice} ETH` }}</span>
+                <p v-if="item.minPrice == item.maxPrice">
+                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
+                  <span> ETH</span>
+                </p>
+                <p v-else>
+                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
+                  <span> ETH - </span>
+                  <span v-priceFormat="formatPrice(item.maxPrice)"></span>
+                  <span> ETH</span>
+                </p>
               </div>
-              <div v-else class="series_price">
-                {{ `${item.maxPrice} ETH` }}
-              </div>
+              <div v-else class="series_price"><span v-priceFormat="formatPrice(item.maxPrice)"></span> ETH</div>
             </div>
           </div>
           <div class="mask_box">
@@ -171,7 +170,7 @@ import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { getSnapshotList } from "@/services/api/blindBox";
@@ -196,7 +195,7 @@ export default {
     Forgot,
     Modify,
     Image,
-    Recharge
+    Recharge,
   },
   props: {
     blindDetailInfo: {
@@ -219,7 +218,7 @@ export default {
       page: 1,
       size: 36,
       count: 0,
-      isShowMore: false,
+      isShowMore: null,
     };
   },
   computed: {
@@ -253,11 +252,9 @@ export default {
   },
   methods: {
     timeFormat: timeFormat,
+
     bigNumber: bigNumber,
-    messageFun(
-      message = t("mysteryBox.rechargeHint"),
-      type = "warning"
-    ) {
+    messageFun(message = t("mysteryBox.rechargeHint"), type = "warning") {
       ElMessage({
         message,
         type,
@@ -277,15 +274,15 @@ export default {
       }
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       } else if (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       } else if (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance) {
         this.messageFun();
-        this.pageType = 'recharge';
+        this.pageType = "recharge";
         return;
       }
       this.$emit("rollNumberFun", type);
@@ -343,13 +340,8 @@ export default {
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(
-        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
-      );
-      return new bigNumber(num)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
+      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     /**
      * @description Nft概率计算
@@ -364,10 +356,7 @@ export default {
         numTotal += +series[i].nftNumber;
       }
 
-      return new bigNumber(event)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     closeDialogFun() {
       this.pageType = "";
@@ -375,23 +364,28 @@ export default {
     changeTypeFun(page) {
       this.pageType = page;
     },
+    formatPrice(event) {
+      if (!event) return event;
+      const arr = String(event).split(".");
+      if (arr.length > 1 && arr[1].length > 2) {
+        return accurateDecimal(event, 4);
+      } else {
+        return event;
+      }
+    },
   },
   watch: {
     blindDetailInfo() {
       this.fetchSnapshotList();
+      this.$nextTick(() => {
+        const contentInfo = this.$refs.contentInfo;
+        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
+      });
     },
   },
   mounted() {
     emitter.on("unBoxAgainFunc", (type) => {
       this.rollNumberFun(type);
-    });
-    this.$nextTick(() => {
-      setTimeout(() => {
-        const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo
-          ? contentInfo.scrollHeight > contentInfo.clientHeight
-          : false;
-      }, 100);
     });
   },
 };

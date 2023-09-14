@@ -32,6 +32,9 @@
             >
               <li :class="['public-dialog-list', item.qualityType]">
                 <image-view class="public-dialog-portrait" :src="item.nftImg" />
+                <span class="public-dialog-list-result waiting" v-if="item.nftType == 'EXTERNAL'">
+                  {{ $t("lottery.waiting") }}
+                </span>
               </li>
             </el-tooltip>
           </template>
@@ -94,7 +97,7 @@
         <div class="public-dialog-funds">
           <span class="public-dialog-total-title">{{ $t("lottery.total") }}:</span>
           <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <span class="public-dialog-total-number"> {{ total }} </span>
+          <span class="public-dialog-total-number" v-priceFormat="total"></span>
           <template v-if="soldList[0].point > 0">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_point.svg" alt="" />
             <span class="public-dialog-total-number">
@@ -107,7 +110,7 @@
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          {{ blindPrice }}
+          <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>
       <el-button class="public-button public-continue" @click="closeDialogFun">
@@ -120,6 +123,7 @@
 import { ref, defineEmits, defineProps, onBeforeMount, watchEffect, onUpdated } from "vue";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
+
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 
@@ -199,6 +203,9 @@ const unboxAgainFunc = () => {
 watchEffect();
 </script>
 <style lang="scss" scoped>
+.public-dialog-list {
+  height: 7.375rem;
+}
 .public-dialog-list-text {
   margin-top: 0.3125rem;
 }
@@ -292,5 +299,43 @@ watchEffect();
 }
 .public-dialog-lists-all {
   margin-bottom: 0;
+}
+@media (max-width: 950px) {
+  .public-dialog-illustrate {
+    font-size: 0.5rem;
+  }
+  .public-dialog-title-other {
+    font-size: 0.625rem;
+  }
+  .public-dialog-list {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  .portrait-img {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .public-dialog-lists {
+    gap: 0.25rem;
+  }
+  .public-dialog-module {
+    padding: 0.25rem;
+  }
+  .public-dialog-illustrate {
+    line-height: inherit;
+  }
+  .public-dialog-total-title {
+    font-size: 0.5rem;
+  }
+  .public-dialog-list-img {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin-right: 0.3rem;
+  }
+  .public-dialog-total-number {
+    font-size: 0.875rem !important;
+    margin-right: 0.625rem;
+  }
 }
 </style>

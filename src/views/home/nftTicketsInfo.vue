@@ -36,7 +36,10 @@
         </div>
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
-            <div class="nft_name text-ellipsis">{{ `${nftInfo && nftInfo.name} #${nftInfo && nftInfo.tokenId}` }}</div>
+            <div class="nft_name text-ellipsis">
+              <span>{{ nftInfo && nftInfo.name }}</span>
+              <span v-if="formatSeries(nftInfo)">{{ ` #${nftInfo && nftInfo.tokenId}` }}</span>
+            </div>
             <div class="nft_activity">
               <div class="price_box">
                 <div class="price">
@@ -174,7 +177,7 @@
               <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
                 name="participants"></el-tab-pane>
             </el-tabs>
-            <c-scrollbar class="choose_nft" width="100%" height="22.6875rem">
+            <c-scrollbar class="choose_nft" width="100%" :height="screenWidth > 950 ? '27.5rem' : '14rem'">
               <div class="buy_list">
                 <div class="buy_item" v-for="(item, index) in buyData" :key="index">
                   <div class="buy_item_l">
@@ -196,7 +199,7 @@
                   </div>
                 </div>
               </div>
-              <div class="load_more" v-if="total > 20 && !finished" @click="nextPage()">
+              <div class="load_more" v-if="total > 4 && !finished" @click="nextPage()">
                 <div class="load_btn">
                   <span>{{ $t("ticketsInfo.more") }}</span>
                   <img src="@/assets/svg/user/icon_more.svg" alt="">
@@ -258,7 +261,7 @@
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Date" min-width="100" prop="endTime" align="left">
+                <el-table-column label="Date" min-width="100" prop="endTime" align="left" fixed="right">
                   <template #default="scope">
                     <div class="price_box date">
                       <span>{{ timeFormat(scope.row.endTime) }}</span>
@@ -280,11 +283,14 @@
               </div>
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
-                <div class="price_val">{{ historyPrice }} ETH</div>
+                <div class="price_val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </div>
               </div>
             </div>
             <div class="chart-box">
-              <line-chart ref="lienChart" :chart-data="lineChartData" />
+              <line-chart v-if="chartData.length > 0" ref="lienChart" :chart-data="lineChartData" />
+              <div class="no_date" v-else>
+                <span>No data</span>
+              </div>
             </div>
           </div>
           <div class="description_box">
@@ -429,7 +435,7 @@ import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
 import LineChart from "@/components/charts";
 import {
-  openUrl, onCopy, dateDiff, timeFormat
+  openUrl, onCopy, dateDiff, timeFormat, handleWindowResize
 } from "@/utils";
 export default {
   name: 'ntfTicketsInfo',
@@ -476,7 +482,8 @@ export default {
       historyTotal: 0,
       historyFinished: false,
       chartData: [],
-      lineChartData: {}
+      lineChartData: {},
+      screenWidth: null
     };
   },
   computed: {
@@ -573,17 +580,14 @@ export default {
         this.fetchNftActivity();
         this.fetchNftActivitySale();
 
-        if (this.isLogin && this.userInfo?.id) {
-          const resDrawn = await getLottery({
-            orderNumber: this.orderId,
-            userId: userInfo?.id || null
-          })
+        const resDrawn = await getLottery({
+          orderNumber: this.orderId,
+          userId: userInfo?.id || null
+        })
 
-          if (resDrawn && resDrawn.code == 200) {
-            this.drawnInfo = resDrawn.data;
-          }
+        if (resDrawn && resDrawn.code == 200) {
+          this.drawnInfo = resDrawn.data;
         }
-
       }
     },
     // 购买提示
@@ -692,6 +696,7 @@ export default {
         }
 
         this.buyData.push.apply(this.buyData, res.data.records);
+
       }
     },
     // 获取参与者总数
@@ -741,7 +746,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.total = res.data.total;
+        this.historyTotal = res.data.total;
 
         if (isSearch) {
           this.historyList = res.data.records;
@@ -1072,6 +1077,13 @@ export default {
         },
         series: series,
       };
+    },
+    formatSeries(event) {
+      if (!event) return false;
+      const { name, tokenId } = event;
+      if (!name || !tokenId) return false;
+      const isShow = name.indexOf(tokenId) > -1;
+      return !isShow
     }
   },
   watch: {
@@ -1094,6 +1106,16 @@ export default {
     isLogin() {
       this.loadInterface();
     }
+  },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
   },
   created() {
     // 获取一元购 ID

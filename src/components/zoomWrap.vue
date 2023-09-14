@@ -10,7 +10,7 @@ const state = reactive({
 
 const onResize = () => {
   const { innerWidth } = window;
-  const innerHeight = window.innerHeight - window.innerWidth * 0.1;
+  const innerHeight = window.innerHeight - window.innerWidth * 0.08;
   const xRatio = innerWidth / designWidth;
   const yRatio = innerHeight / designHeight;
   const ratio = Math.min(xRatio, yRatio);
@@ -55,7 +55,7 @@ onUnmounted(() => {
   width: 98vw;
   transform: translate(-50%, -50%);
 }
-@media screen and (max-width: 1650px) {
+@media screen and (max-width: 1530px) {
   .scale {
     transform: scale(1) !important;
   }

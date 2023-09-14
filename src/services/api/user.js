@@ -65,9 +65,17 @@ const getTheUserPoint = params =>
 const resetPassword = params =>
   apiService.post('mystery-web-user/auth/account/resetPassword', params); // 重置密码
 const verifyNickname = params =>
-  apiService.get('/mystery-web-user/user/verifyNickname', params); // 重复昵称校验
+  apiService.get('mystery-web-user/user/verifyNickname', params); // 重复昵称校验
 const getNftWithdrawalList = params =>
-  apiService.get('/mystery-web-user/withdrawal/nft/pageList', params); // NFT充提记录
+  apiService.get('mystery-web-user/withdrawal/nft/pageList', params); // NFT充提记录
+
+const getGoogleValidateStatus = params =>
+  apiService.get('mystery-web-user/auth/account/getGoogleValidateStatus', params); // 获取是否开启谷歌验证
+
+const getGoogleQrCode = params =>
+  apiService.get('mystery-web-user/auth/genQrCode', params); // 创建谷歌验证二维码
+  const bindGoogleAuth = params =>
+  apiService.get('/mystery-web-user/user/bingGoogleValidate', params); // 绑定谷歌验证
 
 export {
   getKey,
@@ -92,5 +100,8 @@ export {
   getTheUserPoint,
   resetPassword,
   verifyNickname,
-  getNftWithdrawalList
+  getNftWithdrawalList,
+  getGoogleValidateStatus,
+  getGoogleQrCode,
+  bindGoogleAuth
 };

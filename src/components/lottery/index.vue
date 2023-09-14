@@ -8,7 +8,7 @@
     :append-to-body="true"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }]"
+    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }, { 'roll-lottery-dialog': !showResult }]"
   >
     <!-- 单个中奖 -->
     <keep-alive v-if="rollNumber === 'ONE'">
@@ -81,8 +81,6 @@
       :text="warningText"
       :blindPrice="blindPrice"
     />
-    <CheckLoading v-else-if="showDialog === 'checkLoading'" />
-
     <Loading :loading="loading" />
   </el-dialog>
 </template>
@@ -107,15 +105,16 @@ import ChainDialog from "./chainDialog.vue";
 import BeenSold from "./beenSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
-import CheckLoading from "./checkLoading.vue";
 
 import Loading from "../loading/index.vue";
+import LotteryNotify from "@/components/lottery/lotteryNotify";
 
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import emitter from "@/utils/event-bus.js";
 import bigNumber from "bignumber.js";
+import { h } from "vue";
 
 import { i18n } from "@/locales";
 const { t } = i18n.global;
@@ -137,7 +136,6 @@ export default {
     TransactionWarning,
     oneAward,
     Loading,
-    CheckLoading,
   },
   props: ["lottoList", "lottResult", "apiIsError", "errorText", "showRoll", "rollNumber", "blindDetailInfo"],
   data() {
@@ -164,6 +162,7 @@ export default {
       checkInterVal: null,
       idLotteryIn: false,
       clearResultTimer: false, //清除中奖页倒计时
+      notifyGroup: {},
     };
   },
   computed: {
@@ -225,6 +224,7 @@ export default {
       }
     },
   },
+  created() {},
   methods: {
     async inventoryFun() {
       // const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
@@ -232,24 +232,45 @@ export default {
       //   console.log(res.data);
       // }
     },
-    async lotteryCheckFunc(dialog) {
+    notificationFunc(type, data, orderId) {
+      if (this.notifyGroup[`${type}_${orderId}`]) return;
+      const notifyGroupKey = Object.keys(this.notifyGroup);
+      notifyGroupKey.forEach((x) => {
+        let orderKey = x.split("_")[1];
+        if (orderKey == orderId) {
+          this.notifyGroup[x].close();
+        }
+      });
+      const notifyObj = this.$notify({
+        customClass: type == "warning" ? "custom-notify lottery-warning-notify" : "custom-notify",
+        position: "bottom-right",
+        duration: 0,
+        dangerouslyUseHTMLString: true,
+        message: h(LotteryNotify, { type, data }),
+      });
+      this.notifyGroup[`${type}_${orderId}`] = notifyObj;
+    },
+    async lotteryCheckFunc() {
       const { awardItem } = this;
       const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
       if (res && res.code === 200) {
         let data = res.data;
+        let type = null;
         let waitData = data.filter((x) => x.lotteryStatus == "WAIT");
         if (waitData?.length == 0) {
           this.checkInterVal && clearInterval(this.checkInterVal);
-          this.failList = data.filter((x) => x.lotteryStatus == "FAIL").map((x) => x.id);
-          if (typeof dialog === "string") {
-            this.showDialog = dialog;
+          const failList = data.filter((x) => x.lotteryStatus == "FAIL").map((x) => x.id);
+          if (failList?.length > 0) {
+            type = "warning";
           } else {
-            if (this.failList?.length > 0) {
-              this.showDialog = dialog[1];
-            } else {
-              this.showDialog = dialog[0];
-            }
+            type = "success";
           }
+        } else {
+          type = "loading";
+        }
+        let filterData = data.filter((x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL");
+        if (filterData?.length > 0) {
+          this.notificationFunc(type, filterData, awardItem[0]?.orderId);
         }
       }
     },
@@ -270,19 +291,34 @@ export default {
       this.loading = false;
       localStorage.removeItem("result");
       if (res && res.code === 200) {
-        if (res.data.length) {
+        if (res.data?.length) {
           this.failList = res.data;
         }
+        this.showDialog = dialog;
+        let isExternal = false;
         if (chooseIds.length > 0) {
-          this.showDialog = "checkLoading";
+          awardItem.map((x) => {
+            chooseIds.map((y) => {
+              if (y == x.id) {
+                isExternal = true;
+              }
+            });
+          });
+          if (!isExternal) return;
+          this.lotteryCheckFunc();
           this.checkInterVal = setInterval(() => {
-            this.lotteryCheckFunc(dialog);
+            this.lotteryCheckFunc();
           }, 3000);
-        } else {
-          this.showDialog = dialog;
         }
-
         this.headerStoreStore.getTheUserBalanceApi();
+      } else {
+        if (res?.length == 3 && res[2].messageKey == "already_automatically_recycled") {
+          localStorage.removeItem("result");
+          this.showDialog = dialog;
+          this.headerStoreStore.getTheUserBalanceApi();
+        } else {
+          this.showDialog = "";
+        }
       }
     },
     getTheUserBalanceApiFun() {
@@ -350,12 +386,13 @@ export default {
           const res = await lotteryHold(_data);
           this.loading = false;
           if (res && res.code === 200) {
-            if (res.data.length) {
+            if (res.data?.length) {
               this.showDialog = "chainDialog";
             } else {
-              this.showDialog = "checkLoading";
+              this.showDialog = "yourReard";
+              this.lotteryCheckFunc();
               this.checkInterVal = setInterval(() => {
-                this.lotteryCheckFunc(["yourReard", "chainDialog"]);
+                this.lotteryCheckFunc();
               }, 3000);
             }
           }
@@ -450,7 +487,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$root);
     const { clientWidth } = document.body;
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
@@ -471,7 +507,7 @@ export default {
     }
   },
   beforeUnmount() {
-    this.checkInterVal && clearInterval(this.checkInterVal);
+    // this.checkInterVal && clearInterval(this.checkInterVal);
   },
 };
 </script>
@@ -515,6 +551,15 @@ export default {
   margin-top: 1.875rem;
   margin-right: 1.875rem;
   cursor: pointer;
+}
+@media screen and (max-width: 950px) {
+  .roll-dialog {
+    margin-top: 6rem;
+    height: calc(100% - 6rem);
+  }
+  .roll-lottery-dialog {
+    background-image: none !important;
+  }
 }
 </style>
 <style lang="scss">

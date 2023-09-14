@@ -3,6 +3,7 @@ import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user.js";
 import config from "./env";
 import { i18n } from "@/locales";
+import { decryptCBC } from "@/utils";
 const { t } = i18n.global;
 // import qs from 'qs'
 
@@ -17,12 +18,13 @@ const notMessage = [
   "mystery-web-user/auth/check/captcha",
   "mystery-web-user/auth/getIp",
   "mystery-web-user/auth/getCode",
+  "mystery-web-user/auth/genQrCode",
   "mystery-web-user/oneNftOrders/getWalletNftEth",
 ];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
-      config.headers.certificate = localStorage.getItem("certificate");
+      config.headers.certificate = decryptCBC(localStorage.getItem("certificate"));
     }
 
     if (sessionStorage.getItem("verify")) {
@@ -30,6 +32,10 @@ axiosInstance.interceptors.request.use(
     }
 
     if (config.url.indexOf("mystery-web-user/auth/getCode") > -1) {
+      config.responseType = "blob";
+    }
+
+    if (config.url.indexOf("mystery-web-user/auth/genQrCode") > -1) {
       config.responseType = "blob";
     }
     return config;

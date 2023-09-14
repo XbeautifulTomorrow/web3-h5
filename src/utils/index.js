@@ -1,6 +1,7 @@
 import bigNumber from "bignumber.js";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
+import CryptoJS from "crypto-js";
 
 export function openUrl(url) {
   if (typeof window !== "object") return;
@@ -109,14 +110,14 @@ export function onCopy(event) {
     ElMessage.success("Copy successfully");
     oInput.remove();
   } else {
-    navigator.clipboard.writeText(event).then(
-      function () {
+    navigator.clipboard
+      .writeText(event)
+      .then(function () {
         ElMessage.success("Copy successfully");
       })
-      .catch(
-        function () {
-          ElMessage.error("Copy failed, please try again later");
-        });
+      .catch(function () {
+        ElMessage.error("Copy failed, please try again later");
+      });
   }
 }
 
@@ -154,55 +155,34 @@ export function timeForStr(time, str) {
   const date = new Date(time);
   if (!str) str = "YYYY/MM/DD hh:mm:ss";
   str = str.replace(/yyyy|YYYY/, date.getFullYear());
-  str = str.replace(
-    /yy|YY/,
-    date.getYear() % 100 > 9
-      ? (date.getYear() % 100).toString()
-      : "0" + (date.getYear() % 100)
-  );
+  str = str.replace(/yy|YY/, date.getYear() % 100 > 9 ? (date.getYear() % 100).toString() : "0" + (date.getYear() % 100));
   const month = date.getMonth() + 1;
   str = str.replace(/MM/, month > 9 ? month.toString() : "0" + month);
   str = str.replace(/M/g, month);
 
-  str = str.replace(
-    /dd|DD/,
-    date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate()
-  );
+  str = str.replace(/dd|DD/, date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate());
   str = str.replace(/d|D/g, date.getDate());
 
-  str = str.replace(
-    /hh|HH/,
-    date.getHours() > 9 ? date.getHours().toString() : "0" + date.getHours()
-  );
+  str = str.replace(/hh|HH/, date.getHours() > 9 ? date.getHours().toString() : "0" + date.getHours());
   str = str.replace(/h|H/g, date.getHours());
-  str = str.replace(
-    /mm/,
-    date.getMinutes() > 9
-      ? date.getMinutes().toString()
-      : "0" + date.getMinutes()
-  );
+  str = str.replace(/mm/, date.getMinutes() > 9 ? date.getMinutes().toString() : "0" + date.getMinutes());
   str = str.replace(/m/g, date.getMinutes());
 
-  str = str.replace(
-    /ss|SS/,
-    date.getSeconds() > 9
-      ? date.getSeconds().toString()
-      : "0" + date.getSeconds()
-  );
+  str = str.replace(/ss|SS/, date.getSeconds() > 9 ? date.getSeconds().toString() : "0" + date.getSeconds());
   str = str.replace(/s|S/g, date.getSeconds());
   return str;
 }
 
-/** 
+/**
  * @description 友好的时间显示
  * @param string event 时间
  */
 export function timeFormat(endTime) {
-  if (!endTime) return "--"
+  if (!endTime) return "--";
   const timestamp = new Date(endTime).getTime() / 1000;
 
   function zeroize(num) {
-    return (String(num).length == 1 ? '0' : '') + num;
+    return (String(num).length == 1 ? "0" : "") + num;
   }
 
   const { currentTime } = useUserStore();
@@ -211,25 +191,30 @@ export function timeFormat(endTime) {
   let timeAbsolute = +Math.abs(timestampDiff); // 如果比当前时间大
 
   let curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
-  let tmDate = new Date(timestamp * 1000);  // 参数时间戳转换成的日期对象
+  let tmDate = new Date(timestamp * 1000); // 参数时间戳转换成的日期对象
 
-  let Y = tmDate.getFullYear(), m = tmDate.getMonth() + 1, d = tmDate.getDate();
-  let H = tmDate.getHours(), i = tmDate.getMinutes();
+  let Y = tmDate.getFullYear(),
+    m = tmDate.getMonth() + 1,
+    d = tmDate.getDate();
+  let H = tmDate.getHours(),
+    i = tmDate.getMinutes();
   // let s = tmDate.getSeconds();
-  if (timeAbsolute < 60) { // 一分钟以内
+  if (timeAbsolute < 60) {
+    // 一分钟以内
     if (curTimestamp > timestamp) {
       return "A moment ago";
     } else {
       return "A while";
     }
-  } else if (timeAbsolute < 3600) { // 一小时前之内
+  } else if (timeAbsolute < 3600) {
+    // 一小时前之内
     if (curTimestamp > timestamp) {
       return Math.floor(timeAbsolute / 60) + " minutes ago";
     } else {
       return Math.floor(timeAbsolute / 60) + " minutes later";
     }
   } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
-    return 'Today ' + zeroize(H) + ':' + zeroize(i);
+    return "Today " + zeroize(H) + ":" + zeroize(i);
   } else {
     let newDate = new Date((curTimestamp - 86400) * 1000); // 当前时间戳减一天转换成的日期对象(昨天)
     if (timestamp > curTimestamp) {
@@ -237,9 +222,9 @@ export function timeFormat(endTime) {
     }
 
     if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
-      return 'Yesterday ' + zeroize(H) + ':' + zeroize(i);
+      return "Yesterday " + zeroize(H) + ":" + zeroize(i);
     } else if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() + 1 == d) {
-      return 'Tomorrow at ' + zeroize(H) + ':' + zeroize(i);
+      return "Tomorrow at " + zeroize(H) + ":" + zeroize(i);
     } else if (curDate.getFullYear() == Y) {
       // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
       return `${monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
@@ -250,7 +235,7 @@ export function timeFormat(endTime) {
   }
 }
 
-/** 
+/**
  * @description 月份转化
  * @param string event 时间
  */
@@ -267,10 +252,10 @@ function monthFormat(event) {
     9: "Sep",
     10: "Oct",
     11: "Nov",
-    12: "Dec"
-  }
+    12: "Dec",
+  };
 
-  return monthData[parseInt(event)]
+  return monthData[parseInt(event)];
 }
 
 /**
@@ -281,7 +266,7 @@ function monthFormat(event) {
  * @return
  */
 export function dateDiff(event) {
-  if (!event) return "ENDED"
+  if (!event) return "ENDED";
   const setTime = new Date(event).getTime();
 
   const { currentTime } = useUserStore();
@@ -290,7 +275,7 @@ export function dateDiff(event) {
 
   // 按照传入的格式生成一个simpledateformate对象
   let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
-  let nh = 1000 * 60 * 60;// 一小时的毫秒数
+  let nh = 1000 * 60 * 60; // 一小时的毫秒数
   let nm = 1000 * 60; // 一分钟的毫秒数
   let ns = 1000; // 一秒钟的毫秒数;
 
@@ -298,13 +283,13 @@ export function dateDiff(event) {
   let diff;
   diff = Number(new bigNumber(setTime).minus(nowTime));
 
-  let day = diff / nd;// 计算差多少天
+  let day = diff / nd; // 计算差多少天
   // eslint-disable-next-line no-unused-vars
-  let hour = diff % nd / nh;// 计算差多少小时
+  let hour = (diff % nd) / nh; // 计算差多少小时
   // eslint-disable-next-line no-unused-vars
-  let min = diff % nd % nh / nm;// 计算差多少分钟
+  let min = ((diff % nd) % nh) / nm; // 计算差多少分钟
   // eslint-disable-next-line no-unused-vars
-  let sec = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
+  let sec = (((diff % nd) % nh) % nm) / ns; // 计算差多少秒//输出结果
 
   return day;
 }
@@ -352,6 +337,21 @@ export function getDifferent(jsons, contrast) {
 }
 
 /**
+ * @description: 1-1.00 如果超出2位，比如1.255就正常显示1.255
+ * @param {string} number：为你要转换的数字
+ */
+export const formatNumber = (num) => {
+  if (num == null || num == undefined) {
+    return 0.0;
+  }
+  if (num % 1 === 0) {
+    return parseFloat(num).toFixed(2);
+  } else {
+    return parseFloat(num).toFixed(Math.max(num.toString().split(".")[1].length, 2));
+  }
+};
+
+/**
  * @description: 精确小数点
  * @param {string} number：为你要转换的数字
  * @param {string} format：要保留几位小数；譬如要保留2位，则值为2
@@ -361,8 +361,7 @@ export const accurateDecimal = (number, format, zeroFill) => {
   //判断非空
   if (!isEmpty(number)) {
     //正则匹配:正整数，负整数，正浮点数，负浮点数
-    if (!/^\d+(\.\d+)?$|^-\d+(\.\d+)?$/.test(number))
-      return number;
+    if (!/^\d+(\.\d+)?$|^-\d+(\.\d+)?$/.test(number)) return number;
     let n = 1;
     for (let i = 0; i < format; i++) {
       n = n * 10;
@@ -378,13 +377,13 @@ export const accurateDecimal = (number, format, zeroFill) => {
       let index;
       if (str.indexOf(".") == -1) {
         index = format;
-        str += '.';
+        str += ".";
       } else {
-        index = format - ((str.length - 1) - str.indexOf("."));
+        index = format - (str.length - 1 - str.indexOf("."));
       }
 
       for (let i = 0; i < index; i++) {
-        str += '0';
+        str += "0";
       }
     }
     return str;
@@ -394,21 +393,19 @@ export const accurateDecimal = (number, format, zeroFill) => {
 
 //非空验证
 function isEmpty(ObjVal) {
-  if ((ObjVal == null || typeof (ObjVal) == "undefined") || (typeof (ObjVal) == "string" && ObjVal == "" && ObjVal != "undefined")) {
+  if (ObjVal == null || typeof ObjVal == "undefined" || (typeof ObjVal == "string" && ObjVal == "" && ObjVal != "undefined")) {
     return true;
   } else {
     return false;
   }
 }
 
-
-
 // 验证地址正确性的函数
 export const isValidEthAddress = (address) => {
   if (!address) return false;
 
   // 去除"0x"前缀
-  const cleanAddress = address.toLowerCase().replace('0x', '');
+  const cleanAddress = address.toLowerCase().replace("0x", "");
 
   // 长度验证
   if (cleanAddress.length !== 40) {
@@ -422,11 +419,11 @@ export const isValidEthAddress = (address) => {
   }
 
   // 前缀验证
-  if (!address.startsWith('0x')) {
+  if (!address.startsWith("0x")) {
     return false;
   }
 
-  const Web3 = require('web3');
+  const Web3 = require("web3");
 
   // 初始化web3实例
   const web3 = new Web3();
@@ -438,7 +435,7 @@ export const isValidEthAddress = (address) => {
   }
 
   return true;
-}
+};
 
 // 验证 以太坊交易哈希
 export const isEthTransactionHashValid = (hash) => {
@@ -447,4 +444,93 @@ export const isEthTransactionHashValid = (hash) => {
 
   // 使用正则表达式进行验证
   return ethTxHashRegex.test(hash);
-}
+};
+
+/**
+ * @description: ECB模式 加密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const encryptECB = (word, keyStr) => {
+  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
+  var key = CryptoJS.enc.Utf8.parse(keyStr);
+  var srcs = CryptoJS.enc.Utf8.parse(word);
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+  return encrypted.toString();
+};
+
+/**
+ * @description: ECB模式 解密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const decryptECB = (word, keyStr) => {
+  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
+  var key = CryptoJS.enc.Utf8.parse(keyStr); // Latin1 w8m31+Yy/Nw6thPsMpO5fg==
+  var decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+  return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+};
+
+/**
+ * @description: CBC模式 加密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const encryptCBC = (word, keyStr) => {
+  keyStr = keyStr || "JokerJokerXtreme"; // 密钥
+
+  let ivStr = "JokerLoseCyclone"; // 偏移量
+
+  try {
+    let key = CryptoJS.enc.Utf8.parse(keyStr);
+
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+
+    let srcs = CryptoJS.enc.Utf8.parse(word);
+
+    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+      iv: iv,
+
+      mode: CryptoJS.mode.CBC,
+
+      padding: CryptoJS.pad.Pkcs7,
+    });
+
+    return encrypted.toString();
+  } catch {
+    return word;
+  }
+};
+
+/**
+ * @description:CBC模式 解密
+ * @param {string} word：token
+ * @param {string} keyStr：key值（16位）
+ */
+export const decryptCBC = (word, keyStr) => {
+  keyStr = keyStr || "JokerJokerXtreme"; // 密钥
+
+  let ivStr = "JokerLoseCyclone";
+
+  try {
+    let base64 = CryptoJS.enc.Utf8.parse(word);
+
+    var key = CryptoJS.enc.Utf8.parse(keyStr);
+
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+
+    let src = CryptoJS.enc.Utf8.stringify(base64);
+
+    var decrypt = CryptoJS.AES.decrypt(src, key, {
+      iv,
+
+      mode: CryptoJS.mode.CBC,
+
+      padding: CryptoJS.pad.Pkcs7,
+    });
+
+    return decrypt.toString(CryptoJS.enc.Utf8);
+  } catch {
+    return word;
+  }
+};

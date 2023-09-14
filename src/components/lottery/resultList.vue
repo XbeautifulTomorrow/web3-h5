@@ -73,7 +73,7 @@
                   </span>
                 </div>
                 <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
-                  <p class="result-sell-text-box">
+                  <div class="result-sell-text-box">
                     <!-- 图类型 -->
                     <template v-if="item.tokenId !== null">
                       <span class="amount" v-if="second < 1">{{ $t("virtualCurrency.price") }}</span>
@@ -81,20 +81,18 @@
                     </template>
                     <!-- 币类型 -->
                     <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
-                    <span class="result-sell-coin">
+                    <p class="result-sell-coin">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                      {{ item.nftType == "EXTERNAL" && second < 1 ? item.initPrice : item.price }}
-                    </span>
-                  </p>
+                      <span v-priceFormat="item.nftType == 'EXTERNAL' && second < 1 ? item.initPrice : item.price"></span>
+                    </p>
+                  </div>
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
                   <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
                     <p class="public-dialog-button-p">
                       <span>{{ $t("lottery.take") }}</span>
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                      <span class="result-total">
-                        {{ item.price }}
-                      </span>
+                      <span class="result-total" v-priceFormat="item.price"> </span>
                     </p>
                   </el-button>
                   <template v-else>
@@ -111,9 +109,7 @@
                       <p class="public-dialog-button-p">
                         <span>{{ $t("lottery.sell_for") }}</span>
                         <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                        <span class="result-total">
-                          {{ item.price }}
-                        </span>
+                        <span class="result-total" v-priceFormat="item.price"> </span>
                       </p>
                     </el-button>
                   </template>
@@ -125,7 +121,7 @@
                   <p v-else class="result-sell-get">
                     {{ $t("lottery.get_eth") }}
                     <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                    {{ item.price }}
+                    <span v-priceFormat="item.price"></span>
                   </p>
                 </template>
               </div>
@@ -140,9 +136,7 @@
               <p class="public-dialog-button-p" v-if="nfts.length == 0">
                 <span>{{ $t("lottery.sell_all_for") }}</span>
                 <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-                <span class="result-total font5">
-                  {{ total }}
-                </span>
+                <span class="result-total font5" v-priceFormat="total"> </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != picNftLen">
@@ -153,7 +147,7 @@
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else>
-                <template v-if="picNftLen > 0">
+                <template v-if="picNftLen > 0 && coinTypeTotal > 0">
                   <span class="public-dialog-button-p" v-html="$t('lottery.take_all_eth', { src: coinSrc, numEth: coinTypeTotal })"></span>
                   <span class="font1" v-if="second > 0">({{ second }}s)</span>
                 </template>
@@ -206,7 +200,8 @@ import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
 import { Howl } from "howler";
-import { flop, flopAfter } from "@/utils/audioResource";
+import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
+
 import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
 
 const { t } = i18n.global;
@@ -291,18 +286,36 @@ const resultPicLen = () => {
   picNftLen.value = picNft.length;
 };
 const getListHeight = () => {
+  const { innerWidth } = window;
   nextTick(() => {
-    if (cardRef.value && cardRef.value[0]) {
-      const height = cardRef?.value[0].offsetHeight;
-      cardRefH.value = height + "px";
-    }
+    setTimeout(() => {
+      if (cardRef.value && cardRef.value[0]) {
+        let ratio = 1;
+        if (innerWidth < 950) {
+          ratio = 0.6;
+        }
+        const height = cardRef?.value[0].offsetHeight * ratio;
+        cardRefH.value = height + "px";
+      }
+    }, 200);
   });
 };
 const audioPlay = () => {
+  let flopAfterAudio = flopAfter;
+  const flopAfterAudioObj = {
+    EPIC: EPIC1,
+    LEGEND: LEGEND,
+    RARE: NORMAL1,
+    NORMAL: moreUsually,
+  };
+  if (props.result?.length == 1) {
+    flopAfterAudio = flopAfterAudioObj[props.result[0].qualityType];
+  }
+
   if (props.idLotteryIn) {
     _audioPlay(flop);
     setTimeout(() => {
-      _audioPlay(flopAfter);
+      _audioPlay(flopAfterAudio);
     }, 1000);
   }
 };
@@ -368,8 +381,8 @@ const getTheUserBalanceApi = async () => {
   const res = await getTheUserBalance();
   if (res && res.localDateTime) {
     const timer = parseInt(60 - Math.ceil(new Date(res.localDateTime) - new Date(result[0].lotteryTime)) / 1000);
-    const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 13;
-    second.value = parseInt(timer + extraTime);
+    const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 11;
+    second.value = parseInt(timer + extraTime) > 60 ? 60 : parseInt(timer + extraTime);
   }
 };
 </script>
@@ -449,7 +462,13 @@ const getTheUserBalanceApi = async () => {
 }
 </style>
 <style lang="scss">
+.result-dialog-content-ten {
+  // background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
+  // background-size: cover;
+}
 .result-dialog-content {
+  // background: url("@/assets/img/lottery/bg.webp") no-repeat center top;
+  // background-size: cover;
   .font4 {
     font-family: LeagueSpartan;
     font-weight: bold;
@@ -506,7 +525,7 @@ const getTheUserBalanceApi = async () => {
 .result-one-footer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   height: 6.25rem;
   .sell {
     margin-bottom: 10px;
@@ -516,13 +535,22 @@ const getTheUserBalanceApi = async () => {
     margin-left: 0 !important;
   }
 }
-@media (min-height: 1200px) {
+@media (max-width: 950px) {
   .result-dialog-content {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    .font4 {
+      position: relative;
+      top: 1px;
+    }
+  }
+  .result-footer {
+    .result-total-other {
+      font-size: 1rem;
+      top: 0.1rem;
+    }
+    .public-dialog-icon {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }
 </style>

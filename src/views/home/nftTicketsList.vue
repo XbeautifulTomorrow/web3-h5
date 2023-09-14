@@ -33,6 +33,7 @@
           </el-select>
           <div class="sort_title">{{ $t('homeReplenish.sortCollections') }}</div>
         </div>
+        <div class="create_btn create" @click="toDraw()">START A DRAW</div>
       </div>
       <ul class="boxes-content" v-if="count > 0">
         <template v-for="( item, index ) in ticketList" :key="`tickets-${index}`">
@@ -86,10 +87,10 @@
             <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
               <span>{{ $t("ticketsInfo.winner") }}</span>
               <img src="@/assets/svg/user/default_avatar.svg" alt="">
-              <span v-if="userInfo && (userInfo?.id != item.winningAddress)">
+              <span v-if="userInfo && userInfo?.id == item.winningAddress" class="you">{{ $t("user.you") }}</span>
+              <span v-else>
                 {{ item.winningName || item.winningAddress }}
               </span>
-              <span v-else class="you">{{ $t("user.you") }}</span>
             </div>
             <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
               {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
@@ -108,6 +109,10 @@
           layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
       </div>
     </div>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
   </div>
 </template>
 <script>
@@ -121,10 +126,19 @@ import { dateDiff, timeFormat } from "@/utils";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import Image from "@/components/imageView";
+
+import Login from "../login/index.vue";
+import Register from "../register/index.vue";
+import Forgot from "../forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
 export default {
   name: 'ntfTicketsList',
   components: {
     countDown,
+    Login,
+    Register,
+    Forgot,
+    Modify,
     Image
   },
   data() {
@@ -140,7 +154,7 @@ export default {
       page: 1,
       size: 20,
       count: 0,
-
+      pageType: "",
       timer: null
     };
   },
@@ -199,8 +213,22 @@ export default {
         this.fetchCheckAllOrders();
       }, 300);
     },
+    closeDialogFun() {
+      this.pageType = "";
+      this.buyVotes = 1;
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
     handleTickets(event) {
       this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+    },
+    toDraw() {
+      if (!this.isLogin || !this.userInfo?.id) {
+        this.pageType = "login";
+        return
+      }
+      this.userStore.setUserPage(this.$route.path, 'inventory');
     },
     handleCurrentChange(page) {
       this.page = page;
@@ -257,6 +285,17 @@ export default {
 
   .el-popper__arrow {
     display: none;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+      padding: 0 0.25rem;
+    }
   }
 }
 </style>

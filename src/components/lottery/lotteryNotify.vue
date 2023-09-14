@@ -122,6 +122,7 @@ const isShowRes = ref(false);
           font-weight: bold;
           transform: scale(0.83);
           transform-origin: center;
+          white-space: nowrap;
           img {
             width: 0.75rem;
             margin-right: 0.25rem;

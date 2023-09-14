@@ -36,17 +36,17 @@
               <span class="text-ellipsis" v-else>--</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="Price" align="left" show-overflow-tooltip>
+          <el-table-column prop="price" label="Price" align="left"  min-width="90" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.price} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" align="left" show-overflow-tooltip>
+          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" min-width="100" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `$${scope.row.usdtPrice}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" align="left" show-overflow-tooltip>
+          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" min-width="90" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.refundValue} ETH` }}
             </template>
@@ -58,7 +58,7 @@
             v-model="page"
             :page-size="size"
             @current-change="handleCurrentChange"
-            :pager-count="7"
+            :pager-count="5"
             layout="prev, pager, next"
             :total="count"
             prev-text="Pre"

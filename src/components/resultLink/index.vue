@@ -11,8 +11,6 @@
 <style lang="scss" scoped>
 .result-link {
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   align-content: center;

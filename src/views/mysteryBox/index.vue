@@ -1,6 +1,6 @@
 <template>
   <div class="blind-detail">
-    <template v-if="blindDetailInfo && blindDetailInfo.series && blindDetailInfo.series.length > 0">
+    <div class="blind-lottory-box" v-if="blindDetailInfo && blindDetailInfo.series && blindDetailInfo.series.length > 0">
       <Lottory
         v-if="showRoll"
         ref="roll"
@@ -14,7 +14,7 @@
         @apiIsErrorFun="apiIsErrorFun"
         @closeRollFun="closeRollFun"
       />
-    </template>
+    </div>
     <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
     <Loading :loading="loading" />
     <!-- 预加载图片 -->
@@ -203,7 +203,6 @@ export default {
       this.showRoll = true;
       this.rollNumber = coiledType;
       headerStore.setBalance(this.ethBalance - price);
-
       //余额抽盲盒
       let _that = this;
       let walletOrderInfo = await balanceOrder({

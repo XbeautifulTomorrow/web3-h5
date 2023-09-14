@@ -5,7 +5,7 @@
     width="100%"
     :show-close="false"
     destroy-on-close
-    :append-to-body="true"
+    :append-to-body="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }, { 'roll-lottery-dialog': !showResult }]"
@@ -515,6 +515,12 @@ export default {
 @import "./css/index.scss";
 </style>
 <style lang="scss">
+.blind-lottory-box {
+  .el-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+  }
+}
 .lottery-moreLuck {
   .el-dialog__header {
     display: none;

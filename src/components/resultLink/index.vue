@@ -53,7 +53,7 @@
       height: 1.5rem;
     }
     .result-link-text {
-      font-size: 0.5rem;
+      font-size: 0.75rem;
     }
   }
 }

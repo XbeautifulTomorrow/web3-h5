@@ -302,10 +302,10 @@ watchEffect();
 }
 @media (max-width: 950px) {
   .public-dialog-illustrate {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
   .public-dialog-title-other {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
   .public-dialog-list {
     width: 3.5rem;
@@ -326,7 +326,7 @@ watchEffect();
     line-height: inherit;
   }
   .public-dialog-total-title {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
   .public-dialog-list-img {
     width: 1rem !important;

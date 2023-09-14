@@ -86,15 +86,15 @@ const unboxAgainFunc = () => {
 }
 @media (max-width: 950px) {
   .public-dialog-illustrate {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
     margin-bottom: 0.625rem;
   }
   .public-dialog-title-other {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     margin-bottom: 0.25rem;
   }
   .public-dialog-pointer-box {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
   .public-dialog-pointer-icon {
     width: 1.25rem;

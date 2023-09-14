@@ -382,7 +382,7 @@ export default {
       font-size: 1.125rem;
     }
     .roll-text-official {
-      font-size: 0.625rem /* 10/16 */;
+      font-size: 0.75rem;
       margin-top: 0.25rem;
     }
     .roll-one-list-seriesName {
@@ -390,7 +390,7 @@ export default {
       margin-bottom: 0.04rem;
     }
     .roll-one-list-seriesName-text {
-      font-size: 0.16rem;
+      font-size: 0.75rem;
       font-weight: normal;
       width: 4.375rem;
       overflow: hidden;
@@ -401,10 +401,10 @@ export default {
       border-radius: 0.125rem;
     }
     .roll-one-list-price {
-      font-size: 0.5rem;
+      font-size: 0.75rem;
     }
     .roll-one-list-nftNumber {
-      font-size: 0.08rem;
+      font-size: 0.75rem;
       transform: scale(0.7);
       transform-origin: right bottom;
     }

@@ -884,7 +884,15 @@ export default {
         chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
       } else if (event.chainType == "BSC_TEST") {
         chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      } else if (event.chainType == "BASE") {
+        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+      } else if (event.chainType == "BSC") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+      } else if (event.chainType == "OKT") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
       }
+
+
 
       openUrl(`${chainLink}${event.txid}`);
     },

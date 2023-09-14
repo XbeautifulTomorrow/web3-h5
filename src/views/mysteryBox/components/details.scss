@@ -951,7 +951,7 @@
             }
 
             .series_probability {
-              font-size: 0.7em;
+              font-size: .625rem;
             }
 
             .series_price {
@@ -1107,7 +1107,7 @@
   }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 540px) {
   .nft_series_list {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;

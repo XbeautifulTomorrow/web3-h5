@@ -890,6 +890,8 @@ export default {
         chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
       } else if (event.chainType == "OKT") {
         chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+      } else if (event.chainType == "ThunderCore") {
+        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
       }
 
 

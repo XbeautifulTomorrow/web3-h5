@@ -751,7 +751,7 @@
         border-radius: 0.25rem;
         padding-bottom: 0.5rem;
         .image_box {
-          height: auto;
+          height: 31vw;
         }
         .tips_round,
         .image_tag {
@@ -845,6 +845,11 @@
     .entered_box,
     .my_competitions_box {
       grid-template-columns: repeat(2, 1fr);
+      .entered_item {
+        .image_box {
+          height: 46vw;
+        }
+      }
     }
   }
 }

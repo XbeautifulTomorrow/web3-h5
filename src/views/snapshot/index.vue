@@ -36,7 +36,7 @@
               <span class="text-ellipsis" v-else>--</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="Price" align="left"  min-width="90" show-overflow-tooltip>
+          <el-table-column prop="price" label="Price" align="left"  min-width="100" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.price} ETH` }}
             </template>
@@ -46,7 +46,7 @@
               {{ `$${scope.row.usdtPrice}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" min-width="90" align="left" show-overflow-tooltip>
+          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" min-width="100" align="left" show-overflow-tooltip>
             <template #default="scope">
               {{ `${scope.row.refundValue} ETH` }}
             </template>

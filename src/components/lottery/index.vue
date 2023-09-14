@@ -566,6 +566,12 @@ export default {
   .roll-lottery-dialog {
     background-image: none !important;
   }
+  .blind-lottory-box {
+    .el-overlay {
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+    }
+  }
 }
 </style>
 <style lang="scss">

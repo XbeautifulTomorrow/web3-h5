@@ -196,12 +196,14 @@ export default {
         chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
       } else if (event.lotteryChainType == "BSC_TEST") {
         chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
-      } else if (event.chainType == "BASE") {
+      } else if (event.lotteryChainType == "BASE") {
         chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
-      } else if (event.chainType == "BSC") {
+      } else if (event.lotteryChainType == "BSC") {
         chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
-      } else if (event.chainType == "OKT") {
+      } else if (event.lotteryChainType == "OKT") {
         chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+      } else if (event.lotteryChainType == "ThunderCore") {
+        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
       }
 
       openUrl(`${chainLink}${event.hash}`);

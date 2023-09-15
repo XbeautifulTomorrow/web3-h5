@@ -55,10 +55,10 @@
           </div>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">NFT ID</span>
+          <span class="popup-list-title text-ellipsis">TOKEN ID</span>
           <span class="popup-list-text text-ellipsis">
             <span v-if="currencyList[activeIndex].tokenId">
-              {{ currencyList[activeIndex] && currencyList[activeIndex].nftId }}
+              {{ currencyList[activeIndex] && currencyList[activeIndex].tokenId }}
             </span>
             <span v-else>--</span>
           </span>

@@ -266,7 +266,9 @@
             <p v-if="operatingType == 'ETH'"
               v-html="$t('user.createTips1', { price: formatText(1), coin: formatText(2) })">
             </p>
-            <p v-else v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2) })"></p>
+            <p v-else
+              v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2), floorPrice: formatText(3) })">
+            </p>
           </div>
           <div class="tips_panel" v-else>
             <p v-if="operatingType == 'ETH'"
@@ -579,15 +581,17 @@ export default {
       if (this.operatingType == "NFT") {
         if (event == 1) {
           return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
-        } else {
+        } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
           return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
+        } else {
+          return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         }
       } else {
         if (event == 1) {
           return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style=' display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         }
       }
     },

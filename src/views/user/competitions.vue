@@ -30,7 +30,7 @@
         <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
           <div class="image_box" @click="enterNow(item)">
             <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-              :src="require('@/assets/svg/user/create_eth.svg')" />
+              :src="require('@/assets/svg/user/create_eth.webp')" />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
@@ -104,7 +104,7 @@
           <div class="entered_item" v-for="(item, index) in enteredList" :key="index">
             <div class="image_box" @click="enterNow(item)">
               <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.svg')" />
+                :src="require('@/assets/svg/user/create_eth.webp')" />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
               <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
               <div class="tips_round" v-if="item.currentStatus == 'IN_PROGRESS'"
@@ -200,7 +200,7 @@
       </div>
       <div class="image_box">
         <Image fit="cover" class="nft_img" v-if="competitionNft.orderType == 'LIMITED_PRICE_COIN'"
-          :src="require('@/assets/svg/user/create_eth.svg')" />
+          :src="require('@/assets/svg/user/create_eth.webp')" />
         <Image fit="cover" class="nft_img" v-else :src="competitionNft?.nftImage" />
       </div>
       <div class="nft_info">

@@ -9,7 +9,7 @@
         <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
           <div class="img-box">
             <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-              :src="require('@/assets/svg/user/create_eth.svg')" />
+              :src="require('@/assets/svg/user/create_eth.webp')" />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">

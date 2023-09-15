@@ -403,9 +403,13 @@
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
     "chooseCodeHint": "Please select an invitation code",
-    "freeNumHint":"Number of free tickets",
+    "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total entries.",
-    "ticketsHint": "The maximum amount cannot exceed 120% of the original value"
+    "ticketsHint": "The maximum amount cannot exceed 120% of the original value",
+    "createTips1": "您将以{ price }的价格售出{ coin }，<span style=\"color:red\">此价格低于所出售ETH的价值</span>，是否确认？",
+    "createTips2": "You will sell { nft } at a price of xxx, <span style=\"color:red\">This price is lower than the price of the series of floors being sold xx</span>, do you confirm?",
+    "createTips3": "您将以{ price }的价格售出{ coin }，是否确认？",
+    "createTips4": "您将以{ price }的价格售出{ nft }.是否确认？"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

@@ -568,8 +568,8 @@ export default {
   }
   .blind-lottory-box {
     .el-overlay {
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(0px);
     }
   }
 }

@@ -85,15 +85,19 @@ export default {
       this.isBall = false;
       this.isStop = false;
 
-      this.currentItem = this.winDataArrClone.shift();
       setTimeout(() => {
+        this.currentItem = this.winDataArrClone.shift();
         this.isLight = true;
-      }, 300);
+      }, 50);
+      setTimeout(() => {
+        this.isBall = true;
+      }, 500);
+      // setTimeout(() => {
+      //   this.isLight = false;
+      // }, 700);
       setTimeout(() => {
         this.isLight = false;
         this.isBall = true;
-      }, 800);
-      setTimeout(() => {
         this.isStop = true;
         this.winDataArr.push(this.currentItem);
         this.animationFunc(this.winDataArrClone);
@@ -208,7 +212,7 @@ export default {
         padding: 0.25rem;
       }
       .ball-big {
-        animation: nftImgAnimation 0.3s ease-out;
+        animation: nftImgAnimation 0.5s ease-out;
         animation-fill-mode: forwards;
       }
       .ball-hidden {

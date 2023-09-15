@@ -413,7 +413,7 @@ export const isValidEthAddress = (address) => {
   }
 
   // 字符集验证
-  const validCharacters = /^[0-9a-f]+$/;
+  const validCharacters = /^[0-9A-Fa-f]+$/;
   if (!validCharacters.test(cleanAddress)) {
     return false;
   }
@@ -423,16 +423,16 @@ export const isValidEthAddress = (address) => {
     return false;
   }
 
-  const Web3 = require("web3");
+  // const Web3 = require("web3");
 
-  // 初始化web3实例
-  const web3 = new Web3();
+  // // 初始化web3实例
+  // const web3 = new Web3();
 
-  // 校验和验证
-  const checksumAddress = web3.utils.toChecksumAddress(address);
-  if (address !== checksumAddress) {
-    return false;
-  }
+  // // 校验和验证
+  // const checksumAddress = web3.utils.toChecksumAddress(address);
+  // if (address !== checksumAddress) {
+  //   return false;
+  // }
 
   return true;
 };

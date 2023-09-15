@@ -6,7 +6,7 @@
         <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
       </div>
       <div class="lottery-moreLuck-bg">
-        <div :class="['lottery-moreLuck', { 'lottery-moreLuck-Big': prizeList?.length > 5 }]">
+        <div :class="['lottery-moreLuck', { 'lottery-moreLuck-Big': prizeList?.length > 5 }]" v-if="innerWidth > 950">
           <p class="lottery-moreLuck-line"></p>
           <awards-list
             v-for="(item, index) in prizeList"
@@ -20,15 +20,15 @@
           />
         </div>
       </div>
-      <div class="result-link-box">
+      <div class="result-link-box" v-if="innerWidth > 950">
         <result-link></result-link>
       </div>
-      <!-- <award-multi-h5
+      <award-multi-h5
         v-if="innerWidth <= 950"
         :winData="awardItem"
         :blindDetailInfo="blindDetailInfo"
         @delayTime="delayTime"
-      ></award-multi-h5> -->
+      ></award-multi-h5>
     </div>
   </div>
 </template>

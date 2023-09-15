@@ -7,8 +7,13 @@
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
         <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': winData?.length > 0 }]" alt="" />
-        <img src="@/assets/img/h5/lottery/light.gif" class="light" v-if="isLight" alt="" />
-        <img :src="awardImg" :class="['ball', { 'ball-big': isBall, 'ball-hidden': isStop }]" alt="" />
+        <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
+        <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
+        <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
+        <img src="@/assets/img/h5/lottery/RARE.gif" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
+        <div :class="['ball', currentItem.qualityType, { 'ball-big': isBall, 'ball-hidden': isStop }]">
+          <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
+        </div>
       </div>
     </div>
     <div class="result-link-box">
@@ -61,10 +66,10 @@ export default {
       isLight: false,
       isBall: false,
       isStop: false,
-      awardImg: "",
       winDataArr: [],
       winDataArrClone: [],
       delayTime: 0,
+      currentItem: {},
     };
   },
   mounted() {
@@ -80,8 +85,7 @@ export default {
       this.isBall = false;
       this.isStop = false;
 
-      const currentItem = this.winDataArrClone.shift();
-      this.awardImg = currentItem.nftImg;
+      this.currentItem = this.winDataArrClone.shift();
       setTimeout(() => {
         this.isLight = true;
       }, 300);
@@ -91,7 +95,7 @@ export default {
       }, 800);
       setTimeout(() => {
         this.isStop = true;
-        this.winDataArr.push(currentItem);
+        this.winDataArr.push(this.currentItem);
         this.animationFunc(this.winDataArrClone);
       }, 1000);
     },
@@ -113,6 +117,29 @@ export default {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes nftImgAnimation {
+  0% {
+    transform: scale(0);
+    top: -2%;
+    left: 24%;
+  }
+  10% {
+    transform: scale(1);
+    top: -2%;
+    left: 24%;
+  }
+  80% {
+    transform: scale(1);
+    top: -2%;
+    left: 24%;
+  }
+  100% {
+    transform: scale(1) translateX(-50%);
+    top: 170%;
+    left: 50%;
   }
 }
 
@@ -166,23 +193,22 @@ export default {
       }
       .light {
         position: absolute;
-        top: -20%;
-        left: 12%;
-        width: 80%;
+        top: -180%;
+        left: -155%;
+        width: 400%;
       }
       .ball {
-        width: 0;
         position: absolute;
         z-index: 3000;
-        top: 20%;
-        left: 12%;
+        width: 23vw;
+        top: -2%;
+        left: 24%;
+        transform: scale(0);
+        padding: 0.25rem;
       }
       .ball-big {
-        width: 30%;
-        top: 200%;
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.3s ease-out;
+        animation: nftImgAnimation 0.3s ease-out;
+        animation-fill-mode: forwards;
       }
       .ball-hidden {
         display: none;
@@ -194,8 +220,10 @@ export default {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 0.25rem;
     margin-top: 1.875rem;
-    .award-item-img {
+    .award-item {
       width: 100%;
+    }
+    .award-item-img {
       min-height: calc((100vw - 5rem) / 5);
       padding: 0.25rem;
       padding-bottom: 0;

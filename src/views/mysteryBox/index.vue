@@ -17,6 +17,7 @@
     </div>
     <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
     <Loading :loading="loading" />
+    <div class="preloadingimg"></div>
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
       <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
@@ -375,6 +376,9 @@ export default {
   }
   .tips-text {
     font-size: 0.75rem !important;
+  }
+  .preloadingimg {
+    background: url("@/assets/img/h5/lottery/05.gif") no-repeat;
   }
 }
 </style>

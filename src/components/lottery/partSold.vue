@@ -324,7 +324,9 @@ watchEffect();
   }
 
   .public-dialog-lists {
-    gap: 0.25rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 0.5rem;
   }
   .public-dialog-module {
     padding: 0.25rem;

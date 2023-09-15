@@ -151,8 +151,8 @@ export default {
   padding: 0 1rem;
   .turntable-box {
     position: relative;
-    width: 60%;
-    height: calc(60% - 2rem);
+    width: 60vw;
+    height: 60vw;
     margin: 0 auto;
     padding: 0.2rem;
     .turntable-content {

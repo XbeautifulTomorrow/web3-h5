@@ -28,7 +28,7 @@
         <div class="create_title">{{ $t("user.createCompetition") }}</div>
         <div class="image_box">
           <Image fit="cover" class="nft_img" v-if="operatingType == 'NFT'" :src="competitionNft?.img" />
-          <Image fit="cover" class="nft_img" v-else :src="require('@/assets/svg/user/create_eth.svg')" />
+          <Image fit="cover" class="nft_img" v-else :src="require('@/assets/svg/user/create_eth.webp')" />
         </div>
         <div class="nft_info" v-if="operatingType == 'NFT'">
           <div class="nft_name">{{ competitionNft?.name }}</div>
@@ -174,7 +174,7 @@
               </el-input>
             </div>
           </div>
-          <div class="continue_btn" @click="submitCompetition()">CREATE</div>
+          <div class="continue_btn" @click="confirmCop()">CREATE</div>
           <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
             <p>{{ $t("user.createHint1") }}</p>
           </div>
@@ -195,7 +195,7 @@
           </div>
         </template>
         <div class="operating_title">
-          <span>NFT</span>
+          <span>SELECT A NFT</span>
         </div>
         <div class="choose_panel">
           <div class="search_box">
@@ -245,6 +245,43 @@
           <div class="pagination-box" v-if="count > size">
             <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
               layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+          </div>
+        </div>
+      </el-dialog>
+      <el-dialog v-model="showTips" destroy-on-close :close-on-click-modal="false" :show-close="false"
+        :align-center="true" class="public-dialog" :append-to-body="true" width="43.75rem"
+        :before-close="() => { showTips = false }">
+        <template #header="{ close }">
+          <div class="close_btn" v-on="{ click: [close, () => { showTips = false }] }">
+            <el-icon>
+              <Close />
+            </el-icon>
+          </div>
+        </template>
+        <div class="public-dialog-content form-content">
+          <div class="operating_title">
+            <span>NOTICE</span>
+          </div>
+          <div class="tips_panel" v-if="!priceVerify()">
+            <p v-if="operatingType == 'ETH'"
+              v-html="$t('user.createTips1', { price: formatText(1), coin: formatText(2) })">
+            </p>
+            <p v-else
+              v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2), floorPrice: formatText(3) })">
+            </p>
+          </div>
+          <div class="tips_panel" v-else>
+            <p v-if="operatingType == 'ETH'"
+              v-html="$t('user.createTips3', { price: formatText(1), coin: formatText(2) })"></p>
+            <p v-else v-html="$t('user.createTips4', { price: formatText(1), nft: formatText(2) })"></p>
+          </div>
+          <div class="btn_box">
+            <el-button class="public-button cancel-button" @click="showTips = false">
+              {{ $t("common.cancelUpper") }}
+            </el-button>
+            <el-button class="public-button form-button" @click="submitCompetition()">
+              {{ $t("airdrop.confirm") }}
+            </el-button>
           </div>
         </div>
       </el-dialog>
@@ -303,7 +340,9 @@ export default {
 
       page: 1,
       size: 10,
-      count: 0
+      count: 0,
+
+      showTips: false
     };
   },
   computed: {
@@ -456,24 +495,30 @@ export default {
       const { collections } = this;
       return collections.findIndex(e => e.contractAddress == event) > -1;
     },
+    // 确认弹窗
+    confirmCop() {
+      this.$refs.competitionForm.validate(async (valid) => {
+        if (valid) {
+          this.showTips = true;
+        }
+      })
+    },
     // 创建一元购赛事
     submitCompetition() {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
           const { activeType, competitionNft } = this;
 
-          if (this.competitionForm.price == 0) {
-            this.$message.error(t("user.priceError"));
-            return
-          }
-
-          if (this.operatingType == "ETH" && !this.competitionForm.limitNum) {
-            this.$message.error(t("user.limitNumEnter"));
-            return
-          }
-
-          if (this.competitionForm.price.length > 5) {
-            this.competitionForm.price = this.competitionForm.price.slice(0, 5);
+          if (this.operatingType == "NFT") {
+            if (Number(this.competitionForm.price) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
+          } else {
+            if (Number(this.totalPrice) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
           }
 
           let ruleForm = {
@@ -504,7 +549,7 @@ export default {
     },
     validatePrice(rule, value, callback) {
       if (value === "") {
-        callback(new Error(t("user.limitNumEnter")));
+        callback(new Error(t("user.priceEnter")));
       } else if (value && Number(value) > Number(this.ethBalance)) {
         callback(new Error(t("user.enterError4")));
       } else {
@@ -522,6 +567,40 @@ export default {
       } else {
         callback();
       }
+    },
+    priceVerify() {
+      const { operatingType, competitionNft, competitionForm: { price, ticketPrice }, limitNum, totalPrice } = this;
+      if (operatingType == "NFT") {
+        return Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice);
+      } else {
+        return Number(totalPrice) > Number(price);
+      }
+    },
+    // ETH确认
+    formatText(event) {
+      if (this.operatingType == "NFT") {
+        if (event == 1) {
+          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+        } else if (event == 2) {
+          const { competitionNft, formatSeries } = this;
+          return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
+        } else {
+          return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+        }
+      } else {
+        if (event == 1) {
+          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+        } else {
+          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+        }
+      }
+    },
+    formatSeries(event) {
+      if (!event) return false;
+      const { name, tokenId } = event;
+      if (!name || !tokenId) return false;
+      const isShow = name.indexOf(tokenId) > -1;
+      return !isShow
     },
     handleCurrentChange(event) {
       this.page = event;
@@ -574,9 +653,14 @@ export default {
       //总价格
       price: [
         {
-          validator: this.validatePrice,
+          required: true,
+          message: t("user.priceEnter"),
           trigger: ["blur", "change"],
         },
+        {
+          validator: this.validatePrice,
+          trigger: ["blur", "change"],
+        }
       ],
       //天数
       limitDay: [
@@ -588,6 +672,11 @@ export default {
       ],
       // 票数
       limitNum: [
+        {
+          required: true,
+          message: t("user.limitNumEnter"),
+          trigger: ["blur", "change"],
+        },
         {
           validator: this.validateTPrice,
           trigger: ["blur", "change"],

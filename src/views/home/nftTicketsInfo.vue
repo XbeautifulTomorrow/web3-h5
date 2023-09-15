@@ -4,7 +4,7 @@
       <div class="nft_details">
         <div class="nft_details_l border_bg">
           <Image fit="cover" class="nft_img" v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.svg')" />
+            :src="require('@/assets/svg/user/create_eth.webp')" />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
           <div class="tips_round" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'"
             :class="[nftInfo?.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
@@ -65,7 +65,7 @@
                 <img src="@/assets/svg/home/icon_info_time.svg" alt="">
                 <div class="time-text">
                   <countDown v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo?.endTime">
-                    {{ $t("ticketsInfo.close", { time: `${timeObj.d}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+                    {{ $t("ticketsInfo.close", { time: `${timeObj.dd}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
                   </countDown>
                 </div>
               </div>
@@ -379,7 +379,7 @@
               </div>
               <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">#{{ item.tokenId }}</div>
               <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.svg')" />
+                :src="require('@/assets/svg/user/create_eth.webp')" />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             </div>
             <div class="nft_name">

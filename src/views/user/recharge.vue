@@ -386,7 +386,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          (Number(this.walletAmount) + Number(withdrawalFee)) > Number(this.ethBalance)
+          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(withdrawalFee)) > Number(this.ethBalance)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

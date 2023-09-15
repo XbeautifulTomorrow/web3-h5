@@ -147,6 +147,7 @@ export default {
     },
     matchWidth() {
       let deviceMax = document.documentElement.clientWidth;
+      let speedRate = 0.00016;
       if (deviceMax > 950) {
         this.borStyle = {
           width: `${itemWidth}px`,
@@ -165,6 +166,7 @@ export default {
           margin: "0 3px",
           padding: "4px 4px 6px",
         };
+        speedRate = 0.0005;
       }
       this.$forceUpdate();
 
@@ -173,7 +175,7 @@ export default {
         if (!subAwardsRef) return;
         this.subAwardsWidth = subAwardsRef.getBoundingClientRect().width;
         this.boxOffsetWidth = this.$refs.boxesContainer.offsetWidth;
-        this.linearTime = this.boxOffsetWidth * 0.00016 + "s";
+        this.linearTime = this.boxOffsetWidth * speedRate + "s";
       });
     },
     // 获取匀速动画最后的位置

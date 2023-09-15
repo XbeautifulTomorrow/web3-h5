@@ -416,10 +416,10 @@
     .result-club-title {
       font-size: 0.75rem;
     }
-    .result-sub-list{
+    .result-sub-list {
       border-radius: 0.25rem;
     }
-    .result-portrait{
+    .result-portrait {
       border-radius: 0.25rem;
     }
     .verity-icon {
@@ -431,8 +431,12 @@
     }
     .result-sell-text-box {
       margin-top: 0;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
-    .amount{
+    .amount {
       font-size: 0.75rem;
     }
     .result-sell-coin {
@@ -500,15 +504,19 @@
           margin-top: 0.25rem;
         }
         .result-sell-get {
+          width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
           font-size: 0.75rem;
-          margin-top: 0.25rem;
-          margin-bottom: 0.25rem;
-          .public-dialog-icon-two{
+          margin-top: 0.375rem;
+          margin-bottom: 0.375rem;
+          .public-dialog-icon-two {
             width: 0.625rem;
             height: 0.625rem;
           }
         }
-        .result-sell{
+        .result-sell {
           margin-top: 0.25rem;
         }
       }

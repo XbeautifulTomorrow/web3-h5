@@ -310,6 +310,13 @@ watchEffect();
   .public-dialog-list {
     width: 3.5rem;
     height: 3.5rem;
+    border-radius: 0.25rem;
+    .public-dialog-portrait {
+      border-radius: 0.25rem;
+    }
+    .public-dialog-list-result {
+      border-radius: 0 0 0.25rem 0.25rem;
+    }
   }
   .portrait-img {
     width: 3.5rem;

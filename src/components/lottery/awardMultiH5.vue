@@ -6,12 +6,12 @@
       </div>
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
-        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': winData?.length > 0 }]" alt="" />
+        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': play }]" alt="" />
         <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
         <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
         <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
         <img src="@/assets/img/h5/lottery/RARE.gif" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
-        <div :class="['ball', currentItem.qualityType, { 'ball-big': isBall, 'ball-hidden': isStop }]">
+        <div :class="['ball', currentItem.qualityType, { 'ball-big': isNft, 'ball-hidden': isStop }]">
           <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
         </div>
       </div>
@@ -64,11 +64,11 @@ export default {
       poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(JSON.parse(JSON.stringify(this.prizePoolList))),
       play: true,
       isLight: false,
-      isBall: false,
+      isNft: false,
       isStop: false,
       winDataArr: [],
       winDataArrClone: [],
-      delayTime: 0,
+      delayTime: 0.3,
       currentItem: {},
     };
   },
@@ -81,23 +81,23 @@ export default {
         this.play = false;
         return;
       }
+      this.play = false;
       this.isLight = false;
-      this.isBall = false;
+      this.isNft = false;
       this.isStop = false;
-
+      setTimeout(() => {
+        this.play = true;
+      }, 200);
       setTimeout(() => {
         this.currentItem = this.winDataArrClone.shift();
         this.isLight = true;
-      }, 50);
+      }, 300);
       setTimeout(() => {
-        this.isBall = true;
+        this.isNft = true;
       }, 500);
-      // setTimeout(() => {
-      //   this.isLight = false;
-      // }, 700);
       setTimeout(() => {
         this.isLight = false;
-        this.isBall = true;
+        this.isNft = true;
         this.isStop = true;
         this.winDataArr.push(this.currentItem);
         this.animationFunc(this.winDataArrClone);
@@ -108,7 +108,9 @@ export default {
     winData: function (newData) {
       if (newData) {
         this.winDataArrClone = JSON.parse(JSON.stringify(newData));
-        this.animationFunc(newData);
+        setTimeout(() => {
+          this.animationFunc(newData);
+        }, this.delayTime * 1000);
       }
     },
   },
@@ -166,7 +168,7 @@ export default {
       text-align: center;
       box-sizing: border-box;
       &.autoplay {
-        animation: rotateAnimation 1s infinite linear;
+        animation: rotateAnimation 0.5s infinite linear;
         animation-fill-mode: forwards;
       }
     }

@@ -2,11 +2,11 @@
   <div class="award-multi-h5">
     <div class="turntable-box">
       <div class="turntable-content">
-        <img :src="blindDetailInfo.showImgTwo" :class="['nft-img', , { autoplay: play }]" alt="" />
+        <img :src="blindDetailInfo.showImgTwo" :class="['nft-img', , { autoplay: isPlay }]" alt="" />
       </div>
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
-        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': play }]" alt="" />
+        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': isOpen }]" alt="" />
         <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
         <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
         <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
@@ -62,7 +62,8 @@ export default {
   data() {
     return {
       poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(JSON.parse(JSON.stringify(this.prizePoolList))),
-      play: true,
+      isPlay: true,
+      isOpen: false,
       isLight: false,
       isNft: false,
       isStop: false,
@@ -78,15 +79,17 @@ export default {
   methods: {
     animationFunc() {
       if (this.winDataArrClone.length === 0) {
-        this.play = false;
+        this.isPlay = false;
         return;
       }
-      this.play = false;
+      this.isPlay = false;
+      this.isOpen = false;
       this.isLight = false;
       this.isNft = false;
       this.isStop = false;
       setTimeout(() => {
-        this.play = true;
+        this.isOpen = true;
+        this.isPlay = true;
       }, 200);
       setTimeout(() => {
         this.currentItem = this.winDataArrClone.shift();
@@ -168,7 +171,7 @@ export default {
       text-align: center;
       box-sizing: border-box;
       &.autoplay {
-        animation: rotateAnimation 0.5s infinite linear;
+        animation: rotateAnimation 0.3s infinite linear;
         animation-fill-mode: forwards;
       }
     }

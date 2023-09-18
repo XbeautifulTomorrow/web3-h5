@@ -140,10 +140,22 @@ const getNftActivityCharts = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/nftActivity", params);
 
 /**
- * @description 获取一元购历史 折线图
+ * @description 获取服务费
  */
 const getServiceFee = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getServiceCharge", params);
+
+/**
+* @description 获取推特验证
+*/
+const getShareTwitter = (params) =>
+  apiService.get(serviceUrl + "/twitterInfo/shareTwitter", params);
+
+/**
+ * @description 验证推特链接
+ */
+const tweetSendTikect = (params) =>
+  apiService.post(serviceUrl + "/oneNftLotteryOrders/tweetSendTikect", params);
 
 
 
@@ -171,5 +183,7 @@ export {
   delNewOrderMark,
   getNftActivityCharts,
   getNftActivity,
-  getServiceFee
+  getServiceFee,
+  getShareTwitter,
+  tweetSendTikect
 };

@@ -56,6 +56,10 @@
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
             {{ $t("user.createCompetitions") }}
           </div>
+
+          <div class="nft_btn create" @click="createCompetition(item)">
+            {{ $t("user.createCompetitions") }}
+          </div>
         </div>
       </div>
       <div v-else class="no_date">
@@ -162,7 +166,36 @@
             </div>
           </div>
         </el-form-item>
-        <div class="continue_btn" @click="confirmCop()">CREATE</div>
+        <div class="share_box">
+          <div class="form-rember">
+            <span class="form-rember-rectangle" @click="showRememberFun()">
+              <span v-show="freeParams.isOpen" class="form-rember-rectangle-fill"></span>
+            </span>
+            <span class="form-rember-text">
+              <span>{{ $t("user.tweetText") }}</span>
+              <el-tooltip popper-class="tips_box" effect="dark" placement="top">
+                <template #content>
+                  <p>{{ $t("user.tweetHint1") }}</p>
+                  <br>
+                  <p>{{ $t("user.tweetHint2") }}</p>
+                </template>
+                <img src="@/assets/svg/user/icon_help.svg" alt="">
+              </el-tooltip>
+            </span>
+          </div>
+          <div class="invitation_box">
+            <el-select v-if="inviteDrop.length > 0" v-model="freeParams.inviteCode" class="invite_select"
+              :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
+              <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
+                :value="item.inviteCode" />
+            </el-select>
+            <div v-else class="create_invite_btn" @click="showInvite = true">{{ $t("user.tweetTitle") }}</div>
+            <el-input class="invite_select tickets_num" v-model="freeParams.sendTicketsNum" type="number" min="0"
+              :placeholder="$t('user.freeNumHint')">
+            </el-input>
+          </div>
+        </div>
+        <div class="continue_btn" @click="confirmCop()">{{ $t("user.create") }}</div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
           <p>{{ $t("user.createHint1") }}</p>
         </div>
@@ -183,18 +216,14 @@
         </template>
         <div class="public-dialog-content form-content">
           <div class="operating_title">
-            <span>NOTICE</span>
+            <span>{{ $t("lottery.notice") }}</span>
           </div>
           <div class="tips_panel" v-if="!priceVerify()">
-            <p v-if="operatingType == 'ETH'"
-              v-html="$t('user.createTips1', { price: formatText(1), coin: formatText(2) })">
+            <p v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2), floorPrice: formatText(3) })">
             </p>
-            <p v-else v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2) })"></p>
           </div>
           <div class="tips_panel" v-else>
-            <p v-if="operatingType == 'ETH'"
-              v-html="$t('user.createTips3', { price: formatText(1), coin: formatText(2) })"></p>
-            <p v-else v-html="$t('user.createTips4', { price: formatText(1), nft: formatText(2) })"></p>
+            <p v-html="$t('user.createTips4', { price: formatText(1), nft: formatText(2) })"></p>
           </div>
           <div class="btn_box">
             <el-button class="public-button cancel-button" @click="showTips = false">
@@ -202,6 +231,35 @@
             </el-button>
             <el-button class="public-button form-button" @click="submitCompetition()">
               {{ $t("airdrop.confirm") }}
+            </el-button>
+          </div>
+        </div>
+      </el-dialog>
+      <el-dialog v-model="showInvite" destroy-on-close :close-on-click-modal="false" :show-close="false"
+        :align-center="true" class="public-dialog" :append-to-body="true" width="43.75rem" :before-close="inviteClose">
+        <template #header="{ close }">
+          <div class="close_btn" v-on="{ click: [close, inviteClose] }">
+            <el-icon>
+              <Close />
+            </el-icon>
+          </div>
+        </template>
+        <div class="public-dialog-content form-content">
+          <div class="operating_title">
+            <span>{{ $t("user.create") }}</span>
+          </div>
+          <div class="invite_code">
+            <el-input class="invite_code_input" v-model="inviteCode" @blur="onVerify()" clearable
+              :placeholder="$t('user.createEnterHint')">
+            </el-input>
+            <div class="create_error">{{ inviteTips }}</div>
+          </div>
+          <div class="btn_box">
+            <el-button class="public-button cancel-button" @click="inviteClose()">
+              {{ $t("common.cancelUpper") }}
+            </el-button>
+            <el-button class="public-button form-button" @click="createInvite()">
+              {{ $t("user.create") }}
             </el-button>
           </div>
         </div>
@@ -223,8 +281,13 @@ import {
   getSystemNft,
   getTheExternalNFTSeries,
   delNewWalletNftMark,
-  getNftActivityCharts
+  getNftActivityCharts,
 } from "@/services/api/oneBuy";
+
+import {
+  rebatesCreateCode,
+  rebatesFindList
+} from "@/services/api/invite";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -284,7 +347,18 @@ export default {
       count: 0,
 
       showNftOperating: false,
-      historyPrice: null
+      historyPrice: null,
+
+      showInvite: false,
+      inviteDrop: [],
+      inviteCode: null,
+      inviteTips: null,
+      verifys: null,
+      freeParams: {
+        isOpen: false,
+        inviteCode: null,
+        sendTicketsNum: null
+      }
     };
   },
   watch: {
@@ -437,7 +511,8 @@ export default {
     createCompetition(event) {
       this.competitionNft = event;
       this.showCompetition = true;
-      this.fetchNftActivitySale(event)
+      this.fetchNftActivitySale(event);
+      this.fetchRebatesFindList();
     },
     // 确认弹窗
     confirmCop() {
@@ -451,11 +526,23 @@ export default {
     submitCompetition() {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
-          const { activeType, competitionNft } = this;
+          const { activeType, competitionNft, freeParams } = this;
 
           if (Number(this.competitionForm.price) < 0.1) {
             this.$message.error(t("user.priceError"));
             return
+          }
+
+          if (freeParams.isOpen) {
+            if (!freeParams.inviteCode) {
+              this.$message.error(t("user.freeInviteCodeEnter"));
+              return
+            }
+
+            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+              this.$message.error(t("user.freeTicketsEnter"));
+              return
+            }
           }
 
           let ruleForm = {
@@ -465,11 +552,21 @@ export default {
             contractAddress: competitionNft.tokenAddress, //合约地址
             tokenId: competitionNft.tokenId, //nftId
           };
-          const res = await addNftOrder({ ...ruleForm });
-          if (res && res.code == 200) {
-            this.handleClose();
-            this.$message.success(t("user.createSuccess"));
+
+          if (freeParams.isOpen) {
+            ruleForm.sendTicketsSwitch = 1;
+            ruleForm.inviteCode = freeParams.inviteCode;
+            ruleForm.sendTicketsNum = freeParams.sendTicketsNum;
           }
+
+          this.timer = setTimeout(async () => {
+            const res = await addNftOrder({ ...ruleForm });
+            if (res && res.code == 200) {
+              this.showTips = false;
+              this.handleClose();
+              this.$message.success(t("user.createSuccess"));
+            }
+          }, 100);
         } else {
           console.log("error submit!!");
           return false;
@@ -477,28 +574,18 @@ export default {
       });
     },
     priceVerify() {
-      const { operatingType, competitionNft, competitionForm: { price, ticketPrice }, limitNum, totalPrice } = this;
-      if (operatingType == "NFT") {
-        return Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice);
-      } else {
-        return Number(totalPrice) > Number(price);
-      }
+      const { competitionNft, competitionForm: { ticketPrice }, limitNum } = this;
+      return Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice);
     },
-    // ETH确认
+    // 确认文本更新
     formatText(event) {
-      if (this.operatingType == "NFT") {
-        if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
-        } else {
-          const { competitionNft, formatSeries } = this;
-          return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
-        }
+      if (event == 1) {
+        return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+      } else if (event == 2) {
+        const { competitionNft, formatSeries } = this;
+        return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
       } else {
-        if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
-        } else {
-          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style=' display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
-        }
+        return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
       }
     },
     formatSeries(event) {
@@ -507,6 +594,53 @@ export default {
       if (!name || !tokenId) return false;
       const isShow = name.indexOf(tokenId) > -1;
       return !isShow
+    },
+    // 验证
+    onVerify() {
+      const { inviteCode } = this;
+      if (!inviteCode) {
+        this.inviteTips = t("user.enterCodeError1");
+        this.verifys = false;
+        return
+      } else if (inviteCode.length < 3) {
+        this.inviteTips = t("user.enterCodeError2");
+        this.verifys = false;
+        return
+      }
+
+      this.inviteTips = "";
+      this.verifys = true;
+    },
+    showRememberFun() {
+      this.freeParams.isOpen = !this.freeParams.isOpen;
+    },
+    // 创建邀请吗
+    async createInvite() {
+      this.onVerify();
+      if (!this.verifys) return
+      const res = await rebatesCreateCode({
+        code: this.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.inviteClose();
+        this.$message.success(t("common.createdTips"));
+        this.fetchRebatesFindList();
+      }
+    },
+    // 邀请资产列表
+    async fetchRebatesFindList() {
+      const res = await rebatesFindList({
+        page: 1,
+        size: 20
+      });
+      if (res && res.code == 200) {
+        this.inviteDrop = res.data;
+        this.inviteDrop.forEach(element => {
+          if (element.defaultStatus == "TRUE") {
+            this.freeParams.inviteCode = element.inviteCode;
+          }
+        })
+      }
     },
     // 关闭创建弹窗
     handleClose(done) {
@@ -543,6 +677,14 @@ export default {
       this.showLink = false;
       this.showRecharge = false;
       this.showNftOperating = false;
+
+      this.freeParams.isOpen = false;
+      this.freeParams.sendTicketsNum = null;
+    },
+    // 关闭邀请码创建弹窗
+    inviteClose() {
+      this.inviteCode = null;
+      this.showInvite = false;
     },
     // 查看赛事
     viewNft(event) {
@@ -559,6 +701,7 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       this.fetchAllSeries();
       this.fetchExternalSeries();
+      this.fetchRebatesFindList();
     }
 
     this.rules = {

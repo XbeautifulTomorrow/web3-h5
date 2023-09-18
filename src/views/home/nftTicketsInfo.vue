@@ -117,6 +117,20 @@
                 </div>
               </div>
               <div class="payment_box">
+                <el-button v-if="nftInfo?.sendTicketsSwitch" style="width: 100%;" @click="shareOpen()"
+                  class="free_payment" type="primary">
+                  <div class="share_box">
+                    <div class="shareText">
+                      <img src="@/assets/svg/user/icon_twiteer.svg" alt="">
+                      <span>{{ $t("ticketsInfo.shareTitle") }}</span>
+                    </div>
+                    <div class="shareTips">
+                      <span v-if="nftInfo?.sendTicketsStatus == 1">{{ $t("ticketsInfo.freeText1") }}</span>
+                      <span v-else-if="nftInfo?.sendTicketsStatus == 2">{{ $t("ticketsInfo.freeText2") }}</span>
+                      <span v-else>{{ $t("ticketsInfo.freeText3") }}</span>
+                    </div>
+                  </div>
+                </el-button>
                 <el-button v-if="dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0" style="width: 100%;"
                   class="submit_payment" type="primary" @click="submitPayment()">
                   <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes || 0} tickets for ${buyPrice} ` }}</span>
@@ -410,6 +424,51 @@
         </div>
       </div>
     </div>
+    <el-dialog v-model="showShare" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
+      class="public-dialog" :append-to-body="true" width="43.75rem" :before-close="shareClose">
+      <template #header="{ close }">
+        <div class="close_btn" v-on="{ click: [close, shareClose] }">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <div class="operating_title">
+          <span>{{ $t("ticketsInfo.verifyTitle") }}</span>
+        </div>
+        <div class="operating_description">
+          <span>{{ $t("ticketsInfo.verifyDescription") }}</span>
+        </div>
+        <div class="invite_code">
+          <el-input class="invite_code_input" @blur="onVerify()" v-model="shareLink" clearable
+            :placeholder="$t('ticketsInfo.enterLink')">
+          </el-input>
+          <div class="create_error">{{ errorTips }}</div>
+        </div>
+        <div class="btn_box">
+          <el-button class="public-button form-button" v-if="!loading" @click="verifyLink()">
+            {{ $t("ticketsInfo.startVerify") }}
+          </el-button>
+          <el-button class="public-button form-button loading" v-else>
+            <div class="loading_box">
+              <img src="@/assets/img/user/loading.png" alt="">
+              <span>{{ $t("ticketsInfo.startVerify") }}</span>
+            </div>
+          </el-button>
+        </div>
+        <div class="verify_hint">
+          <p>
+            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="">
+            <span>{{ $t("ticketsInfo.verifyTips1") }}</span>
+          </p>
+          <p>
+            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="">
+            <span>{{ $t("ticketsInfo.verifyTips2") }}</span>
+          </p>
+        </div>
+      </div>
+    </el-dialog>
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
@@ -429,7 +488,9 @@ import {
   getLottery,
   getNftAttrRate,
   getNftActivity,
-  getNftActivityCharts
+  getNftActivityCharts,
+  getShareTwitter,
+  tweetSendTikect
 } from "@/services/api/oneBuy";
 import { getCacheTicker } from "@/services/api";
 import {
@@ -504,7 +565,14 @@ export default {
       chartData: [],
       lineChartData: {},
       screenWidth: null,
-      exchangeRate: null
+      exchangeRate: null,
+
+      // 分享
+      showShare: false,
+      shareLink: null,
+      loading: false,
+      verifys: false,
+      errorTips: null
     };
   },
   computed: {
@@ -1016,6 +1084,62 @@ export default {
       const { nftInfo, maxBuyNum } = this;
       if (!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0)) return
       this.buyVotes = event;
+    },
+    // 打开分享
+    shareOpen() {
+      if (this.nftInfo?.sendTicketsStatus != 1) return;
+
+      this.showShare = true;
+      this.fetchShareTwitter();
+      this.shareInviteLink(this.nftInfo?.inviteCode);
+    },
+    // 获取推特验证
+    async fetchShareTwitter() {
+      // eslint-disable-next-line no-unused-vars
+      const res = await getShareTwitter();
+    },
+    // 验证输入链接
+    onVerify() {
+      const { shareLink } = this;
+      if (!shareLink) {
+        this.errorTips = t("ticketsInfo.errorLink");
+        this.verifys = false;
+        return
+      }
+
+      this.inviteTips = "";
+      this.verifys = true;
+    },
+    // 验证推特链接
+    async verifyLink() {
+      this.onVerify();
+      if (!this.verifys) return;
+
+      this.loading = true;
+      const res = await tweetSendTikect({
+        orderNumber: this.orderId,
+        tweetUrl: this.shareLink
+      });
+
+      if (res && res.code == 200) {
+        if (res.data) {
+          this.shareClose();
+          this.loadInterface();
+        }
+
+        this.verifys = false;
+        this.errorTips = null;
+      } else {
+        this.verifys = true;
+        this.errorTips = t("errorTips." + res.messageKey);
+      }
+
+      this.loading = false;
+    },
+    // 关闭分享
+    shareClose() {
+      this.showShare = false;
+      this.shareLink = null;
     },
     closeDialogFun() {
       this.pageType = "";

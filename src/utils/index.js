@@ -453,10 +453,14 @@ export const isEthTransactionHashValid = (hash) => {
  */
 export const encryptECB = (word, keyStr) => {
   keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
-  var key = CryptoJS.enc.Utf8.parse(keyStr);
-  var srcs = CryptoJS.enc.Utf8.parse(word);
-  var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
-  return encrypted.toString();
+  try {
+    var key = CryptoJS.enc.Utf8.parse(keyStr);
+    var srcs = CryptoJS.enc.Utf8.parse(word);
+    var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+    return encrypted.toString();
+  } catch {
+    return word;
+  }
 };
 
 /**
@@ -465,10 +469,14 @@ export const encryptECB = (word, keyStr) => {
  * @param {string} keyStr：key值（16位）
  */
 export const decryptECB = (word, keyStr) => {
-  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
-  var key = CryptoJS.enc.Utf8.parse(keyStr); // Latin1 w8m31+Yy/Nw6thPsMpO5fg==
-  var decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
-  return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥） 
+  try {
+    var key = CryptoJS.enc.Utf8.parse(keyStr); // Latin1 w8m31+Yy/Nw6thPsMpO5fg==
+    var decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+    return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+  } catch {
+    return word;
+  }
 };
 
 /**

@@ -145,36 +145,36 @@
               </div>
             </div>
           </el-form-item>
-          <div class="share_box" v-if="false">
+          <div class="share_box">
             <div class="form-rember">
-              <span class="form-rember-rectangle" @click="showRememberFun">
-                <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
+              <span class="form-rember-rectangle" @click="showRememberFun()">
+                <span v-show="freeParams.isOpen" class="form-rember-rectangle-fill"></span>
               </span>
               <span class="form-rember-text">
-                <span>开启发推获得免费1票活动</span>
+                <span>{{ $t("user.tweetText") }}</span>
                 <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                   <template #content>
-                    <p>*Turn this option on and other users will get 1 free ticket for sharing this Treasure Draw page and
-                      posting your invite link. Users who visit and register through this link will become your promoted
-                      users.</p>
+                    <p>{{ $t("user.tweetHint1") }}</p>
                     <br>
-                    <p>*You can set a maximum number of free tickets to secure your revenue.</p>
+                    <p>{{ $t("user.tweetHint2") }}</p>
                   </template>
                   <img src="@/assets/svg/user/icon_help.svg" alt="">
                 </el-tooltip>
               </span>
             </div>
             <div class="invitation_box">
-              <el-select v-model="params.collections" class="invite_select" :placeholder="$t('user.chooseCodeHint')"
-                clearable :popper-append-to-body="false">
-                <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName" :value="item.val" />
+              <el-select v-if="inviteDrop.length > 0" v-model="freeParams.inviteCode" class="invite_select"
+                :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
+                <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
+                  :value="item.inviteCode" />
               </el-select>
-              <el-input class="invite_select tickets_num" v-model="competitionForm.limitDay" type="number" min="0"
+              <div v-else class="create_invite_btn" @click="showInvite = true">{{ $t("user.tweetTitle") }}</div>
+              <el-input class="invite_select tickets_num" v-model="freeParams.sendTicketsNum" type="number" min="0"
                 :placeholder="$t('user.freeNumHint')">
               </el-input>
             </div>
           </div>
-          <div class="continue_btn" @click="confirmCop()">CREATE</div>
+          <div class="continue_btn" @click="confirmCop()">{{ $t("user.create") }}</div>
           <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
             <p>{{ $t("user.createHint1") }}</p>
           </div>
@@ -195,7 +195,7 @@
           </div>
         </template>
         <div class="operating_title">
-          <span>SELECT A NFT</span>
+          <span>{{ $t("user.selectNft") }}</span>
         </div>
         <div class="choose_panel">
           <div class="search_box">
@@ -260,7 +260,7 @@
         </template>
         <div class="public-dialog-content form-content">
           <div class="operating_title">
-            <span>NOTICE</span>
+            <span>{{ $t("lottery.notice") }}</span>
           </div>
           <div class="tips_panel" v-if="!priceVerify()">
             <p v-if="operatingType == 'ETH'"
@@ -285,6 +285,35 @@
           </div>
         </div>
       </el-dialog>
+      <el-dialog v-model="showInvite" destroy-on-close :close-on-click-modal="false" :show-close="false"
+        :align-center="true" class="public-dialog" :append-to-body="true" width="43.75rem" :before-close="inviteClose">
+        <template #header="{ close }">
+          <div class="close_btn" v-on="{ click: [close, inviteClose] }">
+            <el-icon>
+              <Close />
+            </el-icon>
+          </div>
+        </template>
+        <div class="public-dialog-content form-content">
+          <div class="operating_title">
+            <span>{{ $t("user.create") }}</span>
+          </div>
+          <div class="invite_code">
+            <el-input class="invite_code_input" v-model="inviteCode" @blur="onVerify()" clearable
+              :placeholder="$t('user.createEnterHint')">
+            </el-input>
+            <div class="create_error">{{ inviteTips }}</div>
+          </div>
+          <div class="btn_box">
+            <el-button class="public-button cancel-button" @click="inviteClose()">
+              {{ $t("common.cancelUpper") }}
+            </el-button>
+            <el-button class="public-button form-button" @click="createInvite()">
+              {{ $t("user.create") }}
+            </el-button>
+          </div>
+        </div>
+      </el-dialog>
     </el-dialog>
   </div>
 </template>
@@ -301,6 +330,12 @@ import {
   getTheExternalNFTSeries,
   getServiceFee
 } from "@/services/api/oneBuy";
+
+import {
+  rebatesCreateCode,
+  rebatesFindList
+} from "@/services/api/invite";
+
 import Image from "@/components/imageView";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
@@ -315,7 +350,6 @@ export default {
       operatingType: null,
       serverFees: 0,
       activeType: "LIMITED_PRICE",
-      rememberMe: false,
       competitionNft: null,
       competitionForm: {
         price: null, //价格
@@ -342,7 +376,18 @@ export default {
       size: 10,
       count: 0,
 
-      showTips: false
+      showTips: false,
+
+      showInvite: false,
+      inviteDrop: [],
+      inviteCode: null,
+      inviteTips: null,
+      verifys: null,
+      freeParams: {
+        isOpen: false,
+        inviteCode: null,
+        sendTicketsNum: null
+      }
     };
   },
   computed: {
@@ -412,7 +457,7 @@ export default {
       }
     },
     showRememberFun() {
-      this.rememberMe = !this.rememberMe;
+      this.freeParams.isOpen = !this.freeParams.isOpen;
     },
     // 选择nft
     handleChooseNft(event) {
@@ -420,6 +465,7 @@ export default {
       this.fetchNftActivitySale(event);
       this.handleCloseChoose();
       this.operatingType = "NFT";
+      this.fetchRebatesFindList();
     },
     // 一元购历史折线图
     async fetchNftActivitySale(event) {
@@ -507,7 +553,7 @@ export default {
     submitCompetition() {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
-          const { activeType, competitionNft } = this;
+          const { activeType, competitionNft, freeParams } = this;
 
           if (this.operatingType == "NFT") {
             if (Number(this.competitionForm.price) < 0.1) {
@@ -521,6 +567,18 @@ export default {
             }
           }
 
+          if (freeParams.isOpen) {
+            if (!freeParams.inviteCode) {
+              this.$message.error(t("user.freeInviteCodeEnter"));
+              return
+            }
+
+            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+              this.$message.error(t("user.freeTicketsEnter"));
+              return
+            }
+          }
+
           let ruleForm = {
             ...this.competitionForm,
             limitNum: this.operatingType == "NFT" ? this.limitNum : this.competitionForm.limitNum,
@@ -528,16 +586,71 @@ export default {
             contractAddress: competitionNft?.tokenAddress || "", //合约地址
             tokenId: competitionNft?.tokenId || "", //nftId
           };
-          const res = await addNftOrder({ ...ruleForm });
-          if (res && res.code == 200) {
-            this.handleClose();
-            this.$message.success(t("user.createSuccess"));
+
+          if (freeParams.isOpen) {
+            ruleForm.sendTicketsSwitch = 1;
+            ruleForm.inviteCode = freeParams.inviteCode;
+            ruleForm.sendTicketsNum = freeParams.sendTicketsNum;
           }
+
+          this.timer = setTimeout(async () => {
+            const res = await addNftOrder({ ...ruleForm });
+            if (res && res.code == 200) {
+              this.showTips = false;
+              this.handleClose();
+              this.$message.success(t("user.createSuccess"));
+            }
+          }, 100);
+
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    },
+    // 验证
+    onVerify() {
+      const { inviteCode } = this;
+      if (!inviteCode) {
+        this.inviteTips = t("user.enterCodeError1");
+        this.verifys = false;
+        return
+      } else if (inviteCode.length < 3) {
+        this.inviteTips = t("user.enterCodeError2");
+        this.verifys = false;
+        return
+      }
+
+      this.inviteTips = "";
+      this.verifys = true;
+    },
+    // 创建邀请吗
+    async createInvite() {
+      this.onVerify();
+      if (!this.verifys) return
+      const res = await rebatesCreateCode({
+        code: this.inviteCode
+      });
+      if (res && res.code == 200) {
+        this.inviteClose();
+        this.$message.success(t("common.createdTips"));
+        this.fetchRebatesFindList();
+      }
+    },
+    // 邀请资产列表
+    async fetchRebatesFindList() {
+      const res = await rebatesFindList({
+        page: 1,
+        size: 20
+      });
+      if (res && res.code == 200) {
+        this.inviteDrop = res.data;
+        this.inviteDrop.forEach(element => {
+          if (element.defaultStatus == "TRUE") {
+            this.freeParams.inviteCode = element.inviteCode;
+          }
+        })
+      }
     },
     // 关闭选择弹窗
     handleCloseChoose() {
@@ -546,6 +659,11 @@ export default {
     // 关闭弹窗
     handleClose() {
       this.$emit("closeDialogFun");
+    },
+    // 关闭邀请码创建弹窗
+    inviteClose() {
+      this.inviteCode = null;
+      this.showInvite = false;
     },
     validatePrice(rule, value, callback) {
       if (value === "") {
@@ -647,6 +765,19 @@ export default {
         this.$forceUpdate();
       }, 300);
     },
+    "freeParams.sendTicketsNum"(newV) {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      if (!newV) return;
+
+      this.timer = setTimeout(() => {
+        this.freeParams.sendTicketsNum = Math.floor(newV);
+        this.$forceUpdate();
+      }, 300);
+    }
   },
   created() {
     this.rules = {

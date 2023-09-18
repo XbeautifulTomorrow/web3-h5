@@ -588,49 +588,61 @@ const getTheUserSPayoutAddressApi = async () => {
   .recharge-coin {
     width: 90%;
     background-image: none !important;
+
     .el-dialog__body {
       padding: 1rem 0.25rem;
     }
+
     .operating_title {
       font-size: 1.5rem;
     }
+
     .operating_tips {
       font-size: 0.75rem;
       margin-top: 0.25rem;
       margin-bottom: 0.5rem;
     }
+
     .choose_panel {
       margin: 0;
       padding: 0;
       background-color: transparent;
     }
+
     .el-input .el-select__caret {
       font-size: 1rem !important;
     }
 
     .search_box {
-      & > div + div {
+      &>div+div {
         margin-left: 0.5rem;
+
         &:first-child {
           margin-left: 0;
         }
       }
+
       .collections_box {
         flex: 1;
         border-radius: 0.25rem;
+
         .collections_text {
           font-size: 0.75rem;
           left: 0.5rem;
         }
+
         &.type_box {
           width: 7.6875rem;
           flex: none;
+
           .el-input__wrapper {
             padding-left: 2.7rem !important;
           }
         }
+
         .nft_type {
           min-width: auto;
+
           .el-input__wrapper {
             height: 1.5rem;
             padding-left: 4.9rem;
@@ -642,36 +654,45 @@ const getTheUserSPayoutAddressApi = async () => {
           }
         }
       }
+
       .nft_input {
         .el-input__wrapper {
           height: 1.5rem !important;
           padding: 0 0.5rem;
           border-radius: 0.25rem;
+
           input {
             font-size: 0.75rem;
           }
         }
+
         .el-input__prefix-inner {
           display: none;
         }
       }
+
       .nft_input {
         // margin-left: 0.5rem;
       }
     }
+
     .choose_nft {
-      & > div:nth-child(n + 3) {
-          margin-top: 0.25rem;
+      &>div:nth-child(n + 3) {
+        margin-top: 0.25rem;
       }
-      & > div:nth-child(3n + 1) {
-          margin-left: 0;
+
+      &>div:nth-child(3n + 1) {
+        margin-left: 0;
       }
-      & > div:nth-child(3n + 2) {
-          margin-left: 0.25rem;
+
+      &>div:nth-child(3n + 2) {
+        margin-left: 0.25rem;
       }
+
       .no_date {
         height: auto;
         margin-top: 1.875rem;
+
         span {
           padding: 0 1rem;
           height: 1.875rem;
@@ -680,79 +701,100 @@ const getTheUserSPayoutAddressApi = async () => {
           border-radius: 0.25rem;
         }
       }
-      .choose_nft_item{
+
+      .choose_nft_item {
         width: calc((100% - 0.5rem) / 3);
         padding-bottom: 0.875rem;
-        .img_box{
+
+        .img_box {
           width: 100%;
           height: 29vw;
-          .nft_img{
+
+          .nft_img {
             width: 100%;
             height: 100%
-          };
-          .tips{
+          }
+
+          ;
+
+          .tips {
             padding: 0.2rem 0.4rem;
             line-height: 1;
             font-size: .75rem;
           }
-          .num_tips{
+
+          .num_tips {
             font-size: .75rem;
             padding: 0rem 0.5rem;
             line-height: 1.8;
             bottom: .75rem;
           }
         }
-        .nft_name{
+
+        .nft_name {
           font-size: 0.75rem;
           padding: 0.25rem 0;
         }
-        .confirm_btn{
+
+        .confirm_btn {
           height: 1.5rem;
           line-height: 1.5rem;
           font-size: 0.75rem;
           border-radius: 0.25rem;
           margin: 0 0.25rem;
         }
-        .disabled_mask{
-          .tips_text{
+
+        .disabled_mask {
+          .tips_text {
             font-size: 0.75rem;
           }
         }
       }
-      &> div + div{
+
+      &>div+div {
         margin-left: 0.25rem;
       }
-      
+
     }
-    .pagination_boxs{
-      .page_box{
+
+    .pagination_boxs {
+      .page_box {
         font-size: 1rem;
       }
-      .total_box{
-        font-size: 0.75rem;      }
-        .prev,.next{
-          width: 2rem;
-          height: 2rem;
-          font-size: 0.75rem;
-        }
+
+      .total_box {
+        font-size: 0.75rem;
+      }
+
+      .prev,
+      .next {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.75rem;
+      }
     }
+
     .condition_item {
       padding: 0.5rem !important;
       margin-top: 0.625rem !important;
     }
+
     .withdraw_condition {
       width: 100%;
       margin-bottom: 0.625rem !important;
+
       .wallet_network {
         .el-input__wrapper {
           height: 1.875rem;
           border-radius: 0.25rem;
+
           input {
             font-size: 0.875rem;
           }
         }
       }
     }
+
     .wallet_input {
       .el-input__wrapper {
         height: 1.875rem !important;
@@ -760,41 +802,49 @@ const getTheUserSPayoutAddressApi = async () => {
     }
   }
 }
+
 @media screen and (max-width: 440px) {
   .recharge-coin {
     .choose_panel {
       .search_box {
         flex-wrap: wrap;
+
         .type_box {
           margin-left: 0;
         }
+
         .nft_input {
           width: 100%;
           flex: inherit;
           margin: 0.25rem 0;
+
           .el-input__wrapper {
             width: 100%;
           }
         }
       }
     }
+
     .choose_nft {
-      & > div:nth-child(n + 2) {
-          margin-top: 0.25rem;
+      &>div:nth-child(n + 2) {
+        margin-top: 0.25rem;
       }
-      & > div:nth-child(2n + 1) {
-          margin-left: 0;
+
+      &>div:nth-child(2n + 1) {
+        margin-left: 0;
       }
-      & > div:nth-child(2n) {
-          margin-left: 0.25rem;
+
+      &>div:nth-child(2n) {
+        margin-left: 0.25rem;
       }
-      .choose_nft_item{
+
+      .choose_nft_item {
         width: calc((100% - 0.25rem) / 2);
-        .img_box{
+
+        .img_box {
           height: 46vw;
         }
       }
     }
   }
-}
-</style>
+}</style>

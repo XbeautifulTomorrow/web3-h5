@@ -7,10 +7,10 @@
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
         <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': isOpen }]" alt="" />
-        <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
-        <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
-        <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
-        <img src="@/assets/img/h5/lottery/RARE.gif" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
+        <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-show="isLight && currentItem.qualityType == 'EPIC'" alt="" />
+        <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-show="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
+        <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-show="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
+        <img src="@/assets/img/h5/lottery/RARE.gif" class="light" v-show="isLight && currentItem.qualityType == 'RARE'" alt="" />
         <div :class="['ball', currentItem.qualityType, { 'ball-big': isNft, 'ball-hidden': isStop }]">
           <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
         </div>
@@ -203,9 +203,9 @@ export default {
       }
       .light {
         position: absolute;
-        top: -180%;
-        left: -155%;
-        width: 400%;
+        top: -155%;
+        left: -131%;
+        width: 350%;
       }
       .ball {
         position: absolute;

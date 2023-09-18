@@ -7,10 +7,10 @@
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
         <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': isOpen }]" alt="" />
-        <img src="@/assets/img/h5/lottery/EPIC.gif" class="light" v-show="isLight && currentItem.qualityType == 'EPIC'" alt="" />
-        <img src="@/assets/img/h5/lottery/LEGEND.gif" class="light" v-show="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
-        <img src="@/assets/img/h5/lottery/NORMAL.gif" class="light" v-show="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
-        <img src="@/assets/img/h5/lottery/RARE.gif" class="light" v-show="isLight && currentItem.qualityType == 'RARE'" alt="" />
+        <img :src="EPICLight" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
+        <img :src="LEGENDLight" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
+        <img :src="NORMALLight" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
+        <img :src="RARELight" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
         <div :class="['ball', currentItem.qualityType, { 'ball-big': isNft, 'ball-hidden': isStop }]">
           <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
         </div>
@@ -35,6 +35,10 @@
 <script>
 import ResultLink from "../resultLink";
 import ImageView from "../imageView";
+import EPICLight from "@/assets/img/h5/lottery/EPIC.gif";
+import LEGENDLight from "@/assets/img/h5/lottery/LEGEND.gif";
+import NORMALLight from "@/assets/img/h5/lottery/NORMAL.gif";
+import RARELight from "@/assets/img/h5/lottery/RARE.gif";
 
 export default {
   name: "AwardsList",
@@ -69,12 +73,27 @@ export default {
       isStop: false,
       winDataArr: [],
       winDataArrClone: [],
-      delayTime: 0.3,
+      delayTime: 0,
       currentItem: {},
+      EPICLight,
+      LEGENDLight,
+      NORMALLight,
+      RARELight,
     };
   },
   mounted() {
     this.$emit("delayTime", this.delayTime);
+  },
+  beforeCreate() {
+    let count = 0;
+    let imgs = [EPICLight, LEGENDLight, NORMALLight, RARELight, this.blindDetailInfo.showImgOne, this.blindDetailInfo.showImgTwo];
+    for (let img of imgs) {
+      let image = new Image();
+      image.onload = () => {
+        count++;
+      };
+      image.src = img;
+    }
   },
   methods: {
     animationFunc() {
@@ -184,10 +203,10 @@ export default {
       background: url("@/assets/img/h5/lottery/05.gif") no-repeat;
       background-size: 100% 100%;
       .nft-logo {
-        width: 76%;
-        height: 52.97%;
+        width: 78%;
+        height: 55%;
         position: absolute;
-        bottom: 4%;
+        bottom: 3%;
         left: 50.5%;
         transform: translateX(-50%);
         border-radius: 0.25rem;

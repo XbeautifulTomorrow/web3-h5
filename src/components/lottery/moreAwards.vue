@@ -106,12 +106,14 @@ export default {
     window.addEventListener("resize", () => {
       this.innerWidth = window.innerWidth;
     });
-    const result = localStorage.getItem("result");
-    if (!result) {
-      this.autoplayFun(true);
-      this.playSound(slipeStart);
-      this.slipeMusic = this.playSound(slipe, true);
-    }
+    setTimeout(() => {
+      const result = localStorage.getItem("result");
+      if (!result) {
+        this.autoplayFun(true);
+        this.playSound(slipeStart);
+        this.slipeMusic = this.playSound(slipe, true);
+      }
+    }, 300);
   },
   methods: {
     delayTime(param) {

@@ -101,14 +101,14 @@ export default {
         this.isPlay = false;
         return;
       }
-      this.isPlay = false;
+      this.isPlay = true;
       this.isOpen = false;
       this.isLight = false;
       this.isNft = false;
       this.isStop = false;
       setTimeout(() => {
         this.isOpen = true;
-        this.isPlay = true;
+        this.isPlay = false;
       }, 200);
       setTimeout(() => {
         this.currentItem = this.winDataArrClone.shift();

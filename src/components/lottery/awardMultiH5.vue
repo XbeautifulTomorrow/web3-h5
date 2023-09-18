@@ -119,7 +119,6 @@ export default {
       }, 500);
       setTimeout(() => {
         this.isLight = false;
-        this.isNft = true;
         this.isStop = true;
         this.winDataArr.push(this.currentItem);
         this.animationFunc(this.winDataArrClone);

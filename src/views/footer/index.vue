@@ -9,7 +9,7 @@
         <div class="friendship-logo">
           <img src="@/assets/svg/certik_logo.svg" alt="logo" />
         </div>
-
+        <div class="in_progress">{{ $t("footer.inProgress") }}</div>
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" alt="">

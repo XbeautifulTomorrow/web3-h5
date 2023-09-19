@@ -46,7 +46,8 @@
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
     "menu": "MENU",
-    "link": "Social Media"
+    "link": "Social Media",
+    "inProgress": "Audit in progress."
   },
   "login": {
     "email": "Email",

@@ -51,6 +51,14 @@
   }
 }
 
+.in_progress {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 .footer-nav-box {
   display: flex;
 }
@@ -187,7 +195,7 @@
       cursor: pointer;
       position: relative;
       margin-bottom: 0.75rem;
-    
+
       img {
         width: auto;
         height: 100%;
@@ -202,11 +210,17 @@
       width: auto;
       height: 1.5rem;
       margin-top: 0.75rem;
-    
+
       img {
         width: auto;
         height: 100%;
       }
+    }
+
+    .in_progress {
+      font-size: 0.75rem;
+      margin-top: 0.75rem;
+      text-align: center;
     }
   }
 

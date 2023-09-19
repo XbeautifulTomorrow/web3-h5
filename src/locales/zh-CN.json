@@ -46,7 +46,8 @@
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
     "menu": "選單",
-    "link": "社群媒體"
+    "link": "社群媒體",
+    "inProgress": "Audit in progress."
   },
   "login": {
     "email": "電子信箱",

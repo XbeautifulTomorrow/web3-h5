@@ -108,18 +108,19 @@ export default {
       this.isNft = false;
       this.isStop = false;
       setTimeout(() => {
-        this.currentItem = this.winDataArrClone.shift();
-        this.isLight = true;
-      }, 200);
-      setTimeout(() => {
         this.isOpen = true;
         this.isPlay = false;
+      }, 200);
+      setTimeout(() => {
+        this.currentItem = this.winDataArrClone.shift();
+        this.isLight = true;
       }, 300);
       setTimeout(() => {
         this.isNft = true;
       }, 500);
       setTimeout(() => {
         this.isOpen = false;
+        this.isLight = false;
       }, 900);
       setTimeout(() => {
         this.isLight = false;

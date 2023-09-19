@@ -145,6 +145,12 @@ const getNftActivityCharts = (params) =>
 const getServiceFee = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getServiceCharge", params);
 
+  /**
+* @description 获取推特验证
+*/
+const getTweetInfo = (params) =>
+apiService.get(serviceUrl + "/oneNftLotteryOrders/getTweetInfo", params);
+
 /**
 * @description 获取推特验证
 */
@@ -184,6 +190,7 @@ export {
   getNftActivityCharts,
   getNftActivity,
   getServiceFee,
+  getTweetInfo,
   getShareTwitter,
   tweetSendTikect
 };

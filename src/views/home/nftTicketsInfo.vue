@@ -489,6 +489,7 @@ import {
   getNftAttrRate,
   getNftActivity,
   getNftActivityCharts,
+  getTweetInfo,
   getShareTwitter,
   tweetSendTikect
 } from "@/services/api/oneBuy";
@@ -679,6 +680,18 @@ export default {
           this.fetchNftAttrRate();
           this.fetchNftActivity();
           this.fetchNftActivitySale();
+        }
+
+        if (this.userInfo?.id && this.isLogin) {
+          if (this.nftInfo?.sendTicketsSwitch && this.nftInfo?.sendTicketsStatus == 1) {
+            const userTweet = await getTweetInfo({
+              orderNumber: this.orderId
+            });
+
+            if (!userTweet.collectionStatus) {
+              this.nftInfo?.sendTicketsStatus == 3;
+            }
+          }
         }
 
         const resDrawn = await getLottery({

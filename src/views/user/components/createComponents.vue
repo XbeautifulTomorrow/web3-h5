@@ -447,7 +447,6 @@ export default {
      * @description: 格式化地址
      */
     handleChoose(event) {
-
       if (event == "NFT") {
         this.fetchExternalSeries();
         this.fetchSystemNft();
@@ -455,6 +454,8 @@ export default {
       } else {
         this.operatingType = event;
       }
+
+      this.fetchRebatesFindList();
     },
     showRememberFun() {
       this.freeParams.isOpen = !this.freeParams.isOpen;
@@ -465,7 +466,6 @@ export default {
       this.fetchNftActivitySale(event);
       this.handleCloseChoose();
       this.operatingType = "NFT";
-      this.fetchRebatesFindList();
     },
     // 一元购历史折线图
     async fetchNftActivitySale(event) {

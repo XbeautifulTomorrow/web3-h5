@@ -3,6 +3,7 @@
     <div class="turntable-box">
       <div class="turntable-content">
         <img :src="blindDetailInfo.showImgTwo" :class="['nft-img', , { autoplay: isPlay }]" alt="" />
+        <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" class="award-img" />
       </div>
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
@@ -11,7 +12,7 @@
         <img :src="LEGENDLight" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
         <img :src="NORMALLight" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
         <img :src="RARELight" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
-        <div :class="['ball', currentItem.qualityType, { 'ball-big': isNft, 'ball-hidden': isStop }]">
+        <div :class="['nft-img', currentItem.qualityType, { 'nft-img-big': isNft, 'nft-img-hidden': isStop }]">
           <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
         </div>
       </div>
@@ -118,6 +119,9 @@ export default {
         this.isNft = true;
       }, 500);
       setTimeout(() => {
+        this.isOpen = false;
+      }, 900);
+      setTimeout(() => {
         this.isLight = false;
         this.isStop = true;
         this.winDataArr.push(this.currentItem);
@@ -179,10 +183,18 @@ export default {
     margin: 0 auto;
     padding: 0.2rem;
     .turntable-content {
+      position: relative;
       display: flex;
       background: url("@/assets/img/h5/lottery/01.webp") no-repeat center;
       background-size: 100% 100%;
       padding: 5%;
+      .award-img {
+        position: absolute;
+        width: 26%;
+        left: 30%;
+        top: 4%;
+        transform: rotate(15deg);
+      }
     }
     .nft-img {
       width: 100%;
@@ -217,6 +229,7 @@ export default {
         width: 48%;
         &.nft-open {
           left: 10%;
+          // backdrop-filter: blur(10px);
         }
       }
       .light {
@@ -225,7 +238,7 @@ export default {
         left: -131%;
         width: 350%;
       }
-      .ball {
+      .nft-img {
         position: absolute;
         z-index: 3000;
         width: 23vw;
@@ -234,11 +247,11 @@ export default {
         transform: scale(0);
         padding: 0.25rem;
       }
-      .ball-big {
+      .nft-img-big {
         animation: nftImgAnimation 0.5s ease-out;
         animation-fill-mode: forwards;
       }
-      .ball-hidden {
+      .nft-img-hidden {
         display: none;
       }
     }

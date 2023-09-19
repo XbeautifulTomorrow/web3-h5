@@ -1065,10 +1065,15 @@ export default {
     // 分享邀请链接到推特
     shareInviteLink(event) {
       let seriesName = null;
-      if (!this.formatSeries(this.nftInfo)) {
-        seriesName = `${this.nftInfo?.name}`;
+
+      if (this.nftInfo?.orderType == 'LIMITED_PRICE_COIN') {
+        seriesName =`${this.nftInfo?.totalPrice} ETH`;
       } else {
-        seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
+        if (!this.formatSeries(this.nftInfo)) {
+          seriesName = `${this.nftInfo?.name}`;
+        } else {
+          seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
+        }
       }
 
       const series = `⚡️ Bitzers! Grab a chance to WIN an ${seriesName} on BITZING!\n\n`;

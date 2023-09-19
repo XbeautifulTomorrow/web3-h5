@@ -191,7 +191,18 @@
     "participants": "參與者",
     "nftAtivity": "NFT ACTIVITY",
     "priceHistory": "PRICE HISTORY",
-    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects."
+    "ethDescription": "$ETH refers to Ethereum, a decentralized blockchain platform and cryptocurrency that enables the creation of smart contracts and decentralized applications. It's often used for digital transactions and as a foundation for various blockchain-based projects.",
+    "shareTitle": "SHARE ON TWITTER",
+    "freeText1": "FOR 1 FREE TICKET",
+    "freeText2": "FREE TICKET ARE SOLD OUT",
+    "freeText3": "YOU GOT 1 FREE TICKET",
+    "verifyTitle": "TWITTER VERIFICATION",
+    "verifyDescription": "Please fill in the link you tweeted for verification and you will receive your free tickets once verified.",
+    "enterLink": "Enter link...",
+    "errorLink": "Please enter link",
+    "startVerify": "START VERIFICATION",
+    "verifyTips1": "我们将对您所发推特进行验证，请不要对内容进行修改",
+    "verifyTips2": "请勿删除您在领取免费门票时发出的推文，如果中奖者是您，我们将对此链接进行二次验证，以确保公平。"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",
@@ -404,7 +415,14 @@
     "createTips1": "您将以{ price }的价格售出{ coin }，<span style=\"color: #fad54d;\">此价格低于所出售ETH的价值</span>，是否确认？",
     "createTips2": "您将以{ price }的价格售出{ nft }，<span style=\"color: #fad54d;\">此价格低于所出售系列地板价{ floorPrice }</span>，是否确认？",
     "createTips3": "您将以{ price }的价格售出{ coin }，是否确认？",
-    "createTips4": "您将以{ price }的价格售出{ nft }.是否确认？"
+    "createTips4": "您将以{ price }的价格售出{ nft }.是否确认？",
+    "tweetText": "开启发推获得免费1票活动",
+    "tweetHint1": "*Turn this option on and other users will get 1 free ticket for sharing this Treasure Draw page and posting your invite link. Users who visit and register through this link will become your promoted users.",
+    "tweetHint2": "*You can set a maximum number of free tickets to secure your revenue.",
+    "tweetTitle": "Create invite code",
+    "freeInviteCodeEnter": "Please create an invitation code",
+    "freeTicketsEnter": "Enter the maximum number of free tickets",
+    "selectNft": "SELECT A NFT"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",
@@ -626,7 +644,11 @@
     "unable_nft_on_sale": "無法提取正在競賽中的NFT",
     "this_nft_withdrawal": "該NFT正在提取中",
     "test_account_cannot_withdrawal": "测试账户无法提现",
-    "twofa_code_is_invalid": "二級驗證碼無效"
+    "twofa_code_is_invalid": "二級驗證碼無效",
+    "PLEASE_SELECT_INVITATION_CODE": "Please select an invitation code.",
+    "maximum_free_tickets_error": "Please set the correct maximum number of free tickets.",
+    "order_not_launched": "The push ticket activity has not been launched for the order.",
+    "tweet_verification_failed": "Tweet verification failed."
   },
   "lottery": {
     "notice": "提示",

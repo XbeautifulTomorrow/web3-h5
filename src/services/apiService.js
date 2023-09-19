@@ -20,11 +20,17 @@ const notMessage = [
   "mystery-web-user/auth/getCode",
   "mystery-web-user/auth/genQrCode",
   "mystery-web-user/oneNftOrders/getWalletNftEth",
+  "mystery-web-user/twitterInfo/shareTwitter",
+  "mystery-web-user/oneNftLotteryOrders/tweetSendTikect"
 ];
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
       config.headers.certificate = decryptCBC(localStorage.getItem("certificate"));
+    }
+
+    if (sessionStorage.getItem("tweet-verify")) {
+      config.headers["tweet-verify"] = sessionStorage.getItem("tweet-verify");
     }
 
     if (sessionStorage.getItem("verify")) {
@@ -60,7 +66,13 @@ axiosInstance.interceptors.response.use(
 );
 
 // eslint-disable-next-line no-unused-vars
-const handleRes = ({ headers, url, data }) => {
+const handleRes = ({ response, url, data }) => {
+
+  const { headers } = response;
+
+  if (headers && headers["tweet-verify"]) {
+    sessionStorage.setItem("tweet-verify", headers["tweet-verify"]);
+  }
   // 取得服务器时间
   const { setCurrentTime } = useUserStore();
   if (data && data.localDateTime) {
@@ -83,7 +95,7 @@ const handleRes = ({ headers, url, data }) => {
     }
 
     if (notMessage.includes(url)) {
-      return headers;
+      return response;
     } else {
       return [false, data.code, data];
     }
@@ -94,7 +106,7 @@ export async function post(url, params, config = {}) {
   try {
     const res = await axiosInstance.post(url, params, config);
     return handleRes({
-      headers: res,
+      response: res,
       url,
       data: res.data,
     });
@@ -113,7 +125,7 @@ export async function get(url, params) {
   try {
     const res = await axiosInstance.get(url, { params });
     return handleRes({
-      headers: res,
+      response: res,
       url,
       data: res.data,
     });

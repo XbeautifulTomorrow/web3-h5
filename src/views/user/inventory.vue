@@ -56,10 +56,6 @@
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
             {{ $t("user.createCompetitions") }}
           </div>
-
-          <div class="nft_btn create" @click="createCompetition(item)">
-            {{ $t("user.createCompetitions") }}
-          </div>
         </div>
       </div>
       <div v-else class="no_date">
@@ -505,7 +501,7 @@ export default {
     },
     findExternalSeries(event) {
       const { externalSeries } = this;
-      return externalSeries.findIndex(e => e.contractAddress == event) > -1;
+      return externalSeries?.findIndex(e => e.contractAddress == event) > -1;
     },
     // 弹出创建弹出
     createCompetition(event) {
@@ -518,6 +514,32 @@ export default {
     confirmCop() {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
+          const { freeParams } = this;
+
+          if (this.operatingType == "NFT") {
+            if (Number(this.competitionForm.price) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
+          } else {
+            if (Number(this.totalPrice) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
+          }
+
+          if (freeParams.isOpen) {
+            if (!freeParams.inviteCode) {
+              this.$message.error(t("user.freeInviteCodeEnter"));
+              return
+            }
+
+            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+              this.$message.error(t("user.freeTicketsEnter"));
+              return
+            }
+          }
+
           this.showTips = true;
         }
       })
@@ -575,7 +597,7 @@ export default {
     },
     priceVerify() {
       const { competitionNft, competitionForm: { ticketPrice }, limitNum } = this;
-      return Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice);
+      return Number(limitNum * ticketPrice) >= Number(competitionNft?.floorPrice);
     },
     // 确认文本更新
     formatText(event) {

@@ -14,6 +14,7 @@
         <Setting v-if="userPage == 'profile'"></Setting>
         <Wallet v-if="userPage == 'balances'"></Wallet>
         <Inventory v-if="userPage == 'inventory'"></Inventory>
+        <Promotions v-if="userPage == 'promotions'"></Promotions>
         <Competitions v-if="userPage == 'competition'"></Competitions>
         <History v-if="userPage == 'history'"></History>
         <Referrals v-if="userPage == 'referrals'"></Referrals>
@@ -34,6 +35,7 @@ import Inventory from "./inventory.vue";
 import Competitions from "./competitions.vue";
 import History from "./history.vue";
 import Referrals from "./invite.vue";
+import Promotions from "./promotions.vue";
 export default {
   name: "myIndex",
   components: {
@@ -42,7 +44,8 @@ export default {
     Inventory,
     Competitions,
     History,
-    Referrals
+    Referrals,
+    Promotions
   },
   data() {
     return {
@@ -93,6 +96,13 @@ export default {
           icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg"),
           showDot: walletNftSystemStatus
+        },
+        {
+          text: t("header.promotions"),
+          page: "promotions",
+          icon: require("@/assets/svg/user/nav/icon_Promotions.svg"),
+          iconActive: require("@/assets/svg/user/nav/icon_Promotions.svg"),
+          showDot: false
         },
         {
           text: t("header.competition"),

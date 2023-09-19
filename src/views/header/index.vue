@@ -210,6 +210,12 @@ export default {
           showDot: walletNftSystemStatus
         },
         {
+          text: t("header.promotions"),
+          page: "promotions",
+          icon: require("@/assets/svg/user/nav/icon_Promotions.svg"),
+          showDot: false
+        },
+        {
           text: t("header.competition"),
           page: "competition",
           icon: require("@/assets/svg/user/nav/icon_competition.svg"),

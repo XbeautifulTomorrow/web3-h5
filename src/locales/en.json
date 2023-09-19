@@ -41,7 +41,8 @@
     "competition": "Treasure Draw",
     "history": "Purchase History",
     "referrals": "Referral",
-    "settings": "Settings"
+    "settings": "Settings",
+    "promotions":"promotions"
   },
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
@@ -423,7 +424,8 @@
     "tweetTitle": "Create invite code",
     "freeInviteCodeEnter": "Please create an invitation code",
     "freeTicketsEnter": "Enter the maximum number of free tickets",
-    "selectNft":"SELECT A NFT"
+    "selectNft":"SELECT A NFT",
+    "promotions":"PROMOTIONS"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

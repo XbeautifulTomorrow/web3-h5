@@ -375,7 +375,7 @@ export default {
       size: 10,
       count: 0,
 
-      showTips: true,
+      showTips: false,
 
       showInvite: false,
       inviteDrop: [],

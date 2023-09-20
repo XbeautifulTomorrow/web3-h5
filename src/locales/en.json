@@ -409,7 +409,7 @@
     "createComTips2": "只有Bitzing认可的NFT可以创建Treasure Draw。",
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
-    "chooseCodeHint": "Please select an invitation code",
+    "chooseCodeHint": "Select Referral Code",
     "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total tickets.",
     "ticketsHint": "The maximum amount cannot exceed 120% of the original value",
@@ -649,8 +649,10 @@
     "PLEASE_SELECT_INVITATION_CODE": "Please select an invitation code.",
     "maximum_free_tickets_error": "Please set the correct maximum number of free tickets.",
     "order_not_launched": "The push ticket activity has not been launched for the order.",
-    "tweet_verification_failed": "Tweet verification failed.",
-    "repeated_collection": "Please do not receive it repeatedly."
+    "tweet_verification_failed": "This tweet does not match the requirements, please try again.",
+    "repeated_collection": "Please do not receive it repeatedly.",
+    "tweet_repeated": "This tweet has already been used.",
+    "twitter_repeated": "A Twitter account can only be claimed once."
   },
   "lottery": {
     "notice": "NOTICE",

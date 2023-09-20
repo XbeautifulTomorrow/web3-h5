@@ -482,6 +482,10 @@
         color: #fad54d;
         cursor: pointer !important;
       }
+
+      &>input::placeholder {
+        color: rgba(169, 164, 180, 0.6);
+      }
     }
   }
 

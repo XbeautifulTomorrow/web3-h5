@@ -783,5 +783,10 @@ export default {
   .el-popper__arrow {
     display: none;
   }
+
+  .el-select-dropdown__empty {
+    font-size: 1rem;
+    color: #a9a4b4;
+  }
 }
 </style>

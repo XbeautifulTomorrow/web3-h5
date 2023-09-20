@@ -44,6 +44,9 @@ const getRechargeExchangeRate = (params) =>
 const getWithdrawalExchangeRate = (params) =>
   apiService.get("mystery-web-user/index/withdrawalExchangeRate", params); // 提款汇率
 
+const getWithdrawalChain = (params) =>
+  apiService.get("mystery-web-user/withdrawal/withdrawalChain", params); // 获取充提款支持的链
+
 const withdrawalBalance = (params) =>
   apiService.post("mystery-web-user/withdrawal/balance", params); // 提款ETH余额
 
@@ -74,7 +77,8 @@ const getGoogleValidateStatus = params =>
 
 const getGoogleQrCode = params =>
   apiService.get('mystery-web-user/auth/genQrCode', params); // 创建谷歌验证二维码
-  const bindGoogleAuth = params =>
+
+const bindGoogleAuth = params =>
   apiService.get('/mystery-web-user/user/bingGoogleValidate', params); // 绑定谷歌验证
 
 export {
@@ -92,6 +96,7 @@ export {
   getUserBuyHistory,
   getRechargeExchangeRate,
   getWithdrawalExchangeRate,
+  getWithdrawalChain,
   withdrawalBalance,
   withdrawalNft,
   getWithdrawalHistory,

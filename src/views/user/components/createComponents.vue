@@ -375,7 +375,7 @@ export default {
       size: 10,
       count: 0,
 
-      showTips: false,
+      showTips: true,
 
       showInvite: false,
       inviteDrop: [],
@@ -728,18 +728,18 @@ export default {
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<span style='line-height: 0.8;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-bottom:0.25rem;vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
           return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<span style='line-height: 1;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-bottom:0.25rem;vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         }
       } else {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<span style='line-height: 0.8;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-bottom:0.25rem;vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<span style='line-height: 0.8;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-bottom:0.25rem;vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
         }
       }
     },

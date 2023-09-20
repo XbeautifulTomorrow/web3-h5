@@ -118,7 +118,7 @@
               </div>
               <div class="payment_box">
                 <el-button v-if="nftInfo?.sendTicketsSwitch" style="width: 100%;" @click="shareOpen()"
-                  class="free_payment" type="primary">
+                  :class="['free_payment', nftInfo?.sendTicketsStatus != 1 && 'disabled']" type="primary">
                   <div class="share_box">
                     <div class="shareText">
                       <img src="@/assets/svg/user/icon_twiteer.svg" alt="">
@@ -1054,8 +1054,8 @@ export default {
     },
     // 复制邀请链接
     copyInviteLink(event) {
-      const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo";
+      const currentLink = "https://www.bitzing.io";
+      let link = currentLink + "/NftTicketsInfo";
       if (event) {
         link += "/" + event;
       }
@@ -1065,18 +1065,59 @@ export default {
     // 分享邀请链接到推特
     shareInviteLink(event) {
       let seriesName = null;
-      if (!this.formatSeries(this.nftInfo)) {
-        seriesName = `${this.nftInfo?.name}`;
+
+      if (this.nftInfo?.orderType == 'LIMITED_PRICE_COIN') {
+        seriesName = `${this.nftInfo?.totalPrice} ETH`;
       } else {
-        seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
+        if (!this.formatSeries(this.nftInfo)) {
+          seriesName = `${this.nftInfo?.name}`;
+        } else {
+          seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
+        }
       }
 
       const series = `⚡️ Bitzers! Grab a chance to WIN an ${seriesName} on BITZING!\n\n`;
       const description = `Less than ${this.nftInfo?.maximumPurchaseQuantity || 0} TICKETS remaining.\n\n`;
 
       const inviteLink = `Enter NOW:`;
-      const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo";
+      const currentLink = "https://www.bitzing.io";
+      let link = currentLink + "/NftTicketsInfo";
+
+      if (event) {
+        link += "/" + event;
+      }
+      link += "?id=" + this.orderId;
+
+      let inviteText = series;
+      inviteText += description;
+
+      inviteText += inviteLink;
+
+      // 构建推特的分享链接
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      // 在新窗口中打开推特分享链接
+      openUrl(twitterUrl);
+    },
+    // 分享获取免费门票
+    shareInviteFreeLink(event) {
+      let seriesName = null;
+
+      if (this.nftInfo?.orderType == 'LIMITED_PRICE_COIN') {
+        seriesName = `${this.nftInfo?.totalPrice} ETH`;
+      } else {
+        if (!this.formatSeries(this.nftInfo)) {
+          seriesName = `${this.nftInfo?.name}`;
+        } else {
+          seriesName = `${this.nftInfo?.name} #${this.nftInfo?.tokenId}`;
+        }
+      }
+
+      const series = `🎉 I just scored a FREE ticket for a chance at an ${seriesName} on BITZING! \n\n`;
+      const description = `Can't believe my luck! Grab yours before they're gone: \n\n`;
+
+      const inviteLink = ``;
+      const currentLink = "https://www.bitzing.io";
+      let link = currentLink + "/NftTicketsInfo";
 
       if (event) {
         link += "/" + event;
@@ -1104,7 +1145,7 @@ export default {
 
       this.showShare = true;
       this.fetchShareTwitter();
-      this.shareInviteLink(this.nftInfo?.inviteCode);
+      this.shareInviteFreeLink(this.nftInfo?.inviteCode);
     },
     // 获取推特验证
     async fetchShareTwitter() {

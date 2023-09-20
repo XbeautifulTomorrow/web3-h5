@@ -1130,7 +1130,7 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + "🎉";
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },

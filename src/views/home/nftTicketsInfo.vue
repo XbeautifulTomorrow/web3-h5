@@ -535,7 +535,7 @@ export default {
   },
   data() {
     return {
-      pageType: null, //登录相关
+      pageType: "", //登录相关
       orderId: null,
       nftInfo: {},
       inviteVal: null,

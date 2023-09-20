@@ -128,7 +128,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center" fixed="right" show-overflow-tooltip>
+        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center" fixed="right"
+          show-overflow-tooltip>
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
@@ -328,14 +329,14 @@ export default {
     },
     // 复制邀请链接
     copyInviteLink(event) {
-      const currentLink = window.location;
-      let link = currentLink.origin + "/Home/" + event;
+      const currentLink = "https://www.bitzing.io";
+      let link = currentLink + "/Home/" + event;
       onCopy(link);
     },
     // 分享邀请链接到推特
     shareInviteLink(event) {
-      const currentLink = window.location;
-      let link = currentLink.origin + "/Home/" + event;
+      const currentLink = "https://www.bitzing.io";
+      let link = currentLink + "/Home/" + event;
       const inviteText = this.setting.inviteText.replace(/,/g, "\n");
 
       // 构建推特的分享链接

@@ -545,6 +545,32 @@ export default {
     confirmCop() {
       this.$refs.competitionForm.validate(async (valid) => {
         if (valid) {
+          const { freeParams } = this;
+
+          if (this.operatingType == "NFT") {
+            if (Number(this.competitionForm.price) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
+          } else {
+            if (Number(this.totalPrice) < 0.1) {
+              this.$message.error(t("user.priceError"));
+              return
+            }
+          }
+
+          if (freeParams.isOpen) {
+            if (!freeParams.inviteCode) {
+              this.$message.error(t("user.freeInviteCodeEnter"));
+              return
+            }
+
+            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+              this.$message.error(t("user.freeTicketsEnter"));
+              return
+            }
+          }
+
           this.showTips = true;
         }
       })
@@ -691,7 +717,7 @@ export default {
       if (operatingType == "NFT") {
         return Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice);
       } else {
-        return Number(totalPrice) > Number(price);
+        return Number(totalPrice) >= Number(price);
       }
     },
     // ETH确认

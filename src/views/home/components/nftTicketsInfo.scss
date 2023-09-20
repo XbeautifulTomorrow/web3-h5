@@ -326,6 +326,12 @@
       border-radius: 0.5rem;
       background-image: linear-gradient(84deg, #e022e3 7%, #1e90f9 93%);
 
+      &.disabled {
+        border: solid 1px #363945;
+        background-color: #292c36;
+        background-image: none;
+      }
+
       .share_box {
         display: flex;
         flex-direction: column;

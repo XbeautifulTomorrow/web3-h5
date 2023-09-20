@@ -674,12 +674,12 @@ export default {
         size: 20
       });
       if (res && res.code == 200) {
-        // this.inviteDrop = res.data;
-        // this.inviteDrop.forEach(element => {
-        //   if (element.defaultStatus == "TRUE") {
-        //     this.freeParams.inviteCode = element.inviteCode;
-        //   }
-        // })
+        this.inviteDrop = res.data;
+        this.inviteDrop.forEach(element => {
+          if (element.defaultStatus == "TRUE") {
+            this.freeParams.inviteCode = element.inviteCode;
+          }
+        })
       }
     },
     // 关闭选择弹窗

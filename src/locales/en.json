@@ -423,7 +423,7 @@
     "tweetTitle": "Create invite code",
     "freeInviteCodeEnter": "Please create an invitation code",
     "freeTicketsEnter": "Enter the maximum number of free tickets",
-    "selectNft":"SELECT A NFT"
+    "selectNft": "SELECT A NFT"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -649,7 +649,8 @@
     "PLEASE_SELECT_INVITATION_CODE": "Please select an invitation code.",
     "maximum_free_tickets_error": "Please set the correct maximum number of free tickets.",
     "order_not_launched": "The push ticket activity has not been launched for the order.",
-    "tweet_verification_failed": "Tweet verification failed."
+    "tweet_verification_failed": "Tweet verification failed.",
+    "repeated_collection": "Please do not receive it repeatedly."
   },
   "lottery": {
     "notice": "NOTICE",

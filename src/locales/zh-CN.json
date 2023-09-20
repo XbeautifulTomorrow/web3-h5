@@ -248,12 +248,7 @@
     "boxTipsTitle": "此盲盒包含外部NFT",
     "boxTipsDescription1": "請注意，我們不能保證當您贏得NFT時就能為您購買。",
     "boxTipsDescription2": "如果我們未能獲得NFT，您將能夠領取相當於贏得NFT價值的ETH獎勵。",
-    "boxTipsClose": "我知道了",
-    "buyTipsTitle": "PURCHASE SUCCESSFUL",
-    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
-    "buyTipsText2": " so keep checking back to see how the competition progresses.",
-    "buyTipsShare": "SHARE THIS COMPETITION",
-    "buyTipsCheck": "CHECK COMPETITION"
+    "boxTipsClose": "我知道了"
   },
   "user": {
     "changePwd": "修改密碼",

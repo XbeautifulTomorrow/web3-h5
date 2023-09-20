@@ -184,7 +184,8 @@
     "soldOut": "入場券已售罄。",
     "enterHint": "請輸入您想要購買的數量。",
     "buySuccess": "購買成功！",
-    "buyTipsTitle": "PURCHASE SUCCESSFUL","buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,Remember to revisit and stay updated on the draw's development",
+    "buyTipsTitle": "PURCHASE SUCCESSFUL",
+    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,Remember to revisit and stay updated on the draw's development",
     "buyTipsShare": "SHARE THIS COMPETITION",
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "參與者",
@@ -651,7 +652,8 @@
     "tweet_verification_failed": "Tweet verification failed.",
     "repeated_collection": "Please do not receive it repeatedly.",
     "tweet_repeated": "This tweet has already been used.",
-    "twitter_repeated": "A Twitter account can only be claimed once."
+    "twitter_repeated": "A Twitter account can only be claimed once.",
+    "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time."
   },
   "lottery": {
     "notice": "提示",

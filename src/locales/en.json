@@ -652,7 +652,8 @@
     "tweet_verification_failed": "This tweet does not match the requirements, please try again.",
     "repeated_collection": "Please do not receive it repeatedly.",
     "tweet_repeated": "This tweet has already been used.",
-    "twitter_repeated": "A Twitter account can only be claimed once."
+    "twitter_repeated": "A Twitter account can only be claimed once.",
+    "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time."
   },
   "lottery": {
     "notice": "NOTICE",

@@ -696,7 +696,7 @@ export default {
 
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          userId: userInfo?.id || null
+          userId: userInfo?.id || 0
         })
 
         if (resDrawn && resDrawn.code == 200) {

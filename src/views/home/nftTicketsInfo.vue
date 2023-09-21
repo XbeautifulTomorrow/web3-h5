@@ -535,7 +535,7 @@ export default {
   },
   data() {
     return {
-      pageType: null, //登录相关
+      pageType: "", //登录相关
       orderId: null,
       nftInfo: {},
       inviteVal: null,
@@ -696,7 +696,7 @@ export default {
 
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          userId: userInfo?.id || null
+          userId: userInfo?.id || 0
         })
 
         if (resDrawn && resDrawn.code == 200) {
@@ -1130,7 +1130,7 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + "🎉";
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
@@ -1161,7 +1161,7 @@ export default {
         return
       }
 
-      this.inviteTips = "";
+      this.errorTips = "";
       this.verifys = true;
     },
     // 验证推特链接
@@ -1169,26 +1169,51 @@ export default {
       this.onVerify();
       if (!this.verifys) return;
 
+      let res = null;
+      let isLoad = false;
+      let isHandle = true;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        if (isLoad) {
+          this.loading = false;
+          this.handleRes(res);
+        } else {
+          isHandle = false;
+        }
+      }, 3000);
+
       this.loading = true;
-      const res = await tweetSendTikect({
+      res = await tweetSendTikect({
         orderNumber: this.orderId,
         tweetUrl: this.shareLink
       });
 
+      isLoad = true;
+      if (!isHandle) {
+        this.loading = false;
+        this.handleRes(res);
+      }
+    },
+    handleRes(res) {
       if (res && res.code == 200) {
         if (res.data) {
           this.shareClose();
           this.loadInterface();
+          this.$message.success(t("ticketsInfo.verifySuccess"));
         }
 
         this.verifys = false;
         this.errorTips = null;
       } else {
+        const { data } = res;
+        this.errorTips = t("errorTips." + data.messageKey);
         this.verifys = true;
-        this.errorTips = t("errorTips." + res.messageKey);
       }
-
-      this.loading = false;
     },
     // 关闭分享
     shareClose() {

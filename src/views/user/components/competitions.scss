@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
 
-  & > span {
+  &>span {
     display: block;
     background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
     font-family: Tomorrow;
@@ -76,7 +76,7 @@
   display: flex;
   align-items: center;
 
-  & > .coin_item + .coin_item {
+  &>.coin_item+.coin_item {
     margin-left: 0.625rem;
   }
 
@@ -134,7 +134,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    & > input {
+    &>input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -177,7 +177,7 @@
       background-color: transparent;
       padding-left: 6.25rem;
 
-      & > input::placeholder {
+      &>input::placeholder {
         color: #fad54d;
       }
     }
@@ -201,15 +201,15 @@
   display: flex;
   flex-wrap: wrap;
 
-  & > div + div {
+  &>div+div {
     margin-left: 0.5rem;
   }
 
-  & > div:nth-child(n + 6) {
+  &>div:nth-child(n + 6) {
     margin-top: 0.625rem;
   }
 
-  & > div:nth-child(5n + 1) {
+  &>div:nth-child(5n + 1) {
     margin-left: 0px;
   }
 }
@@ -224,7 +224,7 @@
 
   &:hover {
     .image_box {
-      & > .nft_img {
+      &>.nft_img {
         transform: scale(1.15);
         transition: all 0.3s;
       }
@@ -323,7 +323,7 @@
     align-items: center;
     justify-content: center;
 
-    & > span {
+    &>span {
       display: inline-block;
       overflow: hidden;
       white-space: nowrap;
@@ -362,7 +362,7 @@
     background-clip: content-box, border-box;
     cursor: pointer;
 
-    & > span {
+    &>span {
       background-image: linear-gradient(180deg, #1e90f9 0%, #e022e3 100%);
       font-size: 0.875rem;
       font-weight: bold;
@@ -382,20 +382,20 @@
       align-items: center;
       justify-content: center;
 
-      & > span {
+      &>span {
         background-image: none;
         font-weight: 400;
         -webkit-text-fill-color: white;
         color: white;
       }
 
-      & > img {
+      &>img {
         width: 1.25rem;
         height: auto;
         margin: 0 0.625rem;
       }
 
-      & > span:last-child {
+      &>span:last-child {
         -webkit-text-fill-color: #a9a4b4;
         color: #a9a4b4;
 
@@ -408,13 +408,13 @@
     }
 
     &.refunded {
-      & > img {
+      &>img {
         width: 1.25rem;
         height: auto;
         margin: 0 0.625rem;
       }
 
-      & > span:last-child {
+      &>span:last-child {
         -webkit-text-fill-color: white;
         color: white;
       }
@@ -476,7 +476,7 @@
   align-items: center;
   margin-top: 5rem;
 
-  & > span {
+  &>span {
     margin: 0 auto;
     display: block;
     padding: 1.25rem;
@@ -584,11 +584,11 @@
 .btn-group {
   margin: 1.875rem 1.875rem 0;
 
-  & > div + div {
+  &>div+div {
     margin-top: 1.25rem;
   }
 
-  & > div {
+  &>div {
     font-size: 24px;
     line-height: 48px;
   }
@@ -652,7 +652,7 @@
   }
 
   :deep(.el-pager) {
-    & > li + li {
+    &>li+li {
       margin-left: 0.75rem;
     }
 
@@ -686,27 +686,34 @@
     background-image: none;
     padding: 0;
     min-height: auto;
+
     &.no_data_bg {
       background-image: none;
       min-height: auto;
     }
+
     .competitions_text {
       img {
         width: 1rem;
       }
+
       span {
         font-size: 1.125rem;
       }
     }
+
     .operating_box {
       display: block;
       margin-bottom: 1rem;
+
       .choose_box {
         width: 100%;
         padding-bottom: 0.5rem;
-        & > .coin_item + .coin_item {
+
+        &>.coin_item+.coin_item {
           margin-left: 0.25rem;
         }
+
         .coin_item {
           width: 50%;
           height: 1.75rem;
@@ -716,20 +723,25 @@
           border-radius: 0.25rem;
         }
       }
+
       .status_box {
         width: 100%;
         height: 1.75rem;
         border-radius: 0.25rem;
+
         .status_text {
           font-size: 0.75rem;
         }
+
         :deep(.nft_type) {
           .el-input__wrapper {
             padding-left: 4.25rem;
             border-radius: 0.25rem;
+
             input {
               font-size: 0.75rem;
             }
+
             .el-select__caret {
               font-size: 1rem;
             }
@@ -737,12 +749,14 @@
         }
       }
     }
+
     .entered_box,
     .my_competitions_box {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 0.25rem;
       min-height: auto;
+
       .entered_item {
         width: auto;
         height: auto;
@@ -750,49 +764,60 @@
         margin-top: 0 !important;
         border-radius: 0.25rem;
         padding-bottom: 0.5rem;
+
         .image_box {
           height: 31vw;
         }
+
         .tips_round,
         .image_tag {
           font-size: 0.75rem;
           padding: 0.2rem 0.375rem 0.1rem;
           zoom: 0.9;
         }
+
         .nft_name {
           font-size: 0.75rem;
+
           img {
             width: 0.75rem;
             margin-left: 0.25rem;
           }
         }
+
         .nft_price {
           font-size: 1rem;
           padding-bottom: 0.25rem;
         }
+
         .buy_btn {
           height: 1.75rem;
           line-height: 1.75rem;
           font-size: 0.75rem;
+
           img {
             width: 1rem;
           }
+
           span {
             font-size: 0.75rem;
           }
         }
+
         .cancel_btn,
         .delete_btn {
           height: 1.75rem;
           line-height: 1.75rem;
           font-size: 0.75rem;
         }
+
         .new_dot {
           top: 0.25rem;
           left: 0.25rem;
         }
       }
     }
+
     .no_date {
       span {
         height: 1.875rem;
@@ -803,30 +828,38 @@
       }
     }
   }
+
   :deep(.dialog_competition) {
     width: 94% !important;
+
     .el-dialog__body {
       padding: 1rem 0;
     }
+
     .create_title {
       font-size: 1.5rem;
     }
+
     .tips_text {
       font-size: 0.75rem;
       line-height: 1.2;
       margin: 0.5rem 0;
     }
+
     .image_box {
       width: 50%;
       height: auto;
     }
+
     .nft_info {
       div {
         font-size: 1rem !important;
       }
     }
+
     .btn-group {
       margin-top: 0.625rem;
+
       .cancel,
       .confirm {
         height: 1.75rem;
@@ -834,17 +867,21 @@
         font-size: 0.75rem;
         border-radius: 0.25rem;
       }
+
       .confirm {
         margin-top: 0.5rem;
       }
     }
   }
 }
+
 @media screen and (max-width: 500px) {
   .competitions_wrapper {
+
     .entered_box,
     .my_competitions_box {
       grid-template-columns: repeat(2, 1fr);
+
       .entered_item {
         .image_box {
           height: 46vw;

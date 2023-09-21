@@ -13,7 +13,6 @@
         <p class="public-dialog-title">{{ $t("ticketsInfo.buyTipsTitle") }}</p>
         <div class="confirm-description">
           <span v-html="$t('ticketsInfo.buyTipsText1', { tickets: ticketsNum(), num: buyNum() })"></span>
-          <span v-html="$t('ticketsInfo.buyTipsText2')"></span>
         </div>
         <div class="deposit_tx_id">
           <span>SHARE THIS COMPETITION</span>
@@ -67,24 +66,24 @@ export default {
   },
   methods: {
     ticketsNum() {
-      let strV = `<div style="display: inline-flex;align-items: center;margin: 0.25rem">`;
+      let strV = ``;
       if (this.screenWidth > 950) {
-        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
+        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
         strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.tickets}</span></div>`;
       } else {
-        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
-        strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.tickets}</span></div>`;
+        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
+        strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.tickets}</span>`;
       }
       return strV;
     },
     buyNum() {
-      let strV = `<div style="display: inline-flex;align-items: center;margin: 0.25rem">`;
+      let strV = ``;
       if (this.screenWidth > 950) {
-        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
+        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
         strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.price}</span></div>`;
       } else {
-        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
-        strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.price}</span></div>`;
+        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
+        strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.price}</span>`;
       }
       return strV;
     },
@@ -182,13 +181,6 @@ export default {
   line-height: 1.875rem;
   text-align: center;
   color: #a9a4b4;
-
-  &>span {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .wait-title {

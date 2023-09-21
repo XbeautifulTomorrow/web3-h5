@@ -1389,6 +1389,22 @@
   }
 }
 
+.operating_title {
+  margin-top: 0;
+}
+
+.tips_panel {
+  font-size: 1rem;
+  line-height: 1rem;
+  color: white;
+  margin-bottom: 1.875rem;
+}
+
+.btn_box {
+  padding: 0 3.75rem;
+  display: flex;
+}
+
 @media screen and (max-width: 600px) {
   .my_inventory_wrapper {
     .nft_list {

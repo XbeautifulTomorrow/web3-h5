@@ -6,6 +6,7 @@
   background-repeat: no-repeat;
   min-height: 46.625rem;
   padding: 1.875rem;
+  text-align: left;
 }
 
 .potions_panel {
@@ -116,6 +117,7 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
   padding: 1.875rem;
+  text-align: left;
   .promotions_l {
     cursor: pointer;
   }
@@ -164,6 +166,10 @@
       background-color: #292c36;
       border-radius: 0 0 0.5rem 0.5rem;
       color: #a9a4b4;
+      line-height: 1.5;
+    }
+    .activity_desc {
+      line-height: 1.5;
     }
     .progress_box {
       margin: 1.875rem 0;
@@ -303,11 +309,11 @@
     background-color: #292c36;
     font-size: 0.875rem;
     color: #a9a4b4;
-    cursor: pointer;
     margin: 0 auto;
     &.active {
       background-color: #8338ec;
       color: #e4e7f5;
+      cursor: pointer;
     }
   }
   .btn-text {

@@ -670,7 +670,8 @@ export default {
     // 获取Nft信息
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({
-        orderNumber: this.orderId
+        orderNumber: this.orderId,
+        userId: this.userInfo?.id || 0
       });
       if (res && res.code == 200) {
         this.nftInfo = res.data;

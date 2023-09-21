@@ -53,6 +53,7 @@ const getActivityLists = (params) => apiService.get("mystery-web-user/activity/f
 const getActivityTargetList = (params) => apiService.get("mystery-web-user/activity/targetList", params); // 奖励列表
 const getActivityTargetHeaderDataTotal = (params) => apiService.get("mystery-web-user/activity/targetHeaderDataTotal", params); // 奖励领取数据统计
 const activityReceive = (params) => apiService.get("mystery-web-user/activity/receive", params); // 奖励领取
+const getActivityPoint = (params) => apiService.get("mystery-web-user/activity/getPoint", params); // 积分获取
 
 export {
   getKey,
@@ -85,4 +86,5 @@ export {
   getActivityTargetList,
   getActivityTargetHeaderDataTotal,
   activityReceive,
+  getActivityPoint,
 };

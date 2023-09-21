@@ -14,7 +14,7 @@
       />
       <p class="name">{{ details.name }}</p>
       <div class="activity_desc" v-html="details.activityDesc"></div>
-      <div class="handler_btn deposit_btn_box">
+      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS'">
         <p class="btn active deposit_btn" @click="depositFunc">{{ $t("user.deposit") }}</p>
       </div>
       <div class="progress_box">
@@ -39,7 +39,7 @@
         <div class="progress_item_box" v-else>
           <div class="progress_item">
             <!-- 您获得总积分： -->
-            <p>{{ $t("user.getTotalPoint") }}{{ 0.5 }}</p>
+            <p>{{ $t("user.getTotalPoint") }}{{ pointStatic }}</p>
             <img src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
           </div>
         </div>
@@ -93,7 +93,7 @@ import emitter from "@/utils/event-bus.js";
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { getActivityTargetList, getActivityTargetHeaderDataTotal, activityReceive } from "@/services/api/user";
+import { getActivityTargetList, getActivityTargetHeaderDataTotal, activityReceive, getActivityPoint } from "@/services/api/user";
 
 import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat } from "@/utils";
@@ -112,6 +112,7 @@ export default {
       isConditionsShow: false,
       tableData: [],
       welcomeStatic: {},
+      pointStatic: null,
     };
   },
   computed: {
@@ -148,6 +149,14 @@ export default {
         this.welcomeStatic = res.data;
       }
     },
+    // 积分
+    async getActivityPointFunc() {
+      const res = await getActivityPoint({ activityId: this.details.id });
+      if (res && res.code == 200) {
+        this.pointStatic = res.data;
+      }
+    },
+
     // 领取欢迎奖金
     async activityReceiveFunc() {
       const res = await activityReceive();
@@ -168,7 +177,11 @@ export default {
   created() {
     if (this.isLogin && this.userInfo?.id) {
       this.getActivityTargetListFunc();
-      this.getActivityTargetHeaderDataTotalFunc();
+      if (this.details.activityType == "WELCOME_BONUS") {
+        this.getActivityTargetHeaderDataTotalFunc();
+      } else {
+        this.getActivityPointFunc();
+      }
     }
   },
 };

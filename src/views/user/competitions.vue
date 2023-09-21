@@ -377,6 +377,8 @@ export default {
       if (res && res.code == 200) {
         this.$message.success("Cancel successfully");
         this.fetchOneBuyList();
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
         this.handleClose();
       }
     },
@@ -397,6 +399,9 @@ export default {
         return
       }
 
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+      this.fetchOneBuyList(false);
       this.showCabcel = false;
       this.showCreateCom = false;
     },

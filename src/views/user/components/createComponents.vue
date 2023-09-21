@@ -79,7 +79,8 @@
             </div>
           </el-form-item>
           <el-form-item class="form-item_wrap"
-            :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')" v-if="operatingType == 'ETH'">
+            :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')"
+            v-if="operatingType == 'ETH'">
             <div class="num_item">
               <span>{{ totalPrice }}</span>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />

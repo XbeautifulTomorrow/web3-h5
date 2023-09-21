@@ -99,7 +99,7 @@
               <div class="enter_relevant">
                 <div class="title">{{ $t("ticketsInfo.enterCompetition") }}</div>
                 <div class="buy_tips"
-                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) })">
+                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0).toString() })">
                 </div>
               </div>
               <div class="buy_box">
@@ -117,7 +117,7 @@
                 </div>
               </div>
               <div class="payment_box">
-                <el-button v-if="nftInfo?.sendTicketsSwitch" style="width: 100%;" @click="shareOpen()"
+                <el-button v-if="nftInfo?.sendTicketsSwitch && maxBuyNum > 0" style="width: 100%;" @click="shareOpen()"
                   :class="['free_payment', nftInfo?.sendTicketsStatus != 1 && 'disabled']" type="primary">
                   <div class="share_box">
                     <div class="shareText">
@@ -688,11 +688,13 @@ export default {
               orderNumber: this.orderId
             });
 
-            if (!userTweet.collectionStatus) {
-              this.nftInfo?.sendTicketsStatus == 3;
+            const { data } = userTweet;
+            if (data?.collectionStatus) {
+              this.nftInfo.sendTicketsStatus = 3;
             }
           }
         }
+
 
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
@@ -972,7 +974,7 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "FreeNft", query: { id: event.orderNumber } });
       openUrl(routeData.href)
     },
     /*
@@ -1055,7 +1057,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNft";
       if (event) {
         link += "/" + event;
       }
@@ -1081,7 +1083,7 @@ export default {
 
       const inviteLink = `Enter NOW:`;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNft";
 
       if (event) {
         link += "/" + event;
@@ -1117,7 +1119,7 @@ export default {
 
       const inviteLink = ``;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNft";
 
       if (event) {
         link += "/" + event;

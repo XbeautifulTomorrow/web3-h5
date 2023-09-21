@@ -119,7 +119,7 @@ export default {
       }
       const inviteLink = `\nEnter HERE:`;
       const currentLink = window.location;
-      let link = currentLink.origin + "/NftTicketsInfo";
+      let link = currentLink.origin + "/FreeNft";
 
       if (this.inviteCode) {
         link += "/" + this.inviteCode;

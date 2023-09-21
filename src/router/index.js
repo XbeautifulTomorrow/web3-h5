@@ -14,7 +14,7 @@ const Home = () => import("../views/home/index.vue");
 const Lottery = () => import("@/components/lottery/index.vue");
 const raffleBox = () => import("../views/mysteryBox/index.vue");
 const raffleBoxesList = () => import("../views/home/mysteryBoxesList.vue");
-const nftTicketsInfo = () => import("../views/home/nftTicketsInfo.vue");
+const FreeNft = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
 const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
@@ -61,10 +61,10 @@ const routes = [
     },
   },
   {
-    path: "/nftTicketsInfo",
-    name: "NftTicketsInfo",
+    path: "/freeNft",
+    name: "FreeNft",
     components: {
-      default: nftTicketsInfo,
+      default: FreeNft,
       Header,
       Footer,
       Currency,
@@ -190,8 +190,8 @@ router.beforeEach(async (to, from, next) => {
     next({ name: "Home" });
   }
 
-  if (path && path.indexOf("/NftTicketsInfo/") > -1) {
-    const code = path.replace("/NftTicketsInfo/", "");
+  if (path && path.indexOf("/FreeNft/") > -1) {
+    const code = path.replace("/FreeNft/", "");
 
     // 保存邀请码到本地存储
     if (code) {
@@ -200,7 +200,7 @@ router.beforeEach(async (to, from, next) => {
       statisticsClick({ code: code });
     }
 
-    next({ name: "NftTicketsInfo", query: { id: query.id } });
+    next({ name: "FreeNft", query: { id: query.id } });
   }
   // else if (path && path.indexOf("/Airdrop/") > -1) {
   //   const code = path.replace("/Airdrop/", "")

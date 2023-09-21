@@ -162,13 +162,12 @@
                 </el-tooltip>
               </span>
             </div>
-            <div class="invitation_box">
-              <el-select v-if="inviteDrop.length > 0" v-model="freeParams.inviteCode" class="invite_select"
-                :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
+            <div class="invitation_box" v-if="freeParams.isOpen">
+              <el-select @click="showCreate()" :disabled="!inviteDrop.length > 0" v-model="freeParams.inviteCode"
+                class="invite_select" :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
                 <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
                   :value="item.inviteCode" />
               </el-select>
-              <div v-else class="create_invite_btn" @click="showInvite = true">{{ $t("user.tweetTitle") }}</div>
               <el-input class="invite_select tickets_num" v-model="freeParams.sendTicketsNum" type="number" min="0"
                 :placeholder="$t('user.freeNumHint')">
               </el-input>
@@ -650,6 +649,11 @@ export default {
       this.inviteTips = "";
       this.verifys = true;
     },
+    // 打开创建弹窗
+    showCreate() {
+      if (this.inviteDrop.length > 0) return;
+      this.showInvite = true;
+    },
     // 创建邀请吗
     async createInvite() {
       this.onVerify();
@@ -724,18 +728,18 @@ export default {
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.totalPrice || 0}</span>`;
         } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
           return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${this.competitionNft?.floorPrice || 0}</span>`;
         }
       } else {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.totalPrice || 0}</span>`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.competitionForm.price || 0}</span>`;
         }
       }
     },

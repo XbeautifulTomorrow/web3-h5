@@ -67,7 +67,9 @@
             <div class="tips_round aborted" v-else-if="item.currentStatus == 'CLOSED'">
               {{ $t("user.abortedStatus", { date: timeFormat(item.endTime) }) }}
             </div>
-            <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
+            <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+              #{{ item && item.tokenId }}
+            </div>
           </div>
           <div class="nft_name">
             <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
@@ -144,7 +146,8 @@
               <div class="tips_round end" v-else>
                 <span>{{ $t("user.cancel") }}</span>
               </div>
-              <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
+              <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">#{{ item && item.tokenId
+              }}</div>
             </div>
             <div class="nft_name">
               <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>

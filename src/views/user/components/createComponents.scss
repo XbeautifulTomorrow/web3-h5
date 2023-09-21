@@ -437,6 +437,10 @@
   :deep(.invite_select) {
     width: 25.125rem;
 
+    .is-disabled {
+      cursor: pointer !important;
+    }
+
     &.tickets_num {
       width: 14.25rem;
 
@@ -467,6 +471,7 @@
       background-color: #1d0f36;
       box-shadow: none !important;
       border: none !important;
+      cursor: pointer !important;
 
       &>input {
         font-size: 1.125rem;
@@ -475,6 +480,11 @@
         line-height: 1.6;
         text-align: left;
         color: #fad54d;
+        cursor: pointer !important;
+      }
+
+      &>input::placeholder {
+        color: rgba(169, 164, 180, 0.6);
       }
     }
   }
@@ -935,11 +945,6 @@
   line-height: 1rem;
   color: white;
   margin-bottom: 1.875rem;
-
-
-  &>* {
-    vertical-align: middle;
-  }
 }
 
 .btn_box {

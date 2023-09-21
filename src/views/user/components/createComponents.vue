@@ -41,7 +41,7 @@
         </div>
         <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
           label-position="top">
-          <el-form-item :label="$t('user.totalPrice')" prop="price">
+          <el-form-item :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')" prop="price">
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div class="price_item" @click="competitionForm.price = competitionNft?.floorPrice">
                 <span class="title">Floor Price</span>
@@ -78,7 +78,8 @@
               <img class="icon_eth" src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
             </div>
           </el-form-item>
-          <el-form-item class="form-item_wrap" :label="$t('user.totalPrice')" v-if="operatingType == 'ETH'">
+          <el-form-item class="form-item_wrap"
+            :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')" v-if="operatingType == 'ETH'">
             <div class="num_item">
               <span>{{ totalPrice }}</span>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />

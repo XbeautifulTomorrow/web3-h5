@@ -42,7 +42,7 @@
     "history": "Purchase History",
     "referrals": "Referral",
     "settings": "Settings",
-    "promotions":"promotions"
+    "promotions": "Promotions"
   },
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
@@ -69,7 +69,7 @@
     "send": "Send",
     "notReceived": "Don't receive an email?",
     "termsText": "By creating your account, you confirm that you are at least 18 years old and agree to our ",
-    "userAgreement": "terms and conditions.",
+    "userAgreement": "Terms and conditions.",
     "completeUpper": "COMPLETED REGISTRATION",
     "passwordErrText1": "Enter password",
     "passwordErrText2": "Password must be longer than 8 characters.",
@@ -424,8 +424,19 @@
     "tweetTitle": "Create invite code",
     "freeInviteCodeEnter": "Please create an invitation code",
     "freeTicketsEnter": "Enter the maximum number of free tickets",
-    "selectNft":"SELECT A NFT",
-    "promotions":"PROMOTIONS"
+    "selectNft": "SELECT A NFT",
+    "promotions": "PROMOTIONS",
+    "unboxNow": "UNBOX NOW",
+    "readMore": "Read More",
+    "progress": "进展：",
+    "totalBonus": "奖金总额：",
+    "received": "已领取：",
+    "unlocked": "待解锁：",
+    "getTotalPoint": "您获得总积分：",
+    "round": "轮次",
+    "spendingGoals": "消费/目标",
+    "bonus": "奖金",
+    "underWay": "进行中"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

@@ -36,7 +36,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.name_text{
+.name_text {
   color: #e4e7f5;
   font-family: Tomorrow;
   font-size: 1.5rem;
@@ -45,7 +45,6 @@
   line-height: 1.3;
   letter-spacing: normal;
 }
-
 
 .promotions_l {
   display: flex;
@@ -57,11 +56,11 @@
     margin-right: 0.625rem;
   }
 }
-.promotions_item-box{
+.promotions_item-box {
   display: flex;
   gap: 1.25rem;
   margin-top: 1.25rem;
-  .promotions_item{
+  .promotions_item {
     flex: 1;
     border-radius: 10px;
     -webkit-backdrop-filter: blur(44px);
@@ -69,31 +68,29 @@
     background-color: rgba(255, 255, 255, 0.05);
     text-align: left;
     padding: 1.25rem;
-    .banner{
+    .banner {
       width: 100%;
-      height: 7.5rem;
       margin-bottom: 1.25rem;
     }
-    .name{
+    .name {
       font-family: Inter;
       font-size: 1.5rem;
       font-weight: bold;
       color: #e4e7f5;
     }
-    .tip{
+    .tip {
       font-family: Inter;
       font-size: 0.875rem;
       color: #a9a4b4;
-      margin-top: .625rem;
+      margin-top: 0.625rem;
     }
-   
   }
 }
-.handler_btn{
+.handler_btn {
   margin-top: 1.875rem;
   display: flex;
-  gap: .625rem;
-  .btn{
+  gap: 0.625rem;
+  .btn {
     flex: 1;
     height: 3.75rem;
     line-height: 3.75rem;
@@ -104,34 +101,332 @@
     text-align: center;
     font-size: 1.125rem;
     cursor: pointer;
-    &.active{
+    &.active {
       border: none;
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       color: #13151f;
     }
   }
 }
-.promotions_details{
-  .banner{
-    margin-top: 1.25rem;
-    width: 100%;
-    height: 16.125rem;
+.promotions_details_box {
+  margin: 0 auto;
+  width: 100%;
+  min-height: 57.9375rem;
+  background-image: url("@/assets/img/user/promotions_bg.webp");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 1.875rem;
+  .promotions_l {
+    cursor: pointer;
   }
-  .name{
-    margin: 30px 0;
-    font-family: Inter;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: left;
-    color: #e4e7f5;
-  }
-  .deposit_btn_box{
-    justify-content: center;
-    .deposit_btn{
-      flex: inherit;
-      width: 22rem;
+  .promotions_details {
+    .banner {
+      margin-top: 1.25rem;
+      width: 100%;
+    }
+    .name {
+      margin: 30px 0;
+      font-family: Inter;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: left;
+      color: #e4e7f5;
+    }
+    .deposit_btn_box {
+      justify-content: center;
+      .deposit_btn {
+        flex: inherit;
+        width: 22rem;
+        margin-top: 1.875rem;
+      }
+    }
+    .conditions_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 3.25rem;
+      padding: 12px 20px;
+      background-color: #1d0f36;
+      color: #e4e7f5;
+      font-size: 1.125rem;
       margin-top: 1.875rem;
+      cursor: pointer;
+      img {
+        transition: all 0.3s;
+      }
+      .icon-up {
+        rotate: 180deg;
+        transition: all 0.3s;
+      }
+    }
+    .conditions_content {
+      padding: 1.875rem;
+      background-color: #292c36;
+      border-radius: 0 0 0.5rem 0.5rem;
+      color: #a9a4b4;
+    }
+    .progress_box {
+      margin: 1.875rem 0;
+      color: #e4e7f5;
+      .title {
+        font-size: 1.25rem;
+        margin-bottom: 0.625rem;
+        text-align: left;
+      }
+      .progress_item_box {
+        display: flex;
+        gap: 3.75rem;
+        .progress_item {
+          display: flex;
+          align-items: center;
+          font-size: 1rem;
+          img {
+            width: 1.5rem;
+            margin-left: 0.625rem;
+          }
+        }
+      }
     }
   }
-  
+}
+:deep(.table_container) {
+  background-color: #191c28;
+
+  .cell {
+    line-height: 2.5rem;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  th {
+    &.el-table__cell {
+      background-color: #191c28;
+      border-bottom-color: #23172a;
+      padding: 0;
+
+      .cell {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  tr {
+    background-color: #151722;
+
+    .el-table__cell {
+      padding: 0;
+    }
+  }
+
+  td {
+    &.el-table__cell {
+      border-bottom-color: #23172a;
+    }
+  }
+
+  .el-table__empty-block {
+    background-color: #151722;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  .el-table__body tr:hover > td {
+    background-color: transparent;
+  }
+
+  .el-table__body {
+    & > tbody {
+      & > .el-table__row {
+        background-color: #151722;
+
+        .el-table__cell {
+          background-color: #151722;
+        }
+      }
+
+      & > .el-table__row:nth-child(2n) {
+        background-color: #281d31;
+
+        .el-table__cell {
+          background-color: #281d31;
+        }
+      }
+    }
+  }
+
+  .el-table__inner-wrapper::before {
+    display: none;
+  }
+
+  .progress_bar_box {
+    position: relative;
+    width: 17.5rem;
+    height: 1rem;
+    background: #292c36;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    color: #13151f;
+    margin: 0 auto;
+    .progress_bar_active {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+    }
+  }
+  .amount_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    img {
+      width: 1rem;
+    }
+  }
+  .table-btn {
+    width: 10rem;
+    height: 1.875rem;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem /* 10/16 */;
+    padding: 0 1.25rem;
+    height: 1.875rem;
+    border-radius: 0.3125rem;
+    background-color: #292c36;
+    font-size: 0.875rem;
+    color: #a9a4b4;
+    cursor: pointer;
+    margin: 0 auto;
+    &.active {
+      background-color: #8338ec;
+      color: #e4e7f5;
+    }
+  }
+  .btn-text {
+    font-size: 0.875rem;
+    color: #8338ec;
+  }
+}
+
+@media (max-width: 950px) {
+  .my_promotions_wrapper {
+    background-image: none;
+    padding: 0;
+    .promotions_l {
+      img {
+        width: 1.25rem;
+      }
+      .title_text {
+        font-size: 1.125rem;
+      }
+    }
+    .promotions_item-box {
+      .promotions_item {
+        padding: 0.625rem;
+        padding-bottom: 1rem;
+        img {
+          margin-bottom: 0.5rem;
+        }
+        .name {
+          font-size: 1rem;
+        }
+        .tip {
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+        }
+        .handler_btn {
+          margin-top: 1rem;
+          .btn {
+            height: 1.875rem;
+            line-height: 1.875rem;
+            font-size: 0.75rem;
+            border-radius: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+  .promotions_details_box {
+    background-image: none;
+    padding: 0;
+    .name_text {
+      font-size: 1.125rem;
+    }
+    .promotions_details {
+      .name {
+        font-size: 1rem;
+        margin: 0.625rem 0;
+      }
+      .btn {
+        width: 50%;
+        height: 1.875rem;
+        line-height: 1.875rem;
+        font-size: 0.875rem;
+      }
+      .progress_box {
+        margin: 0.5rem 0;
+        .title {
+          margin-bottom: 0.25rem;
+          font-size: 0.875rem;
+        }
+        .progress_item_box {
+          .progress_item {
+            font-size: 0.75rem;
+          }
+        }
+      }
+      .progress_bar_box {
+        width: 100%;
+        height: 0.75rem;
+      }
+      .table-btn {
+        width: 4.5rem;
+        height: 1.5rem;
+        line-height: 1.5rem;
+        font-size: 0.75rem;
+        padding: 0;
+      }
+      .btn-text {
+        font-size: 0.75rem;
+      }
+    }
+    :deep(.table_container) {
+      th.el-table__cell .cell {
+        font-size: 0.75rem;
+        font-weight: normal;
+      }
+    }
+    .conditions_box {
+      .conditions_head {
+        margin-top: 1rem;
+        height: 1.875rem;
+        line-height: 1.875rem;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+      }
+      .conditions_content {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+}
+@media (max-width: 630px) {
+  .my_promotions_wrapper {
+    .promotions_item-box {
+      flex-wrap: wrap;
+      .promotions_item {
+        flex: inherit;
+        width: 100%;
+      }
+    }
+  }
 }

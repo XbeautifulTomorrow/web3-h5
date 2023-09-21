@@ -1,47 +1,65 @@
 <template>
-  <div class="my_promotions_wrapper">
-    <div class="promotions_panel" v-if="!isDetailPage">
-      <div class="promotions_box">
-        <div class="promotions_l">
-          <img src="@/assets/svg/user/icon_Promotions.svg" alt="">
-          <div class="title_text">{{ $t("user.promotions") }}</div>
+  <div>
+    <div class="my_promotions_wrapper" v-if="!isDetailPage">
+      <div class="promotions_panel">
+        <div class="promotions_box">
+          <div class="promotions_l">
+            <img src="@/assets/svg/user/icon_Promotions.svg" alt="" />
+            <div class="title_text">{{ $t("user.promotions") }}</div>
+          </div>
         </div>
-      </div>
-      <div class="promotions_item-box">
-          <div class="promotions_item"  v-for="(item,index) in 3" :key="index">
-            <img src="https://assets.otherside.xyz/otherdeeds/f2bb8bb6f42a559c48dbb5ae7023769ab88151df3e499297a893417a4eca6fc7.jpg" alt="" class="banner">
-              <p class="name">Welcome Offer</p>
-              <p class="tip">Join Bitzing and get a <span style="color: #fad54d;font-weight: bold;">200%</span> Bonus up to <span style="color: #fad54d;font-weight: bold;">10</span> ETH</p>
-              <div class="handler_btn">
-              <p class="btn active">Deposit</p>
-              <p class="btn">Read More</p>
+        <div class="promotions_item-box">
+          <div class="promotions_item" v-for="(item, index) in promotionsLists" :key="index">
+            <img
+              src="https://x-pool.s3.ap-southeast-1.amazonaws.com/prd/mystery/IMAGE/2023-09-19/4e3bc9801cc845cfaec7bc6dad7571eb.webp"
+              alt=""
+              class="banner"
+            />
+            <p class="name">Welcome Offer</p>
+            <p class="tip">
+              Join Bitzing and get a <span style="color: #fad54d; font-weight: bold">200%</span> Bonus up to
+              <span style="color: #fad54d; font-weight: bold">10</span> ETH
+            </p>
+            <div class="handler_btn">
+              <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="goDetail(item)">{{ $t("user.deposit") }}</p>
+              <p class="btn active" v-else-if="item.activityType == 'OPEN_BOX_WIN_POINTS'" @click="goPage('raffleBoxesList')">
+                {{ $t("user.unboxNow") }}
+              </p>
+              <p class="btn active" v-else-if="item.activityType == 'TREASURES_WIN_POINTS'" @click="goPage('treasureDraw')">
+                {{ $t("home.nftTicketBtn") }}
+              </p>
+              <p class="btn" @click="goDetail(item)">{{ $t("user.readMore") }}</p>
             </div>
           </div>
         </div>
+      </div>
     </div>
-    <PromotionsDetails  v-else></PromotionsDetails>
+    <PromotionsDetails v-else @hide="isDetailPage = false"></PromotionsDetails>
   </div>
 </template>
 <script>
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import PromotionsDetails from "./promotionsDetails"
-import {
-  getTheUserPoint,
-} from "@/services/api/user";
+import PromotionsDetails from "./promotionsDetails";
+import { getTheUserPoint } from "@/services/api/user";
 
 import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat } from "@/utils";
 export default {
   name: "myPromotions",
-  components:{PromotionsDetails},
+  components: { PromotionsDetails },
   data() {
     return {
       userPoints: null,
-      isDetailPage:true,
+      isDetailPage: false,
+      promotionsLists: [
+        { activityType: "WELCOME_BONUS" },
+        { activityType: "OPEN_BOX_WIN_POINTS" },
+        { activityType: "TREASURES_WIN_POINTS" },
+      ],
     };
   },
   computed: {
@@ -57,13 +75,20 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
-    }
+    },
   },
   methods: {
     onCopy: onCopy,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    goPage(path) {
+      this.$router.push({ path: `/${path}` });
+    },
+    goDetail(item) {
+      console.log(item);
+      this.isDetailPage = true;
+    },
     // 积分余额
     async fetchTheUserPoint() {
       const res = await getTheUserPoint();
@@ -71,7 +96,6 @@ export default {
         this.userPoints = res.data.balance;
       }
     },
-
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {

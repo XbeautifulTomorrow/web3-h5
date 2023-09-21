@@ -142,7 +142,7 @@ export default {
       }
     },
     handleTickets(event) {
-      this.$router.push({ name: "FreeNft", query: { id: event.orderNumber } });
+      this.$router.push({ name: "FreeNFT", query: { id: event.orderNumber } });
     },
     openAll() {
       this.$router.push({ name: "TreasureDraw" });

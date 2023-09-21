@@ -974,7 +974,7 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "FreeNft", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "FreeNFT", query: { id: event.orderNumber } });
       openUrl(routeData.href)
     },
     /*
@@ -1057,7 +1057,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/FreeNft";
+      let link = currentLink + "/FreeNFT";
       if (event) {
         link += "/" + event;
       }
@@ -1083,7 +1083,7 @@ export default {
 
       const inviteLink = `Enter NOW:`;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/FreeNft";
+      let link = currentLink + "/FreeNFT";
 
       if (event) {
         link += "/" + event;
@@ -1119,7 +1119,7 @@ export default {
 
       const inviteLink = ``;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/FreeNft";
+      let link = currentLink + "/FreeNFT";
 
       if (event) {
         link += "/" + event;

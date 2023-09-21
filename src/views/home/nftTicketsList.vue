@@ -245,7 +245,7 @@ export default {
       this.pageType = page;
     },
     handleTickets(event) {
-      this.$router.push({ name: "FreeNft", query: { id: event.orderNumber } });
+      this.$router.push({ name: "FreeNFT", query: { id: event.orderNumber } });
     },
     toDraw() {
       if (!this.isLogin || !this.userInfo?.id) {

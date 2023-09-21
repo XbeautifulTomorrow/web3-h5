@@ -359,7 +359,7 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "FreeNft", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "FreeNFT", query: { id: event.orderNumber } });
       openUrl(routeData.href)
     },
     // 取消赛事

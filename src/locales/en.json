@@ -204,7 +204,7 @@
     "verifyTips1": "我们将对您所发推特进行验证，请不要对内容进行修改",
     "verifyTips2": "请勿删除您在领取免费门票时发出的推文，如果中奖者是您，我们将对此链接进行二次验证，以确保公平。",
     "verifySuccess": "Twitter verification is successful and you get a free ticket.",
-    "remaining": "Remaining tickets"
+    "remaining": "Remaining Tickets"
   },
   "virtualCurrency": {
     "recentBox": "RECENT UNBOXINGS",
@@ -415,8 +415,8 @@
     "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total tickets.",
     "ticketsHint": "The maximum amount cannot exceed 120% of the original value",
-    "createTips1": "You will sell { coin } at a price of { price }, <span style=\"color: #fad54d;\">which is lower than the value of the ETH being sold</span>. Are you sure?",
-    "createTips2": "You will sell { nft } at a price of { price }, <span style=\"color: #fad54d;\">which is lower than the value of the floor price { floorPrice } being sold</span>. Are you sure?",
+    "createTips1": "You will sell { coin } at a price of { price }, <span style=\"color: #fad54d;\">which is lower than the ETH being sold</span>. Are you sure?",
+    "createTips2": "You will sell { nft } at a price of { price }, <span style=\"color: #fad54d;\">which is lower than the floor price { floorPrice } being sold</span>. Are you sure?",
     "createTips3": "You will sell { coin } at a price of { price }. Are you sure?",
     "createTips4": "You will sell { nft } at a price of { price }. Are you sure?",
     "tweetText": "开启发推获得免费1票活动",

@@ -1144,6 +1144,11 @@ export default {
     },
     // 打开分享
     shareOpen() {
+      if (!this.userInfo?.id || !this.isLogin) {
+        this.pageType = "login";
+        return
+      }
+
       if (this.nftInfo?.sendTicketsStatus != 1) return;
 
       this.showShare = true;

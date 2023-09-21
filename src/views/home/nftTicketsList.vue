@@ -239,7 +239,7 @@ export default {
     },
     closeDialogFun() {
       this.pageType = "";
-     this.fetchCheckAllOrders();
+      this.fetchCheckAllOrders();
     },
     changeTypeFun(page) {
       this.pageType = page;
@@ -270,6 +270,7 @@ export default {
     ];
     this.sortDrop = [
       { label: t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: t("ticketsInfo.remaining"), value: "remaining" },
       { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
       { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" }
     ]

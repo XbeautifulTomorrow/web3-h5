@@ -203,7 +203,8 @@
     "startVerify": "START VERIFICATION",
     "verifyTips1": "我们将对您所发推特进行验证，请不要对内容进行修改",
     "verifyTips2": "请勿删除您在领取免费门票时发出的推文，如果中奖者是您，我们将对此链接进行二次验证，以确保公平。",
-    "verifySuccess": "Twitter verification is successful and you get a free ticket."
+    "verifySuccess": "Twitter verification is successful and you get a free ticket.",
+    "remaining": "Remaining tickets"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",

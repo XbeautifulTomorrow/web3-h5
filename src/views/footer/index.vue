@@ -167,8 +167,14 @@ const goLink = (event) => {
     }
   }
 
+
   .el-popper__arrow {
     display: none;
+  }
+
+  .el-select-dropdown__empty {
+    font-size: 1rem;
+    color: #a9a4b4;
   }
 }
 
@@ -180,7 +186,12 @@ const goLink = (event) => {
       line-height: 1.5rem;
       font-size: 0.75rem !important;
     }
+
+    .el-select-dropdown__empty {
+      font-size: 0.75rem;
+    }
   }
+
   .footer {
     margin-top: 2rem;
   }

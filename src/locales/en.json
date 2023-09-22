@@ -425,7 +425,11 @@
     "tweetTitle": "Create invite code",
     "freeInviteCodeEnter": "Please create an invitation code",
     "freeTicketsEnter": "Enter the maximum number of free tickets",
-    "selectNft": "SELECT A NFT"
+    "selectNft": "SELECT A NFT",
+    "currency": "CURRENCY",
+    "network": "NETWORK",
+    "currencyError":"Please select currency",
+    "networkError":"Please select network"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

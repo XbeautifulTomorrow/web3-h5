@@ -421,6 +421,8 @@
     padding: 1.875rem 0;
   }
 
+
+
   .wallet_operating {
     display: flex;
     align-items: center;
@@ -467,6 +469,25 @@
   }
 }
 
+.choose_operating {
+  padding: 0 1.875rem;
+  display: flex;
+  align-items: center;
+  margin-top: 1.875rem;
+
+  .withdraw_item {
+    flex: 1;
+  }
+
+  .withdraw_item+.withdraw_item {
+    margin-left: 1rem;
+  }
+
+  .withdraw_item:nth-child(1) {
+    max-width: 35%;
+  }
+}
+
 .recharge_title {
   display: flex;
   align-items: center;
@@ -503,6 +524,7 @@
   .qr_code_box {
     display: flex;
     justify-content: space-between;
+    margin-top: 0.5rem;
   }
 
   .img_box {
@@ -673,97 +695,7 @@
     padding-bottom: 1.875rem;
   }
 
-  .withdraw_item {
-    .withdraw_item_lable {
-      display: flex;
-      align-items: flex-start;
-      font-size: 0.75rem;
-      font-weight: bold;
-      line-height: 1.6;
-      text-align: left;
-      color: #a9a4b4;
-      padding-bottom: 0.625rem;
 
-      .required {
-        color: #df4328;
-        margin-left: 0.25rem;
-      }
-    }
-
-    :deep(.withdraw_addr_input) {
-      padding: 0 1.25rem;
-      height: 4.375rem;
-      border-radius: 0.5rem;
-      border: solid 1px #363945;
-      background-color: #13151f;
-
-      .el-input__wrapper {
-        border: none;
-        box-shadow: none;
-        padding: 0;
-
-        &>input {
-          font-size: 0.875rem;
-          color: white;
-        }
-      }
-    }
-
-    .withdraw_convert {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .price_convert {
-        flex: 1;
-      }
-    }
-
-    .withdraw_btn {
-      width: 7.875rem;
-      height: 4.375rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 0.5rem;
-      background-image: linear-gradient(to top, #e3a406, #fbd851);
-      margin-left: 1.25rem;
-      cursor: pointer;
-      font-size: 0.875rem;
-      font-weight: bold;
-      line-height: 1.21;
-      text-align: center;
-      color: #13151f;
-    }
-
-    .withdraw_fee {
-      font-size: 0.875rem;
-      margin-top: 0.625rem;
-      line-height: 1.6;
-      text-align: left;
-      color: #a9a4b4;
-
-      &.free {
-        .fee_val {
-          text-decoration: line-through;
-        }
-      }
-
-      .free_text {
-        padding-left: 0.25rem;
-        color: rgba(13, 191, 3, 1);
-      }
-    }
-
-    .withdraw_item_error {
-      height: 1.5rem;
-      font-size: 0.875rem;
-      margin-top: 0.625rem;
-      line-height: 1.6;
-      text-align: left;
-      color: #df4328;
-    }
-  }
 
   .withdraw_hint {
     margin-top: 1.875rem;
@@ -771,6 +703,145 @@
     line-height: 1.2;
     text-align: left;
     color: #a9a4b4;
+  }
+}
+
+.withdraw_item {
+  .withdraw_item_lable {
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.75rem;
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: left;
+    color: #a9a4b4;
+    padding-bottom: 0.625rem;
+
+    .required {
+      color: #df4328;
+      margin-left: 0.25rem;
+    }
+  }
+
+  :deep(.withdraw_addr_input) {
+    padding: 0 1.25rem;
+    height: 4.375rem;
+    border-radius: 0.5rem;
+    border: solid 1px #363945;
+    background-color: #13151f;
+
+    .el-input__wrapper {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+
+      &>input {
+        font-size: 0.875rem;
+        color: white;
+      }
+    }
+  }
+
+  .withdraw_convert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .price_convert {
+      flex: 1;
+    }
+  }
+
+  .withdraw_btn {
+    width: 7.875rem;
+    height: 4.375rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(to top, #e3a406, #fbd851);
+    margin-left: 1.25rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1.21;
+    text-align: center;
+    color: #13151f;
+  }
+
+  .withdraw_fee {
+    font-size: 0.875rem;
+    margin-top: 0.625rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #a9a4b4;
+
+    &.free {
+      .fee_val {
+        text-decoration: line-through;
+      }
+    }
+
+    .free_text {
+      padding-left: 0.25rem;
+      color: rgba(13, 191, 3, 1);
+    }
+  }
+
+  .withdraw_item_error {
+    height: 1.5rem;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #df4328;
+  }
+}
+
+:deep(.nft_type) {
+  min-width: 10.5rem;
+
+  .el-input {
+    &.is-focus {
+      .el-input__wrapper {
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  .el-input__wrapper {
+    height: 3.3125rem;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background-color: #1d0f36;
+    box-shadow: none !important;
+    border: none !important;
+
+    &.is-focus {
+      box-shadow: none !important;
+    }
+
+    &>input {
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      text-align: left;
+      color: #fad54d;
+    }
+
+    .el-select__caret {
+      font-size: 1.5rem;
+    }
+  }
+
+  &.wallet_network {
+    width: 100%;
+
+    .el-input__wrapper {
+      height: 3.75rem;
+      font-size: 0.875rem;
+    }
   }
 }
 
@@ -1208,6 +1279,7 @@
     .qr_code_box {
       display: flex;
       justify-content: space-between;
+      margin-top: 0.25rem;
     }
 
     .img_box {
@@ -1345,50 +1417,7 @@
       padding-bottom: 0.5rem;
     }
 
-    .withdraw_item {
-      .withdraw_item_lable {
-        font-size: 0.75rem;
-        line-height: 1.2;
-        padding-bottom: 0.25rem;
-      }
 
-      :deep(.withdraw_addr_input) {
-        padding: 0 0.5rem;
-        height: 2rem;
-        border-radius: 0.25rem;
-
-        .el-input__wrapper {
-
-          &>input {
-            height: 2rem;
-            font-size: 0.75rem;
-          }
-        }
-      }
-
-      .withdraw_btn {
-        width: 5rem;
-        height: 2rem;
-        border-radius: 0.25rem;
-        margin-left: 0.25rem;
-        font-size: 0.625rem;
-      }
-
-      .withdraw_fee {
-        font-size: 0.625rem;
-        margin-top: 0.25rem;
-        line-height: 1.2;
-        text-align: left;
-        color: #a9a4b4;
-      }
-
-      .withdraw_item_error {
-        height: 1rem;
-        font-size: 0.625rem;
-        margin-top: 0.25rem;
-        line-height: 1.2;
-      }
-    }
 
     .withdraw_hint {
       margin-top: 0.5rem;
@@ -1396,6 +1425,51 @@
       line-height: 1.2;
       text-align: left;
       color: #a9a4b4;
+    }
+  }
+
+  .withdraw_item {
+    .withdraw_item_lable {
+      font-size: 0.75rem;
+      line-height: 1.2;
+      padding-bottom: 0.25rem;
+    }
+
+    :deep(.withdraw_addr_input) {
+      padding: 0 0.5rem;
+      height: 2rem;
+      border-radius: 0.25rem;
+
+      .el-input__wrapper {
+
+        &>input {
+          height: 2rem;
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    .withdraw_btn {
+      width: 5rem;
+      height: 2rem;
+      border-radius: 0.25rem;
+      margin-left: 0.25rem;
+      font-size: 0.625rem;
+    }
+
+    .withdraw_fee {
+      font-size: 0.625rem;
+      margin-top: 0.25rem;
+      line-height: 1.2;
+      text-align: left;
+      color: #a9a4b4;
+    }
+
+    .withdraw_item_error {
+      height: 1rem;
+      font-size: 0.625rem;
+      margin-top: 0.25rem;
+      line-height: 1.2;
     }
   }
 

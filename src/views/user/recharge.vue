@@ -16,48 +16,46 @@
             {{ $t("user.withdraw") }}
           </div>
         </div>
-        <div class="choose_operating" v-if="operatingCoin == null">
-          <div class="operating_title">
-            <span v-if="walletOperating == 1">{{ $t("user.depositType") }}</span>
-            <span v-else>{{ $t("user.withdrawType") }}</span>
-          </div>
-          <div class="wallet_operating">
-            <div class="wallet_operating_item" @click="handleChoose('ETH')">
-              <img src="@/assets/svg/user/icon_eth.svg" alt="" />
-              <span class="wallet_operating_val">
-                Ethereum[ETH]
+        <div class="choose_operating">
+          <div class="withdraw_item">
+            <div class="withdraw_item_lable">
+              <span>
+                {{ $t("user.currency", { operating: `${walletOperating == 1 ? 'DEPOSIT' : 'WITHDRAW'}` }) }}
               </span>
+              <span class="required">*</span>
             </div>
-            <div class="wallet_operating_item" @click="handleChoose('USDT')">
-              <img src="@/assets/svg/user/icon_usdt.svg" alt="" />
-              <span class="wallet_operating_val">
-                ERC-20[USDT]
+            <el-select v-model="operatingCoin" @blur="onVerify('coin')" @change="handleChoose"
+              class="nft_type wallet_network" placeholder="Select network" :popper-append-to-body="false">
+              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName"
+                :value="item.coinName" />
+            </el-select>
+            <div class="withdraw_item_error">
+              {{ coinTips }}
+            </div>
+          </div>
+          <div class="withdraw_item">
+            <div class="withdraw_item_lable">
+              <span>
+                {{ $t("user.network", { operating: `${walletOperating == 1 ? 'DEPOSIT' : 'WITHDRAW'}` }) }}
               </span>
+              <span class="required">*</span>
+            </div>
+            <el-select v-model="walletNetwork" @blur="onVerify('network')" class="nft_type wallet_network"
+              placeholder="Select network" :popper-append-to-body="false">
+              <el-option v-for="(item, index) in networkDrop" :key="index" :label="item.chain" :value="item.chain" />
+            </el-select>
+            <div class="withdraw_item_error">
+              {{ networkTips }}
             </div>
           </div>
         </div>
-        <div class="recharge_panel" v-else>
-          <div class="recharge_title">
-            <el-icon class="icon_arrow" @click="operatingCoin = null">
-              <ArrowLeftBold />
-            </el-icon>
-            <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-            <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
-            <div class="recharge_title_text">
-              <span v-if="walletOperating == 1">
-                {{ $t("user.depositCoin", { coin: operatingCoin }) }}
-              </span>
-              <span v-else>
-                {{ $t("user.withdrawCoin", { coin: operatingCoin }) }}
-              </span>
-            </div>
-          </div>
+        <div class="recharge_panel" v-if="operatingCoin != null">
           <div class="recharge_relevant" v-if="walletOperating == 1">
             <div class="qr_code_box">
               <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
               <div class="wallet_addr">
                 <div class="tips_text">
-                  {{ $t('user.sendHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+                  {{ $t('user.sendHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
                 </div>
                 <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                   :placeholder="$t('user.enterAddrHint')">
@@ -78,7 +76,7 @@
                   {{ $t("user.hintText1") }}
                 </div>
               </div>
-              <div class="hint_item" v-if="operatingCoin == 'ETH'">
+              <div class="hint_item" v-if="operatingCoin != 'USDT'">
                 <div class="hint_l">
                   <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
                 </div>
@@ -98,28 +96,28 @@
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
                   <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
             </div>
             <div class="price_convert_text">
-              {{ $t("user.hintText3", { coin: `${operatingCoin == 'ETH' ? 'ETH' : 'USDT'}` }) }}
+              {{ $t("user.hintText3", { coin: `${operatingCoin}` }) }}
             </div>
           </div>
           <div class="withdraw_relevant" v-else>
             <div class="withdraw_tips_text">
-              {{ $t("user.hintText4", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+              {{ $t("user.hintText4", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
             </div>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
                 <span>
-                  {{ $t("user.receivingAddr", { network: `${operatingCoin == 'ETH' ? 'ETHEREUM' : 'TETHER'}` }) }}
+                  {{ $t("user.receivingAddr", { network: `${operatingCoin != 'USDT' ? 'ETHEREUM' : 'TETHER'}` }) }}
                 </span>
                 <span class="required">*</span>
               </div>
               <el-input class="withdraw_addr_input" v-model="walletAddr" @blur="onVerify('address')"
-                :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` })"></el-input>
+                :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` })"></el-input>
               <div class="withdraw_item_error">
                 {{ walletAddrTips }}
               </div>
@@ -141,7 +139,7 @@
                   <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                     type="number">
                     <template #prefix>
-                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
                       <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                     </template>
                   </el-input>
@@ -154,13 +152,13 @@
                 <span class="fee_title">
                   {{ $t("user.fee") }}
                 </span>
-                <span class="fee_val" v-if="operatingCoin == 'ETH'">
-                  {{ `${setting.withdrawalFees || 0} ${operatingCoin}` }}
+                <span class="fee_val" v-if="operatingCoin != 'USDT'">
+                  {{ `${setting.withdrawalFees || 0} ${operatingCoin || '--'}` }}
                 </span>
                 <span class="fee_val" v-else>
                   {{
                     `${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4) || 0}
-                                    ${operatingCoin}`
+                                    ${operatingCoin || '--'}`
                   }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
@@ -171,7 +169,7 @@
             </div>
             <div class="withdraw_hint">
               <p>
-                {{ $t("user.addrTips1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` }) }}
+                {{ $t("user.addrTips1", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
               </p>
               <p>
                 {{ $t("user.addrTips2") }}
@@ -194,7 +192,8 @@ import {
   getTheUserSPayoutAddress,
   getRechargeExchangeRate,
   getWithdrawalExchangeRate,
-  withdrawalBalance
+  withdrawalBalance,
+  getWithdrawalChain
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
@@ -207,6 +206,8 @@ export default {
     return {
       showRecharge: true,
       walletOperating: 1, // 1 充币；2 提币；
+      walletNetwork: null, // 网络
+      networkList: [],
       receiverAddr: null, // 收款地址
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
@@ -219,6 +220,8 @@ export default {
       timer: null,
       rateTimer: null,
 
+      coinTips: null,
+      networkTips: null,
       walletAddrTips: null,
       tipsText: null,
 
@@ -241,6 +244,16 @@ export default {
       const { regInfo } = this.userStore;
       return regInfo;
     },
+    networkDrop() {
+      const { networkList, operatingCoin } = this;
+      if (!operatingCoin || !networkList.length > 0) {
+        return [];
+      }
+
+      const network = networkList.find(e => e.coinName == operatingCoin);
+
+      return network?.chainList;
+    }
   },
   watch: {
     walletAmount(newV) {
@@ -252,7 +265,8 @@ export default {
           this.ethNum = newV || 0;
           return;
         }
-        if (operatingCoin == "ETH") {
+
+        if (operatingCoin != "USDT") {
           this.ethNum = newV || 0;
           return;
         }
@@ -327,6 +341,13 @@ export default {
       }
 
     },
+    // 支持的网络
+    async fetchWithdrawalChain() {
+      const res = await getWithdrawalChain();
+      if (res && res.code == 200) {
+        this.networkList = res.data;
+      }
+    },
     // 收款地址
     async fetchReceivingAddr() {
       const res = await getTheUserSPayoutAddress();
@@ -357,17 +378,40 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { operatingCoin, setting, walletAmount, walletAddr } = this;
+      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr } = this;
       const withdrawalFee = setting.withdrawalFees || 0;
+
+      if (type == "submit" || type == "coin") {
+        if (!operatingCoin) {
+          this.coinTips = t("user.currencyError");
+          this.verifys = false;
+          return;
+        }
+
+        this.coinTips = "";
+        this.verifys = true;
+      }
+
+      if (type == "submit" || type == "network") {
+        if (!walletNetwork) {
+          this.networkTips = t("user.networkError");
+          this.verifys = false;
+          return;
+        }
+
+        this.networkTips = "";
+        this.verifys = true;
+      }
+
       if (type == "submit" || type == "address") {
         if (!walletAddr) {
-          this.walletAddrTips = t("user.enterError1", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` });
+          this.walletAddrTips = t("user.enterError1", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` });
           this.verifys = false;
           return;
         }
 
         if (!isValidEthAddress(walletAddr)) {
-          this.walletAddrTips = t("user.enterError2", { coin: `${operatingCoin == 'ETH' ? 'Ethereum' : 'Tether'}` });
+          this.walletAddrTips = t("user.enterError2", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` });
           this.verifys = false;
           return;
         }
@@ -399,14 +443,15 @@ export default {
     },
     // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
-      const { walletAmount, walletAddr, operatingCoin } = this;
+      const { walletAmount, walletAddr, operatingCoin, walletNetwork } = this;
       this.onVerify("submit");
       if (!this.verifys) return;
 
       const res = await withdrawalBalance({
-        targetCoin: operatingCoin, //目标币种
-        walletAddress: walletAddr, //钱包地址
-        amount: walletAmount, //扣除的ETH金额
+        targetCoin: operatingCoin, // 目标币种
+        walletAddress: walletAddr, // 钱包地址
+        amount: walletAmount, // 扣除的ETH金额
+        targetChain: walletNetwork // 网络
       });
       if (res && res.code == 200) {
         this.renewBalance();
@@ -439,6 +484,10 @@ export default {
       this.$emit("closeDialogFun");
     },
     createQrcode() {
+
+      //清除
+      document.getElementById("qrCodeDiv").innerHTML = "";
+
       new QRCode(this.$refs.qrCodeDiv, {
         text: this.receiverAddr,
         width: 126,
@@ -464,6 +513,7 @@ export default {
     this.renewBalance();
     this.fetchReceivingAddr();
     this.fetchSetting();
+    this.fetchWithdrawalChain();
   },
 };
 </script>
@@ -474,5 +524,59 @@ export default {
 .qr_code_box>.img_box>img {
   width: 100% !important;
   height: auto !important;
+}
+</style>
+<style lang="scss">
+.el-select__popper {
+  border: none !important;
+  background-color: #1d0f36 !important;
+
+  .el-scrollbar__view {
+    margin: 0.625rem 0 !important;
+    padding: 0 0.625rem !important;
+  }
+
+  .el-select-dropdown__item {
+    color: #a9a4b4;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    padding: 0.625rem 0.825rem;
+    height: auto;
+
+    &.selected {
+      color: #fad54d;
+    }
+
+    &:hover,
+    &.hover {
+      border-radius: 0.5rem;
+      background-color: #13151f;
+    }
+  }
+
+  .el-popper__arrow {
+    display: none;
+  }
+
+  .el-select-dropdown__empty {
+    font-size: 1rem;
+    color: #a9a4b4;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .el-select__popper {
+    .el-select-dropdown__item {
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.75rem;
+      padding: 0 0.25rem;
+    }
+
+    .el-select-dropdown__empty {
+      font-size: 0.75rem;
+    }
+  }
 }
 </style>

@@ -201,8 +201,8 @@
     "enterLink": "Enter link...",
     "errorLink": "Please enter link",
     "startVerify": "START VERIFICATION",
-    "verifyTips1": "We will be verifying the tweets you post, please do not change the content of your tweets.",
-    "verifyTips2": "Please do not delete the tweets you post and if the winner is you, we will verify this link twice to ensure fairness.",
+    "verifyTips1": "We will be verifying the tweet you post, please do not change the content of your tweet.",
+    "verifyTips2": "Please do not delete the tweet you post and if the winner is you, we will verify this link again to ensure fairness.",
     "verifySuccess": "Twitter verification is successful and you get a free ticket.",
     "remaining": "Remaining Tickets"
   },
@@ -656,7 +656,7 @@
     "tweet_repeated": "This tweet has already been used.",
     "twitter_repeated": "A Twitter account can only be claimed once.",
     "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time.",
-    "tweets_link_error": "Please provide a valid tweets links."
+    "tweets_link_error": "Please provide a valid tweets link."
   },
   "lottery": {
     "notice": "NOTICE",

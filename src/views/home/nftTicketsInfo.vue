@@ -1164,7 +1164,15 @@ export default {
     onVerify() {
       const { shareLink } = this;
       if (!shareLink) {
-        this.errorTips = t("ticketsInfo.errorLink");
+        this.errorTips = t("errorTips.tweets_link_error");
+        this.verifys = false;
+        return
+      }
+
+      const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/
+
+      if (!reg.test(shareLink)) {
+        this.errorTips = t("errorTips.tweets_link_error");
         this.verifys = false;
         return
       }

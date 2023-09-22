@@ -22,7 +22,7 @@
               <span style="color: #fad54d; font-weight: bold">10</span> ETH -->
             </p>
             <div class="handler_btn">
-              <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="goDetail(item)">{{ $t("user.deposit") }}</p>
+              <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="depositFunc(item)">{{ $t("user.deposit") }}</p>
               <p class="btn active" v-else-if="item.activityType == 'OPEN_BOX_WIN_POINTS'" @click="goPage('raffleBoxesList')">
                 {{ $t("user.unboxNow") }}
               </p>
@@ -35,12 +35,11 @@
         </div>
       </div>
     </div>
-    <PromotionsDetails v-else @hide="isDetailPage = false" :details="details"></PromotionsDetails>
+    <PromotionsDetails v-else @hide="isDetailPage = false" :details="details" @depositFunc="depositFunc"></PromotionsDetails>
   </div>
 </template>
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import emitter from "@/utils/event-bus.js";
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -93,6 +92,9 @@ export default {
       if (res && res.code == 200) {
         this.dataLists = res.data;
       }
+    },
+    depositFunc() {
+      emitter.emit("pageTypeChange", "recharge");
     },
   },
   created() {

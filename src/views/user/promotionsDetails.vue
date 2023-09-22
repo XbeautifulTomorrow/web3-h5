@@ -22,24 +22,24 @@
         <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
           <div class="progress_item">
             <!-- 奖金总额： -->
-            <p>{{ $t("user.totalBonus") }}{{ welcomeStatic?.totalRewards }}</p>
+            <p>{{ $t("user.totalBonus") }}{{ welcomeStatic?.totalRewards || 0 }}</p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
-            <p>{{ $t("user.received") }}{{ welcomeStatic?.receivedReward }}</p>
+            <p>{{ $t("user.received") }}{{ welcomeStatic?.receivedReward || 0 }}</p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
-            <p>{{ $t("user.unlocked") }}{{ welcomeStatic?.unlockReward }}</p>
+            <p>{{ $t("user.unlocked") }}{{ welcomeStatic?.unlockReward || 0 }}</p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
         </div>
         <div class="progress_item_box" v-else>
           <div class="progress_item">
             <!-- 您获得总积分： -->
-            <p>{{ $t("user.getTotalPoint") }}{{ pointStatic }}</p>
+            <p>{{ $t("user.getTotalPoint") }}{{ pointStatic || 0 }}</p>
             <img src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
           </div>
         </div>
@@ -89,7 +89,6 @@
 <script>
 import { i18n } from "@/locales";
 const { t } = i18n.global;
-import emitter from "@/utils/event-bus.js";
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -171,7 +170,7 @@ export default {
       this.$emit("hide");
     },
     depositFunc() {
-      emitter.emit("pageTypeChange", "recharge");
+      this.$emit("depositFunc");
     },
   },
   created() {

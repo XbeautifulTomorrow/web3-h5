@@ -1096,8 +1096,19 @@
   }
 }
 
+.operating_title {
+  margin-top: 0;
+}
+
+.tips_panel {
+  font-size: 1rem;
+  line-height: 1rem;
+  color: white;
+  margin-top: 1.875rem;
+  margin-bottom: 1.875rem;
+}
+
 .btn_box {
-  padding: 0;
   display: flex;
 }
 
@@ -1256,13 +1267,6 @@
       padding: 1rem 0;
     }
 
-    .close_btn {
-      width: 1.5rem;
-      height: 1.5rem;
-      top: 0.75rem;
-      right: 0.75rem;
-    }
-
     .create_title {
       font-size: 1.5rem;
       padding-bottom: 0.5rem;
@@ -1274,6 +1278,8 @@
     }
 
     .nft_info {
+      margin-bottom: 1rem;
+
       .nft_name {
         font-size: 1rem;
       }
@@ -1352,6 +1358,9 @@
         line-height: 1.5rem;
         border-radius: 0.25rem;
         font-size: 0.75rem;
+
+        margin-top: 0.75rem;
+        margin-bottom: 0.5rem;
       }
 
       .hint-text {
@@ -1388,23 +1397,23 @@
       }
     }
   }
-}
 
-.operating_title {
-  margin-top: 0;
-}
+  .close_btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 1.5rem;
+    right: 1.5rem;
+  }
 
-.tips_panel {
-  font-size: 1rem;
-  line-height: 1rem;
-  color: white;
-  margin-top: 1.875rem;
-  margin-bottom: 1.875rem;
-}
-
-.btn_box {
-  padding: 0 3.75rem;
-  display: flex;
+  .operating_title {
+    font-family: BlenderPro;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2rem;
+    text-align: center;
+    color: #e4e7f5;
+    margin: 0 0 1rem;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -1444,5 +1453,136 @@
         font-family: BlenderPro;
       }
     }
+  }
+
+  .share_box {
+    margin-bottom: 0.75rem;
+
+
+    .form-rember-rectangle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 0.75rem;
+      height: 0.75rem;
+      margin-right: 0.5rem;
+      border-radius: 0.1875rem;
+      border: solid 1px #a9a4b4;
+      cursor: pointer;
+    }
+
+    .form-rember-rectangle-fill {
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 0.125rem;
+      background-color: #fad54d;
+    }
+
+    .form-rember-text {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+      line-height: 1;
+      text-align: left;
+      color: #a9a4b4;
+
+      img {
+        margin-left: 0.75rem;
+        width: 1rem;
+        height: auto;
+      }
+    }
+
+    .form-rember {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+    }
+
+    .invitation_box {
+      padding-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    :deep(.invite_select) {
+      flex: 1;
+      max-width: 60%;
+      width: auto;
+
+      .is-disabled {
+        cursor: pointer !important;
+      }
+
+      &.tickets_num {
+        max-width: 40%;
+        margin-left: 0.5rem;
+
+        .el-input__wrapper {
+          &>input {
+            color: white;
+          }
+        }
+      }
+
+      .el-input {
+        &.is-focus {
+          .el-input__wrapper {
+            box-shadow: none !important;
+          }
+        }
+
+        .el-select__caret {
+          font-size: 1rem;
+        }
+      }
+
+      .el-input__wrapper {
+        height: 2rem;
+        padding: 0 0.5rem;
+        border-radius: 0.25rem;
+
+        &>input {
+          font-size: 0.75rem;
+          height: 2rem;
+        }
+
+        &>input::placeholder {
+          color: rgba(169, 164, 180, 0.6);
+        }
+      }
+    }
+  }
+
+  :deep(.invite_code_input) {
+
+    .el-input__wrapper {
+      height: 2rem;
+      padding: 0;
+      border-radius: 0.25rem;
+
+      &>input {
+        height: 2rem;
+        padding: 0 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      .el-input__icon {
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .create_error {
+    width: 100%;
+    height: auto;
+    min-height: 1rem;
+    margin: 0 auto;
+    padding-top: 0;
+    padding-bottom: 0.25rem;
+    font-size: 0.75rem;
   }
 }

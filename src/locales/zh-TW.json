@@ -655,7 +655,8 @@
     "repeated_collection": "Please do not receive it repeatedly.",
     "tweet_repeated": "This tweet has already been used.",
     "twitter_repeated": "A Twitter account can only be claimed once.",
-    "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time."
+    "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time.",
+    "tweets_link_error": "Please provide a valid tweets links."
   },
   "lottery": {
     "notice": "提示",

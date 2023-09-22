@@ -24,7 +24,7 @@
           <p>{{ $t("user.createComTips2") }}</p>
         </div>
       </div>
-      <div class="dialog_competition" v-else>
+      <div class="dialog_competitions" v-else>
         <div class="create_title">{{ $t("user.createCompetition") }}</div>
         <div class="image_box">
           <Image fit="cover" class="nft_img" v-if="operatingType == 'NFT'" :src="competitionNft?.img" />

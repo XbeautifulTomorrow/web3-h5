@@ -256,7 +256,8 @@ import {
   getTheExternalNFTSeries,
   delNewWalletNftMark,
   getNftActivityCharts,
-  getServiceFee
+  getServiceFee,
+  getCofingKey
 } from "@/services/api/oneBuy";
 
 import {
@@ -303,6 +304,7 @@ export default {
       activeType: "LIMITED_PRICE",
       competitionNft: null,
       serverFees: 0, // 服务费
+      configK: {}, // 配置
       competitionForm: {
         price: null, //价格
         limitDay: null, //天数
@@ -353,7 +355,8 @@ export default {
       }, 300);
     },
     "competitionForm.limitDay"(newV) {
-      const max = 30;
+      const { configK } = this;
+      const max = configK?.ONE_NFT_LIMIT_DAY || 30;
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -498,6 +501,7 @@ export default {
       this.fetchNftActivitySale(event);
       this.fetchRebatesFindList();
       this.fetchSetting();
+      this.fetchCofingKey();
     },
     // 确认弹窗
     confirmCop() {
@@ -664,6 +668,25 @@ export default {
       if (res && res.code == 200) {
         this.serverFees = res.data;
         this.$forceUpdate();
+      }
+    },
+    // 获取配置
+    async fetchCofingKey() {
+      const res = await getCofingKey({
+        str: `ONE_NFT_LIMIT_DAY`
+      })
+
+      if (res && res.code == 200) {
+        const configKey = res.data;
+        let config = {};
+
+        configKey.forEach(element => {
+          config[element.k] = element.v
+        })
+
+        this.configK = config;
+
+        this.daysData = [1, 7, 14, this.configK?.ONE_NFT_LIMIT_DAY || 30];
       }
     },
     // 关闭创建弹窗

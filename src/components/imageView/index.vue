@@ -3,12 +3,12 @@
   <el-image class="lottery-img" :src="src">
     <template #placeholder>
       <div class="image-slot">
-        <img src="@/assets/svg/placeholder_img.svg" alt="" class="lottery-placeholder-img" />
+        <img src="@/assets/img/lottery/default_nft.webp" alt="" class="lottery-placeholder-img" />
       </div>
     </template>
     <template #error>
       <div class="image-slot">
-        <img src="@/assets/svg/placeholder_img.svg" alt="" class="lottery-placeholder-img" />
+        <img src="@/assets/img/lottery/default_nft.webp" alt="" class="lottery-placeholder-img" />
       </div>
     </template>
   </el-image>

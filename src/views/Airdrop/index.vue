@@ -9,8 +9,8 @@
           <!-- <div class="description">{{ $t("airdrop.airdropTips") }}</div> -->
         </div>
         <div class="banner_r">
-          <img v-if="isTest" @click="handleConnect()" src="@/assets/svg/airdrop/banner.svg" alt="" />
-          <img v-else src="@/assets/svg/airdrop/banner.svg" alt="" />
+          <img v-if="isTest" @click="handleConnect()" src="@/assets/img/airdrop/banner.webp" alt="" />
+          <img v-else src="@/assets/img/airdrop/banner.webp" alt="" />
         </div>
       </div>
       <div class="taps_box">

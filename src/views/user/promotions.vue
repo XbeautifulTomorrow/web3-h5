@@ -11,7 +11,7 @@
         <div class="promotions_item-box">
           <div class="promotions_item" v-for="item in dataLists" :key="item.id">
             <img
-              src="https://x-pool.s3.ap-southeast-1.amazonaws.com/prd/mystery/IMAGE/2023-09-19/4e3bc9801cc845cfaec7bc6dad7571eb.webp"
+              :src="item.banner"
               alt=""
               class="banner"
             />

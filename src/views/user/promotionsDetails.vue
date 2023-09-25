@@ -8,16 +8,16 @@
     </div>
     <div class="promotions_details">
       <img
-        src="https://x-pool.s3.ap-southeast-1.amazonaws.com/prd/mystery/IMAGE/2023-09-19/4e3bc9801cc845cfaec7bc6dad7571eb.webp"
+        :src="details.banner"
         alt=""
         class="banner"
       />
       <p class="name">{{ details.name }}</p>
       <div class="activity_desc" v-html="details.activityDesc"></div>
-      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS'">
+      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS'&&tableData?.length==0">
         <p class="btn active deposit_btn" @click="depositFunc">{{ $t("user.deposit") }}</p>
       </div>
-      <div class="progress_box">
+      <div class="progress_box" v-if="(details.activityType == 'WELCOME_BONUS'&&tableData?.length>0)||details.activityType != 'WELCOME_BONUS'">
         <p class="title">{{ $t("user.progress") }}</p>
         <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
           <div class="progress_item">
@@ -40,18 +40,19 @@
           <div class="progress_item">
             <!-- 您获得总积分： -->
             <p>{{ $t("user.getTotalPoint") }}{{ pointStatic || 0 }}</p>
-            <img src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
+            <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>
         </div>
       </div>
-      <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS'">
+      <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS'&&tableData?.length>0">
         <el-table-column prop="id" :label="$t('user.round')" min-width="60" align="center" key="1" />
         <el-table-column prop="seriesName" :label="$t('user.spendingGoals')" min-width="140" align="center" key="2">
           <template #default="scope">
             <div class="progress_bar_box">
-              <p class="progress_bar_active" :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }">
+              <p class="progress_bar_active" :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }" v-if="scope.row.consumptionAmount>0">
                 <span>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</span>
               </p>
+              <span v-else>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</span>
             </div>
           </template>
         </el-table-column>

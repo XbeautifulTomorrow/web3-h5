@@ -32,7 +32,7 @@
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
-            <p>{{ $t("user.unlocked") }}{{ welcomeStatic?.unlockReward || 0 }}</p>
+            <p>{{ $t("user.unlocked") }}{{ new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))||0 }}</p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
         </div>

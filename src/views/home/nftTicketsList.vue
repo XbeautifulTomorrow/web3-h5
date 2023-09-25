@@ -239,13 +239,13 @@ export default {
     },
     closeDialogFun() {
       this.pageType = "";
-      this.buyVotes = 1;
+      this.fetchCheckAllOrders();
     },
     changeTypeFun(page) {
       this.pageType = page;
     },
     handleTickets(event) {
-      this.$router.push({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      this.$router.push({ name: "FreeNFT", query: { id: event.orderNumber } });
     },
     toDraw() {
       if (!this.isLogin || !this.userInfo?.id) {
@@ -270,6 +270,7 @@ export default {
     ];
     this.sortDrop = [
       { label: t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: t("ticketsInfo.remaining"), value: "remaining" },
       { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
       { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" }
     ]

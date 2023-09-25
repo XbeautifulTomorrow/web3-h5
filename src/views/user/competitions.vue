@@ -67,7 +67,9 @@
             <div class="tips_round aborted" v-else-if="item.currentStatus == 'CLOSED'">
               {{ $t("user.abortedStatus", { date: timeFormat(item.endTime) }) }}
             </div>
-            <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
+            <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+              #{{ item && item.tokenId }}
+            </div>
           </div>
           <div class="nft_name">
             <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
@@ -144,7 +146,8 @@
               <div class="tips_round end" v-else>
                 <span>{{ $t("user.cancel") }}</span>
               </div>
-              <div class="image_tag text-ellipsis">#{{ item && item.tokenId }}</div>
+              <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">#{{ item && item.tokenId
+              }}</div>
             </div>
             <div class="nft_name">
               <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
@@ -356,7 +359,7 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "FreeNFT", query: { id: event.orderNumber } });
       openUrl(routeData.href)
     },
     // 取消赛事
@@ -374,6 +377,8 @@ export default {
       if (res && res.code == 200) {
         this.$message.success("Cancel successfully");
         this.fetchOneBuyList();
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
         this.handleClose();
       }
     },
@@ -394,6 +399,9 @@ export default {
         return
       }
 
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+      this.fetchOneBuyList(false);
       this.showCabcel = false;
       this.showCreateCom = false;
     },

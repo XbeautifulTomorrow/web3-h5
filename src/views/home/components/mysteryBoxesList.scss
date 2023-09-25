@@ -25,12 +25,11 @@
   align-items: center;
   margin: 5.625rem 0 3.75rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
   :deep(.search_input) {
-
     .el-input__wrapper {
       height: 3.375rem;
       box-shadow: none;
@@ -40,14 +39,13 @@
       background-color: #13151f;
       border: solid 1px #363945;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
         text-align: left;
         color: white;
       }
-
     }
 
     .el-input__icon {
@@ -85,14 +83,14 @@
         background-color: #1d0f36;
         border-radius: 1.875rem;
 
-        &>input {
+        & > input {
           font-size: 1.125rem;
           font-weight: 500;
           text-align: left;
           color: #fad54d;
         }
 
-        &>input::placeholder {
+        & > input::placeholder {
           color: #fad54d;
         }
       }
@@ -100,7 +98,6 @@
 
     &.collections {
       :deep(.select_box) {
-
         .el-input__wrapper {
           padding-left: 8.75rem;
         }
@@ -125,15 +122,15 @@
   align-items: center;
   flex-wrap: wrap;
 
-  &>li+li {
+  & > li + li {
     margin-left: 1.8125rem;
   }
 
-  &>li:nth-child(n+5) {
+  & > li:nth-child(n + 5) {
     margin-top: 1.875rem;
   }
 
-  &>li:nth-child(4n+1) {
+  & > li:nth-child(4n + 1) {
     margin-left: 0;
   }
 }
@@ -258,13 +255,9 @@
   padding: 1px;
   margin: 0 auto;
   margin-top: 1.25rem;
-  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
-    linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b), linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
   padding: 0.125rem;
-  border-image-source: linear-gradient(to bottom,
-      #5fe3ef 12%,
-      #00689d 53%,
-      #b063f5 70%);
+  border-image-source: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
   border-image-slice: 1;
   background-origin: border-box;
   background-clip: content-box, border-box;
@@ -273,7 +266,7 @@
   &:hover {
     background-image: linear-gradient(to top, #e3a406, #fbd851);
 
-    &>.boxes-button-name {
+    & > .boxes-button-name {
       color: #13151f;
       background: transparent;
       -webkit-background-clip: inherit;
@@ -300,7 +293,7 @@
   margin-top: 5rem;
   height: 25rem;
 
-  &>span {
+  & > span {
     margin: 0 auto;
     display: block;
     padding: 1.25rem;
@@ -344,8 +337,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -375,7 +367,6 @@
 }
 
 @media screen and (max-width: 950px) {
-
   .wrapper_bg {
     background-image: none;
   }
@@ -383,30 +374,31 @@
   .ntf_tickets_list_wrapper {
     width: auto;
     padding: 0 1rem;
-
   }
 
   .banner_box {
     margin: 0 auto;
     height: 7.5rem;
-    background-image: url("@/assets/img/home/box_banner.webp");
+    background: url("@/assets/img/home/box_banner.webp") center;
     background-size: cover;
     background-repeat: no-repeat;
     margin-top: 0;
+    padding: 0.25rem;
+    background-clip: content-box;
   }
 
   .boxes-content {
     margin: 0 auto 1rem;
 
-    &>li+li {
+    & > li + li {
       margin-left: 0.5rem;
     }
 
-    &>li:nth-child(n+3) {
+    & > li:nth-child(n + 3) {
       margin-top: 0;
     }
 
-    &>li:nth-child(2n+1) {
+    & > li:nth-child(2n + 1) {
       margin-left: 0;
     }
   }
@@ -414,8 +406,10 @@
   .mystery-boxes-item {
     flex: 1;
     min-width: 48%;
-    height: 14.5rem;
-    background-image: url("@/assets/svg/home/mini/nft_box_bg.svg");
+    height: auto;
+    border-radius: 0.25rem;
+    background-image: linear-gradient(143deg, #1d0f36 0%, #13151f 100%);
+    margin-bottom: 0.5rem;
 
     &:hover {
       .mystery-boxs-list-img {
@@ -426,8 +420,8 @@
 
     .img_box {
       width: 100%;
-      height: 6.5rem;
-      padding: 2px;
+      height: 30vw;
+      padding: 0.75rem;
       box-sizing: border-box;
     }
 
@@ -484,12 +478,11 @@
   .search_box {
     margin: 0.5rem 0;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.5rem;
     }
 
     :deep(.search_input) {
-
       .el-input__wrapper {
         height: 1.5rem;
         box-shadow: none;
@@ -499,7 +492,7 @@
         background-color: #13151f;
         border: solid 1px #363945;
 
-        &>input {
+        & > input {
           font-size: 0.75rem;
           font-weight: 500;
           height: 1.5rem;
@@ -507,7 +500,6 @@
           text-align: left;
           color: white;
         }
-
       }
 
       .el-input__icon {
@@ -527,7 +519,7 @@
         height: 1.5rem;
         padding: 0 0.5rem;
 
-        &>input {
+        & > input {
           height: 1.5rem;
           font-size: 0.75rem;
         }
@@ -560,12 +552,12 @@
           background-color: transparent;
           padding-left: 3.5rem;
 
-          &>input {
+          & > input {
             height: 1.5rem;
             font-size: 0.75rem;
           }
 
-          &>input::placeholder {
+          & > input::placeholder {
             color: #fad54d;
           }
         }
@@ -574,11 +566,10 @@
   }
 
   .boxes-button {
-    width: 80%;
+    width: auto;
     height: 1.5rem;
     border-radius: 1.5rem;
-    margin: 0 auto;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0.5rem 0.625rem;
   }
 
   .boxes-button-name {

@@ -99,7 +99,7 @@
               <div class="enter_relevant">
                 <div class="title">{{ $t("ticketsInfo.enterCompetition") }}</div>
                 <div class="buy_tips"
-                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0) })">
+                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0).toString() })">
                 </div>
               </div>
               <div class="buy_box">
@@ -117,7 +117,7 @@
                 </div>
               </div>
               <div class="payment_box">
-                <el-button v-if="nftInfo?.sendTicketsSwitch" style="width: 100%;" @click="shareOpen()"
+                <el-button v-if="nftInfo?.sendTicketsSwitch && maxBuyNum > 0" style="width: 100%;" @click="shareOpen()"
                   :class="['free_payment', nftInfo?.sendTicketsStatus != 1 && 'disabled']" type="primary">
                   <div class="share_box">
                     <div class="shareText">
@@ -535,7 +535,7 @@ export default {
   },
   data() {
     return {
-      pageType: null, //登录相关
+      pageType: "", //登录相关
       orderId: null,
       nftInfo: {},
       inviteVal: null,
@@ -670,7 +670,8 @@ export default {
     // 获取Nft信息
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({
-        orderNumber: this.orderId
+        orderNumber: this.orderId,
+        userId: this.userInfo?.id || 0
       });
       if (res && res.code == 200) {
         this.nftInfo = res.data;
@@ -688,15 +689,17 @@ export default {
               orderNumber: this.orderId
             });
 
-            if (!userTweet.collectionStatus) {
-              this.nftInfo?.sendTicketsStatus == 3;
+            const { data } = userTweet;
+            if (data?.collectionStatus) {
+              this.nftInfo.sendTicketsStatus = 3;
             }
           }
         }
 
+
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          userId: userInfo?.id || null
+          userId: userInfo?.id || 0
         })
 
         if (resDrawn && resDrawn.code == 200) {
@@ -972,7 +975,7 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "NftTicketsInfo", query: { id: event.orderNumber } });
+      let routeData = this.$router.resolve({ name: "FreeNFT", query: { id: event.orderNumber } });
       openUrl(routeData.href)
     },
     /*
@@ -1055,7 +1058,7 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNFT";
       if (event) {
         link += "/" + event;
       }
@@ -1081,7 +1084,7 @@ export default {
 
       const inviteLink = `Enter NOW:`;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNFT";
 
       if (event) {
         link += "/" + event;
@@ -1117,7 +1120,7 @@ export default {
 
       const inviteLink = ``;
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/NftTicketsInfo";
+      let link = currentLink + "/FreeNFT";
 
       if (event) {
         link += "/" + event;
@@ -1130,7 +1133,7 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + "🎉";
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
@@ -1141,6 +1144,11 @@ export default {
     },
     // 打开分享
     shareOpen() {
+      if (!this.userInfo?.id || !this.isLogin) {
+        this.pageType = "login";
+        return
+      }
+
       if (this.nftInfo?.sendTicketsStatus != 1) return;
 
       this.showShare = true;
@@ -1156,12 +1164,20 @@ export default {
     onVerify() {
       const { shareLink } = this;
       if (!shareLink) {
-        this.errorTips = t("ticketsInfo.errorLink");
+        this.errorTips = t("errorTips.tweets_link_error");
         this.verifys = false;
         return
       }
 
-      this.inviteTips = "";
+      const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/
+
+      if (!reg.test(shareLink)) {
+        this.errorTips = t("errorTips.tweets_link_error");
+        this.verifys = false;
+        return
+      }
+
+      this.errorTips = "";
       this.verifys = true;
     },
     // 验证推特链接
@@ -1169,26 +1185,51 @@ export default {
       this.onVerify();
       if (!this.verifys) return;
 
+      let res = null;
+      let isLoad = false;
+      let isHandle = true;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        if (isLoad) {
+          this.loading = false;
+          this.handleRes(res);
+        } else {
+          isHandle = false;
+        }
+      }, 3000);
+
       this.loading = true;
-      const res = await tweetSendTikect({
+      res = await tweetSendTikect({
         orderNumber: this.orderId,
         tweetUrl: this.shareLink
       });
 
+      isLoad = true;
+      if (!isHandle) {
+        this.loading = false;
+        this.handleRes(res);
+      }
+    },
+    handleRes(res) {
       if (res && res.code == 200) {
         if (res.data) {
           this.shareClose();
           this.loadInterface();
+          this.$message.success(t("ticketsInfo.verifySuccess"));
         }
 
         this.verifys = false;
         this.errorTips = null;
       } else {
+        const { data } = res;
+        this.errorTips = t("errorTips." + data.messageKey);
         this.verifys = true;
-        this.errorTips = t("errorTips." + res.messageKey);
       }
-
-      this.loading = false;
     },
     // 关闭分享
     shareClose() {

@@ -185,8 +185,7 @@
     "enterHint": "請輸入您想要購買的數量。",
     "buySuccess": "購買成功！",
     "buyTipsTitle": "PURCHASE SUCCESSFUL",
-    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,",
-    "buyTipsText2": " so keep checking back to see how the competition progresses.",
+    "buyTipsText1": "You have successfully purchased { tickets } and spent a total of { num } ,Remember to revisit and stay updated on the draw's development",
     "buyTipsShare": "SHARE THIS COMPETITION",
     "buyTipsCheck": "CHECK COMPETITION",
     "participants": "參與者",
@@ -203,7 +202,9 @@
     "errorLink": "Please enter link",
     "startVerify": "START VERIFICATION",
     "verifyTips1": "我们将对您所发推特进行验证，请不要对内容进行修改",
-    "verifyTips2": "请勿删除您在领取免费门票时发出的推文，如果中奖者是您，我们将对此链接进行二次验证，以确保公平。"
+    "verifyTips2": "请勿删除您在领取免费门票时发出的推文，如果中奖者是您，我们将对此链接进行二次验证，以确保公平。",
+    "verifySuccess": "Twitter verification is successful and you get a free ticket.",
+    "remaining": "Remaining tickets"
   },
   "virtualCurrency": {
     "recentBox": "近期開箱",
@@ -314,6 +315,7 @@
     "timeLimit": "限時競賽",
     "priceLimit": "限價競賽",
     "totalPrice": "總價值",
+    "totalSupply": "Total Supply",
     "totalEntries": "總票數",
     "duration": "持續時間",
     "enterTimeHint": "請輸入1-30之間的數字",
@@ -409,7 +411,7 @@
     "createComTips2": "只有Bitzing认可的NFT可以创建Treasure Draw。",
     "feeRate": "FEE RATE",
     "realIncome": "REAL INCOME",
-    "chooseCodeHint": "Please select an invitation code",
+    "chooseCodeHint": "Select Referral Code",
     "freeNumHint": "Number of free tickets",
     "limitNumEnter": "Enter the number of total entries.",
     "ticketsHint": "The maximum amount cannot exceed 120% of the original value",
@@ -653,7 +655,12 @@
     "PLEASE_SELECT_INVITATION_CODE": "Please select an invitation code.",
     "maximum_free_tickets_error": "Please set the correct maximum number of free tickets.",
     "order_not_launched": "The push ticket activity has not been launched for the order.",
-    "tweet_verification_failed": "Tweet verification failed."
+    "tweet_verification_failed": "Tweet verification failed.",
+    "repeated_collection": "Please do not receive it repeatedly.",
+    "tweet_repeated": "This tweet has already been used.",
+    "twitter_repeated": "A Twitter account can only be claimed once.",
+    "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time.",
+    "tweets_link_error": "Please provide a valid tweets links."
   },
   "lottery": {
     "notice": "提示",

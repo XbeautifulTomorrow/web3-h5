@@ -24,7 +24,7 @@
           <p>{{ $t("user.createComTips2") }}</p>
         </div>
       </div>
-      <div class="dialog_competition" v-else>
+      <div class="dialog_competitions" v-else>
         <div class="create_title">{{ $t("user.createCompetition") }}</div>
         <div class="image_box">
           <Image fit="cover" class="nft_img" v-if="operatingType == 'NFT'" :src="competitionNft?.img" />
@@ -39,17 +39,9 @@
         <div class="nft_info" v-else>
           <div class="nft_name">{{ operatingType }}</div>
         </div>
-        <div class="type_tabs" v-if="operatingType == 'NFT'">
-          <div :class="['tabs_item', 'disabled']">
-            {{ $t("user.timeLimit") }}
-          </div>
-          <div :class="['tabs_item', activeType == 'LIMITED_PRICE' && 'active']" @click="activeType = 'LIMITED_PRICE'">
-            {{ $t("user.priceLimit") }}
-          </div>
-        </div>
         <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
           label-position="top">
-          <el-form-item :label="$t('user.totalPrice')" prop="price">
+          <el-form-item :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')" prop="price">
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div class="price_item" @click="competitionForm.price = competitionNft?.floorPrice">
                 <span class="title">Floor Price</span>
@@ -66,7 +58,7 @@
               </template>
             </el-input>
           </el-form-item>
-          <el-form-item class="form-item_wrap" v-if="operatingType == 'ETH'" :label="$t('user.entriesPrice')">
+          <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
             <div class="num_item">
               <span>{{ competitionForm.ticketPrice }}</span>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
@@ -86,48 +78,26 @@
               <img class="icon_eth" src="@/assets/svg/user/icon_tickets_num.svg" alt="" />
             </div>
           </el-form-item>
-          <el-form-item class="form-item_wrap" :label="$t('user.totalPrice')" v-if="operatingType == 'ETH'">
+          <el-form-item class="form-item_wrap"
+            :label="operatingType == 'NFT' ? $t('user.totalPrice') : $t('user.totalSupply')"
+            v-if="operatingType == 'ETH'">
             <div class="num_item">
               <span>{{ totalPrice }}</span>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </div>
           </el-form-item>
-          <el-form-item class="form-item_wrap" :label="$t('user.feeRate')" v-if="operatingType == 'ETH'">
+          <el-form-item class="form-item_wrap" :label="$t('user.feeRate')">
             <div class="num_item">
               <span>{{ new bigNumber(serverFees).multipliedBy(100).toFixed(2) }}%</span>
             </div>
           </el-form-item>
-          <el-form-item class="form-item_wrap" :label="$t('user.realIncome')" v-if="operatingType == 'ETH'">
+          <el-form-item class="form-item_wrap" :label="$t('user.realIncome')">
             <div class="num_item">
               <span>{{ realIncome }}</span>
               <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </div>
           </el-form-item>
-          <el-form-item :label="$t('user.duration')" prop="limitDay" v-if="activeType == 'LIMITED_TIME'">
-            <div class="input_days">
-              <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-                :placeholder="$t('user.enterTimeHint')">
-              </el-input>
-              <div class="days_text" v-if="competitionForm.limitDay > 1">{{ $t("user.days") }}</div>
-              <div class="days_text" v-else>{{ $t("user.day") }}</div>
-            </div>
-            <div class="choose_days">
-              <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
-                'choose_days_item',
-                competitionForm.limitDay == item && 'active',
-              ]" @click="competitionForm.limitDay = item">
-                <span v-if="item > 1">{{ $t("user.numDays", { num: item }) }}</span>
-                <span v-else>{{ $t("user.numDay", { num: item }) }}</span>
-              </div>
-            </div>
-          </el-form-item>
-          <el-form-item class="form-item_wrap" v-if="operatingType == 'NFT'" :label="$t('user.entriesPrice')">
-            <div class="num_item">
-              <span>{{ competitionForm.ticketPrice }}</span>
-              <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-            </div>
-          </el-form-item>
-          <el-form-item :label="$t('user.maxDuration')" prop="limitDay" v-if="activeType == 'LIMITED_PRICE'">
+          <el-form-item :label="$t('user.maxDuration')" prop="limitDay">
             <div class="input_days">
               <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
                 :placeholder="$t('user.enterTimeHint')">
@@ -162,13 +132,12 @@
                 </el-tooltip>
               </span>
             </div>
-            <div class="invitation_box">
-              <el-select v-if="inviteDrop.length > 0" v-model="freeParams.inviteCode" class="invite_select"
-                :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
+            <div class="invitation_box" v-if="freeParams.isOpen">
+              <el-select @click="showCreate()" :disabled="!inviteDrop.length > 0" v-model="freeParams.inviteCode"
+                class="invite_select" :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
                 <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
                   :value="item.inviteCode" />
               </el-select>
-              <div v-else class="create_invite_btn" @click="showInvite = true">{{ $t("user.tweetTitle") }}</div>
               <el-input class="invite_select tickets_num" v-model="freeParams.sendTicketsNum" type="number" min="0"
                 :placeholder="$t('user.freeNumHint')">
               </el-input>
@@ -328,7 +297,8 @@ import {
   getSystemNft,
   getNftActivityCharts,
   getTheExternalNFTSeries,
-  getServiceFee
+  getServiceFee,
+  getCofingKey
 } from "@/services/api/oneBuy";
 
 import {
@@ -349,6 +319,7 @@ export default {
       show: true,
       operatingType: null,
       serverFees: 0,
+      configK: {},
       activeType: "LIMITED_PRICE",
       competitionNft: null,
       competitionForm: {
@@ -431,11 +402,18 @@ export default {
     },
     // 实际收益
     realIncome() {
-      const { totalPrice, serverFees } = this;
-      if (!totalPrice || !serverFees) return 0;
-      const feeNum = new bigNumber(totalPrice).multipliedBy(serverFees);
+      const { operatingType, competitionForm: { price }, totalPrice, serverFees } = this;
+      if (operatingType != "NFT") {
+        if (!totalPrice || !serverFees) return 0;
+        const feeNum = new bigNumber(totalPrice).multipliedBy(serverFees);
 
-      return new bigNumber(totalPrice).minus(feeNum);
+        return new bigNumber(totalPrice).minus(feeNum);
+      } else {
+        if (!price || !serverFees) return 0;
+        const feeNum = new bigNumber(price).multipliedBy(serverFees);
+
+        return new bigNumber(price).minus(feeNum);
+      }
     }
   },
   methods: {
@@ -447,12 +425,15 @@ export default {
      * @description: 格式化地址
      */
     handleChoose(event) {
+      const { configK } = this;
       if (event == "NFT") {
         this.fetchExternalSeries();
         this.fetchSystemNft();
         this.showChooseNft = true;
+        this.daysData = [1, 7, 14, configK?.ONE_NFT_LIMIT_DAY || 30]
       } else {
         this.operatingType = event;
+        this.daysData = [1, 7, 14, configK?.ONE_ETH_LIMIT_DAY || 30]
       }
 
       this.fetchRebatesFindList();
@@ -650,6 +631,11 @@ export default {
       this.inviteTips = "";
       this.verifys = true;
     },
+    // 打开创建弹窗
+    showCreate() {
+      if (this.inviteDrop.length > 0) return;
+      this.showInvite = true;
+    },
     // 创建邀请吗
     async createInvite() {
       this.onVerify();
@@ -678,6 +664,23 @@ export default {
         })
       }
     },
+    // 获取配置
+    async fetchCofingKey() {
+      const res = await getCofingKey({
+        str: `ONE_ETH_LIMIT_PREMIUM,ONE_ETH_LIMIT_DAY,ONE_NFT_LIMIT_DAY`
+      })
+
+      if (res && res.code == 200) {
+        const configKey = res.data;
+        let config = {};
+
+        configKey.forEach(element => {
+          config[element.k] = element.v
+        })
+
+        this.configK = config;
+      }
+    },
     // 关闭选择弹窗
     handleCloseChoose() {
       this.showChooseNft = false;
@@ -701,13 +704,14 @@ export default {
       }
     },
     validateTPrice(rule, value, callback) {
-      const { price, ticketPrice } = this.competitionForm;
+      const { competitionForm: { price, ticketPrice }, configK } = this;
+
       if (!price) {
         callback();
       } else if (value === "") {
         callback(new Error(t("user.limitNumEnter")));
-      } else if (value && Number(value * ticketPrice) > Number(price * 1.2)) {
-        callback(new Error(t("user.ticketsHint")));
+      } else if (value && Number(value * ticketPrice) > Number(price * configK?.ONE_ETH_LIMIT_PREMIUM)) {
+        callback(new Error(t("user.ticketsHint", { ratio: `${new bigNumber(configK?.ONE_ETH_LIMIT_PREMIUM || 0).multipliedBy(100)}%` })));
       } else {
         callback();
       }
@@ -724,18 +728,18 @@ export default {
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.competitionForm?.price || 0}</span>`;
         } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
           return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionNft?.floorPrice}</span><img style='display: inline-block; width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${this.competitionNft?.floorPrice || 0}</span>`;
         }
       } else {
         if (event == 1) {
-          return `<span style='line-height: 1rem;'>${this.totalPrice}</span><img style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.totalPrice || 0}</span>`;
         } else {
-          return `<span style='line-height: 1rem;'>${this.competitionForm.price}</span><img  style='display: inline-block;width: 1rem;height: auto;margin-left: 0.25rem; vertical-align: middle;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" />`;
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.competitionForm.price || 0}</span>`;
         }
       }
     },
@@ -778,7 +782,13 @@ export default {
       }, 300);
     },
     "competitionForm.limitDay"(newV) {
-      const max = 30;
+      const { operatingType, configK } = this;
+      let max = 30;
+      if (operatingType == "NFT") {
+        max = configK?.ONE_NFT_LIMIT_DAY || 30
+      } else {
+        max = configK?.ONE_ETH_LIMIT_DAY || 30
+      }
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -842,6 +852,7 @@ export default {
     };
 
     this.fetchSetting();
+    this.fetchCofingKey();
   },
 };
 </script>

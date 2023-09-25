@@ -192,9 +192,8 @@ export default {
       .award-img {
         position: absolute;
         width: 26%;
-        left: 30%;
-        top: 4%;
-        transform: rotate(15deg);
+        left: 31%;
+        top: 5%;
       }
     }
     .nft-img {

@@ -49,10 +49,10 @@
         <el-table-column prop="seriesName" :label="$t('user.spendingGoals')" min-width="140" align="center" key="2">
           <template #default="scope">
             <div class="progress_bar_box">
-              <p class="progress_bar_active" :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }" v-if="scope.row.consumptionAmount>0">
-                <span>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</span>
-              </p>
-              <span v-else>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</span>
+              <div class="progress_bar_active" :style="{ width: `${((scope.row.targetAmount-scope.row.consumptionAmount) / scope.row.targetAmount) * 100}%` }" v-if="scope.row.consumptionAmount!=scope.row.targetAmount">
+                <p><span>{{ new bigNumber(scope.row.targetAmount).minus(new bigNumber(scope.row.consumptionAmount))  }}</span> / {{ scope.row.targetAmount }}</p>
+              </div>
+              <p v-else><span>{{new bigNumber(scope.row.targetAmount).minus(new bigNumber(scope.row.consumptionAmount)) }}</span> / {{ scope.row.targetAmount }}</p>
             </div>
           </template>
         </el-table-column>

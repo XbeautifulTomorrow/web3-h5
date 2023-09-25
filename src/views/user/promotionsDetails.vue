@@ -50,9 +50,8 @@
           <template #default="scope">
             <div class="progress_bar_box">
               <div class="progress_bar_active" :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }" v-if="scope.row.consumptionAmount>0">
-                <p>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
               </div>
-              <p v-else>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
+              <p>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
             </div>
           </template>
         </el-table-column>

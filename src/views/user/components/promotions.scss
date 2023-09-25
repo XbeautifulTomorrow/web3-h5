@@ -279,7 +279,7 @@
     background: #292c36;
     border-radius: 0.5rem;
     font-size: 0.75rem;
-    // text-shadow: .0625rem .0625rem 0 #fff, -.0625rem -.0625rem 0 #fff, .0625rem -.0625rem 0 #fff, -.0625rem .0625rem 0 #fff;
+    text-shadow: .0625rem .0625rem 0 #fff, -.0625rem -.0625rem 0 #fff, .0625rem -.0625rem 0 #fff, -.0625rem .0625rem 0 #fff;
     color: #13151f;
     margin: 0 auto;
     .progress_bar_active {
@@ -298,8 +298,10 @@
       }
     }
     p{
+      position: relative;
+      z-index: 1;
       line-height: 1;
-      color: #a9a4b4;
+      font-weight: bold;
     }
   }
   .amount_box {

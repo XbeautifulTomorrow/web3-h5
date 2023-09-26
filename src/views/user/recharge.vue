@@ -69,7 +69,7 @@
                   </template>
                 </el-input>
                 <div class="recharge_hint">
-                  <span>{{ $t("user.hintText1", { coin: operatingCoin }) }}</span>
+                  <span>{{ $t("user.hintText1", { coin: operatingCoin, num: confirmNum() }) }}</span>
                 </div>
               </div>
               <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
@@ -323,7 +323,7 @@ export default {
       this.fetchSetting();
 
       if (this.networkDrop.length > 0) {
-        this.walletNetwork = this.networkDrop[0];
+        this.walletNetwork = this.networkDrop[0].chain;
       }
 
       if (this.walletOperating == 1) {
@@ -354,7 +354,7 @@ export default {
         }
 
         if (this.networkDrop.length > 0) {
-          this.walletNetwork = this.networkDrop[0];
+          this.walletNetwork = this.networkDrop[0].chain;
         }
       }
     },
@@ -481,6 +481,12 @@ export default {
     async renewBalance() {
       const headerStore = useHeaderStore();
       await headerStore.getTheUserBalanceApi();
+    },
+    // 确认次数
+    confirmNum() {
+      const { walletNetwork, networkDrop } = this;
+      const network = networkDrop.find(e => e.chain == walletNetwork);
+      return network?.height || 1
     },
     // 关闭创建弹窗
     handleClose() {

@@ -62,19 +62,15 @@
             {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
           </template>
         </el-table-column>
-        <el-table-column prop="coin" v-if="coin != 'NFT'" :label="$t('user.currency')" min-width="100" align="center"
-          key="2" show-overflow-tooltip />
-        <el-table-column prop="chainType" v-if="coin != 'NFT'" :label="$t('user.network')" min-width="100" align="center"
-          key="3" show-overflow-tooltip />
         <el-table-column prop="seriesName" v-if="coin == 'NFT'" :label="$t('user.balanceTabel7')" min-width="100"
-          align="center" key="4" show-overflow-tooltip />
-        <el-table-column prop="tokenId" v-if="coin == 'NFT'" min-width="100" label="TOKEN ID" align="center" key="5">
+          align="center" key="2" show-overflow-tooltip />
+        <el-table-column prop="tokenId" v-if="coin == 'NFT'" min-width="100" label="TOKEN ID" align="center" key="3">
           <template #default="scope">
             {{ `#${scope.row.tokenId}` }}
           </template>
         </el-table-column>
         <el-table-column prop="serviceFee" v-if="coin == 'NFT'" min-width="100" :label="$t('user.balanceTabel8')"
-          align="center" key="6">
+          align="center" key="4">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.serviceFee || "--" }}</span>
@@ -83,9 +79,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="amount" v-if="coin != 'NFT'" min-width="100" :label="$t('user.balanceTabel2')"
-          align="center" key="7">
+          align="center" key="5">
           <template #default="scope">
-
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
               <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
@@ -95,8 +90,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="100" :label="$t('user.balanceTabel3')"
-          align="center" key="8">
+        <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel3')"
+          align="center" key="6">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
@@ -107,7 +102,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" min-width="100" align="center" key="9">
+        <el-table-column prop="chainType" v-if="coin != 'NFT'" :label="$t('user.network')" min-width="100" align="center"
+          key="7" show-overflow-tooltip />
+        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" min-width="140" align="center" key="8">
           <template #default="scope">
             <div :class="['sync_status', scope.row.syncStatus]">
               <span> {{ scope.row.syncStatus }}</span>
@@ -126,12 +123,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="160" align="center" key="10">
+        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="160" align="center" key="9">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="120" key="11" fixed="right">
+        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="120" key="10" fixed="right">
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"

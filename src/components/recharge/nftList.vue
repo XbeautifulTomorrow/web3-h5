@@ -826,7 +826,7 @@ const getTheUserSPayoutAddressApi = async () => {
     }
 
     .choose_nft {
-      &>div:nth-child(n + 2) {
+      &>div:nth-child(n + 3) {
         margin-top: 0.25rem;
       }
 

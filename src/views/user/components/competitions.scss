@@ -695,10 +695,11 @@
     .competitions_text {
       img {
         width: 1rem;
+        margin-right: 0.25rem;
       }
 
       span {
-        font-size: 1.125rem;
+        font-size: 1rem;
       }
     }
 
@@ -747,6 +748,27 @@
             }
           }
         }
+      }
+    }
+
+    .operating_btns {
+      display: flex;
+
+      &>div+div {
+        margin-left: 0.25rem;
+      }
+
+      .operating_item {
+        min-width: 3rem;
+        padding: 0 0.5rem;
+        height: 1.5rem;
+        line-height: 1.5rem;
+        border-radius: 1.5rem;
+        background-image: linear-gradient(to top, #e3a406, #fbd851);
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #13151f;
+        cursor: pointer;
       }
     }
 

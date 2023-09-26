@@ -38,5 +38,8 @@ defineProps({
   :deep(.el-image__inner) {
     object-fit: cover;
   }
+  img{
+    object-fit: cover;
+  }
 }
 </style>

@@ -1115,8 +1115,8 @@ export default {
         }
       }
 
-      const series = `🎉 I just scored a FREE ticket for a chance at an ${seriesName} on BITZING! \n\n`;
-      const description = `Can't believe my luck! Grab yours before they're gone: \n\n`;
+      const series = `🎉Register on Bitzing.io now to earn a FREE ticket for a chance to win ${seriesName} on BITZING! \n\n`;
+      const description = `Grab yours before they're gone: \n\n`;
 
       const inviteLink = ``;
       const currentLink = "https://www.bitzing.io";
@@ -1133,7 +1133,7 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + "🎉";
+      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + " 🎉";
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },

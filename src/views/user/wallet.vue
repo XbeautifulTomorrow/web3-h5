@@ -62,8 +62,8 @@
             {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
           </template>
         </el-table-column>
-        <el-table-column prop="coin" v-if="coin != 'NFT'" :label="$t('user.currency')" min-width="100"
-          align="center" key="2" show-overflow-tooltip />
+        <el-table-column prop="coin" v-if="coin != 'NFT'" :label="$t('user.currency')" min-width="100" align="center"
+          key="2" show-overflow-tooltip />
         <el-table-column prop="chainType" v-if="coin != 'NFT'" :label="$t('user.network')" min-width="100" align="center"
           key="3" show-overflow-tooltip />
         <el-table-column prop="seriesName" v-if="coin == 'NFT'" :label="$t('user.balanceTabel7')" min-width="100"
@@ -86,7 +86,7 @@
           align="center" key="7">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ scope.row.criditAmount }}</span>
+              <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
               <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
               <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
               <span v-else>{{ scope.row.criditCoin }}</span>
@@ -97,7 +97,7 @@
           align="center" key="8">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ scope.row.amount }}</span>
+              <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
               <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
               <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
               <span v-else>{{ scope.row.coin }}</span>
@@ -123,12 +123,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="100" align="center" key="10">
+        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="160" align="center" key="10">
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="100" key="11" fixed="right">
+        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="120" key="11" fixed="right">
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
@@ -307,7 +307,7 @@ export default {
       }
 
       const res = await getWithdrawalHistory({
-        coin: this.coin,
+        coin: "",
         page: _page,
         size: size
       });
@@ -339,7 +339,7 @@ export default {
       }
     },
     viewTxid(event) {
-      let transactionUrl = null;
+      let transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
       if (event.chainType == "Goerli") {
         transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
       } else if (event.chainType == "OKT_TEST") {

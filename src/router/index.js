@@ -149,6 +149,18 @@ router.afterEach(() => {
   window.scrollTo(0, 0);
 })
 
+router.onError((error) => {
+  const pattern = /Loading chunk (\d)+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  if (isChunkLoadFailed) {
+    window.location.reload();
+    // router.replace(router.history.pending.fullPath);
+  } else {
+    console.log(error)
+  }
+});
+
+
 router.beforeEach(async (to, from, next) => {
   const { path, query } = to;
   let res = null;

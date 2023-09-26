@@ -22,10 +22,13 @@
               <span>
                 {{ $t("user.currency", { operating: `${walletOperating == 1 ? 'DEPOSIT' : 'WITHDRAW'}` }) }}
               </span>
-              <span class="required">*</span>
             </div>
             <el-select v-model="operatingCoin" @blur="onVerify('coin')" @change="handleChoose"
               class="nft_type wallet_network" placeholder="Select network" :popper-append-to-body="false">
+              <template #prefix>
+                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+              </template>
               <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName"
                 :value="item.coinName" />
             </el-select>
@@ -38,7 +41,6 @@
               <span>
                 {{ $t("user.network", { operating: `${walletOperating == 1 ? 'DEPOSIT' : 'WITHDRAW'}` }) }}
               </span>
-              <span class="required">*</span>
             </div>
             <el-select v-model="walletNetwork" @blur="onVerify('network')" class="nft_type wallet_network"
               placeholder="Select network" :popper-append-to-body="false">
@@ -49,41 +51,26 @@
             </div>
           </div>
         </div>
-        <div class="recharge_panel" v-if="operatingCoin != null">
+        <div class="recharge_panel">
           <div class="recharge_relevant" v-if="walletOperating == 1">
             <div class="qr_code_box">
-              <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
               <div class="wallet_addr">
                 <div class="tips_text">
-                  {{ $t('user.sendHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
+                  {{ $t('user.sendHint', { coin: operatingCoin }) }}
                 </div>
                 <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                   :placeholder="$t('user.enterAddrHint')">
                   <template #append>
                     <div class="copy_btn" @click="onCopy(receiverAddr)">
-                      {{ $t("user.copy") }}
+                      <img class="not-select" src="@/assets/svg/user/icon_copy.svg" alt="">
                     </div>
                   </template>
                 </el-input>
-              </div>
-            </div>
-            <div class="recharge_hint_box">
-              <div class="hint_item">
-                <div class="hint_l">
-                  <img src="@/assets/svg/user/icon_warning.svg" alt="" />
-                </div>
-                <div class="hint_r">
-                  {{ $t("user.hintText1") }}
+                <div class="recharge_hint">
+                  <span>{{ $t("user.hintText1", { coin: operatingCoin }) }}</span>
                 </div>
               </div>
-              <div class="hint_item" v-if="operatingCoin != 'USDT'">
-                <div class="hint_l">
-                  <img style="visibility: hidden" src="@/assets/svg/user/icon_warning.svg" alt="" />
-                </div>
-                <div class="hint_r">
-                  {{ $t("user.hintText2") }}
-                </div>
-              </div>
+              <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
             </div>
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
@@ -106,13 +93,12 @@
             </div>
           </div>
           <div class="withdraw_relevant" v-else>
-            <div class="withdraw_tips_text">
-              {{ $t("user.hintText4", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
-            </div>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
+                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 <span>
-                  {{ $t("user.receivingAddr", { network: `${operatingCoin != 'USDT' ? 'ETHEREUM' : 'TETHER'}` }) }}
+                  {{ $t("user.receivingAddr", { coin: operatingCoin }) }}
                 </span>
                 <span class="required">*</span>
               </div>
@@ -144,9 +130,7 @@
                     </template>
                   </el-input>
                 </div>
-                <div class="withdraw_btn" @click="onWithdrawalBalance()">
-                  {{ $t("user.requestBtn") }}
-                </div>
+
               </div>
               <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
                 <span class="fee_title">
@@ -167,15 +151,21 @@
                 {{ tipsText }}
               </div>
             </div>
+            <div class="withdraw_btn" @click="onWithdrawalBalance()">
+              {{ $t("user.requestBtn") }}
+            </div>
             <div class="withdraw_hint">
-              <p>
-                {{ $t("user.addrTips1", { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` }) }}
-              </p>
               <p>
                 {{ $t("user.addrTips2") }}
               </p>
             </div>
           </div>
+        </div>
+        <div class="verify_box">
+          <div class="verify_title">
+            <span>{{ }}</span>
+          </div>
+          <div class="verify_btn"></div>
         </div>
       </div>
     </el-dialog>
@@ -286,7 +276,8 @@ export default {
           this.walletAmount = newV || 0;
           return;
         }
-        if (operatingCoin == "ETH") {
+
+        if (operatingCoin != "USDT") {
           this.walletAmount = newV || 0;
           return;
         }
@@ -307,14 +298,10 @@ export default {
       this.walletOperating = event;
       this.walletAmount = null;
       if (this.walletOperating == 1 && this.operatingCoin != null) {
-
-        if (this.timer) {
-          clearTimeout(this.timer);
-        }
-
-        this.timer = setTimeout(() => {
+        this.$nextTick(() => {
           this.createQrcode();
-        }, 10);
+        })
+
         this.fetchRechargeExchangeRate();
       } else {
         this.fetchWithdrawalExchangeRate();
@@ -325,15 +312,13 @@ export default {
       this.operatingCoin = event;
       this.isConvert = true;
       this.walletAmount = null;
+      this.walletNetwork = null;
       this.fetchSetting();
 
       if (this.walletOperating == 1) {
-        if (this.timer) {
-          clearTimeout(this.timer);
-        }
-        this.timer = setTimeout(() => {
+        this.$nextTick(() => {
           this.createQrcode();
-        }, 10);
+        })
 
         this.fetchRechargeExchangeRate();
       } else {
@@ -346,6 +331,14 @@ export default {
       const res = await getWithdrawalChain();
       if (res && res.code == 200) {
         this.networkList = res.data;
+
+        const coin = this.networkList.find(e => e.coinName == "ETH");
+
+        if (coin == -1) {
+          this.operatingCoin = this.networkList[0].coinName;
+        } else {
+          this.operatingCoin = coin.coinName;
+        }
       }
     },
     // 收款地址
@@ -354,6 +347,9 @@ export default {
       if (res && res.code == 200) {
         this.receiverAddr = res.data;
         localStorage.setItem("receiver", res.data);
+        this.$nextTick(() => {
+          this.createQrcode();
+        })
       }
     },
     // 充值汇率
@@ -471,20 +467,9 @@ export default {
     },
     // 关闭创建弹窗
     handleClose() {
-      this.walletOperating = 1; // 1 充币；2 提币；
-      this.operatingCoin = null; // 操作币种
-      this.walletAddr = null;
-      this.exchangeRate = null; // 汇率
-      this.walletAmount = null; // 充币数量
-      this.ethNum = null; // 转化eth数量
-      this.isConvert = true; // 转化类型
-      this.walletAddrTips = null;
-      this.tipsText = null;
-
       this.$emit("closeDialogFun");
     },
     createQrcode() {
-
       //清除
       document.getElementById("qrCodeDiv").innerHTML = "";
 
@@ -509,9 +494,11 @@ export default {
       }
     },
   },
+  mounted() {
+    this.fetchReceivingAddr();
+  },
   created() {
     this.renewBalance();
-    this.fetchReceivingAddr();
     this.fetchSetting();
     this.fetchWithdrawalChain();
   },

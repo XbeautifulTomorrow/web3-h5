@@ -474,6 +474,7 @@
   display: flex;
   align-items: center;
   margin-top: 1.875rem;
+  box-sizing: border-box;
 
   .withdraw_item {
     flex: 1;
@@ -484,7 +485,7 @@
   }
 
   .withdraw_item:nth-child(1) {
-    max-width: 35%;
+    max-width: 19rem;
   }
 }
 
@@ -530,7 +531,7 @@
   .img_box {
     width: 9.375rem;
     height: 9.375rem;
-    margin-right: 1.25rem;
+    margin-left: 1.25rem;
     padding: 0.25rem;
     box-sizing: border-box;
     background-color: #ffff;
@@ -550,11 +551,11 @@
     line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
-    margin-bottom: 1.875rem;
+    margin-bottom: 1.25rem;
   }
 
   :deep(.wallet_addr_input) {
-    padding: 0.625rem 0.625rem 0.625rem 1.25rem;
+    padding: 0;
     border-radius: 0.5rem;
     border: solid 1px #363945;
     background-color: #13151f;
@@ -563,8 +564,11 @@
       border: none;
       box-shadow: none;
       padding: 0;
+      padding-left: 1.25rem;
+      height: 3.75rem;
 
       &>input {
+        height: 3.75rem;
         font-size: 0.875rem;
         color: white;
       }
@@ -578,48 +582,26 @@
     }
 
     .copy_btn {
-      width: 5.625rem;
-      height: 3.125rem;
+      width: 4.625rem;
+      height: 3.75rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 0.5rem;
+      border-radius: 0 0.5rem 0.5rem 0;
       background-image: linear-gradient(to top, #e3a406 -1%, #fbd851 99%);
-      font-size: 1.125rem;
-      font-weight: 500;
-      color: #13151f;
       cursor: pointer;
     }
   }
-
-
 }
 
-.recharge_hint_box {
-  padding-top: 1.875rem;
-
-  &>div+div {
-    margin-top: 1rem;
-  }
-
-  .hint_item {
-    display: flex;
-
-    .hint_l {
-      padding-right: 0.75rem;
-
-      img {
-        width: 1.5rem;
-      }
-    }
-
-    .hint_r {
-      font-size: 0.875rem;
-      text-align: left;
-      line-height: 1.6;
-      color: #fad54d;
-    }
-  }
+.recharge_hint {
+  font-family: Inter;
+  font-size: 0.75rem;
+  font-weight: normal;
+  line-height: 1.6;
+  text-align: left;
+  color: #a9a4b4;
+  padding-top: 1.25rem;
 }
 
 .recharge_estimated_price {
@@ -709,13 +691,19 @@
 .withdraw_item {
   .withdraw_item_lable {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     font-size: 0.75rem;
     font-weight: bold;
     line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
     padding-bottom: 0.625rem;
+
+    img {
+      width: 1rem;
+      height: auto;
+      margin-right: 0.5rem;
+    }
 
     .required {
       color: #df4328;
@@ -752,23 +740,6 @@
     }
   }
 
-  .withdraw_btn {
-    width: 7.875rem;
-    height: 4.375rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-    background-image: linear-gradient(to top, #e3a406, #fbd851);
-    margin-left: 1.25rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: bold;
-    line-height: 1.21;
-    text-align: center;
-    color: #13151f;
-  }
-
   .withdraw_fee {
     font-size: 0.875rem;
     margin-top: 0.625rem;
@@ -798,6 +769,22 @@
   }
 }
 
+.withdraw_btn {
+  width: 100%;
+  height: 3.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-image: linear-gradient(to top, #e3a406, #fbd851);
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.21;
+  text-align: center;
+  color: #13151f;
+}
+
 :deep(.nft_type) {
   min-width: 10.5rem;
 
@@ -822,6 +809,13 @@
       box-shadow: none !important;
     }
 
+    &>.el-input__prefix {
+      img {
+        width: 1.5rem;
+        height: auto;
+      }
+    }
+
     &>input {
       font-size: 1.125rem;
       font-weight: 500;
@@ -839,8 +833,8 @@
     width: 100%;
 
     .el-input__wrapper {
-      height: 3.75rem;
-      font-size: 0.875rem;
+      height: 3rem;
+      font-size: 1.125rem;
     }
   }
 }
@@ -1334,31 +1328,13 @@
     }
   }
 
-  .recharge_hint_box {
-    padding-top: 0.5rem;
-
-    &>div+div {
-      margin-top: 0.25rem;
-    }
-
-    .hint_item {
-      display: flex;
-
-      .hint_l {
-        padding-right: 0.25rem;
-
-        img {
-          width: 1rem;
-        }
-      }
-
-      .hint_r {
-        font-size: 0.75rem;
-        text-align: left;
-        line-height: 1.2;
-        color: #fad54d;
-      }
-    }
+  .recharge_hint {
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-weight: normal;
+    line-height: 1.6;
+    text-align: left;
+    color: #a9a4b4;
   }
 
   .recharge_estimated_price {
@@ -1449,14 +1425,6 @@
       }
     }
 
-    .withdraw_btn {
-      width: 5rem;
-      height: 2rem;
-      border-radius: 0.25rem;
-      margin-left: 0.25rem;
-      font-size: 0.625rem;
-    }
-
     .withdraw_fee {
       font-size: 0.625rem;
       margin-top: 0.25rem;
@@ -1471,6 +1439,14 @@
       margin-top: 0.25rem;
       line-height: 1.2;
     }
+  }
+
+
+  .withdraw_btn {
+    width: 100%;
+    height: 2rem;
+    border-radius: 0.25rem;
+    font-size: 0.625rem;
   }
 
   .pagination-box {
@@ -1520,4 +1496,16 @@
       margin-left: 0.25rem;
     }
   }
+}
+
+.not-select {
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
 }

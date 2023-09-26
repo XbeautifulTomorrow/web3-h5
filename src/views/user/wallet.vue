@@ -57,7 +57,11 @@
         </div>
       </div>
       <el-table :data="historyData" class="table_container">
-        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1" />
+        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1">
+          <template #default="scope">
+            {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
+          </template>
+        </el-table-column>
         <el-table-column prop="seriesName" v-if="coin == 'NFT'" :label="$t('user.balanceTabel7')" min-width="100"
           align="center" key="2" show-overflow-tooltip />
         <el-table-column prop="tokenId" v-if="coin == 'NFT'" min-width="100" label="TOKEN ID" align="center" key="3">

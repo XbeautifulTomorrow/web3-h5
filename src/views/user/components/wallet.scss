@@ -534,7 +534,7 @@
     margin-left: 1.25rem;
     padding: 0.25rem;
     box-sizing: border-box;
-    background-color: #ffff;
+    background-color: #fff;
 
     &>img {
       width: 100% !important;
@@ -1246,6 +1246,27 @@
     }
   }
 
+  .choose_operating {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin-top: 1.875rem;
+    box-sizing: border-box;
+
+    .withdraw_item {
+      flex: 1;
+    }
+
+    .withdraw_item+.withdraw_item {
+      margin-left: 1rem;
+    }
+
+    .withdraw_item:nth-child(1) {
+      max-width: 6.75rem;
+      box-sizing: border-box;
+    }
+  }
+
   .recharge_title {
     padding: 0.75rem 0 0.5rem;
 
@@ -1279,27 +1300,35 @@
     .img_box {
       width: 5rem;
       height: 5rem;
-      margin-right: 0.5rem;
+      margin: 0 auto;
+      margin-bottom: 0.5rem;
       padding: 0.25rem;
+
+
+      :deep(&>img) {
+        width: 100% !important;
+        height: auto !important;
+      }
     }
 
     .tips_text {
       font-size: 0.75rem;
       line-height: 1.2;
-      text-align: left;
+      text-align: center;
       color: #a9a4b4;
       margin-bottom: 0.5rem;
     }
 
     :deep(.wallet_addr_input) {
-      padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+      padding: 0;
       border-radius: 0.25rem;
 
       .el-input__wrapper {
-        height: 1.5rem;
+        height: 1.875rem;
+        padding-left: 0.25rem;
 
         &>input {
-          height: 1.5rem;
+          height: 1.875rem;
           font-size: 0.75rem;
           color: white;
         }
@@ -1313,17 +1342,19 @@
       }
 
       .copy_btn {
-        width: 3rem;
-        height: 1.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0.25rem;
+        width: 1.875rem;
+        height: 1.875rem;
+        border-radius: 0 0.25rem 0.25rem 0;
         background-image: linear-gradient(to top, #e3a406 -1%, #fbd851 99%);
         font-size: 0.75rem;
         font-weight: 500;
         color: #13151f;
         cursor: pointer;
+
+        img {
+          width: 1rem;
+          height: 1rem;
+        }
       }
     }
   }
@@ -1335,6 +1366,7 @@
     line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
+    padding-top: 0.5rem;
   }
 
   .recharge_estimated_price {
@@ -1447,6 +1479,57 @@
     height: 2rem;
     border-radius: 0.25rem;
     font-size: 0.625rem;
+  }
+
+  :deep(.nft_type) {
+    min-width: auto;
+
+    .el-input {
+      &.is-focus {
+        .el-input__wrapper {
+          box-shadow: none !important;
+        }
+      }
+    }
+
+    .el-input__wrapper {
+      height: 1.875rem;
+      padding: 0 0.25rem;
+      box-sizing: border-box;
+      border-radius: 0.25rem;
+      background-color: #1d0f36;
+      box-shadow: none !important;
+      border: none !important;
+
+      &.is-focus {
+        box-shadow: none !important;
+      }
+
+      &>.el-input__prefix {
+        img {
+          width: 1rem;
+          height: auto;
+        }
+      }
+
+      &>input {
+        height: 1.875rem;
+        font-size: 0.75rem;
+      }
+
+      .el-select__caret {
+        font-size: 1rem;
+      }
+    }
+
+    &.wallet_network {
+      width: 100%;
+
+      .el-input__wrapper {
+        height: 1.875rem;
+        font-size: 0.75rem;
+      }
+    }
   }
 
   .pagination-box {

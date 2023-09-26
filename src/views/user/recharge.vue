@@ -58,6 +58,7 @@
                 <div class="tips_text">
                   {{ $t('user.sendHint', { coin: operatingCoin }) }}
                 </div>
+                <div class="img_box" v-if="screenWidth < 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
                 <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr"
                   :placeholder="$t('user.enterAddrHint')">
                   <template #append>
@@ -70,7 +71,7 @@
                   <span>{{ $t("user.hintText1", { coin: operatingCoin }) }}</span>
                 </div>
               </div>
-              <div class="img_box" id="qrCodeDiv" ref="qrCodeDiv"></div>
+              <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
             </div>
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
@@ -188,7 +189,7 @@ import {
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat, isValidEthAddress } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 export default {
   name: "myWallet",
@@ -214,6 +215,8 @@ export default {
       networkTips: null,
       walletAddrTips: null,
       tipsText: null,
+
+      screenWidth: null,
 
       setting: {
         withdrawalFees: null
@@ -481,14 +484,25 @@ export default {
       //清除
       document.getElementById("qrCodeDiv").innerHTML = "";
 
-      new QRCode(this.$refs.qrCodeDiv, {
-        text: this.receiverAddr,
-        width: 126,
-        height: 126,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H,
-      });
+      if (this.screenWidth > 950) {
+        new QRCode(this.$refs.qrCodeDiv, {
+          text: this.receiverAddr,
+          width: 126,
+          height: 126,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+      } else {
+        new QRCode(this.$refs.qrCodeDiv, {
+          text: this.receiverAddr,
+          width: 72,
+          height: 72,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+      }
     },
     // 设置
     async fetchSetting() {
@@ -504,6 +518,15 @@ export default {
   },
   mounted() {
     this.fetchReceivingAddr();
+
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    })
   },
   created() {
     this.renewBalance();

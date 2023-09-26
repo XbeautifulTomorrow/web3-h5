@@ -85,6 +85,7 @@
     .tip {
       font-family: Inter;
       font-size: 0.875rem;
+      height: 1.8rem;
       color: #a9a4b4;
       margin-top: 0.625rem;
     }
@@ -358,7 +359,7 @@
         padding: 0.625rem;
         padding-bottom: 1rem;
         img {
-          height: auto;
+          height: 14vw;
           margin-bottom: 0.5rem;
         }
         .name {
@@ -456,6 +457,12 @@
       .promotions_item {
         flex: inherit;
         width: 100%;
+        .banner{
+          height: 28vw;
+        }
+        .tip{
+          height: auto;
+        }
       }
     }
   }

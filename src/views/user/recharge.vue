@@ -315,6 +315,10 @@ export default {
       this.walletNetwork = null;
       this.fetchSetting();
 
+      if (this.networkDrop.length > 0) {
+        this.walletNetwork = this.networkDrop[0];
+      }
+
       if (this.walletOperating == 1) {
         this.$nextTick(() => {
           this.createQrcode();
@@ -338,6 +342,10 @@ export default {
           this.operatingCoin = this.networkList[0].coinName;
         } else {
           this.operatingCoin = coin.coinName;
+        }
+
+        if (this.networkDrop.length > 0) {
+          this.walletNetwork = this.networkDrop[0];
         }
       }
     },

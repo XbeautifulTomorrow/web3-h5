@@ -288,7 +288,7 @@
     "sendHint": "Your { coin } deposit address:",
     "enterAddrHint": "Paste your ERC20 wallet address here.",
     "copy": "COPY",
-    "hintText1": "Only send { coin } to this address, 1 confirmation required.",
+    "hintText1": "Only send { coin } to this address, { num } confirmation required.",
     "hintText2": "Do NOT send NFTs to this deposit address. To recover NFTs deposited to this address in error, an administrative fee will be charged.",
     "hintText3": "The value of { coin } may change between now and the time we receive your payment",
     "hintText4": "Please enter the { coin } wallet address you wish to receive the funds on. Once confirmed, the withdrawal is usually processed within a few minutes.",

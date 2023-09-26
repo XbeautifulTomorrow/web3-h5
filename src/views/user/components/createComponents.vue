@@ -24,7 +24,7 @@
           <p>{{ $t("user.createComTips2") }}</p>
         </div>
       </div>
-      <div class="dialog_competition" v-else>
+      <div class="dialog_competitions" v-else>
         <div class="create_title">{{ $t("user.createCompetition") }}</div>
         <div class="image_box">
           <Image fit="cover" class="nft_img" v-if="operatingType == 'NFT'" :src="competitionNft?.img" />
@@ -297,7 +297,8 @@ import {
   getSystemNft,
   getNftActivityCharts,
   getTheExternalNFTSeries,
-  getServiceFee
+  getServiceFee,
+  getCofingKey
 } from "@/services/api/oneBuy";
 
 import {
@@ -318,6 +319,7 @@ export default {
       show: true,
       operatingType: null,
       serverFees: 0,
+      configK: {},
       activeType: "LIMITED_PRICE",
       competitionNft: null,
       competitionForm: {
@@ -423,12 +425,15 @@ export default {
      * @description: 格式化地址
      */
     handleChoose(event) {
+      const { configK } = this;
       if (event == "NFT") {
         this.fetchExternalSeries();
         this.fetchSystemNft();
         this.showChooseNft = true;
+        this.daysData = [1, 7, 14, configK?.ONE_NFT_LIMIT_DAY || 30]
       } else {
         this.operatingType = event;
+        this.daysData = [1, 7, 14, configK?.ONE_ETH_LIMIT_DAY || 30]
       }
 
       this.fetchRebatesFindList();
@@ -659,6 +664,23 @@ export default {
         })
       }
     },
+    // 获取配置
+    async fetchCofingKey() {
+      const res = await getCofingKey({
+        str: `ONE_ETH_LIMIT_PREMIUM,ONE_ETH_LIMIT_DAY,ONE_NFT_LIMIT_DAY`
+      })
+
+      if (res && res.code == 200) {
+        const configKey = res.data;
+        let config = {};
+
+        configKey.forEach(element => {
+          config[element.k] = element.v
+        })
+
+        this.configK = config;
+      }
+    },
     // 关闭选择弹窗
     handleCloseChoose() {
       this.showChooseNft = false;
@@ -682,13 +704,14 @@ export default {
       }
     },
     validateTPrice(rule, value, callback) {
-      const { price, ticketPrice } = this.competitionForm;
+      const { competitionForm: { price, ticketPrice }, configK } = this;
+
       if (!price) {
         callback();
       } else if (value === "") {
         callback(new Error(t("user.limitNumEnter")));
-      } else if (value && Number(value * ticketPrice) > Number(price * 1.2)) {
-        callback(new Error(t("user.ticketsHint")));
+      } else if (value && Number(value * ticketPrice) > Number(price * configK?.ONE_ETH_LIMIT_PREMIUM)) {
+        callback(new Error(t("user.ticketsHint", { ratio: `${new bigNumber(configK?.ONE_ETH_LIMIT_PREMIUM || 0).multipliedBy(100)}%` })));
       } else {
         callback();
       }
@@ -759,7 +782,13 @@ export default {
       }, 300);
     },
     "competitionForm.limitDay"(newV) {
-      const max = 30;
+      const { operatingType, configK } = this;
+      let max = 30;
+      if (operatingType == "NFT") {
+        max = configK?.ONE_NFT_LIMIT_DAY || 30
+      } else {
+        max = configK?.ONE_ETH_LIMIT_DAY || 30
+      }
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -823,6 +852,7 @@ export default {
     };
 
     this.fetchSetting();
+    this.fetchCofingKey();
   },
 };
 </script>

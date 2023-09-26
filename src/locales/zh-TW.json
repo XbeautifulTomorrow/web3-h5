@@ -41,7 +41,8 @@
     "competition": "競賽",
     "history": "購買曆史",
     "referrals": "邀請",
-    "settings": "設置"
+    "settings": "設置",
+    "promotions":"促銷"
   },
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
@@ -429,7 +430,19 @@
     "currency": "CURRENCY",
     "network": "NETWORK",
     "currencyError": "Please select currency",
-    "networkError": "Please select network"
+    "networkError": "Please select network",
+    "promotions": "促銷",
+    "unboxNow": "去開盒",
+    "readMore": "閱讀更多",
+    "progress": "進展：",
+    "totalBonus": "獎金總額：",
+    "received": "已領取：",
+    "unlocked":  "待解鎖：",
+    "getTotalPoint": "您獲得總積分：",
+    "round":  "輪次",
+    "spendingGoals": "已消費/目標",
+    "bonus": "獎金",
+    "underWay":  "進行中"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

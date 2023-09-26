@@ -26,7 +26,8 @@
             <el-select v-model="operatingCoin" @blur="onVerify('coin')" @change="handleChoose"
               class="nft_type wallet_network" placeholder="Select network" :popper-append-to-body="false">
               <template #prefix>
-                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                 <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
               </template>
               <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName"
@@ -84,7 +85,8 @@
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                   <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
@@ -96,7 +98,8 @@
           <div class="withdraw_relevant" v-else>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
-                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                 <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 <span>
                   {{ $t("user.receivingAddr", { coin: operatingCoin }) }}
@@ -126,7 +129,8 @@
                   <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                     type="number">
                     <template #prefix>
-                      <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                       <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                     </template>
                   </el-input>
@@ -331,6 +335,8 @@ export default {
       } else {
         this.fetchWithdrawalExchangeRate();
       }
+
+      this.$forceUpdate();
 
     },
     // 支持的网络

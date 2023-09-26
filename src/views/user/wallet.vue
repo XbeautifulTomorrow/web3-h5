@@ -128,7 +128,7 @@
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
-              @click="viewTxid(scope.row.hash)">{{ $t("user.view") }}</div>
+              @click="viewTxid(scope.row)">{{ $t("user.view") }}</div>
             <div v-else>--</div>
           </template>
         </el-table-column>
@@ -191,7 +191,7 @@ export default {
   data() {
     return {
       coin: "ETH",
-      coinList: ["ETH", "USDT", "NFT"],
+      coinList: ["ETH", "WETH", "USDT", "NFT"],
       historyData: [],
       userPoints: null,
       userTickets: null,
@@ -335,8 +335,14 @@ export default {
       }
     },
     viewTxid(event) {
-      const transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
-      openUrl(transactionUrl + event);
+      let transactionUrl = null;
+      if (event.chainType == "Goerli") {
+        transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
+      } else if (event.chainType == "OKT_TEST") {
+        transactionUrl = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      }
+
+      openUrl(transactionUrl + event.hash);
     },
     handleCurrentChange(page) {
       this.page = page;

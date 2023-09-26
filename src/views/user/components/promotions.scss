@@ -342,6 +342,27 @@
   }
 }
 
+.no_date {
+  display: flex;
+  align-items: center;
+  margin-top: 5rem;
+  height: 25rem;
+
+  & > span {
+    margin: 0 auto;
+    display: block;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #191b27;
+    font-family: BlenderPro;
+    font-size: 1.125rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    color: #a9a4b4;
+  }
+}
+
 @media (max-width: 950px) {
   .my_promotions_wrapper {
     background-image: none;

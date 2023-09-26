@@ -442,7 +442,8 @@
     "round":  "輪次",
     "spendingGoals": "已消費/目標",
     "bonus": "獎金",
-    "underWay":  "進行中"
+    "underWay":  "進行中",
+    "noDataPromotions":"沒有找到促銷"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

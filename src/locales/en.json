@@ -442,7 +442,8 @@
     "round": "Round",
     "spendingGoals": "Consumed / Targeted",
     "bonus": "Bonus",
-    "underWay": "In Progress"
+    "underWay": "In Progress",
+    "noDataPromotions":"NO PROMOTION FOUND"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

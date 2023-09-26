@@ -85,11 +85,13 @@
         <el-table-column prop="amount" v-if="coin != 'NFT'" min-width="100" :label="$t('user.balanceTabel2')"
           align="center" key="7">
           <template #default="scope">
+
             <div class="amount_box">
-              <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
-              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-              <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-              <span v-else>{{ scope.row.criditCoin }}</span>
+              <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
+              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
+              <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+              <img v-else-if="scope.row.coin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
+              <span v-else>{{ ` ${scope.row.coin}` }}</span>
             </div>
           </template>
         </el-table-column>
@@ -97,10 +99,11 @@
           align="center" key="8">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
-              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
-              <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-              <span v-else>{{ scope.row.coin }}</span>
+              <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
+              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
+              <img v-else-if="scope.row.criditCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
+              <span v-else>{{ ` ${scope.row.criditCoin}` }}</span>
             </div>
           </template>
         </el-table-column>

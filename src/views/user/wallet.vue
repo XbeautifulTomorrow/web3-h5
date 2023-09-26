@@ -339,14 +339,21 @@ export default {
       }
     },
     viewTxid(event) {
-      let transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
-      if (event.chainType == "Goerli") {
-        transactionUrl = process.env.VUE_APP_TRANSACTION_ADDR;
-      } else if (event.chainType == "OKT_TEST") {
-        transactionUrl = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      let chainLink = process.env.VUE_APP_CHAIN_MUMBAI_ADDR;
+      if (event.chainType == "OKT_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      } else if (event.chainType == "BSC_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      } else if (event.chainType == "BASE") {
+        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+      } else if (event.chainType == "BSC") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+      } else if (event.chainType == "OKT") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+      } else if (event.chainType == "ThunderCore") {
+        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
       }
-
-      openUrl(transactionUrl + event.hash);
+      openUrl(`${chainLink}${event.hash}`);
     },
     handleCurrentChange(page) {
       this.page = page;

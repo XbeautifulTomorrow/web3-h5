@@ -122,7 +122,7 @@ export default {
     // 去抽奖
     handleMysteryBoxes(event) {
       if (this.isLogin && this.userInfo?.id) {
-        this.$router.push({ path: "/reffleBox", query: { boxId: event.boxId } });
+        this.$router.push({ path: "/raffleBox", query: { boxId: event.boxId } });
       } else {
         this.changeTypeFun('login');
       }

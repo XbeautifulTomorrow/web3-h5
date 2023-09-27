@@ -123,10 +123,10 @@
                   <div class="share_box">
                     <div class="shareText">
                       <img src="@/assets/svg/user/icon_twiteer.svg" alt="">
-                      <span>{{ $t("ticketsInfo.shareTitle") }}</span>
+                      <span>{{ $t("ticketsInfo.freeText1") }}</span>
                     </div>
                     <div class="shareTips">
-                      <span>{{ $t("ticketsInfo.freeText1") }}</span>
+                      <span>{{ $t("ticketsInfo.shareTitle") }}</span>
                       <!-- <span v-else-if="nftInfo?.sendTicketsStatus == 2">{{ $t("ticketsInfo.freeText2") }}</span>
                       <span v-else>{{ $t("ticketsInfo.freeText3") }}</span> -->
                     </div>

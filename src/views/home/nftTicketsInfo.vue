@@ -117,7 +117,8 @@
                 </div>
               </div>
               <div class="payment_box">
-                <el-button v-if="nftInfo?.sendTicketsSwitch && maxBuyNum > 0" style="width: 100%;" @click="shareOpen()"
+                <el-button v-if="nftInfo?.sendTicketsSwitch && maxBuyNum > 0 && nftInfo?.sendTicketsStatus == 1"
+                  style="width: 100%;" @click="shareOpen()"
                   :class="['free_payment', nftInfo?.sendTicketsStatus != 1 && 'disabled']" type="primary">
                   <div class="share_box">
                     <div class="shareText">
@@ -125,9 +126,9 @@
                       <span>{{ $t("ticketsInfo.shareTitle") }}</span>
                     </div>
                     <div class="shareTips">
-                      <span v-if="nftInfo?.sendTicketsStatus == 1">{{ $t("ticketsInfo.freeText1") }}</span>
-                      <span v-else-if="nftInfo?.sendTicketsStatus == 2">{{ $t("ticketsInfo.freeText2") }}</span>
-                      <span v-else>{{ $t("ticketsInfo.freeText3") }}</span>
+                      <span>{{ $t("ticketsInfo.freeText1") }}</span>
+                      <!-- <span v-else-if="nftInfo?.sendTicketsStatus == 2">{{ $t("ticketsInfo.freeText2") }}</span>
+                      <span v-else>{{ $t("ticketsInfo.freeText3") }}</span> -->
                     </div>
                   </div>
                 </el-button>

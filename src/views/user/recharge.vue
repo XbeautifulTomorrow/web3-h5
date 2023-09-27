@@ -141,8 +141,14 @@
                 <span class="fee_title">
                   {{ $t("user.fee") }}
                 </span>
-                <span class="fee_val">
-                  {{ gas ? `${gas} ${operatingCoin}` : "--" }}
+                <span class="fee_val" v-if="operatingCoin != 'USDT'">
+                  {{ `${gas || 0} ${operatingCoin || '--'}` }}
+                </span>
+                <span class="fee_val" v-else>
+                  {{
+                    `${accurateDecimal(new bigNumber(gas || 0).multipliedBy(exchangeRate), 4) || 0}
+                                    ${operatingCoin || '--'}`
+                  }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
               </div>

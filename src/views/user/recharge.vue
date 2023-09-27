@@ -396,8 +396,7 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr } = this;
-      const withdrawalFee = setting.withdrawalFees || 0;
+      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr,gas } = this;
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
@@ -448,7 +447,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(withdrawalFee)) > Number(this.ethBalance)
+          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(gas)) > Number(this.ethBalance)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

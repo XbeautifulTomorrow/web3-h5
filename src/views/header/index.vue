@@ -61,7 +61,7 @@
           <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
           <div class="header-user-popup">
             <ul class="header-user-content">
-              <li :class="['header-user-list']" v-for="(item, index) in userList" :key="`box-${index}`"
+              <li :class="['header-user-list',item.className]" v-for="(item, index) in userList" :key="`box-${index}`"
                 @click="othersideBoxFun(item)">
                 <div class="new_dot" v-if="item.showDot"></div>
                 <img class="header-user-list-img" :src="item.icon" alt="">
@@ -212,8 +212,9 @@ export default {
         {
           text: t("header.promotions"),
           page: "promotions",
-          icon: require("@/assets/svg/user/nav/icon_Promotions.svg"),
-          showDot: false
+          icon: require("@/assets/img/user/icon_Promotions.gif"),
+          showDot: false,
+          className: "promotions_nav",
         },
         {
           text: t("header.competition"),

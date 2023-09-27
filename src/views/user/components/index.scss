@@ -41,6 +41,11 @@
   color: #a9a4b4;
   cursor: pointer;
   position: relative;
+  &.promotions_nav{
+    img{
+      width: 1.5rem;
+    }
+  }
 
   .new_dot {
     position: absolute;

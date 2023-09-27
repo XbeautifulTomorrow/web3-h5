@@ -2,7 +2,7 @@
   <div class="wrapper_bg">
     <div class="index_wrapper">
       <div class="nav_box">
-        <div :class="['nav_item', userPage == item.page && 'active']" @click="chooseNav(item)"
+        <div :class="['nav_item', userPage == item.page && 'active',item.className]" @click="chooseNav(item)"
           v-for="(item, index) in navList" :key="index">
           <div class="new_dot" v-if="item.showDot"></div>
           <img class="default" :src="item.icon" alt="">
@@ -100,9 +100,10 @@ export default {
         {
           text: t("header.promotions"),
           page: "promotions",
-          icon: require("@/assets/svg/user/nav/icon_Promotions.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_Promotions.svg"),
-          showDot: false
+          icon: require("@/assets/img/user/icon_Promotions.gif"),
+          iconActive: require("@/assets/img/user/icon_Promotions.gif"),
+          showDot: false,
+          className: "promotions_nav",
         },
         {
           text: t("header.competition"),

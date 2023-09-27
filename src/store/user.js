@@ -14,7 +14,16 @@ export const useUserStore = defineStore("user", {
     userPage: null,
     currentTime: null,
     isLogin: getLocalStore("certificate") ? true : false,
-    loadLog: false
+    loadLog: false,
+    currencyData: [
+      { name: "ETH", img: require("@/assets/svg/user/coin/icon_eth.svg") },
+      { name: "WETH", img: require("@/assets/svg/user/coin/icon_weth.svg") },
+      { name: "USDT", img: require("@/assets/svg/user/coin/icon_usdt.svg") },
+      { name: "BNB", img: require("@/assets/svg/user/coin/icon_bnb.svg") },
+      { name: "BUSD", img: require("@/assets/svg/user/coin/icon_busd.svg") },
+      { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") }
+
+    ]
   }),
   persist: {
     enabled: true,

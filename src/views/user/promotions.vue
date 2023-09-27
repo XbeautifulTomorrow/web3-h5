@@ -23,7 +23,7 @@
                 <span style="color: #fad54d; font-weight: bold">10</span> ETH -->
               </p>
               <div class="handler_btn">
-                <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="depositFunc(item)">{{ $t("user.deposit") }}</p>
+                <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="goDetail(item)">{{ $t("user.deposit") }}</p>
                 <p class="btn active" v-else-if="item.activityType == 'OPEN_BOX_WIN_POINTS'" @click="goPage('raffleBoxesList')">
                   {{ $t("user.unboxNow") }}
                 </p>

@@ -26,7 +26,8 @@
             <el-select v-model="operatingCoin" @blur="onVerify('coin')" @change="handleChoose"
               class="nft_type wallet_network" placeholder="Select network" :popper-append-to-body="false">
               <template #prefix>
-                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                 <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
               </template>
               <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName"
@@ -68,7 +69,7 @@
                   </template>
                 </el-input>
                 <div class="recharge_hint">
-                  <span>{{ $t("user.hintText1", { coin: operatingCoin }) }}</span>
+                  <span>{{ $t("user.hintText1", { coin: operatingCoin, num: confirmNum() }) }}</span>
                 </div>
               </div>
               <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
@@ -84,7 +85,8 @@
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                  <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                   <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 </template>
               </el-input>
@@ -96,7 +98,8 @@
           <div class="withdraw_relevant" v-else>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
-                <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                 <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                 <span>
                   {{ $t("user.receivingAddr", { coin: operatingCoin }) }}
@@ -126,7 +129,8 @@
                   <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                     type="number">
                     <template #prefix>
-                      <img v-if="operatingCoin != 'USDT'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
+                      <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
                       <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
                     </template>
                   </el-input>
@@ -138,11 +142,11 @@
                   {{ $t("user.fee") }}
                 </span>
                 <span class="fee_val" v-if="operatingCoin != 'USDT'">
-                  {{ `${setting.withdrawalFees || 0} ${operatingCoin || '--'}` }}
+                  {{ `${gas || 0} ${operatingCoin || '--'}` }}
                 </span>
                 <span class="fee_val" v-else>
                   {{
-                    `${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4) || 0}
+                    `${accurateDecimal(new bigNumber(gas || 0).multipliedBy(exchangeRate), 4) || 0}
                                     ${operatingCoin || '--'}`
                   }}
                 </span>
@@ -246,6 +250,11 @@ export default {
       const network = networkList.find(e => e.coinName == operatingCoin);
 
       return network?.chainList;
+    },
+    gas() {
+      const { networkDrop, walletNetwork } = this;
+      const network = networkDrop.find(e => e.chain == walletNetwork);
+      return network?.gas
     }
   },
   watch: {
@@ -319,7 +328,7 @@ export default {
       this.fetchSetting();
 
       if (this.networkDrop.length > 0) {
-        this.walletNetwork = this.networkDrop[0];
+        this.walletNetwork = this.networkDrop[0].chain;
       }
 
       if (this.walletOperating == 1) {
@@ -331,6 +340,8 @@ export default {
       } else {
         this.fetchWithdrawalExchangeRate();
       }
+
+      this.$forceUpdate();
 
     },
     // 支持的网络
@@ -348,7 +359,7 @@ export default {
         }
 
         if (this.networkDrop.length > 0) {
-          this.walletNetwork = this.networkDrop[0];
+          this.walletNetwork = this.networkDrop[0].chain;
         }
       }
     },
@@ -475,6 +486,12 @@ export default {
     async renewBalance() {
       const headerStore = useHeaderStore();
       await headerStore.getTheUserBalanceApi();
+    },
+    // 确认次数
+    confirmNum() {
+      const { walletNetwork, networkDrop } = this;
+      const network = networkDrop.find(e => e.chain == walletNetwork);
+      return network?.height || 1
     },
     // 关闭创建弹窗
     handleClose() {

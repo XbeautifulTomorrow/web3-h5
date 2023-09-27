@@ -160,7 +160,6 @@ router.onError((error) => {
   }
 });
 
-
 router.beforeEach(async (to, from, next) => {
   const { path, query } = to;
   let res = null;

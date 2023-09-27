@@ -83,10 +83,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
-              <img v-if="scope.row.coin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="">
-              <img v-else-if="scope.row.coin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-              <img v-else-if="scope.row.coin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-              <span v-else>{{ ` ${scope.row.coin}` }}</span>
+              <img :src="getCion(scope.row.coin)" alt="">
             </div>
           </template>
         </el-table-column>
@@ -95,10 +92,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
-              <img v-if="scope.row.criditCoin == 'ETH'" src="@/assets/svg/user/icon_ethereum.svg" alt="">
-              <img v-else-if="scope.row.criditCoin == 'USDT'" src="@/assets/svg/user/icon_usdt.svg" alt="">
-              <img v-else-if="scope.row.criditCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-              <span v-else>{{ ` ${scope.row.criditCoin}` }}</span>
+              <img :src="getCion(scope.row.criditCoin)" alt="">
             </div>
           </template>
         </el-table-column>
@@ -231,6 +225,10 @@ export default {
     loadLog() {
       const { loadLog } = this.userStore;
       return loadLog;
+    },
+    currencyData() {
+      const { currencyData } = this.userStore;
+      return currencyData;
     }
   },
   methods: {
@@ -366,6 +364,11 @@ export default {
         return
       }
       this.fetchHistory(false);
+    },
+    getCion(event) {
+      const { currencyData } = this;
+      const coin = currencyData.find(e => e.name == event);
+      return coin?.img || event
     }
   },
   watch: {

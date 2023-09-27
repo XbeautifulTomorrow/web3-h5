@@ -26,9 +26,7 @@
             <el-select v-model="operatingCoin" @blur="onVerify('coin')" @change="handleChoose"
               class="nft_type wallet_network" placeholder="Select network" :popper-append-to-body="false">
               <template #prefix>
-                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                <img :src="getCion(operatingCoin)" alt="">
               </template>
               <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName"
                 :value="item.coinName" />
@@ -85,9 +83,7 @@
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                  <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-                  <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                  <img :src="getCion(operatingCoin)" alt="">
                 </template>
               </el-input>
             </div>
@@ -98,9 +94,7 @@
           <div class="withdraw_relevant" v-else>
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
-                <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-                <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                <img :src="getCion(operatingCoin)" alt="">
                 <span>
                   {{ $t("user.receivingAddr", { coin: operatingCoin }) }}
                 </span>
@@ -129,13 +123,10 @@
                   <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum"
                     type="number">
                     <template #prefix>
-                      <img v-if="operatingCoin == 'ETH'" src="@/assets/svg/user/icon_eth.svg" alt="" />
-                      <img v-else-if="operatingCoin == 'WETH'" src="@/assets/svg/user/icon_weth.svg" alt="">
-                      <img v-else src="@/assets/svg/user/icon_usdt.svg" alt="" />
+                      <img :src="getCion(operatingCoin)" alt="">
                     </template>
                   </el-input>
                 </div>
-
               </div>
               <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
                 <span class="fee_title">
@@ -246,6 +237,10 @@ export default {
     loadLog() {
       const { loadLog } = this.userStore;
       return loadLog;
+    },
+    currencyData() {
+      const { currencyData } = this.userStore;
+      return currencyData;
     },
     networkDrop() {
       const { networkList, operatingCoin } = this;
@@ -546,6 +541,11 @@ export default {
         this.$forceUpdate();
       }
     },
+    getCion(event) {
+      const { currencyData } = this;
+      const coin = currencyData.find(e => e.name == event);
+      return coin?.img || event
+    }
   },
   mounted() {
     this.fetchReceivingAddr();

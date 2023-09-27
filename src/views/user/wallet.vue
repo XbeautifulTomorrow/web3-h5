@@ -92,7 +92,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
-              <img :src="getCion(scope.row.criditCoin)" alt="">
+              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
             </div>
           </template>
         </el-table-column>

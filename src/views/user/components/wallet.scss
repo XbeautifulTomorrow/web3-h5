@@ -783,6 +783,31 @@
   line-height: 1.21;
   text-align: center;
   color: #13151f;
+
+  &.loading {
+    border: solid 1px #363945;
+    background-color: #292c36;
+    background-image: none;
+    color: #a9a4b4 !important;
+    cursor: not-allowed;
+  }
+
+  img {
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.625rem;
+    animation: rotation 0.5s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
 }
 
 :deep(.nft_type) {
@@ -1479,6 +1504,11 @@
     height: 2rem;
     border-radius: 0.25rem;
     font-size: 0.625rem;
+
+    img {
+      width: 1rem;
+      margin-right: 0.25rem;
+    }
   }
 
   :deep(.nft_type) {

@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", {
     userPage: null,
     currentTime: null,
     isLogin: getLocalStore("certificate") ? true : false,
+    loadLog: false
   }),
   persist: {
     enabled: true,
@@ -29,6 +30,9 @@ export const useUserStore = defineStore("user", {
       }
       this.userInfo = data;
       this.isLogin = true;
+    },
+    setLoad(data) {
+      this.loadLog = data;
     },
     setReg(data) {
       if (data.certificate) {

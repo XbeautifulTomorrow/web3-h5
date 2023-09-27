@@ -227,6 +227,10 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
+    },
+    loadLog() {
+      const { loadLog } = this.userStore;
+      return loadLog;
     }
   },
   methods: {
@@ -362,6 +366,15 @@ export default {
         return
       }
       this.fetchHistory(false);
+    }
+  },
+  watch: {
+    loadLog() {
+      if (this.coin == "NFT") {
+        return
+      }
+
+      this.fetchHistory();
     }
   },
   created() {

@@ -156,8 +156,9 @@
                 {{ tipsText }}
               </div>
             </div>
-            <div class="withdraw_btn" @click="onWithdrawalBalance()">
-              {{ $t("user.requestBtn") }}
+            <div :class="['withdraw_btn', loading && 'loading']" @click="onWithdrawalBalance()">
+              <img v-if="loading" src="@/assets/img/user/loading.png" alt="">
+              <span>{{ $t("user.requestBtn") }}</span>
             </div>
             <div class="withdraw_hint">
               <p>
@@ -211,6 +212,7 @@ export default {
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
       verifys: false, //验证结果
+      loading: false, // 等待结果
 
       timer: null,
       rateTimer: null,
@@ -240,6 +242,10 @@ export default {
     regInfo() {
       const { regInfo } = this.userStore;
       return regInfo;
+    },
+    loadLog() {
+      const { loadLog } = this.userStore;
+      return loadLog;
     },
     networkDrop() {
       const { networkList, operatingCoin } = this;
@@ -396,7 +402,7 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr,gas } = this;
+      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr, gas } = this;
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
@@ -460,18 +466,27 @@ export default {
     },
     // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
-      const { walletAmount, walletAddr, operatingCoin, walletNetwork } = this;
+      const { walletAmount, walletAddr, operatingCoin, walletNetwork, loading } = this;
+      if (loading) return;
+
       this.onVerify("submit");
       if (!this.verifys) return;
 
+      this.loading = true;
       const res = await withdrawalBalance({
         targetCoin: operatingCoin, // 目标币种
         walletAddress: walletAddr, // 钱包地址
         amount: walletAmount, // 扣除的ETH金额
         targetChain: walletNetwork // 网络
       });
+
+      this.loading = false;
+
       if (res && res.code == 200) {
         this.renewBalance();
+
+        this.userStore.setLoad(!this.loadLog);
+
         if (
           this.userInfo.userType == "NORMAL") {
           this.$message.success(t("user.submitTestHint"));

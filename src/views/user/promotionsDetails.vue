@@ -7,50 +7,61 @@
       </div>
     </div>
     <div class="promotions_details">
-      <img
-        :src="details.banner"
-        alt=""
-        class="banner"
-      />
+      <img :src="details.banner" alt="" class="banner" />
       <p class="name">{{ details.name }}</p>
       <div class="activity_desc" v-html="details.activityDesc"></div>
-      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS'&&tableData?.length==0">
+      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length == 0">
         <p class="btn active deposit_btn" @click="depositFunc">{{ $t("user.deposit") }}</p>
       </div>
-      <div class="progress_box" v-if="(details.activityType == 'WELCOME_BONUS'&&tableData?.length>0)||details.activityType != 'WELCOME_BONUS'">
+      <div
+        class="progress_box"
+        v-if="(details.activityType == 'WELCOME_BONUS' && tableData?.length > 0) || details.activityType != 'WELCOME_BONUS'"
+      >
         <p class="title">{{ $t("user.progress") }}</p>
         <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
           <div class="progress_item">
             <!-- 奖金总额： -->
-            <p>{{ $t("user.totalBonus") }}{{ welcomeStatic?.totalRewards || 0 }}</p>
+            <p>
+              {{ $t("user.totalBonus") }} <span>{{ welcomeStatic?.totalRewards || 0 }}</span>
+            </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
-            <p>{{ $t("user.received") }}{{ welcomeStatic?.receivedReward || 0 }}</p>
+            <p>
+              {{ $t("user.received") }} <span>{{ welcomeStatic?.receivedReward || 0 }}</span>
+            </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
-            <p>{{ $t("user.unlocked") }}{{ new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))||0 }}</p>
+            <p>
+              {{ $t("user.unlocked") }}
+              <span>{{ new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0 }}</span>
+            </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
         </div>
         <div class="progress_item_box" v-else>
           <div class="progress_item">
             <!-- 您获得总积分： -->
-            <p>{{ $t("user.getTotalPoint") }}{{ pointStatic || 0 }}</p>
+            <p>
+              {{ $t("user.getTotalPoint") }} <span class="point">{{ pointStatic || 0 }}</span>
+            </p>
             <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>
         </div>
       </div>
-      <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS'&&tableData?.length>0">
+      <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length > 0">
         <el-table-column prop="id" :label="$t('user.round')" min-width="60" align="center" key="1" />
         <el-table-column prop="seriesName" :label="$t('user.spendingGoals')" min-width="140" align="center" key="2">
           <template #default="scope">
             <div class="progress_bar_box">
-              <div class="progress_bar_active" :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }" v-if="scope.row.consumptionAmount>0">
-              </div>
+              <div
+                class="progress_bar_active"
+                :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }"
+                v-if="scope.row.consumptionAmount > 0"
+              ></div>
               <p>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
             </div>
           </template>

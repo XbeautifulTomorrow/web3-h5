@@ -141,14 +141,8 @@
                 <span class="fee_title">
                   {{ $t("user.fee") }}
                 </span>
-                <span class="fee_val" v-if="operatingCoin != 'USDT'">
-                  {{ `${setting.withdrawalFees || 0} ${operatingCoin || '--'}` }}
-                </span>
-                <span class="fee_val" v-else>
-                  {{
-                    `${accurateDecimal(new bigNumber(setting.withdrawalFees || 0).multipliedBy(exchangeRate), 4) || 0}
-                                    ${operatingCoin || '--'}`
-                  }}
+                <span class="fee_val">
+                  {{ gas ? `${gas} ${operatingCoin}` : "--" }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
               </div>
@@ -250,6 +244,11 @@ export default {
       const network = networkList.find(e => e.coinName == operatingCoin);
 
       return network?.chainList;
+    },
+    gas() {
+      const { networkDrop, walletNetwork } = this;
+      const network = networkDrop.find(e => e.chain == walletNetwork);
+      return network?.gas
     }
   },
   watch: {

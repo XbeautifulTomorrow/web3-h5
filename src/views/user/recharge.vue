@@ -263,7 +263,7 @@ export default {
           return;
         }
 
-        if (operatingCoin != "USDT") {
+        if (operatingCoin == "ETH") {
           this.ethNum = newV || 0;
           return;
         }
@@ -284,7 +284,7 @@ export default {
           return;
         }
 
-        if (operatingCoin != "USDT") {
+        if (operatingCoin == "ETH") {
           this.walletAmount = newV || 0;
           return;
         }
@@ -442,7 +442,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          !setting.freeFeeStatus && Number(network.gas) > Number(this.walletAmount)
+          !setting.freeFeeStatus && Number(network?.gas) > Number(this.walletAmount)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

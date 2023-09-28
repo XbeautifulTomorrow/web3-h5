@@ -145,6 +145,10 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    getTheUserBalanceInfo() {
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+    },
     // 欢迎奖金表格
     async getActivityTargetListFunc() {
       const res = await getActivityTargetList();
@@ -172,6 +176,7 @@ export default {
       const res = await activityReceive();
       if (res && res.code == 200) {
         this.$message.success(t("user.receiveSuccess"));
+        this.getTheUserBalanceInfo();
         this.getActivityTargetListFunc();
         this.getActivityTargetHeaderDataTotalFunc();
       }

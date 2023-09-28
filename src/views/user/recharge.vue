@@ -442,7 +442,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(network.gas)) > Number(this.ethBalance)
+          !setting.freeFeeStatus && Number(network.gas) > Number(this.walletAmount)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

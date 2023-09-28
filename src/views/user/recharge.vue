@@ -132,14 +132,8 @@
                 <span class="fee_title">
                   {{ $t("user.fee") }}
                 </span>
-                <span class="fee_val" v-if="operatingCoin != 'USDT'">
-                  {{ `${gas || 0} ${operatingCoin || '--'}` }}
-                </span>
-                <span class="fee_val" v-else>
-                  {{
-                    `${accurateDecimal(new bigNumber(gas || 0).multipliedBy(exchangeRate), 4) || 0}
-                                    ${operatingCoin || '--'}`
-                  }}
+                <span class="fee_val">
+                  {{ `${network?.newGas || network?.gas} ${operatingCoin || '--'}` }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ $t("recharge.free") }}</span>
               </div>
@@ -252,10 +246,10 @@ export default {
 
       return network?.chainList;
     },
-    gas() {
+    network() {
       const { networkDrop, walletNetwork } = this;
       const network = networkDrop.find(e => e.chain == walletNetwork);
-      return network?.gas
+      return network
     }
   },
   watch: {
@@ -397,7 +391,7 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr, gas } = this;
+      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr, network } = this;
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
@@ -448,7 +442,7 @@ export default {
           this.verifys = false;
           return;
         } else if (
-          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(gas)) > Number(this.ethBalance)
+          !setting.freeFeeStatus && (Number(this.walletAmount) + Number(network.gas)) > Number(this.ethBalance)
         ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;

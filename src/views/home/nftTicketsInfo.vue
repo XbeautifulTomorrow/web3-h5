@@ -1169,6 +1169,11 @@ export default {
         this.verifys = false;
         return
       }
+      if (shareLink.indexOf("https://x.com/") > -1) {
+        this.shareLink = shareLink.replace("https://x.com", "https://twitter.com");
+      }
+
+      console.log(this.shareLink);
 
       const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/
 
@@ -1190,6 +1195,8 @@ export default {
       let isLoad = false;
       let isHandle = true;
 
+      const link = this.shareLink.split("?")[0];
+
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -1207,7 +1214,7 @@ export default {
       this.loading = true;
       res = await tweetSendTikect({
         orderNumber: this.orderId,
-        tweetUrl: this.shareLink
+        tweetUrl: link
       });
 
       isLoad = true;

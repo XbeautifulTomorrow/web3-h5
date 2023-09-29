@@ -1169,15 +1169,15 @@ export default {
         this.verifys = false;
         return
       }
-      if (shareLink.indexOf("https://x.com/") > -1) {
-        this.shareLink = shareLink.replace("https://x.com", "https://twitter.com");
-      }
 
-      console.log(this.shareLink);
+      let link = shareLink;
+      if (shareLink.indexOf("https://x.com/") > -1) {
+        link = shareLink.replace("https://x.com", "https://twitter.com");
+      }
 
       const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/
 
-      if (!reg.test(shareLink)) {
+      if (!reg.test(link)) {
         this.errorTips = t("errorTips.tweets_link_error");
         this.verifys = false;
         return
@@ -1195,7 +1195,12 @@ export default {
       let isLoad = false;
       let isHandle = true;
 
-      const link = this.shareLink.split("?")[0];
+      let link = this.shareLink;
+      if (this.shareLink.indexOf("https://x.com/") > -1) {
+        link = this.shareLink.replace("https://x.com", "https://twitter.com");
+      }
+
+      link = this.shareLink.split("?")[0];
 
       if (this.timer) {
         clearTimeout(this.timer);

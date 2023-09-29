@@ -1200,7 +1200,7 @@ export default {
         link = this.shareLink.replace("https://x.com", "https://twitter.com");
       }
 
-      link = this.shareLink.split("?")[0];
+      link = link.split("?")[0];
 
       if (this.timer) {
         clearTimeout(this.timer);

@@ -8,7 +8,7 @@
         </el-icon>
       </div>
       <div class="create_com" v-if="!operatingType">
-        <p class="create_com_title">SELECT CRYPTO ASSET TYPE</p>
+        <p class="create_com_title">SELECT ASSET</p>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />

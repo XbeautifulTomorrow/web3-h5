@@ -1035,8 +1035,8 @@ export default {
       this.fetchOneBuyInfo();
       this.fetchBuyRecord();
       this.fetchEndingSoon();
+      this.fetchUserBuyRecord();
       if (this.isLogin && this.userInfo?.id) {
-        this.fetchUserBuyRecord();
         this.fetchSetting(); // 邀请
       }
     },

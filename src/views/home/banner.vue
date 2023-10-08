@@ -82,7 +82,7 @@ export default {
     }
   }
   .swiper-pagination-bullet {
-    background: #ce42ff;
+    background: #fbd851;
   }
   .swiper-pagination {
     bottom: 1.875rem;

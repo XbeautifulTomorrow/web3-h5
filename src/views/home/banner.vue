@@ -81,11 +81,23 @@ export default {
       cursor: pointer;
     }
   }
+
   .swiper-pagination-bullet {
-    background: #fbd851;
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #e4e7f5;
+    opacity: 1;
+    &.swiper-pagination-bullet-active {
+      width: 1rem;
+      height: 1rem;
+      background: #fbd851;
+    }
   }
   .swiper-pagination {
-    bottom: 1.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 4.375rem;
   }
 }
 </style>

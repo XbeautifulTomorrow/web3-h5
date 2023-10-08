@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
 import { setSessionStore, getSessionStore } from "@/utils";
-import { authIp } from '@/services/api/index';
+import { authIp } from "@/services/api/index";
 import config from "@/services/env";
+import { useUserStore } from "@/store/user.js";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
 import Header from "../views/header/index.vue";
@@ -106,7 +107,7 @@ const routes = [
     components: {
       default: Airdrop,
       Header,
-      Footer
+      Footer,
     },
   },
   {
@@ -115,19 +116,20 @@ const routes = [
     components: {
       default: FAQ,
       Header,
-      Footer
+      Footer,
     },
   },
   {
     path: "/1020",
     name: "1020",
     components: {
-      default: toIntercept
+      default: toIntercept,
     },
   },
   {
     path: "/user/:id",
     name: "User",
+    meta: { requiresAuth: true },
     components: {
       default: User,
       Header,
@@ -135,7 +137,6 @@ const routes = [
       Currency,
     },
   },
-
 ];
 
 // 3. 创建路由实例
@@ -147,7 +148,7 @@ const router = createRouter({
 // 切换页面重置滚动位置
 router.afterEach(() => {
   window.scrollTo(0, 0);
-})
+});
 
 router.onError((error) => {
   const pattern = /Loading chunk (\d)+ failed/g;
@@ -156,7 +157,7 @@ router.onError((error) => {
     window.location.reload();
     // router.replace(router.history.pending.fullPath);
   } else {
-    console.log(error)
+    console.log(error);
   }
 });
 
@@ -167,8 +168,8 @@ router.beforeEach(async (to, from, next) => {
   if (config.ENV == "dev" || config.ENV == "test") {
     res = {
       code: 200,
-      data: false
-    }
+      data: false,
+    };
   } else {
     res = await authIp();
   }
@@ -176,7 +177,7 @@ router.beforeEach(async (to, from, next) => {
   if (res && res.code == 200) {
     const isShield = res.data;
     if (isShield && !(path && path.indexOf("/1020") > -1)) {
-      setSessionStore("referrer", path)
+      setSessionStore("referrer", path);
       next({ name: "1020" });
     } else if (!isShield && path && path.indexOf("/1020") > -1) {
       const referrer = getSessionStore("referrer");
@@ -190,7 +191,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (path && path.indexOf("/Home/") > -1) {
-    const code = path.replace("/Home/", "")
+    const code = path.replace("/Home/", "");
     // 保存邀请码到本地存储
     if (code) {
       setSessionStore("invateCode", code);
@@ -213,6 +214,11 @@ router.beforeEach(async (to, from, next) => {
 
     next({ name: "FreeNFT", query: { id: query.id } });
   }
+  const userStore = useUserStore();
+  if (to.meta.requiresAuth && !userStore.isLogin) {
+    next({ name: "Home" });
+  }
+
   // else if (path && path.indexOf("/Airdrop/") > -1) {
   //   const code = path.replace("/Airdrop/", "")
   //   // 保存邀请码到本地存储

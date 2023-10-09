@@ -167,7 +167,7 @@
     "numTicket": "{num} Ticket",
     "verify1": "THIS TRANSACTION IS",
     "verify2": "PROVABLY FAIR",
-    "verify3": "Verify Faimess",
+    "verify3": "Verify Fairness",
     "verify4": "[Advanced Users]",
     "closeHint": "The draw did not reach its sell-out target, and your purchased tickets have been refunded to the balance, worth <span style=\"color: white;\">{ num }</span> {coin}",
     "cancelHint": "The holder of <span style=\"color: white;\">{ name }</span> canceled this draw.",
@@ -437,13 +437,13 @@
     "progress": "Progress:",
     "totalBonus": "Total Bonus:",
     "received": "Claimed:",
-    "unlocked":  "Locked:",
+    "unlocked": "Locked:",
     "getTotalPoint": "You Get Total Points:",
     "round": "Round",
     "spendingGoals": "Consumed / Targeted",
     "bonus": "Bonus",
     "underWay": "In Progress",
-    "noDataPromotions":"NO PROMOTION FOUND"
+    "noDataPromotions": "NO PROMOTION FOUND"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

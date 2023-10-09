@@ -193,7 +193,7 @@ export default {
           emit("changeTypeFun", 2, { captcha: codeV });
         } else {
           ElMessage({
-            message: t("login.sendAgainErr"),
+            message: t("errorTips." + res.data.messageKey),
             type: "error",
           });
           initializationFun();

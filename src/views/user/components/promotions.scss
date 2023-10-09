@@ -192,11 +192,15 @@
           display: flex;
           align-items: center;
           font-size: 1rem;
+          p {
+            display: flex;
+            align-items: center;
+          }
           img {
             width: 1.5rem;
             margin-left: 0.625rem;
           }
-          span {
+          span.data {
             margin-left: 0.25rem;
             font-size: 1.125rem;
             font-weight: bold;
@@ -439,8 +443,15 @@
           font-size: 0.875rem;
         }
         .progress_item_box {
+          justify-content: space-between;
+          gap: 0;
           .progress_item {
             font-size: 0.75rem;
+            img {
+              width: 1.25rem;
+              height: 1.25rem;
+              margin-left: 0.25rem;
+            }
           }
         }
       }

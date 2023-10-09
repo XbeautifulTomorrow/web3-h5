@@ -22,22 +22,24 @@
           <div class="progress_item">
             <!-- 奖金总额： -->
             <p>
-              {{ $t("user.totalBonus") }} <span>{{ welcomeStatic?.totalRewards || 0 }}</span>
+              <span>{{ $t("user.totalBonus") }}</span> <span class="data">{{ welcomeStatic?.totalRewards || 0 }}</span>
             </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
             <p>
-              {{ $t("user.received") }} <span>{{ welcomeStatic?.receivedReward || 0 }}</span>
+              <span>{{ $t("user.received") }}</span> <span class="data">{{ welcomeStatic?.receivedReward || 0 }}</span>
             </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
             <p>
-              {{ $t("user.unlocked") }}
-              <span>{{ new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0 }}</span>
+              <span>{{ $t("user.unlocked") }}</span>
+              <span class="data">{{
+                new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0
+              }}</span>
             </p>
             <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
           </div>
@@ -46,7 +48,7 @@
           <div class="progress_item">
             <!-- 您获得总积分： -->
             <p>
-              {{ $t("user.getTotalPoint") }} <span class="point">{{ pointStatic || 0 }}</span>
+              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data">{{ pointStatic || 0 }}</span>
             </p>
             <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>

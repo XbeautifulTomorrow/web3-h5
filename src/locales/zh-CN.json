@@ -675,7 +675,8 @@
     "twitter_repeated": "A Twitter account can only be claimed once.",
     "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time.",
     "tweets_link_error": "Please provide a valid tweets links.",
-    "email_once_a_time": "You can only send once every 60 seconds."
+    "email_once_a_time": "You can only send once every 60 seconds.",
+    "code_expired_send_again": "Verification code has expired, please send again."
   },
   "lottery": {
     "notice": "提示",

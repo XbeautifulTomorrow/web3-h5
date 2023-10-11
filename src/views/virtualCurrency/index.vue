@@ -1,7 +1,9 @@
 <template>
   <div class="virtual-currency">
     <div class="title-box">
-      <div class="virtual-currency-title">{{ $t("virtualCurrency.recentBox") }}</div>
+      <div class="virtual-currency-title">
+        {{ $t("virtualCurrency.recentBox") }}
+      </div>
       <div class="interval">
         <div class="top"></div>
         <div class="bottom"></div>
@@ -9,20 +11,30 @@
     </div>
     <div :class="['virtual-currency-content publick-scrollbar']">
       <ul class="virtual-currency-main" ref="currencyAll">
-        <li v-for="(item, index) in currencyList" ref="currencyItem" :key="`currency-${index}`" :class="[
-          'virtual-currency-item',
-          `box_frame_${typrFormat(item)}`,
-          { isHide: activeIndex == index },
-          item.animation && 'animation'
-        ]" @mouseenter="(e) => mouseenterFun(item, index, e)" @click="openBoxs(item)" @mouseleave="mouseLeave()">
+        <li
+          v-for="(item, index) in currencyList"
+          ref="currencyItem"
+          :key="`currency-${index}`"
+          :class="[
+            'virtual-currency-item',
+            `box_frame_${typrFormat(item)}`,
+            { isHide: activeIndex == index },
+            item.animation && 'animation',
+          ]"
+          @mouseenter="(e) => mouseenterFun(item, index, e)"
+          @click="openBoxs(item)"
+          @mouseleave="mouseLeave()"
+        >
           <div class="virtual-currency-item-l">
-            <Image fit="cover" class="virtual-currency-item-img" :src="item.nftImg" />
+            <Image
+              fit="cover"
+              class="virtual-currency-item-img"
+              :src="item.nftImg"
+            />
             <div class="virtual-currency-item-text">
               <p class="list-nam text-ellipsis">{{ item.seriesName }}</p>
               <p class="list-currency">
-                {{ accurateDecimal(item.price || 0, 4) }}&nbsp;{{
-                  item.coin
-                }}
+                {{ accurateDecimal(item.price || 0, 4) }}&nbsp;{{ item.coin }}
               </p>
             </div>
           </div>
@@ -31,21 +43,37 @@
           </div>
         </li>
       </ul>
-      <ul v-if="showPopup && currentData" :class="[
-        'virtual-currency-item-popup',
-        `box_frame_${typrFormat(currencyList[activeIndex])}`,
-      ]" :style="style" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
+      <ul
+        v-if="showPopup && currentData"
+        :class="[
+          'virtual-currency-item-popup',
+          `box_frame_${typrFormat(currencyList[activeIndex])}`,
+        ]"
+        :style="style"
+        @mouseenter="mouseOver()"
+        @mouseleave="mouseLeave()"
+      >
         <li :class="['virtual-currency-item', 'isEnter']">
           <div class="virtual-currency-item-l">
-            <Image fit="cover" class="virtual-currency-item-img" :src="currencyList[activeIndex] && currencyList[activeIndex].nftImg
-              " />
-            <div class="virtual-currency-item-text" v-if="currencyList[activeIndex]">
-              <p class="list-nam text-ellipsis">{{ currencyList[activeIndex].seriesName }}</p>
+            <Image
+              fit="cover"
+              class="virtual-currency-item-img"
+              :src="
+                currencyList[activeIndex] && currencyList[activeIndex].nftImg
+              "
+            />
+            <div
+              class="virtual-currency-item-text"
+              v-if="currencyList[activeIndex]"
+            >
+              <p class="list-nam text-ellipsis">
+                {{ currencyList[activeIndex].seriesName }}
+              </p>
               <p class="list-currency">
                 {{
                   currencyList[activeIndex].price
-                  ? accurateDecimal(currencyList[activeIndex].price, 4)
-                  : 0
+                    ? accurateDecimal(currencyList[activeIndex].price, 4)
+                    : 0
                 }}&nbsp;{{ currencyList[activeIndex].coin }}
               </p>
             </div>
@@ -58,13 +86,17 @@
           <span class="popup-list-title text-ellipsis">TOKEN ID</span>
           <span class="popup-list-text text-ellipsis">
             <span v-if="currencyList[activeIndex].tokenId">
-              {{ currencyList[activeIndex] && currencyList[activeIndex].tokenId }}
+              {{
+                currencyList[activeIndex] && currencyList[activeIndex].tokenId
+              }}
             </span>
             <span v-else>--</span>
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.contract") }}</span>
+          <span class="popup-list-title text-ellipsis">{{
+            $t("virtualCurrency.contract")
+          }}</span>
           <span class="popup-list-text text-ellipsis">
             <span v-if="currencyList[activeIndex].tokenId">
               {{
@@ -76,15 +108,17 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.chain") }}</span>
+          <span class="popup-list-title text-ellipsis">{{
+            $t("virtualCurrency.chain")
+          }}</span>
           <span class="popup-list-text text-ellipsis">
-            {{
-              formatNetwork(currencyList[activeIndex])
-            }}
+            {{ formatNetwork(currencyList[activeIndex]) }}
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.winner") }}</span>
+          <span class="popup-list-title text-ellipsis">{{
+            $t("virtualCurrency.winner")
+          }}</span>
           <span class="popup-list-text text-ellipsis">
             {{
               currencyList[activeIndex] &&
@@ -93,7 +127,9 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">{{ $t("virtualCurrency.price") }}</span>
+          <span class="popup-list-title text-ellipsis">{{
+            $t("virtualCurrency.price")
+          }}</span>
           <span class="popup-list-text text-ellipsis" style="color: #fff">
             {{
               currencyList[activeIndex] &&
@@ -102,7 +138,10 @@
           </span>
         </li>
         <li class="popup-list-button">
-          <div class="mystery-box-button" @click="handleMysteryBox(currencyList[activeIndex])">
+          <div
+            class="mystery-box-button"
+            @click="handleMysteryBox(currencyList[activeIndex])"
+          >
             {{ $t("virtualCurrency.goBox") }}
           </div>
         </li>
@@ -132,7 +171,10 @@ export default {
       timer: null,
       nftTimer: null,
       screenWidth: null,
-      networkList: [{ label: "Goerli", value: 5 }, { label: "Ethereum", value: 1 }]
+      networkList: [
+        { label: "Goerli", value: 5 },
+        { label: "Ethereum", value: 1 },
+      ],
     };
   },
   beforeUnmount() {
@@ -168,6 +210,9 @@ export default {
         }, 2000);
 
         this.$forceUpdate();
+      } else {
+        clearTimeout(this.timer);
+        this.timer = null;
       }
     },
     timeoutTickets() {
@@ -195,7 +240,7 @@ export default {
       }
     },
     mouseenterFun(data, index, e) {
-      if (this.screenWidth <= 950) return
+      if (this.screenWidth <= 950) return;
 
       this.showPopup = true;
       this.activeIndex = index;
@@ -254,7 +299,7 @@ export default {
       const { chainId } = event;
       if (!chainId) return "--";
       const { networkList } = this;
-      const network = networkList.find(e => e.value == chainId);
+      const network = networkList.find((e) => e.value == chainId);
       return network.label;
     },
     /**
@@ -262,12 +307,15 @@ export default {
      */
     findNftId(event) {
       const { nftId } = this;
-      return nftId.findIndex(e => e.id == event) > -1;
+      return nftId.findIndex((e) => e.id == event) > -1;
     },
     openBoxs(event) {
       if (this.screenWidth <= 950) {
         // eslint-disable-next-line no-unreachable
-        this.$router.push({ path: "/raffleBox", query: { boxId: event.boxId } });
+        this.$router.push({
+          path: "/raffleBox",
+          query: { boxId: event.boxId },
+        });
         setTimeout(() => {
           this.reload();
         }, 300);
@@ -286,8 +334,8 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-    })
-  }
+    });
+  },
 };
 </script>
 

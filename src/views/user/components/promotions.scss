@@ -100,7 +100,7 @@
     height: 3.75rem;
     line-height: 3.75rem;
     border-radius: 0.5rem;
-    border: solid .0625rem rgba(228, 231, 245, 0.15);
+    border: solid 0.0625rem rgba(228, 231, 245, 0.15);
     background-color: #292c36;
     color: #e4e7f5;
     text-align: center;
@@ -192,9 +192,22 @@
           display: flex;
           align-items: center;
           font-size: 1rem;
+          p {
+            display: flex;
+            align-items: center;
+          }
           img {
             width: 1.5rem;
             margin-left: 0.625rem;
+          }
+          span.data {
+            margin-left: 0.25rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #fad54d;
+            &.point {
+              color: rgb(158, 77, 154);
+            }
           }
         }
       }
@@ -280,7 +293,7 @@
     background: #292c36;
     border-radius: 0.5rem;
     font-size: 0.75rem;
-    text-shadow: .0625rem .0625rem 0 #fff, -.0625rem -.0625rem 0 #fff, .0625rem -.0625rem 0 #fff, -.0625rem .0625rem 0 #fff;
+    text-shadow: 0.0625rem 0.0625rem 0 #fff, -0.0625rem -0.0625rem 0 #fff, 0.0625rem -0.0625rem 0 #fff, -0.0625rem 0.0625rem 0 #fff;
     color: #13151f;
     margin: 0 auto;
     .progress_bar_active {
@@ -293,12 +306,12 @@
       align-items: center;
       justify-content: center;
       border-radius: 0.5rem;
-      p{
+      p {
         color: #13151f;
         white-space: nowrap;
       }
     }
-    p{
+    p {
       position: relative;
       z-index: 1;
       line-height: 1;
@@ -405,7 +418,7 @@
   .promotions_details_box {
     background-image: none;
     padding: 0;
-    
+
     .name_text {
       font-size: 1.125rem;
     }
@@ -414,7 +427,7 @@
         font-size: 1rem;
         margin: 0.625rem 0;
       }
-      .banner{
+      .banner {
         height: auto;
       }
       .btn {
@@ -430,8 +443,15 @@
           font-size: 0.875rem;
         }
         .progress_item_box {
+          justify-content: space-between;
+          gap: 0;
           .progress_item {
             font-size: 0.75rem;
+            img {
+              width: 1.25rem;
+              height: 1.25rem;
+              margin-left: 0.25rem;
+            }
           }
         }
       }
@@ -478,10 +498,10 @@
       .promotions_item {
         flex: inherit;
         width: 100%;
-        .banner{
+        .banner {
           height: 28vw;
         }
-        .tip{
+        .tip {
           height: auto;
         }
       }

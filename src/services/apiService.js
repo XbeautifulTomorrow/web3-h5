@@ -58,7 +58,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     ElMessage.closeAll();
     ElMessage({
-      message: error,
+      message: t("errorTips.network_not_available"),
       type: "warning",
     });
     return Promise.reject(error);

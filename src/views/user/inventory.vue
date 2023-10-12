@@ -3,17 +3,26 @@
     <div class="nft_box">
       <div class="nft_operating">
         <div class="title_text">
-          <img src="@/assets/svg/user/icon_inventory.svg" alt="">
+          <img src="@/assets/svg/user/icon_inventory.svg" alt="" />
           <span>{{ $t("user.inventory") }}</span>
         </div>
         <div class="operating_btns">
-          <div class="operating_item" @click="onDeposit()">{{ $t("user.deposit") }}</div>
-          <div class="operating_item" @click="onWithdraw()">{{ $t("user.withdraw") }}</div>
+          <div class="operating_item" @click="onDeposit()">
+            {{ $t("user.deposit") }}
+          </div>
+          <div class="operating_item" @click="onWithdraw()">
+            {{ $t("user.withdraw") }}
+          </div>
         </div>
       </div>
       <div class="search_box">
-        <el-input class="nft_input" v-model="nftParams.nftName" clearable @keyup.enter="fetchSystemNft()"
-          :placeholder="$t('homeReplenish.searchNft')">
+        <el-input
+          class="nft_input"
+          v-model="nftParams.nftName"
+          clearable
+          @keyup.enter="fetchSystemNft()"
+          :placeholder="$t('homeReplenish.searchNft')"
+        >
           <template #prefix>
             <el-icon class="el-input__icon" @click="fetchSystemNft()">
               <search />
@@ -22,35 +31,75 @@
         </el-input>
         <div class="collections_box type_box">
           <div class="collections_text">{{ $t("homeReplenish.type") }}</div>
-          <el-select v-model="nftParams.type" @change="fetchSystemNft()" class="nft_type" clearable
-            :placeholder="$t('homeReplenish.all')">
-            <el-option v-for="(item, index) in nftTypes" :key="index" :label="item.label" :value="item.value" />
+          <el-select
+            v-model="nftParams.type"
+            @change="fetchSystemNft()"
+            class="nft_type"
+            clearable
+            :placeholder="$t('homeReplenish.all')"
+          >
+            <el-option
+              v-for="(item, index) in nftTypes"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </div>
         <div class="collections_box">
-          <div class="collections_text">{{ $t("homeReplenish.sortCollections") }}</div>
-          <el-select v-model="nftParams.collections" @change="fetchSystemNft()" class="nft_type"
-            :placeholder="$t('homeReplenish.all')" clearable :popper-append-to-body="false">
-            <el-option v-for="(item, index) in collections" :key="index" :label="item.seriesName"
-              :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
+          <div class="collections_text">
+            {{ $t("homeReplenish.sortCollections") }}
+          </div>
+          <el-select
+            v-model="nftParams.collections"
+            @change="fetchSystemNft()"
+            class="nft_type"
+            :placeholder="$t('homeReplenish.all')"
+            clearable
+            :popper-append-to-body="false"
+          >
+            <el-option
+              v-for="(item, index) in collections"
+              :key="index"
+              :label="item.seriesName"
+              :value="`${item.contractAddress}${
+                (Number(item.tokenId) > -1 && '+' + item.tokenId) || ''
+              }`"
+            />
           </el-select>
         </div>
       </div>
       <div class="nft_list" v-if="count > 0">
-        <div class="nft_item" v-for="(item, index) in stockNftList" @click="viewNft(item)" :key="index">
+        <div
+          class="nft_item"
+          v-for="(item, index) in stockNftList"
+          @click="viewNft(item)"
+          :key="index"
+        >
           <div class="img_box">
-            <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</div>
+            <div class="tips text-ellipsis" v-if="item.isType == 'EXTERNAL'">
+              {{ `#${item.tokenId}` }}
+            </div>
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
           <div class="nft_name">{{ item.name || "--" }}</div>
-          <div class="nft_btn view_nft" v-if="item.currentStatus == 'ONE_DOLLAR'">
+          <div
+            class="nft_btn view_nft"
+            v-if="item.currentStatus == 'ONE_DOLLAR'"
+          >
             {{ $t("user.viewCompetitions") }}
           </div>
-          <div class="nft_btn withdrawling" v-else-if="item.currentStatus == 'WITHDRAW'">
+          <div
+            class="nft_btn withdrawling"
+            v-else-if="item.currentStatus == 'WITHDRAW'"
+          >
             {{ $t("user.withdrawing") }}
           </div>
-          <div class="nft_btn withdrawling" v-else-if="item.isType != 'EXTERNAL'">
+          <div
+            class="nft_btn withdrawling"
+            v-else-if="item.isType != 'EXTERNAL'"
+          >
             {{ $t("user.createCompetitions") }}
           </div>
           <div class="nft_btn create" @click="createCompetition(item)" v-else>
@@ -62,16 +111,35 @@
         <span>{{ $t("user.noDataNft") }}</span>
       </div>
       <div class="pagination-box" v-if="count > size">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+        <el-pagination
+          v-model="page"
+          :page-size="size"
+          @current-change="handleCurrentChange"
+          :pager-count="7"
+          layout="prev, pager, next"
+          :total="count"
+          :prev-text="$t('common.prev')"
+          :next-text="$t('common.next')"
+        />
       </div>
     </div>
     <!-- 钱包链接弹窗 -->
-    <wallet v-if="showLink" :dialogVisible="showLink" @linkWallet="linkWallet" @closeDialogFun="handleClose" />
+    <wallet
+      v-if="showLink"
+      :dialogVisible="showLink"
+      @linkWallet="linkWallet"
+      @closeDialogFun="handleClose"
+    />
 
     <!-- 创建一元购弹窗 -->
-    <el-dialog v-model="showCompetition" width="43.75rem" lock-scroll class="dialog_competition"
-      :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog
+      v-model="showCompetition"
+      width="43.75rem"
+      lock-scroll
+      class="dialog_competition"
+      :close-on-click-modal="false"
+      :before-close="handleClose"
+    >
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -83,60 +151,109 @@
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft?.name }}</div>
-        <div class="nft_id text-ellipsis">
-          #{{ competitionNft?.tokenId }}
-        </div>
+        <div class="nft_id text-ellipsis">#{{ competitionNft?.tokenId }}</div>
       </div>
-      <el-form ref="competitionForm" class="form_box" :rules="rules" :model="competitionForm" hide-required-asterisk
-        label-position="top">
+      <el-form
+        ref="competitionForm"
+        class="form_box"
+        :rules="rules"
+        :model="competitionForm"
+        hide-required-asterisk
+        label-position="top"
+      >
         <el-form-item :label="$t('user.totalPrice')" prop="price">
           <div class="choose_price">
-            <div class="price_item" @click="competitionForm.price = competitionNft?.floorPrice">
+            <div
+              class="price_item"
+              @click="competitionForm.price = competitionNft?.floorPrice"
+            >
               <span class="title">Floor Price</span>
-              <span class="val">{{ competitionNft.floorPrice ? `${competitionNft?.floorPrice} ETH` : "--" }} </span>
+              <span class="val"
+                >{{
+                  competitionNft.floorPrice
+                    ? `${competitionNft?.floorPrice} ETH`
+                    : "--"
+                }}
+              </span>
             </div>
-            <div class="price_item" @click="competitionForm.price = historyPrice">
+            <div
+              class="price_item"
+              @click="competitionForm.price = historyPrice"
+            >
               <span class="title">Last Sale</span>
-              <span class="val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </span>
+              <span class="val"
+                >{{ historyPrice ? `${historyPrice} ETH` : "--" }}
+              </span>
             </div>
           </div>
           <el-input v-model="competitionForm.price" type="number" min="0">
             <template #prefix>
-              <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img
+                class="icon_eth"
+                src="@/assets/svg/user/icon_ethereum.svg"
+                alt=""
+              />
             </template>
           </el-input>
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
           <div class="num_item">
             <span>{{ competitionForm.ticketPrice }}</span>
-            <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img
+              class="icon_eth"
+              src="@/assets/svg/user/icon_ethereum.svg"
+              alt=""
+            />
           </div>
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.feeRate')">
           <div class="num_item">
-            <span>{{ new bigNumber(serverFees).multipliedBy(100).toFixed(2) }}%</span>
+            <span
+              >{{
+                new bigNumber(serverFees).multipliedBy(100).toFixed(2)
+              }}%</span
+            >
           </div>
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.realIncome')">
           <div class="num_item">
             <span>{{ realIncome }}</span>
-            <img class="icon_eth" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img
+              class="icon_eth"
+              src="@/assets/svg/user/icon_ethereum.svg"
+              alt=""
+            />
           </div>
         </el-form-item>
         <el-form-item :label="$t('user.maxDuration')" prop="limitDay">
           <div class="input_days">
-            <el-input class="nft_type" v-model="competitionForm.limitDay" type="number" min="0"
-              :placeholder="$t('user.enterTimeHint')">
+            <el-input
+              class="nft_type"
+              v-model="competitionForm.limitDay"
+              type="number"
+              min="0"
+              :placeholder="$t('user.enterTimeHint')"
+            >
             </el-input>
-            <div class="days_text" v-if="competitionForm.limitDay > 1">{{ $t("user.days") }}</div>
+            <div class="days_text" v-if="competitionForm.limitDay > 1">
+              {{ $t("user.days") }}
+            </div>
             <div class="days_text" v-else>{{ $t("user.day") }}</div>
           </div>
           <div class="choose_days">
-            <div class="choose_days_item" v-for="(item, index) in daysData" :key="index" :class="[
-              'choose_days_item',
-              competitionForm.limitDay == item && 'active',
-            ]" @click="competitionForm.limitDay = item">
-              <span v-if="item > 1">{{ $t("user.numDays", { num: item }) }}</span>
+            <div
+              class="choose_days_item"
+              v-for="(item, index) in daysData"
+              :key="index"
+              :class="[
+                'choose_days_item',
+                competitionForm.limitDay == item && 'active',
+              ]"
+              @click="competitionForm.limitDay = item"
+            >
+              <span v-if="item > 1">{{
+                $t("user.numDays", { num: item })
+              }}</span>
               <span v-else>{{ $t("user.numDay", { num: item }) }}</span>
             </div>
           </div>
@@ -144,32 +261,52 @@
         <div class="share_box">
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun()">
-              <span v-show="freeParams.isOpen" class="form-rember-rectangle-fill"></span>
+              <span
+                v-show="freeParams.isOpen"
+                class="form-rember-rectangle-fill"
+              ></span>
             </span>
             <span class="form-rember-text">
               <span>{{ $t("user.tweetText") }}</span>
               <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                 <template #content>
                   <p>{{ $t("user.tweetHint1") }}</p>
-                  <br>
+                  <br />
                   <p>{{ $t("user.tweetHint2") }}</p>
                 </template>
-                <img src="@/assets/svg/user/icon_help.svg" alt="">
+                <img src="@/assets/svg/user/icon_help.svg" alt="" />
               </el-tooltip>
             </span>
           </div>
           <div class="invitation_box" v-if="freeParams.isOpen">
-            <el-select @click="showCreate()" :disabled="!inviteDrop.length > 0" v-model="freeParams.inviteCode"
-              class="invite_select" :placeholder="$t('user.chooseCodeHint')" :popper-append-to-body="false">
-              <el-option v-for="(item, index) in inviteDrop" :key="index" :label="item.inviteCode"
-                :value="item.inviteCode" />
+            <el-select
+              @click="showCreate()"
+              :disabled="!inviteDrop.length > 0"
+              v-model="freeParams.inviteCode"
+              class="invite_select"
+              :placeholder="$t('user.chooseCodeHint')"
+              :popper-append-to-body="false"
+            >
+              <el-option
+                v-for="(item, index) in inviteDrop"
+                :key="index"
+                :label="item.inviteCode"
+                :value="item.inviteCode"
+              />
             </el-select>
-            <el-input class="invite_select tickets_num" v-model="freeParams.sendTicketsNum" type="number" min="0"
-              :placeholder="$t('user.freeNumHint')">
+            <el-input
+              class="invite_select tickets_num"
+              v-model="freeParams.sendTicketsNum"
+              type="number"
+              min="0"
+              :placeholder="$t('user.freeNumHint')"
+            >
             </el-input>
           </div>
         </div>
-        <div class="continue_btn" @click="confirmCop()">{{ $t("user.create") }}</div>
+        <div class="continue_btn" @click="confirmCop()">
+          {{ $t("user.create") }}
+        </div>
         <div class="hint-text" v-if="activeType == 'LIMITED_TIME'">
           <p>{{ $t("user.createHint1") }}</p>
         </div>
@@ -178,11 +315,33 @@
           <p>{{ $t("user.createHint3") }}</p>
         </div>
       </el-form>
-      <el-dialog v-model="showTips" destroy-on-close :close-on-click-modal="false" :show-close="false"
-        :align-center="true" class="public-dialog" :append-to-body="true" width="43.75rem"
-        :before-close="() => { showTips = false }">
+      <el-dialog
+        v-model="showTips"
+        destroy-on-close
+        :close-on-click-modal="false"
+        :show-close="false"
+        :align-center="true"
+        class="public-dialog"
+        :append-to-body="true"
+        width="43.75rem"
+        :before-close="
+          () => {
+            showTips = false;
+          }
+        "
+      >
         <template #header="{ close }">
-          <div class="close_btn" v-on="{ click: [close, () => { showTips = false }] }">
+          <div
+            class="close_btn"
+            v-on="{
+              click: [
+                close,
+                () => {
+                  showTips = false;
+                },
+              ],
+            }"
+          >
             <el-icon>
               <Close />
             </el-icon>
@@ -193,24 +352,53 @@
             <span>{{ $t("lottery.notice") }}</span>
           </div>
           <div class="tips_panel" v-if="!priceVerify()">
-            <p v-html="$t('user.createTips2', { price: formatText(1), nft: formatText(2), floorPrice: formatText(3) })">
-            </p>
+            <p
+              v-html="
+                $t('user.createTips2', {
+                  price: formatText(1),
+                  nft: formatText(2),
+                  floorPrice: formatText(3),
+                })
+              "
+            ></p>
           </div>
           <div class="tips_panel" v-else>
-            <p v-html="$t('user.createTips4', { price: formatText(1), nft: formatText(2) })"></p>
+            <p
+              v-html="
+                $t('user.createTips4', {
+                  price: formatText(1),
+                  nft: formatText(2),
+                })
+              "
+            ></p>
           </div>
           <div class="btn_box">
-            <el-button class="public-button cancel-button" @click="showTips = false">
+            <el-button
+              class="public-button cancel-button"
+              @click="showTips = false"
+            >
               {{ $t("common.cancelUpper") }}
             </el-button>
-            <el-button class="public-button form-button" @click="submitCompetition()">
+            <el-button
+              class="public-button form-button"
+              @click="submitCompetition()"
+            >
               {{ $t("airdrop.confirm") }}
             </el-button>
           </div>
         </div>
       </el-dialog>
-      <el-dialog v-model="showInvite" destroy-on-close :close-on-click-modal="false" :show-close="false"
-        :align-center="true" class="public-dialog" :append-to-body="true" width="43.75rem" :before-close="inviteClose">
+      <el-dialog
+        v-model="showInvite"
+        destroy-on-close
+        :close-on-click-modal="false"
+        :show-close="false"
+        :align-center="true"
+        class="public-dialog"
+        :append-to-body="true"
+        width="43.75rem"
+        :before-close="inviteClose"
+      >
         <template #header="{ close }">
           <div class="close_btn" v-on="{ click: [close, inviteClose] }">
             <el-icon>
@@ -223,29 +411,44 @@
             <span>{{ $t("user.create") }}</span>
           </div>
           <div class="invite_code">
-            <el-input class="invite_code_input" v-model="inviteCode" @blur="onVerify()" clearable
-              :placeholder="$t('user.createEnterHint')">
+            <el-input
+              class="invite_code_input"
+              v-model="inviteCode"
+              @blur="onVerify()"
+              clearable
+              :placeholder="$t('user.createEnterHint')"
+            >
             </el-input>
             <div class="create_error">{{ inviteTips }}</div>
           </div>
           <div class="btn_box">
-            <el-button class="public-button cancel-button" @click="inviteClose()">
+            <el-button
+              class="public-button cancel-button"
+              @click="inviteClose()"
+            >
               {{ $t("common.cancelUpper") }}
             </el-button>
-            <el-button class="public-button form-button" @click="createInvite()">
+            <el-button
+              class="public-button form-button"
+              @click="createInvite()"
+            >
               {{ $t("user.create") }}
             </el-button>
           </div>
         </div>
       </el-dialog>
     </el-dialog>
-    <nft-list v-if="showNftOperating" :isDeposit="operatingType === 1" @closeDialogFun="handleClose()" />
+    <nft-list
+      v-if="showNftOperating"
+      :isDeposit="operatingType === 1"
+      @closeDialogFun="handleClose()"
+    />
   </div>
 </template>
 <script>
 import bigNumber from "bignumber.js";
 import { mapStores } from "pinia";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
@@ -257,13 +460,10 @@ import {
   delNewWalletNftMark,
   getNftActivityCharts,
   getServiceFee,
-  getCofingKey
+  getCofingKey,
 } from "@/services/api/oneBuy";
 
-import {
-  rebatesCreateCode,
-  rebatesFindList
-} from "@/services/api/invite";
+import { rebatesCreateCode, rebatesFindList } from "@/services/api/invite";
 
 import { openUrl, timeFormat } from "@/utils";
 
@@ -278,7 +478,7 @@ export default {
   components: {
     wallet,
     nftList,
-    Image
+    Image,
   },
   data() {
     return {
@@ -288,7 +488,7 @@ export default {
       nftParams: {
         nftName: null,
         type: null,
-        collections: null
+        collections: null,
       },
       nftTypes: [
         { label: "ERC-721", value: "ERC721" },
@@ -335,8 +535,8 @@ export default {
       freeParams: {
         isOpen: false,
         inviteCode: null,
-        sendTicketsNum: null
-      }
+        sendTicketsNum: null,
+      },
     };
   },
   watch: {
@@ -365,6 +565,8 @@ export default {
       this.timer = setTimeout(() => {
         if (newV > max) {
           this.competitionForm.limitDay = max;
+        } else {
+          this.competitionForm.limitDay = Math.floor(newV);
         }
         this.$forceUpdate();
       }, 300);
@@ -392,10 +594,12 @@ export default {
     realIncome() {
       const { competitionForm, serverFees } = this;
       if (!competitionForm.price || !serverFees) return 0;
-      const feeNum = new bigNumber(competitionForm.price).multipliedBy(serverFees);
+      const feeNum = new bigNumber(competitionForm.price).multipliedBy(
+        serverFees
+      );
 
       return new bigNumber(competitionForm.price).minus(feeNum);
-    }
+    },
   },
   methods: {
     timeFormat: timeFormat,
@@ -421,14 +625,14 @@ export default {
         _page = 1;
       }
 
-
-      const collections = nftParams.collections && nftParams.collections.split("+") || [];
+      const collections =
+        (nftParams.collections && nftParams.collections.split("+")) || [];
 
       const res = await getSystemNft({
         contractType: nftParams.type,
         contractAddress: collections[0],
         keyword: nftParams.nftName,
-        tokenId: collections[1] && collections[1] || undefined,
+        tokenId: (collections[1] && collections[1]) || undefined,
         page: _page,
         size: size,
       });
@@ -455,13 +659,12 @@ export default {
     },
     // 一元购历史折线图
     async fetchNftActivitySale(event) {
-
       let res = await getNftActivityCharts({
         contractAddress: event.tokenAddress,
         tokenId: event.tokenId,
         page: 1,
         size: 100,
-        currentStatus: "DRAWN"
+        currentStatus: "DRAWN",
       });
 
       if (res && res.code == 200) {
@@ -478,21 +681,21 @@ export default {
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
         userId: this.userInfo?.id,
-        type: "ALL"
+        type: "ALL",
       });
       this.collections = res.data;
     },
     // 获取外部系列
     async fetchExternalSeries() {
       const res = await getTheExternalNFTSeries({
-        type: "EXTERNAL"
+        type: "EXTERNAL",
       });
       this.externalSeries = res.data;
       this.fetchSystemNft();
     },
     findExternalSeries(event) {
       const { externalSeries } = this;
-      return externalSeries?.findIndex(e => e.contractAddress == event) > -1;
+      return externalSeries?.findIndex((e) => e.contractAddress == event) > -1;
     },
     // 弹出创建弹出
     createCompetition(event) {
@@ -512,30 +715,33 @@ export default {
           if (this.operatingType == "NFT") {
             if (Number(this.competitionForm.price) < 0.1) {
               this.$message.error(t("user.priceError"));
-              return
+              return;
             }
           } else {
             if (Number(this.totalPrice) < 0.1) {
               this.$message.error(t("user.priceError"));
-              return
+              return;
             }
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
               this.$message.error(t("user.freeInviteCodeEnter"));
-              return
+              return;
             }
 
-            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+            if (
+              !freeParams.sendTicketsNum ||
+              !Number(freeParams.sendTicketsNum) > 0
+            ) {
               this.$message.error(t("user.freeTicketsEnter"));
-              return
+              return;
             }
           }
 
           this.showTips = true;
         }
-      })
+      });
     },
     // 创建一元购赛事
     submitCompetition() {
@@ -545,18 +751,21 @@ export default {
 
           if (Number(this.competitionForm.price) < 0.1) {
             this.$message.error(t("user.priceError"));
-            return
+            return;
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
               this.$message.error(t("user.freeInviteCodeEnter"));
-              return
+              return;
             }
 
-            if (!freeParams.sendTicketsNum || !Number(freeParams.sendTicketsNum) > 0) {
+            if (
+              !freeParams.sendTicketsNum ||
+              !Number(freeParams.sendTicketsNum) > 0
+            ) {
               this.$message.error(t("user.freeTicketsEnter"));
-              return
+              return;
             }
           }
 
@@ -589,18 +798,31 @@ export default {
       });
     },
     priceVerify() {
-      const { competitionNft, competitionForm: { ticketPrice }, limitNum } = this;
-      return Number(limitNum * ticketPrice) >= Number(competitionNft?.floorPrice || 0);
+      const {
+        competitionNft,
+        competitionForm: { ticketPrice },
+        limitNum,
+      } = this;
+      return (
+        Number(limitNum * ticketPrice) >=
+        Number(competitionNft?.floorPrice || 0)
+      );
     },
     // 确认文本更新
     formatText(event) {
       if (event == 1) {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${this.competitionForm?.price || 0}</span>`;
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+          this.competitionForm?.price || 0
+        }</span>`;
       } else if (event == 2) {
         const { competitionNft, formatSeries } = this;
-        return formatSeries(competitionNft) ? `${competitionNft?.name} #${competitionNft?.tokenId}` : `${competitionNft?.name}`;
+        return formatSeries(competitionNft)
+          ? `${competitionNft?.name} #${competitionNft?.tokenId}`
+          : `${competitionNft?.name}`;
       } else {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${this.competitionNft?.floorPrice || 0}</span>`;
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${
+          this.competitionNft?.floorPrice || 0
+        }</span>`;
       }
     },
     formatSeries(event) {
@@ -608,7 +830,7 @@ export default {
       const { name, tokenId } = event;
       if (!name || !tokenId) return false;
       const isShow = name.indexOf(tokenId) > -1;
-      return !isShow
+      return !isShow;
     },
     // 验证
     onVerify() {
@@ -616,11 +838,11 @@ export default {
       if (!inviteCode) {
         this.inviteTips = t("user.enterCodeError1");
         this.verifys = false;
-        return
+        return;
       } else if (inviteCode.length < 3) {
         this.inviteTips = t("user.enterCodeError2");
         this.verifys = false;
-        return
+        return;
       }
 
       this.inviteTips = "";
@@ -637,9 +859,9 @@ export default {
     // 创建邀请吗
     async createInvite() {
       this.onVerify();
-      if (!this.verifys) return
+      if (!this.verifys) return;
       const res = await rebatesCreateCode({
-        code: this.inviteCode
+        code: this.inviteCode,
       });
       if (res && res.code == 200) {
         this.inviteClose();
@@ -651,15 +873,15 @@ export default {
     async fetchRebatesFindList() {
       const res = await rebatesFindList({
         page: 1,
-        size: 20
+        size: 20,
       });
       if (res && res.code == 200) {
         this.inviteDrop = res.data;
-        this.inviteDrop.forEach(element => {
+        this.inviteDrop.forEach((element) => {
           if (element.defaultStatus == "TRUE") {
             this.freeParams.inviteCode = element.inviteCode;
           }
-        })
+        });
       }
     },
     // 设置
@@ -673,16 +895,16 @@ export default {
     // 获取配置
     async fetchCofingKey() {
       const res = await getCofingKey({
-        str: `ONE_NFT_LIMIT_DAY`
-      })
+        str: `ONE_NFT_LIMIT_DAY`,
+      });
 
       if (res && res.code == 200) {
         const configKey = res.data;
         let config = {};
 
-        configKey.forEach(element => {
-          config[element.k] = element.v
-        })
+        configKey.forEach((element) => {
+          config[element.k] = element.v;
+        });
 
         this.configK = config;
 
@@ -703,9 +925,8 @@ export default {
       this.nftParams = {
         nftName: null,
         type: null,
-        collections: null
+        collections: null,
       };
-
 
       if (this.$refs["competitionForm"]) {
         this.$refs["competitionForm"].resetFields();
@@ -735,7 +956,7 @@ export default {
     },
     // 查看赛事
     viewNft(event) {
-      if (event.currentStatus != 'ONE_DOLLAR') return
+      if (event.currentStatus != "ONE_DOLLAR") return;
 
       let routeData = this.$router.resolve({
         name: "NftTicketsInfo",
@@ -758,7 +979,7 @@ export default {
           required: true,
           message: t("user.priceEnter"),
           trigger: ["blur", "change"],
-        }
+        },
       ],
       //天数
       limitDay: [
@@ -767,7 +988,7 @@ export default {
           message: t("user.limitDayEnter"),
           trigger: ["blur", "change"],
         },
-      ]
+      ],
     };
   },
 };

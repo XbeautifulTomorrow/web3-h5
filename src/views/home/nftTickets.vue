@@ -5,65 +5,128 @@
       <div class="title_description">{{ $t("home.nftTicketTips") }}</div>
     </div>
     <ul class="boxes-content">
-      <template v-for="(item, index) in  ticketList ">
-        <li class="ntf-tickets-item" @click="handleTickets(item)" v-if="index < 4" :key="`tickets-${index}`">
+      <template v-for="(item, index) in ticketList">
+        <li
+          class="ntf-tickets-item"
+          @click="handleTickets(item)"
+          v-if="index < 4"
+          :key="`tickets-${index}`"
+        >
           <div class="img-box">
-            <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-              :src="require('@/assets/svg/user/create_eth.webp')" />
+            <Image
+              fit="cover"
+              class="nft_img"
+              v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+              :src="require('@/assets/svg/user/create_eth.webp')"
+            />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
               <div class="time" v-if="item.orderType == 'LIMITED_TIME'">
-                <img src="@/assets/svg/home/icon_time.svg" alt="">
+                <img src="@/assets/svg/home/icon_time.svg" alt="" />
                 <span v-if="dateDiff(item.endTime) > 1">
-                  {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(item.endTime)) }) }}
+                  {{
+                    $t("home.dayLeft", {
+                      day: Math.ceil(dateDiff(item.endTime)),
+                    })
+                  }}
                 </span>
-                <countDown v-else v-slot="timeObj" @onEnd="fetchCheckAllOrders(false)" :time="item.endTime">
-                  {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+                <countDown
+                  v-else
+                  v-slot="timeObj"
+                  @onEnd="fetchCheckAllOrders(false)"
+                  :time="item.endTime"
+                >
+                  {{
+                    $t("home.timeLeft", {
+                      time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}`,
+                    })
+                  }}
                 </countDown>
               </div>
               <div class="price" v-else>
-                <img src="@/assets/svg/home/icon_price.svg" alt="">
-                <span v-if="Number(new bigNumber(item.limitNum || 0).minus(item.numberOfTicketsSold ||
-                  0)) > 1">
-                  {{ $t("home.ticketsLeft", {
-                    num: Number(new bigNumber(item.limitNum ||
-                      0).minus(item.numberOfTicketsSold || 0))
-                  }) }}</span>
+                <img src="@/assets/svg/home/icon_price.svg" alt="" />
+                <span
+                  v-if="
+                    Number(
+                      new bigNumber(item.limitNum || 0).minus(
+                        item.numberOfTicketsSold || 0
+                      )
+                    ) > 1
+                  "
+                >
+                  {{
+                    $t("home.ticketsLeft", {
+                      num: Number(
+                        new bigNumber(item.limitNum || 0).minus(
+                          item.numberOfTicketsSold || 0
+                        )
+                      ),
+                    })
+                  }}</span
+                >
                 <span v-else>
-                  {{ $t("home.ticketLeft", {
-                    num: Number(new bigNumber(item.limitNum ||
-                      0).minus(item.numberOfTicketsSold ||
-                        0))
-                  }) }}
+                  {{
+                    $t("home.ticketLeft", {
+                      num: Number(
+                        new bigNumber(item.limitNum || 0).minus(
+                          item.numberOfTicketsSold || 0
+                        )
+                      ),
+                    })
+                  }}
                 </span>
               </div>
             </div>
-            <div class="tips_round end" v-else-if="item.currentStatus == 'DRAWN'">
+            <div
+              class="tips_round end"
+              v-else-if="item.currentStatus == 'DRAWN'"
+            >
               {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
               <div class="name-text text-ellipsis">
-                <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
+                <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
+                  item.seriesName || "--"
+                }}</span>
                 <span v-else>{{ `${item.price} ETH` }}</span>
               </div>
-              <img src="@/assets/svg/home/icon_certified.svg" alt="">
+              <img src="@/assets/svg/home/icon_certified.svg" alt="" />
             </div>
-            <div class="nft-name-r text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `#${item.tokenId}` }}
+            <div
+              class="nft-name-r text-ellipsis"
+              v-if="item.orderType != 'LIMITED_PRICE_COIN'"
+            >
+              {{ `#${item.tokenId}` }}
             </div>
           </div>
           <div class="price-box">
-            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ `${item.price} ETH` }}</span>
-            <span v-else>{{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}</span>
+            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+              {{ `${Number(item.price).toLocaleString()} ETH` }}
+            </span>
+            <span v-else>
+              {{
+                `$ ${Number(
+                  accurateDecimal(
+                    new bigNumber(exchangeRate).multipliedBy(item.price),
+                    4
+                  )
+                ).toLocaleString()}`
+              }}
+            </span>
           </div>
           <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
             <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
           </div>
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">
             <span>{{ $t("ticketsInfo.winner") }}</span>
-            <img src="@/assets/svg/user/default_avatar.svg" alt="">
-            <span v-if="userInfo && userInfo?.id == item.winningAddress" class="you">{{ $t("user.you") }}</span>
+            <img src="@/assets/svg/user/default_avatar.svg" alt="" />
+            <span
+              v-if="userInfo && userInfo?.id == item.winningAddress"
+              class="you"
+              >{{ $t("user.you") }}</span
+            >
             <span v-else class="text-ellipsis">
               {{ item.winningName || item.winningAddress }}
             </span>
@@ -89,7 +152,7 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import bigNumber from "bignumber.js";
-import countDown from '@/components/countDown';
+import countDown from "@/components/countDown";
 import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
 
 import { getCheckAllOrders } from "@/services/api/oneBuy";
@@ -97,15 +160,15 @@ import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
 export default {
-  name: 'NtfTickets',
+  name: "NtfTickets",
   components: {
     countDown,
-    Image
+    Image,
   },
   data() {
     return {
       exchangeRate: null,
-      ticketList: []
+      ticketList: [],
     };
   },
   computed: {
@@ -126,7 +189,7 @@ export default {
     accurateDecimal: accurateDecimal,
     // 获取一元购列表
     async fetchCheckAllOrders() {
-      const res = await getCheckAllOrders({ page: 1, size: 5 })
+      const res = await getCheckAllOrders({ page: 1, size: 5 });
       if (res && res.code == 200) {
         this.ticketList = res.data.records;
       }
@@ -135,7 +198,7 @@ export default {
     async fetchCacheTicker() {
       const res = await getCacheTicker({
         areaCoin: "ETH",
-        coinName: "USDT"
+        coinName: "USDT",
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -146,12 +209,12 @@ export default {
     },
     openAll() {
       this.$router.push({ name: "TreasureDraw" });
-    }
+    },
   },
   created() {
     this.fetchCheckAllOrders();
     this.fetchCacheTicker();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

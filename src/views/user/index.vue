@@ -2,7 +2,7 @@
   <div class="wrapper_bg">
     <div class="index_wrapper">
       <div class="nav_box">
-        <div :class="['nav_item', userPage == item.page && 'active',item.className]" @click="chooseNav(item)"
+        <div :class="['nav_item', userPage == item.page && 'active', item.className]" @click="chooseNav(item)"
           v-for="(item, index) in navList" :key="index">
           <div class="new_dot" v-if="item.showDot"></div>
           <img class="default" :src="item.icon" alt="">
@@ -155,6 +155,7 @@ export default {
 <style lang="scss">
 .tips_box {
   max-width: 90%;
+  width: auto !important;
   padding: 0.25rem 0.5rem !important;
   border-radius: 0.3125rem;
   background-color: #2c115b !important;

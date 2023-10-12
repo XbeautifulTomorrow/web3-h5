@@ -1,66 +1,107 @@
 <template>
   <div class="banner_wrapper">
-    <div class="banner_box">
-      <div class="banner_l">
-        <!-- <div class="level_description">{{ $t("home.bannerText1") }}</div>
-        <div class="level_description">{{ $t("home.bannerText2") }}</div>
-        <div class="level_description">{{ $t("home.bannerText3") }}</div> -->
-        <!-- <div class="level_description_text">
-          {{ $t('home.bannerTips') }}
-        </div> -->
-      </div>
-    </div>
-    <div class="join_btn" @click="goUrl">
-      <p>JOIN NOW</p>
-    </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <swiper
+      v-if="bannerList?.length > 0"
+      :slides-per-view="1"
+      :space-between="0"
+      :loop="true"
+      :centeredSlides="true"
+      :pagination="{
+        clickable: true,
+      }"
+      :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false,
+      }"
+      :modules="modules"
+    >
+      <swiper-slide v-for="item in bannerList" :key="item.id">
+        <img :src="item.bannerImage" @click="goUrl(item)" :class="[{ url_img: item.bannerUrl }]" alt="" />
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
-  
+
 <script>
-import { mapStores } from "pinia";
-import { useUserStore } from "@/store/user.js";
-import Login from "../login/index.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay, Pagination, A11y } from "swiper";
+import { getBannerList } from "@/services/api";
+import "swiper/css";
+import "swiper/css/pagination";
 export default {
-  name: 'BannerPage',
+  name: "BannerPage",
   components: {
-    Login
+    Swiper,
+    SwiperSlide,
   },
   data() {
     return {
-      pageType:null
+      modules: [Autoplay, Pagination, A11y],
+      bannerList: [],
+    };
+  },
+  created() {
+    if (localStorage.getItem("banner")) {
+      this.bannerList = JSON.parse(localStorage.getItem("banner"));
     }
+    this.getBannerListFunc();
   },
-  computed: {
-    ...mapStores(useUserStore),
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
-    isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
-    },
-  },
+
   methods: {
-    goUrl() {
-      if (!this.isLogin || !this.userInfo?.id) {
-        this.pageType = "login";
-        return;
+    goUrl(item) {
+      const { bannerUrl } = item;
+      if (bannerUrl) {
+        if (bannerUrl.indexOf("http") > -1) {
+          window.open(bannerUrl);
+        } else {
+          this.$emit("bannerGo", bannerUrl);
+        }
       }
-      this.$router.push({ path:'/user/promotions' });
     },
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
+    async getBannerListFunc() {
+      const res = await getBannerList({
+        page: 1,
+        size: 100,
+      });
+      if (res) {
+        this.bannerList = res.data.records;
+        localStorage.setItem("banner", JSON.stringify(this.bannerList));
+      }
     },
   },
 };
 </script>
-  
+
 <style lang="scss" scoped>
 @import "./components/banner.scss";
+
+:deep(.swiper) {
+  height: 100%;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    &.url_img {
+      cursor: pointer;
+    }
+  }
+
+  .swiper-pagination-bullet {
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #e4e7f5;
+    opacity: 1;
+    &.swiper-pagination-bullet-active {
+      width: 1rem;
+      height: 1rem;
+      background: #fbd851;
+    }
+  }
+  .swiper-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 4.375rem;
+  }
+}
 </style>
-  

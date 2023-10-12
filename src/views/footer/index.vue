@@ -134,7 +134,7 @@ const goLink = (event) => {
     openUrl("https://t.me/bitzing_io");
     return
   } else if (event === 3) {
-    openUrl("https://discord.gg/eN9e22Q2cN");
+    openUrl("https://discord.gg/bitzing");
     return
   }
 }

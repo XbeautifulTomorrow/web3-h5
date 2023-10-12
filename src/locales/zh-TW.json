@@ -42,7 +42,7 @@
     "history": "購買曆史",
     "referrals": "邀請",
     "settings": "設置",
-    "promotions":"促銷"
+    "promotions": "促銷"
   },
   "footer": {
     "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
@@ -437,13 +437,13 @@
     "progress": "進展：",
     "totalBonus": "獎金總額：",
     "received": "已領取：",
-    "unlocked":  "待解鎖：",
+    "unlocked": "待解鎖：",
     "getTotalPoint": "您獲得總積分：",
-    "round":  "輪次",
+    "round": "輪次",
     "spendingGoals": "已消費/目標",
     "bonus": "獎金",
-    "underWay":  "進行中",
-    "noDataPromotions":"沒有找到促銷"
+    "underWay": "進行中",
+    "noDataPromotions": "沒有找到促銷"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",
@@ -674,7 +674,9 @@
     "tweet_repeated": "This tweet has already been used.",
     "twitter_repeated": "A Twitter account can only be claimed once.",
     "already_one_in_progress": "Only one ETH TREASURE DRAW can be created at the same time.",
-    "tweets_link_error": "Please provide a valid tweets links."
+    "tweets_link_error": "Please provide a valid tweets links.",
+    "email_once_a_time": "You can only send once every 60 seconds.",
+    "code_expired_send_again": "Verification code has expired, please send again."
   },
   "lottery": {
     "notice": "提示",

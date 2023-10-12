@@ -3,32 +3,64 @@
     <div class="ntf_tickets_info_wrapper">
       <div class="nft_details">
         <div class="nft_details_l border_bg">
-          <Image fit="cover" class="nft_img" v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.webp')" />
+          <Image
+            fit="cover"
+            class="nft_img"
+            v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
+            :src="require('@/assets/svg/user/create_eth.webp')"
+          />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
-          <div class="tips_round" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'"
-            :class="[nftInfo?.orderType == 'LIMITED_TIME' ? 'time' : 'price']">
+          <div
+            class="tips_round"
+            v-if="nftInfo?.orderStatus == 'IN_PROGRESS'"
+            :class="[nftInfo?.orderType == 'LIMITED_TIME' ? 'time' : 'price']"
+          >
             <div v-if="nftInfo?.orderType == 'LIMITED_TIME'">
-              <img src="@/assets/svg/home/icon_info_time_white.svg" alt="">
+              <img src="@/assets/svg/home/icon_info_time_white.svg" alt="" />
               <span v-if="dateDiff(nftInfo?.endTime) > 1">
-                {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo?.endTime)) }) }}
+                {{
+                  $t("home.dayLeft", {
+                    day: Math.ceil(dateDiff(nftInfo?.endTime)),
+                  })
+                }}
               </span>
-              <countDown v-else v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo?.endTime">
-                {{ $t("home.timeLeft", { time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+              <countDown
+                v-else
+                v-slot="timeObj"
+                @onEnd="loadInterface()"
+                :time="nftInfo?.endTime"
+              >
+                {{
+                  $t("home.timeLeft", {
+                    time: `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}`,
+                  })
+                }}
               </countDown>
             </div>
             <div v-else>
-              <img src="@/assets/svg/home/icon_info_price_white.svg" alt="">
-              <span v-if="nftInfo?.maximumPurchaseQuantity > 1">{{ $t("home.ticketsLeft", {
-                num: nftInfo?.maximumPurchaseQuantity || 0
-              }) }}</span>
-              <span v-else>{{ $t("home.ticketLeft", { num: nftInfo?.maximumPurchaseQuantity || 0 }) }}</span>
+              <img src="@/assets/svg/home/icon_info_price_white.svg" alt="" />
+              <span v-if="nftInfo?.maximumPurchaseQuantity > 1">{{
+                $t("home.ticketsLeft", {
+                  num: nftInfo?.maximumPurchaseQuantity || 0,
+                })
+              }}</span>
+              <span v-else>{{
+                $t("home.ticketLeft", {
+                  num: nftInfo?.maximumPurchaseQuantity || 0,
+                })
+              }}</span>
             </div>
           </div>
-          <div class="tips_round finish" v-else-if="nftInfo?.orderStatus == 'DRAWN'">
+          <div
+            class="tips_round finish"
+            v-else-if="nftInfo?.orderStatus == 'DRAWN'"
+          >
             <span>{{ $t("ticketsInfo.completed") }}</span>
           </div>
-          <div class="tips_round aborted" v-else-if="nftInfo?.orderStatus == 'CLOSED'">
+          <div
+            class="tips_round aborted"
+            v-else-if="nftInfo?.orderStatus == 'CLOSED'"
+          >
             <span>{{ $t("ticketsInfo.aborted") }}</span>
           </div>
           <div class="tips_round cancel" v-else>
@@ -38,9 +70,18 @@
         <div class="nft_details_r_bg border_bg">
           <div class="nft_details_r">
             <div class="nft_name text-ellipsis">
-              <span v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">{{ nftInfo?.name || "--" }}</span>
-              <span v-else>{{ `${nftInfo?.totalPrice} ETH` }}</span>
-              <span v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN' && formatSeries(nftInfo)">
+              <span v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
+                {{ nftInfo?.name || "--" }}
+              </span>
+              <span v-else>
+                {{ `${Number(nftInfo?.totalPrice).toLocaleString()} ETH` }}
+              </span>
+              <span
+                v-if="
+                  nftInfo?.orderType != 'LIMITED_PRICE_COIN' &&
+                  formatSeries(nftInfo)
+                "
+              >
                 {{ ` #${nftInfo?.tokenId}` }}
               </span>
             </div>
@@ -48,40 +89,89 @@
               <div class="price_box">
                 <div class="price">
                   <span class="title">{{ $t("ticketsInfo.marketValue") }}</span>
-                  <span class="val" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">{{ `${nftInfo?.totalPrice} ETH`
-                  }}</span>
+                  <span
+                    class="val"
+                    v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+                    >{{
+                      `${Number(nftInfo?.totalPrice).toLocaleString()} ETH`
+                    }}</span
+                  >
                   <span class="val" v-else>
-                    {{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(nftInfo?.totalPrice), 4)}` }}
+                    {{
+                      `$ ${Number(
+                        accurateDecimal(
+                          new bigNumber(exchangeRate || 0).multipliedBy(
+                            nftInfo?.totalPrice || 0
+                          ),
+                          4
+                        )
+                      ).toLocaleString()}`
+                    }}
                   </span>
                 </div>
-                <div class="floor_price" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
+                <div
+                  class="floor_price"
+                  v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+                >
                   <span class="title">{{ $t("ticketsInfo.floorPrice") }}</span>
                   <span class="val">
-                    {{ `${nftInfo?.floorPrice} ETH` }}
+                    {{ `${Number(nftInfo?.floorPrice).toLocaleString()} ETH` }}
                   </span>
                 </div>
               </div>
               <div class="time" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
-                <img src="@/assets/svg/home/icon_info_time.svg" alt="">
+                <img src="@/assets/svg/home/icon_info_time.svg" alt="" />
                 <div class="time-text">
-                  <countDown v-slot="timeObj" @onEnd="loadInterface()" :time="nftInfo?.endTime">
-                    {{ $t("ticketsInfo.close", { time: `${timeObj.dd}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }) }}
+                  <countDown
+                    v-slot="timeObj"
+                    @onEnd="loadInterface()"
+                    :time="nftInfo?.endTime"
+                  >
+                    {{
+                      $t("ticketsInfo.close", {
+                        time: `${timeObj.dd}:${timeObj.hh}:${timeObj.mm}:${timeObj.ss}`,
+                      })
+                    }}
                   </countDown>
                 </div>
               </div>
               <div class="finish" v-else-if="nftInfo?.orderStatus == 'DRAWN'">
-                <img v-if="nftInfo?.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_drawn.svg" alt="">
-                <img v-else src="@/assets/svg/home/icon_price_drawn.svg" alt="">
+                <img
+                  v-if="nftInfo?.orderType == 'LIMITED_TIME'"
+                  src="@/assets/svg/home/icon_time_drawn.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/icon_price_drawn.svg"
+                  alt=""
+                />
                 <div class="time-text">{{ $t("ticketsInfo.completed") }}</div>
               </div>
               <div class="aborted" v-else-if="nftInfo?.orderStatus == 'CLOSED'">
-                <img v-if="nftInfo?.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_aborted.svg" alt="">
-                <img v-else src="@/assets/svg/home/icon_price_aborted.svg" alt="">
+                <img
+                  v-if="nftInfo?.orderType == 'LIMITED_TIME'"
+                  src="@/assets/svg/home/icon_time_aborted.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/icon_price_aborted.svg"
+                  alt=""
+                />
                 <div class="time-text">{{ $t("ticketsInfo.aborted") }}</div>
               </div>
               <div class="cancel" v-else>
-                <img v-if="nftInfo?.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_time_cancel.svg" alt="">
-                <img v-else src="@/assets/svg/home/icon_price_cancel.svg" alt="">
+                <img
+                  v-if="nftInfo?.orderType == 'LIMITED_TIME'"
+                  src="@/assets/svg/home/icon_time_cancel.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/icon_price_cancel.svg"
+                  alt=""
+                />
                 <div class="time-text">{{ $t("ticketsInfo.cancelled") }}</div>
               </div>
             </div>
@@ -95,34 +185,77 @@
                 <span>{{ nftInfo?.owner }}</span>
               </div>
             </div>
-            <div class="buy_relevant" v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
+            <div
+              class="buy_relevant"
+              v-if="nftInfo?.orderStatus == 'IN_PROGRESS'"
+            >
               <div class="enter_relevant">
-                <div class="title">{{ $t("ticketsInfo.enterCompetition") }}</div>
-                <div class="buy_tips"
-                  v-html="$t('ticketsInfo.buyable', { userNum: drawnInfo && drawnInfo.userNum || 0, maxBuyNum: new bigNumber(maxBuyNum || 0).plus(drawnInfo && drawnInfo.userNum || 0).toString() })">
+                <div class="title">
+                  {{ $t("ticketsInfo.enterCompetition") }}
                 </div>
+                <div
+                  class="buy_tips"
+                  v-html="
+                    $t('ticketsInfo.buyable', {
+                      userNum: (drawnInfo && drawnInfo.userNum) || 0,
+                      maxBuyNum: new bigNumber(maxBuyNum || 0)
+                        .plus((drawnInfo && drawnInfo.userNum) || 0)
+                        .toString(),
+                    })
+                  "
+                ></div>
               </div>
               <div class="buy_box">
                 <div class="buy_tips">{{ $t("ticketsInfo.purchaseNum") }}</div>
-                <el-input :disabled="!maxBuyNum > 0" v-model.number="buyVotes" style="width: 100%;" class="buy_input"
-                  type="number" min="0" :max="maxBuyNum" :placeholder="buyText(nftInfo)">
+                <el-input
+                  :disabled="!maxBuyNum > 0"
+                  v-model.number="buyVotes"
+                  style="width: 100%"
+                  class="buy_input"
+                  type="number"
+                  min="0"
+                  :max="maxBuyNum"
+                  :placeholder="buyText(nftInfo)"
+                >
                 </el-input>
-                <div :class="[!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0) && 'disabled', 'choose_nums']">
-                  <div v-for="(item, index) in numData" :key="index" :class="[
-                    'choose_nums_item',
-                    buyVotes == item.value && 'active',
-                  ]" @click="changeBuyVotes(item.value)">
+                <div
+                  :class="[
+                    !(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0) &&
+                      'disabled',
+                    'choose_nums',
+                  ]"
+                >
+                  <div
+                    v-for="(item, index) in numData"
+                    :key="index"
+                    :class="[
+                      'choose_nums_item',
+                      buyVotes == item.value && 'active',
+                    ]"
+                    @click="changeBuyVotes(item.value)"
+                  >
                     <span>{{ item.label }}</span>
                   </div>
                 </div>
               </div>
               <div class="payment_box">
-                <el-button v-if="nftInfo?.sendTicketsSwitch && maxBuyNum > 0 && nftInfo?.sendTicketsStatus == 1"
-                  style="width: 100%;" @click="shareOpen()"
-                  :class="['free_payment', nftInfo?.sendTicketsStatus != 1 && 'disabled']" type="primary">
+                <el-button
+                  v-if="
+                    nftInfo?.sendTicketsSwitch &&
+                    maxBuyNum > 0 &&
+                    nftInfo?.sendTicketsStatus == 1
+                  "
+                  style="width: 100%"
+                  @click="shareOpen()"
+                  :class="[
+                    'free_payment',
+                    nftInfo?.sendTicketsStatus != 1 && 'disabled',
+                  ]"
+                  type="primary"
+                >
                   <div class="share_box">
                     <div class="shareText">
-                      <img src="@/assets/svg/user/icon_twiteer.svg" alt="">
+                      <img src="@/assets/svg/user/icon_twiteer.svg" alt="" />
                       <span>{{ $t("ticketsInfo.freeText1") }}</span>
                     </div>
                     <div class="shareTips">
@@ -132,13 +265,31 @@
                     </div>
                   </div>
                 </el-button>
-                <el-button v-if="dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0" style="width: 100%;"
-                  class="submit_payment" type="primary" @click="submitPayment()">
-                  <span v-if="buyVotes > 1">{{ `Purchase ${buyVotes || 0} tickets for ${buyPrice} ` }}</span>
-                  <span v-else>{{ $t("ticketsInfo.buyNum", { num: buyVotes || 0, price: buyPrice }) }}</span>
-                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                <el-button
+                  v-if="dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0"
+                  style="width: 100%"
+                  class="submit_payment"
+                  type="primary"
+                  @click="submitPayment()"
+                >
+                  <span v-if="buyVotes > 1">{{
+                    `Purchase ${buyVotes || 0} tickets for ${buyPrice} `
+                  }}</span>
+                  <span v-else>{{
+                    $t("ticketsInfo.buyNum", {
+                      num: buyVotes || 0,
+                      price: buyPrice,
+                    })
+                  }}</span>
+                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 </el-button>
-                <el-button disabled v-else style="width: 100%;" class="submit_payment" type="primary">
+                <el-button
+                  disabled
+                  v-else
+                  style="width: 100%"
+                  class="submit_payment"
+                  type="primary"
+                >
                   <span v-if="nftInfo?.orderStatus == 'IN_PROGRESS'">
                     {{ $t("ticketsInfo.endHint") }}
                   </span>
@@ -155,137 +306,290 @@
                   <span>{{ $t("ticketsInfo.winner") }}</span>
                 </div>
                 <div class="avatar">
-                  <img :src="drawnInfo && drawnInfo.userImg || avatarImg" alt="">
+                  <img
+                    :src="(drawnInfo && drawnInfo.userImg) || avatarImg"
+                    alt=""
+                  />
                 </div>
                 <div class="user_name">
-                  {{ drawnInfo && drawnInfo.winningAddress || drawnInfo && drawnInfo.winningAddressId }}
+                  {{
+                    (drawnInfo && drawnInfo.winningAddress) ||
+                    (drawnInfo && drawnInfo.winningAddressId)
+                  }}
                 </div>
-                <div class="tickets_num" v-if="drawnInfo && drawnInfo.winningAddressNum > 1">
-                  {{ $t("ticketsInfo.numTickets", { num: drawnInfo && drawnInfo.winningAddressNum || 0 }) }}
+                <div
+                  class="tickets_num"
+                  v-if="drawnInfo && drawnInfo.winningAddressNum > 1"
+                >
+                  {{
+                    $t("ticketsInfo.numTickets", {
+                      num: (drawnInfo && drawnInfo.winningAddressNum) || 0,
+                    })
+                  }}
                 </div>
                 <div class="tickets_num" v-else>
-                  {{ $t("ticketsInfo.numTicket", { num: drawnInfo && drawnInfo.winningAddressNum || 0 }) }}
+                  {{
+                    $t("ticketsInfo.numTicket", {
+                      num: (drawnInfo && drawnInfo.winningAddressNum) || 0,
+                    })
+                  }}
                 </div>
                 <div class="safety_box">
-                  <img class="safety_img" src="@/assets/svg/home/icon_safety.svg" alt="">
+                  <img
+                    class="safety_img"
+                    src="@/assets/svg/home/icon_safety.svg"
+                    alt=""
+                  />
                   <div class="safety_text">
                     <span>{{ $t("ticketsInfo.verify1") }}</span>
                     <span>{{ $t("ticketsInfo.verify2") }}</span>
                   </div>
                   <div class="chain_link">
-                    <span @click="openLenk(nftInfo)">{{ $t("ticketsInfo.verify3") }}</span>
+                    <span @click="openLenk(nftInfo)">{{
+                      $t("ticketsInfo.verify3")
+                    }}</span>
                     <span>{{ $t("ticketsInfo.verify4") }}</span>
                   </div>
                 </div>
               </div>
-              <div class="return_box" v-else-if="nftInfo?.orderStatus == 'CLOSED'"
-                v-html="$t('ticketsInfo.closeHint', { num: new bigNumber(nftInfo?.price || 0).multipliedBy(drawnInfo && drawnInfo.userNum || 0), coin: 'ETH' })">
-              </div>
-              <div class="return_box" v-else
-                v-html="$t('ticketsInfo.cancelHint', { name: `${nftInfo?.name} #${nftInfo?.tokenId}` })">
-              </div>
+              <div
+                class="return_box"
+                v-else-if="nftInfo?.orderStatus == 'CLOSED'"
+                v-html="
+                  $t('ticketsInfo.closeHint', {
+                    num: new bigNumber(nftInfo?.price || 0).multipliedBy(
+                      (drawnInfo && drawnInfo.userNum) || 0
+                    ),
+                    coin: 'ETH',
+                  })
+                "
+              ></div>
+              <div
+                class="return_box"
+                v-else
+                v-html="
+                  $t('ticketsInfo.cancelHint', {
+                    name: `${nftInfo?.name} #${nftInfo?.tokenId}`,
+                  })
+                "
+              ></div>
             </div>
           </div>
         </div>
       </div>
       <div class="nft_buy_info">
-        <div class="nft_buy_info_l ">
+        <div class="nft_buy_info_l">
           <div class="buy_record border_bg">
-            <el-tabs v-model="activeType" class="type_tabs" @tab-change="handleChange">
-              <el-tab-pane :label="$t('ticketsInfo.active')" name="activity"></el-tab-pane>
-              <el-tab-pane :label="$t('ticketsInfo.participant', { num: participantsTotal })"
-                name="participants"></el-tab-pane>
+            <el-tabs
+              v-model="activeType"
+              class="type_tabs"
+              @tab-change="handleChange"
+            >
+              <el-tab-pane
+                :label="$t('ticketsInfo.active')"
+                name="activity"
+              ></el-tab-pane>
+              <el-tab-pane
+                :label="
+                  $t('ticketsInfo.participant', { num: participantsTotal })
+                "
+                name="participants"
+              ></el-tab-pane>
             </el-tabs>
-            <c-scrollbar class="choose_nft" width="100%" :height="screenWidth > 950 ? '27.5rem' : '14rem'">
+            <c-scrollbar
+              class="choose_nft"
+              width="100%"
+              :height="screenWidth > 950 ? '27.5rem' : '14rem'"
+            >
               <div class="buy_list">
-                <div class="buy_item" v-for="(item, index) in buyData" :key="index">
+                <div
+                  class="buy_item"
+                  v-for="(item, index) in buyData"
+                  :key="index"
+                >
                   <div class="buy_item_l">
-                    <img :src="item.userImg || avatarImg">
+                    <img :src="item.userImg || avatarImg" />
                   </div>
-                  <div class="buy_item_r" :class="[activeType == 'participants' && 'participants']">
+                  <div
+                    class="buy_item_r"
+                    :class="[activeType == 'participants' && 'participants']"
+                  >
                     <div class="buy_info">
-                      <div class="buy_name">{{ item.address || item.userId }}</div>
-                      <div class="buy_time" v-if="activeType != 'participants'">{{ timeFormat(item.time) }}</div>
+                      <div class="buy_name">
+                        {{ item.address || item.userId }}
+                      </div>
+                      <div class="buy_time" v-if="activeType != 'participants'">
+                        {{ timeFormat(item.time) }}
+                      </div>
                     </div>
                     <div class="buy_other">
-                      <div class="buy_val" v-if="item.total > 1">{{ $t("ticketsInfo.numTickets", { num: item.total }) }}
+                      <div class="buy_val" v-if="item.total > 1">
+                        {{ $t("ticketsInfo.numTickets", { num: item.total }) }}
                       </div>
-                      <div class="buy_val" v-else>{{ $t("ticketsInfo.numTicket", { num: item.total }) }} </div>
+                      <div class="buy_val" v-else>
+                        {{ $t("ticketsInfo.numTicket", { num: item.total }) }}
+                      </div>
                       <div class="buy_id" v-if="activeType != 'participants'">
-                        {{ $t("ticketsInfo.rewardId", { start: item.startNum, end: item.endNum }) }}
+                        {{
+                          $t("ticketsInfo.rewardId", {
+                            start: item.startNum,
+                            end: item.endNum,
+                          })
+                        }}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="load_more" v-if="total > 4 && !finished" @click="nextPage()">
+              <div
+                class="load_more"
+                v-if="total > 4 && !finished"
+                @click="nextPage()"
+              >
                 <div class="load_btn">
                   <span>{{ $t("ticketsInfo.more") }}</span>
-                  <img src="@/assets/svg/user/icon_more.svg" alt="">
+                  <img src="@/assets/svg/user/icon_more.svg" alt="" />
                 </div>
               </div>
             </c-scrollbar>
           </div>
-          <div class="buy_history" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
+          <div
+            class="buy_history"
+            v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+          >
             <div class="history_title">
-              <img src="@/assets/svg/home/icon_buy_history.svg" alt="">
+              <img src="@/assets/svg/home/icon_buy_history.svg" alt="" />
               <span>{{ $t("ticketsInfo.nftAtivity") }}</span>
             </div>
             <div class="history_filter">
-              <el-select v-model="chooseVal" class="status_type" @change="historyFilter">
-                <el-option v-for="(item, index) in statusDrop" :key="index" :label="item.label" :value="item.value" />
+              <el-select
+                v-model="chooseVal"
+                class="status_type"
+                @change="historyFilter"
+              >
+                <el-option
+                  v-for="(item, index) in statusDrop"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
               <div class="choose_array" v-if="chooseStatus.length > 0">
-                <div class="status_item" v-for="(item, index) in chooseStatus" :key="index">
+                <div
+                  class="status_item"
+                  v-for="(item, index) in chooseStatus"
+                  :key="index"
+                >
                   <span>{{ statusFormat(item) }}</span>
-                  <img @click="delStatus(index)" src="@/assets/svg/home/icon_close.svg" alt="">
+                  <img
+                    @click="delStatus(index)"
+                    src="@/assets/svg/home/icon_close.svg"
+                    alt=""
+                  />
                 </div>
               </div>
-              <el-table :data="historyList" class="table_container" height="13.5rem">
-                <el-table-column label="Event" width="90" prop="currentStatus" align="left">
+              <el-table
+                :data="historyList"
+                class="table_container"
+                height="13.5rem"
+              >
+                <el-table-column
+                  label="Event"
+                  width="90"
+                  prop="currentStatus"
+                  align="left"
+                >
                   <template #default="scope">
                     <div class="price_box">
-                      <img v-if="scope.row.currentStatus == 'IN_PROGRESS'" src="@/assets/svg/home/icon_nft_create.svg">
-                      <img v-else-if="scope.row.currentStatus == 'DRAWN'" src="@/assets/svg/home/icon_nft_sale.svg">
-                      <img v-else-if="scope.row.currentStatus == 'CANCELLED'" src="@/assets/svg/home/icon_nft_cancel.svg">
-                      <img v-else src="@/assets/svg/home/icon_nft_abort.svg">
-                      <span v-if="scope.row.currentStatus == 'IN_PROGRESS'">Create</span>
-                      <span v-else-if="scope.row.currentStatus == 'DRAWN'" style="color:rgba(9, 139, 46, 0.8)">Sale</span>
-                      <span v-else-if="scope.row.currentStatus == 'CANCELLED'">Cancel</span>
-                      <span v-else style="color:rgba(187, 54, 12, 0.8)">Abort</span>
+                      <img
+                        v-if="scope.row.currentStatus == 'IN_PROGRESS'"
+                        src="@/assets/svg/home/icon_nft_create.svg"
+                      />
+                      <img
+                        v-else-if="scope.row.currentStatus == 'DRAWN'"
+                        src="@/assets/svg/home/icon_nft_sale.svg"
+                      />
+                      <img
+                        v-else-if="scope.row.currentStatus == 'CANCELLED'"
+                        src="@/assets/svg/home/icon_nft_cancel.svg"
+                      />
+                      <img v-else src="@/assets/svg/home/icon_nft_abort.svg" />
+                      <span v-if="scope.row.currentStatus == 'IN_PROGRESS'"
+                        >Create</span
+                      >
+                      <span
+                        v-else-if="scope.row.currentStatus == 'DRAWN'"
+                        style="color: rgba(9, 139, 46, 0.8)"
+                        >Sale</span
+                      >
+                      <span v-else-if="scope.row.currentStatus == 'CANCELLED'"
+                        >Cancel</span
+                      >
+                      <span v-else style="color: rgba(187, 54, 12, 0.8)"
+                        >Abort</span
+                      >
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Price" width="80" prop="price" align="left">
+                <el-table-column
+                  label="Price"
+                  width="80"
+                  prop="price"
+                  align="left"
+                >
                   <template #default="scope">
                     <div class="price_box">
-                      <img v-if="scope.row.price" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+                      <img
+                        v-if="scope.row.price"
+                        src="@/assets/svg/user/icon_ethereum.svg"
+                        alt=""
+                      />
                       <span>{{ scope.row.price || "--" }}</span>
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Creator" prop="userName" align="left" show-overflow-tooltip>
+                <el-table-column
+                  label="Creator"
+                  prop="userName"
+                  align="left"
+                  show-overflow-tooltip
+                >
                   <template #default="scope">
                     <div class="price_box">
-                      <img v-if="scope.row.userName" :src="avatarImg" alt="">
+                      <img v-if="scope.row.userName" :src="avatarImg" alt="" />
                       <span>{{ scope.row.userName || "--" }}</span>
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Winner" prop="winner" align="left" show-overflow-tooltip>
+                <el-table-column
+                  label="Winner"
+                  prop="winner"
+                  align="left"
+                  show-overflow-tooltip
+                >
                   <template #default="scope">
                     <div class="price_box">
-                      <img v-if="scope.row.winner" :src="avatarImg" alt="">
+                      <img v-if="scope.row.winner" :src="avatarImg" alt="" />
                       <span>{{ scope.row.winner || "--" }}</span>
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column label="Date" min-width="100" prop="endTime" align="left" fixed="right">
+                <el-table-column
+                  label="Date"
+                  min-width="100"
+                  prop="endTime"
+                  align="left"
+                  fixed="right"
+                >
                   <template #default="scope">
                     <div class="price_box date">
                       <span>{{ timeFormat(scope.row.endTime) }}</span>
-                      <img v-if="scope.row.currentStatus == 'DRAWN'" @click="enterNow(scope.row)"
-                        src="@/assets/svg/home/icon_share.svg" alt="">
+                      <img
+                        v-if="scope.row.currentStatus == 'DRAWN'"
+                        @click="enterNow(scope.row)"
+                        src="@/assets/svg/home/icon_share.svg"
+                        alt=""
+                      />
                     </div>
                   </template>
                 </el-table-column>
@@ -294,19 +598,28 @@
           </div>
         </div>
         <div class="nft_buy_info_r border_bg">
-          <div class="charts_box" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
+          <div
+            class="charts_box"
+            v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+          >
             <div class="charts_title_box">
               <div class="charts_title">
-                <img src="@/assets/svg/home/icon_price_history.svg" alt="">
+                <img src="@/assets/svg/home/icon_price_history.svg" alt="" />
                 <span>{{ $t("ticketsInfo.priceHistory") }}</span>
               </div>
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
-                <div class="price_val">{{ historyPrice ? `${historyPrice} ETH` : "--" }} </div>
+                <div class="price_val">
+                  {{ historyPrice ? `${historyPrice} ETH` : "--" }}
+                </div>
               </div>
             </div>
             <div class="chart-box">
-              <line-chart v-if="chartData.length > 0" ref="lienChart" :chart-data="lineChartData" />
+              <line-chart
+                v-if="chartData.length > 0"
+                ref="lienChart"
+                :chart-data="lineChartData"
+              />
               <div class="no_date" v-else>
                 <span>No data</span>
               </div>
@@ -314,33 +627,57 @@
           </div>
           <div class="description_box">
             <div class="description_text">
-              <img src="@/assets/svg/home/icon_description.svg" alt="">
+              <img src="@/assets/svg/home/icon_description.svg" alt="" />
               <span>{{ $t("ticketsInfo.description") }}</span>
             </div>
             <div class="nft_info">
               <span>{{ $t("ticketsInfo.nftDescription") }}</span>
-              <span class="nft_name text-ellipsis" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
-                {{ formatSeries(nftInfo) ? `${nftInfo?.name} #${nftInfo?.tokenId}` : `${nftInfo?.name}` }}
+              <span
+                class="nft_name text-ellipsis"
+                v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+              >
+                {{
+                  formatSeries(nftInfo)
+                    ? `${nftInfo?.name} #${nftInfo?.tokenId}`
+                    : `${nftInfo?.name}`
+                }}
               </span>
               <span class="nft_name text-ellipsis" v-else>
                 {{ `${nftInfo?.totalPrice} ETH` }}
               </span>
             </div>
-            <div class="nft_description" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'" v-html="nftInfo?.remark"></div>
-            <div class="nft_description" v-else> {{ $t("ticketsInfo.ethDescription") }}</div>
+            <div
+              class="nft_description"
+              v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+              v-html="nftInfo?.remark"
+            ></div>
+            <div class="nft_description" v-else>
+              {{ $t("ticketsInfo.ethDescription") }}
+            </div>
           </div>
-          <div class="traits_box" v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'">
+          <div
+            class="traits_box"
+            v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
+          >
             <div class="traits_text">
-              <img src="@/assets/svg/home/icon_traits.svg" alt="">
+              <img src="@/assets/svg/home/icon_traits.svg" alt="" />
               <span>{{ $t("ticketsInfo.traits") }}</span>
             </div>
             <div class="traits_list">
-              <div class="traits_item" v-for="(item, index) in attrData" :key="index">
+              <div
+                class="traits_item"
+                v-for="(item, index) in attrData"
+                :key="index"
+              >
                 <div class="traits_item_top">
                   <div class="traits_item_name">{{ item.attrName }}</div>
                 </div>
                 <div class="traits_item_val">
-                  <el-tooltip popper-class="tips_box" effect="dark" placement="top">
+                  <el-tooltip
+                    popper-class="tips_box"
+                    effect="dark"
+                    placement="top"
+                  >
                     <template #content>
                       <span>{{ item.attrValue }}</span>
                     </template>
@@ -354,8 +691,16 @@
           <div class="invite_box">
             <div class="invite_text">{{ $t("ticketsInfo.share") }}</div>
             <div class="choose_invite_code">
-              <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(inviteVal)" alt="">
-              <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(inviteVal)" alt="">
+              <img
+                src="@/assets/svg/user/icon_invite_copy.svg"
+                @click="copyInviteLink(inviteVal)"
+                alt=""
+              />
+              <img
+                src="@/assets/svg/airdrop/icon_twitter_btn.svg"
+                @click="shareInviteLink(inviteVal)"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -363,51 +708,104 @@
       <div class="ending_soon_box" v-if="endingSoon.length > 0">
         <div class="ending_soon_text">{{ $t("ticketsInfo.endSoon") }}</div>
         <div class="ending_soon_list">
-          <div class="ending_soon_item" @click="enterNow(item)" v-for="(item, index) in endingSoon" :key="index">
+          <div
+            class="ending_soon_item"
+            @click="enterNow(item)"
+            v-for="(item, index) in endingSoon"
+            :key="index"
+          >
             <div class="image_box">
-              <div class="tips_round" :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'">
-                <img v-if="item.orderType == 'LIMITED_TIME'" src="@/assets/svg/home/icon_info_time_white.svg" alt="">
-                <img v-else src="@/assets/svg/home/icon_info_price_white.svg" alt="">
+              <div
+                class="tips_round"
+                :class="item.orderType == 'LIMITED_TIME' ? 'time' : 'price'"
+              >
+                <img
+                  v-if="item.orderType == 'LIMITED_TIME'"
+                  src="@/assets/svg/home/icon_info_time_white.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/icon_info_price_white.svg"
+                  alt=""
+                />
                 <span v-if="item.orderType == 'LIMITED_TIME'">
                   <span v-if="dateDiff(item.endTime) > 1">
-                    {{ $t("home.dayLeft", { day: Math.ceil(dateDiff(nftInfo?.endTime)) }) }}
+                    {{
+                      $t("home.dayLeft", {
+                        day: Math.ceil(dateDiff(nftInfo?.endTime)),
+                      })
+                    }}
                   </span>
                   <countDown v-else v-slot="timeObj" :time="item.endTime">
                     {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss} LEFT` }}
                   </countDown>
                 </span>
                 <span v-else>
-                  <span v-if="Number(new bigNumber(item.limitNum).minus(item.numberOfTicketsSold || 0)) > 1">
+                  <span
+                    v-if="
+                      Number(
+                        new bigNumber(item.limitNum).minus(
+                          item.numberOfTicketsSold || 0
+                        )
+                      ) > 1
+                    "
+                  >
                     {{
                       $t("home.ticketsLeft", {
-                        num:
-                          new bigNumber(item.limitNum).minus(item.numberOfTicketsSold || 0)
-                      }) }}
+                        num: new bigNumber(item.limitNum).minus(
+                          item.numberOfTicketsSold || 0
+                        ),
+                      })
+                    }}
                   </span>
                   <span v-else>
-                    {{ $t("home.ticketLeft", {
-                      num: new bigNumber(item.limitNum).minus(item.numberOfTicketsSold
-                        || 0)
-                    }) }}
+                    {{
+                      $t("home.ticketLeft", {
+                        num: new bigNumber(item.limitNum).minus(
+                          item.numberOfTicketsSold || 0
+                        ),
+                      })
+                    }}
                   </span>
                 </span>
               </div>
-              <div class="image_tag text-ellipsis" v-if="item.orderType != 'LIMITED_PRICE_COIN'">#{{ item.tokenId }}</div>
-              <Image fit="cover" class="nft_img" v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.webp')" />
+              <div
+                class="image_tag text-ellipsis"
+                v-if="item.orderType != 'LIMITED_PRICE_COIN'"
+              >
+                #{{ item.tokenId }}
+              </div>
+              <Image
+                fit="cover"
+                class="nft_img"
+                v-if="item.orderType == 'LIMITED_PRICE_COIN'"
+                :src="require('@/assets/svg/user/create_eth.webp')"
+              />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             </div>
             <div class="nft_name">
-              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{ item.seriesName || "--" }}</span>
-              <span v-else>{{ `${item.price} ETH` }}</span>
-              <img src="@/assets/svg/home/icon_certified.svg" alt="">
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
+                item.seriesName || "--"
+              }}</span>
+              <span v-else>
+                {{ `${Number(item.price).toLocaleString()} ETH` }}
+              </span>
+              <img src="@/assets/svg/home/icon_certified.svg" alt="" />
             </div>
             <div class="nft_price">
               <span class="val" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-                {{ `${item.price} ETH` }}
+                {{ `${Number(item.price).toLocaleString()} ETH` }}
               </span>
               <span class="val" v-else>
-                {{ `$ ${accurateDecimal(new bigNumber(exchangeRate).multipliedBy(item.price), 4)}` }}
+                {{
+                  `$ ${Number(
+                    accurateDecimal(
+                      new bigNumber(exchangeRate).multipliedBy(item.price),
+                      4
+                    )
+                  ).toLocaleString()}`
+                }}
               </span>
             </div>
             <div class="buy_btn">
@@ -415,18 +813,31 @@
             </div>
             <div class="remaining_votes">
               <span v-if="item.numberOfTicketsSold > 1">
-                {{ $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 }) }}
+                {{
+                  $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 })
+                }}
               </span>
               <span v-else>
-                {{ $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 }) }}
+                {{
+                  $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 })
+                }}
               </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <el-dialog v-model="showShare" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-      class="public-dialog" :append-to-body="true" width="43.75rem" :before-close="shareClose">
+    <el-dialog
+      v-model="showShare"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      :append-to-body="true"
+      width="43.75rem"
+      :before-close="shareClose"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, shareClose] }">
           <el-icon>
@@ -442,41 +853,76 @@
           <span>{{ $t("ticketsInfo.verifyDescription") }}</span>
         </div>
         <div class="invite_code">
-          <el-input class="invite_code_input" @blur="onVerify()" v-model="shareLink" clearable
-            :placeholder="$t('ticketsInfo.enterLink')">
+          <el-input
+            class="invite_code_input"
+            @blur="onVerify()"
+            v-model="shareLink"
+            clearable
+            :placeholder="$t('ticketsInfo.enterLink')"
+          >
           </el-input>
           <div class="create_error">{{ errorTips }}</div>
         </div>
         <div class="btn_box">
-          <el-button class="public-button form-button" v-if="!loading" @click="verifyLink()">
+          <el-button
+            class="public-button form-button"
+            v-if="!loading"
+            @click="verifyLink()"
+          >
             {{ $t("ticketsInfo.startVerify") }}
           </el-button>
           <el-button class="public-button form-button loading" v-else>
             <div class="loading_box">
-              <img src="@/assets/img/user/loading.png" alt="">
+              <img src="@/assets/img/user/loading.png" alt="" />
               <span>{{ $t("ticketsInfo.startVerify") }}</span>
             </div>
           </el-button>
         </div>
         <div class="verify_hint">
           <p>
-            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="">
+            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="" />
             <span>{{ $t("ticketsInfo.verifyTips1") }}</span>
           </p>
           <p>
-            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="">
+            <img src="@/assets/svg/user/icon_yellow_warning.svg" alt="" />
             <span>{{ $t("ticketsInfo.verifyTips2") }}</span>
           </p>
         </div>
       </div>
     </el-dialog>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <buyConfirm :nftInfo="nftInfo" :orderId="orderId" :inviteCode="inviteVal" :tickets="buyVotes" :price="buyPrice"
-      v-if="pageType === 'confirm'" @closeDialogFun="closeDialogFun"></buyConfirm>
-    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Modify
+      v-if="pageType === 'modify'"
+      @onModify="closeDialogFun"
+      @closeDialogFun="closeDialogFun"
+    ></Modify>
+    <buyConfirm
+      :nftInfo="nftInfo"
+      :orderId="orderId"
+      :inviteCode="inviteVal"
+      :tickets="buyVotes"
+      :price="buyPrice"
+      v-if="pageType === 'confirm'"
+      @closeDialogFun="closeDialogFun"
+    ></buyConfirm>
+    <Recharge
+      v-if="pageType === 'recharge'"
+      @closeDialogFun="closeDialogFun"
+    ></Recharge>
   </div>
 </template>
 <script>
@@ -492,19 +938,17 @@ import {
   getNftActivityCharts,
   getTweetInfo,
   getShareTwitter,
-  tweetSendTikect
+  tweetSendTikect,
 } from "@/services/api/oneBuy";
 import { getCacheTicker } from "@/services/api";
-import {
-  getSetting,
-} from "@/services/api/invite";
+import { getSetting } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-import countDown from '@/components/countDown';
+import countDown from "@/components/countDown";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { CScrollbar } from "c-scrollbar";
@@ -518,10 +962,15 @@ import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
 import LineChart from "@/components/charts";
 import {
-  accurateDecimal, openUrl, onCopy, dateDiff, timeFormat, handleWindowResize
+  accurateDecimal,
+  openUrl,
+  onCopy,
+  dateDiff,
+  timeFormat,
+  handleWindowResize,
 } from "@/utils";
 export default {
-  name: 'ntfTicketsInfo',
+  name: "ntfTicketsInfo",
   components: {
     countDown,
     CScrollbar,
@@ -532,7 +981,7 @@ export default {
     Image,
     buyConfirm,
     Recharge,
-    LineChart
+    LineChart,
   },
   data() {
     return {
@@ -557,7 +1006,7 @@ export default {
 
       chooseVal: null,
       statusDrop: [],
-      chooseStatus: ['DRAWN'],
+      chooseStatus: ["DRAWN"],
       historyList: [],
       historyPrice: null,
       historyPage: 1,
@@ -574,7 +1023,7 @@ export default {
       shareLink: null,
       loading: false,
       verifys: false,
-      errorTips: null
+      errorTips: null,
     };
   },
   computed: {
@@ -607,31 +1056,60 @@ export default {
         return end;
       }
       const timestamp = new Date(this.nftInfo?.endTime).getTime();
-      const time = this.isMiniSecond ? Math.round(+timestamp / 1000) : Math.round(+timestamp);
+      const time = this.isMiniSecond
+        ? Math.round(+timestamp / 1000)
+        : Math.round(+timestamp);
       return time;
     },
     // 计算可购买最大票数
     maxBuyNum() {
       if (!this.nftInfo) return 0;
-      const { nftInfo: { totalPrice, price, orderType, maximumPurchaseQuantity, limitNum }, drawnInfo } = this;
+      const {
+        nftInfo: {
+          totalPrice,
+          price,
+          orderType,
+          maximumPurchaseQuantity,
+          limitNum,
+        },
+        drawnInfo,
+      } = this;
 
       let maxNum = 0; // 可购买最大票数
       if (orderType == "LIMITED_TIME") {
         if (!totalPrice) return 0;
         if (!price) return 0;
-        maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
-      }
-      else if (orderType == "LIMITED_PRICE_COIN") {
-        maxNum = Number(Math.ceil(new bigNumber(limitNum).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
+        maxNum = Number(
+          Math.ceil(
+            new bigNumber(totalPrice)
+              .dividedBy(price)
+              .dividedBy(4)
+              .minus((drawnInfo && drawnInfo.userNum) || 0)
+          )
+        );
+      } else if (orderType == "LIMITED_PRICE_COIN") {
+        maxNum = Number(
+          Math.ceil(
+            new bigNumber(limitNum)
+              .dividedBy(4)
+              .minus((drawnInfo && drawnInfo.userNum) || 0)
+          )
+        );
 
         // 如果余票不足最大票数，取余票数量
         if (Number(maxNum) > Number(maximumPurchaseQuantity)) {
           maxNum = maximumPurchaseQuantity;
         }
-      }
-      else {
+      } else {
         if (!maximumPurchaseQuantity) return 0;
-        maxNum = Number(Math.ceil(new bigNumber(totalPrice).dividedBy(price).dividedBy(4).minus(drawnInfo && drawnInfo.userNum || 0)));
+        maxNum = Number(
+          Math.ceil(
+            new bigNumber(totalPrice)
+              .dividedBy(price)
+              .dividedBy(4)
+              .minus((drawnInfo && drawnInfo.userNum) || 0)
+          )
+        );
 
         // 如果余票不足最大票数，取余票数量
         if (Number(maxNum) > Number(maximumPurchaseQuantity)) {
@@ -639,28 +1117,28 @@ export default {
         }
       }
 
-      return maxNum
+      return maxNum;
     },
     numData() {
       return [
         {
           label: "25%",
-          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.25))
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.25)),
         },
         {
           label: "50%",
-          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.5))
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.5)),
         },
         {
           label: "75%",
-          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.75))
+          value: Math.floor(new bigNumber(this.maxBuyNum).multipliedBy(0.75)),
         },
         {
           label: "Max",
-          value: this.maxBuyNum
+          value: this.maxBuyNum,
         },
-      ]
-    }
+      ];
+    },
   },
   methods: {
     onCopy: onCopy,
@@ -672,7 +1150,7 @@ export default {
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({
         orderNumber: this.orderId,
-        userId: this.userInfo?.id || 0
+        userId: this.userInfo?.id || 0,
       });
       if (res && res.code == 200) {
         this.nftInfo = res.data;
@@ -685,9 +1163,12 @@ export default {
         }
 
         if (this.userInfo?.id && this.isLogin) {
-          if (this.nftInfo?.sendTicketsSwitch && this.nftInfo?.sendTicketsStatus == 1) {
+          if (
+            this.nftInfo?.sendTicketsSwitch &&
+            this.nftInfo?.sendTicketsStatus == 1
+          ) {
             const userTweet = await getTweetInfo({
-              orderNumber: this.orderId
+              orderNumber: this.orderId,
             });
 
             const { data } = userTweet;
@@ -697,11 +1178,10 @@ export default {
           }
         }
 
-
         const resDrawn = await getLottery({
           orderNumber: this.orderId,
-          userId: userInfo?.id || 0
-        })
+          userId: userInfo?.id || 0,
+        });
 
         if (resDrawn && resDrawn.code == 200) {
           this.drawnInfo = resDrawn.data;
@@ -742,33 +1222,32 @@ export default {
     async submitPayment() {
       if (!this.isLogin || !this.userInfo?.id) {
         this.pageType = "login";
-        return
+        return;
       }
 
       const { orderId, buyVotes, ethBalance, buyPrice } = this;
 
       if (!buyVotes || buyVotes < 1) {
         this.$message.error(t("ticketsInfo.enterHint"));
-        return
+        return;
       }
       if (Number(ethBalance) < buyPrice) {
         this.$message.error(t("mysteryBox.rechargeHint"));
-        this.pageType = 'recharge';
-        return
+        this.pageType = "recharge";
+        return;
       }
 
       const res = await buyNftBalance({
         orderNumber: orderId,
-        num: buyVotes
+        num: buyVotes,
       });
 
       if (res && res.code == 200) {
-        this.pageType = 'confirm';
+        this.pageType = "confirm";
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
       }
-
     },
     async getTheUserBalanceInfo() {
       const headerStore = useHeaderStore();
@@ -789,13 +1268,13 @@ export default {
         res = await getAListOfActivities({
           page: _page,
           size: size,
-          orderNumber: orderId
+          orderNumber: orderId,
         });
       } else {
         res = await getAListOfParticipants({
           page: _page,
           size: size,
-          orderNumber: orderId
+          orderNumber: orderId,
         });
 
         this.fetchUserBuyRecord();
@@ -806,7 +1285,7 @@ export default {
 
         if (isSearch) {
           this.buyData = res.data.records;
-          return
+          return;
         }
 
         if (res.data.records.length == 0) {
@@ -814,7 +1293,6 @@ export default {
         }
 
         this.buyData.push.apply(this.buyData, res.data.records);
-
       }
     },
     // 获取参与者总数
@@ -823,7 +1301,7 @@ export default {
       const res = await getAListOfParticipants({
         page: page,
         size: size,
-        orderNumber: orderId
+        orderNumber: orderId,
       });
       if (res && res.code == 200) {
         this.participantsTotal = res.data.total;
@@ -834,7 +1312,7 @@ export default {
       const { nftInfo } = this;
       const res = await getNftAttrRate({
         contractAddress: nftInfo?.contractAddress,
-        tokenId: nftInfo?.tokenId
+        tokenId: nftInfo?.tokenId,
       });
       if (res && res.code == 200) {
         this.attrData = res.data;
@@ -843,7 +1321,7 @@ export default {
     // 加载更多
     nextPage() {
       this.page++;
-      this.fetchBuyRecord(false)
+      this.fetchBuyRecord(false);
     },
     // 一元购历史
     async fetchNftActivity(isSearch = true) {
@@ -860,7 +1338,7 @@ export default {
         tokenId: nftInfo?.tokenId,
         page: _page,
         size: historySize,
-        currentStatus: chooseStatus.join(",")
+        currentStatus: chooseStatus.join(","),
       });
 
       if (res && res.code == 200) {
@@ -868,7 +1346,7 @@ export default {
 
         if (isSearch) {
           this.historyList = res.data.records;
-          return
+          return;
         }
 
         if (res.data.records.length == 0) {
@@ -889,7 +1367,7 @@ export default {
         tokenId: nftInfo?.tokenId,
         page: _page,
         size: 500,
-        currentStatus: "DRAWN"
+        currentStatus: "DRAWN",
       });
 
       if (res && res.code == 200) {
@@ -903,7 +1381,7 @@ export default {
         series.push({
           type: "line",
           data: res.data.records.map(function (item) {
-            return item.price
+            return item.price;
           }),
           areaStyle: {
             color: {
@@ -947,7 +1425,7 @@ export default {
     async fetchCacheTicker() {
       const res = await getCacheTicker({
         areaCoin: "ETH",
-        coinName: "USDT"
+        coinName: "USDT",
       });
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
@@ -955,7 +1433,7 @@ export default {
     },
     // 筛选历史
     historyFilter(event) {
-      const status = this.chooseStatus.findIndex(e => e == event);
+      const status = this.chooseStatus.findIndex((e) => e == event);
 
       if (!(status > -1)) {
         this.chooseStatus.push(event);
@@ -976,29 +1454,32 @@ export default {
     },
     // 参加赛事
     enterNow(event) {
-      let routeData = this.$router.resolve({ name: "FreeNFT", query: { id: event.orderNumber } });
-      openUrl(routeData.href)
+      let routeData = this.$router.resolve({
+        name: "FreeNFT",
+        query: { id: event.orderNumber },
+      });
+      openUrl(routeData.href);
     },
     /*
      * 时间戳的 yyyy-MM-dd HH:mm:ss 格式化
      */
     dateFormat(event) {
       let date = new Date(event);
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
 
-      let hour = date.getHours()
-      let minu = date.getMinutes()
-      let sec = date.getSeconds()
+      let hour = date.getHours();
+      let minu = date.getMinutes();
+      let sec = date.getSeconds();
 
-      month = month >= 10 ? month : '0' + month
-      day = day >= 10 ? day : '0' + day
-      hour = hour >= 10 ? hour : '0' + hour
-      minu = minu >= 10 ? minu : '0' + minu
-      sec = sec >= 10 ? sec : '0' + sec
+      month = month >= 10 ? month : "0" + month;
+      day = day >= 10 ? day : "0" + day;
+      hour = hour >= 10 ? hour : "0" + hour;
+      minu = minu >= 10 ? minu : "0" + minu;
+      sec = sec >= 10 ? sec : "0" + sec;
 
-      return `${year}-${month}-${day} ${hour}:${minu}:${sec}`
+      return `${year}-${month}-${day} ${hour}:${minu}:${sec}`;
     },
     /**
      * @description: 格式化地址
@@ -1043,17 +1524,17 @@ export default {
     durationFormatter(diff) {
       // 按照传入的格式生成一个simpledateformate对象
       let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
-      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nh = 1000 * 60 * 60; // 一小时的毫秒数
       let nm = 1000 * 60; // 一分钟的毫秒数
       let ns = 1000; // 一秒钟的毫秒数;
 
-      let dd = diff / nd;// 计算差多少天
+      let dd = diff / nd; // 计算差多少天
       // eslint-disable-next-line no-unused-vars
-      let hh = diff % nd / nh;// 计算差多少小时
+      let hh = (diff % nd) / nh; // 计算差多少小时
       // eslint-disable-next-line no-unused-vars
-      let mm = diff % nd % nh / nm;// 计算差多少分钟
+      let mm = ((diff % nd) % nh) / nm; // 计算差多少分钟
       // eslint-disable-next-line no-unused-vars
-      let ss = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
+      let ss = (((diff % nd) % nh) % nm) / ns; // 计算差多少秒//输出结果
       return { dd, hh, mm, ss };
     },
     // 复制邀请链接
@@ -1070,7 +1551,7 @@ export default {
     shareInviteLink(event) {
       let seriesName = null;
 
-      if (this.nftInfo?.orderType == 'LIMITED_PRICE_COIN') {
+      if (this.nftInfo?.orderType == "LIMITED_PRICE_COIN") {
         seriesName = `${this.nftInfo?.totalPrice} ETH`;
       } else {
         if (!this.formatSeries(this.nftInfo)) {
@@ -1081,7 +1562,9 @@ export default {
       }
 
       const series = `⚡️ Bitzers! Grab a chance to WIN an ${seriesName} on BITZING!\n\n`;
-      const description = `Less than ${this.nftInfo?.maximumPurchaseQuantity || 0} TICKETS remaining.\n\n`;
+      const description = `Less than ${
+        this.nftInfo?.maximumPurchaseQuantity || 0
+      } TICKETS remaining.\n\n`;
 
       const inviteLink = `Enter NOW:`;
       const currentLink = "https://www.bitzing.io";
@@ -1098,7 +1581,11 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl =
+        "https://twitter.com/share?text=" +
+        encodeURIComponent(inviteText) +
+        "&url=" +
+        link;
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
@@ -1106,7 +1593,7 @@ export default {
     shareInviteFreeLink(event) {
       let seriesName = null;
 
-      if (this.nftInfo?.orderType == 'LIMITED_PRICE_COIN') {
+      if (this.nftInfo?.orderType == "LIMITED_PRICE_COIN") {
         seriesName = `${this.nftInfo?.totalPrice} ETH`;
       } else {
         if (!this.formatSeries(this.nftInfo)) {
@@ -1134,20 +1621,25 @@ export default {
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link + " 🎉";
+      var twitterUrl =
+        "https://twitter.com/share?text=" +
+        encodeURIComponent(inviteText) +
+        "&url=" +
+        link +
+        " 🎉";
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
     changeBuyVotes(event) {
       const { nftInfo, maxBuyNum } = this;
-      if (!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0)) return
+      if (!(dateDiff(nftInfo?.endTime) > 0 && maxBuyNum > 0)) return;
       this.buyVotes = event;
     },
     // 打开分享
     shareOpen() {
       if (!this.userInfo?.id || !this.isLogin) {
         this.pageType = "login";
-        return
+        return;
       }
 
       if (this.nftInfo?.sendTicketsStatus != 1) return;
@@ -1167,7 +1659,7 @@ export default {
       if (!shareLink) {
         this.errorTips = t("errorTips.tweets_link_error");
         this.verifys = false;
-        return
+        return;
       }
 
       let link = shareLink;
@@ -1175,12 +1667,12 @@ export default {
         link = shareLink.replace("https://x.com", "https://twitter.com");
       }
 
-      const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/
+      const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/;
 
       if (!reg.test(link)) {
         this.errorTips = t("errorTips.tweets_link_error");
         this.verifys = false;
-        return
+        return;
       }
 
       this.errorTips = "";
@@ -1219,7 +1711,7 @@ export default {
       this.loading = true;
       res = await tweetSendTikect({
         orderNumber: this.orderId,
-        tweetUrl: link
+        tweetUrl: link,
       });
 
       isLoad = true;
@@ -1257,11 +1749,13 @@ export default {
       this.pageType = page;
     },
     statusFormat(event) {
-      const status = this.statusDrop.find(e => e.value == event);
+      const status = this.statusDrop.find((e) => e.value == event);
       return status.label;
     },
     echartFormat(event) {
-      const chart = this.chartData.find(e => this.timeFormat(e.endTime) == event)
+      const chart = this.chartData.find(
+        (e) => this.timeFormat(e.endTime) == event
+      );
       return chart;
     },
     setOptions({ xAxis, series } = {}) {
@@ -1280,7 +1774,7 @@ export default {
             },
           },
           axisLabel: {
-            color: "#c4bfbd"
+            color: "#c4bfbd",
           },
         },
         grid: {
@@ -1294,12 +1788,15 @@ export default {
           trigger: "axis",
           textStyle: {
             color: "#B9C3C3",
-            fontSize: "12"
+            fontSize: "12",
           },
           backgroundColor: "#2c115b",
           padding: [10, 10],
           formatter: function (datas) {
-            var res = "<div style='text-align: center;font-size: 0.875rem;color:white;'>" + datas[0].data + " ETH</div>";
+            var res =
+              "<div style='text-align: center;font-size: 0.875rem;color:white;'>" +
+              datas[0].data +
+              " ETH</div>";
             res += "Date：";
             res += datas[0].name + "<br/>";
             for (var i = 0, length = datas.length; i < length; i++) {
@@ -1331,7 +1828,7 @@ export default {
             },
           },
           axisLabel: {
-            color: "#c4bfbd"
+            color: "#c4bfbd",
           },
           splitLine: {
             lineStyle: { color: "rgba(255,255,255,0.1)" },
@@ -1346,8 +1843,8 @@ export default {
       const { name, tokenId } = event;
       if (!name || !tokenId) return false;
       const isShow = name.indexOf(tokenId) > -1;
-      return !isShow
-    }
+      return !isShow;
+    },
   },
   watch: {
     buyVotes: function (newVal) {
@@ -1368,7 +1865,7 @@ export default {
     },
     isLogin() {
       this.loadInterface();
-    }
+    },
   },
   mounted() {
     const that = this;
@@ -1378,7 +1875,7 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-    })
+    });
   },
   created() {
     // 获取一元购 ID
@@ -1388,33 +1885,40 @@ export default {
     this.loadInterface();
     this.fetchCacheTicker();
 
-    this.statusDrop = [{
-      label: "Create",
-      value: "IN_PROGRESS"
-    }, {
-      label: "Sale",
-      value: "DRAWN"
-    }, {
-      label: "Cancel",
-      value: "CANCELLED"
-    }, {
-      label: "Abort",
-      value: "CLOSED"
-    }]
+    this.statusDrop = [
+      {
+        label: "Create",
+        value: "IN_PROGRESS",
+      },
+      {
+        label: "Sale",
+        value: "DRAWN",
+      },
+      {
+        label: "Cancel",
+        value: "CANCELLED",
+      },
+      {
+        label: "Abort",
+        value: "CLOSED",
+      },
+    ];
 
     this.$nextTick(() => {
-      document.querySelector(".el-scrollbar__wrap.el-scrollbar__wrap--hidden-default").addEventListener('scroll', (res) => {
-        let scrollTop = res.target.scrollTop;
-        let winHeight = res.target.clientHeight;
-        let scrollHeight = res.target.scrollHeight;
-        if (scrollTop + winHeight + 50 > scrollHeight && !this.busyScroll) {
-          if (this.historyFinished) return;
-          this.historyPage += 1;
-          this.fetchNftActivity(false);
-        }
-      })
-    })
-  }
+      document
+        .querySelector(".el-scrollbar__wrap.el-scrollbar__wrap--hidden-default")
+        .addEventListener("scroll", (res) => {
+          let scrollTop = res.target.scrollTop;
+          let winHeight = res.target.clientHeight;
+          let scrollHeight = res.target.scrollHeight;
+          if (scrollTop + winHeight + 50 > scrollHeight && !this.busyScroll) {
+            if (this.historyFinished) return;
+            this.historyPage += 1;
+            this.fetchNftActivity(false);
+          }
+        });
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -1461,7 +1965,7 @@ export default {
   box-sizing: border-box;
 
   .tips_title {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.875rem;
     line-height: 1.3;
     text-align: left;
@@ -1469,7 +1973,7 @@ export default {
   }
 
   .tips_text {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.875rem;
     line-height: 1.3;
     text-align: left;

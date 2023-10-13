@@ -507,4 +507,9 @@
       }
     }
   }
+  :deep(.table_container) {
+    .amount_box img {
+      width: 0.75rem;
+    }
+  }
 }

@@ -239,7 +239,6 @@
           prop="createTime"
           :label="$t('user.referredAt')"
           align="center"
-          fixed="right"
           show-overflow-tooltip
         >
           <template #default="scope">

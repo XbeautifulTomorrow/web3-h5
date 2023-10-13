@@ -579,11 +579,12 @@
                   min-width="100"
                   prop="endTime"
                   align="left"
-                  fixed="right"
                 >
                   <template #default="scope">
                     <div class="price_box date">
-                      <span>{{ timeFormat(scope.row.endTime) }}</span>
+                      <el-tooltip class="item" effect="dark" :content="timeFormat(scope.row.endTime)" placement="top">
+                        <span>{{ timeFormat(scope.row.endTime) }}</span>
+                      </el-tooltip>
                       <img
                         v-if="scope.row.currentStatus == 'DRAWN'"
                         @click="enterNow(scope.row)"

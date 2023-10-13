@@ -507,4 +507,12 @@
       }
     }
   }
+  :deep(.table_container) {
+    .cell {
+      font-size: 0.75rem;
+    }
+    .amount_box img {
+      width: 0.75rem;
+    }
+  }
 }

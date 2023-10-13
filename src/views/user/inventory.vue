@@ -959,7 +959,7 @@ export default {
       if (event.currentStatus != "ONE_DOLLAR") return;
 
       let routeData = this.$router.resolve({
-        name: "NftTicketsInfo",
+        name: "FreeNFT",
         query: { id: event.orderNumber },
       });
       openUrl(routeData.href);

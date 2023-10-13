@@ -55,8 +55,15 @@
         </div>
       </div>
       <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length > 0">
-        <el-table-column prop="id" :label="$t('user.round')" min-width="70" align="center" key="1" />
-        <el-table-column prop="seriesName" :label="$t('user.spendingGoals')" min-width="160" align="center" key="2">
+        <el-table-column prop="id" :label="$t('user.round')" min-width="60" align="center" key="1" />
+        <el-table-column
+          prop="seriesName"
+          :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')"
+          min-width="100"
+          show-overflow-tooltip
+          align="center"
+          key="2"
+        >
           <template #default="scope">
             <div class="progress_bar_box">
               <div
@@ -68,7 +75,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="70" align="center" key="3">
+        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="60" align="center" key="3">
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.bonus || "--" }}</span>
@@ -76,7 +83,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="serviceFee" min-width="100" :label="$t('user.claim')" align="center" key="4">
+        <el-table-column prop="serviceFee" min-width="80" :label="$t('user.claim')" align="center" key="4" fixed="right">
           <template #default="scope">
             <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed") }}</p>
             <p class="table-btn active" v-else-if="scope.row.status == 'NOT_CLAIMED'" @click="activityReceiveFunc">
@@ -125,6 +132,7 @@ export default {
       tableData: [],
       welcomeStatic: {},
       pointStatic: null,
+      screenWidth: null,
     };
   },
   computed: {
@@ -200,6 +208,10 @@ export default {
         this.getActivityPointFunc();
       }
     }
+  },
+  mounted() {
+    const { innerWidth } = window;
+    this.screenWidth = innerWidth;
   },
 };
 </script>

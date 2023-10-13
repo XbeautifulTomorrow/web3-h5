@@ -58,7 +58,7 @@
         <el-table-column prop="id" :label="$t('user.round')" min-width="60" align="center" key="1" />
         <el-table-column
           prop="seriesName"
-          :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.target')"
+          :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')"
           min-width="100"
           show-overflow-tooltip
           align="center"

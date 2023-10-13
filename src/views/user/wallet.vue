@@ -122,7 +122,7 @@
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="120" key="10" fixed="right">
+        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="80" key="10" fixed="right">
           <template #default="scope">
             <div class="view_btn"
               v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"

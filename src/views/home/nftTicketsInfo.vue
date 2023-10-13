@@ -579,7 +579,6 @@
                   min-width="100"
                   prop="endTime"
                   align="left"
-                  fixed="right"
                 >
                   <template #default="scope">
                     <div class="price_box date">

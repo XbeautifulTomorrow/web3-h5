@@ -128,7 +128,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center" fixed="right"
+        <el-table-column prop="createTime" :label="$t('user.referredAt')" align="center"
           show-overflow-tooltip>
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}

@@ -22,6 +22,7 @@ const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop
 const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
 const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
+const warGame = () => import(/* webpackChunkName: "user" */ "../views/home/warGame/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -137,6 +138,17 @@ const routes = [
       Currency,
     },
   },
+  {
+    path: "/warGame",
+    name: "WarGame",
+    components: {
+      default: warGame,
+      Header,
+      Footer,
+      Currency,
+    },
+  },
+
 ];
 
 // 3. 创建路由实例

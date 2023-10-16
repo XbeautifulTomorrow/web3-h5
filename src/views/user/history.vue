@@ -17,40 +17,85 @@
     </div>
     <div class="purchase_history_box" v-if="this.count > 0">
       <div
-        :class="['history_item', { history_competition: activeType != 'MYSTERY_BOX' }]"
+        :class="[
+          'history_item',
+          { history_competition: activeType != 'MYSTERY_BOX' },
+        ]"
         v-for="(item, index) in historyList"
         :key="index"
       >
         <div class="box_info">
           <div class="box_img">
-            <Image fit="cover" class="nft_img" v-if="activeType == 'MYSTERY_BOX'" :src="item.boxImg" />
+            <Image
+              fit="cover"
+              class="nft_img"
+              v-if="activeType == 'MYSTERY_BOX'"
+              :src="item.boxImg"
+            />
+            <Image
+              fit="cover"
+              class="nft_img"
+              v-else-if="
+                activeType != 'MYSTERY_BOX' &&
+                item.orderType == 'LIMITED_PRICE_COIN'
+              "
+              :src="require('@/assets/svg/user/create_eth.webp')"
+            />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
           </div>
           <div class="box_buy">
             <div class="box_num">
-              <div v-if="activeType == 'MYSTERY_BOX'" class="box_name">{{ item.boxName }}</div>
+              <div v-if="activeType == 'MYSTERY_BOX'" class="box_name">
+                {{ item.boxName }}
+              </div>
               <div v-else class="box_name">{{ item.seriesName }}</div>
-              <div v-if="activeType == 'MYSTERY_BOX'" class="mag-l">{{ ` x ${item.lottery.length}` }}</div>
+              <div v-if="activeType == 'MYSTERY_BOX'" class="mag-l">
+                {{ ` x ${item.lottery.length}` }}
+              </div>
               <div class="btns" v-if="activeType == 'MYSTERY_BOX'">
-                <el-tooltip v-if="item.hash" popper-class="tips_box" effect="dark" placement="top">
+                <el-tooltip
+                  v-if="item.hash"
+                  popper-class="tips_box"
+                  effect="dark"
+                  placement="top"
+                >
                   <template #content>
                     <span>{{ $t("user.verifyBtn") }}</span>
                   </template>
-                  <img @click="openLenk(item)" src="@/assets/svg/user/icon_external_link.svg" alt="" />
+                  <img
+                    @click="openLenk(item)"
+                    src="@/assets/svg/user/icon_external_link.svg"
+                    alt=""
+                  />
                 </el-tooltip>
-                <el-tooltip v-if="item.snapshotId" popper-class="tips_box" effect="dark" placement="top">
+                <el-tooltip
+                  v-if="item.snapshotId"
+                  popper-class="tips_box"
+                  effect="dark"
+                  placement="top"
+                >
                   <template #content>
                     <span>{{ $t("user.snapshotBtn") }}</span>
                   </template>
-                  <img @click="handleSnapshot(item)" src="@/assets/svg/user/icon_snapshot.svg" alt="" />
+                  <img
+                    @click="handleSnapshot(item)"
+                    src="@/assets/svg/user/icon_snapshot.svg"
+                    alt=""
+                  />
                 </el-tooltip>
               </div>
               <div v-else class="mag-l">
-                <span v-if="item.tickets > 1">{{ $t("user.numTicket", { num: item.tickets }) }}</span>
-                <span v-else>{{ $t("user.numTickets", { num: item.tickets }) }}</span>
+                <span v-if="item.tickets > 1">{{
+                  $t("user.numTicket", { num: item.tickets })
+                }}</span>
+                <span v-else>{{
+                  $t("user.numTickets", { num: item.tickets })
+                }}</span>
               </div>
             </div>
-            <div v-if="activeType == 'MYSTERY_BOX'" class="box_order">{{ `ID：${item.orderNumber}` }}</div>
+            <div v-if="activeType == 'MYSTERY_BOX'" class="box_order">
+              {{ `ID：${item.orderNumber}` }}
+            </div>
             <div v-else class="box_order">{{ `ID：${item.orderNum}` }}</div>
           </div>
         </div>
@@ -60,16 +105,35 @@
               <el-tooltip popper-class="tips_box" effect="dark" placement="top">
                 <template #content>
                   <span>
-                    {{ `${event.seriesName} ${(event.tokenId && "#" + event.tokenId) || ""}` }}
+                    {{
+                      `${event.seriesName} ${
+                        (event.tokenId && "#" + event.tokenId) || ""
+                      }`
+                    }}
                   </span>
                 </template>
                 <div class="img_box">
                   <Image fit="cover" class="nft_img" :src="event.nftImg" />
                   <div class="mask_box" v-if="event.userSelect == 'RECLAIM'">
-                    <img class="status_img" v-if="event.userSelect == 'RECLAIM'" src="@/assets/svg/user/icon_sold.svg" alt="" />
+                    <img
+                      class="status_img"
+                      v-if="event.userSelect == 'RECLAIM'"
+                      src="@/assets/svg/user/icon_sold.svg"
+                      alt=""
+                    />
                   </div>
-                  <div class="mask_box" v-if="event.userSelect == 'HOLD' && event.lotteryStatus != 'SUCCESS'">
-                    <img class="status_img" src="@/assets/svg/user/icon_refund.svg" alt="" />
+                  <div
+                    class="mask_box"
+                    v-if="
+                      event.userSelect == 'HOLD' &&
+                      event.lotteryStatus != 'SUCCESS'
+                    "
+                  >
+                    <img
+                      class="status_img"
+                      src="@/assets/svg/user/icon_refund.svg"
+                      alt=""
+                    />
                   </div>
                 </div>
               </el-tooltip>
@@ -77,12 +141,18 @@
           </div>
           <div class="price_box">
             <div class="price">
-              <span v-if="activeType == 'MYSTERY_BOX'">{{ `${item.buyPrice}` }}</span>
+              <span v-if="activeType == 'MYSTERY_BOX'">{{
+                `${item.buyPrice}`
+              }}</span>
               <span v-else>{{ `${item.expenditure}` }}</span>
               <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             </div>
-            <div class="time" v-if="activeType == 'MYSTERY_BOX'">{{ timeFormat(item.createTime) }}</div>
-            <div class="time" v-else>{{ timeFormat(item.transactionTime) }}</div>
+            <div class="time" v-if="activeType == 'MYSTERY_BOX'">
+              {{ timeFormat(item.createTime) }}
+            </div>
+            <div class="time" v-else>
+              {{ timeFormat(item.transactionTime) }}
+            </div>
           </div>
         </div>
       </div>

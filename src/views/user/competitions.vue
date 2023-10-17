@@ -149,19 +149,21 @@
             <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
               item.seriesName || "--"
             }}</span>
-            <span v-else>{{ `${item.price} ${item.coinName}` }}</span>
+            <span v-else>{{ `${item.price} ETH` }}</span>
             <img src="@/assets/svg/home/icon_certified.svg" alt="" />
           </div>
           <div class="nft_price">
-            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
-              `${item.price} ${item.coinName || "ETH"}`
-            }}</span>
-            <span v-else>{{
-              `$ ${accurateDecimal(
-                new bigNumber(exchangeRate).multipliedBy(item.price),
-                4
-              )}`
-            }}</span>
+            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+              {{ `$ ${item.price}` }}
+            </span>
+            <span v-else>
+              {{
+                `$ ${accurateDecimal(
+                  new bigNumber(exchangeRate).multipliedBy(item.price),
+                  4
+                )}`
+              }}
+            </span>
           </div>
           <div
             class="buy_btn"
@@ -186,7 +188,7 @@
             <span>{{
               new bigNumber(item.userNum || 0).multipliedBy(item.ticketPrice)
             }}</span>
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             <span>{{ $t("user.refunded") }}</span>
           </div>
           <div
@@ -312,19 +314,21 @@
               <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
                 item.seriesName || "--"
               }}</span>
-              <span v-else>{{ `${item.price} USDT` }}</span>
+              <span v-else>{{ `${item.price} ETH` }}</span>
               <img src="@/assets/svg/home/icon_certified.svg" alt="" />
             </div>
             <div class="nft_price">
-              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">{{
-                `${item.price} USDT`
-              }}</span>
-              <span v-else>{{
-                `$ ${accurateDecimal(
-                  new bigNumber(exchangeRate).multipliedBy(item.price),
-                  4
-                )}`
-              }}</span>
+              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+                {{ `$ ${item.price}` }}
+              </span>
+              <span v-else>
+                {{
+                  `$ ${accurateDecimal(
+                    new bigNumber(exchangeRate).multipliedBy(item.price),
+                    4
+                  )}`
+                }}
+              </span>
             </div>
             <div
               class="cancel_btn"
@@ -345,7 +349,7 @@
                     .minus(item.serviceFee)
                 }}
               </span>
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span>{{ $t("user.claimed") }}</span>
             </div>
             <div class="delete_btn" v-else @click="delOrder(item)">

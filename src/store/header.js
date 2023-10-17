@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import bigNumber from "bignumber.js";
 
 import { getTheUserBalance, getTheUserPoint } from "@/services/api/user";
 import { getGlobalNew } from "@/services/api/oneBuy";
@@ -25,7 +26,12 @@ export const useHeaderStore = defineStore("headerStore", {
     async getTheUserBalanceApi(params) {
       const res = await getTheUserBalance(params);
       if (res && res.data) {
-        this.balance = res.data[0].balance;
+        let balanceVal = 0;
+        res.data.forEach(element => {
+          balanceVal += Number(new bigNumber(element.balance || 0).multipliedBy(element.usdt || 0).toFixed(2))
+        });
+
+        this.balance = balanceVal;
       }
     },
     // 积分余额

@@ -1102,6 +1102,8 @@ export default {
           this.competitionForm.price = 99999;
         } else if (operatingType == "NFT" && Number(newV) > 999999999) {
           this.competitionForm.price = 999999999;
+        } else if (operatingType == "NFT") {
+          this.competitionForm.price = Math.floor(newV);
         }
         this.$forceUpdate();
       }, 300);

@@ -6,16 +6,26 @@
     </div>
     <ul class="boxes-content">
       <template v-for="(item, index) in boxList">
-        <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)" v-if="index < 4" :key="`mystery-${index}`">
+        <li
+          class="mystery-boxes-item"
+          @click="handleMysteryBoxes(item)"
+          v-if="index < 4"
+          :key="`mystery-${index}`"
+        >
           <div class="img_box">
-            <Image fit="cover" class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
+            <Image
+              fit="cover"
+              class="mystery-boxs-list-img"
+              :src="item.boxImg"
+              alt=""
+            />
           </div>
           <div class="mystery-boxs-title text-ellipsis">
             <div class="box-name text-ellipsis">{{ item.boxName }}</div>
           </div>
           <div class="box-price">
             <div class="price-box">
-              <img src="@/assets/svg/box/icon_eth.svg" alt="">
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span v-priceFormat="item.price"></span>
             </div>
           </div>
@@ -23,8 +33,7 @@
             <div class="sale">{{ $t("home.sale") }}</div>
             <div class="sale-val">{{ item.sales }}</div>
           </div>
-          <p class="mystery-boxs-text text-ellipsis">
-          </p>
+          <p class="mystery-boxs-text text-ellipsis"></p>
           <div class="boxes-button buy-btn text-ellipsis">
             <span class="boxes-button-name">{{ $t("home.buyBtn") }}</span>
           </div>
@@ -41,39 +50,44 @@
 <script>
 import Image from "@/components/imageView";
 export default {
-  name: 'MysteryBoxes',
-  props: ['boxList'],
+  name: "MysteryBoxes",
+  props: ["boxList"],
   components: {
-    Image
+    Image,
   },
   data() {
     return {
       pageType: null,
-      boxLists: [{
-        boxImg: require("@/assets/img/home/win_bayc.png"),
-        boxName: "Win BAYC for 0.01 ETH",
-        price: 0.01,
-        coin: "ETH",
-        sales: "0"
-      }, {
-        boxImg: require("@/assets/img/home/teamazuki_collections.png"),
-        boxName: "TeamAzuki Collections",
-        price: 0.02,
-        coin: "ETH",
-        sales: "0"
-      }, {
-        boxImg: require("@/assets/img/home/yugalabs_collections.png"),
-        boxName: "Yugalabs Collections",
-        price: 0.05,
-        coin: "ETH",
-        sales: "0"
-      }, {
-        boxImg: require("@/assets/img/home/blue_chip_package.png"),
-        boxName: "Blue-Chip Package",
-        price: 0.15,
-        coin: "ETH",
-        sales: "0"
-      }]
+      boxLists: [
+        {
+          boxImg: require("@/assets/img/home/win_bayc.png"),
+          boxName: "Win BAYC for 0.01 ETH",
+          price: 0.01,
+          coin: "ETH",
+          sales: "0",
+        },
+        {
+          boxImg: require("@/assets/img/home/teamazuki_collections.png"),
+          boxName: "TeamAzuki Collections",
+          price: 0.02,
+          coin: "ETH",
+          sales: "0",
+        },
+        {
+          boxImg: require("@/assets/img/home/yugalabs_collections.png"),
+          boxName: "Yugalabs Collections",
+          price: 0.05,
+          coin: "ETH",
+          sales: "0",
+        },
+        {
+          boxImg: require("@/assets/img/home/blue_chip_package.png"),
+          boxName: "Blue-Chip Package",
+          price: 0.15,
+          coin: "ETH",
+          sales: "0",
+        },
+      ],
     };
   },
   methods: {
@@ -83,7 +97,7 @@ export default {
     openAll() {
       this.$router.push({ name: "RaffleBoxesList" });
     },
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -243,7 +243,7 @@
     "snapshotTitle1": "{ name }快照#{ id }",
     "searchRewardId": "搜索獎品ID",
     "price": "價值",
-    "usdPrice": "USD價值",
+    "ethPrice": "ETH價值",
     "resalePrice": "轉賣價值",
     "rewardId": "獎品ID",
     "boxTipsTitle": "此盲盒包含外部NFT",

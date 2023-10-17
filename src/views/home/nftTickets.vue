@@ -103,7 +103,7 @@
           </div>
           <div class="price-box">
             <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-              {{ `${Number(item.price).toLocaleString()} ETH` }}
+              {{ `$ ${Number(item.price).toLocaleString()}` }}
             </span>
             <span v-else>
               {{

@@ -144,6 +144,7 @@
     }
 
     .nft_name {
+      flex: 1;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -202,6 +203,9 @@
 
   .price_item {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: Inter;
     font-size: 1.125rem;
     font-weight: 500;
@@ -219,6 +223,14 @@
     &>.val {
       padding-left: 0.625rem;
       color: white;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 1.125rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
     }
 
     &:hover {
@@ -231,7 +243,7 @@
   padding: 1.875rem 1.875rem 0;
 
   .el-form-item {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .el-form-item__label {
@@ -244,22 +256,39 @@
   }
 
   .el-input {
+    border-radius: 0.5rem;
+    border: solid 1px #363945;
+    background-color: #13151f;
+
     .el-input__wrapper {
       height: 4.375rem;
       padding: 0 1.25rem;
-      border-radius: 0.5rem;
       box-sizing: border-box;
-      border: solid 1px #363945;
-      background-color: #13151f;
       box-shadow: none !important;
 
       &>input {
         font-size: 1.5rem;
         font-weight: bold;
         line-height: 1.25;
-        text-align: right;
+        text-align: left;
         color: white;
       }
+    }
+
+    .el-input-group__append {
+      height: auto !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .convert_box {
+      padding-right: 1.25rem;
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      color: #a9a4b4;
     }
 
     &.disabled {
@@ -355,7 +384,6 @@
   :deep(.el-form-item__label) {
     margin-bottom: 0 !important;
   }
-
 
   :deep(.el-form-item__content) {
     flex: none;
@@ -934,7 +962,8 @@
 @media screen and (max-width: 950px) {
 
   :deep(.create_dialog) {
-    border-radius: 0 !important;
+    width: 90%;
+    border-radius: 0.5rem !important;
 
     .el-dialog__body {
       position: relative;
@@ -1027,6 +1056,10 @@
         font-size: 1.5rem;
       }
 
+      .nft_name {
+        flex: none;
+      }
+
       .nft_id {
         max-width: 50%;
         text-indent: 0.5rem;
@@ -1045,7 +1078,7 @@
     }
 
     .price_item {
-      font-size: 0.75rem;
+      font-size: 0.625rem;
       font-weight: 500;
 
       padding: 0.25rem 0.75rem;
@@ -1053,7 +1086,10 @@
 
       &>.val {
         padding-left: 0.25rem;
-        color: white;
+
+        img {
+          width: 0.75rem;
+        }
       }
     }
   }
@@ -1062,33 +1098,53 @@
     padding: 1rem 1rem 0;
 
     .el-form-item {
-      margin-bottom: 1rem;
+      margin-bottom: 0.25rem;
+
+      &.is-required {
+        margin-bottom: 1rem;
+
+        .el-form-item__error {
+          font-size: 0.625rem;
+        }
+      }
     }
 
     .el-form-item__label {
       font-size: 0.75rem;
-      margin-bottom: 0.5rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    .num_item {
+      font-size: 0.75rem;
+    }
+
+    .icon_eth {
+      width: 1rem;
+      height: auto;
     }
 
     .el-input {
+      border-radius: 0.25rem;
+
       .el-input__wrapper {
         height: 2rem;
         padding: 0 0.5rem;
-        border-radius: 0.5rem;
-        box-sizing: border-box;
-        border: solid 1px #363945;
-        background-color: #13151f;
         box-shadow: none !important;
 
         &>input {
           font-size: 0.75rem;
           height: 2rem;
         }
+
+        img {
+          width: 1rem;
+          height: auto;
+        }
       }
 
-      .icon_eth {
-        width: 1rem;
-        height: auto;
+      .convert_box {
+        padding-right: 0.5rem;
+        font-size: 0.625rem;
       }
     }
 
@@ -1122,7 +1178,7 @@
       .choose_days_item {
         flex: 1;
         width: auto;
-        height: 2rem;
+        height: 1.5rem;
         border-radius: 0.25rem;
         font-size: 0.75rem;
       }
@@ -1134,25 +1190,8 @@
     }
   }
 
-  .form-item_wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem !important;
-
-    :deep(.el-form-item__label) {
-      margin-bottom: 0 !important;
-    }
-  }
-
   .num_item {
     font-size: 0.75rem;
-
-    img {
-      width: 1.5rem;
-      height: auto;
-      margin-left: 0.625rem;
-    }
   }
 
   .share_box {
@@ -1288,12 +1327,10 @@
 
   .continue_btn {
     margin-bottom: 1rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
+    height: 2rem;
+    line-height: 2rem;
     border-radius: 0.25rem;
-    background-image: linear-gradient(to top, #e3a406, #fbd851);
-
-    font-size: 1rem;
+    font-size: 0.75rem;
   }
 
   .hint-text {

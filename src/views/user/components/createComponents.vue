@@ -74,39 +74,54 @@
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div
                 class="price_item"
-                @click="competitionForm.price = competitionNft?.floorPrice"
+                @click="addPrice(competitionNft?.floorPrice)"
               >
                 <span class="title">Floor Price</span>
-                <span class="val"
-                  >{{ competitionNft?.floorPrice || "--" }} ETH</span
-                >
+                <span class="val">
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                  <span>{{ formatUSDT(competitionNft?.floorPrice) }}</span>
+                </span>
               </div>
-              <div
-                class="price_item"
-                @click="competitionForm.price = historyPrice"
-              >
+              <div class="price_item" @click="addPrice(historyPrice)">
                 <span class="title">Last Sale</span>
-                <span class="val"
-                  >{{ historyPrice ? `${historyPrice} ETH` : "--" }}
+                <span class="val">
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                  <span>{{ formatUSDT(historyPrice) }}</span>
                 </span>
               </div>
             </div>
             <el-input v-model="competitionForm.price" type="number" min="0">
               <template #prefix>
                 <img
+                  v-if="operatingType == 'NFT'"
                   class="icon_eth"
-                  src="@/assets/svg/user/icon_ethereum.svg"
+                  src="@/assets/svg/user/icon_usdt_gold.svg"
                   alt=""
                 />
+                <img
+                  v-else
+                  class="icon_eth"
+                  src="@/assets/svg/user/coin/icon_eth.svg"
+                  alt=""
+                />
+              </template>
+              <template #append>
+                <div v-if="operatingType == 'ETH'" class="convert_box">
+                  {{
+                    `~ ${new bigNumber(competitionForm.price || 0)
+                      .multipliedBy(exchangeRate)
+                      .toFixed(2)} USDT`
+                  }}
+                </div>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
             <div class="num_item">
-              <span>{{ competitionForm.ticketPrice }}</span>
+              <span>{{ Number(competitionForm.ticketPrice).toFixed(2) }}</span>
               <img
                 class="icon_eth"
-                src="@/assets/svg/user/icon_ethereum.svg"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
                 alt=""
               />
             </div>
@@ -153,7 +168,7 @@
               <span>{{ totalPrice }}</span>
               <img
                 class="icon_eth"
-                src="@/assets/svg/user/icon_ethereum.svg"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
                 alt=""
               />
             </div>
@@ -172,7 +187,7 @@
               <span>{{ realIncome }}</span>
               <img
                 class="icon_eth"
-                src="@/assets/svg/user/icon_ethereum.svg"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
                 alt=""
               />
             </div>
@@ -546,6 +561,7 @@ import {
 } from "@/services/api/oneBuy";
 
 import { rebatesCreateCode, rebatesFindList } from "@/services/api/invite";
+import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
 import { i18n } from "@/locales";
@@ -568,7 +584,7 @@ export default {
         limitNum: null, //票数
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 0.0001, //单次价格
+        ticketPrice: 1, //单次价格
       },
       daysData: [1, 7, 14, 30],
       rules: {},
@@ -600,6 +616,8 @@ export default {
         inviteCode: null,
         sendTicketsNum: null,
       },
+
+      exchangeRate: null,
     };
   },
   computed: {
@@ -951,9 +969,14 @@ export default {
       this.showInvite = false;
     },
     validatePrice(rule, value, callback) {
+      const { operatingType } = this;
       if (value === "") {
         callback(new Error(t("user.priceEnter")));
-      } else if (value && Number(value) > Number(this.ethBalance)) {
+      } else if (
+        value &&
+        operatingType == "ETH" &&
+        Number(value) > Number(this.ethBalance)
+      ) {
         callback(new Error(t("user.enterError4")));
       } else {
         callback();
@@ -961,8 +984,9 @@ export default {
     },
     validateTPrice(rule, value, callback) {
       const {
-        competitionForm: { price, ticketPrice },
+        competitionForm: { price },
         configK,
+        exchangeRate,
       } = this;
 
       if (!price) {
@@ -971,8 +995,8 @@ export default {
         callback(new Error(t("user.limitNumEnter")));
       } else if (
         value &&
-        Number(value * ticketPrice) >
-          Number(price * configK?.ONE_ETH_LIMIT_PREMIUM)
+        Number(value) / Number(exchangeRate || 0) >
+          Number(price) * Number(configK?.ONE_ETH_LIMIT_PREMIUM || 0)
       ) {
         callback(
           new Error(
@@ -1043,6 +1067,26 @@ export default {
       this.page = event;
       this.fetchSystemNft(false);
     },
+    // 预置价格
+    addPrice(event) {
+      this.competitionForm.price = Number(event).toFixed(0);
+    },
+    // u取整换算
+    formatUSDT(event) {
+      if (!event) return "--";
+      const price = Number(event).toFixed(0);
+      return Number(price).toLocaleString();
+    },
+    // 提款汇率
+    async fetchCacheTicker() {
+      const res = await getCacheTicker({
+        areaCoin: "ETH",
+        coinName: "USDT",
+      });
+      if (res && res.code == 200) {
+        this.exchangeRate = res.data;
+      }
+    },
   },
   watch: {
     "competitionForm.price"(newV) {
@@ -1052,9 +1096,12 @@ export default {
       }
       if (!newV) return;
 
+      const { operatingType } = this;
       this.timer = setTimeout(() => {
-        if (Number(newV) > 99999) {
+        if (operatingType == "ETH" && Number(newV) > 99999) {
           this.competitionForm.price = 99999;
+        } else if (operatingType == "NFT" && Number(newV) > 999999999) {
+          this.competitionForm.price = 999999999;
         }
         this.$forceUpdate();
       }, 300);
@@ -1143,6 +1190,7 @@ export default {
     };
 
     this.fetchSetting();
+    this.fetchCacheTicker();
     this.fetchCofingKey();
   },
 };

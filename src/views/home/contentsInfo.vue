@@ -9,10 +9,20 @@
       </div>
       <div class="collections_box">
         <div class="collections_text">Collections:</div>
-        <el-select v-model="contractAddress" @change="othersideBoxFun()" class="nft_type" placeholder="ALL" clearable
-          :popper-append-to-body="false">
-          <el-option v-for="(item, index) in seriesList" :key="index" :label="item.seriesName"
-            :value="item.contractAddress" />
+        <el-select
+          v-model="contractAddress"
+          @change="othersideBoxFun()"
+          class="nft_type"
+          placeholder="ALL"
+          clearable
+          :popper-append-to-body="false"
+        >
+          <el-option
+            v-for="(item, index) in seriesList"
+            :key="index"
+            :label="item.seriesName"
+            :value="item.contractAddress"
+          />
         </el-select>
       </div>
     </div>
@@ -23,52 +33,82 @@
             <div class="image_box">
               <Image fit="cover" class="nft_img" :src="scope.row.nftImg" />
             </div>
-            <div class="user_text ">{{ scope.row.nftName }}</div>
+            <div class="user_text">{{ scope.row.nftName }}</div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="price" :label="$t('home.tabelText1')" show-overflow-tooltip>
+      <el-table-column
+        prop="price"
+        :label="$t('home.tabelText1')"
+        show-overflow-tooltip
+      >
         <template #default="scope">
           {{ `#${scope.row.tokenId} ` }}
         </template>
       </el-table-column>
-      <el-table-column prop="price" :label="$t('home.tabelText2')" show-overflow-tooltip>
+      <el-table-column
+        prop="price"
+        :label="$t('home.tabelText2')"
+        show-overflow-tooltip
+      >
         <template #default="scope">
           {{ `${scope.row.price} ${scope.row.coin} ` }}
         </template>
       </el-table-column>
-      <el-table-column prop="usdtPrice" :label="$t('home.tabelText3')" show-overflow-tooltip>
+      <el-table-column
+        prop="usdtPrice"
+        :label="$t('home.tabelText3')"
+        show-overflow-tooltip
+      >
         <template #default="scope">
           {{ `$${scope.row.usdtPrice} ` }}
         </template>
       </el-table-column>
-      <el-table-column prop="boxName" :label="$t('home.tabelText4')" show-overflow-tooltip />
-      <el-table-column prop="date" :label="$t('home.tabelText5')" align="center" width="100" fixed="right">
+      <el-table-column
+        prop="boxName"
+        :label="$t('home.tabelText4')"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="date"
+        :label="$t('home.tabelText5')"
+        align="center"
+        width="100"
+        fixed="right"
+      >
         <template #default="scope">
           <div class="active_btn" @click="handleMysteryBoxes(scope.row)">
-            <img src="@/assets/svg/home/icon_active.svg" alt="">
+            <img src="@/assets/svg/home/icon_active.svg" alt="" />
           </div>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination-box" v-if="count > size">
-      <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="5"
-        layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+      <el-pagination
+        v-model="page"
+        :page-size="size"
+        @current-change="handleCurrentChange"
+        :pager-count="5"
+        layout="prev, pager, next"
+        :total="count"
+        :prev-text="$t('common.prev')"
+        :next-text="$t('common.next')"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { getNFTList } from '@/services/api/index';
+import { getNFTList } from "@/services/api/index";
 import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import Image from "@/components/imageView";
 export default {
-  name: 'ContentsInfo',
+  name: "ContentsInfo",
   components: {
-    Image
+    Image,
   },
   data() {
     return {
@@ -77,14 +117,14 @@ export default {
       contractAddress: null,
       page: 1,
       size: 10,
-      count: 0
+      count: 0,
     };
   },
   computed: {
     ...mapStores(useUserStore),
     isLogin() {
       const { isLogin } = this.userStore;
-      return isLogin
+      return isLogin;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -95,7 +135,7 @@ export default {
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
-        type: "EXTERNAL"
+        type: "EXTERNAL",
       });
       this.seriesList = res.data;
     },
@@ -112,7 +152,7 @@ export default {
       const res = await getNFTList({
         page: _page,
         size: size,
-        contractAddress: contractAddress
+        contractAddress: contractAddress,
       });
       if (res && res.code == 200) {
         this.nftData = res.data.records;
@@ -121,11 +161,10 @@ export default {
     },
     // 去抽奖
     handleMysteryBoxes(event) {
-      if (this.isLogin && this.userInfo?.id) {
-        this.$router.push({ path: "/raffleBox", query: { boxId: event.boxId } });
-      } else {
-        this.changeTypeFun('login');
-      }
+      this.$router.push({
+        path: "/raffleBox",
+        query: { boxId: event.boxId },
+      });
     },
     othersideBoxFun() {
       this.page = 1;
@@ -134,12 +173,12 @@ export default {
     handleCurrentChange(page) {
       this.page = page;
       this.fetchNftList(false);
-    }
+    },
   },
   created() {
     this.fetchAllSeries();
     this.fetchNftList();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

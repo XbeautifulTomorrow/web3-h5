@@ -582,7 +582,12 @@
                 >
                   <template #default="scope">
                     <div class="price_box date">
-                      <el-tooltip class="item" effect="dark" :content="timeFormat(scope.row.endTime)" placement="top">
+                      <el-tooltip
+                        class="item"
+                        effect="dark"
+                        :content="timeFormat(scope.row.endTime)"
+                        placement="top"
+                      >
                         <span>{{ timeFormat(scope.row.endTime) }}</span>
                       </el-tooltip>
                       <img

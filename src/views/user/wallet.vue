@@ -3,49 +3,142 @@
     <div class="wallet_panel">
       <div class="balance_box">
         <div class="balance_l">
-          <img src="@/assets/svg/user/icon_balances.svg" alt="">
+          <img src="@/assets/svg/user/icon_balances.svg" alt="" />
           <div class="title_text">{{ $t("user.balance") }}</div>
         </div>
-        <div class="balance_r" @click="showRecharge = true">{{ $t("user.cashier") }}</div>
+        <div class="balance_r" @click="showRecharge = true">
+          {{ $t("user.cashier") }}
+        </div>
       </div>
-      <div class="balance_item">
+      <div class="balance_item asset">
         <div class="balance_item_l">
-          <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
-          <div class="num">
-            <span>{{ Number(accurateDecimal(ethBalance, 4)).toLocaleString(undefined, {
-              minimumFractionDigits: 4
-            }) || 0 }}</span>
-            <span>ETH</span>
+          <div class="balance_val_box">
+            <div class="label">
+              <span>{{ $t("user.goodBalance") }}</span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            </div>
+            <div class="num">
+              <span>
+                {{
+                  Number(
+                    accurateDecimal(usdtBalance.balance, 2)
+                  ).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  }) || 0
+                }}
+              </span>
+              <span>USDT</span>
+            </div>
+          </div>
+          <div class="balance_val_box">
+            <div class="label">{{ $t("user.assetEstimate") }}</div>
+            <div class="num">
+              <span>
+                {{
+                  Number(accurateDecimal(ethBalance, 2)).toLocaleString() || 0
+                }}
+              </span>
+              <span>USD</span>
+            </div>
           </div>
         </div>
+        <div class="balance_item_r not-select">
+          <span
+            class="details show_other_btn"
+            v-if="!showOther"
+            @click="showOther = !showOther"
+          >
+            {{ $t("user.showAllCoin") }}
+          </span>
+          <span
+            class="details show_other_btn"
+            v-if="showOther"
+            @click="showOther = !showOther"
+          >
+            {{ $t("user.hideAllCoin") }}
+          </span>
+        </div>
       </div>
-      <div class="balance_item">
-        <div class="balance_item_l">
-          <img src="@/assets/svg/user/icon_profile.svg" alt="" />
-          <div class="num">
-            <span>{{ Number(userPoints).toLocaleString() || 0 }}</span>
-            <span>{{ $t("user.point") }}</span>
+      <template v-if="showOther">
+        <div
+          class="balance_item"
+          v-for="(item, index) in balanceList"
+          :key="index"
+        >
+          <div class="balance_item_l">
+            <img :src="getCion(item.coinName)" alt="" />
+            <div class="num">
+              <div class="balance_val">
+                <span v-if="item.coinName != 'USDT'">
+                  {{
+                    Number(accurateDecimal(item.balance, 4)).toLocaleString(
+                      undefined,
+                      {
+                        minimumFractionDigits: 4,
+                      }
+                    )
+                  }}
+                </span>
+                <span v-else>
+                  {{
+                    Number(accurateDecimal(item.balance, 2)).toLocaleString(
+                      undefined,
+                      {
+                        minimumFractionDigits: 2,
+                      }
+                    )
+                  }}
+                </span>
+                <span class="balance_convert">
+                  {{ `~ $${balanceConvert(item)}` }}
+                </span>
+              </div>
+              <span>{{ item.coinName }}</span>
+            </div>
+          </div>
+          <div class="balance_item_r">
+            <img
+              class="convert_btn"
+              src="@/assets/svg/user/icon_exchange.svg"
+              alt=""
+            />
           </div>
         </div>
-        <div class="balance_item_r" @click="showPoints = true">
-          <span class="details">{{ $t("user.details") }}</span>
-          <img src="@/assets/svg/user/icon_link.svg" alt="" />
+      </template>
+      <div class="balance_items">
+        <div class="balance_item">
+          <div class="balance_item_l">
+            <img src="@/assets/svg/user/icon_profile.svg" alt="" />
+            <div class="num">
+              <span>{{ Number(userPoints).toLocaleString() || 0 }}</span>
+              <span>{{ $t("user.point") }}</span>
+            </div>
+          </div>
+          <div class="balance_item_r" @click="showPoints = true">
+            <span class="details">{{ $t("user.details") }}</span>
+            <img src="@/assets/svg/user/icon_link.svg" alt="" />
+          </div>
         </div>
-      </div>
-      <div class="balance_item">
-        <div class="balance_item_l">
-          <img src="@/assets/svg/user/icon_tickets.svg" alt="" />
-          <div class="num">
-            <span>{{ Number(userTickets).toLocaleString() || 0 }}</span>
-            <span>{{ $t("user.tickets") }}</span>
+        <div class="balance_item">
+          <div class="balance_item_l">
+            <img src="@/assets/svg/user/icon_tickets.svg" alt="" />
+            <div class="num">
+              <span>{{ Number(userTickets).toLocaleString() || 0 }}</span>
+              <span>{{ $t("user.tickets") }}</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="wallet_operating">
         <div class="title_text">{{ $t("user.historyTitle") }}</div>
         <div class="choose_box">
-          <div class="coin_item" v-for="(item, index) in coinList" :key="index" @click="searchHistory(item)"
-            :class="coin == item && ['active']">
+          <div
+            class="coin_item"
+            v-for="(item, index) in coinList"
+            :key="index"
+            @click="searchHistory(item)"
+            :class="coin == item && ['active']"
+          >
             {{ item }}
           </div>
           <div class="replenish_operating">
@@ -57,88 +150,185 @@
         </div>
       </div>
       <el-table :data="historyData" class="table_container">
-        <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1">
+        <el-table-column
+          prop="logType"
+          :label="$t('user.balanceTabel1')"
+          min-width="100"
+          align="center"
+          key="1"
+        >
           <template #default="scope">
             {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
           </template>
         </el-table-column>
-        <el-table-column prop="seriesName" v-if="coin == 'NFT'" :label="$t('user.balanceTabel7')" min-width="100"
-          align="center" key="2" show-overflow-tooltip />
-        <el-table-column prop="tokenId" v-if="coin == 'NFT'" min-width="100" label="TOKEN ID" align="center" key="3">
+        <el-table-column
+          prop="seriesName"
+          v-if="coin == 'NFT'"
+          :label="$t('user.balanceTabel7')"
+          min-width="100"
+          align="center"
+          key="2"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="tokenId"
+          v-if="coin == 'NFT'"
+          min-width="100"
+          label="TOKEN ID"
+          align="center"
+          key="3"
+        >
           <template #default="scope">
             {{ `#${scope.row.tokenId}` }}
           </template>
         </el-table-column>
-        <el-table-column prop="serviceFee" v-if="coin == 'NFT'" min-width="100" :label="$t('user.balanceTabel8')"
-          align="center" key="4">
+        <el-table-column
+          prop="serviceFee"
+          v-if="coin == 'NFT'"
+          min-width="100"
+          :label="$t('user.balanceTabel8')"
+          align="center"
+          key="4"
+        >
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.serviceFee || "--" }}</span>
-              <img v-if="scope.row.serviceFee" src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <img
+                v-if="scope.row.serviceFee"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
+                alt=""
+              />
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="amount" v-if="coin != 'NFT'" min-width="100" :label="$t('user.balanceTabel2')"
-          align="center" key="5">
+        <el-table-column
+          prop="amount"
+          v-if="coin != 'NFT'"
+          min-width="100"
+          :label="$t('user.balanceTabel2')"
+          align="center"
+          key="5"
+        >
           <template #default="scope">
             <div class="amount_box">
               <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
-              <img :src="getCion(scope.row.coin)" alt="">
+              <img :src="getCion(scope.row.coin)" alt="" />
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel3')"
-          align="center" key="6">
+        <el-table-column
+          prop="eth_amount"
+          v-if="coin != 'NFT'"
+          min-width="120"
+          :label="$t('user.balanceTabel3')"
+          align="center"
+          key="6"
+        >
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ accurateDecimal(scope.row.criditAmount, 4) }}</span>
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="">
+              <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="chainType" v-if="coin != 'NFT'" :label="$t('user.network')" min-width="100" align="center"
-          key="7" show-overflow-tooltip />
-        <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" min-width="140" align="center" key="8">
+        <el-table-column
+          prop="chainType"
+          v-if="coin != 'NFT'"
+          :label="$t('user.network')"
+          min-width="100"
+          align="center"
+          key="7"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="syncStatus"
+          :label="$t('user.balanceTabel4')"
+          min-width="140"
+          align="center"
+          key="8"
+        >
           <template #default="scope">
             <div :class="['sync_status', scope.row.syncStatus]">
               <span> {{ scope.row.syncStatus }}</span>
-              <el-tooltip v-if="scope.row.syncStatus == 'REJECTED' || scope.row.syncStatus == 'FAIL'"
-                popper-class="tips_box" effect="dark" placement="top">
+              <el-tooltip
+                v-if="
+                  scope.row.syncStatus == 'REJECTED' ||
+                  scope.row.syncStatus == 'FAIL'
+                "
+                popper-class="tips_box"
+                effect="dark"
+                placement="top"
+              >
                 <template #content>
                   <span v-if="scope.row.syncStatus == 'FAIL'">
-                    The chain is congested and the transfer failed, please try again later.
+                    The chain is congested and the transfer failed, please try
+                    again later.
                   </span>
                   <span v-else-if="scope.row.syncStatus == 'REJECTED'">
                     {{ scope.row.remark }}
                   </span>
                 </template>
-                <img src="@/assets/svg/user/icon_info.svg" alt="">
+                <img src="@/assets/svg/user/icon_info.svg" alt="" />
               </el-tooltip>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="160" align="center" key="9">
+        <el-table-column
+          prop="creation_time"
+          :label="$t('user.balanceTabel5')"
+          min-width="160"
+          align="center"
+          key="9"
+        >
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="80" key="10" fixed="right">
+        <el-table-column
+          :label="$t('user.balanceTabel6')"
+          align="center"
+          min-width="80"
+          key="10"
+          fixed="right"
+        >
           <template #default="scope">
-            <div class="view_btn"
-              v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
-              @click="viewTxid(scope.row)">{{ $t("user.view") }}</div>
+            <div
+              class="view_btn"
+              v-if="
+                scope.row.syncStatus != 'REJECTED' &&
+                scope.row.syncStatus != 'FAIL' &&
+                scope.row.hash
+              "
+              @click="viewTxid(scope.row)"
+            >
+              {{ $t("user.view") }}
+            </div>
             <div v-else>--</div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination-box" v-if="count > size">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="5"
-          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+        <el-pagination
+          v-model="page"
+          :page-size="size"
+          @current-change="handleCurrentChange"
+          :pager-count="5"
+          layout="prev, pager, next"
+          :total="count"
+          :prev-text="$t('common.prev')"
+          :next-text="$t('common.next')"
+        />
       </div>
     </div>
     <!-- 查询补足余额 -->
-    <el-dialog v-model="showReplenish" width="50rem" lock-scroll :close-on-click-modal="false" :align-center="true"
-      :before-close="handleClose">
+    <el-dialog
+      v-model="showReplenish"
+      width="50rem"
+      lock-scroll
+      :close-on-click-modal="false"
+      :align-center="true"
+      :before-close="handleClose"
+    >
       <div class="close_btn" @click="handleClose()">
         <el-icon>
           <Close />
@@ -148,11 +338,19 @@
         <div class="operating_title">
           <span>{{ $t("user.enterId") }}</span>
         </div>
-        <el-input class="wallet_addr" v-model="transactionId" :placeholder="$t('user.enterHint')">
+        <el-input
+          class="wallet_addr"
+          v-model="transactionId"
+          :placeholder="$t('user.enterHint')"
+        >
         </el-input>
         <div class="btns_box">
-          <div class="btn_item cancel" @click="handleClose()">{{ $t('common.cancel') }}</div>
-          <div class="btn_item submit" @click="onRechargeByHash()">{{ $t('common.submitLower') }}</div>
+          <div class="btn_item cancel" @click="handleClose()">
+            {{ $t("common.cancel") }}
+          </div>
+          <div class="btn_item submit" @click="onRechargeByHash()">
+            {{ $t("common.submitLower") }}
+          </div>
         </div>
       </div>
     </el-dialog>
@@ -163,7 +361,7 @@
   </div>
 </template>
 <script>
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
@@ -172,19 +370,26 @@ import {
   getWithdrawalHistory,
   rechargeByHash,
   getTheUserPoint,
-  getNftWithdrawalList
+  getTheUserBalance,
+  getNftWithdrawalList,
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
 import bigNumber from "bignumber.js";
-import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
+import {
+  accurateDecimal,
+  onCopy,
+  timeFormat,
+  openUrl,
+  isEthTransactionHashValid,
+} from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
 export default {
   name: "myWallet",
   components: {
     Points,
-    Recharge
+    Recharge,
   },
   data() {
     return {
@@ -205,7 +410,10 @@ export default {
       size: 5,
       count: 0,
 
-      showPoints: false
+      showPoints: false,
+      showOther: false,
+      usdtBalance: {},
+      balanceList: [],
     };
   },
   computed: {
@@ -229,7 +437,7 @@ export default {
     currencyData() {
       const { currencyData } = this.userStore;
       return currencyData;
-    }
+    },
   },
   methods: {
     onCopy: onCopy,
@@ -260,7 +468,7 @@ export default {
 
       if (!isEthTransactionHashValid(transactionId)) {
         this.$message.error(t("errorTips.transaction_id_does_not_exist"));
-        return
+        return;
       }
 
       const res = await rechargeByHash({
@@ -274,7 +482,6 @@ export default {
     },
     // 关闭创建弹窗
     handleClose(done) {
-
       this.transactionId = null;
 
       if (done) {
@@ -291,9 +498,8 @@ export default {
       this.coin = event;
       if (this.coin == "NFT") {
         this.fetchNftWithdrawalList(false);
-        return
+        return;
       }
-
 
       this.historyData = [];
       this.fetchHistory();
@@ -311,12 +517,27 @@ export default {
       const res = await getWithdrawalHistory({
         coin: "",
         page: _page,
-        size: size
+        size: size,
       });
 
       if (res && res.code == 200) {
         this.historyData = res.data.records;
         this.count = res.data.total;
+      }
+    },
+    //获取所有币种余额
+    async fetchTheUserBalance() {
+      const res = await getTheUserBalance();
+
+      if (res && res.code == 200) {
+        this.balanceList = [];
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].coinName == "USDT") {
+            this.usdtBalance = res.data[i];
+          } else {
+            this.balanceList.push(res.data[i]);
+          }
+        }
       }
     },
 
@@ -332,7 +553,7 @@ export default {
 
       const res = await getNftWithdrawalList({
         page: _page,
-        size: size
+        size: size,
       });
 
       if (res && res.code == 200) {
@@ -361,29 +582,36 @@ export default {
       this.page = page;
       if (this.coin == "NFT") {
         this.fetchNftWithdrawalList(false);
-        return
+        return;
       }
       this.fetchHistory(false);
     },
     getCion(event) {
       const { currencyData } = this;
-      const coin = currencyData.find(e => e.name == event);
-      return coin?.img || event
-    }
+      const coin = currencyData.find((e) => e.name == event);
+      return coin?.img || event;
+    },
+    // 币种转化usdt
+    balanceConvert(evnet) {
+      const { balance, usdt } = evnet;
+      const balanceVal = new bigNumber(balance).multipliedBy(usdt).toFixed(2);
+      return Number(balanceVal).toLocaleString();
+    },
   },
   watch: {
     loadLog() {
       if (this.coin == "NFT") {
-        return
+        return;
       }
 
       this.fetchHistory();
-    }
+    },
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {
       this.fetchHistory();
       this.fetchTheUserPoint();
+      this.fetchTheUserBalance();
       this.fetchUserTotalTicket();
     }
   },

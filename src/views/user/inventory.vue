@@ -816,7 +816,7 @@ export default {
     // 确认文本更新
     formatText(event) {
       if (event == 1) {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
           this.competitionForm?.price || 0
         }</span>`;
       } else if (event == 2) {
@@ -825,7 +825,7 @@ export default {
           ? `${competitionNft?.name} #${competitionNft?.tokenId}`
           : `${competitionNft?.name}`;
       } else {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${
           this.competitionNft?.floorPrice || 0
         }</span>`;
       }

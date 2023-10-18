@@ -139,7 +139,7 @@
             <template #default="scope">
               <div class="consumption_box">
                 <span>{{ scope.row.traAmount }}</span>
-                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               </div>
             </template>
           </el-table-column>
@@ -156,12 +156,12 @@
                 @click="handleReceive(scope.row)"
               >
                 <span>{{ $t("user.claim") }}</span>
-                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
               </div>
               <div v-else :class="['claim_box', 'disabled']">
                 <span>{{ $t("user.claim") }}</span>
-                <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
               </div>
             </template>
@@ -218,7 +218,7 @@
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.traAmount }}</span>
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>
@@ -231,7 +231,7 @@
           <template #default="scope">
             <div class="consumption_box">
               <span>{{ scope.row.rebatesAmount }}</span>
-              <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>

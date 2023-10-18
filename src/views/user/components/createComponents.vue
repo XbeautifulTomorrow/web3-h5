@@ -19,7 +19,7 @@
         <p class="create_com_title">SELECT ASSET</p>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             <span class="wallet_operating_val">ETH</span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('NFT')">
@@ -1031,7 +1031,7 @@ export default {
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
             this.competitionForm?.price || 0
           }</span>`;
         } else if (event == 2) {
@@ -1040,17 +1040,17 @@ export default {
             ? `${competitionNft?.name} #${competitionNft?.tokenId}`
             : `${competitionNft?.name}`;
         } else {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${
             this.competitionNft?.floorPrice || 0
           }</span>`;
         }
       } else {
         if (event == 1) {
-          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
             this.totalPrice || 0
           }</span>`;
         } else {
-          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
             this.competitionForm.price || 0
           }</span>`;
         }

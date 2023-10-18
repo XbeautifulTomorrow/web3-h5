@@ -116,7 +116,7 @@
     "contentsInfoTips": "All the NFTs shown here are available from Raffle Boxes.",
     "tabelText1": "Token ID",
     "tabelText2": "Price",
-    "tabelText3": "USD Price",
+    "tabelText3": "ETH Price",
     "tabelText4": "Recommended",
     "tabelText5": "Action",
     "dayLeft": "{day} DAYS LEFT",
@@ -266,7 +266,7 @@
     "btnReplenish": "Initiate deposit address.",
     "balanceTabel1": "Log Type",
     "balanceTabel2": "Amount",
-    "balanceTabel3": "ETH Amount",
+    "balanceTabel3": "USDT Amount",
     "balanceTabel4": "Status",
     "balanceTabel5": "Date/Time",
     "balanceTabel6": "Transaction",
@@ -444,7 +444,11 @@
     "targeted": "Target",
     "bonus": "Bonus",
     "underWay": "In Progress",
-    "noDataPromotions": "NO PROMOTION FOUND"
+    "noDataPromotions": "NO PROMOTION FOUND",
+    "goodBalance": "游戏余额",
+    "assetEstimate": "资产预估",
+    "showAllCoin": "显示所有币种",
+    "hideAllCoin": "隐藏所有币种"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

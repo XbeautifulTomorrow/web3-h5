@@ -543,7 +543,7 @@
                     <div class="price_box">
                       <img
                         v-if="scope.row.price"
-                        src="@/assets/svg/user/icon_ethereum.svg"
+                        src="@/assets/svg/user/icon_usdt_gold.svg"
                         alt=""
                       />
                       <span>{{ scope.row.price || "--" }}</span>

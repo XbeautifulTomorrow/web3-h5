@@ -52,7 +52,7 @@
         show-overflow-tooltip
       >
         <template #default="scope">
-          {{ `${scope.row.price} ${scope.row.coin} ` }}
+          {{ `$${scope.row.price}` }}
         </template>
       </el-table-column>
       <el-table-column
@@ -61,7 +61,7 @@
         show-overflow-tooltip
       >
         <template #default="scope">
-          {{ `$${scope.row.usdtPrice} ` }}
+          {{ `${scope.row.usdtPrice} ETH` }}
         </template>
       </el-table-column>
       <el-table-column

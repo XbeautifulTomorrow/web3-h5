@@ -3,46 +3,88 @@
     <div class="header-main">
       <div class="header-left">
         <div class="header-logo">
-          <img class="menu_btn" src="@/assets/svg/home/icon_menu.svg" @click="showNav = true" />
-          <img src="@/assets/img/headerFooter/logo.png" @click="goTo()" alt="logo" />
+          <img
+            class="menu_btn"
+            src="@/assets/svg/home/icon_menu.svg"
+            @click="showNav = true"
+          />
+          <img
+            src="@/assets/img/headerFooter/logo.png"
+            @click="goTo()"
+            alt="logo"
+          />
         </div>
         <ul class="header-nav">
-          <li :class="['header-nav-text', active == item.page && 'active']" v-for="(item, index) in nav"
-            :key="`nav-${index}`" @click="goTo(item.page)">
+          <li
+            :class="['header-nav-text', active == item.page && 'active']"
+            v-for="(item, index) in nav"
+            :key="`nav-${index}`"
+            @click="goTo(item.page)"
+          >
             {{ item.text }}
           </li>
         </ul>
-        <el-drawer v-model="showNav" direction="ltr" lock-scroll class="menu_drawer" :with-header="false">
+        <el-drawer
+          v-model="showNav"
+          direction="ltr"
+          lock-scroll
+          class="menu_drawer"
+          :with-header="false"
+        >
           <ul class="menu-list">
-            <li :class="['menu-list-text', active == item.page && 'active']" v-for="(item, index) in nav"
-              :key="`nav-${index}`" @click="goTo(item.page)">
-              <img :src="item.icon" alt="">
+            <li
+              :class="['menu-list-text', active == item.page && 'active']"
+              v-for="(item, index) in nav"
+              :key="`nav-${index}`"
+              @click="goTo(item.page)"
+            >
+              <img :src="item.icon" alt="" />
               <span>{{ item.text }}</span>
             </li>
           </ul>
         </el-drawer>
       </div>
       <div class="header-right" v-if="!isLogin || !userInfo?.id">
-        <div class="btn-box login" @click="changeTypeFun('login')">{{ $t("common.login") }}</div>
+        <div class="btn-box login" @click="changeTypeFun('login')">
+          {{ $t("common.login") }}
+        </div>
         <div class="btn-box register" @click="changeTypeFun('register')">
           {{ $t("common.register") }}
         </div>
       </div>
-      <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
+      <div
+        v-if="(isLogin && userInfo?.id) || conncectAddress"
+        class="header-login"
+      >
         <div class="header-wallet">
           <div class="balance">
-            <img class="header-wallet-img" src="@/assets/svg/user/icon_profile.svg" alt="" />
-            <span class="header-wallet-money">{{ Number(userPoints).toLocaleString() }}</span>
+            <img
+              class="header-wallet-img"
+              src="@/assets/svg/user/icon_profile.svg"
+              alt=""
+            />
+            <span class="header-wallet-money">
+              {{ Number(userPoints).toLocaleString() }}
+            </span>
           </div>
         </div>
         <div class="header-wallet">
           <div class="balance">
-            <img class="header-wallet-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img
+              class="header-wallet-img"
+              src="@/assets/svg/user/icon_usdt_gold.svg"
+              alt=""
+            />
             <span class="header-wallet-money">
-              {{ Number(accurateDecimal(ethBalance, 4)).toLocaleString(undefined, {
-                minimumFractionDigits: 4
-              })
-              }}</span>
+              {{
+                Number(accurateDecimal(ethBalance, 2)).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                  }
+                )
+              }}
+            </span>
           </div>
           <span class="header-wallet-add" @click="pageType = 'recharge'">
             <el-icon>
@@ -50,38 +92,76 @@
             </el-icon>
           </span>
         </div>
-        <div class="header-user" @click="openUser()" v-if="isLogin && userInfo?.id">
+        <div
+          class="header-user"
+          @click="openUser()"
+          v-if="isLogin && userInfo?.id"
+        >
           <div class="user_info">
-            <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
-            <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
+            <img
+              class="header-user-img"
+              src="@/assets/svg/user/default_avatar.svg"
+              alt=""
+            />
+            <div
+              class="new_dot header_dot"
+              v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"
+            ></div>
             <span class="header-user-text text-ellipsis">
               {{ userInfo?.userName || userInfo?.email }}
             </span>
           </div>
-          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+          <img
+            class="header-user-down"
+            src="@/assets/img/headerFooter/icon-arrowup.png"
+            alt=""
+          />
           <div class="header-user-popup">
             <ul class="header-user-content">
-              <li :class="['header-user-list',item.className]" v-for="(item, index) in userList" :key="`box-${index}`"
-                @click="othersideBoxFun(item)">
+              <li
+                :class="['header-user-list', item.className]"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
                 <div class="new_dot" v-if="item.showDot"></div>
-                <img class="header-user-list-img" :src="item.icon" alt="">
+                <img class="header-user-list-img" :src="item.icon" alt="" />
                 <span>{{ item.text }}</span>
               </li>
             </ul>
           </div>
-          <el-drawer v-model="showUser" direction="rtl" lock-scroll class="menu_drawer" :with-header="false">
+          <el-drawer
+            v-model="showUser"
+            direction="rtl"
+            lock-scroll
+            class="menu_drawer"
+            :with-header="false"
+          >
             <ul class="menu-list">
               <div class="user_info">
-                <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
-                <div class="new_dot header_dot" v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"></div>
+                <img
+                  class="header-user-img"
+                  src="@/assets/svg/user/default_avatar.svg"
+                  alt=""
+                />
+                <div
+                  class="new_dot header_dot"
+                  v-if="
+                    newStatus.oneNftStatus || newStatus.walletNftSystemStatus
+                  "
+                ></div>
                 <span class="header-user-text text-ellipsis">
                   {{ userInfo?.userName || userInfo?.email }}
                 </span>
               </div>
-              <li :class="['menu-list-text']" v-for="(item, index) in userList" :key="`box-${index}`"
-                @click="othersideBoxFun(item)">
+              <li
+                :class="['menu-list-text']"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
                 <div class="new_dot" v-if="item.showDot"></div>
-                <img class="header-user-list-img" :src="item.icon" alt="">
+                <img class="header-user-list-img" :src="item.icon" alt="" />
                 <span>{{ item.text }}</span>
               </li>
             </ul>
@@ -89,18 +169,40 @@
         </div>
       </div>
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
-    <createVerification v-if="pageType === 'auth'" @closeDialogFun="changeNameFun">
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Modify
+      v-if="pageType === 'modify'"
+      @onModify="closeDialogFun"
+      @closeDialogFun="closeDialogFun"
+    ></Modify>
+    <Recharge
+      v-if="pageType === 'recharge'"
+      @closeDialogFun="closeDialogFun"
+    ></Recharge>
+    <createVerification
+      v-if="pageType === 'auth'"
+      @closeDialogFun="changeNameFun"
+    >
     </createVerification>
   </div>
 </template>
 
 <script>
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
@@ -125,7 +227,7 @@ export default {
     Forgot,
     Modify,
     Recharge,
-    createVerification
+    createVerification,
   },
   inject: ["reload"],
   data() {
@@ -155,7 +257,7 @@ export default {
       timer: null,
       showNav: false,
       showUser: false,
-      screenWidth: null
+      screenWidth: null,
     };
   },
   computed: {
@@ -182,32 +284,32 @@ export default {
     },
     isLogin() {
       const { isLogin } = this.userStore;
-      return isLogin
+      return isLogin;
     },
     regInfo() {
       const { regInfo } = this.userStore;
       return regInfo;
     },
     userList() {
-      const { walletNftSystemStatus, oneNftStatus } = this.newStatus
+      const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
       return [
         {
           text: t("header.profile"),
           page: "profile",
           icon: require("@/assets/svg/user/nav/icon_profile.svg"),
-          showDota: false
+          showDota: false,
         },
         {
           text: t("header.balances"),
           page: "balances",
           icon: require("@/assets/svg/user/nav/icon_balances.svg"),
-          showDota: false
+          showDota: false,
         },
         {
           text: t("header.inventory"),
           page: "inventory",
           icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
-          showDot: walletNftSystemStatus
+          showDot: walletNftSystemStatus,
         },
         {
           text: t("header.promotions"),
@@ -220,19 +322,19 @@ export default {
           text: t("header.competition"),
           page: "competition",
           icon: require("@/assets/svg/user/nav/icon_competition.svg"),
-          showDot: oneNftStatus
+          showDot: oneNftStatus,
         },
         {
           text: t("header.history"),
           page: "history",
           icon: require("@/assets/svg/user/nav/icon_history.svg"),
-          showDota: false
+          showDota: false,
         },
         {
           text: t("header.referrals"),
           page: "referrals",
           icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
-          showDota: false
+          showDota: false,
         },
         // {
         //   text: t("header.settings"),
@@ -243,10 +345,10 @@ export default {
           text: t("header.logout"),
           page: "logout",
           icon: require("@/assets/svg/user/nav/icon_logout.svg"),
-          showDota: false
+          showDota: false,
         },
-      ]
-    }
+      ];
+    },
   },
   methods: {
     accurateDecimal: accurateDecimal,
@@ -285,7 +387,7 @@ export default {
       this.showNav = false;
       if (page === "Whitebook") {
         openUrl("https://bitzing.gitbook.io/litepaper/");
-        return
+        return;
       }
 
       if (page == "Stake" || page == "INO" || page == "MarketPlace") {
@@ -293,7 +395,7 @@ export default {
           message: t("common.tipsText"),
           type: "warning",
         });
-        return
+        return;
       }
       this.$router.push({ path: `/${page}` });
     },
@@ -320,8 +422,8 @@ export default {
         this.active = newV.name;
       },
       // 深度观察监听
-      deep: true
-    }
+      deep: true,
+    },
   },
   created() {
     emitter.on("pageTypeChange", (type) => {
@@ -366,7 +468,7 @@ export default {
         page: "FAQ",
         icon: require("@/assets/svg/home/mini/icon_faq.svg"),
       },
-    ]
+    ];
   },
   mounted() {
     const that = this;
@@ -376,8 +478,8 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-    })
-  }
+    });
+  },
 };
 </script>
 

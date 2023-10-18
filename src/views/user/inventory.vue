@@ -165,24 +165,19 @@
           <div class="choose_price">
             <div
               class="price_item"
-              @click="competitionForm.price = competitionNft?.floorPrice"
+              @click="addPrice(competitionNft?.floorPrice)"
             >
               <span class="title">Floor Price</span>
-              <span class="val"
-                >{{
-                  competitionNft.floorPrice
-                    ? `${competitionNft?.floorPrice} ETH`
-                    : "--"
-                }}
+              <span class="val">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span>{{ formatUSDT(competitionNft?.floorPrice) }}</span>
               </span>
             </div>
-            <div
-              class="price_item"
-              @click="competitionForm.price = historyPrice"
-            >
+            <div class="price_item" @click="addPrice(historyPrice)">
               <span class="title">Last Sale</span>
-              <span class="val"
-                >{{ historyPrice ? `${historyPrice} ETH` : "--" }}
+              <span class="val">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span>{{ formatUSDT(historyPrice) }}</span>
               </span>
             </div>
           </div>
@@ -190,7 +185,7 @@
             <template #prefix>
               <img
                 class="icon_eth"
-                src="@/assets/svg/user/icon_ethereum.svg"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
                 alt=""
               />
             </template>
@@ -198,10 +193,20 @@
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
           <div class="num_item">
-            <span>{{ competitionForm.ticketPrice }}</span>
+            <span>{{ Number(competitionForm.ticketPrice).toFixed(2) }}</span>
             <img
               class="icon_eth"
-              src="@/assets/svg/user/icon_ethereum.svg"
+              src="@/assets/svg/user/icon_usdt_gold.svg"
+              alt=""
+            />
+          </div>
+        </el-form-item>
+        <el-form-item class="form-item_wrap" :label="$t('user.totalEntries')">
+          <div class="num_item">
+            <span>{{ limitNum }}</span>
+            <img
+              class="icon_eth"
+              src="@/assets/svg/user/icon_tickets_num.svg"
               alt=""
             />
           </div>
@@ -220,7 +225,7 @@
             <span>{{ realIncome }}</span>
             <img
               class="icon_eth"
-              src="@/assets/svg/user/icon_ethereum.svg"
+              src="@/assets/svg/user/icon_usdt_gold.svg"
               alt=""
             />
           </div>
@@ -509,7 +514,7 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 0.0001, //单次价格
+        ticketPrice: 1.0, //单次价格
       },
       daysData: [1, 7, 14, 30],
       rules: {},
@@ -811,7 +816,7 @@ export default {
     // 确认文本更新
     formatText(event) {
       if (event == 1) {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
           this.competitionForm?.price || 0
         }</span>`;
       } else if (event == 2) {
@@ -820,7 +825,7 @@ export default {
           ? `${competitionNft?.name} #${competitionNft?.tokenId}`
           : `${competitionNft?.name}`;
       } else {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 1;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${
           this.competitionNft?.floorPrice || 0
         }</span>`;
       }
@@ -917,7 +922,7 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 0.0001, //单次价格
+        ticketPrice: 1.0, //单次价格
       };
 
       this.operatingType = 1;
@@ -963,6 +968,16 @@ export default {
         query: { id: event.orderNumber },
       });
       openUrl(routeData.href);
+    },
+    // 预置价格
+    addPrice(event) {
+      this.competitionForm.price = Number(event).toFixed(0);
+    },
+    // u取整换算
+    formatUSDT(event) {
+      if (!event) return "--";
+      const price = Number(event).toFixed(0);
+      return Number(price).toLocaleString();
     },
   },
   created() {

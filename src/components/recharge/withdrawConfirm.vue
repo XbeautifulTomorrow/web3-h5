@@ -113,7 +113,7 @@ export default {
     },
     gasContent() {
       let strV = `<div style="display: inline-flex;align-items: center;">`;
-      strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
+      strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
       strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.setting.nftWithdrawalFees}</span></div>`;
       return strV;
     },

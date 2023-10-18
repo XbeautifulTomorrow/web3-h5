@@ -39,16 +39,20 @@
             </div>
             <div v-else>
               <img src="@/assets/svg/home/icon_info_price_white.svg" alt="" />
-              <span v-if="nftInfo?.maximumPurchaseQuantity > 1">{{
-                $t("home.ticketsLeft", {
-                  num: nftInfo?.maximumPurchaseQuantity || 0,
-                })
-              }}</span>
-              <span v-else>{{
-                $t("home.ticketLeft", {
-                  num: nftInfo?.maximumPurchaseQuantity || 0,
-                })
-              }}</span>
+              <span v-if="nftInfo?.maximumPurchaseQuantity > 1">
+                {{
+                  $t("home.ticketsLeft", {
+                    num: nftInfo?.maximumPurchaseQuantity || 0,
+                  })
+                }}
+              </span>
+              <span v-else>
+                {{
+                  $t("home.ticketLeft", {
+                    num: nftInfo?.maximumPurchaseQuantity || 0,
+                  })
+                }}
+              </span>
             </div>
           </div>
           <div
@@ -92,10 +96,9 @@
                   <span
                     class="val"
                     v-if="nftInfo?.orderType != 'LIMITED_PRICE_COIN'"
-                    >{{
-                      `${Number(nftInfo?.totalPrice).toLocaleString()} ETH`
-                    }}</span
                   >
+                    {{ `$ ${Number(nftInfo?.totalPrice).toLocaleString()}` }}
+                  </span>
                   <span class="val" v-else>
                     {{
                       `$ ${Number(
@@ -115,7 +118,7 @@
                 >
                   <span class="title">{{ $t("ticketsInfo.floorPrice") }}</span>
                   <span class="val">
-                    {{ `${Number(nftInfo?.floorPrice).toLocaleString()} ETH` }}
+                    {{ `$ ${Number(nftInfo?.floorPrice).toLocaleString()}` }}
                   </span>
                 </div>
               </div>
@@ -281,7 +284,7 @@
                       price: buyPrice,
                     })
                   }}</span>
-                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 </el-button>
                 <el-button
                   disabled
@@ -360,7 +363,6 @@
                     num: new bigNumber(nftInfo?.price || 0).multipliedBy(
                       (drawnInfo && drawnInfo.userNum) || 0
                     ),
-                    coin: 'ETH',
                   })
                 "
               ></div>
@@ -541,7 +543,7 @@
                     <div class="price_box">
                       <img
                         v-if="scope.row.price"
-                        src="@/assets/svg/user/icon_ethereum.svg"
+                        src="@/assets/svg/user/icon_usdt_gold.svg"
                         alt=""
                       />
                       <span>{{ scope.row.price || "--" }}</span>
@@ -582,7 +584,12 @@
                 >
                   <template #default="scope">
                     <div class="price_box date">
-                      <el-tooltip class="item" effect="dark" :content="timeFormat(scope.row.endTime)" placement="top">
+                      <el-tooltip
+                        class="item"
+                        effect="dark"
+                        :content="timeFormat(scope.row.endTime)"
+                        placement="top"
+                      >
                         <span>{{ timeFormat(scope.row.endTime) }}</span>
                       </el-tooltip>
                       <img
@@ -611,7 +618,7 @@
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
                 <div class="price_val">
-                  {{ historyPrice ? `${historyPrice} ETH` : "--" }}
+                  {{ historyPrice ? `$ ${historyPrice}` : "--" }}
                 </div>
               </div>
             </div>
@@ -644,7 +651,7 @@
                 }}
               </span>
               <span class="nft_name text-ellipsis" v-else>
-                {{ `${nftInfo?.totalPrice} ETH` }}
+                {{ `$ ${nftInfo?.totalPrice}` }}
               </span>
             </div>
             <div
@@ -1795,9 +1802,9 @@ export default {
           padding: [10, 10],
           formatter: function (datas) {
             var res =
-              "<div style='text-align: center;font-size: 0.875rem;color:white;'>" +
+              "<div style='text-align: center;font-size: 0.875rem;color:white;'>$ " +
               datas[0].data +
-              " ETH</div>";
+              "</div>";
             res += "Date：";
             res += datas[0].name + "<br/>";
             for (var i = 0, length = datas.length; i < length; i++) {

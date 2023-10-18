@@ -83,6 +83,7 @@ export function getLocalStore(key) {
  */
 export function setSessionStore(key, value) {
   sessionStorage.setItem(key, value);
+
 }
 
 /**

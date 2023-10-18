@@ -34,7 +34,7 @@
             <div class="virtual-currency-item-text">
               <p class="list-nam text-ellipsis">{{ item.seriesName }}</p>
               <p class="list-currency">
-                {{ accurateDecimal(item.price || 0, 4) }}&nbsp;{{ item.coin }}
+                {{ `$ ${accurateDecimal(item.price || 0, 2)}` }}
               </p>
             </div>
           </div>
@@ -71,10 +71,12 @@
               </p>
               <p class="list-currency">
                 {{
-                  currencyList[activeIndex].price
-                    ? accurateDecimal(currencyList[activeIndex].price, 4)
-                    : 0
-                }}&nbsp;{{ currencyList[activeIndex].coin }}
+                  `$ ${
+                    currencyList[activeIndex].price
+                      ? accurateDecimal(currencyList[activeIndex].price, 2)
+                      : 0
+                  }`
+                }}
               </p>
             </div>
           </div>
@@ -133,7 +135,7 @@
           <span class="popup-list-text text-ellipsis" style="color: #fff">
             {{
               currencyList[activeIndex] &&
-              `${currencyList[activeIndex].price}${currencyList[activeIndex].coin}`
+              `$ ${currencyList[activeIndex].price}`
             }}
           </span>
         </li>

@@ -15,6 +15,7 @@
 }
 
 .balance_box {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -65,6 +66,7 @@
 .balance_item {
   margin-top: 0.5rem;
   padding: 1.125rem 1.25rem;
+  box-sizing: border-box;
   border-radius: 0.5rem;
   background-color: #13151f;
   display: flex;
@@ -79,7 +81,8 @@
 
   .num {
 
-    &>span:nth-child(1) {
+    &>span:nth-child(1),
+    .balance_val {
       display: block;
       font-family: Tomorrow;
       font-size: 1rem;
@@ -88,12 +91,22 @@
       color: #11cde9;
     }
 
-    &>span:last-child {
+    &>span:last-child,
+    .balance_convert {
       display: block;
       font-size: 0.625rem;
       line-height: 1.2;
       text-align: left;
       color: #a9a4b4;
+    }
+
+
+    .balance_convert {
+      font-family: Tomorrow;
+      margin-left: 0.25rem;
+      line-height: 1.4;
+      font-weight: bold;
+      display: inline-block;
     }
   }
 
@@ -119,11 +132,75 @@
       -webkit-text-fill-color: transparent;
     }
 
+    .show_other_btn {
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
     img {
       width: 1rem;
       height: auto;
       margin-left: 0.625rem;
     }
+
+    .convert_btn {
+      width: 1.5rem;
+      height: auto;
+      cursor: pointer;
+    }
+  }
+
+  &.asset {
+
+    .balance_val_box+.balance_val_box {
+      margin-left: 1.25rem;
+    }
+
+    .balance_item_l {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .num {
+      display: flex;
+      align-items: baseline;
+
+      &>span:last-child {
+        text-indent: 0.25rem;
+      }
+    }
+
+    .label {
+      height: 1.25rem;
+      display: flex;
+      align-items: center;
+      font-family: Tomorrow;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-align: left;
+      color: #a9a4b4;
+      padding-bottom: 0.25rem;
+
+      img {
+        width: 1rem;
+        height: auto;
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}
+
+.balance_items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .balance_item {
+    flex: 1;
+  }
+
+  .balance_item+.balance_item {
+    margin-left: 0.5rem;
   }
 }
 

@@ -4,11 +4,28 @@
       <div class="contents-info">
         <div class="home-public-title">
           <div class="title-box-l">
-            <div class="title_text">{{ $t("mysteryBox.snapshotTitle1", { name: boxName, id: snapshotId }) }}</div>
+            <div class="title_text">
+              {{
+                $t("mysteryBox.snapshotTitle1", {
+                  name: boxName,
+                  id: snapshotId,
+                })
+              }}
+            </div>
           </div>
         </div>
-        <el-table :data="snapshotData" class="table_container" style="width: 100%">
-          <el-table-column prop="snapshot_id" min-width="160" :label="$t('mysteryBox.snapshotId')" align="left" show-overflow-tooltip>
+        <el-table
+          :data="snapshotData"
+          class="table_container"
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="snapshot_id"
+            min-width="160"
+            :label="$t('mysteryBox.snapshotId')"
+            align="left"
+            show-overflow-tooltip
+          >
             <template #header>
               <el-input
                 v-model="rewardId"
@@ -17,7 +34,10 @@
                 :placeholder="$t('mysteryBox.searchRewardId')"
               >
                 <template #prefix>
-                  <el-icon class="el-input__icon" @click="fetchSnapshotDetail()">
+                  <el-icon
+                    class="el-input__icon"
+                    @click="fetchSnapshotDetail()"
+                  >
                     <search />
                   </el-icon>
                 </template>
@@ -30,28 +50,61 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="tokenId" label="TOKEN ID" align="left" show-overflow-tooltip>
+          <el-table-column
+            prop="tokenId"
+            label="TOKEN ID"
+            align="left"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              <span class="text-ellipsis" v-if="scope.row.nftType == 'EXTERNAL'">{{ `#${scope.row.tokenId}` }}</span>
+              <span
+                class="text-ellipsis"
+                v-if="scope.row.nftType == 'EXTERNAL'"
+                >{{ `#${scope.row.tokenId}` }}</span
+              >
               <span class="text-ellipsis" v-else>--</span>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="Price" align="left"  min-width="100" show-overflow-tooltip>
+          <el-table-column
+            prop="price"
+            label="Price"
+            align="left"
+            min-width="100"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              {{ `${scope.row.price} ETH` }}
+              {{ `$${scope.row.price}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="usdtPrice" :label="$t('mysteryBox.usdPrice')" min-width="100" align="left" show-overflow-tooltip>
+          <el-table-column
+            prop="usdtPrice"
+            :label="$t('mysteryBox.ethPrice')"
+            min-width="100"
+            align="left"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              {{ `$${scope.row.usdtPrice}` }}
+              {{ `${scope.row.usdtPrice} ETH` }}
             </template>
           </el-table-column>
-          <el-table-column prop="refundValue" :label="$t('mysteryBox.resalePrice')" min-width="100" align="left" show-overflow-tooltip>
+          <el-table-column
+            prop="refundValue"
+            :label="$t('mysteryBox.resalePrice')"
+            min-width="100"
+            align="left"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              {{ `${scope.row.refundValue} ETH` }}
+              {{ `$${scope.row.refundValue}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="idx" :label="$t('mysteryBox.rewardId')" align="left" fixed="right" show-overflow-tooltip />
+          <el-table-column
+            prop="idx"
+            :label="$t('mysteryBox.rewardId')"
+            align="left"
+            fixed="right"
+            show-overflow-tooltip
+          />
         </el-table>
         <div class="pagination-box">
           <el-pagination

@@ -33,7 +33,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>

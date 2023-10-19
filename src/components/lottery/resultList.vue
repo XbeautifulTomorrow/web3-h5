@@ -82,7 +82,7 @@
                     <!-- 币类型 -->
                     <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
                     <p class="result-sell-coin">
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span v-priceFormat="item.nftType == 'EXTERNAL' && second < 1 ? item.initPrice : item.price"></span>
                     </p>
                   </div>
@@ -91,7 +91,7 @@
                   <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
                     <p class="public-dialog-button-p">
                       <span>{{ $t("lottery.take") }}</span>
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span class="result-total" v-priceFormat="item.price"> </span>
                     </p>
                   </el-button>
@@ -108,7 +108,7 @@
                     <el-button class="result-one-button take" round @click="chooseLotteryHold">
                       <p class="public-dialog-button-p">
                         <span>{{ $t("lottery.sell_for") }}</span>
-                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                         <span class="result-total" v-priceFormat="item.price"> </span>
                       </p>
                     </el-button>
@@ -120,7 +120,7 @@
                   </div>
                   <p v-else class="result-sell-get">
                     {{ $t("lottery.get_eth") }}
-                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                     <span v-priceFormat="item.price"></span>
                   </p>
                 </template>
@@ -135,7 +135,7 @@
             <el-button :class="['result-footer-button', nfts.length == 0 ? 'sell-more' : 'take']" round @click="chooseLotteryHold('hold')">
               <p class="public-dialog-button-p" v-if="nfts.length == 0">
                 <span>{{ $t("lottery.sell_all_for") }}</span>
-                <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span class="result-total font5" v-priceFormat="total"> </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
@@ -202,7 +202,7 @@ import { i18n } from "@/locales";
 import { Howl } from "howler";
 import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
 
-import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
+import coinSrc from "@/assets/svg/user/icon_usdt_gold.svg";
 
 const { t } = i18n.global;
 

@@ -24,14 +24,14 @@
             <p>
               <span>{{ $t("user.totalBonus") }}</span> <span class="data">{{ welcomeStatic?.totalRewards || 0 }}</span>
             </p>
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
             <p>
               <span>{{ $t("user.received") }}</span> <span class="data">{{ welcomeStatic?.receivedReward || 0 }}</span>
             </p>
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
@@ -41,7 +41,7 @@
                 new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0
               }}</span>
             </p>
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
         </div>
         <div class="progress_item_box" v-else>
@@ -79,7 +79,7 @@
           <template #default="scope">
             <div class="amount_box">
               <span>{{ scope.row.bonus || "--" }}</span>
-              <img v-if="scope.row.bonus" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+              <img v-if="scope.row.bonus" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>

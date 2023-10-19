@@ -26,7 +26,7 @@
           <ImageView :src="item.nftCompressImg || item.nftImg" />
         </div>
         <div class="award-price">
-          <img class="award-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img class="award-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span v-priceFormat="item.initPrice"></span>
         </div>
       </div>

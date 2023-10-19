@@ -34,7 +34,7 @@
                 <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="blindDetailInfo?.price"></span>
               </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
               </div>
             </div>
@@ -63,7 +63,7 @@
               <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
-              <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
             </div>
           </div>

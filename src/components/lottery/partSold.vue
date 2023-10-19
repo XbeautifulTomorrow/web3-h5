@@ -60,7 +60,7 @@
                   </span>
                 </div>
                 <p class="public-dialog-list-text">
-                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   <span class="public-dialog-list-number">
                     {{ item.initPrice }}
                   </span>
@@ -85,7 +85,7 @@
                   </span>
                 </div>
                 <p class="public-dialog-list-text">
-                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   <span class="public-dialog-list-number">
                     {{ item.price }}
                   </span>
@@ -96,7 +96,7 @@
         </ul>
         <div class="public-dialog-funds">
           <span class="public-dialog-total-title">{{ $t("lottery.total") }}:</span>
-          <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span class="public-dialog-total-number" v-priceFormat="total"></span>
           <template v-if="soldList[0].point > 0">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_point.svg" alt="" />
@@ -109,7 +109,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>

@@ -1,11 +1,16 @@
 <template>
   <div class="wrapper_bg">
     <div class="ntf_tickets_list_wrapper">
-      <div class="banner_box">
-      </div>
+      <div class="banner_box"></div>
       <div class="search_box">
-        <el-input v-model="searchVal" clearable @input="handleSearch()" class="search_input" type="text"
-          :placeholder="$t('homeReplenish.searchBox')">
+        <el-input
+          v-model="searchVal"
+          clearable
+          @input="handleSearch()"
+          class="search_input"
+          type="text"
+          :placeholder="$t('homeReplenish.searchBox')"
+        >
           <template #prefix>
             <el-icon class="el-input__icon search_icon">
               <search />
@@ -13,8 +18,18 @@
           </template>
         </el-input>
         <div class="sort_box">
-          <el-select v-model="sort" @change="changeSort" class="select_box" size="large">
-            <el-option v-for="(item, index) in sortDrop" :key="index" :label="item.label" :value="item.value" />
+          <el-select
+            v-model="sort"
+            @change="changeSort"
+            class="select_box"
+            size="large"
+          >
+            <el-option
+              v-for="(item, index) in sortDrop"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
           <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
         </div>
@@ -23,14 +38,19 @@
         <template v-for="(item, index) in boxList" :key="`mystery-${index}`">
           <li class="mystery-boxes-item" @click="handleMysteryBoxes(item)">
             <div class="img_box">
-              <Image fit="cover" class="mystery-boxs-list-img" :src="item.boxImg" alt="" />
+              <Image
+                fit="cover"
+                class="mystery-boxs-list-img"
+                :src="item.boxImg"
+                alt=""
+              />
             </div>
             <div class="mystery-boxs-title text-ellipsis">
               <div class="box-name text-ellipsis">{{ item.boxName }}</div>
             </div>
             <div class="box-price">
               <div class="price-box">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="item.price"></span>
               </div>
             </div>
@@ -38,8 +58,7 @@
               <div class="sale">{{ $t("home.sale") }}</div>
               <div class="sale-val">{{ item.sales }}</div>
             </div>
-            <p class="mystery-boxs-text text-ellipsis">
-            </p>
+            <p class="mystery-boxs-text text-ellipsis"></p>
             <div class="boxes-button buy-btn text-ellipsis">
               <span class="boxes-button-name">{{ $t("home.buyBtn") }}</span>
             </div>
@@ -50,24 +69,32 @@
         <span>{{ $t("homeReplenish.noDataBox") }}</span>
       </div>
       <div class="pagination-box" v-if="count > size">
-        <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-          layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+        <el-pagination
+          v-model="page"
+          :page-size="size"
+          @current-change="handleCurrentChange"
+          :pager-count="7"
+          layout="prev, pager, next"
+          :total="count"
+          :prev-text="$t('common.prev')"
+          :next-text="$t('common.next')"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getBoxPageList } from '@/services/api/index';
+import { getBoxPageList } from "@/services/api/index";
 import bigNumber from "bignumber.js";
 import { dateDiff } from "@/utils";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import Image from "@/components/imageView";
 export default {
-  name: 'mysteryBoxesList',
+  name: "mysteryBoxesList",
   components: {
-    Image
+    Image,
   },
   data() {
     return {
@@ -81,7 +108,7 @@ export default {
       size: 20,
       count: 0,
 
-      timer: null
+      timer: null,
     };
   },
   methods: {
@@ -118,7 +145,7 @@ export default {
         orderBy: orderBy,
         orderType: orderType,
         page: _page,
-        size: size
+        size: size,
       });
 
       if (res && res.code == 200) {
@@ -142,17 +169,16 @@ export default {
     handleCurrentChange(page) {
       this.page = page;
       this.fetchBoxPageList(false);
-    }
+    },
   },
   created() {
-
-    this.changeSort("popularity")
+    this.changeSort("popularity");
     this.sortDrop = [
       { label: t("homeReplenish.sortPopularity"), value: "popularity" },
       { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
-      { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" }
-    ]
-  }
+      { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" },
+    ];
+  },
 };
 </script>
 <style lang="scss" scoped>

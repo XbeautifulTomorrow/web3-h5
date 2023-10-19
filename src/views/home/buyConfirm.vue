@@ -79,10 +79,10 @@ export default {
     buyNum() {
       let strV = ``;
       if (this.screenWidth > 950) {
-        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
+        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
         strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.price}</span></div>`;
       } else {
-        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/user/icon_ethereum.svg')}'>`;
+        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
         strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.price}</span>`;
       }
       return strV;

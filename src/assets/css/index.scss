@@ -103,6 +103,7 @@ input[type="number"] {
     bottom: 30% !important;
     transform: rotate(0, -30%) !important;
   }
+
   .pagination-box {
     .el-pagination {
       button {
@@ -111,10 +112,12 @@ input[type="number"] {
         &.btn-prev {
           margin-right: 0.625rem !important;
         }
+
         &.btn-next {
           margin-left: 0.625rem !important;
         }
       }
+
       .el-pager li {
         width: 2rem !important;
         height: 1.5rem !important;
@@ -155,4 +158,25 @@ input[type="number"] {
   html {
     font-size: 16px;
   }
+}
+
+.not-select {
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  user-select: none;
+}
+
+.no-touch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

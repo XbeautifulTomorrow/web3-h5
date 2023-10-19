@@ -282,6 +282,7 @@
     "pointTable2": "POINTS",
     "deposit": "DEPOSIT",
     "withdraw": "WITHDRAW",
+    "exchange": "EXCHANGE",
     "depositType": "DEPOSIT OPTIONS",
     "withdrawType": "WITHDRAWAL OPTIONS",
     "depositCoin": "DEPOSIT {cion}",

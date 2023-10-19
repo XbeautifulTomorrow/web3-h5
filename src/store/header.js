@@ -5,6 +5,7 @@ import { getGlobalNew } from "@/services/api/oneBuy";
 
 export const useHeaderStore = defineStore("headerStore", {
   state: () => ({
+    assetLists:[],
     balance: "",
     points: "",
     newStatus: {
@@ -26,6 +27,7 @@ export const useHeaderStore = defineStore("headerStore", {
       const res = await getTheUserBalance(params);
       if (res && res.data) {
         this.balance = res.data[0].balance;
+        this.assetLists = res.data;
       }
     },
     // 积分余额

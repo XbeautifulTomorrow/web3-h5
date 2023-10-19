@@ -181,15 +181,12 @@
                   <p><span> 消耗 </span> <span class="required">*</span></p>
                   <p>可用 {{ getCoinBalance + " " + exchangeInfo.exchangeFromCoin }}</p>
                 </div>
-                <div class="withdraw_addr_input exchange_addr_input" v-if="exchangeOperating == 1">
-                  <div class="exhange_icon">
+                <div class="withdraw_addr_input exchange_addr_input">
+                  <div class="exhange_icon" v-if="exchangeOperating == 1">
                     <img :src="getCion('USDT')" alt="" />
                     <span>USDT</span>
                   </div>
-                  <el-input v-model="exchangeInfo.exchangeFromAmount" @blur="onVerify('address')" placeholder="0.0000"></el-input>
-                </div>
-                <div class="withdraw_addr_input exchange_addr_input" v-else>
-                  <div class="exhange_icon">
+                  <div class="exhange_icon" v-else>
                     <el-select
                       v-model="exchangeInfo.exchangeFromCoin"
                       @blur="onVerify('coin')"
@@ -197,16 +194,15 @@
                       :popper-append-to-body="false"
                     >
                       <template #prefix>
-                        <img :src="getCion(operatingCoin)" alt="" />
+                        <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
                         <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
                       </template>
                     </el-select>
                   </div>
-                  <el-input v-model="exchangeInfo.exchangeFromAmount" @blur="onVerify('address')" placeholder="0.0000"></el-input>
+                  <el-input v-model="exchangeInfo.exchangeFromAmount"  placeholder="0.0000"></el-input>
                 </div>
-
                 <div class="withdraw_item_error">
                   <p>{{ walletAddrTips }}</p>
                   <p class="max" @click="exchangeInfo.exchangeFromAmount = Math.floor(getCoinBalance * 10000) / 10000">MAX</p>
@@ -219,8 +215,8 @@
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p><span> 获得 </span> <span class="required">*</span></p>
                 </div>
-                <div class="withdraw_addr_input exchange_addr_input" v-if="exchangeOperating == 1">
-                  <div class="exhange_icon">
+                <div class="withdraw_addr_input exchange_addr_input">
+                  <div class="exhange_icon" v-if="exchangeOperating == 1">
                     <el-select
                       v-model="exchangeInfo.exchangeToCoin"
                       @blur="onVerify('coin')"
@@ -228,17 +224,14 @@
                       :popper-append-to-body="false"
                     >
                       <template #prefix>
-                        <img :src="getCion(operatingCoin)" alt="" />
+                        <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
                         <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
                       </template>
                     </el-select>
                   </div>
-                  <el-input v-model="exchangeToAmount" readonly @blur="onVerify('address')" placeholder="0.0000"></el-input>
-                </div>
-                <div class="withdraw_addr_input exchange_addr_input" v-else>
-                  <div class="exhange_icon">
+                  <div class="exhange_icon" v-else>
                     <img :src="getCion('USDT')" alt="" />
                     <span>USDT</span>
                   </div>

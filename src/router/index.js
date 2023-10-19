@@ -143,6 +143,8 @@ const routes = [
     name: "PrivacyPolicy",
     components: {
       default: PrivacyPolicy,
+      Header,
+      Footer,
     },
   },
 ];

@@ -45,7 +45,7 @@
     "promotions": "Promotions"
   },
   "footer": {
-    "copyright": "Copyright © 2023 bitzing.io . All rights reserved. Bitzing is a brand name of YOURING TECH LIMITED. Company Address: Craigmuir Chambers, Road Town, Tortola, VG 1110, British Virgin Islands .",
+    "copyright": "Copyright © 2023 Bitzing.io . All rights reserved. Bitzing is a brand name of YOURING TECH LIMITED. Company Address: Craigmuir Chambers, Road Town, Tortola, VG 1110, British Virgin Islands .",
     "menu": "PLATFORM",
     "about": "ABUOT US",
     "link": "Social Media",
@@ -70,7 +70,7 @@
     "send": "Send",
     "notReceived": "Don't receive an email?",
     "termsText": "By creating your account, you confirm that you are at least 18 years old and agree to our ",
-    "userAgreement": "Terms and conditions",
+    "userAgreement": "Terms and Conditions",
     "completeUpper": "COMPLETED REGISTRATION",
     "passwordErrText1": "Enter password",
     "passwordErrText2": "Password must be longer than 8 characters.",

@@ -6,7 +6,7 @@
 
 .FAQ_wrapper {
   margin: 0 auto;
-  width: 95rem;
+  width: 75rem;
   padding: 5rem 0;
 }
 
@@ -39,12 +39,16 @@
     a {
       color: #a9a4b4;
     }
+    b{
+      color:#e4e7f5;
+    }
   }
   .separate {
     word-spacing: 0.4rem;
   }
   .title {
     margin-bottom: 0.625rem;
+    color:#e4e7f5;
   }
   li {
     list-style: disc;

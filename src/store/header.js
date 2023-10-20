@@ -6,6 +6,7 @@ import { getGlobalNew } from "@/services/api/oneBuy";
 
 export const useHeaderStore = defineStore("headerStore", {
   state: () => ({
+    assetLists: [],
     balance: "",
     usdBalance: "",
     points: "",
@@ -13,29 +14,28 @@ export const useHeaderStore = defineStore("headerStore", {
       walletNftSystemStatus: false,
       oneNftStatus: false,
       enteredStatus: false,
-      myTreasureDrawStatus: false
+      myTreasureDrawStatus: false,
     },
-    walletAddr: ""
+    walletAddr: "",
   }),
   persist: {
     enabled: true,
-    strategies: [
-      { key: "balance", storage: sessionStorage, paths: ["balance"] },
-    ],
+    strategies: [{ key: "balance", storage: sessionStorage, paths: ["balance"] }],
   },
   actions: {
     async getTheUserBalanceApi(params) {
       const res = await getTheUserBalance(params);
       if (res && res.data) {
         let balanceVal = 0;
-        res.data.forEach(element => {
+        res.data.forEach((element) => {
           if (element.coinName == "USDT") {
             this.usdBalance = element.balance;
           }
-          balanceVal += Number(new bigNumber(element.balance || 0).multipliedBy(element.usdt || 0).toFixed(2))
+          balanceVal += Number(new bigNumber(element.balance || 0).multipliedBy(element.usdt || 0).toFixed(2));
         });
 
         this.balance = balanceVal;
+        this.assetLists = res.data;
       }
     },
     // 积分余额
@@ -49,7 +49,7 @@ export const useHeaderStore = defineStore("headerStore", {
     async fetchGlobalNew() {
       const res = await getGlobalNew();
       if (res && res.data) {
-        this.newStatus = res.data
+        this.newStatus = res.data;
       }
     },
     setBalance(data) {

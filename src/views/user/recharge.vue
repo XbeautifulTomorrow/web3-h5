@@ -266,7 +266,7 @@
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p><span> 消耗 </span> <span class="required">*</span></p>
-                  <p>可用 {{ getCoinBalance + " " + exchangeInfo.exchangeFromCoin }}</p>
+                  <p>可用 {{ getCoinBalance.toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}</p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
@@ -360,7 +360,7 @@
       :exchangeInfo="exchangeInfo"
       :exchangeToAmount="exchangeToAmount"
       v-if="pageType == 'exchangeResult'"
-      @closeDialogFun="pageType = ''"
+      @closeDialogFun="closeExchangeDialogFun"
     ></rechargeExchangeResult>
   </div>
 </template>
@@ -575,6 +575,11 @@ export default {
       }
       this.fetchExchangeRate();
       this.onVerifyExchange("amount");
+    },
+
+    closeExchangeDialogFun(){
+       this.pageType = '';
+       this.exchangeInfo.exchangeFromAmount = null;
     },
 
     exchangeFunc() {

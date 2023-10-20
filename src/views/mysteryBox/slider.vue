@@ -3,29 +3,53 @@
     <div class="slider">
       <div class="slider__viewport">
         <div class="slider__viewbox">
-          <div class="slider__container" :style="{ transform: `translateX(-${50 * sliderActive}%)` }">
+          <div
+            class="slider__container"
+            :style="{ transform: `translateX(-${50 * sliderActive}%)` }"
+          >
             <div
               class="slider-item"
               :style="{ left: `${50 * index}%` }"
-              :class="[index - 1 == sliderActive && 'next', sliderActive == index && 'active', index + 1 == sliderActive && 'prev']"
+              :class="[
+                index - 1 == sliderActive && 'next',
+                sliderActive == index && 'active',
+                index + 1 == sliderActive && 'prev',
+              ]"
               v-for="(item, index) in nftParams"
               :key="index"
             >
               <div class="slider-item__inner">
-                <div class="slider-item__trigger" @click="sliderActive = index"></div>
-                <a class="card" :style="`--card-image:url('${item.nftImg}')`" :class="[`series_level_bg_${typrFormat(item)}`]">
+                <div
+                  class="slider-item__trigger"
+                  @click="sliderActive = index"
+                ></div>
+                <a
+                  class="card"
+                  :style="`--card-image:url('${item.nftImg}')`"
+                  :class="[`series_level_bg_${typrFormat(item)}`]"
+                >
                   <div class="card__container">
                     <div class="card__image"></div>
                     <div class="card__content">
                       <div class="card-name">
                         <span>{{ sName }}</span>
-                        <img src="@/assets/svg/home/icon_certified.svg" alt="" />
+                        <img
+                          src="@/assets/svg/home/icon_certified.svg"
+                          alt=""
+                        />
                       </div>
                       <div class="card-probability text-ellipsis">
-                        <span v-show="nftType == 'EXTERNAL'">{{ `#${item.tokenId}` }}</span>
-                        <span>{{ $t("mysteryBox.rewardIdNum", { idx: item.idx }) }}</span>
+                        <span v-show="nftType == 'EXTERNAL'">{{
+                          `#${item.tokenId}`
+                        }}</span>
+                        <span>{{
+                          $t("mysteryBox.rewardIdNum", { idx: item.idx })
+                        }}</span>
                       </div>
-                      <div class="card-price"><span v-priceFormat="item.price"></span> {{ item.coin }}</div>
+                      <div class="card-price">
+                        <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                        <span> {{ `${formatPrice(item.price)}` }}</span>
+                      </div>
                       <div class="card-market">
                         <!-- 市场图标？ -->
                       </div>
@@ -37,13 +61,16 @@
           </div>
         </div>
         <div class="btns_box">
-          <div class="close_dialog_btn" @click="handleClose()">{{ $t("mysteryBox.close") }}</div>
+          <div class="close_dialog_btn" @click="handleClose()">
+            {{ $t("mysteryBox.close") }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { accurateDecimal } from "@/utils";
 export default {
   name: "boxSlider",
   props: {
@@ -87,6 +114,15 @@ export default {
         return "3";
       } else {
         return "4";
+      }
+    },
+    formatPrice(event) {
+      if (!event) return event;
+      const arr = String(event).split(".");
+      if (arr.length > 1 && arr[1].length > 2) {
+        return Number(accurateDecimal(event, 2)).toLocaleString();
+      } else {
+        return Number(event).toLocaleString();
       }
     },
     handleClose() {

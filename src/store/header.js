@@ -7,6 +7,7 @@ import { getGlobalNew } from "@/services/api/oneBuy";
 export const useHeaderStore = defineStore("headerStore", {
   state: () => ({
     balance: "",
+    usdBalance: "",
     points: "",
     newStatus: {
       walletNftSystemStatus: false,
@@ -28,6 +29,9 @@ export const useHeaderStore = defineStore("headerStore", {
       if (res && res.data) {
         let balanceVal = 0;
         res.data.forEach(element => {
+          if (element.coinName == "USDT") {
+            this.usdBalance = element.balance;
+          }
           balanceVal += Number(new bigNumber(element.balance || 0).multipliedBy(element.usdt || 0).toFixed(2))
         });
 

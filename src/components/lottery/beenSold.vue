@@ -25,7 +25,7 @@
         "
       ></p>
       <div class="public-dialog-total">
-        <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+        <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
         <span class="public-dialog-total-number marg-r" v-priceFormat="total"></span>
         <template v-if="soldList[0].point > 0">
           <img class="public-dialog-icon" src="@/assets/svg/user/icon_point.svg" alt="" />
@@ -37,7 +37,7 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+          <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>

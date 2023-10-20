@@ -33,7 +33,7 @@
                     <span class="roll-one-list-minPrice text-ellipsis">
                       <el-tooltip class="box-item" effect="dark" :content="`${list.price}`">
                         <p class="price-box">
-                          <img class="coin-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                          <img class="coin-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                           <span v-priceFormat="list.price"></span>
                         </p>
                       </el-tooltip>

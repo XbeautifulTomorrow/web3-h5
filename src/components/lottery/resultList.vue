@@ -51,7 +51,7 @@
                 item.qualityType,
                 { 'choose-list': nfts.includes(item.id) },
                 { 'more-list': result.length > 1 },
-                { 'pointer-box': second > 0 && item.tokenId !== null },
+                { 'pointer-box': second > 0 },
               ]"
               @click="nftsFun(item)"
             >
@@ -82,20 +82,20 @@
                     <!-- 币类型 -->
                     <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
                     <p class="result-sell-coin">
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span v-priceFormat="item.nftType == 'EXTERNAL' && second < 1 ? item.initPrice : item.price"></span>
                     </p>
                   </div>
                 </el-tooltip>
                 <div class="result-one-footer" v-if="result.length < 2">
-                  <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
+                  <!-- <el-button class="result-one-button take" round @click="chooseLotteryHold" v-if="item.tokenId === null">
                     <p class="public-dialog-button-p">
                       <span>{{ $t("lottery.take") }}</span>
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span class="result-total" v-priceFormat="item.price"> </span>
                     </p>
-                  </el-button>
-                  <template v-else>
+                  </el-button> -->
+
                     <el-button
                       :class="['result-one-button sell', { 'not-click': isSell }]"
                       type="warning"
@@ -108,19 +108,18 @@
                     <el-button class="result-one-button take" round @click="chooseLotteryHold">
                       <p class="public-dialog-button-p">
                         <span>{{ $t("lottery.sell_for") }}</span>
-                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                         <span class="result-total" v-priceFormat="item.price"> </span>
                       </p>
                     </el-button>
-                  </template>
                 </div>
                 <template v-else>
-                  <div class="result-sell" v-if="second > 0 && item.tokenId !== null">
+                  <div class="result-sell" v-if="second > 0">
                     <p class="hold-btn">{{ $t("lottery.click_hold") }}</p>
                   </div>
                   <p v-else class="result-sell-get">
                     {{ $t("lottery.get_eth") }}
-                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                     <span v-priceFormat="item.price"></span>
                   </p>
                 </template>
@@ -135,11 +134,11 @@
             <el-button :class="['result-footer-button', nfts.length == 0 ? 'sell-more' : 'take']" round @click="chooseLotteryHold('hold')">
               <p class="public-dialog-button-p" v-if="nfts.length == 0">
                 <span>{{ $t("lottery.sell_all_for") }}</span>
-                <img class="public-dialog-icon" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span class="result-total font5" v-priceFormat="total"> </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
-              <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != picNftLen">
+              <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != result.length">
                 <span
                   class="public-dialog-button-p"
                   v-html="$t('lottery.get_eth_nft', { takeNum: nfts.length, total, src: coinSrc })"
@@ -147,14 +146,8 @@
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else>
-                <template v-if="picNftLen > 0 && coinTypeTotal > 0">
-                  <span class="public-dialog-button-p" v-html="$t('lottery.take_all_eth', { src: coinSrc, numEth: coinTypeTotal })"></span>
-                  <span class="font1" v-if="second > 0">({{ second }}s)</span>
-                </template>
-                <template v-else>
                   {{ $t("lottery.take_all") }}
                   <span class="font1" v-if="second > 0">({{ second }}s)</span>
-                </template>
               </p>
             </el-button>
           </div>
@@ -202,7 +195,7 @@ import { i18n } from "@/locales";
 import { Howl } from "howler";
 import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
 
-import coinSrc from "@/assets/svg/user/icon_ethereum.svg";
+import coinSrc from "@/assets/svg/user/icon_usdt_gold.svg";
 
 const { t } = i18n.global;
 
@@ -339,7 +332,7 @@ const nftsInitializationFun = () => {
   }
 };
 const nftsFun = (_data) => {
-  if (_data.tokenId === null) return;
+  // if (_data.tokenId === null) return;
   if (props.result.length < 2 || !second.value) return;
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
@@ -516,6 +509,10 @@ const getTheUserBalanceApi = async () => {
     border: solid 1px rgba(228, 231, 245, 0.5);
     background-color: transparent;
   }
+}
+.result-footer-button img{
+  width: 1.375rem;
+  height: 1.375rem;
 }
 .result-footer-button > span {
   display: block;

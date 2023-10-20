@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="lottery-price" v-if="item.lotteryStatus == 'FAIL'">
-            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             <span v-priceFormat="item.initPrice"></span>
           </div>
         </div>

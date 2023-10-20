@@ -13,15 +13,40 @@
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
+            <Image
+              fit="cover"
+              class="nft_img"
+              :src="blindDetailInfo.boxImg"
+              alt=""
+            />
           </div>
-          <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
-            <div class="title"><img src="@/assets/svg/box/icon_description.svg" alt="" /> {{ $t("mysteryBox.description")
-            }}</div>
-            <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
-            <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
+          <div
+            :class="[
+              'description_box',
+              { 'description-loaing': isShowMore === null },
+            ]"
+          >
+            <div class="title">
+              <img src="@/assets/svg/box/icon_description.svg" alt="" />
+              {{ $t("mysteryBox.description") }}
+            </div>
+            <div
+              ref="contentInfo"
+              :class="['text', { 'all-text': !isShowMore }]"
+              v-html="blindDetailInfo.boxDesc"
+            ></div>
+            <p
+              class="see-more"
+              @click="isShowMore = !isShowMore"
+              v-if="isShowMore"
+              ref="contentInfo2"
+            >
               <span>See more</span>
-              <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+              <img
+                class="header-user-down"
+                src="@/assets/img/headerFooter/icon-arrowup.png"
+                alt=""
+              />
             </p>
           </div>
         </div>
@@ -34,7 +59,7 @@
                 <div class="box_text">{{ $t("mysteryBox.box") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="blindDetailInfo?.price"></span>
               </div>
             </div>
@@ -48,8 +73,14 @@
                 <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
               </div>
               <div class="lottery_btn">
-                <img src="@/assets/svg/box/icon_eth.svg" alt="" />
-                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span
+                  v-priceFormat="
+                    new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(
+                      5
+                    )
+                  "
+                ></span>
               </div>
             </div>
           </div>
@@ -63,8 +94,12 @@
               <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
             </div>
             <div class="lottery_btn">
-              <img src="@/assets/svg/box/icon_eth.svg" alt="" />
-              <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+              <span
+                v-priceFormat="
+                  new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)
+                "
+              ></span>
             </div>
           </div>
         </div>
@@ -75,8 +110,13 @@
         <div class="title_text">{{ $t("mysteryBox.seriesTitle") }}</div>
       </div>
       <div class="nft_series_list" v-if="blindDetailInfo">
-        <div class="nft_series_item" @click="handleShowNft(item)" :class="[`series_level_bg_${typrFormat(item)}`]"
-          v-for="(item, index) in blindDetailInfo.series" :key="index">
+        <div
+          class="nft_series_item"
+          @click="handleShowNft(item)"
+          :class="[`series_level_bg_${typrFormat(item)}`]"
+          v-for="(item, index) in blindDetailInfo.series"
+          :key="index"
+        >
           <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
             <div class="img_box">
               <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
@@ -89,22 +129,29 @@
               <div class="series_probability">
                 <span>{{ $t("mysteryBox.range", { range: item.range }) }}</span>
                 <span>
-                  {{ $t("mysteryBox.odds", { odds: nftProbabilityFormat(item.nftNumber) }) }}
+                  {{
+                    $t("mysteryBox.odds", {
+                      odds: nftProbabilityFormat(item.nftNumber),
+                    })
+                  }}
                 </span>
               </div>
               <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
                 <p v-if="item.minPrice == item.maxPrice">
-                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
-                  <span> ETH</span>
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                  <span>{{ ` ${formatPrice(item.minPrice)}` }}</span>
                 </p>
                 <p v-else>
-                  <span v-priceFormat="formatPrice(item.minPrice)"></span>
-                  <span> ETH - </span>
-                  <span v-priceFormat="formatPrice(item.maxPrice)"></span>
-                  <span> ETH</span>
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                  <span>{{ ` ${formatPrice(item.minPrice)} - ` }}</span>
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                  <span>{{ ` ${formatPrice(item.maxPrice)}` }}</span>
                 </p>
               </div>
-              <div v-else class="series_price"><span v-priceFormat="formatPrice(item.maxPrice)"></span> ETH</div>
+              <div v-else class="series_price">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                <span>{{ ` ${formatPrice(item.maxPrice)}` }}</span>
+              </div>
             </div>
           </div>
           <div class="mask_box">
@@ -120,10 +167,17 @@
         </div>
         <div class="title-box-r">
           <div class="title">{{ $t("mysteryBox.snapshotId") }}</div>
-          <el-input v-model.number="snapshotId" @keyup.enter="handleSearch()" class="snapshot_input"
-            :placeholder="$t('mysteryBox.snapshotIdHint')">
+          <el-input
+            v-model.number="snapshotId"
+            @keyup.enter="handleSearch()"
+            class="snapshot_input"
+            :placeholder="$t('mysteryBox.snapshotIdHint')"
+          >
             <template #suffix>
-              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
+              <el-icon
+                class="search_btn el-input__icon"
+                @click="handleSearch()"
+              >
                 <search />
               </el-icon>
             </template>
@@ -132,35 +186,84 @@
       </div>
       <div class="snapshot_box">
         <div class="snapshot_panel">
-          <div class="snapshot_item" v-for="(item, index) in snapshotData" @click="handleActive(item)" :key="index">
+          <div
+            class="snapshot_item"
+            v-for="(item, index) in snapshotData"
+            @click="handleActive(item)"
+            :key="index"
+          >
             <div class="active_btn">
-              <img class="nft_info" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" src="@/assets/svg/box/icon_info_active.svg" alt="" />
+              <img
+                class="nft_info"
+                src="@/assets/svg/box/icon_info.svg"
+                alt=""
+              />
+              <img
+                class="nft_info_active"
+                src="@/assets/svg/box/icon_info_active.svg"
+                alt=""
+              />
             </div>
             <div class="snapshot_num">{{ `NO.${item.id}` }}</div>
             <div class="snapshot_date">{{ timeFormat(item.createTime) }}</div>
           </div>
         </div>
         <div class="pagination-box" v-if="count > size">
-          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+          <el-pagination
+            v-model="page"
+            :page-size="size"
+            @current-change="handleCurrentChange"
+            :pager-count="7"
+            layout="prev, pager, next"
+            :total="count"
+            :prev-text="$t('common.prev')"
+            :next-text="$t('common.next')"
+          />
         </div>
       </div>
     </div>
   </div>
-  <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-  <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
-  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
+  <Login
+    v-if="pageType === 'login'"
+    @closeDialogFun="closeDialogFun"
+    @changeTypeFun="changeTypeFun"
+  />
+  <Register
+    v-if="pageType === 'register'"
+    @closeDialogFun="closeDialogFun"
+    @changeTypeFun="changeTypeFun"
+  />
+  <Forgot
+    v-if="pageType === 'forgot'"
+    @closeDialogFun="closeDialogFun"
+    @changeTypeFun="changeTypeFun"
+  />
+  <Modify
+    v-if="pageType === 'modify'"
+    @onModify="closeDialogFun"
+    @closeDialogFun="closeDialogFun"
+  ></Modify>
+  <Recharge
+    v-if="pageType === 'recharge'"
+    @closeDialogFun="closeDialogFun"
+  ></Recharge>
+  <el-dialog
+    v-model="showSeriesDialog"
+    class="series_dialog"
+    fullscreen
+    align-center
+  >
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName"
-      @closeFun="showSeriesDialog = false"></series-slider>
+    <series-slider
+      :nftParams="nftList"
+      :nftType="seriesType"
+      :sName="seriesName"
+      @closeFun="showSeriesDialog = false"
+    ></series-slider>
   </el-dialog>
 </template>
 
@@ -340,8 +443,13 @@ export default {
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
-      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
+      const numTotal = Number(
+        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
+      );
+      return new bigNumber(num)
+        .dividedBy(numTotal)
+        .multipliedBy(100)
+        .toFixed(4);
     },
     /**
      * @description Nft概率计算
@@ -356,7 +464,10 @@ export default {
         numTotal += +series[i].nftNumber;
       }
 
-      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
+      return new bigNumber(event)
+        .dividedBy(numTotal)
+        .multipliedBy(100)
+        .toFixed(4);
     },
     closeDialogFun() {
       this.pageType = "";
@@ -368,9 +479,9 @@ export default {
       if (!event) return event;
       const arr = String(event).split(".");
       if (arr.length > 1 && arr[1].length > 2) {
-        return accurateDecimal(event, 4);
+        return Number(accurateDecimal(event, 2)).toLocaleString();
       } else {
-        return event;
+        return Number(event).toLocaleString();
       }
     },
   },
@@ -379,7 +490,9 @@ export default {
       this.fetchSnapshotList();
       this.$nextTick(() => {
         const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
+        this.isShowMore = contentInfo
+          ? contentInfo.scrollHeight > contentInfo.clientHeight
+          : false;
       });
     },
   },

@@ -77,7 +77,7 @@
             />
             <span class="header-wallet-money">
               {{
-                Number(accurateDecimal(ethBalance, 2)).toLocaleString(
+                Number(accurateDecimal(usdBalance, 2)).toLocaleString(
                   undefined,
                   {
                     minimumFractionDigits: 2,
@@ -262,9 +262,9 @@ export default {
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
-    ethBalance() {
+    usdBalance() {
       const headerStore = useHeaderStore();
-      return headerStore.balance;
+      return headerStore.usdBalance;
     },
     userPoints() {
       const headerStore = useHeaderStore();

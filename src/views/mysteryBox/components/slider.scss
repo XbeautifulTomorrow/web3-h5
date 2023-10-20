@@ -73,144 +73,150 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    transition: transform ($transition-duration/2) $transition-timing-function ($transition-duration/2);
-    transform-style: preserve-3d;
+    transition: transform ($transition-duration/2) $transition-timing-function (
+      $transition-duration/2
+    );
+  transform-style: preserve-3d;
+}
+
+&-item {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0);
+  transform: translate3d(0, 0, -15vh) rotateY(45deg);
+  transition: transform ($transition-duration) $transition-timing-function (
+    $transition-duration/4
+  );
+
+&__trigger {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 120%;
+  margin-left: -10%;
+  margin-top: -10%;
+  z-index: 100;
+  cursor: pointer;
+  outline: none;
+
+  &%item--active__trigger {
+    display: none;
   }
 
-  &-item {
+  &%item--inactive__trigger {
+    display: block;
+  }
+}
+
+&__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  transform: scale(0.75);
+  transition: transform ($transition-duration/2) $transition-timing-function 0s;
+  backface-visibility: hidden;
+  z-index: 10;
+
+  &::before,
+  &::after {
     display: block;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    color: rgba(255, 255, 255, 0);
-    transform: translate3d(0, 0, -15vh) rotateY(45deg);
-    transition: transform ($transition-duration) $transition-timing-function ($transition-duration/4);
+    content: "";
+  }
 
-    &__trigger {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 120%;
-      height: 120%;
-      margin-left: -10%;
-      margin-top: -10%;
-      z-index: 100;
-      cursor: pointer;
-      outline: none;
+  &::before {
+    top: 1.5rem;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 0;
+    transition: transform ($transition-duration/2) $transition-timing-function (
+      $transition-duration/4
+    );
+  transform: translate(-1.5rem, 12px);
+  box-shadow: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.25), 0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
+}
 
-      &%item--active__trigger {
-        display: none;
-      }
+&::after {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000 50%, rgba(0, 0, 0, 0) 100%);
+  background-repeat: repeat-x;
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition: opacity $transition-duration linear, background-position ($transition-duration/2) linear;
+}
 
-      &%item--inactive__trigger {
-        display: block;
-      }
-    }
+&%item--active__inner {
+  transform: scale(1);
+  transition-delay: ($transition-duration);
 
-    &__inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-origin: center center;
-      transform: scale(0.75);
-      transition: transform ($transition-duration/2) $transition-timing-function 0s;
-      backface-visibility: hidden;
-      z-index: 10;
+  &::before {
+    transform: translate(0, 1.5rem);
+  }
 
-      &::before,
-      &::after {
-        display: block;
-        position: absolute;
-        content: "";
-      }
+  &::after {
+    background-position: -50% 0%;
+    opacity: 0;
+  }
+}
 
-      &::before {
-        top: 1.5rem;
-        left: 1.5rem;
-        bottom: 1.5rem;
-        right: 1.5rem;
-        z-index: 0;
-        transition: transform ($transition-duration/2) $transition-timing-function ($transition-duration/4);
-        transform: translate(-1.5rem, 12px);
-        box-shadow: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.25), 0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
-      }
+&%item--inactive__inner {
+  &::before {
+    transform: translate(1.5rem, 0.75rem);
+  }
 
-      &::after {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
-        background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000 50%, rgba(0, 0, 0, 0) 100%);
-        background-repeat: repeat-x;
-        background-size: 200% 100%;
-        background-position: 0% 0%;
-        transition: opacity $transition-duration linear, background-position ($transition-duration/2) linear;
-      }
+  &::after {
+    background-position: -100% 0%;
+  }
+}
+}
 
-      &%item--active__inner {
-        transform: scale(1);
-        transition-delay: ($transition-duration);
+&.active {
+  color: #fff;
+  transform: translate3d(0, 0, 0) rotateY(0deg);
 
-        &::before {
-          transform: translate(0, 1.5rem);
-        }
+  & .#{$component}-item__inner {
+    @extend %item--active__inner;
+  }
 
-        &::after {
-          background-position: -50% 0%;
-          opacity: 0;
-        }
-      }
+  & .#{$component}-item__trigger {
+    @extend %item--active__trigger;
+  }
+}
 
-      &%item--inactive__inner {
-        &::before {
-          transform: translate(1.5rem, 0.75rem);
-        }
+&.prev {
+  transform: translate3d(-20%, 0, -10vh) rotateY(50deg);
+}
 
-        &::after {
-          background-position: -100% 0%;
-        }
-      }
-    }
+&.next {
+  transform: translate3d(20%, 0, -10vh) rotateY(-50deg);
 
-    &.active {
-      color: #fff;
-      transform: translate3d(0, 0, 0) rotateY(0deg);
+  & .#{$component}-item__inner {
+    @extend %item--inactive__inner;
+  }
 
-      & .#{$component}-item__inner {
-        @extend %item--active__inner;
-      }
+  &~.#{$component}-item {
+    transform: translate3d(0, 0, -15vh) rotateY(-45deg);
 
-      & .#{$component}-item__trigger {
-        @extend %item--active__trigger;
-      }
-    }
-
-    &.prev {
-      transform: translate3d(-20%, 0, -10vh) rotateY(50deg);
-    }
-
-    &.next {
-      transform: translate3d(20%, 0, -10vh) rotateY(-50deg);
-
-      & .#{$component}-item__inner {
-        @extend %item--inactive__inner;
-      }
-
-      & ~ .#{$component}-item {
-        transform: translate3d(0, 0, -15vh) rotateY(-45deg);
-
-        & .#{$component}-item__inner {
-          @extend %item--inactive__inner;
-        }
-      }
+    & .#{$component}-item__inner {
+      @extend %item--inactive__inner;
     }
   }
+}
+}
 }
 
 .card {
@@ -304,9 +310,9 @@ body {
     overflow: hidden;
     border-radius: inherit;
 
-    & > *,
-    & > ::before,
-    & > ::after {
+    &>*,
+    &> ::before,
+    &> ::after {
       border-radius: inherit;
     }
 
@@ -378,7 +384,7 @@ body {
     line-height: 1.6;
     color: #0cbb3e;
 
-    & > span:nth-child(1) {
+    &>span:nth-child(1) {
       flex: 1;
       max-width: 50%;
       overflow: hidden;
@@ -396,6 +402,14 @@ body {
     line-height: 1.4;
     text-align: left;
     color: #11cde9;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.25rem;
+    }
   }
 
   &-market {
@@ -403,11 +417,11 @@ body {
     flex-wrap: wrap;
     padding-top: 0.625rem;
 
-    & > img + img {
+    &>img+img {
       margin-left: 1.25rem;
     }
 
-    & > img {
+    &>img {
       width: 3rem;
       height: auto;
       border-radius: 50%;
@@ -440,13 +454,21 @@ body {
     line-height: 1.5rem;
     font-size: 0.75rem;
   }
+
   .slider__viewbox {
     width: 15rem;
+
     &::before {
       padding-bottom: 20rem;
     }
+
     .card-price {
       font-size: 1rem;
+
+      img {
+        width: 1rem;
+        height: auto;
+      }
     }
   }
 }

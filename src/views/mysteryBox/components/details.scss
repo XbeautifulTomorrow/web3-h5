@@ -424,6 +424,23 @@
       line-height: 1.4;
       text-align: left;
       color: #11cde9;
+      display: flex;
+      align-items: center;
+
+      span+img {
+        margin-left: 0.25rem;
+      }
+
+      p {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        width: 1.5rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
     }
 
     .mask_box {
@@ -957,6 +974,12 @@
             .series_price {
               font-size: 0.75rem;
               margin-top: 0;
+
+              img {
+                width: 1rem;
+                height: auto;
+                margin-right: 0.25rem;
+              }
             }
           }
         }

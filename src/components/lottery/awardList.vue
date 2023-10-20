@@ -36,7 +36,7 @@
             {{ winData.seriesName }}
           </p>
           <p class="lottery-moreLuck-price">
-            <img class="public-dialog-list-img" src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+            <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             <span v-priceFormat:4="winData.initPrice"></span>
           </p>
         </div>

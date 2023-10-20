@@ -514,7 +514,7 @@ export default {
         price: null, //价格
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
-        ticketPrice: 1.0, //单次价格
+        ticketPrice: 0.2, //单次价格
       },
       daysData: [1, 7, 14, 30],
       rules: {},

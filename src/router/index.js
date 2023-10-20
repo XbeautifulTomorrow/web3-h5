@@ -23,6 +23,7 @@ const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue")
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
 const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
 const warGame = () => import(/* webpackChunkName: "user" */ "../views/home/warGame/index.vue");
+const PrivacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -148,7 +149,15 @@ const routes = [
       Currency,
     },
   },
-
+  {
+    path: "/privacy-policy",
+    name: "PrivacyPolicy",
+    components: {
+      default: PrivacyPolicy,
+      Header,
+      Footer,
+    },
+  },
 ];
 
 // 3. 创建路由实例

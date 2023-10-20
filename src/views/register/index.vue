@@ -168,7 +168,7 @@ const rules = reactive({
 });
 
 const onOpenUrl = () => {
-  openUrl("https://bitzing.gitbook.io/bitzing-whitepaper/legal/terms-and-conditions")
+  openUrl("/privacy-policy")
 }
 
 onBeforeUnmount(() => {

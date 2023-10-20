@@ -187,12 +187,7 @@
                     <span>USDT</span>
                   </div>
                   <div class="exhange_icon" v-else>
-                    <el-select
-                      v-model="exchangeInfo.exchangeFromCoin"
-                      @blur="onVerify('coin')"
-                      @change="exchangeCoinChange"
-                      :popper-append-to-body="false"
-                    >
+                    <el-select v-model="exchangeInfo.exchangeFromCoin" @change="fetchExchangeRate" :popper-append-to-body="false">
                       <template #prefix>
                         <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
                       </template>
@@ -201,10 +196,15 @@
                       </template>
                     </el-select>
                   </div>
-                  <el-input v-model="exchangeInfo.exchangeFromAmount"  placeholder="0.0000"></el-input>
+                  <el-input
+                    type="number"
+                    v-model="exchangeInfo.exchangeFromAmount"
+                    placeholder="0.0000"
+                    @input="onVerifyExchange('amount')"
+                  ></el-input>
                 </div>
                 <div class="withdraw_item_error">
-                  <p>{{ walletAddrTips }}</p>
+                  <p>{{ exchangeAmountTips }}</p>
                   <p class="max" @click="exchangeInfo.exchangeFromAmount = Math.floor(getCoinBalance * 10000) / 10000">MAX</p>
                 </div>
               </div>
@@ -217,12 +217,7 @@
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
-                    <el-select
-                      v-model="exchangeInfo.exchangeToCoin"
-                      @blur="onVerify('coin')"
-                      @change="exchangeCoinChange"
-                      :popper-append-to-body="false"
-                    >
+                    <el-select v-model="exchangeInfo.exchangeToCoin" @change="fetchExchangeRate" :popper-append-to-body="false">
                       <template #prefix>
                         <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
                       </template>
@@ -235,7 +230,7 @@
                     <img :src="getCion('USDT')" alt="" />
                     <span>USDT</span>
                   </div>
-                  <el-input v-model="exchangeToAmount" readonly @blur="onVerify('address')" placeholder="0.0000"></el-input>
+                  <el-input v-model="exchangeToAmount" readonly placeholder="0.0000"></el-input>
                 </div>
               </div>
             </div>
@@ -254,13 +249,13 @@
                   @blur="onVerify('address')"
                   :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` })"
                 ></el-input>
-                <div class="withdraw_item_error">
+                <!-- <div class="withdraw_item_error">
                   {{ walletAddrTips }}
-                </div>
+                </div> -->
               </div>
             </div>
 
-            <div :class="['withdraw_btn', loading && 'loading']" @click="exchangeFunc">
+            <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
               <img v-if="loading" src="@/assets/img/user/loading.png" alt="" />
               <span>{{ $t("EXCHANGE") }}</span>
             </div>
@@ -276,6 +271,7 @@
     </el-dialog>
     <rechargeExchangeResult
       :exchangeInfo="exchangeInfo"
+      :exchangeToAmount="exchangeToAmount"
       v-if="pageType == 'exchangeResult'"
       @closeDialogFun="pageType = ''"
     ></rechargeExchangeResult>
@@ -345,6 +341,7 @@ export default {
         exchangeToCoin: "ETH",
         exchangeRate: 0,
       },
+      exchangeAmountTips: null,
     };
   },
   computed: {
@@ -360,11 +357,7 @@ export default {
     exchangeToAmount() {
       let exchangeToAmount = null;
       if (this.exchangeInfo.exchangeFromAmount) {
-        if (this.exchangeInfo.exchangeFromCoin == "USDT") {
-          exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
-        } else {
-          exchangeToAmount = Math.floor(this.exchangeInfo.exchangeFromAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
-        }
+        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
       }
       return exchangeToAmount;
     },
@@ -452,6 +445,21 @@ export default {
     accurateDecimal: accurateDecimal,
     timeFormat: timeFormat,
 
+    // exchange汇率
+    async fetchExchangeRate() {
+      const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
+      const res = await getWithdrawalExchangeRate({
+        coinName: coin,
+      });
+      if (res && res.code == 200) {
+        if (this.exchangeInfo.exchangeFromCoin == "USDT") {
+          this.exchangeInfo.exchangeRate = res.data;
+        } else {
+          this.exchangeInfo.exchangeRate = 1 / res.data;
+        }
+      }
+    },
+
     async exchangeOperatingFunc() {
       [this.exchangeInfo.exchangeFromCoin, this.exchangeInfo.exchangeToCoin] = [
         this.exchangeInfo.exchangeToCoin,
@@ -460,17 +468,18 @@ export default {
       this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
       if (this.exchangeOperating == 1) {
         this.exchangeInfo.exchangeFromCoin = "USDT";
-        this.fetchExchangeRate(this.exchangeInfo.exchangeToCoin);
       } else {
         this.exchangeInfo.exchangeToCoin = "USDT";
-        this.fetchExchangeRate(this.exchangeInfo.exchangeFromCoin);
       }
+      this.fetchExchangeRate();
+      this.onVerifyExchange("amount");
     },
-    exchangeCoinChange(coin) {
-      this.fetchExchangeRate(coin);
-    },
+
     exchangeFunc() {
-      this.pageType = "exchangeResult";
+      this.onVerifyExchange("amount");
+      if (!this.exchangeAmountTips) {
+        this.pageType = "exchangeResult";
+      }
     },
     handleOperating(event) {
       this.walletOperating = event;
@@ -485,7 +494,7 @@ export default {
         this.fetchWithdrawalExchangeRate();
       }
       if (this.walletOperating == 3) {
-        this.fetchExchangeRate(this.exchangeInfo.exchangeToCoin);
+        this.fetchExchangeRate();
       }
     },
     handleChoose(event) {
@@ -541,19 +550,7 @@ export default {
         });
       }
     },
-    // 汇率
-    async fetchExchangeRate(coin) {
-      const res = await getWithdrawalExchangeRate({
-        coinName: coin,
-      });
-      if (res && res.code == 200) {
-        if (this.exchangeInfo.exchangeFromCoin == "USDT") {
-          this.exchangeInfo.exchangeRate = res.data;
-        } else {
-          this.exchangeInfo.exchangeRate = 1 / res.data;
-        }
-      }
-    },
+
     // 充值汇率
     async fetchRechargeExchangeRate() {
       const res = await getRechargeExchangeRate({
@@ -572,6 +569,17 @@ export default {
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
         this.walletAmount = 0;
+      }
+    },
+    onVerifyExchange(type) {
+      if (type == "amount") {
+        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+          this.exchangeAmountTips = t("user.enterError6");
+        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance) {
+          this.exchangeAmountTips = t("user.enterError4");
+        } else {
+          this.exchangeAmountTips = null;
+        }
       }
     },
     // 验证

@@ -306,6 +306,7 @@
     "enterError3": "Please enter the withdrawal amount.",
     "enterError4": "Insufficient Balance",
     "enterError5": "Insufficient amount to cover withdrawal fee.",
+    "enterError6": "Please enter the exchange amount.",
     "submitHint": "Application successful. Please check system transfer status later.",
     "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "INVENTORY",

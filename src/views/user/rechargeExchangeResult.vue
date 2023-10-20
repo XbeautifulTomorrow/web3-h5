@@ -21,7 +21,7 @@
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
             <p class="txt">获得</p>
-            <p class="val">{{ exchangeInfo.exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
+            <p class="val">{{ exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
           </div>
         </div>
         <div class="dialog_exchange_info">
@@ -31,7 +31,9 @@
           </div>
           <div class="item_info">
             <p class="label">兑换比例</p>
-            <p class="info">预估值 {{ `1 ${exchangeInfo.exchangeToCoin} ≈ 0.00251562 ${exchangeInfo.exchangeFromCoin}` }}</p>
+            <p class="info">
+              预估值 {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+            </p>
           </div>
         </div>
         <div class="tip_box">
@@ -54,7 +56,7 @@
           <div class="item_info">
             <p class="label">获得</p>
             <p class="info">
-              <span>{{ exchangeInfo.exchangeToAmount }}</span
+              <span>{{ exchangeToAmount }}</span
               ><img :src="getCion(exchangeInfo.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
@@ -64,11 +66,13 @@
           </div>
           <div class="item_info">
             <p class="label">兑换比例</p>
-            <p class="info">预估值 1 USDT ≈ 0.00251562 ETH</p>
+            <p class="info">
+              预估值 {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+            </p>
           </div>
           <div class="item_info">
             <p class="label">兑换时间</p>
-            <p class="info">2023/22/22 22:22:22</p>
+            <p class="info">{{ timeFormat(exchangeTime) }}</p>
           </div>
         </div>
         <div class="handle_btn" @click="handleClose">返回</div>
@@ -82,9 +86,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeFormat } from "@/utils";
-import {
-  flashExchange
-} from "@/services/api/user";
+import { flashExchange } from "@/services/api/user";
 export default {
   name: "rechargeExchangeResult",
   props: {
@@ -94,6 +96,10 @@ export default {
         return {};
       },
     },
+    exchangeToAmount: {
+      type: [Number, String],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -101,6 +107,7 @@ export default {
       pageType: 1, //1兑换前；2兑换后结果
       timer: null,
       seconds: 10,
+      exchangeTime: null,
     };
   },
   computed: {
@@ -118,14 +125,16 @@ export default {
     },
     refreshFunc() {
       this.seconds = 10;
+      this.$parent.fetchExchangeRate();
     },
     async exchangeSubmit() {
       const res = await flashExchange({
-        areaCoin: this.exchangeInfo.exchangeFromCoin, 
-        coinName: this.exchangeInfo.exchangeToCoin, 
-        amount: this.exchangeInfo.exchangeFromAmount, 
+        areaCoin: this.exchangeInfo.exchangeFromCoin,
+        coinName: this.exchangeInfo.exchangeToCoin,
+        amount: this.exchangeInfo.exchangeFromAmount,
       });
-      if(res) {
+      if (res?.code == 200) {
+        res.localDateTime = this.exchangeTime;
         this.pageType = 2;
       }
     },

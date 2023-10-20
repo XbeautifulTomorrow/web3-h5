@@ -451,7 +451,9 @@
     "goodBalance": "游戏余额",
     "assetEstimate": "资产预估",
     "showAllCoin": "显示所有币种",
-    "hideAllCoin": "隐藏所有币种"
+    "hideAllCoin": "隐藏所有币种",
+    "floorPrice": "Floor Price",
+    "lastSale": "Last Sale"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

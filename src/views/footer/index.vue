@@ -12,19 +12,33 @@
         <div class="in_progress">{{ $t("footer.inProgress") }}</div>
       </div>
       <div class="footer-nav-box">
-        <img src="@/assets/svg/home/footer_interval.svg" alt="">
+        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
         <div class="footer-nav-items">
-          <li class="footer-nav-text active">
-            {{ $t("footer.menu") }}
-          </li>
-          <ul class="footer-nav">
-            <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`"
-              @click="goTo(item.page)">
-              {{ item.text }}
+          <div>
+            <li class="footer-nav-text active">
+              {{ $t("footer.menu") }}
             </li>
-          </ul>
+            <ul class="footer-nav">
+              <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+                {{ item.text }}
+              </li>
+            </ul>
+          </div>
         </div>
-        <img src="@/assets/svg/home/footer_interval.svg" alt="">
+        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
+        <div class="footer-nav-items">
+          <div>
+            <li class="footer-nav-text active">
+              {{ $t("footer.about") }}
+            </li>
+            <ul class="footer-nav">
+              <li class="footer-nav-text" v-for="(item, index) in aboutUs" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+                {{ item.text }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
       </div>
       <div class="link_box">
         <p class="footer-social">{{ $t("footer.link") }}</p>
@@ -48,15 +62,15 @@
 </template>
 <script>
 export default {
-  name: "footerCom"
-}
+  name: "footerCom",
+};
 </script>
 <script setup>
 import { openUrl } from "@/utils";
-import { getLang, setLang } from '@/locales';
+import { getLang, setLang } from "@/locales";
 import { useI18n } from "vue-i18n";
-import router from "@/router"
-import { ref, reactive, computed, inject } from 'vue';
+import router from "@/router";
+import { ref, reactive, computed, inject } from "vue";
 import { ElMessage } from "element-plus";
 const { t, locale } = useI18n();
 
@@ -80,16 +94,25 @@ const nav = computed(() => {
     {
       text: t("header.competitions"),
       page: "TreasureDraw",
-    },
+    }
+  ];
+});
+
+const aboutUs = computed(() => {
+  return [
     {
       text: t("header.whitebook"),
       page: "Whitebook",
     },
     {
+      text: t("login.userAgreement"),
+      page: "privacy-policy",
+    },
+    {
       text: t("header.faq"),
       page: "FAQ",
     },
-  ]
+  ];
 });
 
 const year = ref(new Date().getUTCFullYear());
@@ -108,13 +131,16 @@ const languageChange = (event) => {
 
   //重新加载页面
   reload();
+};
 
-}
-
-const goTo = (page = 'home') => {
+const goTo = (page = "home") => {
   if (page === "Whitebook") {
     openUrl("https://bitzing.gitbook.io/litepaper/");
-    return
+    return;
+  }
+  if (page === "privacy-policy") {
+    openUrl("/privacy-policy");
+    return;
   }
 
   if (page == "Stake" || page == "INO" || page == "MarketPlace") {
@@ -122,22 +148,22 @@ const goTo = (page = 'home') => {
       message: t("common.tipsText"),
       type: "warning",
     });
-    return
+    return;
   }
   router.push({ path: `/${page}` });
 };
 const goLink = (event) => {
   if (event === 1) {
     openUrl("https://twitter.com/Bitzing_io");
-    return
+    return;
   } else if (event === 2) {
     openUrl("https://t.me/bitzing_io");
-    return
+    return;
   } else if (event === 3) {
     openUrl("https://discord.gg/bitzing");
-    return
+    return;
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -167,7 +193,6 @@ const goLink = (event) => {
     }
   }
 
-
   .el-popper__arrow {
     display: none;
   }
@@ -177,7 +202,6 @@ const goLink = (event) => {
     color: #a9a4b4;
   }
 }
-
 
 @media screen and (max-width: 950px) {
   .el-select__popper {

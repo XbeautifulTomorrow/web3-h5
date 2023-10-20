@@ -19,7 +19,7 @@
         <p class="create_com_title">SELECT ASSET</p>
         <div class="wallet_operating">
           <div class="wallet_operating_item" @click="handleChoose('ETH')">
-            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
             <span class="wallet_operating_val">ETH</span>
           </div>
           <div class="wallet_operating_item" @click="handleChoose('NFT')">
@@ -76,14 +76,14 @@
                 class="price_item"
                 @click="addPrice(competitionNft?.floorPrice)"
               >
-                <span class="title">Floor Price</span>
+                <span class="title">{{ $t("user.floorPrice") }}</span>
                 <span class="val">
                   <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   <span>{{ formatUSDT(competitionNft?.floorPrice) }}</span>
                 </span>
               </div>
               <div class="price_item" @click="addPrice(historyPrice)">
-                <span class="title">Last Sale</span>
+                <span class="title">{{ $t("user.lastSale") }}</span>
                 <span class="val">
                   <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   <span>{{ formatUSDT(historyPrice) }}</span>
@@ -1046,7 +1046,7 @@ export default {
         }
       } else {
         if (event == 1) {
-          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
             this.totalPrice || 0
           }</span>`;
         } else {

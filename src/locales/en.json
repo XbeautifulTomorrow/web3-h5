@@ -45,8 +45,9 @@
     "promotions": "Promotions"
   },
   "footer": {
-    "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
-    "menu": "MENU",
+    "copyright": "Copyright © 2023 Bitzing.io . All rights reserved. Bitzing is a brand name of YOURING TECH LIMITED. Company Address: Craigmuir Chambers, Road Town, Tortola, VG 1110, British Virgin Islands .",
+    "menu": "PLATFORM",
+    "about": "ABOUT US",
     "link": "Social Media",
     "inProgress": "Audit in progress."
   },
@@ -69,7 +70,7 @@
     "send": "Send",
     "notReceived": "Don't receive an email?",
     "termsText": "By creating your account, you confirm that you are at least 18 years old and agree to our ",
-    "userAgreement": "Terms and conditions",
+    "userAgreement": "Terms and Conditions",
     "completeUpper": "COMPLETED REGISTRATION",
     "passwordErrText1": "Enter password",
     "passwordErrText2": "Password must be longer than 8 characters.",
@@ -282,6 +283,7 @@
     "pointTable2": "POINTS",
     "deposit": "DEPOSIT",
     "withdraw": "WITHDRAW",
+    "exchange": "EXCHANGE",
     "depositType": "DEPOSIT OPTIONS",
     "withdrawType": "WITHDRAWAL OPTIONS",
     "depositCoin": "DEPOSIT {cion}",
@@ -305,6 +307,7 @@
     "enterError3": "Please enter the withdrawal amount.",
     "enterError4": "Insufficient Balance",
     "enterError5": "Insufficient amount to cover withdrawal fee.",
+    "enterError6": "Please enter the exchange amount.",
     "submitHint": "Application successful. Please check system transfer status later.",
     "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "INVENTORY",
@@ -448,7 +451,9 @@
     "goodBalance": "游戏余额",
     "assetEstimate": "资产预估",
     "showAllCoin": "显示所有币种",
-    "hideAllCoin": "隐藏所有币种"
+    "hideAllCoin": "隐藏所有币种",
+    "floorPrice": "Floor Price",
+    "lastSale": "Last Sale"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

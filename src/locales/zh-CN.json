@@ -45,8 +45,9 @@
     "promotions": "促銷"
   },
   "footer": {
-    "copyright": "Copyright © {year} Bitzing.io. All rights reserved.",
+    "copyright": "Copyright © 2023 bitzing.io . All rights reserved. Bitzing is a brand name of YOURING TECH LIMITED. Company Address: Craigmuir Chambers, Road Town, Tortola, VG 1110, British Virgin Islands .",
     "menu": "選單",
+    "about": "關於我們",
     "link": "社群媒體",
     "inProgress": "Audit in progress."
   },
@@ -282,6 +283,7 @@
     "pointTable2": "積分",
     "deposit": "存入",
     "withdraw": "提取",
+    "exchange": "EXCHANGE",
     "depositType": "存款選項",
     "withdrawType": "提取選項",
     "depositCoin": "存入{cion}",
@@ -305,6 +307,7 @@
     "enterError3": "請輸入提款金額",
     "enterError4": "餘額不足",
     "enterError5": "提款金額不足以支付提款費用",
+    "enterError6": "請輸入兌換金額",
     "submitHint": "申請成功，請稍後查看系統轉賬",
     "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "庫存",
@@ -448,7 +451,9 @@
     "goodBalance": "游戏余额",
     "assetEstimate": "资产预估",
     "showAllCoin": "显示所有币种",
-    "hideAllCoin": "隐藏所有币种"
+    "hideAllCoin": "隐藏所有币种",
+    "floorPrice": "Floor Price",
+    "lastSale": "Last Sale"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

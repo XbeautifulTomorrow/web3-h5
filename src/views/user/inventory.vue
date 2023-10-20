@@ -167,14 +167,14 @@
               class="price_item"
               @click="addPrice(competitionNft?.floorPrice)"
             >
-              <span class="title">Floor Price</span>
+              <span class="title">{{ $t("user.floorPrice") }}</span>
               <span class="val">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ formatUSDT(competitionNft?.floorPrice) }}</span>
               </span>
             </div>
             <div class="price_item" @click="addPrice(historyPrice)">
-              <span class="title">Last Sale</span>
+              <span class="title">{{ $t("user.lastSale") }}</span>
               <span class="val">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ formatUSDT(historyPrice) }}</span>

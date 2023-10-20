@@ -135,7 +135,7 @@
           <span class="popup-list-text text-ellipsis" style="color: #fff">
             {{
               currencyList[activeIndex] &&
-              `$ ${currencyList[activeIndex].price}`
+              `$ ${accurateDecimal(currencyList[activeIndex].price, 2)}`
             }}
           </span>
         </li>

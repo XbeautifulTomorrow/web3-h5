@@ -224,7 +224,7 @@
     "open": "OPEN",
     "box": "BOX",
     "boxes": "BOXES",
-    "seriesTitle": "NFTS IN THE BOX",
+    "seriesTitle": "REWARDS IN THE BOX",
     "range": "RANGE:{ range }",
     "odds": "ODDS:{ odds }%",
     "showNfts": "Show Details",
@@ -248,8 +248,8 @@
     "resalePrice": "Resale Price",
     "rewardId": "Reward ID",
     "boxTipsTitle": "THIS BOX CONTAINS EXTERNAL NFTS.",
-    "boxTipsDescription1": "Please understand that winning an NFT doesn't guarantee our ability to buy it on your behalf. If we are unable to acquire the NFT, you will have the option to claim ETH equivalent to its value.",
-    "boxTipsDescription2": "If we are unable to acquire the NFT, you will have the option to claim ETH equivalent to its value.",
+    "boxTipsDescription1": "Please understand that winning an NFT doesn't guarantee our ability to buy it on your behalf.",
+    "boxTipsDescription2": "If we are unable to acquire the NFT, you will have the option to claim ETH equivalent to its value",
     "boxTipsClose": "I UNDERSTAND."
   },
   "user": {

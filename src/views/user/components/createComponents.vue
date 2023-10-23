@@ -117,7 +117,7 @@
             </el-input>
           </el-form-item>
           <el-form-item
-            :label="$t('user.totalEntries')"
+            :label="$t('user.setPrice')"
             prop="usdtPrice"
             v-if="operatingType == 'ETH'"
           >

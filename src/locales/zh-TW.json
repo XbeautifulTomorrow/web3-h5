@@ -453,7 +453,8 @@
     "showAllCoin": "显示所有币种",
     "hideAllCoin": "隐藏所有币种",
     "floorPrice": "Floor Price",
-    "lastSale": "Last Sale"
+    "lastSale": "Last Sale",
+    "setPrice": "Set A Price"
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

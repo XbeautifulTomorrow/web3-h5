@@ -459,7 +459,8 @@
     "spent": "SPENT",
     "to":"TO",
     "receivedCoin": "RECEIVED",
-    "date": "DATE"
+    "date": "DATE",
+    "setPrice": "Set A Price"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

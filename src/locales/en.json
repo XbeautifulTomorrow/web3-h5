@@ -283,7 +283,7 @@
     "pointTable2": "POINTS",
     "deposit": "DEPOSIT",
     "withdraw": "WITHDRAW",
-    "exchange": "EXCHANGE",
+    "exchange": "CONVERT",
     "depositType": "DEPOSIT OPTIONS",
     "withdrawType": "WITHDRAWAL OPTIONS",
     "depositCoin": "DEPOSIT {cion}",
@@ -453,7 +453,13 @@
     "showAllCoin": "显示所有币种",
     "hideAllCoin": "隐藏所有币种",
     "floorPrice": "Floor Price",
-    "lastSale": "Last Sale"
+    "lastSale": "Last Sale",
+    "logType":"LOG TYPE",
+    "from": "FROM",
+    "spent": "SPENT",
+    "to":"TO",
+    "receivedCoin": "RECEIVED",
+    "date": "DATE"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

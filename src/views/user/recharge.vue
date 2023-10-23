@@ -395,10 +395,16 @@ export default {
   components: {
     rechargeExchangeResult,
   },
+  props: {
+    type: {
+      type: Number,
+      default: 1
+    }
+  },
   data() {
     return {
       showRecharge: true,
-      walletOperating: 1, // 1 充币；2 提币；
+      walletOperating: 1, // 1 充币；2 提币；3.闪兑；
       walletNetwork: null, // 网络
       networkList: [],
       receiverAddr: null, // 收款地址
@@ -859,6 +865,9 @@ export default {
     },
   },
   mounted() {
+    // setTimeout(() => {
+    //   this.handleOperating(this.type || 1)
+    // }, 1000);
     this.fetchReceivingAddr();
 
     const that = this;

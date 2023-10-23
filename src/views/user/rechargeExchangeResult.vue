@@ -72,7 +72,7 @@
           </div>
           <div class="item_info">
             <p class="label">兑换时间</p>
-            <p class="info">{{ timeFormat(exchangeTime) }}</p>
+            <p class="info">{{ timeForStr(exchangeTime) }}</p>
           </div>
         </div>
         <div class="handle_btn" @click="handleClose">返回</div>
@@ -85,7 +85,7 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
-import { timeFormat } from "@/utils";
+import { timeForStr } from "@/utils";
 import { flashExchange } from "@/services/api/user";
 export default {
   name: "rechargeExchangeResult",
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     bigNumber: bigNumber,
-    timeFormat: timeFormat,
+    timeForStr: timeForStr,
     // 关闭创建弹窗
     handleClose() {
       this.$emit("closeDialogFun");
@@ -134,7 +134,8 @@ export default {
         amount: this.exchangeInfo.exchangeFromAmount,
       });
       if (res?.code == 200) {
-        res.localDateTime = this.exchangeTime;
+        this.$parent.renewBalance();
+       this.exchangeTime = res.localDateTime;
         this.pageType = 2;
       }
     },

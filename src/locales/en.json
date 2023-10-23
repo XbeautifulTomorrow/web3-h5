@@ -375,7 +375,7 @@
     "REVENUE": "COMMISSIONS",
     "code": "CODE",
     "refs": "REFS",
-    "default": "DEFAULT",
+    "default": "SPENT",
     "consumption": "TOTAL COST",
     "claim": "CLAIM",
     "referralCode": "REFERRAL CODE",

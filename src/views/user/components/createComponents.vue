@@ -116,6 +116,21 @@
               </template>
             </el-input>
           </el-form-item>
+          <el-form-item
+            :label="$t('user.totalEntries')"
+            prop="usdtPrice"
+            v-if="operatingType == 'ETH'"
+          >
+            <el-input v-model="competitionForm.usdtPrice" type="number" min="0">
+              <template #prefix>
+                <img
+                  class="icon_eth"
+                  src="@/assets/svg/user/icon_usdt_gold.svg"
+                  alt=""
+                />
+              </template>
+            </el-input>
+          </el-form-item>
           <el-form-item class="form-item_wrap" :label="$t('user.entriesPrice')">
             <div class="num_item">
               <span>{{ Number(competitionForm.ticketPrice).toFixed(2) }}</span>
@@ -126,49 +141,12 @@
               />
             </div>
           </el-form-item>
-          <el-form-item
-            :label="$t('user.totalEntries')"
-            prop="limitNum"
-            v-if="operatingType == 'ETH'"
-          >
-            <el-input v-model="competitionForm.limitNum" type="number" min="0">
-              <template #prefix>
-                <img
-                  class="icon_eth"
-                  src="@/assets/svg/user/icon_tickets_num.svg"
-                  alt=""
-                />
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item
-            class="form-item_wrap"
-            :label="$t('user.totalEntries')"
-            v-if="operatingType == 'NFT' && activeType == 'LIMITED_PRICE'"
-          >
+          <el-form-item class="form-item_wrap" :label="$t('user.totalEntries')">
             <div class="num_item">
               <span>{{ limitNum }}</span>
               <img
                 class="icon_eth"
                 src="@/assets/svg/user/icon_tickets_num.svg"
-                alt=""
-              />
-            </div>
-          </el-form-item>
-          <el-form-item
-            class="form-item_wrap"
-            :label="
-              operatingType == 'NFT'
-                ? $t('user.totalPrice')
-                : $t('user.totalSupply')
-            "
-            v-if="operatingType == 'ETH'"
-          >
-            <div class="num_item">
-              <span>{{ totalPrice }}</span>
-              <img
-                class="icon_eth"
-                src="@/assets/svg/user/icon_usdt_gold.svg"
                 alt=""
               />
             </div>
@@ -252,7 +230,7 @@
             <div class="invitation_box" v-if="freeParams.isOpen">
               <el-select
                 @click="showCreate()"
-                :disabled="!inviteDrop.length > 0"
+                :readonly="!inviteDrop.length > 0"
                 v-model="freeParams.inviteCode"
                 class="invite_select"
                 :placeholder="$t('user.chooseCodeHint')"
@@ -565,6 +543,7 @@ import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
 import { i18n } from "@/locales";
+import { accurateDecimal } from "@/utils";
 const { t } = i18n.global;
 export default {
   name: "modifyName",
@@ -581,7 +560,8 @@ export default {
       competitionNft: null,
       competitionForm: {
         price: null, //价格
-        limitNum: null, //票数
+        usdtPrice: null, // usdt价格
+        limitNum: null, // 总票数
         limitDay: null, //天数
         orderType: null, // 限时:LIMITED_TIME;限价:LIMITED_PRICE
         ticketPrice: 0.2, //单次价格
@@ -647,31 +627,35 @@ export default {
     },
     // 总票数
     limitNum() {
-      const { price, ticketPrice } = this.competitionForm;
-      if (!price) return 0;
-      const maxNum = Number(new bigNumber(price).dividedBy(ticketPrice));
+      const {
+        operatingType,
+        competitionForm: { price, usdtPrice, ticketPrice },
+      } = this;
+
+      if (operatingType == "NFT" && !price) return 0;
+      if (operatingType == "ETH" && !usdtPrice) return 0;
+
+      let maxNum = 0;
+      if (this.operatingType == "NFT") {
+        maxNum = Number(new bigNumber(price || 0).dividedBy(ticketPrice));
+      } else {
+        maxNum = Number(new bigNumber(usdtPrice || 0).dividedBy(ticketPrice));
+      }
       if (this.activeType == "LIMITED_TIME") return 0;
       return maxNum;
-    },
-    // 总价值
-    totalPrice() {
-      const { limitNum, ticketPrice } = this.competitionForm;
-      if (!limitNum) return 0;
-      return new bigNumber(limitNum).multipliedBy(ticketPrice);
     },
     // 实际收益
     realIncome() {
       const {
         operatingType,
-        competitionForm: { price },
-        totalPrice,
+        competitionForm: { price, usdtPrice },
         serverFees,
       } = this;
       if (operatingType != "NFT") {
-        if (!totalPrice || !serverFees) return 0;
-        const feeNum = new bigNumber(totalPrice).multipliedBy(serverFees);
+        if (!usdtPrice || !serverFees) return 0;
+        const feeNum = new bigNumber(usdtPrice).multipliedBy(serverFees);
 
-        return new bigNumber(totalPrice).minus(feeNum);
+        return new bigNumber(usdtPrice).minus(feeNum);
       } else {
         if (!price || !serverFees) return 0;
         const feeNum = new bigNumber(price).multipliedBy(serverFees);
@@ -799,7 +783,7 @@ export default {
               return;
             }
           } else {
-            if (Number(this.totalPrice) < 0.1) {
+            if (Number(this.competitionForm.usdtPrice) < 0.1) {
               this.$message.error(t("user.priceError"));
               return;
             }
@@ -836,7 +820,7 @@ export default {
               return;
             }
           } else {
-            if (Number(this.totalPrice) < 0.1) {
+            if (Number(this.competitionForm.usdtPrice) < 0.1) {
               this.$message.error(t("user.priceError"));
               return;
             }
@@ -859,10 +843,7 @@ export default {
 
           let ruleForm = {
             ...this.competitionForm,
-            limitNum:
-              this.operatingType == "NFT"
-                ? this.limitNum
-                : this.competitionForm.limitNum,
+            limitNum: this.limitNum,
             orderType:
               this.operatingType == "NFT" ? activeType : "LIMITED_PRICE_COIN",
             contractAddress: competitionNft?.tokenAddress || "", //合约地址
@@ -988,7 +969,6 @@ export default {
         configK,
         exchangeRate,
       } = this;
-
       if (!price) {
         callback();
       } else if (value === "") {
@@ -1015,42 +995,42 @@ export default {
       const {
         operatingType,
         competitionNft,
-        competitionForm: { price, ticketPrice },
+        competitionForm: { price, ticketPrice, usdtPrice },
         limitNum,
-        totalPrice,
       } = this;
       if (operatingType == "NFT") {
         return (
           Number(limitNum * ticketPrice) > Number(competitionNft?.floorPrice)
         );
       } else {
-        return Number(totalPrice) >= Number(price);
+        const nftPrice = new bigNumber(price).multipliedBy(this.exchangeRate);
+        return Number(usdtPrice) >= Number(nftPrice);
       }
     },
     // ETH确认
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
-            this.competitionForm?.price || 0
-          }</span>`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${Number(
+            accurateDecimal(this.competitionForm?.price || 0, 2)
+          ).toLocaleString()}</span>`;
         } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
           return formatSeries(competitionNft)
             ? `${competitionNft?.name} #${competitionNft?.tokenId}`
             : `${competitionNft?.name}`;
         } else {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${
-            this.competitionNft?.floorPrice || 0
-          }</span>`;
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${Number(
+            accurateDecimal(this.competitionNft?.floorPrice || 0, 2)
+          ).toLocaleString()}</span>`;
         }
       } else {
         if (event == 1) {
-          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
-            this.totalPrice || 0
-          }</span>`;
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${Number(
+            accurateDecimal(this.competitionForm.usdtPrice || 0, 2)
+          ).toLocaleString()}</span>`;
         } else {
-          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
             this.competitionForm.price || 0
           }</span>`;
         }
@@ -1179,6 +1159,18 @@ export default {
       ],
       // 票数
       limitNum: [
+        {
+          required: true,
+          message: t("user.limitNumEnter"),
+          trigger: ["blur", "change"],
+        },
+        {
+          validator: this.validateTPrice,
+          trigger: ["blur", "change"],
+        },
+      ],
+      // usdt价格
+      usdtPrice: [
         {
           required: true,
           message: t("user.limitNumEnter"),

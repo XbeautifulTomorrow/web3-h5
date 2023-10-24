@@ -228,12 +228,7 @@
                 </div>
                 <div class="withdraw_item_error">
                   <p>{{ exchangeAmountTips }}</p>
-                  <p
-                    class="max"
-                    @click="exchangeInfo.exchangeFromAmount = Math.floor(getCoinBalance(exchangeInfo.exchangeFromCoin) * 10000) / 10000"
-                  >
-                    MAX
-                  </p>
+                  <p class="max" @click="maxFunc">MAX</p>
                 </div>
               </div>
             </div>
@@ -258,7 +253,12 @@
                     <img :src="getCion('USDT')" alt="" />
                     <span>USDT</span>
                   </div>
-                  <el-input v-model="exchangeToAmount" readonly placeholder="0.0000"></el-input>
+                  <el-input
+                    type="number"
+                    v-model="exchangeInfo.exchangeToAmount"
+                    @input="exchangeToAmountFunc"
+                    placeholder="0.0000"
+                  ></el-input>
                 </div>
               </div>
             </div>
@@ -298,7 +298,6 @@
     </el-dialog>
     <rechargeExchangeResult
       :exchangeInfo="exchangeInfo"
-      :exchangeToAmount="exchangeToAmount"
       v-if="pageType == 'exchangeResult'"
       @closeDialogFun="closeExchangeDialogFun"
     ></rechargeExchangeResult>
@@ -388,13 +387,6 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.assetLists;
     },
-    exchangeToAmount() {
-      let exchangeToAmount = null;
-      if (this.exchangeInfo.exchangeFromAmount) {
-        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
-      }
-      return exchangeToAmount;
-    },
     userInfo() {
       const { userInfo } = this.userStore;
       return userInfo;
@@ -480,6 +472,36 @@ export default {
         return 0;
       }
     },
+    maxFunc() {
+      this.exchangeInfo.exchangeFromAmount = Math.floor(this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000) / 10000;
+      this.exchangeFromAmountFunc();
+    },
+    exchangeFromAmountFunc() {
+      let exchangeToAmount = null;
+      if (this.exchangeInfo.exchangeFromAmount) {
+        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
+      }
+      this.exchangeInfo.exchangeToAmount = exchangeToAmount;
+    },
+    exchangeToAmountFunc() {
+      let exchangeFromAmount = null;
+      if (this.exchangeInfo.exchangeToAmount) {
+        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
+      }
+      this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
+    },
+    onVerifyExchange(type) {
+      this.exchangeFromAmountFunc();
+      if (type == "amount") {
+        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+          this.exchangeAmountTips = t("user.enterError6");
+        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
+          this.exchangeAmountTips = t("user.enterError4");
+        } else {
+          this.exchangeAmountTips = null;
+        }
+      }
+    },
 
     // exchange汇率
     async fetchExchangeRate() {
@@ -493,6 +515,7 @@ export default {
         } else {
           this.exchangeInfo.exchangeRate = 1 / res.data;
         }
+        this.exchangeFromAmountFunc();
       }
     },
 
@@ -522,6 +545,7 @@ export default {
         this.pageType = "exchangeResult";
       }
     },
+
     handleOperating(event) {
       this.walletOperating = event;
       this.walletAmount = null;
@@ -610,17 +634,6 @@ export default {
       if (res && res.code == 200) {
         this.exchangeRate = res.data;
         this.walletAmount = 0;
-      }
-    },
-    onVerifyExchange(type) {
-      if (type == "amount") {
-        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
-          this.exchangeAmountTips = t("user.enterError6");
-        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
-          this.exchangeAmountTips = t("user.enterError4");
-        } else {
-          this.exchangeAmountTips = null;
-        }
       }
     },
     // 验证

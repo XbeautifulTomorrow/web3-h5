@@ -67,24 +67,24 @@
           </el-table-column>
           <el-table-column
             prop="price"
-            label="Price"
+            :label="$t('mysteryBox.ethPrice')"
             align="left"
             min-width="100"
             show-overflow-tooltip
           >
             <template #default="scope">
-              {{ `$${scope.row.price}` }}
+              {{ `${scope.row.price} ETH` }}
             </template>
           </el-table-column>
           <el-table-column
             prop="usdtPrice"
-            :label="$t('mysteryBox.ethPrice')"
+            :label="$t('mysteryBox.usdtPrice')"
             min-width="100"
             align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
-              {{ `${scope.row.usdtPrice} ETH` }}
+              {{ `${scope.row.usdtPrice} USDT` }}
             </template>
           </el-table-column>
           <el-table-column

@@ -340,7 +340,7 @@
             key="4"
           >
           <template #default="scope"> 
-            <div class="coin_label">
+            <div class="amount_box">
               <span>{{scope.row.sellNum}}</span>
               <img :src="getCion(scope.row.sellCoin)" alt="">
             </div>
@@ -362,7 +362,7 @@
             key="6"
           >
             <template #default="scope"> 
-              <div class="coin_label">
+              <div class="amount_box">
                 <span>{{scope.row.userNum}}</span>
                 <img :src="getCion(scope.row.buyCoin)" alt="">
               </div>

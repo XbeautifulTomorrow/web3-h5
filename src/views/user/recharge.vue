@@ -215,7 +215,7 @@
                         <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
+                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'&&item.isExchange" />
                       </template>
                     </el-select>
                   </div>
@@ -245,7 +245,7 @@
                         <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
+                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'&&item.isExchange" />
                       </template>
                     </el-select>
                   </div>
@@ -266,9 +266,9 @@
               <span>{{
                 `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
               }}</span>
-              <img src="@/assets/svg/user/restart.svg" />
+              <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate(1)" />
             </div>
-            <div class="factor_box exchange_relevant">
+            <!-- <div class="factor_box exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable"><span> two factor </span> <span class="required">*</span></div>
                 <el-input
@@ -277,11 +277,11 @@
                   @blur="onVerify('address')"
                   :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` })"
                 ></el-input>
-                <!-- <div class="withdraw_item_error">
+                <div class="withdraw_item_error">
                   {{ walletAddrTips }}
-                </div> -->
+                </div>
               </div>
-            </div>
+            </div> -->
 
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
               <span>{{ $t("EXCHANGE") }}</span>
@@ -375,6 +375,7 @@ export default {
         exchangeRate: 0,
       },
       exchangeAmountTips: null,
+      exchangeRateTimer: null,
     };
   },
   computed: {
@@ -476,35 +477,43 @@ export default {
       this.exchangeInfo.exchangeFromAmount = Math.floor(this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000) / 10000;
       this.exchangeFromAmountFunc();
     },
+    // 获取下浮比率
+    getExchangeDown(coin) {
+      const { networkList } = this;
+      const network = networkList.find((e) => e.coinName == coin);
+      return network?.down || 0;
+    },
     exchangeFromAmountFunc() {
       let exchangeToAmount = null;
       if (this.exchangeInfo.exchangeFromAmount) {
-        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
+        const down = this.getExchangeDown(this.exchangeInfo.exchangeFromCoin);
+        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * (1 - down) * 10000) / 10000;
       }
       this.exchangeInfo.exchangeToAmount = exchangeToAmount;
     },
     exchangeToAmountFunc() {
       let exchangeFromAmount = null;
       if (this.exchangeInfo.exchangeToAmount) {
-        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
+        const down = this.getExchangeDown(this.exchangeInfo.exchangeFromCoin);
+        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * (1 + down) * 10000) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
     },
     onVerifyExchange(type) {
-      this.exchangeFromAmountFunc();
-      if (type == "amount") {
-        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
-          this.exchangeAmountTips = t("user.enterError6");
-        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
-          this.exchangeAmountTips = t("user.enterError4");
-        } else {
-          this.exchangeAmountTips = null;
-        }
+      if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+        this.exchangeAmountTips = t("user.enterError6");
+      } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
+        this.exchangeAmountTips = t("user.enterError4");
+      } else {
+        this.exchangeAmountTips = null;
+      }
+      if (type) {
+        this.exchangeFromAmountFunc();
       }
     },
 
     // exchange汇率
-    async fetchExchangeRate() {
+    async fetchExchangeRate(type) {
       const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
       const res = await getWithdrawalExchangeRate({
         coinName: coin,
@@ -515,7 +524,9 @@ export default {
         } else {
           this.exchangeInfo.exchangeRate = 1 / res.data;
         }
-        this.exchangeFromAmountFunc();
+        if (type != 1) {
+          this.exchangeFromAmountFunc();
+        }
       }
     },
 
@@ -534,13 +545,17 @@ export default {
       this.onVerifyExchange("amount");
     },
 
-    closeExchangeDialogFun() {
+    closeExchangeDialogFun(data) {
       this.pageType = "";
-      this.exchangeInfo.exchangeFromAmount = null;
+      console.log(data,'-------------')
+      if(data){
+        this.exchangeInfo.exchangeFromAmount = null;
+        this.exchangeInfo.exchangeToAmount = null;
+      }
     },
 
     exchangeFunc() {
-      this.onVerifyExchange("amount");
+      this.onVerifyExchange();
       if (!this.exchangeAmountTips && this.exchangeInfo.exchangeRate > 0) {
         this.pageType = "exchangeResult";
       }
@@ -560,6 +575,9 @@ export default {
       }
       if (this.walletOperating == 3) {
         this.fetchExchangeRate();
+        this.exchangeRateTimer = setInterval(() => {
+          this.fetchExchangeRate(1);
+        }, 10000);
       }
     },
     handleChoose(event) {
@@ -809,6 +827,11 @@ export default {
     this.fetchSetting();
     this.fetchWithdrawalChain();
   },
+  unmounted() {
+    if (this.exchangeRateTimer) {
+      clearInterval(this.exchangeRateTimer);
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -835,7 +858,7 @@ export default {
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.6;
-    padding: 0.625rem 0.825rem;
+    padding: 0 0.825rem;
     height: auto;
 
     &.selected {

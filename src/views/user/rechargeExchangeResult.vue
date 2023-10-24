@@ -8,6 +8,11 @@
     :align-center="true"
     :before-close="handleClose"
   >
+    <div class="close_btn" @click="handleClose()">
+      <el-icon>
+        <Close />
+      </el-icon>
+    </div>
     <div class="content">
       <div v-if="pageType == 1">
         <div class="dialog_title">确认兑换</div>
@@ -40,10 +45,11 @@
           <p class="tip" v-show="seconds < 1"><img src="@/assets/svg/user/warning.svg" />该报价已过期，请重新获取报价。</p>
         </div>
 
-        <div class="handle_btn dark_btn" @click="exchangeSubmit" v-if="seconds > 0">兑换（{{ seconds }}s）</div>
-        <div class="handle_btn" v-else @click="refreshFunc">更新报价</div>
+        <div class="handle_btn" @click="exchangeSubmit" v-if="seconds > 0">兑换（{{ seconds }}s）</div>
+        <div class="handle_btn dark_btn" v-else @click="refreshFunc">更新报价</div>
       </div>
       <div v-else>
+        <div class="dialog_title">Conversion Successful</div>
         <img src="@/assets/svg/user/success.svg" class="status_icon" />
         <div class="dialog_exchange_info">
           <div class="item_info">
@@ -113,8 +119,8 @@ export default {
     bigNumber: bigNumber,
     timeForStr: timeForStr,
     // 关闭创建弹窗
-    handleClose() {
-      this.$emit("closeDialogFun");
+    handleClose(e) {
+      this.$emit("closeDialogFun",e);
     },
     getCion(coin) {
       return this.$parent.getCion(coin);
@@ -280,5 +286,21 @@ export default {
 }
 .status_icon {
   margin-bottom: 1.875rem;
+}
+.close_btn {
+  position: absolute;
+  top: 1.6875rem;
+  right: 1.875rem;
+  width: 2.8125rem;
+  height: 2.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #2d313f;
+  background-color: #2a2d36;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #a9a4b4;
 }
 </style>

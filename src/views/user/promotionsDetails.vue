@@ -22,14 +22,14 @@
           <div class="progress_item">
             <!-- 奖金总额： -->
             <p>
-              <span>{{ $t("user.totalBonus") }}</span> <span class="data">{{ welcomeStatic?.totalRewards || 0 }}</span>
+              <span>{{ $t("user.totalBonus") }}</span> <span class="data" v-priceFormat="welcomeStatic?.totalRewards"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
             <p>
-              <span>{{ $t("user.received") }}</span> <span class="data">{{ welcomeStatic?.receivedReward || 0 }}</span>
+              <span>{{ $t("user.received") }}</span> <span class="data" v-priceFormat="welcomeStatic?.receivedReward"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
@@ -37,9 +37,7 @@
             <!-- 待解锁： -->
             <p>
               <span>{{ $t("user.unlocked") }}</span>
-              <span class="data">{{
-                new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0
-              }}</span>
+              <span class="data"  v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
@@ -48,7 +46,7 @@
           <div class="progress_item">
             <!-- 您获得总积分： -->
             <p>
-              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data">{{ pointStatic || 0 }}</span>
+              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data" v-priceFormat="pointStatic"></span>
             </p>
             <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>
@@ -71,14 +69,15 @@
                 :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }"
                 v-if="scope.row.consumptionAmount > 0"
               ></div>
-              <p>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
+              <p><span v-priceFormat="scope.row.consumptionAmount"></span> / <span v-priceFormat="scope.row.targetAmount"></span></p>
             </div>
           </template>
         </el-table-column>
         <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="60" align="center" key="3">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ scope.row.bonus || "--" }}</span>
+              <span v-if="scope.row.bonus" v-priceFormat="scope.row.bonus"></span>
+              <span v-else>--</span>
               <img v-if="scope.row.bonus" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>

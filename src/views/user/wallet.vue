@@ -289,7 +289,7 @@
           <el-table-column
             :label="$t('user.balanceTabel6')"
             align="center"
-            min-width="80"
+            min-width="100"
             key="10"
             fixed="right"
           >

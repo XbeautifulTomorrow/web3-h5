@@ -466,6 +466,7 @@ export default {
     t: t,
 
     getCoinBalance(coin) {
+      coin=coin==='WETH'?'ETH':coin;
       const res = this.assetLists.filter((x) => x.coinName === coin);
       if (res?.length > 0) {
         return res[0]?.balance;

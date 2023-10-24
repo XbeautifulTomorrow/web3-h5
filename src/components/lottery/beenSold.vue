@@ -20,7 +20,7 @@
         class="public-dialog-text"
         v-html="
           $t('lottery.success_receive', {
-            name: `${soldList[0]?.seriesName} #${soldList[0]?.orderId}`,
+            name: `${soldList[0]?.seriesName} ${soldList[0]?.tokenId?('# '+soldList[0]?.tokenId):''}`,
           })
         "
       ></p>

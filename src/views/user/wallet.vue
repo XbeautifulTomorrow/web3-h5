@@ -6,7 +6,7 @@
           <img src="@/assets/svg/user/icon_balances.svg" alt="" />
           <div class="title_text">{{ $t("user.balance") }}</div>
         </div>
-        <div class="balance_r" @click="showRecharge = true">
+        <div class="balance_r" @click="showRechargeFunc">
           {{ $t("user.cashier") }}
         </div>
       </div>
@@ -101,6 +101,7 @@
               class="convert_btn"
               src="@/assets/svg/user/icon_exchange.svg"
               alt=""
+              @click="showRechargeFunc(3)"
             />
           </div>
         </div>
@@ -149,164 +150,238 @@
           </div>
         </div>
       </div>
-      <el-table :data="historyData" class="table_container">
-        <el-table-column
-          prop="logType"
-          :label="$t('user.balanceTabel1')"
-          min-width="100"
-          align="center"
-          key="1"
-        >
-          <template #default="scope">
-            {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="seriesName"
-          v-if="coin == 'NFT'"
-          :label="$t('user.balanceTabel7')"
-          min-width="100"
-          align="center"
-          key="2"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="tokenId"
-          v-if="coin == 'NFT'"
-          min-width="100"
-          label="TOKEN ID"
-          align="center"
-          key="3"
-        >
-          <template #default="scope">
-            {{ `#${scope.row.tokenId}` }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="serviceFee"
-          v-if="coin == 'NFT'"
-          min-width="100"
-          :label="$t('user.balanceTabel8')"
-          align="center"
-          key="4"
-        >
-          <template #default="scope">
-            <div class="amount_box">
-              <span>{{ scope.row.serviceFee || "--" }}</span>
-              <img
-                v-if="scope.row.serviceFee"
-                src="@/assets/svg/user/icon_usdt_gold.svg"
-                alt=""
-              />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="amount"
-          v-if="coin != 'NFT'"
-          min-width="100"
-          :label="$t('user.balanceTabel2')"
-          align="center"
-          key="5"
-        >
-          <template #default="scope">
-            <div class="amount_box">
-              <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
-              <img :src="getCion(scope.row.coin)" alt="" />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="eth_amount"
-          v-if="coin != 'NFT'"
-          min-width="120"
-          :label="$t('user.balanceTabel3')"
-          align="center"
-          key="6"
-        >
-          <template #default="scope">
-            <div class="amount_box">
-              <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
-              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="chainType"
-          v-if="coin != 'NFT'"
-          :label="$t('user.network')"
-          min-width="100"
-          align="center"
-          key="7"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="syncStatus"
-          :label="$t('user.balanceTabel4')"
-          min-width="140"
-          align="center"
-          key="8"
-        >
-          <template #default="scope">
-            <div :class="['sync_status', scope.row.syncStatus]">
-              <span> {{ scope.row.syncStatus }}</span>
-              <el-tooltip
+      <template v-if="coin != 'CONVERT'"> 
+        <el-table :data="historyData" class="table_container">
+          <el-table-column
+            prop="logType"
+            :label="$t('user.balanceTabel1')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
+            <template #default="scope">
+              {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="seriesName"
+            v-if="coin == 'NFT'"
+            :label="$t('user.balanceTabel7')"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="tokenId"
+            v-if="coin == 'NFT'"
+            min-width="100"
+            label="TOKEN ID"
+            align="center"
+            key="3"
+          >
+            <template #default="scope">
+              {{ `#${scope.row.tokenId}` }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="serviceFee"
+            v-if="coin == 'NFT'"
+            min-width="100"
+            :label="$t('user.balanceTabel8')"
+            align="center"
+            key="4"
+          >
+            <template #default="scope">
+              <div class="amount_box">
+                <span>{{ scope.row.serviceFee || "--" }}</span>
+                <img
+                  v-if="scope.row.serviceFee"
+                  src="@/assets/svg/user/icon_usdt_gold.svg"
+                  alt=""
+                />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="amount"
+            v-if="coin != 'NFT'"
+            min-width="100"
+            :label="$t('user.balanceTabel2')"
+            align="center"
+            key="5"
+          >
+            <template #default="scope">
+              <div class="amount_box">
+                <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
+                <img :src="getCion(scope.row.coin)" alt="" />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="eth_amount"
+            v-if="coin != 'NFT'"
+            min-width="120"
+            :label="$t('user.balanceTabel3')"
+            align="center"
+            key="6"
+          >
+            <template #default="scope">
+              <div class="amount_box">
+                <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="chainType"
+            v-if="coin != 'NFT'"
+            :label="$t('user.network')"
+            min-width="100"
+            align="center"
+            key="7"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="syncStatus"
+            :label="$t('user.balanceTabel4')"
+            min-width="140"
+            align="center"
+            key="8"
+          >
+            <template #default="scope">
+              <div :class="['sync_status', scope.row.syncStatus]">
+                <span> {{ scope.row.syncStatus }}</span>
+                <el-tooltip
+                  v-if="
+                    scope.row.syncStatus == 'REJECTED' ||
+                    scope.row.syncStatus == 'FAIL'
+                  "
+                  popper-class="tips_box"
+                  effect="dark"
+                  placement="top"
+                >
+                  <template #content>
+                    <span v-if="scope.row.syncStatus == 'FAIL'">
+                      The chain is congested and the transfer failed, please try
+                      again later.
+                    </span>
+                    <span v-else-if="scope.row.syncStatus == 'REJECTED'">
+                      {{ scope.row.remark }}
+                    </span>
+                  </template>
+                  <img src="@/assets/svg/user/icon_info.svg" alt="" />
+                </el-tooltip>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="creation_time"
+            :label="$t('user.balanceTabel5')"
+            min-width="160"
+            align="center"
+            key="9"
+          >
+            <template #default="scope">
+              {{ timeFormat(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('user.balanceTabel6')"
+            align="center"
+            min-width="80"
+            key="10"
+            fixed="right"
+          >
+            <template #default="scope">
+              <div
+                class="view_btn"
                 v-if="
-                  scope.row.syncStatus == 'REJECTED' ||
-                  scope.row.syncStatus == 'FAIL'
+                  scope.row.syncStatus != 'REJECTED' &&
+                  scope.row.syncStatus != 'FAIL' &&
+                  scope.row.hash
                 "
-                popper-class="tips_box"
-                effect="dark"
-                placement="top"
+                @click="viewTxid(scope.row)"
               >
-                <template #content>
-                  <span v-if="scope.row.syncStatus == 'FAIL'">
-                    The chain is congested and the transfer failed, please try
-                    again later.
-                  </span>
-                  <span v-else-if="scope.row.syncStatus == 'REJECTED'">
-                    {{ scope.row.remark }}
-                  </span>
-                </template>
-                <img src="@/assets/svg/user/icon_info.svg" alt="" />
-              </el-tooltip>
+                {{ $t("user.view") }}
+              </div>
+              <div v-else>--</div>
+            </template>
+          </el-table-column>
+        </el-table>
+        
+      </template>
+      <template v-else> 
+        <el-table :data="exchangeData" class="table_container">
+          <el-table-column
+            prop="logType"
+            :label="$t('user.logType')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
+            <template #default="scope">
+              <span>{{  $t("user.exchange") }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="sellCoin"
+            :label="$t('user.from')"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="serviceFee"
+            min-width="100"
+            :label="$t('user.spent')"
+            align="center"
+            key="4"
+          >
+          <template #default="scope"> 
+            <div class="coin_label">
+              <span>{{scope.row.sellNum}}</span>
+              <img :src="getCion(scope.row.sellCoin)" alt="">
             </div>
           </template>
-        </el-table-column>
-        <el-table-column
-          prop="creation_time"
-          :label="$t('user.balanceTabel5')"
-          min-width="160"
-          align="center"
-          key="9"
-        >
+          </el-table-column>
+          <el-table-column
+            prop="buyCoin"
+            min-width="100"
+            :label="$t('user.to')"
+            align="center"
+            key="5"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="eth_amount"
+            min-width="120"
+            :label="$t('user.receivedCoin')"
+            align="center"
+            key="6"
+          >
+            <template #default="scope"> 
+              <div class="coin_label">
+                <span>{{scope.row.userNum}}</span>
+                <img :src="getCion(scope.row.buyCoin)" alt="">
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="chainType"
+            :label="$t('user.date')"
+            min-width="100"
+            align="center"
+            key="7"
+            show-overflow-tooltip
+          >
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
         </el-table-column>
-        <el-table-column
-          :label="$t('user.balanceTabel6')"
-          align="center"
-          min-width="80"
-          key="10"
-          fixed="right"
-        >
-          <template #default="scope">
-            <div
-              class="view_btn"
-              v-if="
-                scope.row.syncStatus != 'REJECTED' &&
-                scope.row.syncStatus != 'FAIL' &&
-                scope.row.hash
-              "
-              @click="viewTxid(scope.row)"
-            >
-              {{ $t("user.view") }}
-            </div>
-            <div v-else>--</div>
-          </template>
-        </el-table-column>
-      </el-table>
+        </el-table>
+      </template>
       <div class="pagination-box" v-if="count > size">
         <el-pagination
           v-model="page"
@@ -355,7 +430,7 @@
       </div>
     </el-dialog>
     <!-- 充值ETH USDT -->
-    <Recharge v-if="showRecharge" @closeDialogFun="handleClose()"></Recharge>
+    <Recharge v-if="showRecharge" :type="walletOperating" @closeDialogFun="handleClose()"></Recharge>
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
   </div>
@@ -372,6 +447,7 @@ import {
   getTheUserPoint,
   getTheUserBalance,
   getNftWithdrawalList,
+  getFlashExchangePage
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
@@ -394,7 +470,7 @@ export default {
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT"],
+      coinList: ["COIN", "NFT","CONVERT"],
       historyData: [],
       userPoints: null,
       userTickets: null,
@@ -414,6 +490,10 @@ export default {
       showOther: false,
       usdtBalance: {},
       balanceList: [],
+      walletOperating:1,// 1 充币；2 提币；3.闪兑；
+      exchangePage:1,
+      exchangeCount:0, 
+      exchangeData:[]
     };
   },
   computed: {
@@ -444,6 +524,10 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    showRechargeFunc(type){
+      this.showRecharge = true;
+      this.walletOperating=type;
+    },
     // 个人总参与票数
     async fetchUserTotalTicket() {
       const res = await getUserTotalTicket();
@@ -499,10 +583,25 @@ export default {
       if (this.coin == "NFT") {
         this.fetchNftWithdrawalList(false);
         return;
+      }else if (this.coin == "CONVERT") {
+        this.fetchConvertList(false);
+        return;
       }
 
       this.historyData = [];
       this.fetchHistory();
+    },
+    // 获取闪兑记录
+    async fetchConvertList(){
+      const res = await getFlashExchangePage({   
+        current: this.page,
+        size: this.size,
+      });
+
+      if (res && res.code == 200) {
+        this.exchangeData = res.data.records;
+        this.count = res.data.total;
+      }
     },
     // 充值提款历史
     async fetchHistory(isSearch = true) {
@@ -583,6 +682,9 @@ export default {
       if (this.coin == "NFT") {
         this.fetchNftWithdrawalList(false);
         return;
+      } else if(this.coin == "CONVERT"){
+        this.fetchConvertList(false)
+        return
       }
       this.fetchHistory(false);
     },
@@ -613,6 +715,7 @@ export default {
       this.fetchTheUserPoint();
       this.fetchTheUserBalance();
       this.fetchUserTotalTicket();
+      this.fetchConvertList();
     }
   },
 };

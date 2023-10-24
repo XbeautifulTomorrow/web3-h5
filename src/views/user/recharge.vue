@@ -16,18 +16,10 @@
       </div>
       <div class="recharge_box">
         <div class="operating_box">
-          <div
-            class="operating_btn"
-            :class="[walletOperating == 1 && 'active']"
-            @click="handleOperating(1)"
-          >
+          <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
             {{ t("user.deposit") }}
           </div>
-          <div
-            class="operating_btn"
-            :class="[walletOperating == 2 && 'active']"
-            @click="handleOperating(2)"
-          >
+          <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
             {{ t("user.withdraw") }}
           </div>
           <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
@@ -40,9 +32,7 @@
               <span>
                 {{
                   t("user.currency", {
-                    operating: `${
-                      walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
-                    }`,
+                    operating: `${walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"}`,
                   })
                 }}
               </span>
@@ -58,12 +48,7 @@
               <template #prefix>
                 <img :src="getCion(operatingCoin)" alt="" />
               </template>
-              <el-option
-                v-for="(item, index) in networkList"
-                :key="index"
-                :label="item.coinName"
-                :value="item.coinName"
-              />
+              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName" />
             </el-select>
             <div class="withdraw_item_error">
               {{ coinTips }}
@@ -74,9 +59,7 @@
               <span>
                 {{
                   t("user.network", {
-                    operating: `${
-                      walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
-                    }`,
+                    operating: `${walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"}`,
                   })
                 }}
               </span>
@@ -88,12 +71,7 @@
               placeholder="Select network"
               :popper-append-to-body="false"
             >
-              <el-option
-                v-for="(item, index) in networkDrop"
-                :key="index"
-                :label="item.chain"
-                :value="item.chain"
-              />
+              <el-option v-for="(item, index) in networkDrop" :key="index" :label="item.chain" :value="item.chain" />
             </el-select>
             <div class="withdraw_item_error">
               {{ networkTips }}
@@ -107,25 +85,11 @@
                 <div class="tips_text">
                   {{ t("user.sendHint", { coin: operatingCoin }) }}
                 </div>
-                <div
-                  class="img_box"
-                  v-if="screenWidth < 950"
-                  id="qrCodeDiv"
-                  ref="qrCodeDiv"
-                ></div>
-                <el-input
-                  class="wallet_addr_input"
-                  readonly="readonly"
-                  v-model="receiverAddr"
-                  :placeholder="t('user.enterAddrHint')"
-                >
+                <div class="img_box" v-if="screenWidth < 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
+                <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr" :placeholder="t('user.enterAddrHint')">
                   <template #append>
                     <div class="copy_btn" @click="onCopy(receiverAddr)">
-                      <img
-                        class="not-select"
-                        src="@/assets/svg/user/icon_copy.svg"
-                        alt=""
-                      />
+                      <img class="not-select" src="@/assets/svg/user/icon_copy.svg" alt="" />
                     </div>
                   </template>
                 </el-input>
@@ -138,33 +102,18 @@
                   }}</span>
                 </div>
               </div>
-              <div
-                class="img_box"
-                v-if="screenWidth > 950"
-                id="qrCodeDiv"
-                ref="qrCodeDiv"
-              ></div>
+              <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
             </div>
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
             <div class="price_convert">
-              <el-input
-                class="price_input"
-                @focus="isConvert = true"
-                v-model="walletAmount"
-                type="number"
-              >
+              <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
                 <template #prefix>
                   <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                 </template>
               </el-input>
               <div class="convert_interval">~</div>
-              <el-input
-                class="price_input"
-                @focus="isConvert = false"
-                v-model="ethNum"
-                type="number"
-              >
+              <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
                   <img :src="getCion(operatingCoin)" alt="" />
                 </template>
@@ -198,35 +147,31 @@
               </div>
             </div>
             <div class="withdraw_item">
-              <div class="withdraw_item_lable">
-                <span>{{ t("user.withdrawalAmount") }}</span>
-                <span class="required">*</span>
+              <div class="withdraw_item_lable exchange_item_lable">
+                <p>
+                  <span>{{ t("user.withdrawalAmount") }}</span>
+                  <span class="required">*</span>
+                </p>
+                <p>可用 {{ getCoinBalance(operatingCoin).toFixed(4) + " " + operatingCoin }}</p>
               </div>
               <div class="withdraw_convert">
                 <div class="price_convert">
-                  <el-input
-                    class="price_input"
-                    @focus="isConvert = true"
-                    @blur="onVerify('amount')"
-                    v-model="walletAmount"
-                    type="number"
-                  >
+                  <el-input class="price_input" @blur="onVerify('amount')" v-model="walletAmount" type="number">
+                    <template #prefix>
+                      <img :src="getCion(operatingCoin)" alt="" />
+                    </template>
+                  </el-input>
+                  <!-- <el-input class="price_input" @focus="isConvert = true" @blur="onVerify('amount')" v-model="walletAmount" type="number">
                     <template #prefix>
                       <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
                     </template>
                   </el-input>
                   <div class="convert_interval">~</div>
-                  <el-input
-                    class="price_input"
-                    @focus="isConvert = false"
-                    @blur="onVerify('amount')"
-                    v-model="ethNum"
-                    type="number"
-                  >
+                  <el-input class="price_input" @focus="isConvert = false" @blur="onVerify('amount')" v-model="ethNum" type="number">
                     <template #prefix>
                       <img :src="getCion(operatingCoin)" alt="" />
                     </template>
-                  </el-input>
+                  </el-input> -->
                 </div>
               </div>
               <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
@@ -234,24 +179,15 @@
                   {{ t("user.fee") }}
                 </span>
                 <span class="fee_val">
-                  {{
-                    `${network?.newGas || network?.gas} ${
-                      operatingCoin || "--"
-                    }`
-                  }}
+                  {{ `${network?.newGas || network?.gas} ${operatingCoin || "--"}` }}
                 </span>
-                <span class="free_text" v-if="setting.freeFeeStatus">{{
-                  t("recharge.free")
-                }}</span>
+                <span class="free_text" v-if="setting.freeFeeStatus">{{ t("recharge.free") }}</span>
               </div>
               <div class="withdraw_item_error">
                 {{ tipsText }}
               </div>
             </div>
-            <div
-              :class="['withdraw_btn', loading && 'loading']"
-              @click="onWithdrawalBalance()"
-            >
+            <div :class="['withdraw_btn', loading && 'loading']" @click="onWithdrawalBalance()">
               <img v-if="loading" src="@/assets/img/user/loading.png" alt="" />
               <span>{{ t("user.requestBtn") }}</span>
             </div>
@@ -266,7 +202,7 @@
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p><span> 消耗 </span> <span class="required">*</span></p>
-                  <p>可用 {{ getCoinBalance.toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}</p>
+                  <p>可用 {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}</p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
@@ -292,7 +228,7 @@
                 </div>
                 <div class="withdraw_item_error">
                   <p>{{ exchangeAmountTips }}</p>
-                  <p class="max" @click="exchangeInfo.exchangeFromAmount = Math.floor(getCoinBalance * 10000) / 10000">MAX</p>
+                  <p class="max" @click="maxFunc">MAX</p>
                 </div>
               </div>
             </div>
@@ -317,7 +253,12 @@
                     <img :src="getCion('USDT')" alt="" />
                     <span>USDT</span>
                   </div>
-                  <el-input v-model="exchangeToAmount" readonly placeholder="0.0000"></el-input>
+                  <el-input
+                    type="number"
+                    v-model="exchangeInfo.exchangeToAmount"
+                    @input="exchangeToAmountFunc"
+                    placeholder="0.0000"
+                  ></el-input>
                 </div>
               </div>
             </div>
@@ -343,7 +284,6 @@
             </div>
 
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
-              <img v-if="loading" src="@/assets/img/user/loading.png" alt="" />
               <span>{{ $t("EXCHANGE") }}</span>
             </div>
           </div>
@@ -358,7 +298,6 @@
     </el-dialog>
     <rechargeExchangeResult
       :exchangeInfo="exchangeInfo"
-      :exchangeToAmount="exchangeToAmount"
       v-if="pageType == 'exchangeResult'"
       @closeDialogFun="closeExchangeDialogFun"
     ></rechargeExchangeResult>
@@ -381,13 +320,7 @@ import {
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import {
-  onCopy,
-  accurateDecimal,
-  timeFormat,
-  isValidEthAddress,
-  handleWindowResize,
-} from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./rechargeExchangeResult.vue";
 export default {
@@ -395,10 +328,17 @@ export default {
   components: {
     rechargeExchangeResult,
   },
+  props: {
+    type: {
+      type: Number,
+      default: 1,
+      required: false,
+    },
+  },
   data() {
     return {
       showRecharge: true,
-      walletOperating: 1, // 1 充币；2 提币；
+      walletOperating: 1, // 1 充币；2 提币；3.闪兑；
       walletNetwork: null, // 网络
       networkList: [],
       receiverAddr: null, // 收款地址
@@ -446,21 +386,6 @@ export default {
     assetLists() {
       const headerStore = useHeaderStore();
       return headerStore.assetLists;
-    },
-    exchangeToAmount() {
-      let exchangeToAmount = null;
-      if (this.exchangeInfo.exchangeFromAmount) {
-        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
-      }
-      return exchangeToAmount;
-    },
-    getCoinBalance() {
-      const res = this.assetLists.filter((x) => x.coinName === this.exchangeInfo.exchangeFromCoin);
-      if (res?.length > 0) {
-        return res[0]?.balance;
-      } else {
-        return 0;
-      }
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -510,11 +435,7 @@ export default {
           return;
         }
 
-        this.ethNum =
-          accurateDecimal(
-            new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
-            8
-          ) || 0;
+        this.ethNum = accurateDecimal(new bigNumber(newV || 0).multipliedBy(exchangeRate || 0), 8) || 0;
       }, 300);
     },
     ethNum(newV) {
@@ -532,11 +453,7 @@ export default {
           return;
         }
 
-        this.walletAmount =
-          accurateDecimal(
-            new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
-            8
-          ) || 0;
+        this.walletAmount = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8) || 0;
       }, 300);
     },
   },
@@ -546,6 +463,45 @@ export default {
     accurateDecimal: accurateDecimal,
     timeFormat: timeFormat,
     t: t,
+
+    getCoinBalance(coin) {
+      const res = this.assetLists.filter((x) => x.coinName === coin);
+      if (res?.length > 0) {
+        return res[0]?.balance;
+      } else {
+        return 0;
+      }
+    },
+    maxFunc() {
+      this.exchangeInfo.exchangeFromAmount = Math.floor(this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000) / 10000;
+      this.exchangeFromAmountFunc();
+    },
+    exchangeFromAmountFunc() {
+      let exchangeToAmount = null;
+      if (this.exchangeInfo.exchangeFromAmount) {
+        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
+      }
+      this.exchangeInfo.exchangeToAmount = exchangeToAmount;
+    },
+    exchangeToAmountFunc() {
+      let exchangeFromAmount = null;
+      if (this.exchangeInfo.exchangeToAmount) {
+        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
+      }
+      this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
+    },
+    onVerifyExchange(type) {
+      this.exchangeFromAmountFunc();
+      if (type == "amount") {
+        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+          this.exchangeAmountTips = t("user.enterError6");
+        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
+          this.exchangeAmountTips = t("user.enterError4");
+        } else {
+          this.exchangeAmountTips = null;
+        }
+      }
+    },
 
     // exchange汇率
     async fetchExchangeRate() {
@@ -559,6 +515,7 @@ export default {
         } else {
           this.exchangeInfo.exchangeRate = 1 / res.data;
         }
+        this.exchangeFromAmountFunc();
       }
     },
 
@@ -577,17 +534,18 @@ export default {
       this.onVerifyExchange("amount");
     },
 
-    closeExchangeDialogFun(){
-       this.pageType = '';
-       this.exchangeInfo.exchangeFromAmount = null;
+    closeExchangeDialogFun() {
+      this.pageType = "";
+      this.exchangeInfo.exchangeFromAmount = null;
     },
 
     exchangeFunc() {
       this.onVerifyExchange("amount");
-      if (!this.exchangeAmountTips) {
+      if (!this.exchangeAmountTips && this.exchangeInfo.exchangeRate > 0) {
         this.pageType = "exchangeResult";
       }
     },
+
     handleOperating(event) {
       this.walletOperating = event;
       this.walletAmount = null;
@@ -678,27 +636,9 @@ export default {
         this.walletAmount = 0;
       }
     },
-    onVerifyExchange(type) {
-      if (type == "amount") {
-        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
-          this.exchangeAmountTips = t("user.enterError6");
-        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance) {
-          this.exchangeAmountTips = t("user.enterError4");
-        } else {
-          this.exchangeAmountTips = null;
-        }
-      }
-    },
     // 验证
     onVerify(type) {
-      const {
-        operatingCoin,
-        walletNetwork,
-        setting,
-        walletAmount,
-        walletAddr,
-        network,
-      } = this;
+      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr, network } = this;
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
@@ -752,10 +692,7 @@ export default {
           this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;
-        } else if (
-          !setting.freeFeeStatus &&
-          Number(network?.gas) > Number(this.walletAmount)
-        ) {
+        } else if (!setting.freeFeeStatus && Number(network?.gas) > Number(this.walletAmount)) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;
           return;
@@ -767,13 +704,7 @@ export default {
     },
     // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
-      const {
-        walletAmount,
-        walletAddr,
-        operatingCoin,
-        walletNetwork,
-        loading,
-      } = this;
+      const { walletAmount, walletAddr, operatingCoin, walletNetwork, loading } = this;
       if (loading) return;
 
       this.onVerify("submit");
@@ -818,27 +749,28 @@ export default {
       this.$emit("closeDialogFun");
     },
     createQrcode() {
-      //清除
-      document.getElementById("qrCodeDiv").innerHTML = "";
-
-      if (this.screenWidth > 950) {
-        new QRCode(this.$refs.qrCodeDiv, {
-          text: this.receiverAddr,
-          width: 126,
-          height: 126,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H,
-        });
-      } else {
-        new QRCode(this.$refs.qrCodeDiv, {
-          text: this.receiverAddr,
-          width: 72,
-          height: 72,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H,
-        });
+      if (document.getElementById("qrCodeDiv")) {
+        //清除
+        document.getElementById("qrCodeDiv").innerHTML = "";
+        if (this.screenWidth > 950) {
+          new QRCode(this.$refs.qrCodeDiv, {
+            text: this.receiverAddr,
+            width: 126,
+            height: 126,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+        } else {
+          new QRCode(this.$refs.qrCodeDiv, {
+            text: this.receiverAddr,
+            width: 72,
+            height: 72,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+        }
       }
     },
     // 设置
@@ -860,7 +792,6 @@ export default {
   },
   mounted() {
     this.fetchReceivingAddr();
-
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
@@ -869,6 +800,9 @@ export default {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
     });
+    if (typeof this.type === "number") {
+      this.handleOperating(this.type);
+    }
   },
   created() {
     this.renewBalance();

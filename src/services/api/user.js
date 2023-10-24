@@ -36,6 +36,8 @@ const getWithdrawalChain = (params) => apiService.get("mystery-web-user/withdraw
 
 const getWithdrawalHistory = (params) => apiService.get("mystery-web-user/withdrawal/pageList", params); // 充值提款历史
 
+const getFlashExchangePage = (params) => apiService.get("mystery-web-user/withdrawal/flashExchangePage", params); // 闪兑历史
+
 const rechargeByHash = (params) => apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
 const statisticsClick = (params) => apiService.get("mystery-web-user/user/invite", params); // 统计点击次数
@@ -76,6 +78,7 @@ export {
   withdrawalBalance,
   withdrawalNft,
   getWithdrawalHistory,
+  getFlashExchangePage,
   rechargeByHash,
   statisticsClick,
   getTheUserPoint,

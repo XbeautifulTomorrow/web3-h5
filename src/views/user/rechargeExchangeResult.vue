@@ -21,7 +21,7 @@
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
             <p class="txt">获得</p>
-            <p class="val">{{ exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
+            <p class="val">{{ exchangeInfo.exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
           </div>
         </div>
         <div class="dialog_exchange_info">
@@ -56,7 +56,7 @@
           <div class="item_info">
             <p class="label">获得</p>
             <p class="info">
-              <span>{{ exchangeToAmount }}</span
+              <span>{{ exchangeInfo.exchangeToAmount }}</span
               ><img :src="getCion(exchangeInfo.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
@@ -96,10 +96,6 @@ export default {
         return {};
       },
     },
-    exchangeToAmount: {
-      type: [Number, String],
-      default: 0,
-    },
   },
   data() {
     return {
@@ -135,7 +131,7 @@ export default {
       });
       if (res?.code == 200) {
         this.$parent.renewBalance();
-       this.exchangeTime = res.localDateTime;
+        this.exchangeTime = res.localDateTime;
         this.pageType = 2;
       }
     },

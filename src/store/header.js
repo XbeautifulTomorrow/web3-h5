@@ -17,6 +17,7 @@ export const useHeaderStore = defineStore("headerStore", {
       myTreasureDrawStatus: false,
     },
     walletAddr: "",
+    userRechargeShowList: [],
   }),
   persist: {
     enabled: true,
@@ -27,7 +28,7 @@ export const useHeaderStore = defineStore("headerStore", {
       const res = await getTheUserBalance(params);
       if (res && res.data) {
         let balanceVal = 0;
-        res.data.forEach((element) => {
+        res.data.balanceList.forEach((element) => {
           if (element.coinName == "USDT") {
             this.usdBalance = element.balance;
           }
@@ -35,7 +36,21 @@ export const useHeaderStore = defineStore("headerStore", {
         });
 
         this.balance = balanceVal;
-        this.assetLists = res.data;
+        this.assetLists = res.data.balanceList;
+
+        this.userRechargeShowList = res.data.userRechargeShowList;
+        let totalPrice = this.userRechargeShowList.reduce((sum, item) => sum + item.price, 0);
+        if (totalPrice > 0) {
+          try {
+            // eslint-disable-next-line no-undef
+            dataLayer.push({
+              event: "top_up_status",
+              price: totalPrice,
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        }
       }
     },
     // 积分余额

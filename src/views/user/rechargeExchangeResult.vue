@@ -311,4 +311,55 @@ export default {
   font-size: 1.25rem;
   color: #a9a4b4;
 }
+@media screen and (max-width: 950px) {
+  .close_btn {
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  .dialog_title {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    height: auto;
+    margin-bottom: 0.75rem;
+  }
+  .content {
+    margin: 0 1rem;
+    .dialog_exchange_box {
+      margin-bottom: 1rem;
+    }
+    .dialog_sub_exchange {
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      img {
+        width: 4rem;
+        margin-bottom: 0.25rem;
+      }
+      .txt {
+        font-size: 0.75rem;
+      }
+      .val {
+        font-size: 1rem;
+        margin-top: 0.25rem;
+      }
+    }
+    .item_info {
+      margin-bottom: 0.5rem;
+    }
+    .dialog_exchange_info {
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+    }
+    .handle_btn {
+      height: 2.5rem;
+      line-height: 2.5rem;
+    }
+    .status_icon {
+      width: 4rem;
+    }
+  }
+}
 </style>

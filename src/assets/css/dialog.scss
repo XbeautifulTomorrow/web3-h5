@@ -328,6 +328,10 @@
 }
 
 @media (max-width: 950px) {
+  &.dialog_box {
+    width: 94% !important;
+  }
+
   .public-dialog {
     &.result-loading-dialog {
       width: 20.4375rem;
@@ -362,7 +366,6 @@
         margin-bottom: 0;
       }
     }
-
     &.mystery-dialog {
       width: 20.4375rem;
 

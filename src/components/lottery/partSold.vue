@@ -25,7 +25,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName}  ${item.tokenId?('# '+item.tokenId):''}`"
+              :content="`${item.seriesName}  ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
               :key="`portrait-${index}`"
@@ -47,7 +47,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName} ${item.tokenId?('# '+item.tokenId):''}`"
+              :content="`${item.seriesName} ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="failList.includes(item.id)"
               :key="`portrait-${index}`"
@@ -72,7 +72,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName}  ${item.tokenId?('# '+item.tokenId):''}`"
+              :content="`${item.seriesName}  ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="!chooseIds.includes(item.id) && !failList.includes(item.id)"
               :key="`portrait-${index}`"

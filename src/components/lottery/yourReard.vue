@@ -73,8 +73,9 @@ const unboxAgainFunc = () => {
 </script>
 <style scoped lang="scss">
 .public-dialog-club {
-  font-size: 16px;
+  font-size: 1.375rem;
   color: #4473eb;
+  font-weight:bold;
 }
 .public-dialog-img {
   position: relative;

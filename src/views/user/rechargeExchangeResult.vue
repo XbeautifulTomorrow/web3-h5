@@ -62,8 +62,7 @@
           <div class="item_info">
             <p class="label">获得</p>
             <p class="info">
-              <span>{{ exchangeInfo.exchangeToAmount }}</span
-              ><img :src="getCion(exchangeInfo.exchangeToCoin)" class="coin" alt="" />
+              <span v-priceFormat:4="exchangeInfo.exchangeToAmount"></span><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
           <div class="item_info">
@@ -73,12 +72,12 @@
           <div class="item_info">
             <p class="label">兑换比例</p>
             <p class="info">
-              预估值 {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+              {{ `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
             </p>
           </div>
           <div class="item_info">
             <p class="label">兑换时间</p>
-            <p class="info">{{ timeForStr(exchangeTime) }}</p>
+            <p class="info">{{ timeForStr(result?.exchangeTime) }}</p>
           </div>
         </div>
         <div class="handle_btn" @click="handleClose">返回</div>
@@ -109,7 +108,12 @@ export default {
       pageType: 1, //1兑换前；2兑换后结果
       timer: null,
       seconds: 10,
-      exchangeTime: null,
+      result: {
+        exchangeToAmount: "",
+        exchangeToCoin: "",
+        exchangeRate: "",
+        exchangeTime: null,
+      },
     };
   },
   computed: {
@@ -120,7 +124,7 @@ export default {
     timeForStr: timeForStr,
     // 关闭创建弹窗
     handleClose(e) {
-      this.$emit("closeDialogFun",e);
+      this.$emit("closeDialogFun", e);
     },
     getCion(coin) {
       return this.$parent.getCion(coin);
@@ -137,7 +141,11 @@ export default {
       });
       if (res?.code == 200) {
         this.$parent.renewBalance();
-        this.exchangeTime = res.localDateTime;
+        this.result.exchangeToAmount = res.data.amount;
+        this.result.exchangeToCoin = res.data.coin;
+        this.result.exchangeRate = res.data.exchangeRate;
+        this.result.exchangeTime = res.localDateTime;
+
         this.pageType = 2;
       }
     },

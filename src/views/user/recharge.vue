@@ -215,7 +215,12 @@
                         <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'&&item.isExchange" />
+                        <el-option
+                          :key="index"
+                          :label="item.coinName"
+                          :value="item.coinName"
+                          v-if="item.coinName != 'USDT' && item.isExchange"
+                        />
                       </template>
                     </el-select>
                   </div>
@@ -245,7 +250,12 @@
                         <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'&&item.isExchange" />
+                        <el-option
+                          :key="index"
+                          :label="item.coinName"
+                          :value="item.coinName"
+                          v-if="item.coinName != 'USDT' && item.isExchange"
+                        />
                       </template>
                     </el-select>
                   </div>
@@ -466,7 +476,7 @@ export default {
     t: t,
 
     getCoinBalance(coin) {
-      coin=coin==='WETH'?'ETH':coin;
+      coin = coin === "WETH" ? "ETH" : coin;
       const res = this.assetLists.filter((x) => x.coinName === coin);
       if (res?.length > 0) {
         return res[0]?.balance;
@@ -487,16 +497,14 @@ export default {
     exchangeFromAmountFunc() {
       let exchangeToAmount = null;
       if (this.exchangeInfo.exchangeFromAmount) {
-        const down = this.getExchangeDown(this.exchangeInfo.exchangeFromCoin);
-        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * (1 - down) * 10000) / 10000;
+        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
       }
       this.exchangeInfo.exchangeToAmount = exchangeToAmount;
     },
     exchangeToAmountFunc() {
       let exchangeFromAmount = null;
       if (this.exchangeInfo.exchangeToAmount) {
-        const down = this.getExchangeDown(this.exchangeInfo.exchangeFromCoin);
-        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * (1 + down) * 10000) / 10000;
+        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
     },
@@ -520,10 +528,11 @@ export default {
         coinName: coin,
       });
       if (res && res.code == 200) {
+        const down = this.getExchangeDown(this.exchangeInfo.exchangeToCoin);
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
-          this.exchangeInfo.exchangeRate = res.data;
+          this.exchangeInfo.exchangeRate = res.data * (1 + down);
         } else {
-          this.exchangeInfo.exchangeRate = 1 / res.data;
+          this.exchangeInfo.exchangeRate = (1 / res.data) * (1 - down);
         }
         if (type != 1) {
           this.exchangeFromAmountFunc();
@@ -548,8 +557,7 @@ export default {
 
     closeExchangeDialogFun(data) {
       this.pageType = "";
-      console.log(data,'-------------')
-      if(data){
+      if (data) {
         this.exchangeInfo.exchangeFromAmount = null;
         this.exchangeInfo.exchangeToAmount = null;
       }

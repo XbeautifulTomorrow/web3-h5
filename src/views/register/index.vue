@@ -1,8 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+    <el-dialog
+      v-model="visible"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      width="43.75rem"
+      :before-close="closeDialogFun"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
           <el-icon>
@@ -12,27 +20,62 @@
       </template>
       <div class="public-dialog-content form-content" v-if="!isLogin">
         <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
-        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formRegister" :rules="rules"
-          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+        <el-form
+          ref="ruleFormRef"
+          label-position="top"
+          label-width="max-content"
+          :model="formRegister"
+          :rules="rules"
+          :hide-required-asterisk="true"
+          :status-icon="true"
+          class="public-form"
+        >
           <el-form-item :label="$t('login.email')" prop="email">
-            <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
+            <el-input
+              v-model="formRegister.email"
+              class="public-input"
+              :placeholder="$t('login.emailHint')"
+            />
           </el-form-item>
           <el-form-item :label="$t('login.password')" prop="passWord">
-            <el-input v-model="formRegister.passWord" class="public-input" :placeholder="$t('login.passwordHint')"
-              type="password" show-password />
+            <el-input
+              v-model="formRegister.passWord"
+              class="public-input"
+              :placeholder="$t('login.passwordHint')"
+              type="password"
+              show-password
+            />
           </el-form-item>
           <el-form-item :label="$t('login.confirmPwd')" prop="confirm">
-            <el-input v-model="formRegister.confirm" class="public-input" :placeholder="$t('login.confirmPwdHint')"
-              type="password" show-password />
+            <el-input
+              v-model="formRegister.confirm"
+              class="public-input"
+              :placeholder="$t('login.confirmPwdHint')"
+              type="password"
+              show-password
+            />
           </el-form-item>
-          <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
-            <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
+          <el-form-item
+            class="register-captcha"
+            :label="$t('login.captcha')"
+            prop="captcha"
+          >
+            <el-input
+              v-model="formRegister.captcha"
+              class="public-input"
+              :placeholder="$t('login.captchaHint')"
+            >
               <template #suffix>
                 <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
 
-                <el-button type="warning" v-loading="loading" @click.stop="sendVerify(ruleFormRef)">
-                  {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button>
+                <el-button
+                  type="warning"
+                  v-loading="loading"
+                  @click.stop="sendVerify(ruleFormRef)"
+                >
+                  {{ time < 60 ? `${time}s` : $t("login.send") }}
+                </el-button>
               </template>
             </el-input>
           </el-form-item>
@@ -43,40 +86,69 @@
           />
         </el-form-item> -->
         </el-form>
-        <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
+        <div class="tips_btn" @click="showDialog()">
+          {{ $t("login.notReceived") }}
+        </div>
         <div class="form-link">
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun">
-              <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
+              <span
+                v-show="showRemember"
+                class="form-rember-rectangle-fill"
+              ></span>
             </span>
             <span class="form-rember-text">
               <span>{{ $t("login.termsText") }}</span>
-              <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
+              <span class="user_agreement" @click="onOpenUrl()">{{
+                $t("login.userAgreement")
+              }}</span>
             </span>
           </div>
         </div>
-        <el-button v-if="!showRemember" class="public-button form-button disabled">
+        <el-button
+          v-if="!showRemember"
+          class="public-button form-button disabled"
+        >
           {{ $t("login.completeUpper") }}
         </el-button>
-        <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
+        <el-button
+          v-else
+          class="public-button form-button"
+          @click="registerFun(ruleFormRef)"
+        >
           {{ $t("login.completeUpper") }}
         </el-button>
       </div>
       <div class="public-dialog-content form-content" v-else>
         <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
         <p class="public-dialog-description">
-          Using two-factor authentication is highly recommended because it protects your account with both your password
-          and
-          your phone.</p>
-        <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
+          Using two-factor authentication is highly recommended because it
+          protects your account with both your password and your phone.
+        </p>
+        <el-button
+          class="public-button form-button"
+          @click="emit('changeTypeFun', 'auth')"
+        >
           {{ $t("user.confirmBtn") }}
         </el-button>
-        <el-button class="public-button form-button cancel-button" @click="emit('changeTypeFun', 'modify')">
+        <el-button
+          class="public-button form-button cancel-button"
+          @click="emit('changeTypeFun', 'modify')"
+        >
           {{ $t("common.skip") }}
         </el-button>
       </div>
-      <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
-      <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
+      <errorTips
+        v-if="showErr"
+        @changeTypeFun="changeTypePage"
+        @closeFun="handleClose()"
+      ></errorTips>
+      <imgVerify
+        ref="childComp"
+        v-if="showVerify"
+        @changeTypeFun="getCaptchaApi"
+        @closeFun="handleClose()"
+      ></imgVerify>
     </el-dialog>
   </div>
 </template>
@@ -90,7 +162,7 @@ import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
 import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 // const router = useRouter();
@@ -111,12 +183,12 @@ const formRegister = reactive({
   confirm: "",
   captcha: "",
   inviteCode: "",
-  code: ""
+  code: "",
 });
 const validatePass = (rule, value, callback) => {
-  const upperStr = /^(?=.*[A-Z]).{8,}$/
-  const lowerStr = /^(?=.*[a-z]).{8,}$/
-  const numStr = /^(?=.*[0-9]).{8,}$/
+  const upperStr = /^(?=.*[A-Z]).{8,}$/;
+  const lowerStr = /^(?=.*[a-z]).{8,}$/;
+  const numStr = /^(?=.*[0-9]).{8,}$/;
 
   if (value === "") {
     callback(new Error(t("login.passwordErrText1")));
@@ -168,8 +240,8 @@ const rules = reactive({
 });
 
 const onOpenUrl = () => {
-  openUrl("/privacy-policy")
-}
+  openUrl("/privacy-policy");
+};
 
 onBeforeUnmount(() => {
   clearTimerFun();
@@ -181,7 +253,7 @@ const showRememberFun = () => {
   showRemember.value = !showRemember.value;
 };
 const changeTypePage = () => {
-  emit("changeTypeFun", "login")
+  emit("changeTypeFun", "login");
 };
 
 const sendVerify = async (formEl) => {
@@ -203,17 +275,17 @@ const showDialog = () => {
       type: "error",
     });
 
-    return
+    return;
   }
 
   setSessionStore("email", formRegister.email);
   showErr.value = true;
-}
+};
 
 const handleClose = () => {
   showErr.value = false;
   showVerify.value = false;
-}
+};
 
 const clearTimerFun = () => {
   clearInterval(timer);
@@ -227,7 +299,7 @@ const getCaptchaApi = async (code) => {
       const res = await getCaptcha({
         type: "register",
         email: formRegister.email,
-        code: code
+        code: code,
       });
       if (res && res.code === 200) {
         timer = setInterval(() => {
@@ -276,6 +348,17 @@ const registerFun = async (formEl) => {
 
         userStore.setLogin(res.data);
         userStore.setReg(res.data);
+        
+        try {
+          // eslint-disable-next-line no-undef
+          dataLayer.push({
+            event: "registration",
+            ecommerce: "ok",
+          });
+        } catch (err) {
+          console.log(err);
+        }
+
         isLogin.value = true;
       }
     } else {
@@ -353,7 +436,7 @@ const registerFun = async (formEl) => {
   margin: 2.5rem 0 0;
 }
 
-.form-button+.form-button {
+.form-button + .form-button {
   margin-top: 1.5rem !important;
   margin-left: 0 !important;
 }
@@ -378,7 +461,6 @@ const registerFun = async (formEl) => {
 }
 
 @media (max-width: 950px) {
-
   .form-rember-rectangle {
     width: 0.75rem;
     height: 0.75rem;

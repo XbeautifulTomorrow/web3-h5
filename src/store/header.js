@@ -27,14 +27,16 @@ export const useHeaderStore = defineStore("headerStore", {
         this.balance = res.data.balanceList[0].balance;
         this.userRechargeShowList = res.data.userRechargeShowList;
         let totalPrice = this.userRechargeShowList.reduce((sum, item) => sum + item.price, 0);
-        try {
-          // eslint-disable-next-line no-undef
-          dataLayer.push({
-            event: "top_up_status",
-            price: totalPrice,
-          });
-        } catch (err) {
-          console.log(err);
+        if (totalPrice > 0) {
+          try {
+            // eslint-disable-next-line no-undef
+            dataLayer.push({
+              event: "top_up_status",
+              price: totalPrice,
+            });
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
     },

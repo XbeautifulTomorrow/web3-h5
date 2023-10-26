@@ -529,7 +529,7 @@ export default {
         this.exchangeAmountTips = null;
       }
       if (type) {
-        // this.exchangeFromAmountFunc();
+        this.exchangeFromAmountFunc();
       }
     },
 
@@ -562,7 +562,7 @@ export default {
         this.exchangeInfo.exchangeToAmount,
         this.exchangeInfo.exchangeFromAmount,
       ];
-      this.fetchExchangeRate();
+      this.fetchExchangeRate(1);
       this.onVerifyExchange();
     },
 

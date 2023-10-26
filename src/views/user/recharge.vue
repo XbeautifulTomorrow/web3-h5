@@ -201,8 +201,13 @@
             <div class="withdraw_relevant exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
-                  <p><span> 消耗 </span> <span class="required">*</span></p>
-                  <p>可用 {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}</p>
+                  <p>
+                    <span> {{ t("user.from") }} </span> <span class="required">*</span>
+                  </p>
+                  <p>
+                    {{ t("user.available") }}
+                    {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}
+                  </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
@@ -241,7 +246,9 @@
             <div class="withdraw_relevant exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
-                  <p><span> 获得 </span> <span class="required">*</span></p>
+                  <p>
+                    <span> {{ t("user.to") }} </span> <span class="required">*</span>
+                  </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">

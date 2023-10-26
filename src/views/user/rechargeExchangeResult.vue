@@ -15,72 +15,73 @@
     </div>
     <div class="content">
       <div v-if="pageType == 1">
-        <div class="dialog_title">确认兑换</div>
+        <div class="dialog_title">{{ $t("user.confirmConversion") }}</div>
         <div class="dialog_exchange_box">
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
-            <p class="txt">消耗</p>
+            <p class="txt">{{ $t("user.from") }}</p>
             <p class="val">{{ exchangeInfo.exchangeFromAmount }} {{ exchangeInfo.exchangeFromCoin }}</p>
           </div>
           <div class="exchange_icon"><img src="@/assets/svg/user/icon_swap2.svg" /></div>
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
-            <p class="txt">获得</p>
+            <p class="txt">{{ $t("user.to") }}</p>
             <p class="val">{{ exchangeInfo.exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
           </div>
         </div>
         <div class="dialog_exchange_info">
           <div class="item_info">
-            <p class="label">手续费</p>
-            <p class="info_tag">0 手续费</p>
+            <p class="label">{{ $t("user.transactionFee") }}</p>
+            <p class="info_tag">{{ $t("user.zeroFee") }}</p>
           </div>
           <div class="item_info">
-            <p class="label">兑换比例</p>
+            <p class="label">{{ $t("user.exchangeRate") }}</p>
             <p class="info">
-              预估值 {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+              {{ $t("user.estimate") }}
+              {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
             </p>
           </div>
         </div>
         <div class="tip_box">
-          <p class="tip" v-show="seconds < 1"><img src="@/assets/svg/user/warning.svg" />该报价已过期，请重新获取报价。</p>
+          <p class="tip" v-show="seconds < 1"><img src="@/assets/svg/user/warning.svg" />{{ $t("user.freshExchangeRate") }}</p>
         </div>
 
-        <div class="handle_btn" @click="exchangeSubmit" v-if="seconds > 0">兑换（{{ seconds }}s）</div>
-        <div class="handle_btn dark_btn" v-else @click="refreshFunc">更新报价</div>
+        <div class="handle_btn" @click="exchangeSubmit" v-if="seconds > 0">{{ $t("user.exchange") }}（{{ seconds }}s）</div>
+        <div class="handle_btn dark_btn" v-else @click="refreshFunc">{{ $t("user.freshPrice") }}</div>
       </div>
       <div v-else>
         <div class="dialog_title">Conversion Successful</div>
         <img src="@/assets/svg/user/success.svg" class="status_icon" />
         <div class="dialog_exchange_info">
           <div class="item_info">
-            <p class="label">消耗</p>
+            <p class="label">{{ $t("user.from") }}</p>
             <p class="info">
               <span>{{ exchangeInfo.exchangeFromAmount }}</span
               ><img :src="getCion(exchangeInfo.exchangeFromCoin)" class="coin" alt="" />
             </p>
           </div>
           <div class="item_info">
-            <p class="label">获得</p>
+            <p class="label">{{ $t("user.to") }}</p>
             <p class="info">
               <span v-priceFormat:4="exchangeInfo.exchangeToAmount"></span><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
           <div class="item_info">
-            <p class="label">手续费</p>
-            <p class="info_tag">0 手续费</p>
+            <p class="label">{{ $t("user.transactionFee") }}</p>
+            <p class="info_tag">{{ $t("user.zeroFee") }}</p>
           </div>
           <div class="item_info">
-            <p class="label">兑换比例</p>
+            <p class="label">{{ $t("user.exchangeRate") }}</p>
             <p class="info">
               {{ `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
             </p>
           </div>
           <div class="item_info">
-            <p class="label">兑换时间</p>
+            <p class="label">{{ $t("user.convertedTime") }}</p>
             <p class="info">{{ timeForStr(result?.exchangeTime) }}</p>
           </div>
         </div>
-        <div class="handle_btn" @click="handleClose">返回</div>
+        <div class="handle_btn" @click="handleClose">{{ $t("user.back") }}</div>
       </div>
     </div>
   </el-dialog>

@@ -309,6 +309,7 @@
     "enterError4": "餘額不足",
     "enterError5": "提款金額不足以支付提款費用",
     "enterError6": "請輸入兌換金額",
+    "enterError7": "最低閃兌額度為{data}",
     "submitHint": "申請成功，請稍後查看系統轉賬",
     "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "庫存",
@@ -471,7 +472,9 @@
     "freshExchangeRate": "該報價已過期，請重新獲取報價。",
     "freshPrice": "更新報價",
     "convertedTime": "兌換時間",
-    "back": "返回"
+    "back": "返回",
+    "depositNotify1": "You have successfully deposited {oldPrice} ETH and automatically converted to {price} USDT.",
+    "depositNotify2": "You have successfully deposited {price} USDT."
   },
   "recharge": {
     "notDeposit": "{ name }不支持",

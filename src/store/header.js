@@ -65,7 +65,7 @@ export const useHeaderStore = defineStore("headerStore", {
               ElNotification({
                 customClass: "custom-notify",
                 position: "bottom-right",
-                duration: 0,
+                duration: 10000,
                 dangerouslyUseHTMLString: true,
                 message: h(notifyMessage, { type: "success", notifyTxt }),
               });

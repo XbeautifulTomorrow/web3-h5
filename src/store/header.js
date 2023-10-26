@@ -4,6 +4,12 @@ import bigNumber from "bignumber.js";
 import { getTheUserBalance, getTheUserPoint } from "@/services/api/user";
 import { getGlobalNew } from "@/services/api/oneBuy";
 
+import notifyMessage from "@/views/user/notifyMessage.vue";
+import { ElNotification } from "element-plus";
+import { h } from "vue";
+import { i18n } from "@/locales";
+const { t } = i18n.global;
+
 export const useHeaderStore = defineStore("headerStore", {
   state: () => ({
     assetLists: [],
@@ -37,7 +43,7 @@ export const useHeaderStore = defineStore("headerStore", {
 
         this.balance = balanceVal;
         this.assetLists = res.data.balanceList;
-
+        // 充值数据
         this.userRechargeShowList = res.data.userRechargeShowList;
         let totalPrice = this.userRechargeShowList.reduce((sum, item) => sum + item.price, 0);
         if (totalPrice > 0) {
@@ -50,6 +56,21 @@ export const useHeaderStore = defineStore("headerStore", {
           } catch (err) {
             console.log(err);
           }
+          this.userRechargeShowList.map((x) => {
+            let notifyTxt =
+              x.oldCoin != x.newCoin
+                ? t("user.depositNotify1", { oldPrice: x.oldPrice, price: x.price })
+                : t("user.depositNotify2", { price: x.price });
+            setTimeout(() => {
+              ElNotification({
+                customClass: "custom-notify",
+                position: "bottom-right",
+                duration: 0,
+                dangerouslyUseHTMLString: true,
+                message: h(notifyMessage, { type: "success", notifyTxt }),
+              });
+            });
+          });
         }
       }
     },

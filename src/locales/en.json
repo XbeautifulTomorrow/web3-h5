@@ -471,7 +471,9 @@
     "freshExchangeRate": "The quote has expired. Refresh to get the latest quote",
     "freshPrice": "Refresh",
     "convertedTime": "Converted time",
-    "back": "Back"
+    "back": "Back",
+    "depositNotify1": "You have successfully deposited {oldPrice} ETH and automatically converted to {price} USDT.",
+    "depositNotify2": "You have successfully deposited {price} USDT."
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

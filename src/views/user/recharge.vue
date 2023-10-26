@@ -548,18 +548,17 @@ export default {
     },
 
     async exchangeOperatingFunc() {
+      this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
       [this.exchangeInfo.exchangeFromCoin, this.exchangeInfo.exchangeToCoin] = [
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
-      this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
-      if (this.exchangeOperating == 1) {
-        this.exchangeInfo.exchangeFromCoin = "USDT";
-      } else {
-        this.exchangeInfo.exchangeToCoin = "USDT";
-      }
-      this.fetchExchangeRate();
-      this.onVerifyExchange("amount");
+      [this.exchangeInfo.exchangeFromAmount, this.exchangeInfo.exchangeToAmount] = [
+        this.exchangeInfo.exchangeToAmount,
+        this.exchangeInfo.exchangeFromAmount,
+      ];
+      this.fetchExchangeRate(1);
+      this.onVerifyExchange();
     },
 
     closeExchangeDialogFun(data) {

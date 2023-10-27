@@ -1,7 +1,7 @@
 .footer {
   height: 44.8125rem;
   text-align: center;
-  background: url('@/assets/img/home/footer_bg.png') no-repeat;
+  background: url("@/assets/img/home/footer_bg.png") no-repeat;
   background-repeat: no-repeat;
   background-size: 100% 44.8125rem;
   background-position: center center;
@@ -17,13 +17,12 @@
 .footer-logo {
   display: flex;
   flex-direction: column;
-  width: 22vw;
+  width: 20%;
   font-size: 1rem;
   line-height: 1.6;
   text-align: left;
   color: rgba(255, 255, 255, 0.7);
 }
-
 
 .header-logo {
   width: fit-content;
@@ -61,12 +60,13 @@
 
 .footer-nav-box {
   display: flex;
+  width: 60%;
 }
-.footer_interval{
+.footer_interval {
   padding: 0 2.5rem;
 }
-.footer-nav-items{
-  width: 15vw;
+.footer-nav-items {
+  width: 50%;
   display: flex;
   justify-content: center;
 }
@@ -94,11 +94,11 @@
   display: flex;
   flex-direction: column;
 
-  &>li+li {
+  & > li + li {
     margin-top: 0.625rem;
   }
 
-  &>li {
+  & > li {
     font-size: 1.125rem;
     line-height: 1.6;
     text-align: left;
@@ -129,7 +129,7 @@
 .footer-link {
   display: flex;
 
-  &>li+li {
+  & > li + li {
     margin-left: 0.75rem;
   }
 }
@@ -167,7 +167,7 @@
     background-color: #311e4a;
     box-sizing: border-box;
 
-    &>input {
+    & > input {
       height: auto;
       font-size: 1.125rem;
       font-weight: 500;
@@ -189,6 +189,9 @@
   .footer-container {
     width: auto;
     flex-direction: column;
+  }
+  .footer-nav-box {
+    width: 100%;
   }
 
   .footer-logo {
@@ -230,7 +233,6 @@
     }
   }
 
-
   .footer-nav-box {
     display: block;
     padding-top: 1.5rem;
@@ -245,7 +247,7 @@
     width: 100%;
     display: block;
     margin-bottom: 1.25rem;
-    &:last-child{
+    &:last-child {
       margin-bottom: 0;
     }
     .footer-nav-text {
@@ -268,12 +270,12 @@
     flex-direction: row;
     padding: 0;
 
-    &>li+li {
+    & > li + li {
       margin-top: 0;
       margin-left: 0.625rem;
     }
 
-    &>li {
+    & > li {
       font-size: 0.625rem;
       line-height: 1.2;
 
@@ -297,7 +299,7 @@
     justify-content: center;
     padding-bottom: 1.5rem;
 
-    &>li+li {
+    & > li + li {
       margin-left: 1.5rem;
     }
   }
@@ -312,7 +314,6 @@
     margin-top: 0;
     margin-bottom: 1.5rem;
 
-
     .el-input__wrapper {
       width: 8rem;
       height: 1.5rem;
@@ -320,7 +321,7 @@
       border-radius: 0.25rem;
       background-color: #311e4a;
 
-      &>input {
+      & > input {
         font-size: 0.75rem;
       }
     }

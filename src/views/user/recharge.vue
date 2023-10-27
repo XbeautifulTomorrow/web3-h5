@@ -348,6 +348,7 @@ import {
   getWithdrawalExchangeRate,
   withdrawalBalance,
   getWithdrawalChain,
+  exchangeRateV2,
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
@@ -551,7 +552,7 @@ export default {
     // exchange汇率
     async fetchExchangeRate(type) {
       const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
-      const res = await getWithdrawalExchangeRate({
+      const res = await exchangeRateV2({
         coinName: coin,
       });
       if (res && res.code == 200) {
@@ -561,7 +562,6 @@ export default {
         } else {
           this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
         }
-        console.log(this.exchangeInfo.exchangeRate, "------this.exchangeInfo.exchangeRate");
         if (type != 1) {
           this.exchangeFromAmountFunc();
         }
@@ -605,14 +605,13 @@ export default {
         });
 
         this.fetchRechargeExchangeRate();
-      } else {
-        this.fetchWithdrawalExchangeRate();
-      }
-      if (this.walletOperating == 3) {
+      } else if (this.walletOperating == 3) {
         this.fetchExchangeRate();
         this.exchangeRateTimer = setInterval(() => {
           this.fetchExchangeRate(1);
         }, 10000);
+      } else {
+        this.fetchWithdrawalExchangeRate();
       }
     },
     handleChoose(event) {

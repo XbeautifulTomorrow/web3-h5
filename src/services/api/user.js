@@ -58,6 +58,7 @@ const getActivityTargetHeaderDataTotal = (params) => apiService.get("mystery-web
 const activityReceive = (params) => apiService.get("mystery-web-user/activity/receive", params); // 奖励领取
 const getActivityPoint = (params) => apiService.get("mystery-web-user/activity/getPoint", params); // 积分获取
 const flashExchange = (params) => apiService.post("mystery-web-user/withdrawal/flashExchange", params); // 闪兑
+const exchangeRateV2 = (params) => apiService.get("mystery-web-user/index/exchangeRateV2", params); // 获取真实汇率
 
 export {
   getKey,
@@ -94,4 +95,5 @@ export {
   activityReceive,
   getActivityPoint,
   flashExchange,
+  exchangeRateV2,
 };

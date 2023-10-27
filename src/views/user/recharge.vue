@@ -48,7 +48,12 @@
               <template #prefix>
                 <img :src="getCion(operatingCoin)" alt="" />
               </template>
-              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName" />
+              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName">
+                <div class="icon_label">
+                  <img :src="getCion(item.coinName)" alt="" />
+                  <span>{{ item.coinName }}</span>
+                </div>
+              </el-option>
             </el-select>
             <div class="withdraw_item_error">
               {{ coinTips }}
@@ -225,7 +230,12 @@
                           :label="item.coinName"
                           :value="item.coinName"
                           v-if="item.coinName != 'USDT' && item.isExchange"
-                        />
+                        >
+                          <div class="icon_label">
+                            <img :src="getCion(item.coinName)" alt="" />
+                            <span>{{ item.coinName }}</span>
+                          </div>
+                        </el-option>
                       </template>
                     </el-select>
                   </div>
@@ -262,7 +272,12 @@
                           :label="item.coinName"
                           :value="item.coinName"
                           v-if="item.coinName != 'USDT' && item.isExchange"
-                        />
+                        >
+                          <div class="icon_label">
+                            <img :src="getCion(item.coinName)" alt="" />
+                            <span>{{ item.coinName }}</span>
+                          </div>
+                        </el-option>
                       </template>
                     </el-select>
                   </div>
@@ -544,7 +559,7 @@ export default {
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
           this.exchangeInfo.exchangeRate = res.data * (1 + down);
         } else {
-          this.exchangeInfo.exchangeRate = (1 / res.data) * (1 - down);
+          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 + down));
         }
         if (type != 1) {
           this.exchangeFromAmountFunc();
@@ -558,12 +573,11 @@ export default {
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
-      [this.exchangeInfo.exchangeFromAmount, this.exchangeInfo.exchangeToAmount] = [
-        this.exchangeInfo.exchangeToAmount,
-        this.exchangeInfo.exchangeFromAmount,
-      ];
-      this.fetchExchangeRate(1);
-      this.onVerifyExchange();
+      this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
+      this.fetchExchangeRate();
+      setTimeout(() => {
+        this.onVerifyExchange();
+      }, 500);
     },
 
     closeExchangeDialogFun(data) {

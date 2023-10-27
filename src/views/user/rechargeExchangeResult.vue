@@ -142,9 +142,13 @@ export default {
       });
       if (res?.code == 200) {
         this.$parent.renewBalance();
+        if (this.exchangeInfo.exchangeFromCoin == "USDT") {
+          this.result.exchangeRate = res.data.exchangeRate;
+        } else {
+          this.result.exchangeRate = 1 / res.data.exchangeRate;
+        }
         this.result.exchangeToAmount = res.data.amount;
         this.result.exchangeToCoin = res.data.coin;
-        this.result.exchangeRate = res.data.exchangeRate;
         this.result.exchangeTime = res.localDateTime;
 
         this.pageType = 2;

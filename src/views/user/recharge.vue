@@ -560,7 +560,7 @@ export default {
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
           this.exchangeInfo.exchangeRate = res.data * (1 + down);
         } else {
-          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
+          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 + down));
         }
         if (type != 1) {
           this.exchangeFromAmountFunc();

@@ -63,7 +63,7 @@
           <div class="item_info">
             <p class="label">{{ $t("user.to") }}</p>
             <p class="info">
-              <span v-priceFormat:4="exchangeInfo.exchangeToAmount"></span><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
+              <span v-priceFormat:4="result.exchangeToAmount"></span><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
           <div class="item_info">

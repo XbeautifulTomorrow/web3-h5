@@ -22,7 +22,8 @@ const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop
 const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
 const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
 const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
-const PrivacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/index.vue");
+const privacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/privacyPolicy.vue");
+const userAgreement = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/userAgreement.vue");
 
 //2. 路由配置
 const routes = [
@@ -142,7 +143,16 @@ const routes = [
     path: "/privacy-policy",
     name: "PrivacyPolicy",
     components: {
-      default: PrivacyPolicy,
+      default: privacyPolicy,
+      Header,
+      Footer,
+    },
+  },
+  {
+    path: "/user-agreement",
+    name: "UserAgreement",
+    components: {
+      default: userAgreement,
       Header,
       Footer,
     },

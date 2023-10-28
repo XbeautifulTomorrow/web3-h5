@@ -94,7 +94,7 @@ const nav = computed(() => {
     {
       text: t("header.competitions"),
       page: "TreasureDraw",
-    }
+    },
   ];
 });
 
@@ -105,8 +105,12 @@ const aboutUs = computed(() => {
       page: "Whitebook",
     },
     {
-      text: t("login.userAgreement"),
+      text: t("login.privacyPolicy"),
       page: "privacy-policy",
+    },
+    {
+      text: t("login.userAgreement"),
+      page: "user-agreement",
     },
     {
       text: t("header.faq"),
@@ -136,10 +140,6 @@ const languageChange = (event) => {
 const goTo = (page = "home") => {
   if (page === "Whitebook") {
     openUrl("https://bitzing.gitbook.io/litepaper/");
-    return;
-  }
-  if (page === "privacy-policy") {
-    openUrl("/privacy-policy");
     return;
   }
 

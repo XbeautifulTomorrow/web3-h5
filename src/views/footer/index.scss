@@ -17,6 +17,15 @@
   width: 95rem;
   margin: 0 auto;
   margin-top:1.5rem;
+  .fetaure-tip{
+    font-family: Tomorrow;
+    font-size: 1.375rem;
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: left;
+    color: white;
+    margin-top: 1rem;
+  }
   .footer-featured-img{
     display: flex;
     .friendship-logo{
@@ -62,7 +71,6 @@
 }
 
 .in_progress {
-  margin-top: 1.25rem;
   font-size: 1rem;
   line-height: 1.6;
   text-align: left;
@@ -217,6 +225,9 @@
   .footer-featured{
     width: 100%;
     margin-bottom: 3rem;
+    .fetaure-tip{
+      text-align: center;
+    }
     .footer-featured-img{
       justify-content: center;
     }
@@ -259,7 +270,6 @@
 
     .in_progress {
       font-size: 0.75rem;
-      margin-top: 0.75rem;
       text-align: center;
     }
   }

@@ -7,7 +7,7 @@
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
         
-        <div class="in_progress">{{ $t("footer.inProgress") }}</div>
+        
       </div>
       <div class="footer-nav-box">
         <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
@@ -66,9 +66,11 @@
     </div>
     <div class="footer-featured">
       <img src="@/assets/svg/home/footer_interval2.svg" class="footer_interval_module" alt="" />
+      <div class="fetaure-tip">We Are Featured In</div>
       <div class="footer-featured-img">
        <div class="friendship-logo">
           <img src="@/assets/svg/featured_certik_logo.svg" alt="logo" />
+          <div class="in_progress">{{ $t("footer.inProgress") }}</div>
         </div>
         <div class="friendship-logo">
           <img src="@/assets/svg/featured_yahoo_logo.svg" alt="logo" />

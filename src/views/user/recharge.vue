@@ -532,6 +532,9 @@ export default {
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
     },
     onVerifyExchange(type) {
+      if (type) {
+        this.exchangeFromAmountFunc();
+      }
       if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
         this.exchangeAmountTips = t("user.enterError6");
       } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
@@ -543,9 +546,6 @@ export default {
         this.exchangeAmountTips = t("user.enterError7", { data: "1 USDT" });
       } else {
         this.exchangeAmountTips = null;
-      }
-      if (type) {
-        this.exchangeFromAmountFunc();
       }
     },
 
@@ -560,7 +560,7 @@ export default {
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
           this.exchangeInfo.exchangeRate = res.data * (1 + down);
         } else {
-          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 + down));
+          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
         }
         if (type != 1) {
           this.exchangeFromAmountFunc();

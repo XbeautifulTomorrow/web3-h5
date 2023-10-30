@@ -13,6 +13,17 @@
   display: flex;
   justify-content: space-between;
 }
+.footer-featured{
+  width: 95rem;
+  margin: 0 auto;
+  margin-top:1.5rem;
+  .footer-featured-img{
+    display: flex;
+    .friendship-logo{
+      margin-right: 1.875rem;
+    }
+  }
+}
 
 .footer-logo {
   display: flex;
@@ -203,6 +214,13 @@
     width: auto;
     flex-direction: column;
   }
+  .footer-featured{
+    width: 100%;
+    margin-bottom: 3rem;
+    .footer-featured-img{
+      justify-content: center;
+    }
+  }
   .footer-nav-box {
     width: 100%;
   }
@@ -308,7 +326,6 @@
   }
   .footer-contact {
     margin-top: 0;
-    margin-bottom: 1.875rem;
   }
 
   .footer-link {

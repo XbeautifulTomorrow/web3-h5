@@ -6,9 +6,7 @@
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
-        <div class="friendship-logo">
-          <img src="@/assets/svg/certik_logo.svg" alt="logo" />
-        </div>
+        
         <div class="in_progress">{{ $t("footer.inProgress") }}</div>
       </div>
       <div class="footer-nav-box">
@@ -64,6 +62,20 @@
         <!-- <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
           <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
         </el-select> -->
+      </div>
+    </div>
+    <div class="footer-featured">
+      <img src="@/assets/svg/home/footer_interval2.svg" class="footer_interval_module" alt="" />
+      <div class="footer-featured-img">
+       <div class="friendship-logo">
+          <img src="@/assets/svg/featured_certik_logo.svg" alt="logo" />
+        </div>
+        <div class="friendship-logo">
+          <img src="@/assets/svg/featured_yahoo_logo.svg" alt="logo" />
+        </div>
+        <div class="friendship-logo">
+          <img src="@/assets/svg/featured_coinMarkect_logo.svg" alt="logo" />
+        </div>
       </div>
     </div>
   </div>

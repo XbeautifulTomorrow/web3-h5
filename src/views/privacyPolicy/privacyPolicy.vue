@@ -4,7 +4,7 @@
       <div class="FAQ_title">
         <span>Privacy Policy</span>
       </div>
-      <div class="policy_content">
+      <div class="policy_content policy_content_other">
         <div>
           <p><b>1.0 Introduction</b></p>
           Your privacy is important to us, and we are committed to protecting your personal information. We will be clear and open about why

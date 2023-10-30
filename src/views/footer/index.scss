@@ -236,6 +236,9 @@
       .friendship-logo{
         height: 1rem;
         margin-right: 1rem;
+        &:last-child{
+          margin-right: 0;
+        }
         .in_progress{
           font-size: .75rem;
         }

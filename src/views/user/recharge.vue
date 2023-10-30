@@ -71,6 +71,7 @@
             </div>
             <el-select
               v-model="walletNetwork"
+              @change="walletNetworkChange"
               @blur="onVerify('network')"
               class="nft_type wallet_network"
               placeholder="Select network"
@@ -409,6 +410,7 @@ export default {
       },
       exchangeAmountTips: null,
       exchangeRateTimer: null,
+      receiverAddrList: [],
     };
   },
   computed: {
@@ -653,18 +655,26 @@ export default {
 
         if (this.networkDrop.length > 0) {
           this.walletNetwork = this.networkDrop[0].chain;
+          this.walletNetworkChange();
         }
+      }
+    },
+    walletNetworkChange() {
+      if (this.walletNetwork && this.networkDrop) {
+        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+        this.receiverAddr = this.receiverAddrList.find((x) => x.type == type)?.address;
+        localStorage.setItem("receiver", this.receiverAddr);
+        this.$nextTick(() => {
+          this.createQrcode();
+        });
       }
     },
     // 收款地址
     async fetchReceivingAddr() {
       const res = await getTheUserSPayoutAddress();
       if (res && res.code == 200) {
-        this.receiverAddr = res.data;
-        localStorage.setItem("receiver", res.data);
-        this.$nextTick(() => {
-          this.createQrcode();
-        });
+        this.receiverAddrList = res.data;
+        this.walletNetworkChange();
       }
     },
 

@@ -149,7 +149,7 @@ const routes = [
     },
   },
   {
-    path: "/user-agreement",
+    path: "/terms-and-conditions",
     name: "UserAgreement",
     components: {
       default: userAgreement,

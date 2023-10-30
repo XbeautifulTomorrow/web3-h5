@@ -42,7 +42,7 @@ export default {
   },
   created() {
     if (localStorage.getItem("banner")) {
-      this.bannerList = JSON.parse(localStorage.getItem("banner"));
+      // this.bannerList = JSON.parse(localStorage.getItem("banner"));
     }
     this.getBannerListFunc();
   },
@@ -64,7 +64,7 @@ export default {
         size: 100,
       });
       if (res) {
-        this.bannerList = res.data.records;
+        this.bannerList = res?.data?.records;
         localStorage.setItem("banner", JSON.stringify(this.bannerList));
       }
     },

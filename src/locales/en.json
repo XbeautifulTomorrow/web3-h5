@@ -49,6 +49,7 @@
     "menu": "PLATFORM",
     "about": "ABOUT US",
     "link": "Social Media",
+    "contactUs": "Contact Us",
     "inProgress": "Audit in progress."
   },
   "login": {
@@ -71,6 +72,7 @@
     "notReceived": "Don't receive an email?",
     "termsText": "By creating your account, you confirm that you are at least 18 years old and agree to our ",
     "userAgreement": "Terms and Conditions",
+    "privacyPolicy": "Privacy Policy",
     "completeUpper": "COMPLETED REGISTRATION",
     "passwordErrText1": "Enter password",
     "passwordErrText2": "Password must be longer than 8 characters.",

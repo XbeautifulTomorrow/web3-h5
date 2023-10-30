@@ -41,18 +41,26 @@
         <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
       </div>
       <div class="link_box">
-        <p class="footer-social">{{ $t("footer.link") }}</p>
-        <ul class="footer-link">
-          <li class="footer-link-icon">
-            <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
-          </li>
-          <li class="footer-link-icon">
-            <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
-          </li>
-          <li class="footer-link-icon">
-            <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
-          </li>
-        </ul>
+        <div>
+          <p class="footer-social">{{ $t("footer.link") }}</p>
+          <ul class="footer-link">
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
+            </li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <p class="footer-social footer-contact-label">{{ $t("footer.contactUs") }}</p>
+          <p class="footer-contact-txt">
+            <a href="mailto:support@Bitzing.io">support@Bitzing.io</a>
+          </p>
+        </div>
         <!-- <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
           <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
         </el-select> -->
@@ -94,7 +102,7 @@ const nav = computed(() => {
     {
       text: t("header.competitions"),
       page: "TreasureDraw",
-    }
+    },
   ];
 });
 
@@ -105,8 +113,12 @@ const aboutUs = computed(() => {
       page: "Whitebook",
     },
     {
-      text: t("login.userAgreement"),
+      text: t("login.privacyPolicy"),
       page: "privacy-policy",
+    },
+    {
+      text: t("login.userAgreement"),
+      page: "terms-and-conditions",
     },
     {
       text: t("header.faq"),
@@ -136,10 +148,6 @@ const languageChange = (event) => {
 const goTo = (page = "home") => {
   if (page === "Whitebook") {
     openUrl("https://bitzing.gitbook.io/litepaper/");
-    return;
-  }
-  if (page === "privacy-policy") {
-    openUrl("/privacy-policy");
     return;
   }
 

@@ -65,7 +65,9 @@ export default {
       });
       if (res) {
         this.bannerList = res?.data?.records;
-        localStorage.setItem("banner", JSON.stringify(this.bannerList));
+        if (this.bannerList) {
+          localStorage.setItem("banner", JSON.stringify(this.bannerList));
+        }
       }
     },
   },

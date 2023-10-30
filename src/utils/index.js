@@ -438,6 +438,19 @@ export const isValidEthAddress = (address) => {
   return true;
 };
 
+// 验证地址正确性的函数
+export const isValiTronAddress = (address) => {
+  if (!address) return false;
+  // Base58字符集
+  const base58Chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+  // 使用正则表达式检查地址是否只包含Base58字符
+  const regex = new RegExp(`^[${base58Chars}]+$`);
+  if (!regex.test(address)) {
+    return false;
+  }
+  return true;
+};
+
 // 验证 以太坊交易哈希
 export const isEthTransactionHashValid = (hash) => {
   // 以太坊交易哈希的正则表达式

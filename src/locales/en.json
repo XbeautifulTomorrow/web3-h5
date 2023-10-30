@@ -306,7 +306,7 @@
     "addrTips1": "*You will receive the specified { coin } amount to your withdrawal address",
     "addrTips2": "*The value subtracted from your balance may vary between now and the time we process your withdrawal",
     "enterError1": "Please enter your { coin } wallet address here.",
-    "enterError2": "Invalid Ethereum wallet address format.",
+    "enterError2": "Invalid wallet address format.",
     "enterError3": "Please enter the withdrawal amount.",
     "enterError4": "Insufficient Balance",
     "enterError5": "Insufficient amount to cover withdrawal fee.",

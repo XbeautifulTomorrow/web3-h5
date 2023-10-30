@@ -354,7 +354,7 @@ import {
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, handleWindowResize } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress,isValiTronAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./rechargeExchangeResult.vue";
 export default {
@@ -732,8 +732,15 @@ export default {
           this.verifys = false;
           return;
         }
-
-        if (!isValidEthAddress(walletAddr)) {
+        console.log(this.walletNetwork,this.walletNetwork)
+        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+        if(type=='TRON'&&!isValiTronAddress(walletAddr)){
+          this.walletAddrTips = t("user.enterError2", {
+            coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
+          });
+          this.verifys = false;
+          return;
+        } else if (type!='TRON'&&!isValidEthAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });

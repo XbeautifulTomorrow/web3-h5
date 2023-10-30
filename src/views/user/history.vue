@@ -274,6 +274,10 @@ export default {
         chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
       } else if (event.lotteryChainType == "ThunderCore") {
         chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+      } else if (event.chainType == "TRC_20_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+      } else if (event.chainType == "TRC_20") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
       }
 
       openUrl(`${chainLink}${event.hash}`);

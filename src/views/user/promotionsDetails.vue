@@ -37,7 +37,10 @@
             <!-- 待解锁： -->
             <p>
               <span>{{ $t("user.unlocked") }}</span>
-              <span class="data"  v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"></span>
+              <span
+                class="data"
+                v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"
+              ></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
@@ -57,7 +60,7 @@
         <el-table-column
           prop="seriesName"
           :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')"
-          min-width="100"
+          min-width="140"
           show-overflow-tooltip
           align="center"
           key="2"
@@ -73,7 +76,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="60" align="center" key="3">
+        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="80" align="center" key="3">
           <template #default="scope">
             <div class="amount_box">
               <span v-if="scope.row.bonus" v-priceFormat="scope.row.bonus"></span>
@@ -84,7 +87,7 @@
         </el-table-column>
         <el-table-column prop="serviceFee" min-width="80" :label="$t('user.claim')" align="center" key="4" fixed="right">
           <template #default="scope">
-            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed") }}</p>
+            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed2") }}</p>
             <p class="table-btn active" v-else-if="scope.row.status == 'NOT_CLAIMED'" @click="activityReceiveFunc">
               {{ $t("user.claim") }}
             </p>

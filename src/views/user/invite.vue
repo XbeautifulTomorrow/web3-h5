@@ -170,20 +170,21 @@
             :label="$t('user.copy')"
             align="center"
             fixed="right"
-            show-overflow-tooltip
           >
             <template #default="scope">
               <div class="copy_btn">
-                <img
-                  src="@/assets/svg/user/icon_invite_copy.svg"
-                  @click="copyInviteLink(scope.row.inviteCode)"
-                  alt=""
-                />
-                <img
-                  src="@/assets/svg/airdrop/icon_twitter_btn.svg"
-                  @click="shareInviteLink(scope.row.inviteCode)"
-                  alt=""
-                />
+                <el-tooltip class="item" effect="dark" content="Copy" placement="top">
+                  <img
+                    src="@/assets/svg/user/icon_invite_copy.svg"
+                    @click="copyInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
+                  <img
+                    src="@/assets/svg/airdrop/icon_twitter_btn.svg"
+                    @click="shareInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
+                </el-tooltip>
               </div>
             </template>
           </el-table-column>
@@ -211,7 +212,7 @@
         />
         <el-table-column
           prop="traAmount"
-          :label="$t('user.consumption')"
+          :label="$t('user.default')"
           align="center"
           show-overflow-tooltip
         >
@@ -237,7 +238,7 @@
         </el-table-column>
         <el-table-column
           prop="createTime"
-          :label="$t('user.referredAt')"
+          :label="$t('user.date')"
           align="center"
           show-overflow-tooltip
         >

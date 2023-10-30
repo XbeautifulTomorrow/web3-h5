@@ -447,6 +447,16 @@
           gap: 0;
           .progress_item {
             font-size: 0.75rem;
+            align-items: flex-end;
+            p {
+              display: block;
+            }
+            span {
+              display: block;
+            }
+            .data {
+              font-size: 1rem !important;
+            }
             img {
               width: 1.25rem;
               height: 1.25rem;

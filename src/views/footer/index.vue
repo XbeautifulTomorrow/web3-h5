@@ -43,13 +43,24 @@
           <p class="footer-social">{{ $t("footer.link") }}</p>
           <ul class="footer-link">
             <li class="footer-link-icon">
-              <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
+              <img src="@/assets/svg/footer_media_twitter.svg" @click="goLink(1)" alt="" />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
+              <img src="@/assets/svg/footer_media_telegram.svg" @click="goLink(2)" alt="" />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
+              <img src="@/assets/svg/footer_media_discord_btn.svg" @click="goLink(3)" alt="" />
+            </li>
+          </ul>
+          <ul class="footer-link">
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_instagram.svg" @click="goLink(4)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_reddit.svg" @click="goLink(5)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_medium.svg" @click="goLink(6)" alt="" />
             </li>
           </ul>
         </div>
@@ -183,6 +194,15 @@ const goLink = (event) => {
     return;
   } else if (event === 3) {
     openUrl("https://discord.gg/bitzing");
+    return;
+  } else if (event === 4) {
+    openUrl("https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D");
+    return;
+  } else if (event === 5) {
+    openUrl("https://www.reddit.com/r/Bitzing/");
+    return;
+  } else if (event === 6) {
+    openUrl("https://medium.com/@bitzing_io");
     return;
   }
 };

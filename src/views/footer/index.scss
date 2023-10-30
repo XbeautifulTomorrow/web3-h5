@@ -160,6 +160,7 @@
 
 .footer-link {
   display: flex;
+  margin-bottom: .75rem;
 
   & > li + li {
     margin-left: 0.75rem;
@@ -226,10 +227,19 @@
     width: 100%;
     margin-bottom: 3rem;
     .fetaure-tip{
+      font-size: 1rem;
+      line-height: 1.2;
       text-align: center;
     }
     .footer-featured-img{
       justify-content: center;
+      .friendship-logo{
+        height: 1rem;
+        margin-right: 1rem;
+        .in_progress{
+          font-size: .75rem;
+        }
+      }
     }
   }
   .footer-nav-box {
@@ -341,7 +351,6 @@
   .footer-link {
     display: flex;
     justify-content: center;
-    padding-bottom: 1.5rem;
 
     & > li + li {
       margin-left: 1.5rem;

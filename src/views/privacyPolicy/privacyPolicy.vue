@@ -4,7 +4,7 @@
       <div class="FAQ_title">
         <span>Privacy Policy</span>
       </div>
-      <div class="policy_content">
+      <div class="policy_content policy_content_other">
         <div>
           <p><b>1.0 Introduction</b></p>
           Your privacy is important to us, and we are committed to protecting your personal information. We will be clear and open about why
@@ -26,9 +26,9 @@
         <div>
           <p><b>3.0 Information we collect about you</b></p>
           <p><b>Personally identifiable information</b></p>
-          You provide this information to us in the process of setting up an account, participating in games and using the services of the
+          <p>You provide this information to us in the process of setting up an account, participating in games and using the services of the
           website. This information is required to give you access to certain parts of our website and related services. This data is
-          collected when you:
+          collected when you:</p>
           <ul>
             <li>Register an account with Bitzing</li>
             <li>Voluntarily provide it when using the website</li>

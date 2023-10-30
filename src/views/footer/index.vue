@@ -6,8 +6,9 @@
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
+        
         <div class="friendship-logo">
-          <img src="@/assets/svg/certik_logo.svg" alt="logo" />
+          <img src="@/assets/svg/featured_certik_logo.svg" alt="logo" />
         </div>
         <div class="in_progress">{{ $t("footer.inProgress") }}</div>
       </div>
@@ -45,13 +46,24 @@
           <p class="footer-social">{{ $t("footer.link") }}</p>
           <ul class="footer-link">
             <li class="footer-link-icon">
-              <img src="@/assets/svg/twitter.svg" @click="goLink(1)" alt="" />
+              <img src="@/assets/svg/footer_media_twitter.svg" @click="goLink(1)" alt="" />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/telegram.svg" @click="goLink(2)" alt="" />
+              <img src="@/assets/svg/footer_media_telegram.svg" @click="goLink(2)" alt="" />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/discord_btn.svg" @click="goLink(3)" alt="" />
+              <img src="@/assets/svg/footer_media_discord_btn.svg" @click="goLink(3)" alt="" />
+            </li>
+          </ul>
+          <ul class="footer-link">
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_instagram.svg" @click="goLink(4)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_reddit.svg" @click="goLink(5)" alt="" />
+            </li>
+            <li class="footer-link-icon">
+              <img src="@/assets/svg/footer_media_medium.svg" @click="goLink(6)" alt="" />
             </li>
           </ul>
         </div>
@@ -64,6 +76,18 @@
         <!-- <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
           <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
         </el-select> -->
+      </div>
+    </div>
+    <div class="footer-featured">
+      <img src="@/assets/svg/home/footer_interval2.svg" class="footer_interval_module" alt="" />
+      <div class="fetaure-tip">We Are Featured In</div>
+      <div class="footer-featured-img">
+        <div class="friendship-logo">
+          <img src="@/assets/svg/featured_yahoo_logo.svg" alt="logo" />
+        </div>
+        <div class="friendship-logo">
+          <img src="@/assets/svg/featured_coinMarkect_logo.svg" alt="logo" />
+        </div>
       </div>
     </div>
   </div>
@@ -169,6 +193,15 @@ const goLink = (event) => {
     return;
   } else if (event === 3) {
     openUrl("https://discord.gg/bitzing");
+    return;
+  } else if (event === 4) {
+    openUrl("https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D");
+    return;
+  } else if (event === 5) {
+    openUrl("https://www.reddit.com/r/Bitzing/");
+    return;
+  } else if (event === 6) {
+    openUrl("https://medium.com/@bitzing_io");
     return;
   }
 };

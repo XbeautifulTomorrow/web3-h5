@@ -476,8 +476,8 @@
     "freshPrice": "Refresh",
     "convertedTime": "Converted time",
     "back": "Back",
-    "depositNotify1": "You have successfully deposited {oldPrice} ETH and automatically converted to {price} USDT.",
-    "depositNotify2": "You have successfully deposited {price} USDT."
+    "depositNotify1": "You have successfully deposited <b style=\"color:#fad54d\">{oldPrice} ETH</b> and automatically converted to <b style=\"color:#fad54d\">{price} USDT</b> .",
+    "depositNotify2": "You have successfully deposited <b style=\"color:#fad54d\">{price} USDT</b>."
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

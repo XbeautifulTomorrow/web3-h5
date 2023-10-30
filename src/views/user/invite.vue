@@ -179,6 +179,8 @@
                     @click="copyInviteLink(scope.row.inviteCode)"
                     alt=""
                   />
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="Share on Twitter" placement="top">
                   <img
                     src="@/assets/svg/airdrop/icon_twitter_btn.svg"
                     @click="shareInviteLink(scope.row.inviteCode)"

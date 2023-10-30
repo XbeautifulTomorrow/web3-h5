@@ -44,7 +44,11 @@ export const useHeaderStore = defineStore("headerStore", {
         this.balance = balanceVal;
         this.assetLists = res.data.balanceList;
         // 充值数据
-        this.userRechargeShowList = res.data.userRechargeShowList;
+        // this.userRechargeShowList = res.data.userRechargeShowList;
+        this.userRechargeShowList = [
+          { oldCoin: "ETH", newCoin: "USDT", price: 100 },
+          { oldCoin: "USDT", newCoin: "USDT", price: 100 },
+        ];
         let totalPrice = this.userRechargeShowList.reduce((sum, item) => sum + item.price, 0);
         if (totalPrice > 0) {
           try {
@@ -65,7 +69,7 @@ export const useHeaderStore = defineStore("headerStore", {
               ElNotification({
                 customClass: "custom-notify",
                 position: "bottom-right",
-                duration: 10000,
+                duration: 1000000000,
                 dangerouslyUseHTMLString: true,
                 message: h(notifyMessage, { type: "success", notifyTxt }),
               });

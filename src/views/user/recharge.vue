@@ -466,7 +466,7 @@ export default {
           return;
         }
 
-        if (operatingCoin == "ETH") {
+        if (operatingCoin == "ETH"||operatingCoin == "WETH") {
           this.ethNum = newV || 0;
           return;
         }
@@ -560,7 +560,7 @@ export default {
       if (res && res.code == 200) {
         const down = this.getExchangeDown(this.exchangeInfo.exchangeToCoin);
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
-          this.exchangeInfo.exchangeRate = res.data * (1 + down);
+          this.exchangeInfo.exchangeRate = res.data / (1 - down);
         } else {
           this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
         }

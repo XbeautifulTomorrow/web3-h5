@@ -21,22 +21,23 @@
         <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
           <div class="progress_item">
             <!-- 奖金总额： -->
-            <p>
-              <span>{{ $t("user.totalBonus") }}</span> <span class="data" v-priceFormat="welcomeStatic?.totalRewards"></span>
+            <p class="progress_item_label">
+              <span>{{ $t("user.totalBonus") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.totalRewards"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
-            <p>
-              <span>{{ $t("user.received") }}</span> <span class="data" v-priceFormat="welcomeStatic?.receivedReward"></span>
+            <p class="progress_item_label">
+              <span>{{ $t("user.received") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.receivedReward"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
-            <p>
+            <p class="progress_item_label">
               <span>{{ $t("user.unlocked") }}</span>
+              <span v-if="screenWidth > 950">:</span>
               <span
                 class="data"
                 v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"

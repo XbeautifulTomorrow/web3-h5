@@ -552,9 +552,17 @@
         }
       }
     }
+    .consumption_box img{
+      width: 0.75rem;
+      margin-left: .5rem;
+    }
+    .claim_box img{
+      width: 0.75rem;
+    }
     :deep(.table_container) {
       th.el-table__cell .cell {
         font-size: 0.75rem;
+        
       }
       .el-table__empty-text {
         font-size: 0.75rem;

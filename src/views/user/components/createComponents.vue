@@ -1030,9 +1030,9 @@ export default {
             accurateDecimal(this.competitionForm.usdtPrice || 0, 2)
           ).toLocaleString()}</span>`;
         } else {
-          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
-            this.competitionForm.price || 0
-          }</span>`;
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/coin/icon_eth.svg")}" /> <span style='line-height: 0.8;'>${Number(
+            accurateDecimal(this.competitionForm.price || 0, 2)
+          ).toLocaleString()}</span>`;
         }
       }
     },

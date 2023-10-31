@@ -651,7 +651,7 @@
                 }}
               </span>
               <span class="nft_name text-ellipsis" v-else>
-                {{ `$ ${nftInfo?.totalPrice}` }}
+                {{ `${nftInfo?.totalPrice} ETH` }}
               </span>
             </div>
             <div

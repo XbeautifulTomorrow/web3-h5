@@ -138,7 +138,7 @@
           >
             <template #default="scope">
               <div class="consumption_box">
-                <span>{{ scope.row.traAmount }}</span>
+                <span v-priceFormat="scope.row.traAmount"></span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               </div>
             </template>
@@ -220,7 +220,7 @@
         >
           <template #default="scope">
             <div class="consumption_box">
-              <span>{{ scope.row.traAmount }}</span>
+              <span v-priceFormat="scope.row.traAmount"></span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
@@ -233,7 +233,7 @@
         >
           <template #default="scope">
             <div class="consumption_box">
-              <span>{{ scope.row.rebatesAmount }}</span>
+              <span v-priceFormat="scope.row.rebatesAmount"></span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
@@ -266,6 +266,7 @@
 </template>
 <script>
 import { mapStores } from "pinia";
+import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
@@ -445,6 +446,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.$message.success(t("user.receiveSuccess"));
+        this.renewBalance();
         this.fetchRebatesFindList();
       }
     },
@@ -487,6 +489,11 @@ export default {
         this.setting = res.data;
         this.$forceUpdate();
       }
+    },
+     // 更新当前余额
+    async renewBalance() {
+      const headerStore = useHeaderStore();
+      await headerStore.getTheUserBalanceApi();
     },
   },
   created() {

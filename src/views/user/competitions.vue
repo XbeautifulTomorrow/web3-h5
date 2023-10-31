@@ -423,7 +423,7 @@
           <span v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN'">{{
             competitionNft.seriesName || "--"
           }}</span>
-          <span v-else>{{ `${competitionNft.price} USDT` }}</span>
+          <span v-else>{{ `${competitionNft.price} ETH` }}</span>
         </div>
         <div
           class="nft_id text-ellipsis"

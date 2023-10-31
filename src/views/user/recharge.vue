@@ -23,7 +23,7 @@
             {{ t("user.withdraw") }}
           </div>
           <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
-            {{ $t("user.exchange") }}
+            {{ t("user.exchange") }}
           </div>
         </div>
         <div class="choose_operating" v-if="walletOperating != 3">

@@ -986,7 +986,13 @@ export default {
       this.fetchExternalSeries();
       this.fetchRebatesFindList();
     }
-
+    const validateDay = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error(t("user.limitDayEnter")));
+      } else {
+        callback();
+      }
+    };
     this.rules = {
       //总价格
       price: [
@@ -1000,7 +1006,7 @@ export default {
       limitDay: [
         {
           required: true,
-          message: t("user.limitDayEnter"),
+          validator:validateDay,
           trigger: ["blur", "change"],
         },
       ],

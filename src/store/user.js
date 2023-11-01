@@ -21,9 +21,8 @@ export const useUserStore = defineStore("user", {
       { name: "USDT", img: require("@/assets/svg/user/coin/icon_usdt.svg") },
       { name: "BNB", img: require("@/assets/svg/user/coin/icon_bnb.svg") },
       { name: "BUSD", img: require("@/assets/svg/user/coin/icon_busd.svg") },
-      { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") }
-
-    ]
+      { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") },
+    ],
   }),
   persist: {
     enabled: true,
@@ -33,6 +32,11 @@ export const useUserStore = defineStore("user", {
     ],
   },
   actions: {
+    getCoin(event) {
+      const { currencyData } = this;
+      const coin = currencyData.find((e) => e.name == event);
+      return coin?.img || event;
+    },
     setLogin(data) {
       if (data.certificate) {
         delete data.certificate;

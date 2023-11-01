@@ -50,7 +50,7 @@
       <template v-if="showOther">
         <div class="balance_item" v-for="(item, index) in balanceList" :key="index">
           <div class="balance_item_l">
-            <img :src="getCion(item.coinName)" alt="" />
+            <img :src="getCoin(item.coinName)" alt="" />
             <div class="num">
               <div class="balance_val">
                 <span v-if="item.coinName != 'USDT'">
@@ -156,7 +156,7 @@
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
-                <img :src="getCion(scope.row.coin)" alt="" />
+                <img :src="getCoin(scope.row.coin)" alt="" />
               </div>
             </template>
           </el-table-column>
@@ -166,6 +166,15 @@
                 <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel9')" align="center" key="6">
+            <template #default="scope">
+              <div class="amount_box" v-if="scope.row.serviceFee">
+                <span>{{ accurateDecimal(scope.row.serviceFee, 6) }}</span>
+                <img :src="getCoin(scope.row.coin)" alt="" />
+              </div>
+              <div v-else>--</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -231,7 +240,7 @@
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ scope.row.sellNum }}</span>
-                <img :src="getCion(scope.row.sellCoin)" alt="" />
+                <img :src="getCoin(scope.row.sellCoin)" alt="" />
               </div>
             </template>
           </el-table-column>
@@ -240,7 +249,7 @@
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ scope.row.userNum }}</span>
-                <img :src="getCion(scope.row.buyCoin)" alt="" />
+                <img :src="getCoin(scope.row.buyCoin)" alt="" />
               </div>
             </template>
           </el-table-column>
@@ -382,6 +391,10 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    getCoin(coin) {
+      const headerStore = useUserStore();
+      return headerStore.getCoin(coin);
+    },
     showRechargeFunc(type) {
       this.showRecharge = true;
       this.walletOperating = type;
@@ -550,11 +563,6 @@ export default {
         return;
       }
       this.fetchHistory(false);
-    },
-    getCion(event) {
-      const { currencyData } = this;
-      const coin = currencyData.find((e) => e.name == event);
-      return coin?.img || event;
     },
     // 币种转化usdt
     balanceConvert(evnet) {

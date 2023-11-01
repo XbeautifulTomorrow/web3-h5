@@ -1585,6 +1585,7 @@
         width: 100%;
         align-items: flex-end;
         justify-content: space-between;
+        padding-top: 0.625rem;
       }
 
       .price {
@@ -1618,7 +1619,7 @@
       .time {
         min-width: auto;
         font-size: 0.75rem;
-
+        padding-top: 0.625rem;
         img {
           width: 1rem;
           height: auto;
@@ -1965,7 +1966,7 @@
 
 
     .price_box {
-
+      
       img {
         width: 1rem;
         margin-right: 0.25rem;

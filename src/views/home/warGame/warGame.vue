@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="war_game_box">
-          <svg id="war_container"></svg>
+          <svg id="war_container" width="450" height="450"></svg>
           <div
             class="outer_ring"
             v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"
@@ -105,9 +105,10 @@
               </span>
               <span v-else>
                 {{
-                  `${winInfo?.winerIncome || 0} · ${
-                    winInfo?.winerMultipleRate || 0
-                  } x WIN`
+                  `${winInfo?.winerIncome || 0} · ${accurateDecimal(
+                    winInfo?.winerMultipleRate || 0,
+                    2
+                  )} x WIN`
                 }}
               </span>
             </div>
@@ -124,7 +125,10 @@
               <span v-if="currentStatus == 'WIN'" class="win_id">
                 {{ `Winner ID: ${winInfo?.openId || "--"}` }}
               </span>
-              <span v-if="currentStatus == 'WIN'" class="next_round">
+              <span
+                v-if="currentStatus == 'WIN' && !isHistory"
+                class="next_round"
+              >
                 {{ `Next Round: 15s` }}
               </span>
             </div>
@@ -194,10 +198,13 @@
           <div class="not_connect" v-if="!showBuy">
             <div
               class="enter_war"
-              v-if="currentStatus == 'INIT'"
+              v-if="!isHistory && currentStatus == 'INIT'"
               @click="showBuy = true"
             >
               ENTER WAR
+            </div>
+            <div class="enter_war" v-else-if="isHistory" @click="handleBack()">
+              Back to Current Round
             </div>
             <div class="enter_war" v-else>ENTER WAR</div>
           </div>
@@ -349,7 +356,11 @@ import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import config from "@/services/env";
-import { getRewardAmount, receiveAmount } from "@/services/api/tokenWar";
+import {
+  getRewardAmount,
+  receiveAmount,
+  getCommonData,
+} from "@/services/api/tokenWar";
 import * as d3 from "d3";
 import {
   accurateDecimal,
@@ -368,6 +379,16 @@ import warConfig from "./warConfig.vue";
 import countDown from "@/components/countDown";
 export default {
   name: "TokenWar",
+  props: {
+    warHistory: {
+      type: Object,
+      default: null,
+    },
+    isHistory: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     warBuy,
     warConfig,
@@ -478,9 +499,9 @@ export default {
       // 连接
       // eslint-disable-next-line no-unused-vars
       this.eventSource.onopen = (e) => {
+        console.log("SSE connection succeeded");
         // 公共数据
         this.eventSource.addEventListener("COMMON_DATA", (e) => {
-          console.log("已接受到公共数据:", e.data);
           this.initRotate();
           const warGame = JSON.parse(e.data);
           if (!this.warInfo) {
@@ -497,7 +518,6 @@ export default {
 
             if (user) {
               this.userData = user;
-              console.log(this.userData);
             }
           }
 
@@ -516,7 +536,6 @@ export default {
 
         // 中奖推送
         this.eventSource.addEventListener("OPEN_PRIZE", (e) => {
-          console.log("已接受到中奖结算:", e.data);
           this.winInfo = JSON.parse(e.data);
           this.winUserId = this.winInfo.winerUserId;
         });
@@ -528,7 +547,6 @@ export default {
 
         // 结束时间
         this.eventSource.addEventListener("OPEN_TIME", (e) => {
-          console.log("已接受到结束时间:", e.data);
           try {
             this.warTime = JSON.parse(e.data);
 
@@ -543,14 +561,12 @@ export default {
           }
         });
       };
-      this.eventSource.onmessage = (e) => {
-        console.log("已接受到消息:", e.data);
-      };
+
       this.eventSource.onerror = (e) => {
         if (e.readyState == EventSource.CLOSED) {
-          console.log("SSE连接关闭");
+          console.log("SSE connection closed");
         } else if (this.eventSource.readyState == EventSource.CONNECTING) {
-          console.log("SSE正在重连");
+          console.log("SSE reconnect");
           //重新设置token
           this.eventSource.headers = headerParams;
         } else {
@@ -585,7 +601,7 @@ export default {
       //设置饼图的半径
       let radius = (Math.min(width, height) * 0.5) / 2;
 
-      let arc = d3.arc().innerRadius(120).cornerRadius(2);
+      let arc = d3.arc().innerRadius(140).cornerRadius(2);
 
       //饼图偏移的终点
       let pointEnd = d3
@@ -739,6 +755,8 @@ export default {
     },
     // 开始抽奖
     startLottery() {
+      this.warTime.countdownTime = null;
+
       // 计时器可能会每秒都触发事件
       if (this.currentStatus != "INIT") return;
 
@@ -910,6 +928,52 @@ export default {
     getColor(event) {
       return userColor[Number(event)];
     },
+    // 查询历史信息
+    async fetchCommonData() {
+      const res = await getCommonData({ id: this.warHistory.id });
+      if (res.code == 200) {
+        this.warInfo = res.data;
+        this.warData = res.data.joinDataList;
+
+        this.initSvg();
+        this.setSvg();
+
+        if (this.userInfo?.id && this.isLogin) {
+          const user = this.warData.find((e) => e.userId == this.userInfo?.id);
+
+          if (user) {
+            this.userData = user;
+          }
+        }
+
+        if (this.warInfo.currentStatus == "OPEN") {
+          this.currentStatus = "WIN";
+          // 加载胜利者数据
+          this.winInfo = {
+            winerUserId: this.warHistory.winerUserId,
+            winerUserName: this.warHistory.winerUserName,
+            winerIncome: this.warHistory.winerIncome,
+            winerMultipleRate: this.warHistory.win,
+            openId: this.warHistory.openId,
+          };
+
+          this.winUserId = this.winInfo.winerUserId;
+          this.svgAngle = this.getSlowDeg() % 360;
+          this.setSvgPath();
+        } else if (this.warHistory.currentStatus == "CANCELED") {
+          this.currentStatus = "CANCEL";
+        }
+      }
+    },
+    handleBack() {
+      this.$emit("toWar");
+      this.warInfo = null;
+      this.warData = [];
+      this.winInfo = {};
+      this.userData = null;
+      this.winUserId = null;
+      this.createSSE();
+    },
   },
   beforeUnmount() {
     if (this.eventSource) {
@@ -920,15 +984,17 @@ export default {
     }
   },
   created() {
-    this.createSSE();
+    if (this.isHistory) {
+      this.fetchCommonData();
+    } else {
+      this.createSSE();
+    }
 
     if (this.isLogin && this.userInfo?.id) {
       this.fetchRewardAmount();
     }
   },
-  mounted() {
-    this.getSlowDeg();
-  },
+  mounted() {},
 };
 </script>
 <style lang="scss" scoped>

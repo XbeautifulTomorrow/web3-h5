@@ -30,4 +30,9 @@ const getWarUserInfo = (
   params // 查询战争用户信息
 ) => apiService.get(serviceUrl + "/war/userJoinData", params);
 
-export { getWarHistory, getRewardAmount, receiveAmount, setAutoConfig, getAutoConfig, warBuy, getWarUserInfo };
+
+const getCommonData = (
+  params // 查询历史信息
+) => apiService.get(serviceUrl + "/war/getCommonData", params);
+
+export { getWarHistory, getRewardAmount, receiveAmount, setAutoConfig, getAutoConfig, warBuy, getWarUserInfo, getCommonData };

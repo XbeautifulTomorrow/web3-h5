@@ -556,3 +556,26 @@ export const decryptCBC = (word, keyStr) => {
     return word;
   }
 };
+/*
+* 描述: tween动画算法。
+* @param Number t: 动画已经执行的时间（实际上时执行多少次/帧数）
+* @param Number b: 起始位置
+* @param Number c: 终止位置
+* @param Number d: 从起始位置到终止位置的经过时间（实际上时执行多少次/帧数）
+*/
+// 缓入函数
+export const easeIn = (t, b, c, d) => {
+  if (t >= d) t = d;
+  return c * (t /= d) * t + b;
+}
+
+// 缓出函数
+export const easeOut = (t, b, c, d) => {
+  if (t >= d) t = d;
+  return -c * (t /= d) * (t - 2) + b;
+}
+
+// 动画循环（每秒60帧）
+export const rAF = (callback) => {
+  return window.setTimeout(callback, 1000 / 60)
+}

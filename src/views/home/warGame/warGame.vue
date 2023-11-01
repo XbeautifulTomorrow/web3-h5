@@ -1,10 +1,5 @@
 <template>
   <div class="war_game_wrapper">
-    <div class="banner_box"></div>
-    <div class="tag_items">
-      <div class="tag_item active">TOKEN WAR</div>
-      <div class="tag_item">HISTORY</div>
-    </div>
     <div class="war_game_panel">
       <div class="war_game_user panel_bg">
         <div class="basic_info">
@@ -348,7 +343,7 @@
     ></war-config>
   </div>
 </template>
-<script>
+  <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
@@ -939,4 +934,4 @@ export default {
 <style lang="scss" scoped>
 @import "./components/index.scss";
 </style>
-    
+      

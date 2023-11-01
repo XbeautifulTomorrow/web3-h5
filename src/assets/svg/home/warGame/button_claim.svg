@@ -1,0 +1,23 @@
+<svg width="96" height="36" viewBox="0 0 96 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_2005_63022" fill="white">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H84L89.5 5.75L96 12V36H12L6.5 30.25L0 24V0Z"/>
+</mask>
+<g filter="url(#filter0_i_2005_63022)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H84L89.5 5.75L96 12V36H12L6.5 30.25L0 24V0Z" fill="#C72AE9" fill-opacity="0.1"/>
+</g>
+<path d="M84 0L85.4453 -1.38245L84.8546 -2H84V0ZM0 0V-2H-2V0H0ZM89.5 5.75L88.0547 7.13245L88.0836 7.16267L88.1138 7.19167L89.5 5.75ZM96 12H98V11.1485L97.3862 10.5583L96 12ZM96 36V38H98V36H96ZM12 36L10.5547 37.3824L11.1454 38H12V36ZM6.5 30.25L7.94528 28.8676L7.91637 28.8373L7.88622 28.8083L6.5 30.25ZM0 24H-2V24.8515L-1.38622 25.4417L0 24ZM84 -2H0V2H84V-2ZM90.9453 4.36755L85.4453 -1.38245L82.5547 1.38245L88.0547 7.13245L90.9453 4.36755ZM97.3862 10.5583L90.8862 4.30833L88.1138 7.19167L94.6138 13.4417L97.3862 10.5583ZM98 36V12H94V36H98ZM12 38H96V34H12V38ZM5.05472 31.6324L10.5547 37.3824L13.4453 34.6176L7.94528 28.8676L5.05472 31.6324ZM-1.38622 25.4417L5.11378 31.6917L7.88622 28.8083L1.38622 22.5583L-1.38622 25.4417ZM-2 0V24H2V0H-2Z" fill="#C72AE9" mask="url(#path-1-inside-1_2005_63022)"/>
+<path d="M96 8L91.6667 3.83333L88 -2.22545e-07L96 4.76837e-07L96 8Z" fill="#C72AE9"/>
+<path d="M0 28L4.33333 32.1667L8 36H0V28Z" fill="#C72AE9"/>
+<defs>
+<filter id="filter0_i_2005_63022" x="0" y="0" width="96" height="36" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.780392 0 0 0 0 0.164706 0 0 0 0 0.913725 0 0 0 1 0"/>
+<feBlend mode="color-dodge" in2="shape" result="effect1_innerShadow_2005_63022"/>
+</filter>
+</defs>
+</svg>

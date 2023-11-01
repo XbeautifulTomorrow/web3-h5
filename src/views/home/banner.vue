@@ -64,8 +64,10 @@ export default {
         size: 100,
       });
       if (res) {
-        this.bannerList = res.data.records;
-        localStorage.setItem("banner", JSON.stringify(this.bannerList));
+        this.bannerList = res?.data?.records;
+        if (this.bannerList) {
+          localStorage.setItem("banner", JSON.stringify(this.bannerList));
+        }
       }
     },
   },

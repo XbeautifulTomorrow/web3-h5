@@ -116,6 +116,9 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+      .mag-l {
+        margin-left: .3125rem;
+      }
 
       & > span + span {
         padding-left: 0.75rem;
@@ -371,9 +374,7 @@
               width: 0.75rem;
             }
           }
-          .mag-l {
-            margin-left: 0.25rem;
-          }
+          
         }
         .box_order {
           font-size: 0.75rem;

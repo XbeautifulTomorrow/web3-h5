@@ -1,0 +1,295 @@
+:deep(.public-dialog) {
+  &.el-dialog {
+    border-radius: 0px;
+    // background-image: none !important;
+    box-shadow: inset 0 0 0 1px #c72ae9, inset 0 0 3.75rem 0.3125rem rgba(199, 42, 233, 0.5);
+    box-sizing: border-box;
+    background-color: rgba(199, 42, 233, 0.05);
+  }
+
+  .el-dialog__body {
+    padding: 2.0625rem;
+    box-sizing: border-box;
+    min-height: 31.1875rem;
+    background-image: url("@/assets/svg/home/warGame/dialog_bg.svg") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
+
+.buy_title {
+  font-family: Inter;
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.4;
+  text-align: left;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  img {
+    width: 1.5rem;
+    height: auto;
+  }
+}
+
+.rounds_num {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.rounds_item+.rounds_item {
+  margin-left: 0.5rem;
+}
+
+.rounds_item {
+  flex: 1;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: solid 1px #c72ae9;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #a9a4b4;
+
+  &.active {
+    box-shadow: inset 0 0 20px 5px rgba(199, 42, 233, 0.5);
+    border: solid 1px #c72ae9;
+    background-color: rgba(199, 42, 233, 0.3);
+    color: white;
+  }
+
+  :deep(.rounds_val) {
+    .el-input__wrapper {
+      height: 2.25rem;
+      padding: 0;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      box-shadow: none;
+      outline: none;
+
+      &>input {
+        font-size: 0.875rem;
+        color: white;
+        text-align: center;
+
+        &::placeholder {
+          color: #fad54d;
+        }
+      }
+    }
+  }
+}
+
+.interval {
+  height: 0.125rem;
+  margin: 1.5rem 0;
+  border-radius: 0.125rem;
+  background-color: rgba(199, 42, 233, 0.6);
+}
+
+.config_box {}
+
+.config_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config_slider_box {
+  flex: 1;
+  position: relative;
+
+  .slider_bar {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    &>div {
+      flex: 1;
+      height: 0.25rem;
+      border-radius: 0.5rem;
+    }
+
+    &>div:nth-child(1) {
+      background-color: #c72ae9;
+    }
+
+    &>div:last-child {
+      background-color: #494962;
+    }
+  }
+}
+
+:deep(.config_slider) {
+  margin: 0 1.125rem;
+  width: auto;
+  box-sizing: border-box;
+  height: 2rem;
+
+  .el-slider__runway {
+    height: 0.25rem;
+    background-color: #494962;
+    border-radius: 0.5rem;
+
+    .el-slider__bar {
+      height: 0.25rem;
+      background-color: #c72ae9;
+    }
+
+    .el-slider__button-wrapper {
+      width: 2.875rem;
+      height: 2rem;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      .el-slider__button {
+        width: 2.875rem;
+        height: 2rem;
+        transform: scale(1);
+        border: none;
+        background-color: transparent;
+        background-image: url("@/assets/svg/home/warGame/icon_knob.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
+}
+
+:deep(.config_num) {
+  width: 7.5rem;
+  padding: 0 0.5rem;
+  margin-left: 0.75rem;
+  border-radius: 0.5rem;
+  border: solid 1px #363945;
+  background-color: #13151f;
+
+  .el-input__wrapper {
+    height: 2rem;
+    padding: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+
+    &>input {
+      height: 2rem;
+      font-size: 0.875rem;
+      color: white;
+
+      &::placeholder {
+        color: #fad54d;
+      }
+    }
+  }
+
+  .el-input-group__append {
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0;
+    height: auto;
+
+    img {
+      width: 1rem;
+    }
+  }
+
+  .time_box {
+    min-width: 2.25rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0.25rem 0.25rem 0;
+    background-color: #363945;
+
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    color: #a9a4b4;
+  }
+
+  &.time {
+    padding-right: 0;
+  }
+}
+
+.config_title {
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 1.43;
+  text-align: left;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.config_btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &>div {
+    width: 13.125rem;
+    height: 2.25rem;
+    line-height: 2.25rem;
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+
+    &.btn_cancel {
+      color: #8590a2;
+      background-image: url("@/assets/svg/home/warGame/button_cancel.svg");
+    }
+
+    &.btn_confirm {
+      color: #ed9cff;
+      background-image: url("@/assets/svg/home/warGame/button_confirm.svg");
+    }
+  }
+}
+
+.lock_status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+
+  .status_title {
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: left;
+    color: #a9a4b4;
+  }
+
+  .rounds_num {
+    padding: 0;
+
+    .rounds_item {
+      min-width: 6rem;
+      box-sizing: border-box;
+    }
+  }
+}

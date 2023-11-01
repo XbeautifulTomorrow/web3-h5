@@ -438,6 +438,19 @@ export const isValidEthAddress = (address) => {
   return true;
 };
 
+// 验证地址正确性的函数
+export const isValiTronAddress = (address) => {
+  if (!address) return false;
+  // Base58字符集
+  const base58Chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+  // 使用正则表达式检查地址是否只包含Base58字符
+  const regex = new RegExp(`^[${base58Chars}]+$`);
+  if (!regex.test(address)) {
+    return false;
+  }
+  return true;
+};
+
 // 验证 以太坊交易哈希
 export const isEthTransactionHashValid = (hash) => {
   // 以太坊交易哈希的正则表达式
@@ -543,3 +556,26 @@ export const decryptCBC = (word, keyStr) => {
     return word;
   }
 };
+/*
+* 描述: tween动画算法。
+* @param Number t: 动画已经执行的时间（实际上时执行多少次/帧数）
+* @param Number b: 起始位置
+* @param Number c: 终止位置
+* @param Number d: 从起始位置到终止位置的经过时间（实际上时执行多少次/帧数）
+*/
+// 缓入函数
+export const easeIn = (t, b, c, d) => {
+  if (t >= d) t = d;
+  return c * (t /= d) * t + b;
+}
+
+// 缓出函数
+export const easeOut = (t, b, c, d) => {
+  if (t >= d) t = d;
+  return -c * (t /= d) * (t - 2) + b;
+}
+
+// 动画循环（每秒60帧）
+export const rAF = (callback) => {
+  return window.setTimeout(callback, 1000 / 60)
+}

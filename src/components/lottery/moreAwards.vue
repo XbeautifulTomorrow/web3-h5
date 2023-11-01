@@ -159,7 +159,6 @@ export default {
       this.timer = setInterval(() => {
         const { numberTest } = this;
         this.winData.push(data[numberTest]);
-        console.log(this.winData, "---------------");
         this.autoplay[numberTest] = false;
         this.numberTest += 1;
         setTimeout(() => {

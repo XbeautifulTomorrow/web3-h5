@@ -39,24 +39,18 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
   }
 };
 // 价格小数不满两位保留两位，超过显示全部
-const formatPrice = (el, value, maxDecimalPlaces) => {
+const formatPrice = (el, value, maxDecimalPlaces = 2) => {
   if (value == null || value == undefined) {
-    el.textContent = "0.0";
+    el.textContent = "0.00";
   } else if (value % 1 === 0) {
     el.textContent = parseFloat(value).toFixed(2);
   } else {
-    if (maxDecimalPlaces) {
-      const decimalPlaces = value.toString().split(".")[1].length;
-      if (decimalPlaces > maxDecimalPlaces) {
-        el.textContent = parseFloat(value).toFixed(maxDecimalPlaces);
-      } else {
-        el.textContent = parseFloat(value).toFixed(Math.max(value.toString().split(".")[1].length, 2));
-      }
-    } else {
-      el.textContent = parseFloat(value).toFixed(Math.max(value.toString().split(".")[1].length, 2));
-    }
+    let multiplier = Math.pow(10, maxDecimalPlaces);
+    let roundedNum = Math.floor(value * multiplier) / multiplier;
+    el.textContent = roundedNum.toFixed(maxDecimalPlaces);
   }
 };
+
 app.directive("priceFormat", {
   beforeMount(el, binding) {
     formatPrice(el, binding.value, binding.arg);

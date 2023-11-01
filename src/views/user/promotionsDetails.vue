@@ -21,25 +21,27 @@
         <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
           <div class="progress_item">
             <!-- 奖金总额： -->
-            <p>
-              <span>{{ $t("user.totalBonus") }}</span> <span class="data">{{ welcomeStatic?.totalRewards || 0 }}</span>
+            <p class="progress_item_label">
+              <span>{{ $t("user.totalBonus") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.totalRewards"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
-            <p>
-              <span>{{ $t("user.received") }}</span> <span class="data">{{ welcomeStatic?.receivedReward || 0 }}</span>
+            <p class="progress_item_label">
+              <span>{{ $t("user.received") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.receivedReward"></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 待解锁： -->
-            <p>
+            <p class="progress_item_label">
               <span>{{ $t("user.unlocked") }}</span>
-              <span class="data">{{
-                new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward)) || 0
-              }}</span>
+              <span v-if="screenWidth > 950">:</span>
+              <span
+                class="data"
+                v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"
+              ></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
@@ -48,7 +50,7 @@
           <div class="progress_item">
             <!-- 您获得总积分： -->
             <p>
-              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data">{{ pointStatic || 0 }}</span>
+              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data" v-priceFormat="pointStatic"></span>
             </p>
             <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>
@@ -59,7 +61,7 @@
         <el-table-column
           prop="seriesName"
           :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')"
-          min-width="100"
+          min-width="140"
           show-overflow-tooltip
           align="center"
           key="2"
@@ -71,21 +73,22 @@
                 :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }"
                 v-if="scope.row.consumptionAmount > 0"
               ></div>
-              <p>{{ scope.row.consumptionAmount }} / {{ scope.row.targetAmount }}</p>
+              <p><span v-priceFormat="scope.row.consumptionAmount"></span> / <span v-priceFormat="scope.row.targetAmount"></span></p>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="60" align="center" key="3">
+        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="80" align="center" key="3">
           <template #default="scope">
             <div class="amount_box">
-              <span>{{ scope.row.bonus || "--" }}</span>
+              <span v-if="scope.row.bonus" v-priceFormat="scope.row.bonus"></span>
+              <span v-else>--</span>
               <img v-if="scope.row.bonus" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>
         <el-table-column prop="serviceFee" min-width="80" :label="$t('user.claim')" align="center" key="4" fixed="right">
           <template #default="scope">
-            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed") }}</p>
+            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed2") }}</p>
             <p class="table-btn active" v-else-if="scope.row.status == 'NOT_CLAIMED'" @click="activityReceiveFunc">
               {{ $t("user.claim") }}
             </p>

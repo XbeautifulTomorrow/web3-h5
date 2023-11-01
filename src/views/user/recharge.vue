@@ -23,7 +23,7 @@
             {{ t("user.withdraw") }}
           </div>
           <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
-            {{ $t("user.exchange") }}
+            {{ t("user.exchange") }}
           </div>
         </div>
         <div class="choose_operating" v-if="walletOperating != 3">
@@ -48,7 +48,12 @@
               <template #prefix>
                 <img :src="getCion(operatingCoin)" alt="" />
               </template>
-              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName" />
+              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName">
+                <div class="icon_label">
+                  <img :src="getCion(item.coinName)" alt="" />
+                  <span>{{ item.coinName }}</span>
+                </div>
+              </el-option>
             </el-select>
             <div class="withdraw_item_error">
               {{ coinTips }}
@@ -66,6 +71,7 @@
             </div>
             <el-select
               v-model="walletNetwork"
+              @change="walletNetworkChange"
               @blur="onVerify('network')"
               class="nft_type wallet_network"
               placeholder="Select network"
@@ -201,8 +207,13 @@
             <div class="withdraw_relevant exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
-                  <p><span> 消耗 </span> <span class="required">*</span></p>
-                  <p>可用 {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}</p>
+                  <p>
+                    <span> {{ t("user.from") }} </span> <span class="required">*</span>
+                  </p>
+                  <p>
+                    {{ t("user.available") }}
+                    {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}
+                  </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
@@ -215,7 +226,17 @@
                         <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
+                        <el-option
+                          :key="index"
+                          :label="item.coinName"
+                          :value="item.coinName"
+                          v-if="item.coinName != 'USDT' && item.isExchange"
+                        >
+                          <div class="icon_label">
+                            <img :src="getCion(item.coinName)" alt="" />
+                            <span>{{ item.coinName }}</span>
+                          </div>
+                        </el-option>
                       </template>
                     </el-select>
                   </div>
@@ -236,7 +257,9 @@
             <div class="withdraw_relevant exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
-                  <p><span> 获得 </span> <span class="required">*</span></p>
+                  <p>
+                    <span> {{ t("user.to") }} </span> <span class="required">*</span>
+                  </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
@@ -245,7 +268,17 @@
                         <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
                       </template>
                       <template v-for="(item, index) in networkList">
-                        <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT'" />
+                        <el-option
+                          :key="index"
+                          :label="item.coinName"
+                          :value="item.coinName"
+                          v-if="item.coinName != 'USDT' && item.isExchange"
+                        >
+                          <div class="icon_label">
+                            <img :src="getCion(item.coinName)" alt="" />
+                            <span>{{ item.coinName }}</span>
+                          </div>
+                        </el-option>
                       </template>
                     </el-select>
                   </div>
@@ -266,9 +299,9 @@
               <span>{{
                 `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
               }}</span>
-              <img src="@/assets/svg/user/restart.svg" />
+              <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate(1)" />
             </div>
-            <div class="factor_box exchange_relevant">
+            <!-- <div class="factor_box exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable"><span> two factor </span> <span class="required">*</span></div>
                 <el-input
@@ -277,11 +310,11 @@
                   @blur="onVerify('address')"
                   :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` })"
                 ></el-input>
-                <!-- <div class="withdraw_item_error">
+                <div class="withdraw_item_error">
                   {{ walletAddrTips }}
-                </div> -->
+                </div>
               </div>
-            </div>
+            </div> -->
 
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
               <span>{{ $t("EXCHANGE") }}</span>
@@ -316,11 +349,12 @@ import {
   getWithdrawalExchangeRate,
   withdrawalBalance,
   getWithdrawalChain,
+  exchangeRateV2,
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, handleWindowResize } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress,isValiTronAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./rechargeExchangeResult.vue";
 export default {
@@ -375,6 +409,8 @@ export default {
         exchangeRate: 0,
       },
       exchangeAmountTips: null,
+      exchangeRateTimer: null,
+      receiverAddrList: [],
     };
   },
   computed: {
@@ -430,7 +466,7 @@ export default {
           return;
         }
 
-        if (operatingCoin == "ETH") {
+        if (operatingCoin == "ETH"||operatingCoin == "WETH") {
           this.ethNum = newV || 0;
           return;
         }
@@ -465,6 +501,7 @@ export default {
     t: t,
 
     getCoinBalance(coin) {
+      coin = coin === "WETH" ? "ETH" : coin;
       const res = this.assetLists.filter((x) => x.coinName === coin);
       if (res?.length > 0) {
         return res[0]?.balance;
@@ -475,6 +512,12 @@ export default {
     maxFunc() {
       this.exchangeInfo.exchangeFromAmount = Math.floor(this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000) / 10000;
       this.exchangeFromAmountFunc();
+    },
+    // 获取下浮比率
+    getExchangeDown(coin) {
+      const { networkList } = this;
+      const network = networkList.find((e) => e.coinName == coin);
+      return network?.down || 0;
     },
     exchangeFromAmountFunc() {
       let exchangeToAmount = null;
@@ -489,58 +532,68 @@ export default {
         exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
+      this.onVerifyExchange()
     },
     onVerifyExchange(type) {
-      this.exchangeFromAmountFunc();
-      if (type == "amount") {
-        if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
-          this.exchangeAmountTips = t("user.enterError6");
-        } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
-          this.exchangeAmountTips = t("user.enterError4");
-        } else {
-          this.exchangeAmountTips = null;
-        }
+      if (type) {
+        this.exchangeFromAmountFunc();
+      }
+      if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+        this.exchangeAmountTips = t("user.enterError6");
+      } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
+        this.exchangeAmountTips = t("user.enterError4");
+      } else if (
+        (this.exchangeInfo.exchangeFromCoin == "USDT" && this.exchangeInfo.exchangeFromAmount < 1) ||
+        (this.exchangeInfo.exchangeToCoin == "USDT" && this.exchangeInfo.exchangeToAmount < 1)
+      ) {
+        this.exchangeAmountTips = t("user.enterError7", { data: "1 USDT" });
+      } else {
+        this.exchangeAmountTips = null;
       }
     },
 
     // exchange汇率
-    async fetchExchangeRate() {
+    async fetchExchangeRate(type) {
       const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
-      const res = await getWithdrawalExchangeRate({
+      const res = await exchangeRateV2({
         coinName: coin,
       });
       if (res && res.code == 200) {
+        const down = this.getExchangeDown(this.exchangeInfo.exchangeToCoin);
         if (this.exchangeInfo.exchangeFromCoin == "USDT") {
-          this.exchangeInfo.exchangeRate = res.data;
+          this.exchangeInfo.exchangeRate = res.data / (1 - down);
         } else {
-          this.exchangeInfo.exchangeRate = 1 / res.data;
+          this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
         }
-        this.exchangeFromAmountFunc();
+        if (type != 1) {
+          this.exchangeFromAmountFunc();
+        }
       }
     },
 
     async exchangeOperatingFunc() {
+      this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
       [this.exchangeInfo.exchangeFromCoin, this.exchangeInfo.exchangeToCoin] = [
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
-      this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
-      if (this.exchangeOperating == 1) {
-        this.exchangeInfo.exchangeFromCoin = "USDT";
-      } else {
-        this.exchangeInfo.exchangeToCoin = "USDT";
-      }
+      this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
       this.fetchExchangeRate();
-      this.onVerifyExchange("amount");
+      setTimeout(() => {
+        this.onVerifyExchange();
+      }, 500);
     },
 
-    closeExchangeDialogFun() {
+    closeExchangeDialogFun(data) {
       this.pageType = "";
-      this.exchangeInfo.exchangeFromAmount = null;
+      if (data) {
+        this.exchangeInfo.exchangeFromAmount = null;
+        this.exchangeInfo.exchangeToAmount = null;
+      }
     },
 
     exchangeFunc() {
-      this.onVerifyExchange("amount");
+      this.onVerifyExchange();
       if (!this.exchangeAmountTips && this.exchangeInfo.exchangeRate > 0) {
         this.pageType = "exchangeResult";
       }
@@ -555,11 +608,13 @@ export default {
         });
 
         this.fetchRechargeExchangeRate();
+      } else if (this.walletOperating == 3) {
+        this.fetchExchangeRate();
+        this.exchangeRateTimer = setInterval(() => {
+          this.fetchExchangeRate(1);
+        }, 10000);
       } else {
         this.fetchWithdrawalExchangeRate();
-      }
-      if (this.walletOperating == 3) {
-        this.fetchExchangeRate();
       }
     },
     handleChoose(event) {
@@ -601,18 +656,26 @@ export default {
 
         if (this.networkDrop.length > 0) {
           this.walletNetwork = this.networkDrop[0].chain;
+          this.walletNetworkChange();
         }
+      }
+    },
+    walletNetworkChange() {
+      if (this.walletNetwork && this.networkDrop) {
+        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+        this.receiverAddr = this.receiverAddrList.find((x) => x.type == type)?.address;
+        localStorage.setItem("receiver", this.receiverAddr);
+        this.$nextTick(() => {
+          this.createQrcode();
+        });
       }
     },
     // 收款地址
     async fetchReceivingAddr() {
       const res = await getTheUserSPayoutAddress();
       if (res && res.code == 200) {
-        this.receiverAddr = res.data;
-        localStorage.setItem("receiver", res.data);
-        this.$nextTick(() => {
-          this.createQrcode();
-        });
+        this.receiverAddrList = res.data;
+        this.walletNetworkChange();
       }
     },
 
@@ -670,8 +733,15 @@ export default {
           this.verifys = false;
           return;
         }
-
-        if (!isValidEthAddress(walletAddr)) {
+        console.log(this.walletNetwork,this.walletNetwork)
+        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+        if(type=='TRON'&&!isValiTronAddress(walletAddr)){
+          this.walletAddrTips = t("user.enterError2", {
+            coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
+          });
+          this.verifys = false;
+          return;
+        } else if (type!='TRON'&&!isValidEthAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });
@@ -809,6 +879,11 @@ export default {
     this.fetchSetting();
     this.fetchWithdrawalChain();
   },
+  unmounted() {
+    if (this.exchangeRateTimer) {
+      clearInterval(this.exchangeRateTimer);
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -835,7 +910,7 @@ export default {
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.6;
-    padding: 0.625rem 0.825rem;
+    padding: 0 0.825rem;
     height: auto;
 
     &.selected {

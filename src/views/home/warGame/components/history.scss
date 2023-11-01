@@ -1,0 +1,239 @@
+.war_history_wrapper {
+  width: 95rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.history_filter {
+  padding-bottom: 2rem;
+  font-family: Inter;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  text-align: left;
+  color: #fad54d;
+
+  span {
+    margin-left: 0.75rem;
+  }
+}
+
+:deep(.el-switch) {
+  height: 1.25rem;
+
+  .el-switch__core {
+    width: 2.25rem;
+    min-width: 2.25rem;
+    height: 0.875rem;
+  }
+
+  .el-switch__action {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid white;
+    box-sizing: border-box;
+  }
+
+  &.is-checked {
+    .el-switch__action {
+      background-color: #fad54d;
+      border: 1px solid #fad54d;
+    }
+  }
+}
+
+.history_data_box {
+  height: 76.5rem;
+  background-image: url("@/assets/svg/home/warGame/history_list_bg.svg");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding: 0 1.875rem;
+  box-sizing: border-box;
+}
+
+:deep(.table_container) {
+  background-color: transparent;
+  box-sizing: border-box;
+
+  .cell {
+    height: 3.5rem;
+    line-height: 3.5rem;
+    font-size: 1.125rem;
+    color: white;
+    box-sizing: border-box;
+  }
+
+  th {
+    &.el-table__cell {
+      background-color: transparent;
+      border-bottom-color: #1d1f2b;
+      padding: 0;
+
+      .cell {
+        font-size: 0.875rem;
+        font-weight: normal;
+        color: white;
+      }
+    }
+  }
+
+  tr {
+    background-color: transparent;
+
+    .el-table__cell {
+      padding: 0;
+    }
+  }
+
+  td {
+    &.el-table__cell {
+      background-color: transparent;
+      border-bottom-color: #1d1f2b;
+    }
+  }
+
+  .el-table__empty-block {
+    background-color: transparent;
+    font-size: 1.125rem;
+    color: #a9a4b4;
+  }
+
+  .el-table__body tr:hover>td {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }
+
+  .el-table__inner-wrapper::before {
+    display: none;
+  }
+
+  .prize_pool {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-family: Inter;
+    font-size: 1rem;
+    line-height: 1;
+    text-align: left;
+    color: white;
+
+    img {
+      width: 1rem;
+      height: auto;
+      margin-right: 0.25rem;
+    }
+  }
+
+  .buy_box {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buy_num {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    font-family: Inter;
+    font-size: 1rem;
+    line-height: 1;
+    text-align: left;
+
+    .num {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: #fff;
+
+      img {
+        width: 1rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .rate {
+      padding-top: 0.25rem;
+      color: #a9a4b4;
+    }
+  }
+
+  .copy_btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &>img+img {
+      margin-left: 0.625rem;
+    }
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      cursor: pointer;
+    }
+  }
+}
+
+.pagination-box {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+
+  :deep(.el-pagination) {
+    button {
+      background: transparent;
+      color: white;
+      font-family: Tomorrow;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1.5;
+
+      &:disabled {
+        opacity: 0.8;
+      }
+
+      &.btn-prev {
+        margin-right: 1.25rem;
+      }
+
+      &.btn-next {
+        margin-left: 1.25rem;
+      }
+    }
+  }
+
+  :deep(.el-pager) {
+    &>li+li {
+      margin-left: 0.75rem;
+    }
+
+    li {
+      width: 3.25rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2.5rem;
+      background-color: transparent;
+      border: solid 1px rgba(146, 148, 156, 0.3);
+
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: #a9a4b4;
+
+      &.is-active,
+      &:hover {
+        background-image: linear-gradient(to top, #e3a406, #fbd851);
+        border-color: transparent;
+        color: #13151f;
+      }
+    }
+  }
+}

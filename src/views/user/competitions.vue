@@ -356,15 +356,9 @@
               {{ $t("user.delete") }}
             </div>
             <div class="remaining_votes">
-              <span v-if="item.numberOfTicketsSold > 1">
-                {{
-                  $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
               </span>
-              <span v-else>
-                {{
-                  $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
               </span>
             </div>
           </div>
@@ -423,7 +417,7 @@
           <span v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN'">{{
             competitionNft.seriesName || "--"
           }}</span>
-          <span v-else>{{ `${competitionNft.price} USDT` }}</span>
+          <span v-else>{{ `${competitionNft.price} ETH` }}</span>
         </div>
         <div
           class="nft_id text-ellipsis"

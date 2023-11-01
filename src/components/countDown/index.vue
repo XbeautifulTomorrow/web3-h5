@@ -1,12 +1,17 @@
 <template>
   <div class="content">
-    <slot v-bind="{
-      d: days, h: hours, m: mins, s: seconds,
-      dd: `00${days}`.slice(-2),
-      hh: `00${hours}`.slice(-2),
-      mm: `00${mins}`.slice(-2),
-      ss: `00${seconds}`.slice(-2),
-    }"></slot>
+    <slot
+      v-bind="{
+        d: days,
+        h: hours,
+        m: mins,
+        s: seconds,
+        dd: `00${days}`.slice(-2),
+        hh: `00${hours}`.slice(-2),
+        mm: `00${mins}`.slice(-2),
+        ss: `00${seconds}`.slice(-2),
+      }"
+    ></slot>
   </div>
 </template>
 <script>
@@ -14,26 +19,26 @@ import { useUserStore } from "@/store/user";
 export default {
   name: "countDown",
   data: () => ({
-    days: '00',
-    hours: '00',
-    mins: '00',
-    seconds: '00',
+    days: "00",
+    hours: "00",
+    mins: "00",
+    seconds: "00",
     timer: null,
-    curTime: 0
+    curTime: 0,
   }),
   props: {
     time: {
       type: [Number, String],
-      default: 0
+      default: 0,
     },
     refreshCounter: {
       type: [Number, String],
-      default: 0
+      default: 0,
     },
     isMiniSecond: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     duration() {
@@ -45,9 +50,11 @@ export default {
         return end;
       }
       const timestamp = new Date(this.time).getTime();
-      const time = this.isMiniSecond ? Math.round(+timestamp / 1000) : Math.round(+timestamp);
+      const time = this.isMiniSecond
+        ? Math.round(+timestamp / 1000)
+        : Math.round(+timestamp);
       return time;
-    }
+    },
   },
   mounted() {
     this.countDown();
@@ -58,26 +65,27 @@ export default {
     },
     refreshCounter() {
       this.countDown();
-    }
+    },
   },
   methods: {
     durationFormatter(diff) {
       // 按照传入的格式生成一个simpledateformate对象
       let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
-      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nh = 1000 * 60 * 60; // 一小时的毫秒数
       let nm = 1000 * 60; // 一分钟的毫秒数
       let ns = 1000; // 一秒钟的毫秒数;
 
-      let dd = diff / nd;// 计算差多少天
+      let dd = diff / nd; // 计算差多少天
       // eslint-disable-next-line no-unused-vars
-      let hh = diff % nd / nh;// 计算差多少小时
+      let hh = (diff % nd) / nh; // 计算差多少小时
       // eslint-disable-next-line no-unused-vars
-      let mm = diff % nd % nh / nm;// 计算差多少分钟
+      let mm = ((diff % nd) % nh) / nm; // 计算差多少分钟
       // eslint-disable-next-line no-unused-vars
-      let ss = diff % nd % nh % nm / ns;// 计算差多少秒//输出结果
+      let ss = (((diff % nd) % nh) % nm) / ns; // 计算差多少秒//输出结果
       return { dd, hh, mm, ss };
     },
     countDown() {
+      if (!this.time) return;
       this.curTime = new Date().getTime();
       this.getTime(this.duration);
     },
@@ -85,7 +93,7 @@ export default {
       this.timer && clearTimeout(this.timer);
       if (time <= 1000) {
         // 计时结束
-        this.$emit("onEnd")
+        this.$emit("onEnd");
         return;
       }
       // eslint-disable-next-line object-curly-newline
@@ -99,16 +107,18 @@ export default {
       this.seconds = Math.floor(ss) || 0;
       this.timer = setTimeout(() => {
         const now = new Date().getTime();
-        const diffTime = Math.floor((now - this.curTime));
+        const diffTime = Math.floor(now - this.curTime);
         const step = diffTime > 1000 ? diffTime : 1000; // 页面退到后台的时候不会计时，对比时间差，大于1s的重置倒计时
         this.curTime = now;
         this.getTime(time - step);
+        // 将剩余秒数返回
+        this.$emit("onCountDown", time);
       }, 1000);
-    }
+    },
   },
   beforeUnmount() {
     this.timer && clearTimeout(this.timer);
-  }
+  },
 };
 </script>
 <style lang='scss' scoped>

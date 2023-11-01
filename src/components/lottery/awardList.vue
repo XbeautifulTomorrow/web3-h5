@@ -37,7 +37,7 @@
           </p>
           <p class="lottery-moreLuck-price">
             <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-            <span v-priceFormat:4="winData.initPrice"></span>
+            <span v-priceFormat="winData.initPrice"></span>
           </p>
         </div>
       </div>

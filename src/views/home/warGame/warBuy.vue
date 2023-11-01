@@ -1,0 +1,260 @@
+<template>
+  <div>
+    <div class="buy_panel">
+      <p class="buy_title">Add Troops</p>
+      <div class="user_usd_balance">
+        <div class="title">Your Balance:</div>
+        <div class="val">
+          <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+          <span>
+            {{ Number(accurateDecimal(usdBalance, 2)).toLocaleString() }}
+          </span>
+        </div>
+      </div>
+      <el-input
+        class="buy_input"
+        type="number"
+        v-model.number="buyNum"
+        placeholder=""
+      >
+        <template #append>
+          <div class="add_btn" @click="buyTickets()">
+            <img
+              class="not-select"
+              src="@/assets/svg/home/warGame/icon_add.svg"
+              alt=""
+            />
+            <span>ADD</span>
+          </div>
+        </template>
+      </el-input>
+      <div class="input_error"></div>
+      <div class="choose_box">
+        <div class="choose_tips">1 Soldier = 1 USDT</div>
+        <div class="choose_items">
+          <div class="choose_btn" @click="buyNum = 1">+1</div>
+          <div class="choose_btn" @click="buyNum = 50">+50</div>
+          <div class="choose_btn" @click="buyNum = 100">+100</div>
+          <div class="choose_btn" @click="buyNum = 500">+500</div>
+        </div>
+      </div>
+      <div class="auto_war_box">
+        <div class="tips_text">
+          <span>自动参战</span>
+          <div class="auto_btn">
+            <el-switch
+              v-model="autoConfig.autoBuyStatus"
+              active-value="OPEN"
+              inactive-value="CLOSE"
+              style="
+                --el-switch-on-color: #927a51;
+                --el-switch-off-color: rgba(60, 60, 67, 0.3);
+              "
+            />
+            <div class="btn" @click="changeAuto()"></div>
+          </div>
+        </div>
+        <div v-if="autoConfig.autoBuyStatus != 'CLOSE'">
+          <div class="auto_item">
+            <div class="title">剩余局数</div>
+            <div class="val">{{ autoConfig?.autoActualNumber || "--" }}</div>
+          </div>
+          <div class="auto_item">
+            <div class="title">单局投入</div>
+            <div class="val" v-if="autoConfig?.autoBuyAmount">
+              <span>
+                {{
+                  Number(
+                    accurateDecimal(autoConfig?.autoBuyAmount || 0, 2)
+                  ).toLocaleString()
+                }}
+              </span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            </div>
+            <div class="val" v-else>--</div>
+          </div>
+          <div class="auto_item">
+            <div class="title">入场时机</div>
+            <div class="val">{{ autoConfig?.autoBuyTime || "--" }}</div>
+          </div>
+          <div class="auto_item">
+            <div class="title">最低战利品</div>
+            <div class="val" v-if="autoConfig?.lowBounsPool">
+              <span>
+                {{
+                  Number(
+                    accurateDecimal(autoConfig?.lowBounsPool || 0, 2)
+                  ).toLocaleString()
+                }}
+              </span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            </div>
+            <div class="val" v-else>--</div>
+          </div>
+        </div>
+      </div>
+      <div class="lock_winning_box">
+        <div class="tips_text">
+          <span>锁定胜率</span>
+          <el-switch
+            v-model="autoConfig.lockWinRateStatus"
+            @change="changeLock"
+            active-value="OPEN"
+            inactive-value="CLOSE"
+            style="
+              --el-switch-on-color: #927a51;
+              --el-switch-off-color: rgba(60, 60, 67, 0.3);
+            "
+          />
+        </div>
+        <div v-if="autoConfig.lockWinRateStatus != 'CLOSE'">
+          <div class="auto_item">
+            <div class="title">目标胜率</div>
+            <div class="val" v-if="autoConfig?.lockWinRate">
+              {{
+                accurateDecimal(
+                  new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(100),
+                  2
+                )
+              }}%
+            </div>
+            <div class="val" v-else>--</div>
+          </div>
+          <div class="auto_item">
+            <div class="title">最大投入兵力</div>
+            <div class="val" v-if="autoConfig?.lockMaxAmount">
+              <span>
+                {{ autoConfig?.lockMaxAmount }}
+              </span>
+              <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            </div>
+            <div class="val" v-else>--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { mapStores } from "pinia";
+import { useUserStore } from "@/store/user.js";
+import { useHeaderStore } from "@/store/header.js";
+import { accurateDecimal } from "@/utils";
+import { warBuy, getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
+import bigNumber from "bignumber.js";
+
+export default {
+  name: "WarBuy",
+  props: {
+    config: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      buyNum: null,
+      autoConfig: {
+        autoBuyAmount: 0, //自动购买金额
+        autoBuyNumber: 0, //自动局数
+        autoBuyStatus: "CLOSE", //自动状态：OPEN,CLOSE
+        autoBuyTime: 0, //几秒入局
+        lockMaxAmount: 0, //最大投注
+        lockWinRate: 0, //胜率
+        lockWinRateStatus: "CLOSE", //锁定状态：OPEN,CLOSE,AUTO
+        lowBounsPool: 0, //最低奖池
+      },
+      autoChoose: 1,
+      customize: 0,
+    };
+  },
+  computed: {
+    ...mapStores(useUserStore, useHeaderStore),
+    usdBalance() {
+      const headerStore = useHeaderStore();
+      return headerStore.usdBalance;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
+  },
+  methods: {
+    bigNumber: bigNumber,
+    accurateDecimal: accurateDecimal,
+    // 购买战争游戏门票
+    async buyTickets() {
+      const { buyNum, usdBalance } = this;
+
+      if (Number(buyNum) > Number(usdBalance)) {
+        this.$message.error("余额不足");
+        return;
+      }
+
+      if (!Number(buyNum || 0) || !Number(buyNum || 0) > 0) {
+        this.$message.error("请输入购买数量");
+        return;
+      }
+
+      const res = await warBuy({ buyPrice: buyNum });
+      if (res.code == 200) {
+        this.$message.success("Operation successfully!");
+        this.buyNum = null;
+      }
+    },
+    // 获取自动配置
+    async fetchAutoConfig() {
+      const res = await getAutoConfig();
+      if (res.code == 200) {
+        this.autoConfig = {
+          ...this.autoConfig,
+          ...res.data,
+        };
+      }
+    },
+    // 自动战争设置
+    async changeAuto() {
+      const {
+        autoConfig: { autoBuyStatus },
+      } = this;
+
+      if (autoBuyStatus == "CLOSE") {
+        this.$emit("showDialogFun", "auto");
+      } else {
+        // 关闭
+        const res = await setAutoConfig({
+          ...this.autoConfig,
+          autoBuyStatus: "CLOSE",
+        });
+
+        if (res.code == 200) {
+          this.$message.success("Operation successfully!");
+          this.fetchAutoConfig();
+        }
+      }
+    },
+    // 锁定胜率设置
+    changeLock(event) {
+      if (event != "CLOSE") {
+        this.$emit("showDialogFun", "lock");
+      }
+    },
+  },
+  created() {
+    this.fetchAutoConfig();
+  },
+  watch: {
+    config(newV) {
+      if (!newV) return;
+      this.fetchAutoConfig();
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+@import "./components/warBuy.scss";
+</style>

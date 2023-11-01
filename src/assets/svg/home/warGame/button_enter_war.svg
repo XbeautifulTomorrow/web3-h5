@@ -1,0 +1,23 @@
+<svg width="296" height="60" viewBox="0 0 296 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_2005_63030" fill="white">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H284L289.5 5.75L296 12V60H12L6.5 54.25L0 48V0Z"/>
+</mask>
+<g filter="url(#filter0_i_2005_63030)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H284L289.5 5.75L296 12V60H12L6.5 54.25L0 48V0Z" fill="#C72AE9" fill-opacity="0.1"/>
+</g>
+<path d="M284 0L285.445 -1.38245L284.855 -2H284V0ZM0 0V-2H-2V0H0ZM289.5 5.75L288.055 7.13245L288.084 7.16267L288.114 7.19167L289.5 5.75ZM296 12H298V11.1485L297.386 10.5583L296 12ZM296 60V62H298V60H296ZM12 60L10.5547 61.3824L11.1454 62H12V60ZM6.5 54.25L7.94528 52.8676L7.91637 52.8373L7.88622 52.8083L6.5 54.25ZM0 48H-2V48.8515L-1.38622 49.4417L0 48ZM284 -2H0V2H284V-2ZM290.945 4.36755L285.445 -1.38245L282.555 1.38245L288.055 7.13245L290.945 4.36755ZM297.386 10.5583L290.886 4.30833L288.114 7.19167L294.614 13.4417L297.386 10.5583ZM298 60V12H294V60H298ZM12 62H296V58H12V62ZM5.05472 55.6324L10.5547 61.3824L13.4453 58.6176L7.94528 52.8676L5.05472 55.6324ZM-1.38622 49.4417L5.11378 55.6917L7.88622 52.8083L1.38622 46.5583L-1.38622 49.4417ZM-2 0V48H2V0H-2Z" fill="#C72AE9" mask="url(#path-1-inside-1_2005_63030)"/>
+<path d="M296 8L291.667 3.83333L288 -2.22545e-07L296 4.76837e-07L296 8Z" fill="#C72AE9"/>
+<path d="M0 52L4.33333 56.1667L8 60H0V52Z" fill="#C72AE9"/>
+<defs>
+<filter id="filter0_i_2005_63030" x="0" y="0" width="296" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.780392 0 0 0 0 0.164706 0 0 0 0 0.913725 0 0 0 1 0"/>
+<feBlend mode="color-dodge" in2="shape" result="effect1_innerShadow_2005_63030"/>
+</filter>
+</defs>
+</svg>

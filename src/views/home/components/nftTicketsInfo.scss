@@ -1411,8 +1411,8 @@
   margin: 0 auto;
   padding-top: 0.625rem;
   padding-bottom: 1.25rem;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.75rem;
+  line-height: 1.2;
   text-align: left;
   color: #df4328;
   box-sizing: border-box;
@@ -1585,6 +1585,7 @@
         width: 100%;
         align-items: flex-end;
         justify-content: space-between;
+        padding-top: 0.625rem;
       }
 
       .price {
@@ -1618,7 +1619,7 @@
       .time {
         min-width: auto;
         font-size: 0.75rem;
-
+        padding-top: 0.625rem;
         img {
           width: 1rem;
           height: auto;
@@ -1656,7 +1657,7 @@
 
     .creator {
       padding-top: 0.625rem;
-
+      justify-content: space-between;
       &>div {
         padding-right: 0;
         font-size: 0.75rem;
@@ -1965,7 +1966,7 @@
 
 
     .price_box {
-
+      
       img {
         width: 1rem;
         margin-right: 0.25rem;

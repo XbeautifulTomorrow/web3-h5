@@ -931,7 +931,7 @@
     margin-top: 1.25rem;
   }
   .exchange_btn {
-    margin-top: 1.25rem;
+    margin-top: 4.25rem;
   }
 }
 
@@ -1143,17 +1143,14 @@
   text-align: center;
   color: white;
 }
-
-.coin_label {
+.icon_label {
   display: flex;
   align-items: center;
-  justify-content: center;
   img {
     width: 1.25rem;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
-
 @media screen and (max-width: 950px) {
   .my_wallet_wrapper {
     background-image: none;
@@ -1394,7 +1391,7 @@
 
   .recharge_box {
     padding: 0 1rem;
-
+    padding-top: 2.25rem;
     .operating_box {
       .operating_btn + .operating_btn {
         margin-left: 0.75rem;
@@ -1675,6 +1672,32 @@
     img {
       width: 1rem;
       margin-right: 0.25rem;
+    }
+  }
+  .exchange_box {
+    margin: 1.875rem 0;
+    .exchange_item_lable {
+      line-height: 2;
+    }
+    .withdraw_item_error {
+      padding-bottom: 1.25rem;
+      margin-top: 0.5rem;
+    }
+    :deep(.exchange_relevant) {
+      .exhange_icon {
+        font-size: 0.875rem;
+        font-weight: bold;
+        img {
+          width: 1rem;
+        }
+      }
+      .el-input {
+        .el-input__wrapper {
+          & > input {
+            font-size: 0.875rem;
+          }
+        }
+      }
     }
   }
 

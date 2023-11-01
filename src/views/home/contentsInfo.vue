@@ -52,7 +52,7 @@
         show-overflow-tooltip
       >
         <template #default="scope">
-          {{ `$${scope.row.price}` }}
+          {{ `$${Number(accurateDecimal(scope.row.usdtPrice, 2)).toLocaleString()}` }}
         </template>
       </el-table-column>
       <el-table-column
@@ -61,7 +61,7 @@
         show-overflow-tooltip
       >
         <template #default="scope">
-          {{ `${scope.row.usdtPrice} ETH` }}
+          {{ `${scope.row.price} ETH` }}
         </template>
       </el-table-column>
       <el-table-column
@@ -103,7 +103,7 @@ import { getNFTList } from "@/services/api/index";
 import { getTheExternalNFTSeries } from "@/services/api/oneBuy";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
-
+import { accurateDecimal } from "@/utils";
 import Image from "@/components/imageView";
 export default {
   name: "ContentsInfo",
@@ -132,6 +132,7 @@ export default {
     },
   },
   methods: {
+    accurateDecimal: accurateDecimal,
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({

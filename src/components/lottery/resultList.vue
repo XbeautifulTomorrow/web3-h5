@@ -80,7 +80,7 @@
                       <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
                     </template>
                     <!-- 币类型 -->
-                    <span class="amount" v-else>{{ $t("lottery.amount") }}</span>
+                    <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
                     <p class="result-sell-coin">
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span v-priceFormat="item.nftType == 'EXTERNAL' && second < 1 ? item.initPrice : item.price"></span>
@@ -337,16 +337,16 @@ const nftsFun = (_data) => {
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
     nfts.value.splice(_index, 1);
-    total.value = BigNumber(total.value).plus(Number(_data.price)).decimalPlaces(4);
+    total.value = BigNumber(total.value).plus(Number(_data.price)).decimalPlaces(2);
   } else {
     nfts.value.push(_data.id);
-    total.value = BigNumber(total.value).minus(Number(_data.price)).decimalPlaces(4);
+    total.value = BigNumber(total.value).minus(Number(_data.price)).decimalPlaces(2);
   }
 };
 const totalFun = () => {
   const { result } = props;
   result.forEach((item) => {
-    total.value = BigNumber(total.value).plus(Number(item.price)).decimalPlaces(4);
+    total.value = BigNumber(total.value).plus(Number(item.price)).decimalPlaces(2);
   });
 };
 const timerFun = () => {

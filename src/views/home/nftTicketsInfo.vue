@@ -7,7 +7,7 @@
             fit="cover"
             class="nft_img"
             v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.webp')"
+            :src="require('@/assets/svg/user/create_eth.webp')" 
           />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
           <div
@@ -651,7 +651,7 @@
                 }}
               </span>
               <span class="nft_name text-ellipsis" v-else>
-                {{ `$ ${nftInfo?.totalPrice}` }}
+                {{ `${nftInfo?.totalPrice} ETH` }}
               </span>
             </div>
             <div
@@ -820,15 +820,9 @@
               <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
             <div class="remaining_votes">
-              <span v-if="item.numberOfTicketsSold > 1">
-                {{
-                  $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span  v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
               </span>
-              <span v-else>
-                {{
-                  $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
               </span>
             </div>
           </div>
@@ -1514,6 +1508,10 @@ export default {
         chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
       } else if (event.chainType == "ThunderCore") {
         chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+      } else if (event.chainType == "TRC_20_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+      } else if (event.chainType == "TRC_20") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
       }
       openUrl(`${chainLink}${event.txid}`);
     },

@@ -1,0 +1,762 @@
+.war_game_index_wrapper {
+  width: 95rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding-bottom: 5.625rem;
+}
+
+.war_game_wrapper {
+  width: 95rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.panel_bg {
+  box-shadow: inset 0 0 3.75rem 0.3125rem rgba(199, 42, 233, 0.5);
+  border: solid 1px #c72ae9;
+  background-color: rgba(199, 42, 233, 0.05);
+}
+
+.banner_box {
+  height: 9.5625rem;
+  padding-bottom: 1rem;
+}
+
+.tag_items {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1rem;
+
+  &>div+div {
+    margin-left: 1rem;
+  }
+
+  .tag_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    height: 2.75rem;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(to bottom,
+        #c72ae9 0%,
+        rgba(199, 42, 233, 0) 45%),
+      linear-gradient(to bottom,
+        rgba(199, 42, 233, 0.1),
+        rgba(199, 42, 233, 0.1));
+
+    text-shadow: 0 0 0.625rem #c72ae9;
+    font-family: Tomorrow;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
+    color: #ed9cff;
+    opacity: 0.6;
+    cursor: pointer;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+
+.war_game_panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40.3125rem;
+}
+
+.war_game_user {
+  width: 27.625rem;
+  height: 100%;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+}
+
+.basic_info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  box-sizing: border-box;
+
+  .user_num {
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: #79bcc6;
+  }
+
+  .watcher_num {
+    display: flex;
+    align-items: center;
+
+    font-family: Inter;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: left;
+    color: #fad54d;
+
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.user_list_box {
+  padding: 0 0.5rem;
+
+  .user_item+.user_item {
+    margin-top: 0.25rem;
+  }
+}
+
+.user_item {
+  display: flex;
+  align-items: center;
+  height: 4.25rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &.level_1 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_2 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_3 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_4 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_5 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_6 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  &.level_7 {
+    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  }
+
+  .user_badge {
+    width: 4.25rem;
+    height: 100%;
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    img {
+      width: 3.375rem;
+      height: auto;
+    }
+  }
+
+  .user_info {
+    flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.info_box {
+  padding: 0.625rem 0.75rem;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  .avatar_img {
+    width: 2rem;
+    height: auto;
+    margin-right: 0.5rem;
+  }
+
+  .buy_info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .user_name {
+      font-family: Inter;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      text-align: left;
+      color: white;
+    }
+
+    .buy {
+      display: flex;
+      align-items: center;
+      font-family: Inter;
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.43;
+      text-align: left;
+      color: #11cde9;
+
+      img {
+        width: 1rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+    }
+  }
+}
+
+.tickets_box {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .ratio {
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1.43;
+    text-align: right;
+    color: #11cde9;
+  }
+
+  .reward_id {
+    font-family: Inter;
+    font-size: 0.75rem;
+    line-height: 1.33;
+    text-align: right;
+    color: #a9a4b4;
+  }
+}
+
+.lottery_panel {
+  width: 45.375rem;
+  height: 40.1875rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+}
+
+.prize_pool {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+}
+
+.round {
+  font-family: Inter;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: left;
+
+  .round_title {
+    font-size: 1rem;
+    color: #79bcc6;
+  }
+
+  .round_val {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+}
+
+.prize_box {
+  .title {
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: #79bcc6;
+    padding-bottom: 0.5rem;
+  }
+
+  .prize_val,
+  .prize {
+    display: flex;
+    align-items: center;
+  }
+
+  .prize {
+    font-family: Inter;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: right;
+    color: #f3f3f8;
+    padding-right: 1rem;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .claim_btn {
+    width: 6rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("@/assets/svg/home/warGame/button_claim.svg");
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-shadow: 0 0 0.625rem #c72ae9;
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1.43;
+    color: #ed9cff;
+    cursor: pointer;
+  }
+}
+
+.war_game_box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer_ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26rem;
+  height: 26rem;
+  border-radius: 50%;
+  box-shadow: 0 0 1rem 0.25rem #c72ae9, inset 0 0 3px 0 #c72ae9;
+  border: solid 0.25rem #c72ae9;
+  box-sizing: border-box;
+}
+
+.win_pointer {
+  position: absolute;
+  bottom: 6.625rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.875rem;
+  transform: translate(-50%, -50%);
+  width: 20.5rem;
+  height: 22.1875rem;
+  background-image: url("@/assets/svg/home/warGame/win_pointer.svg");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.round_prize {
+  max-width: 14rem;
+  max-height: 12.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .round_num {
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    color: #79bcc6;
+  }
+
+  .win_user {
+    .win_bg {
+      margin: 0 auto;
+      width: 10.875rem;
+      height: 4rem;
+      background-image: url("@/assets/svg/home/warGame/win_avatar_bg.svg");
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+
+      img {
+        margin-top: -0.125rem;
+        width: 3.25rem;
+        height: auto;
+      }
+    }
+
+    span {
+      font-family: Inter;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1;
+      text-align: center;
+      color: #fad54d;
+    }
+  }
+
+  .round_prize_val {
+    width: 14rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.75rem 0;
+
+    height: 4rem;
+    border-radius: 6.25rem;
+    box-shadow: inset 0 0 10px 0 #c72ae9;
+    border: solid 1px #c72ae9;
+    background-color: rgba(199, 42, 233, 0.3);
+
+    span {
+      font-family: Tomorrow;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1.3;
+      text-align: left;
+      color: #11cde9;
+      text-align: left;
+      background-image: linear-gradient(to top, #e3a406, #fbd851);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    &.win {
+      height: 3rem;
+
+      span {
+        font-size: 1rem;
+      }
+    }
+
+    img {
+      width: 1.5rem;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .round_prize_status {
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
+    color: #11cde9;
+
+    .win_id {
+      display: block;
+      font-family: Inter;
+      font-size: 0.75rem;
+      line-height: 1.33;
+      text-align: center;
+      color: #a9a4b4;
+    }
+
+    .next_round {
+      display: block;
+      padding-top: 0.25rem;
+      font-family: Inter;
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.14;
+      text-align: center;
+      color: white;
+    }
+  }
+}
+
+
+
+.countdown_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+
+  img {
+    width: 2.5rem;
+    height: auto;
+  }
+
+  .progress_bar {
+    flex: 1;
+    margin: 0 1.25rem 0 0.75rem;
+    position: relative;
+    box-sizing: border-box;
+
+    .progress_bg {
+      position: absolute;
+      width: 100%;
+      height: 1.375rem;
+      top: 50%;
+      left: 0;
+      transform: translate(0, -50%);
+      background-image: url("@/assets/svg/home/warGame/percentage_bg.svg");
+      background-size: contain;
+      z-index: 10;
+    }
+  }
+
+  :deep(.el-progress) {
+    padding: 0 0.5rem;
+
+    .el-progress-bar {
+      .el-progress-bar__outer {
+        border-radius: 0 0.5rem 0 0;
+        background-color: transparent;
+
+        .el-progress-bar__inner {
+          border-radius: 0;
+        }
+      }
+    }
+  }
+
+  .countdown {
+    min-width: 4.375rem;
+    font-family: Tomorrow;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-align: right;
+    color: #fff;
+  }
+}
+
+.round_info_panel {
+  width: 20.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.round_info {
+  height: 11rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+
+  .round_num {
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: #79bcc6;
+  }
+
+  .info {
+    display: flex;
+    flex-wrap: wrap;
+
+    .info_item {
+      width: 50%;
+    }
+
+    .info_item:nth-child(n+3) {
+      margin-top: 0.75rem;
+    }
+  }
+
+
+
+  .info_val {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.25rem;
+
+    img {
+      width: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    span {
+      font-family: Inter;
+      font-size: 1.25rem;
+      font-weight: bold;
+      line-height: 1.6;
+      text-align: left;
+      color: #11cde9;
+    }
+  }
+
+  .info_title {
+    font-family: Inter;
+    font-size: 0.75rem;
+    line-height: 1.33;
+    text-align: left;
+    color: #a9a4b4;
+  }
+}
+
+.connect_box {
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  height: 28.375rem;
+  background-image: url("@/assets/svg/home/warGame/enter_war_bg.webp");
+  background-position: center center;
+  background-size: contain;
+}
+
+.not_connect {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enter_war {
+  width: 18.5rem;
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 0.625rem #c72ae9;
+  background-image: url("@/assets/svg/home/warGame/button_enter_war.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  font-family: Inter;
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.56;
+  text-align: center;
+  color: #ed9cff;
+  cursor: pointer;
+}
+
+.introduce_panel {
+  padding-top: 6.125rem;
+}
+
+.introduce_box {
+  .introduce_title {
+    font-family: BlenderPro;
+    font-size: 2.875rem;
+    font-weight: bold;
+    line-height: 1.17;
+    text-align: center;
+    color: white;
+  }
+
+  .introduce_description {
+    margin: 0 auto;
+    width: 42rem;
+    padding-top: 0.5rem;
+    font-family: Inter;
+    font-size: 1.25rem;
+    text-align: center;
+    color: white;
+  }
+}
+
+.step_box {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.875rem 0;
+}
+
+.step_item {
+  width: 21.25rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  img {
+    width: 10rem;
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .round {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-image: linear-gradient(to top, #e3a406, #fbd851);
+
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+    color: #000;
+  }
+
+  .description {
+    padding-top: 1.25rem;
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    text-align: center;
+    color: white;
+  }
+}
+
+.faq_panel {
+  .faq_item+.faq_item {
+    margin-top: 1.875rem;
+  }
+}
+
+.faq_item {
+  .faq_item_title {
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: left;
+    color: white;
+    padding-bottom: 0.625rem;
+  }
+
+  .faq_item_description {
+    font-family: Inter;
+    font-size: 1rem;
+    text-align: left;
+    color: #a9a4b4;
+
+    ul {
+      padding-left: 1.5rem;
+
+      li {
+        list-style-type: disc;
+      }
+    }
+  }
+
+  .special_instructions {
+    padding-top: 1.875rem;
+    font-family: Inter;
+    font-size: 1rem;
+    text-align: left;
+    color: #a9a4b4;
+  }
+}

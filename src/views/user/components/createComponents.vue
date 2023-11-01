@@ -63,14 +63,24 @@
           hide-required-asterisk
           label-position="top"
         >
-          <el-form-item
-            :label="
+          <div class="input_label">
+            <p>
+              {{
               operatingType == 'NFT'
                 ? $t('user.totalPrice')
                 : $t('user.totalSupply')
-            "
+            }}
+            </p>
+            <p class="balance_box" v-if="operatingType !== 'NFT'">
+              {{ $t("user.available") }} {{ ethBalance.toFixed(4) + " ETH" }}
+            </p>
+          </div>
+          <el-form-item
+            label=""
             prop="price"
+            class="total_price_box"
           >
+            
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div
                 class="price_item"
@@ -116,8 +126,11 @@
               </template>
             </el-input>
           </el-form-item>
+          <div class="input_label">
+            {{$t("user.setPrice")}}
+          </div>
           <el-form-item
-            :label="$t('user.setPrice')"
+            label=""
             prop="usdtPrice"
             v-if="operatingType == 'ETH'"
           >
@@ -602,9 +615,13 @@ export default {
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
+    // ethBalance() {
+    //   const headerStore = useHeaderStore();
+    //   return headerStore?.balance;
+    // },
     ethBalance() {
       const headerStore = useHeaderStore();
-      return headerStore?.balance;
+      return headerStore.getCoinBalance('ETH');
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -1030,9 +1047,9 @@ export default {
             accurateDecimal(this.competitionForm.usdtPrice || 0, 2)
           ).toLocaleString()}</span>`;
         } else {
-          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_ethereum.svg")}" /> <span style='line-height: 0.8;'>${
-            this.competitionForm.price || 0
-          }</span>`;
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/coin/icon_eth.svg")}" /> <span style='line-height: 0.8;'>${Number(
+            accurateDecimal(this.competitionForm.price || 0, 2)
+          ).toLocaleString()}</span>`;
         }
       }
     },

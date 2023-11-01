@@ -138,7 +138,7 @@
           >
             <template #default="scope">
               <div class="consumption_box">
-                <span>{{ scope.row.traAmount }}</span>
+                <span v-priceFormat="scope.row.traAmount"></span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               </div>
             </template>
@@ -157,12 +157,12 @@
               >
                 <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
+                <span>{{ accurateDecimal(extraMoney(scope.row), 2) }}</span>
               </div>
               <div v-else :class="['claim_box', 'disabled']">
                 <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
+                <span>{{ accurateDecimal(extraMoney(scope.row), 2) }}</span>
               </div>
             </template>
           </el-table-column>
@@ -170,20 +170,23 @@
             :label="$t('user.copy')"
             align="center"
             fixed="right"
-            show-overflow-tooltip
           >
             <template #default="scope">
               <div class="copy_btn">
-                <img
-                  src="@/assets/svg/user/icon_invite_copy.svg"
-                  @click="copyInviteLink(scope.row.inviteCode)"
-                  alt=""
-                />
-                <img
-                  src="@/assets/svg/airdrop/icon_twitter_btn.svg"
-                  @click="shareInviteLink(scope.row.inviteCode)"
-                  alt=""
-                />
+                <el-tooltip class="item" effect="dark" content="Copy" placement="top">
+                  <img
+                    src="@/assets/svg/user/icon_invite_copy.svg"
+                    @click="copyInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="Share on Twitter" placement="top">
+                  <img
+                    src="@/assets/svg/airdrop/icon_twitter_btn.svg"
+                    @click="shareInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
+                </el-tooltip>
               </div>
             </template>
           </el-table-column>
@@ -211,13 +214,13 @@
         />
         <el-table-column
           prop="traAmount"
-          :label="$t('user.consumption')"
+          :label="$t('user.default')"
           align="center"
           show-overflow-tooltip
         >
           <template #default="scope">
             <div class="consumption_box">
-              <span>{{ scope.row.traAmount }}</span>
+              <span v-priceFormat="scope.row.traAmount"></span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
@@ -230,14 +233,14 @@
         >
           <template #default="scope">
             <div class="consumption_box">
-              <span>{{ scope.row.rebatesAmount }}</span>
+              <span v-priceFormat="scope.row.rebatesAmount"></span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
           </template>
         </el-table-column>
         <el-table-column
           prop="createTime"
-          :label="$t('user.referredAt')"
+          :label="$t('user.date')"
           align="center"
           show-overflow-tooltip
         >
@@ -263,6 +266,7 @@
 </template>
 <script>
 import { mapStores } from "pinia";
+import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
@@ -442,6 +446,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.$message.success(t("user.receiveSuccess"));
+        this.renewBalance();
         this.fetchRebatesFindList();
       }
     },
@@ -484,6 +489,11 @@ export default {
         this.setting = res.data;
         this.$forceUpdate();
       }
+    },
+     // 更新当前余额
+    async renewBalance() {
+      const headerStore = useHeaderStore();
+      await headerStore.getTheUserBalanceApi();
     },
   },
   created() {

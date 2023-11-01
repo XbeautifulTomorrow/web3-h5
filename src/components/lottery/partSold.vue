@@ -19,13 +19,13 @@
         {{ text }}
       </p>
       <div class="public-dialog-module" v-if="chooseIds.length && chooseIds.length > failList.length">
-        <h3 class="public-dialog-title-other">NFTs</h3>
+        <h3 class="public-dialog-title-other">ASSETS</h3>
         <ul :class="['public-dialog-lists', { 'public-dialog-lists-all': chooseIds.length == soldList.length }]">
           <template v-for="(item, index) in soldList">
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName}  # ${item.tokenId}`"
+              :content="`${item.seriesName}  ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="chooseIds.includes(item.id) && !failList.includes(item.id)"
               :key="`portrait-${index}`"
@@ -47,7 +47,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName}  # ${item.tokenId}`"
+              :content="`${item.seriesName} ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="failList.includes(item.id)"
               :key="`portrait-${index}`"
@@ -72,7 +72,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              :content="`${item.seriesName}  # ${item.tokenId}`"
+              :content="`${item.seriesName}  ${(item.tokenId&&item.nftType!='PLATFORM')?('# '+item.tokenId):''}`"
               placement="bottom-end"
               v-if="!chooseIds.includes(item.id) && !failList.includes(item.id)"
               :key="`portrait-${index}`"

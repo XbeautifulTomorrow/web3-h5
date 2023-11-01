@@ -10,7 +10,7 @@
         </div>
       </template>
       <div class="public-dialog-content form-content">
-        <p class="public-dialog-title">{{ $t("ticketsInfo.buyTipsTitle") }}</p>
+        <p class="public-dialog-title">{{ t("ticketsInfo.buyTipsTitle") }}</p>
         <div class="confirm-description">
           <span v-html="$t('ticketsInfo.buyTipsText1', { tickets: ticketsNum(), num: buyNum() })"></span>
         </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="form-buttons">
           <el-button class="public-button" @click="handleClose()">
-            <span>{{ $t("airdrop.confirm") }}</span>
+            <span>{{ t("airdrop.confirm") }}</span>
           </el-button>
         </div>
       </div>

@@ -7,7 +7,7 @@
             fit="cover"
             class="nft_img"
             v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.webp')"
+            :src="require('@/assets/svg/user/create_eth.webp')" 
           />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
           <div

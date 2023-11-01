@@ -126,8 +126,8 @@
     "timeLeft": "{time} LEFT",
     "ticketsLeft": "{num} TICKETS LEFT",
     "ticketLeft": "{num} TICKET LEFT",
-    "ticketSold": "<span style=\"color: #fad54d;\">{num}</span> Ticket sold",
-    "ticketsSold": "<span style=\"color: #fad54d;\">{num}</span> Tickets sold",
+    "ticketSold": "<span style=\"color: #11cde9;\">{num}</span> Ticket sold",
+    "ticketsSold": "<span style=\"color: #11cde9;\">{num}</span> Tickets sold",
     "bannerCopywriting1": "Unleash the Fun, Level Up Your Game: Fairness, Transparency, and the Thrill of Blue-Chip NFTs.",
     "bannerCopywriting2": ""
   },

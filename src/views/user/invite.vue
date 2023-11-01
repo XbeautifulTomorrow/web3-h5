@@ -157,12 +157,12 @@
               >
                 <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
+                <span>{{ accurateDecimal(extraMoney(scope.row), 2) }}</span>
               </div>
               <div v-else :class="['claim_box', 'disabled']">
                 <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>{{ accurateDecimal(extraMoney(scope.row), 4) }}</span>
+                <span>{{ accurateDecimal(extraMoney(scope.row), 2) }}</span>
               </div>
             </template>
           </el-table-column>

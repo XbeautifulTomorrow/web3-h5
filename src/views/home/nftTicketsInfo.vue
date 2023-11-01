@@ -820,15 +820,9 @@
               <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
             <div class="remaining_votes">
-              <span v-if="item.numberOfTicketsSold > 1">
-                {{
-                  $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span  v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
               </span>
-              <span v-else>
-                {{
-                  $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 })
-                }}
+              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
               </span>
             </div>
           </div>

@@ -81,6 +81,15 @@ export const useHeaderStore = defineStore("headerStore", {
         this.points = res.data.balance;
       }
     },
+    getCoinBalance(coin) {
+      coin = coin === "WETH" ? "ETH" : coin;
+      const res = this.assetLists.filter((x) => x.coinName === coin);
+      if (res?.length > 0) {
+        return res[0]?.balance;
+      } else {
+        return 0;
+      }
+    },
     // 积分余额
     async fetchGlobalNew() {
       const res = await getGlobalNew();

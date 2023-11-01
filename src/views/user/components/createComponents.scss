@@ -238,6 +238,18 @@
     }
   }
 }
+.input_label{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1.6 !important;
+  color: #a9a4b4;
+  margin-bottom: 0.625rem !important;
+  .balance_box{
+    font-weight: normal;
+  }
+}
 
 :deep(.form_box) {
   padding: 1.875rem 1.875rem 0;

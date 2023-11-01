@@ -532,6 +532,7 @@ export default {
         exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
+      this.onVerifyExchange()
     },
     onVerifyExchange(type) {
       if (type) {

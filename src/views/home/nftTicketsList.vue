@@ -206,15 +206,9 @@
                 {{ item.winningName || item.winningAddress }}
               </span>
             </div>
-            <div class="sold-box" v-if="item.numberOfTicketsSold > 1">
-              {{
-                $t("home.ticketsSold", { num: item.numberOfTicketsSold || 0 })
-              }}
+            <div class="sold-box" v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
             </div>
-            <div class="sold-box" v-else>
-              {{
-                $t("home.ticketSold", { num: item.numberOfTicketsSold || 0 })
-              }}
+            <div class="sold-box" v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
             </div>
           </li>
         </template>

@@ -199,7 +199,7 @@
             <div
               class="enter_war"
               v-if="!isHistory && currentStatus == 'INIT'"
-              @click="showBuy = true"
+              @click="handleBuy()"
             >
               ENTER WAR
             </div>
@@ -348,6 +348,35 @@
       v-if="operationType"
       @closeDialogFun="handleClose"
     ></war-config>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Modify
+      v-if="pageType === 'modify'"
+      @onModify="closeDialogFun"
+      @closeDialogFun="closeDialogFun"
+    ></Modify>
+    <Recharge
+      v-if="pageType === 'recharge'"
+      @closeDialogFun="closeDialogFun"
+    ></Recharge>
+    <createVerification
+      v-if="pageType === 'auth'"
+      @closeDialogFun="changeNameFun"
+    >
+    </createVerification>
   </div>
 </template>
   <script>
@@ -377,6 +406,12 @@ import bigNumber from "bignumber.js";
 import warBuy from "./warBuy.vue";
 import warConfig from "./warConfig.vue";
 import countDown from "@/components/countDown";
+import Login from "@/views/login/index.vue";
+import Register from "@/views/register/index.vue";
+import Forgot from "@/views/forgot/index.vue";
+import Modify from "@/views/Airdrop/components/modify.vue";
+import Recharge from "@/views/user/recharge.vue";
+import createVerification from "@/views/user/createVerification.vue";
 export default {
   name: "TokenWar",
   props: {
@@ -393,9 +428,16 @@ export default {
     warBuy,
     warConfig,
     countDown,
+    Login,
+    Register,
+    Forgot,
+    Modify,
+    Recharge,
+    createVerification,
   },
   data() {
     return {
+      pageType: "", // 登录相关
       currentStatus: "INIT", // INIT / WAIT / CANCEL / WIN
       eventSource: null, // SSE推送对象
       warInfo: null, // 游戏信息
@@ -451,6 +493,33 @@ export default {
     getLevel: getLevel,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
+    closeDialogFun() {
+      this.pageType = "";
+      if (this.userInfo?.id && this.isLogin) {
+        this.getTheUserBalanceInfo();
+      }
+    },
+    changeNameFun() {
+      this.pageType = "modify";
+    },
+    changeTypeFun(page) {
+      this.pageType = page;
+    },
+    async getTheUserBalanceInfo() {
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+      headerStore.fetchTheUserPoint();
+      headerStore.fetchGlobalNew();
+    },
+    // 打开购买
+    handleBuy() {
+      if (this.userInfo?.id && this.isLogin) {
+        this.showBuy = true;
+        return;
+      }
+
+      this.pageType = "login";
+    },
     createSSE() {
       if (window.EventSource) {
         // 根据环境的不同，变更url
@@ -502,12 +571,27 @@ export default {
         console.log("SSE connection succeeded");
         // 公共数据
         this.eventSource.addEventListener("COMMON_DATA", (e) => {
+          console.log("已接收公共数据：" + e.data);
+
           this.initRotate();
           const warGame = JSON.parse(e.data);
-          if (!this.warInfo) {
+          const currentRound = getSessionStore("currentRound");
+
+          // 如果是新的一局
+          if (currentRound != warGame.id) {
+            // 清理数据
+            this.warInfo = null;
+            this.warData = [];
+            this.winInfo = {};
+            this.userData = null;
+            this.winUserId = null;
+            this.$forceUpdate();
+
+            setSessionStore("currentRound", warGame.id);
             this.initSvg();
             this.setSvg();
           }
+
           this.warInfo = warGame;
           this.warData = this.warInfo.joinDataList;
 
@@ -519,14 +603,6 @@ export default {
             if (user) {
               this.userData = user;
             }
-          }
-
-          const currentRound = getSessionStore("currentRound");
-
-          if (currentRound != warGame.id) {
-            setSessionStore("currentRound", warGame.id);
-            this.initSvg();
-            this.setSvg();
           }
 
           if (this.warData.length > 0) {
@@ -574,6 +650,7 @@ export default {
         }
       };
     },
+    // 创建SVG对象
     initSvg() {
       const [width, height] = [450, 450];
 
@@ -589,6 +666,7 @@ export default {
         .append("g")
         .attr("transform", "translate( 25, 25 )");
     },
+    // 初始化SVG
     setSvg() {
       const { warData } = this;
       let warPath = [{ buyPrice: 1 }];
@@ -601,7 +679,7 @@ export default {
       //设置饼图的半径
       let radius = (Math.min(width, height) * 0.5) / 2;
 
-      let arc = d3.arc().innerRadius(140).cornerRadius(2);
+      let arc = d3.arc().innerRadius(140);
 
       //饼图偏移的终点
       let pointEnd = d3
@@ -620,7 +698,7 @@ export default {
         .sortValues(null)
         .startAngle(this.svgAngle)
         .endAngle(Math.PI * 2 + angles)
-        .padAngle(0.02)(warPath);
+        .padAngle(0)(warPath);
 
       this.svgGraphics
         .append("g")
@@ -675,6 +753,7 @@ export default {
         };
       }
     },
+    // 动态新增Path路径
     setSvgPath() {
       const { warData } = this;
 
@@ -683,7 +762,7 @@ export default {
       //设置饼图的半径
       let radius = (Math.min(width, height) * 0.5) / 2;
 
-      let arc = d3.arc().innerRadius(140).cornerRadius(2);
+      let arc = d3.arc().innerRadius(140);
 
       let svg = d3.select("#war_container").select("g").select(".war");
 
@@ -698,7 +777,7 @@ export default {
         .sortValues(null)
         .startAngle(angles)
         .endAngle(Math.PI * 2 + angles)
-        .padAngle(0.02)(warData);
+        .padAngle(0)(warData);
 
       svg
         .selectAll("path")
@@ -965,6 +1044,7 @@ export default {
         }
       }
     },
+    // 返回
     handleBack() {
       this.$emit("toWar");
       this.warInfo = null;

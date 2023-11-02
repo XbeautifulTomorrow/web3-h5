@@ -42,7 +42,8 @@
     "history": "購買曆史",
     "referrals": "邀請",
     "settings": "設置",
-    "promotions": "促銷"
+    "promotions": "促銷",
+    "tokenWar": "Token War"
   },
   "footer": {
     "copyright": "Copyright © 2023 bitzing.io . All rights reserved. Bitzing is a brand name of YOURING TECH LIMITED. Company Address: Craigmuir Chambers, Road Town, Tortola, VG 1110, British Virgin Islands .",
@@ -73,7 +74,6 @@
     "termsText": "我已滿18歲並同意",
     "userAgreement": "用戶條款",
     "privacyPolicy": "隱私協議",
-
     "completeUpper": "完成註冊",
     "passwordErrText1": "請輸入密碼",
     "passwordErrText2": "密碼必須大於8個字符",

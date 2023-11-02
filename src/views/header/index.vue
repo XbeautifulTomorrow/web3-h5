@@ -375,6 +375,7 @@ export default {
     timeoutBalance() {
       if (this.timer) {
         clearTimeout(this.timer);
+        this.timer = null;
       }
       this.timer = setTimeout(() => {
         if (this.isLogin && this.userInfo?.id) {
@@ -456,6 +457,11 @@ export default {
       {
         text: t("header.competitions"),
         page: "TreasureDraw",
+        icon: require("@/assets/svg/home/mini/icon_treasure_draw.svg"),
+      },
+      {
+        text: t("header.tokenWar"),
+        page: "TokenWar",
         icon: require("@/assets/svg/home/mini/icon_treasure_draw.svg"),
       },
       {

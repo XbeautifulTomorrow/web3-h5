@@ -141,8 +141,8 @@ const routes = [
     },
   },
   {
-    path: "/warGame",
-    name: "WarGame",
+    path: "/tokenWar",
+    name: "TokenWar",
     components: {
       default: warGame,
       Header,

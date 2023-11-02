@@ -421,7 +421,7 @@
         </div>
         <div
           class="nft_id text-ellipsis"
-          v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN'"
+          v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN' && competitionNft?.seriesName.indexOf(competitionNft?.tokenId)==-1"
         >
           {{ `#${competitionNft?.tokenId}` }}
         </div>

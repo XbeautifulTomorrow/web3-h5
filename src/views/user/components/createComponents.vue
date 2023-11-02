@@ -50,7 +50,7 @@
         </div>
         <div class="nft_info" v-if="operatingType == 'NFT'">
           <div class="nft_name">{{ competitionNft?.name }}</div>
-          <div class="nft_id text-ellipsis">#{{ competitionNft?.tokenId }}</div>
+          <div class="nft_id text-ellipsis" v-if="competitionNft?.name.indexOf(competitionNft?.tokenId)==-1">#{{ competitionNft?.tokenId }}</div>
         </div>
         <div class="nft_info" v-else>
           <div class="nft_name">{{ operatingType }}</div>

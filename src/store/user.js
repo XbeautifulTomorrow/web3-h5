@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
+import { getWithdrawalChain } from "@/services/api/user";
 
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
@@ -32,6 +33,23 @@ export const useUserStore = defineStore("user", {
     ],
   },
   actions: {
+    // 积分余额
+    async getCoinList() {
+      if (this.isLogin) {
+        const res = await getWithdrawalChain();
+        if (res && res.data) {
+          const networkList = res.data;
+          this.currencyData = this.currencyData.map((data) => {
+            const matchingCoin = networkList.find((x) => x.coinName === data.name);
+            if (matchingCoin && matchingCoin.img) {
+              return { ...data, img: matchingCoin.img };
+            } else {
+              return data;
+            }
+          });
+        }
+      }    
+    },
     getCoin(event) {
       const { currencyData } = this;
       const coin = currencyData.find((e) => e.name == event);

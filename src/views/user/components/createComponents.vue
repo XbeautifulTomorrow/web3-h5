@@ -508,7 +508,7 @@
         </template>
         <div class="public-dialog-content form-content">
           <div class="operating_title">
-            <span>{{ $t("user.create") }}</span>
+            <span>{{ $t("user.createCode") }}</span>
           </div>
           <div class="invite_code">
             <el-input

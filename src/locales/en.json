@@ -377,6 +377,7 @@
     "createTitle": "Set custom referral code",
     "createEnterHint": "Set referral code...",
     "create": "CREATE",
+    "createCode": "CREATE REFERRAL CODE",
     "CLICKS": "CLICKS",
     "REFERRALS": "REFERRAL",
     "POINT": "POINTS",

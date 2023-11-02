@@ -156,7 +156,7 @@
           </el-form-item>
           <el-form-item class="form-item_wrap" :label="$t('user.totalEntries')">
             <div class="num_item">
-              <span>{{ limitNum }}</span>
+              <span v-priceFormat="limitNum"></span>
               <img
                 class="icon_eth"
                 src="@/assets/svg/user/icon_tickets_num.svg"
@@ -175,7 +175,7 @@
           </el-form-item>
           <el-form-item class="form-item_wrap" :label="$t('user.realIncome')">
             <div class="num_item">
-              <span>{{ realIncome }}</span>
+              <span v-priceFormat="realIncome"></span>
               <img
                 class="icon_eth"
                 src="@/assets/svg/user/icon_usdt_gold.svg"
@@ -374,8 +374,12 @@
           </div>
           <div class="choose_nft" v-else>
             <div class="no_date">
-              <span>{{ $t("user.noDataNft") }}</span>
+              <div>
+                <p>{{ $t("user.noDataNft") }}</p>
+                <p class="deposit_btn" @click="showLink = true">DEPOSIT NFT</p>
+              </div>
             </div>
+            
           </div>
           <div class="pagination-box" v-if="count > size">
             <el-pagination
@@ -534,6 +538,13 @@
         </div>
       </el-dialog>
     </el-dialog>
+    <!-- 钱包链接弹窗 -->
+    <wallet
+      v-if="showLink"
+      :dialogVisible="showLink"
+      @linkWallet="linkWallet"
+      @closeDialogFun="showLink = false"
+    />
   </div>
 </template>
     
@@ -555,6 +566,7 @@ import { rebatesCreateCode, rebatesFindList } from "@/services/api/invite";
 import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
+import wallet from "../../wallet/index";
 import { i18n } from "@/locales";
 import { accurateDecimal } from "@/utils";
 const { t } = i18n.global;
@@ -562,6 +574,7 @@ export default {
   name: "modifyName",
   components: {
     Image,
+    wallet
   },
   data() {
     return {
@@ -611,6 +624,7 @@ export default {
       },
 
       exchangeRate: null,
+      showLink:false
     };
   },
   computed: {
@@ -683,6 +697,9 @@ export default {
   },
   methods: {
     bigNumber: bigNumber,
+    linkWallet() {
+      this.showNftOperating = true;
+    },
     onConfirm() {
       this.$emit("closeDialogFun");
     },

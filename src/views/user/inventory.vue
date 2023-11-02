@@ -83,7 +83,7 @@
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
-          <div class="nft_name">{{ item.name || "--" }}</div>
+          <div class="nft_name" @click="createCompetition(item)">{{ item.name || "--" }}</div>
           <div
             class="nft_btn view_nft"
             v-if="item.currentStatus == 'ONE_DOLLAR'"
@@ -151,7 +151,7 @@
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft?.name }}</div>
-        <div class="nft_id text-ellipsis">#{{ competitionNft?.tokenId }}</div>
+        <div class="nft_id text-ellipsis" v-if="competitionNft?.name.indexOf(competitionNft?.tokenId)==-1">#{{ competitionNft?.tokenId }}</div>
       </div>
       <el-form
         ref="competitionForm"
@@ -203,7 +203,7 @@
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.totalEntries')">
           <div class="num_item">
-            <span>{{ limitNum }}</span>
+            <span v-priceFormat="limitNum"></span>
             <img
               class="icon_eth"
               src="@/assets/svg/user/icon_tickets_num.svg"
@@ -222,7 +222,7 @@
         </el-form-item>
         <el-form-item class="form-item_wrap" :label="$t('user.realIncome')">
           <div class="num_item">
-            <span>{{ realIncome }}</span>
+            <span v-priceFormat="realIncome"></span>
             <img
               class="icon_eth"
               src="@/assets/svg/user/icon_usdt_gold.svg"
@@ -286,7 +286,7 @@
           <div class="invitation_box" v-if="freeParams.isOpen">
             <el-select
               @click="showCreate()"
-              :disabled="!inviteDrop.length > 0"
+              :readonly="!inviteDrop.length > 0"
               v-model="freeParams.inviteCode"
               class="invite_select"
               :placeholder="$t('user.chooseCodeHint')"

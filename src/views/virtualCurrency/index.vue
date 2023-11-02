@@ -33,8 +33,7 @@
             />
             <div class="virtual-currency-item-text">
               <p class="list-nam text-ellipsis">{{ item.seriesName }}</p>
-              <p class="list-currency">
-                {{ `$ ${accurateDecimal(item.price || 0, 2)}` }}
+              <p class="list-currency" v-priceFormat="item.price">
               </p>
             </div>
           </div>
@@ -69,15 +68,7 @@
               <p class="list-nam text-ellipsis">
                 {{ currencyList[activeIndex].seriesName }}
               </p>
-              <p class="list-currency">
-                {{
-                  `$ ${
-                    currencyList[activeIndex].price
-                      ? accurateDecimal(currencyList[activeIndex].price, 2)
-                      : 0
-                  }`
-                }}
-              </p>
+              <p class="list-currency" v-priceFormat="currencyList[activeIndex].price"></p>
             </div>
           </div>
           <div class="virtual-currency-item-r">
@@ -132,12 +123,7 @@
           <span class="popup-list-title text-ellipsis">{{
             $t("virtualCurrency.price")
           }}</span>
-          <span class="popup-list-text text-ellipsis" style="color: #fff">
-            {{
-              currencyList[activeIndex] &&
-              `$ ${accurateDecimal(currencyList[activeIndex].price, 2)}`
-            }}
-          </span>
+          <span class="popup-list-text text-ellipsis" style="color: #fff" v-priceFormat="currencyList[activeIndex].price"></span>
         </li>
         <li class="popup-list-button">
           <div

@@ -38,16 +38,18 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
     super(callback);
   }
 };
-// 价格小数不满两位保留两位，超过显示全部
+// 价格小数不满两位保留两位，超过显示全部,3位一逗号
 const formatPrice = (el, value, maxDecimalPlaces = 2) => {
   if (value == null || value == undefined) {
     el.textContent = "0.00";
-  } else if (value % 1 === 0) {
-    el.textContent = parseFloat(value).toFixed(2);
   } else {
-    let multiplier = Math.pow(10, maxDecimalPlaces);
-    let roundedNum = Math.floor(value * multiplier) / multiplier;
-    el.textContent = roundedNum.toFixed(maxDecimalPlaces);
+    const multiplier = Math.pow(10, maxDecimalPlaces);
+    const roundedNum = Math.floor(value * multiplier) / multiplier; // 向下取整并保留指定位数的小数
+    const formattedNum = roundedNum.toLocaleString(undefined, {
+      minimumFractionDigits: maxDecimalPlaces,
+      maximumFractionDigits: maxDecimalPlaces,
+    });
+    el.textContent = formattedNum;
   }
 };
 

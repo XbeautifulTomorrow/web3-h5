@@ -179,6 +179,19 @@
       transition: all 0.3s;
     }
 
+    .nft-token{
+      position: absolute;
+      left: .5rem;
+      bottom: .5rem;
+      height: 2.125rem;
+      line-height: 2.125rem;
+      padding: 0 .625rem;
+      color: #0cbb3e;
+      font-size: .875rem;
+      background-color: rgba(6, 91, 30, 0.8);
+      border-radius: .25rem;
+    }
+
     .type-box {
       position: absolute;
       top: 1rem;
@@ -262,7 +275,7 @@
   .nft-name {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1.25rem 1.25rem 0;
 
     .nft-name-l {
@@ -295,7 +308,7 @@
     font-size: 1.875rem;
     font-weight: bold;
     line-height: 1.4;
-    text-align: left;
+    text-align: center;
     color: #11cde9;
     padding: 0 1.25rem;
   }
@@ -538,6 +551,15 @@
     .img-box {
       height: 8rem;
 
+      .nft-token{
+        left: 0.25rem;
+        bottom: 0.25rem;
+        padding: 0 0.25rem;
+        height: 1.375rem;
+        line-height: 1.375rem;
+        font-size: .75rem;
+      }
+
       .type-box {
         top: 0.25rem;
         right: 0.25rem;
@@ -588,7 +610,7 @@
     .nft-name {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       padding: 0.5rem 0.5rem 0;
 
       .nft-name-l {
@@ -614,7 +636,7 @@
       font-size: 1rem;
       line-height: 1;
       color: #11cde9;
-      padding: 0 0.5rem;
+      padding: 0.25rem 0.5rem 0;
     }
 
     .sold-box {

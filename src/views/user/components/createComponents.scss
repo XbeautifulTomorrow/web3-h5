@@ -751,8 +751,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 5rem;
-    height: 25rem;
+    height: 35rem;
+    margin-top: -10rem;
 
     &>span {
       margin: 0 auto;
@@ -766,6 +766,17 @@
       line-height: 1.2;
       text-align: center;
       color: #a9a4b4;
+    }
+    .deposit_btn{
+      height: 2rem;
+      line-height: 2rem;
+      padding: 0 .625rem;
+      background: #fad54d;
+      margin-top: 1.25rem;
+      border-radius: .25rem;
+      color: #13151f;
+      font-weight: bold;
+      cursor: pointer;
     }
   }
 }

@@ -83,6 +83,12 @@
             >
               {{ $t("user.endStatus", { date: timeFormat(item.endTime) }) }}
             </div>
+            <div
+              class="nft-token"
+              v-if="item.orderType != 'LIMITED_PRICE_COIN'"
+            >
+              {{ `#${item.tokenId}` }}
+            </div>
           </div>
           <div class="nft-name">
             <div class="nft-name-l">
@@ -93,12 +99,6 @@
                 <span v-else>{{ `${item.price} ETH` }}</span>
               </div>
               <img src="@/assets/svg/home/icon_certified.svg" alt="" />
-            </div>
-            <div
-              class="nft-name-r text-ellipsis"
-              v-if="item.orderType != 'LIMITED_PRICE_COIN'"
-            >
-              {{ `#${item.tokenId}` }}
             </div>
           </div>
           <div class="price-box">

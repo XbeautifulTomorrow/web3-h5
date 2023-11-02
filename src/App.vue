@@ -34,7 +34,7 @@ export default {
     locale() {
       const { locale } = this.userStore;
       return locale
-    }
+    },
   },
   methods: {
     reload() {
@@ -42,8 +42,15 @@ export default {
       this.$nextTick(function () {
         this.isRouterAlive = true; //再打开
       });
+    },
+    getCoinList(){
+      const headerStore = useUserStore();
+      return headerStore.getCoinList();
     }
   },
+  created(){
+    this.getCoinList()
+  }
 };
 </script>
 

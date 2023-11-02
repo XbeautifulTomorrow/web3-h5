@@ -255,7 +255,7 @@ import { getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 
 export default {
-  name: "WarBuy",
+  name: "WarConfig",
   props: {
     type: {
       type: String, //  auto | lock

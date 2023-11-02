@@ -11,7 +11,7 @@
     padding: 2.0625rem;
     box-sizing: border-box;
     min-height: 31.1875rem;
-    background-image: url("@/assets/svg/home/warGame/dialog_bg.svg") !important;
+    background-image: url("@/assets/svg/home/warGame/bg/config_bg.svg") !important;
     background-size: contain !important;
     background-repeat: no-repeat;
     background-position: center center;
@@ -259,12 +259,12 @@
 
     &.btn_cancel {
       color: #8590a2;
-      background-image: url("@/assets/svg/home/warGame/button_cancel.svg");
+      background-image: url("@/assets/svg/home/warGame/button/button_cancel.svg");
     }
 
     &.btn_confirm {
       color: #ed9cff;
-      background-image: url("@/assets/svg/home/warGame/button_confirm.svg");
+      background-image: url("@/assets/svg/home/warGame/button/button_confirm.svg");
     }
   }
 }

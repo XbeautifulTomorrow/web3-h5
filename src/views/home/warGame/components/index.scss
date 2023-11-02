@@ -321,7 +321,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("@/assets/svg/home/warGame/button_claim.svg");
+    background-image: url("@/assets/svg/home/warGame/button/button_claim.svg");
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -392,7 +392,7 @@
       margin: 0 auto;
       width: 10.875rem;
       height: 4rem;
-      background-image: url("@/assets/svg/home/warGame/win_avatar_bg.svg");
+      background-image: url("@/assets/svg/home/warGame/bg/win_avatar_bg.svg");
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
@@ -516,7 +516,7 @@
       top: 50%;
       left: 0;
       transform: translate(0, -50%);
-      background-image: url("@/assets/svg/home/warGame/percentage_bg.svg");
+      background-image: url("@/assets/svg/home/warGame/bg/percentage_bg.svg");
       background-size: contain;
       z-index: 10;
     }
@@ -618,7 +618,7 @@
   border-radius: 0.75rem;
   box-sizing: border-box;
   height: 28.375rem;
-  background-image: url("@/assets/svg/home/warGame/enter_war_bg.webp");
+  background-image: url("@/assets/svg/home/warGame/bg/enter_war_bg.webp");
   background-position: center center;
   background-size: contain;
 }
@@ -638,7 +638,7 @@
   align-items: center;
   justify-content: center;
   text-shadow: 0 0 0.625rem #c72ae9;
-  background-image: url("@/assets/svg/home/warGame/button_enter_war.svg");
+  background-image: url("@/assets/svg/home/warGame/button/button_enter_war.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

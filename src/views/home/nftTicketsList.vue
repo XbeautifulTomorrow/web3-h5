@@ -3,7 +3,20 @@
     <div class="ntf_tickets_list_wrapper">
       <div class="banner_box"></div>
       <div class="search_box">
+        <div class="type_btn">
+          <div :class="['type_btn_item',{'active':type=='ETH'}]" @click="getListFunc">
+            <span>ETH</span>
+            <img src="@/assets/svg/home/icon_eth.svg" alt="" v-if="type=='ETH'">
+            <img src="@/assets/svg/home/coin_eth_enable.svg" alt="" v-else>
+          </div>
+          <div :class="['type_btn_item',{'active':type=='NFT'}]" @click="getListFunc">
+            <span>NFT</span>
+            <img src="@/assets/svg/home/coin_nft.svg" alt="" v-if="type=='NFT'">
+            <img src="@/assets/svg/home/coin_nft_enable.svg" alt="" v-else>
+          </div>
+        </div>
         <el-input
+          v-if="type=='NFT'"
           v-model="searchVal"
           clearable
           @input="handleSearch"
@@ -52,7 +65,7 @@
           </el-select>
           <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
         </div>
-        <div class="sort_box collections">
+        <div class="sort_box collections" v-if="type=='NFT'">
           <el-select
             v-model="nftId"
             clearable
@@ -262,6 +275,8 @@ import { useUserStore } from "@/store/user.js";
 import {
   getCheckAllOrders,
   getTheExternalNFTSeries,
+  getCoinAllOrders,
+  getNftAllOrders,
 } from "@/services/api/oneBuy";
 import { getCacheTicker } from "@/services/api";
 import bigNumber from "bignumber.js";
@@ -303,6 +318,7 @@ export default {
       count: 0,
       pageType: "",
       timer: null,
+      type:"ETH"
     };
   },
   computed: {
@@ -321,6 +337,10 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    getListFunc(){
+      this.type = this.type=='NFT'?'ETH':'NFT';
+      this.fetchCheckAllOrders();
+    },
     // 获取所有系列，用做筛选
     async fetchAllSeries() {
       const res = await getTheExternalNFTSeries({
@@ -338,8 +358,15 @@ export default {
         this.exchangeRate = res.data;
       }
     },
-    // 最新购买
-    async fetchCheckAllOrders(isSearch = true) {
+    fetchCheckAllOrders(){
+      if(this.type=='ETH'){
+        this.fetchCoinAllOrders()
+      } else {
+        this.fetchNftAllOrders()
+      }
+    },
+    // nft最新购买
+    async fetchNftAllOrders(isSearch = true) {
       const { searchVal, currentStatus, sort, nftId, size } = this;
       let _page = this.page;
       if (isSearch) {
@@ -347,7 +374,30 @@ export default {
         _page = 1;
       }
 
-      let res = await getCheckAllOrders({
+      let res = await getNftAllOrders({
+        keyWord: searchVal,
+        currentStatus: currentStatus,
+        sortBy: sort,
+        contractAddress: nftId,
+        page: _page,
+        size: size,
+      });
+
+      if (res && res.code == 200) {
+        this.ticketList = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+    // coin最新购买
+    async fetchCoinAllOrders(isSearch = true) {
+      const { searchVal, currentStatus, sort, nftId, size } = this;
+      let _page = this.page;
+      if (isSearch) {
+        this.page = 1;
+        _page = 1;
+      }
+
+      let res = await getCoinAllOrders({
         keyWord: searchVal,
         currentStatus: currentStatus,
         sortBy: sort,

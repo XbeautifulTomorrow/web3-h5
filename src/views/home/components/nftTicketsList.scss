@@ -23,13 +23,40 @@
   display: flex;
   align-items: center;
   margin: 5.625rem 0 3.75rem;
+  .type_btn{
+      width: 10.9375rem;
+      height: 2.5rem;
+      display: flex;
+      backdrop-filter: blur(44px);
+      background-color: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      border-radius: 3.125rem;
+      .type_btn_item{
+       width: 5rem;
+       height: 100%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       color: rgba(169, 164, 180, 0.6);
+       font-size: 1rem;
+       &.active{
+        color: #fff;
+        border-radius: 3.125rem;
+        background-image: linear-gradient(74deg, #e022e3 9%, #1e90f9 91%);
+       }
+       img{
+        width: 1.5rem;
+        margin-left: 0.5rem;
+       }
+      }
+    }
 
   &>div+div {
     margin-left: 1.25rem;
   }
 
   :deep(.search_input) {
-    width: 55rem;
+    width: 35rem;
 
     .el-input__wrapper {
       height: 3.375rem;
@@ -123,8 +150,8 @@
     font-weight: 500;
 
     &.create {
-      background-image: linear-gradient(to top, #e3a406, #fbd851);
-      color: #13151f;
+      background-image: linear-gradient(81deg, #e022e3 8%, #1e90f9 92%);
+      color: #e4e7f5;
     }
   }
 }

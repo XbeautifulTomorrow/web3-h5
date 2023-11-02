@@ -153,17 +153,10 @@
             <img src="@/assets/svg/home/icon_certified.svg" alt="" />
           </div>
           <div class="nft_price">
-            <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-              {{ `$ ${item.price}` }}
-            </span>
-            <span v-else>
-              {{
-                `$ ${accurateDecimal(
-                  new bigNumber(exchangeRate).multipliedBy(item.price),
-                  4
-                )}`
-              }}
-            </span>
+            <p v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+              $ <span v-priceFormat="item.price"></span>
+            </p>
+            <p v-else v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></p>
           </div>
           <div
             class="buy_btn"
@@ -318,17 +311,17 @@
               <img src="@/assets/svg/home/icon_certified.svg" alt="" />
             </div>
             <div class="nft_price">
-              <span v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-                {{ `$ ${item.price}` }}
-              </span>
-              <span v-else>
+              <p v-if="item.orderType != 'LIMITED_PRICE_COIN'">
+                $ <span v-priceFormat="item.price"></span>
+              </p>
+              <p v-else>
                 {{
                   `$ ${accurateDecimal(
                     new bigNumber(exchangeRate).multipliedBy(item.price),
                     4
                   )}`
                 }}
-              </span>
+              </p>
             </div>
             <div
               class="cancel_btn"

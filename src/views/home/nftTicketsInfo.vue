@@ -445,7 +445,7 @@
               </div>
               <div
                 class="load_more"
-                v-if="total > 4 && !finished"
+                v-if="total > buyData?.length && !finished"
                 @click="nextPage()"
               >
                 <div class="load_btn">
@@ -546,7 +546,8 @@
                         src="@/assets/svg/user/icon_usdt_gold.svg"
                         alt=""
                       />
-                      <span>{{ scope.row.price || "--" }}</span>
+                      <span v-if="scope.row.price" v-priceFormat="scope.row.price"></span>
+                      <span v-else>--</span>
                     </div>
                   </template>
                 </el-table-column>
@@ -805,16 +806,7 @@
               <span class="val" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
                 {{ `${Number(item.price).toLocaleString()} ETH` }}
               </span>
-              <span class="val" v-else>
-                {{
-                  `$ ${Number(
-                    accurateDecimal(
-                      new bigNumber(exchangeRate).multipliedBy(item.price),
-                      4
-                    )
-                  ).toLocaleString()}`
-                }}
-              </span>
+              <span class="val" v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)" v-else></span>
             </div>
             <div class="buy_btn">
               <span>{{ $t("home.nftTicketBtn") }}</span>

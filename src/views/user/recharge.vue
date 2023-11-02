@@ -299,23 +299,8 @@
               <span>{{
                 `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
               }}</span>
-              <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate(1)" />
+              <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" />
             </div>
-            <!-- <div class="factor_box exchange_relevant">
-              <div class="withdraw_item">
-                <div class="withdraw_item_lable"><span> two factor </span> <span class="required">*</span></div>
-                <el-input
-                  class="withdraw_addr_input"
-                  v-model="walletAddr"
-                  @blur="onVerify('address')"
-                  :placeholder="$t('user.receivingAddrHint', { coin: `${operatingCoin != 'USDT' ? 'Ethereum' : 'Tether'}` })"
-                ></el-input>
-                <div class="withdraw_item_error">
-                  {{ walletAddrTips }}
-                </div>
-              </div>
-            </div> -->
-
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
               <span>{{ $t("EXCHANGE") }}</span>
             </div>
@@ -565,8 +550,10 @@ export default {
         } else {
           this.exchangeInfo.exchangeRate = 1 / (res.data * (1 - down));
         }
-        if (type != 1) {
+        if (type == 1) {
           this.exchangeFromAmountFunc();
+        } else if(type==2){
+          this.exchangeToAmountFunc();
         }
       }
     },
@@ -577,8 +564,14 @@ export default {
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
-      this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
-      this.fetchExchangeRate();
+      if(this.exchangeOperating == 1){
+        this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
+        this.fetchExchangeRate(1);
+      } else {
+        this.exchangeInfo.exchangeToAmount = this.exchangeInfo.exchangeFromAmount;
+        this.fetchExchangeRate(2);
+        
+      }
       setTimeout(() => {
         this.onVerifyExchange();
       }, 500);
@@ -609,9 +602,9 @@ export default {
 
         this.fetchRechargeExchangeRate();
       } else if (this.walletOperating == 3) {
-        this.fetchExchangeRate();
+        this.fetchExchangeRate(1);
         this.exchangeRateTimer = setInterval(() => {
-          this.fetchExchangeRate(1);
+          this.fetchExchangeRate();
         }, 10000);
       } else {
         this.fetchWithdrawalExchangeRate();

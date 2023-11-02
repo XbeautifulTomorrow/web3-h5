@@ -169,6 +169,16 @@ const tweetSendTikect = (params) =>
 const getCofingKey = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getCofingK", params);
 
+  /**
+* @description 查询币种一元购所有订单
+*/
+const getCoinAllOrders = (params) => apiService.get(serviceUrl + "/oneNftOrders/coinAllOrders", params);
+
+  /**
+* @description 查询一元购nft全部订单
+*/
+const getNftAllOrders = (params) => apiService.get(serviceUrl + "/oneNftOrders/nftAllOrders", params);
+
 export {
   getWalletNft,
   getSystemNft,
@@ -197,5 +207,7 @@ export {
   getTweetInfo,
   getShareTwitter,
   tweetSendTikect,
-  getCofingKey
+  getCofingKey,
+  getCoinAllOrders,
+  getNftAllOrders,
 };

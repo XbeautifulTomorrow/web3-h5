@@ -83,7 +83,7 @@
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
             <Image fit="cover" class="nft_img" :src="item.img" />
           </div>
-          <div class="nft_name" @click="createCompetition(item)">{{ item.name || "--" }}</div>
+          <div class="nft_name">{{ item.name || "--" }}</div>
           <div
             class="nft_btn view_nft"
             v-if="item.currentStatus == 'ONE_DOLLAR'"

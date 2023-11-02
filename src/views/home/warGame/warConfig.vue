@@ -304,13 +304,13 @@ export default {
     startNum() {
       const { usdBalance } = this;
       const num = new bigNumber(usdBalance).div(1000);
-      return Number(num);
+      return Math.floor(Number(num));
     },
     // 结束数值
     endNum() {
       const { usdBalance } = this;
       const num = new bigNumber(usdBalance).div(10);
-      return Number(num);
+      return Math.floor(Number(num));
     },
     // 每段数值
     stepNum() {
@@ -322,7 +322,7 @@ export default {
     balanceStartNum() {
       const { usdBalance } = this;
       const num = new bigNumber(usdBalance).div(100);
-      return Number(num);
+      return Math.floor(Number(num));
     },
   },
   methods: {
@@ -352,9 +352,6 @@ export default {
         }
       }
     },
-    changeRate(event) {
-      console.log("滑块：" + event);
-    },
     // 选择自动局数
     chooseAutoRound(type, num) {
       this.autoChoose = type;
@@ -377,7 +374,6 @@ export default {
       }
 
       const rate = deepClone(autoConfig);
-      console.log(autoConfig);
 
       params.lockWinRate = Number(
         new bigNumber(rate.lockWinRate).dividedBy(100)
@@ -427,7 +423,7 @@ export default {
       }
 
       this.numTimer = setTimeout(() => {
-        this.autoConfig.autoBuyAmount = Number(newV);
+        this.autoConfig.autoBuyAmount = Math.floor(newV);
       }, 300);
     },
     "autoConfig.autoBuyTime": function (newV) {
@@ -451,7 +447,7 @@ export default {
       }
 
       this.numTimer = setTimeout(() => {
-        this.autoConfig.lowBounsPool = Number(newV);
+        this.autoConfig.lowBounsPool = Math.floor(newV);
       }, 300);
     },
     "autoConfig.lockWinRate": function (newV) {
@@ -475,7 +471,7 @@ export default {
       }
 
       this.numTimer = setTimeout(() => {
-        this.autoConfig.lockMaxAmount = Number(newV);
+        this.autoConfig.lockMaxAmount = Math.floor(newV);
       }, 300);
     },
   },

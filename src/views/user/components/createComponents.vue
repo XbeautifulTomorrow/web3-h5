@@ -67,7 +67,7 @@
             <p>
               {{
               operatingType == 'NFT'
-                ? $t('user.totalPrice')
+                ? $t('user.setPrice')
                 : $t('user.totalSupply')
             }}
             </p>

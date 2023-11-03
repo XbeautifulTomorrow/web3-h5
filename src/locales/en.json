@@ -324,7 +324,7 @@
     "createCompetition": "START THE DRAW",
     "timeLimit": "TIME-LIMITED DRAW",
     "priceLimit": "PRICE-LIMITED DRAW",
-    "totalPrice": "Set a price",
+    "totalPrice": "Total Price",
     "totalSupply": "Total Supply",
     "totalEntries": "Total Entries",
     "duration": "Duration",

@@ -20,7 +20,7 @@
             <div class="num">
               <span>
                 {{
-                  Number(accurateDecimal(usdtBalance.balance, 2)).toLocaleString(undefined, {
+                  Number(accurateDecimal(usdtBalance, 2)).toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                   }) || 0
                 }}
@@ -355,7 +355,6 @@ export default {
 
       showPoints: false,
       showOther: false,
-      usdtBalance: {},
       balanceList: [],
       walletOperating: 1, // 1 充币；2 提币；3.闪兑；
       exchangePage: 1,
@@ -368,6 +367,10 @@ export default {
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
+    },
+    usdtBalance(){
+      const headerStore = useHeaderStore();
+      return headerStore.usdBalance;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -503,9 +506,7 @@ export default {
         let balanceList=res.data.balanceList;
         this.balanceList = [];
         for (let i = 0; i < balanceList.length; i++) {
-          if (balanceList[i].coinName == "USDT") {
-            this.usdtBalance = balanceList[i];
-          } else {
+          if (balanceList[i].coinName != "USDT") {
             this.balanceList.push(balanceList[i]);
           }
         }

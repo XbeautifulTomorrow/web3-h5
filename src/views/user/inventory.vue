@@ -161,7 +161,7 @@
         hide-required-asterisk
         label-position="top"
       >
-        <el-form-item :label="$t('user.totalPrice')" prop="price">
+        <el-form-item :label="$t('user.setPrice')" prop="price">
           <div class="choose_price">
             <div
               class="price_item"

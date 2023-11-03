@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import { setSessionStore } from "@/utils";
+import { setLocalStore } from "@/utils";
 
 export default {
   name: "WarMustRead",
@@ -64,7 +64,7 @@ export default {
     },
     joinWar() {
       if (this.rememberMe) {
-        setSessionStore("must_read", "1");
+        setLocalStore("must_read", "1");
       }
 
       this.$emit("changeTypeFun", "must_read");

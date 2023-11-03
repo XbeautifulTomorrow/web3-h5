@@ -192,11 +192,7 @@
         </div>
         <div class="connect_box panel_bg">
           <div class="not_connect" v-if="!showBuy">
-            <div
-              class="enter_war"
-              v-if="!isHistory && currentStatus == 'INIT'"
-              @click="handleBuy()"
-            >
+            <div class="enter_war" v-if="!isHistory" @click="handleBuy()">
               ENTER WAR
             </div>
             <div class="enter_war" v-else-if="isHistory" @click="handleBack()">
@@ -206,6 +202,7 @@
           </div>
           <war-buy
             v-else
+            :status="currentStatus"
             @showDialogFun="handlePopups"
             :config="cahngeConfig"
           ></war-buy>
@@ -407,9 +404,9 @@ import {
   decryptCBC,
   setSessionStore,
   getSessionStore,
+  getLocalStore,
   easeIn,
   easeOut,
-  rAF,
 } from "@/utils";
 import { userColor, getRank, getLevel } from "./components/config";
 import bigNumber from "bignumber.js";
@@ -542,7 +539,7 @@ export default {
     // 打开购买
     handleBuy() {
       if (this.userInfo?.id && this.isLogin) {
-        const is_must_read = getSessionStore("must_read");
+        const is_must_read = getLocalStore("must_read");
         if (is_must_read == "1") {
           this.showBuy = true;
           return;
@@ -612,12 +609,12 @@ export default {
         console.log("SSE connection succeeded");
         // 公共数据
         this.eventSource.addEventListener("COMMON_DATA", (e) => {
-          this.initRotate();
           const warGame = JSON.parse(e.data);
           const currentRound = getSessionStore("currentRound");
 
           // 如果是新的一局
           if (currentRound != warGame.id) {
+            this.initRotate();
             // 清理数据
             this.warInfo = null;
             this.warData = [];
@@ -953,11 +950,11 @@ export default {
       if (this.warInfo?.currentStatus != "WAIT") return;
 
       const { warData } = this;
-      this.showBuy = false;
+
       if (warData.length > 1) {
         this.currentStatus = "WAIT";
         // 开奖函数
-        rAF(this.animation());
+        this.timer = setTimeout(this.animation, 1000 / 60);
       } else {
         // 开奖失败
         this.currentStatus = "CANCEL";
@@ -1029,11 +1026,11 @@ export default {
         return this.slowDown();
       }
 
-      rAF(this.animation);
+      this.timer = setTimeout(this.animation, 1000 / 60);
     },
     // 减速旋转
     slowDown() {
-      rAF(() => {
+      this.timer = setTimeout(() => {
         const currentTime = Date.now() - this.endTime;
 
         // 当前状态不是等待开奖 中断旋转
@@ -1065,7 +1062,7 @@ export default {
         this.setSvgPath();
 
         this.slowDown();
-      });
+      }, 1000 / 60);
     },
     // 格式化胜率
     getWinningRate(event) {
@@ -1193,6 +1190,12 @@ export default {
       this.winInfo = {};
       this.userData = null;
       this.winUserId = null;
+
+      const is_must_read = getLocalStore("must_read");
+      if (is_must_read == "1") {
+        this.showBuy = true;
+      }
+
       this.createSSE();
     },
     // 设置等级边框SVG
@@ -1267,9 +1270,21 @@ export default {
       // 销毁对象
       this.eventSource = null;
     }
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
   },
   created() {
+    const is_must_read = getLocalStore("must_read");
+
+    if (is_must_read == "1") {
+      this.showBuy = true;
+    }
+
     if (this.isHistory) {
+      this.showBuy = false;
       this.fetchCommonData();
     } else {
       this.createSSE();

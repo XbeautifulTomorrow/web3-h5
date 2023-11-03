@@ -22,9 +22,13 @@
 .search_box {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 5.625rem 0 3.75rem;
+  .search_input_box{
+    display: flex;
+    align-items: center;
+  }
   .type_btn{
-      width: 10.9375rem;
       height: 2.5rem;
       display: flex;
       backdrop-filter: blur(44px);
@@ -56,8 +60,8 @@
   }
 
   :deep(.search_input) {
-    width: 35rem;
-
+    width: 18rem;
+    margin-left: 1.25rem;
     .el-input__wrapper {
       height: 3.375rem;
       box-shadow: none;
@@ -99,7 +103,10 @@
     }
 
     :deep(.select_box) {
-      width: 15.5rem;
+      width: 16rem;
+      &.sort_select{
+        width: 19rem;
+      }
 
       .el-select__caret {
         font-size: 1.5rem;
@@ -138,7 +145,7 @@
   }
 
   .create_btn {
-    width: 20rem;
+    width: 10.6rem;
     height: 3.375rem;
     display: flex;
     align-items: center;
@@ -677,6 +684,19 @@
   .search_box {
     margin: 0.5rem 0;
     flex-wrap: wrap;
+    
+    .type_btn{
+      height: 1.5rem;
+      margin-top: 0.25rem;
+      .type_btn_item{
+        width: 4rem;
+        font-size: .75rem;
+        img{
+          width: 1rem;
+          margin-left: .25rem;
+        }
+      }
+    }
 
     &>div+div {
       margin-left: 0.25rem !important;
@@ -684,7 +704,7 @@
 
     :deep(.search_input) {
       width: 100%;
-
+      margin-top: 0.25rem;
       .el-input__wrapper {
         height: 1.5rem;
         box-shadow: none;

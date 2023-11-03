@@ -3,86 +3,88 @@
     <div class="ntf_tickets_list_wrapper">
       <div class="banner_box"></div>
       <div class="search_box">
-        <div class="type_btn">
-          <div :class="['type_btn_item',{'active':type=='ETH'}]" @click="getListFunc">
-            <span>ETH</span>
-            <img src="@/assets/svg/home/icon_eth.svg" alt="" v-if="type=='ETH'">
-            <img src="@/assets/svg/home/coin_eth_enable.svg" alt="" v-else>
+        <div class="search_input_box">
+          <div class="type_btn">
+            <div :class="['type_btn_item',{'active':type=='ETH'}]" @click="getListFunc">
+              <span>ETH</span>
+              <img src="@/assets/svg/home/icon_eth.svg" alt="" v-if="type=='ETH'">
+              <img src="@/assets/svg/home/coin_eth_enable.svg" alt="" v-else>
+            </div>
+            <div :class="['type_btn_item',{'active':type=='NFT'}]" @click="getListFunc">
+              <span>NFT</span>
+              <img src="@/assets/svg/home/coin_nft.svg" alt="" v-if="type=='NFT'">
+              <img src="@/assets/svg/home/coin_nft_enable.svg" alt="" v-else>
+            </div>
           </div>
-          <div :class="['type_btn_item',{'active':type=='NFT'}]" @click="getListFunc">
-            <span>NFT</span>
-            <img src="@/assets/svg/home/coin_nft.svg" alt="" v-if="type=='NFT'">
-            <img src="@/assets/svg/home/coin_nft_enable.svg" alt="" v-else>
+          <el-input
+            v-if="type=='NFT'"
+            v-model="searchVal"
+            clearable
+            @input="handleSearch"
+            class="search_input"
+            type="text"
+            :placeholder="$t('homeReplenish.searchNft')"
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon search_icon">
+                <search />
+              </el-icon>
+            </template>
+          </el-input>
+          <div class="sort_box">
+            <el-select
+              v-model="currentStatus"
+              @change="fetchCheckAllOrders()"
+              :placeholder="$t('homeReplenish.all')"
+              clearable
+              class="select_box"
+              size="large"
+            >
+              <el-option
+                v-for="(item, index) in statusDrop"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <div class="sort_title">{{ $t("homeReplenish.status") }}</div>
           </div>
-        </div>
-        <el-input
-          v-if="type=='NFT'"
-          v-model="searchVal"
-          clearable
-          @input="handleSearch"
-          class="search_input"
-          type="text"
-          :placeholder="$t('homeReplenish.searchNft')"
-        >
-          <template #prefix>
-            <el-icon class="el-input__icon search_icon">
-              <search />
-            </el-icon>
-          </template>
-        </el-input>
-        <div class="sort_box">
-          <el-select
-            v-model="currentStatus"
-            @change="fetchCheckAllOrders()"
-            :placeholder="$t('homeReplenish.all')"
-            clearable
-            class="select_box"
-            size="large"
-          >
-            <el-option
-              v-for="(item, index) in statusDrop"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <div class="sort_title">{{ $t("homeReplenish.status") }}</div>
-        </div>
-        <div class="sort_box">
-          <el-select
-            v-model="sort"
-            @change="fetchCheckAllOrders()"
-            :placeholder="$t('homeReplenish.all')"
-            class="select_box"
-            size="large"
-          >
-            <el-option
-              v-for="(item, index) in sortDrop"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
-        </div>
-        <div class="sort_box collections" v-if="type=='NFT'">
-          <el-select
-            v-model="nftId"
-            clearable
-            @change="fetchCheckAllOrders()"
-            class="select_box"
-            :placeholder="$t('homeReplenish.all')"
-            size="large"
-          >
-            <el-option
-              v-for="(item, index) in collections"
-              :key="index"
-              :label="item.seriesName"
-              :value="item.contractAddress"
-            />
-          </el-select>
-          <div class="sort_title">
-            {{ $t("homeReplenish.sortCollections") }}
+          <div class="sort_box">
+            <el-select
+              v-model="sort"
+              @change="fetchCheckAllOrders()"
+              :placeholder="$t('homeReplenish.all')"
+              :class="['select_box',{'sort_select':type=='ETH'}]"
+              size="large"
+            >
+              <el-option
+                v-for="(item, index) in sortDrop"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
+          </div>
+          <div class="sort_box collections" v-if="type=='NFT'">
+            <el-select
+              v-model="nftId"
+              clearable
+              @change="fetchCheckAllOrders()"
+              class="select_box"
+              :placeholder="$t('homeReplenish.all')"
+              size="large"
+            >
+              <el-option
+                v-for="(item, index) in collections"
+                :key="index"
+                :label="item.seriesName"
+                :value="item.contractAddress"
+              />
+            </el-select>
+            <div class="sort_title">
+              {{ $t("homeReplenish.sortCollections") }}
+            </div>
           </div>
         </div>
         <div class="create_btn create" @click="toDraw()">
@@ -273,7 +275,6 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import {
-  getCheckAllOrders,
   getTheExternalNFTSeries,
   getCoinAllOrders,
   getNftAllOrders,

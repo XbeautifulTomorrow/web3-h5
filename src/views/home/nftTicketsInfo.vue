@@ -806,7 +806,10 @@
               <span class="val" v-if="item.orderType != 'LIMITED_PRICE_COIN'">
                 {{ `${Number(item.price).toLocaleString()} ETH` }}
               </span>
-              <span class="val" v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)" v-else></span>
+              <p class="val" v-else>
+                $ 
+                <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+              </p>
             </div>
             <div class="buy_btn">
               <span>{{ $t("home.nftTicketBtn") }}</span>

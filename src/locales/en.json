@@ -147,7 +147,7 @@
     "sortCollections": "Collection：",
     "noDataCompetition": "NO TREASURE DRAW FOUND",
     "status": "Status：",
-    "inProgress": "In progress",
+    "inProgress": "In Progress",
     "ended": "End",
     "startBtn": "START A DRAW"
   },
@@ -324,7 +324,7 @@
     "createCompetition": "START THE DRAW",
     "timeLimit": "TIME-LIMITED DRAW",
     "priceLimit": "PRICE-LIMITED DRAW",
-    "totalPrice": "Total Price",
+    "totalPrice": "Set a price",
     "totalSupply": "Total Supply",
     "totalEntries": "Total Entries",
     "duration": "Duration",

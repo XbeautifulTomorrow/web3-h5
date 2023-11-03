@@ -33,7 +33,8 @@
             />
             <div class="virtual-currency-item-text">
               <p class="list-nam text-ellipsis">{{ item.seriesName }}</p>
-              <p class="list-currency" v-priceFormat="item.price">
+              <p class="list-currency">
+                $ <span v-priceFormat="item.price"></span>
               </p>
             </div>
           </div>
@@ -68,7 +69,9 @@
               <p class="list-nam text-ellipsis">
                 {{ currencyList[activeIndex].seriesName }}
               </p>
-              <p class="list-currency" v-priceFormat="currencyList[activeIndex].price"></p>
+              <p class="list-currency">
+                $ <span v-priceFormat="currencyList[activeIndex].price"></span>
+              </p>
             </div>
           </div>
           <div class="virtual-currency-item-r">
@@ -120,10 +123,14 @@
           </span>
         </li>
         <li class="popup-list">
-          <span class="popup-list-title text-ellipsis">{{
+          <span class="popup-list-title text-ellipsis">
+            {{
             $t("virtualCurrency.price")
-          }}</span>
-          <span class="popup-list-text text-ellipsis" style="color: #fff" v-priceFormat="currencyList[activeIndex].price"></span>
+          }} 
+          </span>
+          <p class="popup-list-text text-ellipsis" style="color: #fff">
+            $ <span v-priceFormat="currencyList[activeIndex].price"></span>
+          </p>
         </li>
         <li class="popup-list-button">
           <div

@@ -154,9 +154,11 @@
           </div>
           <div class="nft_price">
             <p v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-              $ <span v-priceFormat="item.price"></span>
+              $ <span v-priceFormat:0="item.price"></span>
             </p>
-            <p v-else v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></p>
+            <p v-else>
+              $ <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+            </p>
           </div>
           <div
             class="buy_btn"
@@ -312,15 +314,10 @@
             </div>
             <div class="nft_price">
               <p v-if="item.orderType != 'LIMITED_PRICE_COIN'">
-                $ <span v-priceFormat="item.price"></span>
+                $ <span v-priceFormat:0="item.price"></span>
               </p>
               <p v-else>
-                {{
-                  `$ ${accurateDecimal(
-                    new bigNumber(exchangeRate).multipliedBy(item.price),
-                    4
-                  )}`
-                }}
+                $ <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
               </p>
             </div>
             <div

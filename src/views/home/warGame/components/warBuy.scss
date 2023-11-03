@@ -241,6 +241,69 @@
   margin-top: 1rem;
 }
 
+.lock_switch {
+  width: 6.5rem;
+  height: 1.25rem;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 0.25rem;
+  box-sizing: border-box;
+  position: relative;
+
+  .switch_btn {
+    width: 2rem;
+    height: 1rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Inter;
+    font-size: 0.625rem;
+    font-weight: bold;
+    line-height: 1rem;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+
+    &.close {
+      box-shadow: 0 0 0.25rem 1px #c9372c;
+      background-color: #c9372c;
+    }
+
+    &.open {
+      transform: translateX(2rem);
+      box-shadow: 0 0 0.25rem 1px #94c748;
+      background-color: #94c748;
+    }
+
+    &.auto {
+      transform: translateX(4rem);
+      box-shadow: 0 0 0.25rem 1px #f38a3f;
+      background-color: #f38a3f;
+    }
+  }
+
+  .btns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6.5rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+
+    &>div {
+      flex: 1;
+      height: 1.25rem;
+      cursor: pointer;
+    }
+  }
+}
+
 .rounds_num {
   display: flex;
   align-items: center;

@@ -974,6 +974,12 @@ export default {
         progress, // 动画循环总次数，用来计算fps
       } = this;
 
+      // 当前状态不是等待开奖 中断旋转
+      if (this.currentStatus != "WAIT") {
+        this.initRotate(); // 重置圆环位置
+        return;
+      }
+
       // 当前使用的时间段
       const currentTime = Date.now() - startTime;
 
@@ -1029,6 +1035,12 @@ export default {
     slowDown() {
       rAF(() => {
         const currentTime = Date.now() - this.endTime;
+
+        // 当前状态不是等待开奖 中断旋转
+        if (this.currentStatus != "WAIT") {
+          this.initRotate(); // 重置圆环位置
+          return;
+        }
 
         // 减速完成
         if (currentTime >= this.endHoldTime) {

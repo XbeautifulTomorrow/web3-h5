@@ -93,6 +93,7 @@ export default {
       this.timer && clearTimeout(this.timer);
       if (time <= 1000) {
         // 计时结束
+        this.seconds = "00";
         this.$emit("onEnd");
         return;
       }

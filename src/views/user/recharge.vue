@@ -185,8 +185,7 @@
                   {{ t("user.fee") }}
                 </span>
                 <span class="fee_val">
-                  <b v-priceFormat:4="(network?.newGas || network?.gas)*((operatingCoin=='ETH'||operatingCoin=='WETH')?1:realExchangeRate)"></b>
-                  {{ `${operatingCoin || "--"}` }}
+                  {{ `${network?.newGas || network?.gas} ${operatingCoin || "--"}` }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ t("recharge.free") }}</span>
               </div>
@@ -374,7 +373,7 @@ export default {
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
       exchangeRate: null, // 汇率
-      realExchangeRate: null, // 真实汇率
+      // realExchangeRate: null, // 真实汇率
       walletAmount: null, // 充币数量
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
@@ -407,7 +406,7 @@ export default {
       exchangeAmountTips: null,
       exchangeRateTimer: null,
       receiverAddrList: [],
-      processStatus:false
+      processStatus:true
     };
   },
   computed: {
@@ -567,7 +566,6 @@ export default {
         } else if(type==2){
           this.exchangeToAmountFunc();
         }
-        this.processStatus=true
       }
     },
 
@@ -619,6 +617,9 @@ export default {
         this.exchangeRateTimer = setInterval(() => {
           this.fetchExchangeRate();
           this.processStatus=false;
+          setTimeout(() => {
+            this.processStatus=true
+          }, 100);
         }, 10000);
       } else {
         this.fetchWithdrawalExchangeRate();
@@ -688,11 +689,12 @@ export default {
 
     // 充值汇率
     async fetchRechargeExchangeRate() {
-      const res = await getRechargeExchangeRate({
-        coinName: "ETH",
+      const res = await exchangeRateV2({
+        coinName: 'ETH',
       });
       if (res && res.code == 200) {
-        this.exchangeRate = res.data;
+        const down = this.getExchangeDown('ETH');
+        this.exchangeRate = res.data / (1 - down);
         this.walletAmount = 1;
       }
     },
@@ -705,18 +707,18 @@ export default {
       //   this.exchangeRate = res.data;
       //   this.walletAmount = 0;
       // }
-      this.fetchRealExchangeRate()
       this.walletAmount = 0;
     },
 
      // 真实汇率
-    async fetchRealExchangeRate() {
-      const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
+    async fetchRealExchangeRate(coin) {
       const res = await exchangeRateV2({
         coinName: coin,
       });
       if (res && res.code == 200) {
-        this.realExchangeRate = res.data
+        const down = this.getExchangeDown(coin);
+        this.exchangeRate = res.data / (1 - down);
+        this.relExchangeRate = res.data
       }
     },
     // 验证

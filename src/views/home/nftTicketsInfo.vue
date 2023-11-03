@@ -619,7 +619,8 @@
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
                 <div class="price_val">
-                  {{ historyPrice ? `$ ${historyPrice}` : "--" }}
+                  <span v-if="historyPrice" v-priceFormat:0="historyPrice"></span>
+                  <span v-else>--</span>
                 </div>
               </div>
             </div>
@@ -1796,7 +1797,7 @@ export default {
           formatter: function (datas) {
             var res =
               "<div style='text-align: center;font-size: 0.875rem;color:white;'>$ " +
-              datas[0].data +
+              Number(datas[0].data).toLocaleString() +
               "</div>";
             res += "Date：";
             res += datas[0].name + "<br/>";

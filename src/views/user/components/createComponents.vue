@@ -126,9 +126,9 @@
               </template>
             </el-input>
           </el-form-item>
-          <div class="input_label">
+          <!-- <div class="input_label">
             {{$t("user.setPrice")}}
-          </div>
+          </div> -->
           <el-form-item
             label=""
             prop="usdtPrice"

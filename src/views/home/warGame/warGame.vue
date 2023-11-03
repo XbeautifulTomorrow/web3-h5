@@ -10,19 +10,12 @@
           </div>
         </div>
         <div class="user_list_box">
-          <div
-            :class="['user_item', getLevel(item.buyPrice)]"
-            v-for="(item, index) in warData"
-            :key="index"
-          >
+          <div class="user_item" v-for="(item, index) in warData" :key="index">
             <div class="user_badge">
               <img :src="getRank(item.buyPrice)" alt="" />
             </div>
             <div class="user_info">
-              <div
-                class="info_box"
-                :style="{ backgroundColor: getColor(index) }"
-              >
+              <div class="info_box">
                 <div class="avatar">
                   <img
                     class="avatar_img"
@@ -648,6 +641,11 @@ export default {
 
           if (this.warData.length > 0) {
             this.setSvgPath();
+
+            // 等待页面加载完成
+            this.$nextTick(() => {
+              this.setBorderSVG();
+            });
           }
         });
 
@@ -1145,6 +1143,11 @@ export default {
           }
         }
 
+        // 等待页面加载完成
+        this.$nextTick(() => {
+          this.setBorderSVG();
+        });
+
         if (this.warInfo.currentStatus == "OPEN") {
           this.currentStatus = "WIN";
           // 加载胜利者数据
@@ -1173,6 +1176,70 @@ export default {
       this.userData = null;
       this.winUserId = null;
       this.createSSE();
+    },
+    // 设置等级边框SVG
+    setBorderSVG() {
+      const { warData } = this;
+      // 没有用户就不执行
+      if (!warData.length > 0) return;
+
+      for (let i = 0; i < warData.length; i++) {
+        let svg = getLevel(warData[i].buyPrice);
+        const docTag = document.getElementsByClassName("user_item")[i];
+        // 如果已有边框就跳过本次
+        if (docTag.querySelectorAll("svg").length > 0) continue;
+
+        this.renderAsSvg(svg, i);
+      }
+    },
+    // SVG填色
+    async renderAsSvg(url, index) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.send();
+      xhr.addEventListener("load", async () => {
+        const resXml = xhr.responseXML;
+        const svgDom = resXml.documentElement.cloneNode(true);
+
+        // 设置样式
+        svgDom.style.position = "absolute";
+        svgDom.style.top = "0";
+        svgDom.style.left = "0";
+        svgDom.style.width = "100%";
+        svgDom.style.height = "100%";
+
+        // 设置形状
+        const paths = svgDom.getElementsByTagName("path");
+        for (const item of paths) {
+          if (item.attributes.fill?.value == "white") {
+            item.attributes.fill.value = this.getColor(index);
+          }
+
+          if (item.attributes.stroke?.value == "white") {
+            item.attributes.stroke.value = this.getColor(index);
+          }
+        }
+
+        // 设置线条，矩形
+        const rects = svgDom.getElementsByTagName("rect");
+        for (const item of rects) {
+          if (item.attributes.fill?.value == "white") {
+            item.attributes.fill.value = this.getColor(index);
+          }
+
+          if (item.attributes.stroke?.value == "white") {
+            item.attributes.stroke.value = this.getColor(index);
+          }
+        }
+
+        document
+          .getElementsByClassName("user_item")
+          // eslint-disable-next-line no-unexpected-multiline
+          [index].insertAdjacentElement("afterbegin", svgDom);
+      });
+      xhr.addEventListener("error", (err) => {
+        console.log(err);
+      });
     },
   },
   beforeUnmount() {

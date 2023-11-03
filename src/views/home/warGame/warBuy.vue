@@ -96,16 +96,27 @@
       <div class="lock_winning_box">
         <div class="tips_text">
           <span>锁定胜率</span>
-          <el-switch
-            v-model="autoConfig.lockWinRateStatus"
-            @change="changeLock"
-            active-value="OPEN"
-            inactive-value="CLOSE"
-            style="
-              --el-switch-on-color: #927a51;
-              --el-switch-off-color: rgba(60, 60, 67, 0.3);
-            "
-          />
+          <div class="lock_switch">
+            <div
+              :class="[
+                'switch_btn',
+                autoConfig.lockWinRateStatus == 'OPEN'
+                  ? 'open'
+                  : autoConfig.lockWinRateStatus == 'AUTO'
+                  ? 'auto'
+                  : 'close',
+              ]"
+            >
+              <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">关</span>
+              <span v-else-if="autoConfig.lockWinRateStatus == 'OPEN'">开</span>
+              <span v-else>自动</span>
+            </div>
+            <div class="btns">
+              <div class="btn_left" @click="changeLock(1)"></div>
+              <div class="btn_center" @click="changeLock(2)"></div>
+              <div class="btn_right" @click="changeLock(3)"></div>
+            </div>
+          </div>
         </div>
         <div v-if="autoConfig.lockWinRateStatus != 'CLOSE'">
           <div class="auto_item">
@@ -243,8 +254,20 @@ export default {
       }
     },
     // 锁定胜率设置
-    changeLock(event) {
-      if (event != "CLOSE") {
+    async changeLock(event) {
+      if (event == 1) {
+        if (this.autoConfig.lockWinRateStatus == "CLOSE") return;
+        // 关闭
+        const res = await setAutoConfig({
+          ...this.autoConfig,
+          lockWinRateStatus: "CLOSE",
+        });
+
+        if (res.code == 200) {
+          this.$message.success("Operation successfully!");
+          this.fetchAutoConfig();
+        }
+      } else {
         this.$emit("showDialogFun", "lock");
       }
     },

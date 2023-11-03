@@ -344,6 +344,7 @@
 
 .outer_ring {
   position: absolute;
+  pointer-events: none;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -353,10 +354,17 @@
   box-shadow: 0 0 1rem 0.25rem #c72ae9, inset 0 0 3px 0 #c72ae9;
   border: solid 0.25rem #c72ae9;
   box-sizing: border-box;
+  transition: 0.3s;
+
+  &.hover {
+    box-shadow: none;
+    border: none;
+  }
 }
 
 .win_pointer {
   position: absolute;
+  pointer-events: none;
   bottom: 6.625rem;
   top: 50%;
   left: 50%;

@@ -1,13 +1,13 @@
 <svg width="424" height="68" viewBox="0 0 424 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="424" height="68" fill="black" fill-opacity="0.01"/>
+<rect width="424" height="68" fill="black" fill-opacity="0.03"/>
 <path d="M68 57.5573L68 68L53.4998 68L52.7231 66.9618L40.7768 66.9618L40 66.0001L66 66.0001L66 56.0001L68 57.5573Z" fill="white"/>
 <path d="M0 0V10.9008L0.517863 11.2901V23.6107L1.03573 24V11.6794L2 12.458V2.07634H28L27.2232 1.03817H15.2769L14.5002 0H0Z" fill="white"/>
-<path d="M2.25 2.25H65.75V65.75H2.25V2.25Z" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
-<rect x="6" y="6" width="56" height="56" fill="white" fill-opacity="0.1"/>
-<rect x="6.5" y="6.5" width="55" height="55" stroke="white" stroke-opacity="0.3"/>
-<rect x="78.25" y="2.25" width="343.5" height="63.5" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
-<rect x="82" y="6" width="336" height="56" fill="white" fill-opacity="0.1"/>
-<rect x="82.5" y="6.5" width="335" height="55" stroke="white" stroke-opacity="0.3"/>
+<path d="M2.25 2.25H65.75V65.75H2.25V2.25Z" stroke="white" stroke-opacity="1" stroke-width="0.5"/>
+<rect x="6" y="6" width="56" height="56" fill="white" fill-opacity="0.3"/>
+<rect x="6.5" y="6.5" width="55" height="55" stroke="white" stroke-opacity="0.9"/>
+<rect x="78.25" y="2.25" width="343.5" height="63.5" stroke="white" stroke-opacity="1" stroke-width="0.5"/>
+<rect x="82" y="6" width="336" height="56" fill="white" fill-opacity="0.3"/>
+<rect x="82.5" y="6.5" width="335" height="55" stroke="white" stroke-opacity="0.9"/>
 <path d="M413.557 1.80452e-07L424 -2.09814e-06L424 14.5002L422.962 15.2769L422.962 27.2232L422 28L422 2L412 2L413.557 1.80452e-07Z" fill="white"/>
 <path d="M86.4427 68L76.0001 68L76.0001 53.4998L77.0382 52.7231L77.0382 40.7768L78 40L78 66L88 66L86.4427 68Z" fill="white"/>
 </svg>

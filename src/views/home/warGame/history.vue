@@ -2,7 +2,10 @@
   <div class="war_history_wrapper">
     <div class="history_filter">
       <el-switch
-        v-model="isUser"
+        v-model="myStatus"
+        @change="handleChange"
+        active-value="TRUE"
+        inactive-value="FALSE"
         style="
           --el-switch-on-color: #927a51;
           --el-switch-off-color: rgba(60, 60, 67, 0.3);
@@ -11,131 +14,148 @@
       <span>Only Your Rounds</span>
     </div>
     <div class="history_data_box">
-      <el-table
-        :data="historyData"
-        class="table_container"
-        height="76.5rem"
-        style="width: 100%"
-        @row-click="handleHistory"
-      >
-        <el-table-column
-          prop="id"
-          label="Round"
-          align="center"
-          show-overflow-tooltip
-        />
-        <el-table-column
-          prop="winerUserName"
-          label="Winner"
-          align="center"
-          show-overflow-tooltip
-        />
-        <el-table-column prop="jackpot" label="Prize Pool" align="center">
-          <template #default="scope">
-            <div class="buy_box">
-              <div class="prize_pool">
-                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span v-priceFormat="scope.row.traAmount"></span>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="winerBuyPrice"
-          label="Winner Tickets"
-          align="center"
-          show-overflow-tooltip
+      <div class="history_data_bg">
+        <el-table
+          :data="historyData"
+          class="table_container"
+          height="76.5rem"
+          style="width: 100%"
+          @row-click="handleHistory"
         >
-          <template #default="scope">
-            <div class="buy_box">
-              <div class="buy_num">
-                <div class="num">
+          <el-table-column
+            prop="id"
+            label="Round"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="winerUserName"
+            label="Winner"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <div v-if="!scope.row.winerUserName">--</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="jackpot" label="Prize Pool" align="center">
+            <template #default="scope">
+              <div class="buy_box" v-if="scope.row.jackpot">
+                <div class="prize_pool">
                   <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                  <span v-priceFormat="scope.row.winerBuyPrice"></span>
-                </div>
-                <div class="rate">
-                  {{ getWinningRate(scope.row, scope.row.winerBuyPrice) }}%
+                  <span v-priceFormat="scope.row.jackpot"></span>
                 </div>
               </div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="winerMultipleRate"
-          label="Win"
-          align="center"
-          show-overflow-tooltip
-        >
-          <template #default="scope">
-            {{ `x ${accurateDecimal(scope.row.winerMultipleRate, 2)}` }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="yourBuyPrice"
-          label="Your Tickets"
-          align="center"
-          show-overflow-tooltip
-        >
-          <template #default="scope">
-            <div class="buy_box">
-              <div class="buy_num">
-                <div class="num">
-                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                  <span v-priceFormat="scope.row.yourBuyPrice"></span>
-                </div>
-                <div class="rate">
-                  {{ getWinningRate(scope.row, scope.row.yourBuyPrice) }}%
+              <div v-else>--</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="winerBuyPrice"
+            label="Winner Tickets"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <div class="buy_box" v-if="scope.row.winerBuyPrice">
+                <div class="buy_num">
+                  <div class="num">
+                    <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                    <span v-priceFormat="scope.row.winerBuyPrice"></span>
+                  </div>
+                  <div class="rate">
+                    {{ getWinningRate(scope.row, scope.row.winerBuyPrice) }}%
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="player"
-          label="Players"
-          align="center"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-        <el-table-column
-          prop="lotteryTime"
-          label="Time"
-          align="center"
-          show-overflow-tooltip
-        >
-          <template #default="scope">
-            {{ timeFormat(scope.row.lotteryTime) }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="Verify"
-          label="Verify"
-          align="center"
-          show-overflow-tooltip
-        >
-          <template #default>
-            <div class="buy_box">
-              <img
-                style="cursor: pointer"
-                src="@/assets/svg/user/icon_link.svg"
-                alt=""
-              />
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pagination-box" v-if="this.count > size">
-        <el-pagination
-          v-model="page"
-          :page-size="size"
-          @current-change="handleCurrentChange"
-          :pager-count="7"
-          layout="prev, pager, next"
-          :total="count"
-          prev-text="Pre"
-          next-text="Next"
-        />
+              <div v-else>--</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="winerMultipleRate"
+            label="Win"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <span v-if="scope.row.winerMultipleRate">
+                {{
+                  `x ${accurateDecimal(scope.row.winerMultipleRate || 0, 2)}`
+                }}
+              </span>
+              <span v-else>--</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="yourBuyPrice"
+            label="Your Tickets"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <div class="buy_box" v-if="scope.row.yourBuyPrice">
+                <div class="buy_num">
+                  <div class="num">
+                    <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                    <span v-priceFormat="scope.row.yourBuyPrice"></span>
+                  </div>
+                  <div class="rate">
+                    {{ getWinningRate(scope.row, scope.row.yourBuyPrice) }}%
+                  </div>
+                </div>
+              </div>
+              <span v-else>--</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="player"
+            label="Players"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <span v-if="!scope.row.player">--</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="lotteryTime"
+            label="Time"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              {{ timeFormat(scope.row.lotteryTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="Verify"
+            label="Verify"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template #default="scope">
+              <div class="buy_box" v-if="scope.row.winerUserId">
+                <img
+                  style="cursor: pointer"
+                  src="@/assets/svg/user/icon_link.svg"
+                  alt=""
+                />
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
+    </div>
+    <div class="pagination-box" v-if="this.count > size">
+      <el-pagination
+        v-model="page"
+        :page-size="size"
+        @current-change="handleCurrentChange"
+        :pager-count="7"
+        layout="prev, pager, next"
+        :total="count"
+        prev-text="Pre"
+        next-text="Next"
+      />
     </div>
   </div>
 </template>
@@ -148,7 +168,7 @@ export default {
   data() {
     return {
       pageType: "warGame", // warGame / history
-      isUser: false,
+      myStatus: "FALSE", // TRUE / FALSE
       historyData: [],
       page: 1,
       size: 20,
@@ -159,16 +179,25 @@ export default {
   methods: {
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    // 只看登录用户
+    handleChange(event) {
+      this.fetchWarHistory();
+    },
     // 获取未领取奖金
     async fetchWarHistory(isSearch = true) {
-      const { size } = this;
+      const { myStatus, size } = this;
       let _page = this.page;
       if (isSearch) {
         this.page = 1;
         _page = 1;
       }
 
-      const res = await getWarHistory({ page: _page, size: size });
+      const res = await getWarHistory({
+        page: _page,
+        size: size,
+        myStatus: myStatus,
+      });
+
       if (res.code == 200) {
         this.historyData = res.data.records;
         this.count = res.data.total;

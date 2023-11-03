@@ -32,10 +32,10 @@
       <div class="choose_box">
         <div class="choose_tips">1 Soldier = 1 USDT</div>
         <div class="choose_items">
-          <div class="choose_btn" @click="buyNum = 1">+1</div>
-          <div class="choose_btn" @click="buyNum = 50">+50</div>
-          <div class="choose_btn" @click="buyNum = 100">+100</div>
-          <div class="choose_btn" @click="buyNum = 500">+500</div>
+          <div class="choose_btn" @click="setAmount(1)">+1</div>
+          <div class="choose_btn" @click="setAmount(50)">+50</div>
+          <div class="choose_btn" @click="setAmount(100)">+100</div>
+          <div class="choose_btn" @click="setAmount(500)">+500</div>
         </div>
       </div>
       <div class="auto_war_box">
@@ -106,6 +106,7 @@
               --el-switch-off-color: rgba(60, 60, 67, 0.3);
             "
           />
+          <div class="lock_switch"></div>
         </div>
         <div v-if="autoConfig.lockWinRateStatus != 'CLOSE'">
           <div class="auto_item">
@@ -166,6 +167,7 @@ export default {
       },
       autoChoose: 1,
       customize: 0,
+      timer: null,
     };
   },
   computed: {
@@ -186,6 +188,10 @@ export default {
   methods: {
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
+    // 更新购买数据
+    setAmount(event) {
+      this.buyNum = Number(this.buyNum) + Number(event);
+    },
     // 购买战争游戏门票
     async buyTickets() {
       const { buyNum, usdBalance } = this;
@@ -251,6 +257,19 @@ export default {
     config(newV) {
       if (!newV) return;
       this.fetchAutoConfig();
+    },
+    buyNum(newV) {
+      if (!newV) return;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        if (!newV) return;
+        this.buyNum = Math.floor(newV);
+      }, 300);
     },
   },
 };

@@ -68,8 +68,9 @@
               </div>
               <el-slider
                 class="config_slider"
-                v-model.number="autoConfig.autoBuyAmount"
-                :min="startNum"
+                v-model.number="autoBuyAmount"
+                @change="changeNum"
+                :min="0"
                 :max="endNum"
                 :step="stepNum"
                 :show-tooltip="false"
@@ -78,6 +79,7 @@
             <el-input
               class="config_num"
               type="number"
+              @focus="isChangeNum = true"
               v-model.number="autoConfig.autoBuyAmount"
               placeholder=""
             >
@@ -95,7 +97,8 @@
               </div>
               <el-slider
                 class="config_slider"
-                v-model.number="autoConfig.autoBuyTime"
+                v-model.number="autoBuyTime"
+                @change="changeNum"
                 :min="1"
                 :max="100"
                 :step="1"
@@ -105,6 +108,7 @@
             <el-input
               class="config_num time"
               type="number"
+              @focus="isChangeNum = true"
               v-model.number="autoConfig.autoBuyTime"
               placeholder=""
             >
@@ -122,8 +126,9 @@
               </div>
               <el-slider
                 class="config_slider"
-                v-model.number="autoConfig.lowBounsPool"
-                :min="startNum"
+                v-model.number="lowBounsPool"
+                @change="changeNum"
+                :min="0"
                 :max="endNum"
                 :step="stepNum"
                 :show-tooltip="false"
@@ -132,6 +137,7 @@
             <el-input
               class="config_num"
               type="number"
+              @focus="isChangeNum = true"
               v-model.number="autoConfig.lowBounsPool"
               placeholder=""
             >
@@ -191,7 +197,8 @@
               </div>
               <el-slider
                 class="config_slider"
-                v-model.number="autoConfig.lockWinRate"
+                v-model.number="lockWinRate"
+                @change="changeNum"
                 :min="1"
                 :max="100"
                 :step="1"
@@ -201,6 +208,7 @@
             <el-input
               class="config_num time"
               type="number"
+              @focus="isChangeNum = true"
               v-model.number="autoConfig.lockWinRate"
               placeholder=""
             >
@@ -218,9 +226,10 @@
               </div>
               <el-slider
                 class="config_slider"
-                v-model.number="autoConfig.lockMaxAmount"
-                :min="balanceStartNum"
-                :max="usdBalance"
+                v-model.number="lockMaxAmount"
+                @change="changeNum"
+                :min="0"
+                :max="Math.floor(usdBalance)"
                 :step="balanceStartNum"
                 :show-tooltip="false"
               />
@@ -228,6 +237,7 @@
             <el-input
               class="config_num"
               type="number"
+              @focus="isChangeNum = true"
               v-model.number="autoConfig.lockMaxAmount"
               placeholder=""
             >
@@ -255,7 +265,7 @@ import { getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 
 export default {
-  name: "WarBuy",
+  name: "WarConfig",
   props: {
     type: {
       type: String, //  auto | lock
@@ -269,6 +279,14 @@ export default {
   data() {
     return {
       show: true,
+      isChangeNum: false,
+      autoBuyAmount: 0, //自动购买金额
+      autoBuyNumber: 0, //自动局数
+      autoBuyTime: 0, //几秒入局
+      lockMaxAmount: 0, //最大投注
+      lockWinRate: 1, //胜率
+      lowBounsPool: 0, //最低奖池
+
       autoConfig: {
         autoBuyAmount: 0, //自动购买金额
         autoBuyNumber: 0, //自动局数
@@ -300,22 +318,16 @@ export default {
       const { isLogin } = this.userStore;
       return isLogin;
     },
-    // 开始数值
-    startNum() {
-      const { usdBalance } = this;
-      const num = new bigNumber(usdBalance).div(1000);
-      return Number(num);
-    },
     // 结束数值
     endNum() {
       const { usdBalance } = this;
       const num = new bigNumber(usdBalance).div(10);
-      return Number(num);
+      return Math.floor(Number(num));
     },
     // 每段数值
     stepNum() {
-      const { startNum, endNum } = this;
-      const num = new bigNumber(startNum).minus(endNum).div(100);
+      const { endNum } = this;
+      const num = new bigNumber(endNum).div(100);
       return Number(num);
     },
     // 余额开始数值
@@ -352,9 +364,6 @@ export default {
         }
       }
     },
-    changeRate(event) {
-      console.log("滑块：" + event);
-    },
     // 选择自动局数
     chooseAutoRound(type, num) {
       this.autoChoose = type;
@@ -377,7 +386,6 @@ export default {
       }
 
       const rate = deepClone(autoConfig);
-      console.log(autoConfig);
 
       params.lockWinRate = Number(
         new bigNumber(rate.lockWinRate).dividedBy(100)
@@ -391,6 +399,9 @@ export default {
         this.$message.success("Operation successfully!");
         this.handleClose();
       }
+    },
+    changeNum() {
+      this.isChangeNum = false;
     },
     // 关闭弹窗
     handleClose() {
@@ -418,64 +429,146 @@ export default {
         }, 300);
       }
     },
-    "autoConfig.autoBuyAmount": function (newV) {
-      if (!newV) return;
+    // 滑块
+    autoBuyAmount: function (newV) {
+      if (this.isChangeNum) return;
 
+      this.autoConfig.autoBuyAmount = Math.floor(newV);
+      this.$forceUpdate();
+    },
+    "autoConfig.autoBuyAmount": function (newV) {
       if (this.numTimer) {
         clearTimeout(this.numTimer);
         this.numTimer = null;
       }
 
+      if (!newV) return;
+      if (!this.isChangeNum) return;
+
+      const { endNum } = this;
+
+      if (newV >= endNum) {
+        this.autoBuyAmount = endNum;
+      } else {
+        this.autoBuyAmount = newV > 0 ? Math.floor(newV) : 0;
+      }
+
+      if (!newV) return;
+
+      this.$forceUpdate();
       this.numTimer = setTimeout(() => {
-        this.autoConfig.autoBuyAmount = Number(newV);
+        this.autoConfig.autoBuyAmount = newV > 0 ? Math.floor(newV) : 0;
       }, 300);
+    },
+    // 滑块
+    autoBuyTime: function (newV) {
+      if (this.isChangeNum) return;
+
+      this.autoConfig.autoBuyTime = Math.floor(newV);
+      this.$forceUpdate();
     },
     "autoConfig.autoBuyTime": function (newV) {
-      if (!newV) return;
-
       if (this.numTimer) {
         clearTimeout(this.numTimer);
         this.numTimer = null;
       }
 
+      if (newV >= 100) {
+        this.autoBuyTime = 100;
+      } else {
+        this.autoBuyTime = newV > 0 ? Math.floor(newV) : 0;
+      }
+
+      if (!newV) return;
+
+      this.$forceUpdate();
       this.numTimer = setTimeout(() => {
-        this.autoConfig.autoBuyTime = Math.floor(newV);
+        this.autoConfig.autoBuyTime = newV > 0 ? Math.floor(newV) : 0;
       }, 300);
+    },
+    // 滑块
+    lowBounsPool: function (newV) {
+      if (this.isChangeNum) return;
+
+      this.autoConfig.lowBounsPool = Math.floor(newV);
+      this.$forceUpdate();
     },
     "autoConfig.lowBounsPool": function (newV) {
-      if (!newV) return;
-
       if (this.numTimer) {
         clearTimeout(this.numTimer);
         this.numTimer = null;
       }
 
+      const { endNum } = this;
+
+      if (newV >= endNum) {
+        this.lowBounsPool = endNum;
+      } else {
+        this.lowBounsPool = newV > 0 ? Math.floor(newV) : 0;
+      }
+
+      if (!newV) return;
+
+      this.$forceUpdate();
       this.numTimer = setTimeout(() => {
-        this.autoConfig.lowBounsPool = Number(newV);
+        this.autoConfig.lowBounsPool = newV > 0 ? Math.floor(newV) : 0;
       }, 300);
+    },
+    // 滑块
+    lockWinRate: function (newV) {
+      if (this.isChangeNum) return;
+
+      this.autoConfig.lockWinRate = Math.floor(newV);
+      this.$forceUpdate();
     },
     "autoConfig.lockWinRate": function (newV) {
-      if (!newV) return;
-
       if (this.numTimer) {
         clearTimeout(this.numTimer);
         this.numTimer = null;
       }
 
+      if (newV >= 100) {
+        this.lockWinRate = 100;
+      } else {
+        this.lockWinRate = newV > 0 ? Math.floor(newV) : 0;
+      }
+
+      if (!newV) return;
+
+      this.$forceUpdate();
       this.numTimer = setTimeout(() => {
-        this.autoConfig.lockWinRate = Math.floor(newV);
+        if (newV > 100) {
+          this.autoConfig.lockWinRate = 100;
+        } else {
+          this.autoConfig.lockWinRate = newV > 0 ? Math.floor(newV) : 0;
+        }
       }, 300);
     },
-    "autoConfig.lockMaxAmount": function (newV) {
-      if (!newV) return;
+    // 滑块
+    lockMaxAmount: function (newV) {
+      if (this.isChangeNum) return;
 
+      this.autoConfig.lockMaxAmount = Math.floor(newV);
+      this.$forceUpdate();
+    },
+    "autoConfig.lockMaxAmount": function (newV) {
       if (this.numTimer) {
         clearTimeout(this.numTimer);
         this.numTimer = null;
       }
 
+      const { usdBalance } = this;
+
+      if (newV >= usdBalance) {
+        this.lockMaxAmount = usdBalance;
+      } else {
+        this.lockMaxAmount = newV > 0 ? Math.floor(newV) : 0;
+      }
+
+      if (!newV) return;
+
       this.numTimer = setTimeout(() => {
-        this.autoConfig.lockMaxAmount = Number(newV);
+        this.autoConfig.lockMaxAmount = newV > 0 ? Math.floor(newV) : 0;
       }, 300);
     },
   },

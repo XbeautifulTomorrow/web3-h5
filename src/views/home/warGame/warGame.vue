@@ -343,11 +343,26 @@
         </div>
       </div>
     </div>
+    <!-- 自动配置 -->
     <war-config
       :type="operationType"
       v-if="operationType"
       @closeDialogFun="handleClose"
     ></war-config>
+    <!-- 战前必读 -->
+    <war-must-read
+      v-if="pageType == 'must_read'"
+      @closeDialogFun="handlePopups"
+      @changeTypeFun="changeTypeFun"
+    ></war-must-read>
+    <!-- 如果中奖者是登录用户 -->
+    <war-winning
+      v-if="pageType == 'war_win'"
+      :winInfo="winInfo"
+      @closeReceiveFun="changeTypeFun"
+      @closeDialogFun="closeDialogFun"
+    ></war-winning>
+    <!-- 登录相关 -->
     <Login
       v-if="pageType === 'login'"
       @closeDialogFun="closeDialogFun"
@@ -405,7 +420,11 @@ import bigNumber from "bignumber.js";
 
 import warBuy from "./warBuy.vue";
 import warConfig from "./warConfig.vue";
+import warMustRead from "./warMustRead.vue";
+import warWinning from "./warWinning.vue";
 import countDown from "@/components/countDown";
+
+/** LOGIN */
 import Login from "@/views/login/index.vue";
 import Register from "@/views/register/index.vue";
 import Forgot from "@/views/forgot/index.vue";
@@ -428,6 +447,8 @@ export default {
     warBuy,
     warConfig,
     countDown,
+    warMustRead,
+    warWinning,
     Login,
     Register,
     Forgot,
@@ -503,6 +524,15 @@ export default {
       this.pageType = "modify";
     },
     changeTypeFun(page) {
+      if (page == "must_read") {
+        this.pageType = "";
+        this.showBuy = true;
+        return;
+      } else if (page == "war_win") {
+        this.pageType = "";
+        this.fetchRewardAmount();
+        return;
+      }
       this.pageType = page;
     },
     async getTheUserBalanceInfo() {
@@ -514,7 +544,13 @@ export default {
     // 打开购买
     handleBuy() {
       if (this.userInfo?.id && this.isLogin) {
-        this.showBuy = true;
+        const is_must_read = getSessionStore("must_read");
+        if (is_must_read == "1") {
+          this.showBuy = true;
+          return;
+        }
+
+        this.pageType = "must_read";
         return;
       }
 
@@ -796,28 +832,36 @@ export default {
       const { warData, svgAngle, winUserId } = this;
 
       const countDown = 360; // 中奖也旋转1圈
-      const currentDeg = 360 - Number(svgAngle); // 加入当前轮剩余度数
+      const currentDeg = 360 - Number(svgAngle || 0); // 加入当前轮剩余度数
 
       // 旋转所需度数
       let degCount = 0;
 
-      //累计旋转度数
-      for (let i = 0; i < warData.length; i++) {
-        if (warData[i].userId == winUserId) {
-          // 中奖者所占度数
-          degCount += this.getDeg(warData[i].buyPrice);
-          // 需要再加上一半所占度数才能到顶点
-          degCount += Number(
-            new bigNumber(this.getDeg(warData[i].buyPrice)).div(2)
-          );
+      // 度数应该是参加用户的倒序取
+      const degArray = [];
+      for (let i = warData.length; i > 0; i--) {
+        if (warData[i - 1].userId == winUserId) {
+          degArray.push(warData[i - 1]);
           break;
         } else {
-          degCount += this.getDeg(warData[i].buyPrice);
+          degArray.push(warData[i - 1]);
         }
       }
 
-      // 旋转一圈 + 当前圈剩余 + 胜利者位置
-      degCount = Number(Math.floor(degCount)) + countDown + currentDeg;
+      //累计旋转度数
+      for (let i = 0; i < degArray.length; i++) {
+        if (degArray[i].userId == winUserId) {
+          // 需要再加上一半中奖者所占度数才能到顶点
+          degCount += Number(
+            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2)
+          );
+        } else {
+          degCount += this.getDeg(degArray[i].buyPrice);
+        }
+      }
+
+      //   旋转一圈 + 当前圈剩余+胜利者位置
+      degCount = countDown + currentDeg + Math.floor(degCount);
       return degCount;
     },
     // 初始化抽奖
@@ -838,6 +882,9 @@ export default {
 
       // 计时器可能会每秒都触发事件
       if (this.currentStatus != "INIT") return;
+
+      // 当前状态不是未开奖也不转
+      if (this.warInfo?.currentStatus != "WAIT") return;
 
       const { warData } = this;
       this.showBuy = false;
@@ -921,6 +968,12 @@ export default {
         if (currentTime >= this.endHoldTime) {
           // 开奖成功
           this.currentStatus = "WIN";
+
+          //如果中奖者是登录用户
+          if (this.winUserId == this.userInfo?.id) {
+            this.pageType = "war_win";
+          }
+
           this.warTime.countdownTime = null;
           return;
         }
@@ -967,6 +1020,11 @@ export default {
     },
     // 处理弹窗事件
     handlePopups(event) {
+      if (event == "must_read") {
+        this.pageType = "";
+        return;
+      }
+
       this.operationType = event;
     },
     // 关闭弹窗
@@ -1029,17 +1087,17 @@ export default {
           this.currentStatus = "WIN";
           // 加载胜利者数据
           this.winInfo = {
-            winerUserId: this.warHistory.winerUserId,
-            winerUserName: this.warHistory.winerUserName,
-            winerIncome: this.warHistory.winerIncome,
-            winerMultipleRate: this.warHistory.win,
-            openId: this.warHistory.openId,
+            ...this.warHistory,
           };
 
           this.winUserId = this.winInfo.winerUserId;
           this.svgAngle = this.getSlowDeg() % 360;
           this.setSvgPath();
-        } else if (this.warHistory.currentStatus == "CANCELED") {
+        } else if (
+          !this.warHistory.currentStatus ||
+          this.warHistory.currentStatus == "CANCELED" ||
+          this.warHistory.currentStatus == "REFUNDED"
+        ) {
           this.currentStatus = "CANCEL";
         }
       }

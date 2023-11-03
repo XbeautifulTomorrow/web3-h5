@@ -18,7 +18,10 @@
         placeholder=""
       >
         <template #append>
-          <div class="add_btn" @click="buyTickets()">
+          <div
+            :class="['add_btn', status != 'INIT' ? 'disabled' : '']"
+            @click="buyTickets()"
+          >
             <img
               class="not-select"
               src="@/assets/svg/home/warGame/icon_add.svg"
@@ -161,6 +164,10 @@ export default {
       type: String,
       default: "",
     },
+    status: {
+      type: String, // INIT / WAIT / CANCEL / WIN
+      default: "",
+    },
   },
   data() {
     return {
@@ -205,6 +212,8 @@ export default {
     // 购买战争游戏门票
     async buyTickets() {
       const { buyNum, usdBalance } = this;
+
+      if (this.status != "INIT") return;
 
       if (Number(buyNum) > Number(usdBalance)) {
         this.$message.error("余额不足");

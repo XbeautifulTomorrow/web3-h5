@@ -79,6 +79,9 @@
           <svg id="war_container" width="450" height="450"></svg>
           <div
             :class="['outer_ring', isHover ? 'hover' : '']"
+            :style="{
+              pointerEvents: currentStatus == 'WAIT' ? 'auto' : 'none',
+            }"
             v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"
           ></div>
           <div

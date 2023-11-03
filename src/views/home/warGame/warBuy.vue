@@ -256,6 +256,7 @@ export default {
     // 锁定胜率设置
     async changeLock(event) {
       if (event == 1) {
+        if (this.autoConfig.lockWinRateStatus == "CLOSE") return;
         // 关闭
         const res = await setAutoConfig({
           ...this.autoConfig,

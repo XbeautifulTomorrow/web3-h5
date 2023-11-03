@@ -123,33 +123,14 @@
   height: 4.25rem;
   background-repeat: no-repeat;
   background-size: contain;
+  position: relative;
 
-  &.level_1 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_2 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_3 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_4 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_5 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_6 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
-  }
-
-  &.level_7 {
-    background-image: url("@/assets/svg/home/warGame/level/level_1.svg");
+  .borderSvg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .user_badge {
@@ -160,6 +141,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    z-index: 1;
 
     img {
       width: 3.375rem;
@@ -171,6 +153,7 @@
     flex: 1;
     height: 100%;
     box-sizing: border-box;
+    z-index: 1;
   }
 }
 

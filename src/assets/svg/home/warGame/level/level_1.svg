@@ -1,8 +1,13 @@
 <svg width="424" height="68" viewBox="0 0 424 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="424" height="68" fill="black" fill-opacity="0.01"/>
 <path d="M2.25 2.25H65.75V65.75H2.25V2.25Z" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
 <rect x="6" y="6" width="56" height="56" fill="white" fill-opacity="0.1"/>
 <rect x="6.5" y="6.5" width="55" height="55" stroke="white" stroke-opacity="0.3"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1 67L0.999999 48L2 47L2 66L21 66L20 67L1 67Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M67 1L67 20L66 21L66 2L47 2L48 0.999999L67 1Z" fill="white"/>
 <rect x="78.25" y="2.25" width="343.5" height="63.5" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
 <rect x="82" y="6" width="336" height="56" fill="white" fill-opacity="0.1"/>
 <rect x="82.5" y="6.5" width="335" height="55" stroke="white" stroke-opacity="0.3"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M423 67L404 67L403 66L422 66L422 47L423 48L423 67Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M77 1L96 1L97 2L78 2V21L77 20V1Z" fill="white"/>
 </svg>

@@ -832,28 +832,36 @@ export default {
       const { warData, svgAngle, winUserId } = this;
 
       const countDown = 360; // 中奖也旋转1圈
-      const currentDeg = 360 - Number(svgAngle); // 加入当前轮剩余度数
+      const currentDeg = 360 - Number(svgAngle || 0); // 加入当前轮剩余度数
 
       // 旋转所需度数
       let degCount = 0;
 
-      //累计旋转度数
-      for (let i = 0; i < warData.length; i++) {
-        if (warData[i].userId == winUserId) {
-          // 中奖者所占度数
-          degCount += this.getDeg(warData[i].buyPrice);
-          // 需要再加上一半所占度数才能到顶点
-          degCount += Number(
-            new bigNumber(this.getDeg(warData[i].buyPrice)).div(2)
-          );
+      // 度数应该是参加用户的倒序取
+      const degArray = [];
+      for (let i = warData.length; i > 0; i--) {
+        if (warData[i - 1].userId == winUserId) {
+          degArray.push(warData[i - 1]);
           break;
         } else {
-          degCount += this.getDeg(warData[i].buyPrice);
+          degArray.push(warData[i - 1]);
         }
       }
 
-      // 旋转一圈 + 当前圈剩余 + 胜利者位置
-      degCount = Number(Math.floor(degCount)) + countDown + currentDeg;
+      //累计旋转度数
+      for (let i = 0; i < degArray.length; i++) {
+        if (degArray[i].userId == winUserId) {
+          // 需要再加上一半中奖者所占度数才能到顶点
+          degCount += Number(
+            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2)
+          );
+        } else {
+          degCount += this.getDeg(degArray[i].buyPrice);
+        }
+      }
+
+      //   旋转一圈 + 当前圈剩余+胜利者位置
+      degCount = countDown + currentDeg + Math.floor(degCount);
       return degCount;
     },
     // 初始化抽奖
@@ -874,6 +882,9 @@ export default {
 
       // 计时器可能会每秒都触发事件
       if (this.currentStatus != "INIT") return;
+
+      // 当前状态不是未开奖也不转
+      if (this.warInfo?.currentStatus != "WAIT") return;
 
       const { warData } = this;
       this.showBuy = false;

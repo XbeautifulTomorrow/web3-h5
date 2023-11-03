@@ -91,18 +91,18 @@ export function getRank(evnet) {
 export function getLevel(evnet) {
   const amount = Number(evnet || 0);
   if (amount < 10) {
-    return "level_1";
+    return require("@/assets/svg/home/warGame/level/level_1.svg");
   } else if (amount < 50) {
-    return "level_2";
+    return require("@/assets/svg/home/warGame/level/level_2.svg");
   } else if (amount < 1000) {
-    return "level_3";
+    return require("@/assets/svg/home/warGame/level/level_3.svg");
   } else if (amount < 10000) {
-    return "level_4";
+    return require("@/assets/svg/home/warGame/level/level_4.svg");
   } else if (amount < 100000) {
-    return "level_5";
+    return require("@/assets/svg/home/warGame/level/level_5.svg");
   } else if (amount < 1000000) {
-    return "level_6";
+    return require("@/assets/svg/home/warGame/level/level_6.svg");
   } else {
-    return "level_7";
+    return require("@/assets/svg/home/warGame/level/level_7.svg");
   }
 }

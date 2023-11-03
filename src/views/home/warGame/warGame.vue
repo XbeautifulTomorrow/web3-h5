@@ -83,7 +83,7 @@
           ></div>
           <div class="round_prize">
             <div class="round_num" v-if="currentStatus != 'WIN'">
-              {{ `Round ${warInfo?.id}` }}
+              {{ `Round ${warInfo?.id || "--"}` }}
             </div>
             <div class="win_user" v-else>
               <div class="win_bg">
@@ -158,7 +158,7 @@
       </div>
       <div class="round_info_panel">
         <div class="round_info panel_bg">
-          <div class="round_num">{{ `Round ${warInfo?.id}` }}</div>
+          <div class="round_num">{{ `Round ${warInfo?.id || "--"}` }}</div>
           <div class="info">
             <div class="info_item">
               <div class="info_val">
@@ -582,6 +582,13 @@ export default {
         );
         // 删除标记
         window.sessionStorage.removeItem("currentRound");
+
+        // 初始化SVG
+        this.$nextTick(() => {
+          this.initSvg();
+          this.setSvg();
+        });
+
         this.connectSSE();
       } else {
         console.log("Your browser does not support SSE~");
@@ -605,8 +612,6 @@ export default {
         console.log("SSE connection succeeded");
         // 公共数据
         this.eventSource.addEventListener("COMMON_DATA", (e) => {
-          console.log("已接收公共数据：" + e.data);
-
           this.initRotate();
           const warGame = JSON.parse(e.data);
           const currentRound = getSessionStore("currentRound");
@@ -619,11 +624,16 @@ export default {
             this.winInfo = {};
             this.userData = null;
             this.winUserId = null;
+            this.currentStatus = "INIT";
             this.$forceUpdate();
 
             setSessionStore("currentRound", warGame.id);
-            this.initSvg();
-            this.setSvg();
+
+            // 等待页面加载完成
+            this.$nextTick(() => {
+              this.initSvg();
+              this.setSvg();
+            });
           }
 
           this.warInfo = warGame;
@@ -640,10 +650,9 @@ export default {
           }
 
           if (this.warData.length > 0) {
-            this.setSvgPath();
-
             // 等待页面加载完成
             this.$nextTick(() => {
+              this.setSvgPath();
               this.setBorderSVG();
             });
           }
@@ -932,9 +941,6 @@ export default {
       this.progress = 0;
       this.endTime = null;
       this.endDeg = 0;
-      this.winUserId = null;
-
-      this.currentStatus = "INIT";
     },
     // 开始抽奖
     startLottery() {

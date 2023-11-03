@@ -106,7 +106,6 @@
               --el-switch-off-color: rgba(60, 60, 67, 0.3);
             "
           />
-          <div class="lock_switch"></div>
         </div>
         <div v-if="autoConfig.lockWinRateStatus != 'CLOSE'">
           <div class="auto_item">

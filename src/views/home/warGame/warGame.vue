@@ -78,7 +78,7 @@
         <div class="war_game_box">
           <svg id="war_container" width="450" height="450"></svg>
           <div
-            class="outer_ring"
+            :class="['outer_ring', isHover ? 'hover' : '']"
             v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"
           ></div>
           <div
@@ -496,6 +496,8 @@ export default {
       endTime: null, // 减速开始时间
       endDeg: 0, // 减速角度
       winUserId: null, // 中奖者id
+
+      isHover: false,
     };
   },
   computed: {
@@ -769,7 +771,12 @@ export default {
             .delay(delay)
             .attrTween("d", (d) => {
               array = pointEnd.centroid(d);
+              const outer_ring = document.getElementsByClassName("outer_ring");
               if (outerRadius == 1) {
+                if (outer_ring.length > 0) {
+                  outer_ring[0].classList.add("hover");
+                }
+
                 ss.transition()
                   .delay(delay)
                   .attr(
@@ -781,6 +788,10 @@ export default {
                       " )"
                   );
               } else {
+                if (outer_ring.length > 0) {
+                  outer_ring[0].classList.remove("hover");
+                }
+
                 ss.transition()
                   .delay(delay)
                   .attr("transform", "translate( " + 0 + ", " + 0 + " )");
@@ -804,6 +815,12 @@ export default {
 
       const angles = this.svgAngle * ((Math.PI * 2) / 360);
 
+      //饼图偏移的终点
+      let pointEnd = d3
+        .arc()
+        .innerRadius(radius - 180)
+        .outerRadius(radius - 180);
+
       let drawData = d3
         .pie()
         .value(function (d) {
@@ -825,7 +842,49 @@ export default {
         .attr("d", function (d) {
           d.outerRadius = radius;
           return arc(d);
-        });
+        })
+        .on("mouseover", arcTween(1, 2))
+        .on("mouseout", arcTween(2, 2));
+
+      // 鼠标悬停
+      function arcTween(outerRadius, delay) {
+        // 设置缓动函数,为鼠标事件使用
+        return function () {
+          let array = [];
+          let ss = d3.select(this);
+
+          ss.transition()
+            .delay(delay)
+            .attrTween("d", (d) => {
+              array = pointEnd.centroid(d);
+              const outer_ring = document.getElementsByClassName("outer_ring");
+              if (outerRadius == 1) {
+                if (outer_ring.length > 0) {
+                  outer_ring[0].classList.add("hover");
+                }
+
+                ss.transition()
+                  .delay(delay)
+                  .attr(
+                    "transform",
+                    "translate( " +
+                      Number(array[0]).toFixed(4) +
+                      ", " +
+                      Number(array[1]).toFixed(4) +
+                      " )"
+                  );
+              } else {
+                if (outer_ring.length > 0) {
+                  outer_ring[0].classList.remove("hover");
+                }
+
+                ss.transition()
+                  .delay(delay)
+                  .attr("transform", "translate( " + 0 + ", " + 0 + " )");
+              }
+            });
+        };
+      }
     },
     // 计算中奖时减速旋转总度数
     getSlowDeg() {

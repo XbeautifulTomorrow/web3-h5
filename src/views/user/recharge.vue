@@ -185,7 +185,8 @@
                   {{ t("user.fee") }}
                 </span>
                 <span class="fee_val">
-                  {{ `${network?.newGas || network?.gas} ${operatingCoin || "--"}` }}
+                  <b v-priceFormat:4="(network?.newGas || network?.gas)*((operatingCoin=='ETH'||operatingCoin=='WETH')?1:realExchangeRate)"></b>
+                  {{ `${operatingCoin || "--"}` }}
                 </span>
                 <span class="free_text" v-if="setting.freeFeeStatus">{{ t("recharge.free") }}</span>
               </div>
@@ -299,7 +300,16 @@
               <span>{{
                 `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
               }}</span>
-              <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" />
+              <!-- <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" /> -->
+              <div class="progress" style="width:20px;height:20px;border:4px solid rgba(169, 164, 180, 0.5)">
+                <div class="inner_progress"  style="width:20px;height:20px;left: -4px;top: 5px;" v-if="processStatus">
+                  <svg id="svgelem" height="20">
+                    <circle cx="20" cy="10" r="8" stroke-width="4">
+                      <animate attributeName="stroke-dasharray" from="0,50.265" to="50.265,0" dur="10s" fill="freeze" />
+                    </circle>
+                  </svg>
+                </div>
+              </div>
             </div>
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
               <span>{{ $t("EXCHANGE") }}</span>
@@ -364,6 +374,7 @@ export default {
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
       exchangeRate: null, // 汇率
+      realExchangeRate: null, // 真实汇率
       walletAmount: null, // 充币数量
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
@@ -396,6 +407,7 @@ export default {
       exchangeAmountTips: null,
       exchangeRateTimer: null,
       receiverAddrList: [],
+      processStatus:false
     };
   },
   computed: {
@@ -555,6 +567,7 @@ export default {
         } else if(type==2){
           this.exchangeToAmountFunc();
         }
+        this.processStatus=true
       }
     },
 
@@ -605,6 +618,7 @@ export default {
         this.fetchExchangeRate(1);
         this.exchangeRateTimer = setInterval(() => {
           this.fetchExchangeRate();
+          this.processStatus=false;
         }, 10000);
       } else {
         this.fetchWithdrawalExchangeRate();
@@ -684,12 +698,25 @@ export default {
     },
     // 提款汇率
     async fetchWithdrawalExchangeRate() {
-      const res = await getWithdrawalExchangeRate({
-        coinName: "ETH",
+      // const res = await getWithdrawalExchangeRate({
+      //   coinName: "ETH",
+      // });
+      // if (res && res.code == 200) {
+      //   this.exchangeRate = res.data;
+      //   this.walletAmount = 0;
+      // }
+      this.fetchRealExchangeRate()
+      this.walletAmount = 0;
+    },
+
+     // 真实汇率
+    async fetchRealExchangeRate() {
+      const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
+      const res = await exchangeRateV2({
+        coinName: coin,
       });
       if (res && res.code == 200) {
-        this.exchangeRate = res.data;
-        this.walletAmount = 0;
+        this.realExchangeRate = res.data
       }
     },
     // 验证

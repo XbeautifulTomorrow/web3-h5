@@ -723,11 +723,27 @@
   }
 }
 
+.progress {
+    position:relative;
+    border-radius:50%;
+    margin-left: .625rem;
+    box-sizing: border-box;
+    .inner_progress{
+      position:absolute;
+      transform: rotate(-90deg);
+    }
+    svg circle {
+      stroke: #11cde9;
+      opacity: 1;
+      fill: none;
+    }
+}
+
 .price_convert_text {
   padding-top: 1.25rem;
   font-size: 0.875rem;
   line-height: 1.6;
-  text-align: center;
+  text-align: left;
   color: #a9a4b4;
 }
 

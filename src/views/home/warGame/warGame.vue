@@ -641,7 +641,11 @@ export default {
 
           if (this.warData.length > 0) {
             this.setSvgPath();
-            this.setBorderSVG();
+
+            // 等待页面加载完成
+            this.$nextTick(() => {
+              this.setBorderSVG();
+            });
           }
         });
 
@@ -1139,7 +1143,10 @@ export default {
           }
         }
 
-        this.setBorderSVG();
+        // 等待页面加载完成
+        this.$nextTick(() => {
+          this.setBorderSVG();
+        });
 
         if (this.warInfo.currentStatus == "OPEN") {
           this.currentStatus = "WIN";
@@ -1175,8 +1182,13 @@ export default {
       const { warData } = this;
       // 没有用户就不执行
       if (!warData.length > 0) return;
+
       for (let i = 0; i < warData.length; i++) {
         let svg = getLevel(warData[i].buyPrice);
+        const docTag = document.getElementsByClassName("user_item")[i];
+        // 如果已有边框就跳过本次
+        if (docTag.querySelectorAll("svg").length > 0) continue;
+
         this.renderAsSvg(svg, i);
       }
     },
@@ -1202,9 +1214,13 @@ export default {
           if (item.attributes.fill?.value == "white") {
             item.attributes.fill.value = this.getColor(index);
           }
+
+          if (item.attributes.stroke?.value == "white") {
+            item.attributes.stroke.value = this.getColor(index);
+          }
         }
 
-        // 设置线条
+        // 设置线条，矩形
         const rects = svgDom.getElementsByTagName("rect");
         for (const item of rects) {
           if (item.attributes.fill?.value == "white") {
@@ -1222,8 +1238,7 @@ export default {
           [index].insertAdjacentElement("afterbegin", svgDom);
       });
       xhr.addEventListener("error", (err) => {
-        this.svgDom = null;
-        // this.hasSvg = false;
+        console.log(err);
       });
     },
   },

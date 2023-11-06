@@ -162,10 +162,11 @@
           </el-table-column>
           <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel3')" align="center" key="6">
             <template #default="scope">
-              <div class="amount_box">
+              <div class="amount_box" v-if="scope.row.logType != 'WITHDRAW'">
                 <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               </div>
+              <div v-else>--</div>
             </template>
           </el-table-column>
           <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel9')" align="center" key="6">
@@ -368,7 +369,7 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
-    usdtBalance(){
+    usdtBalance() {
       const headerStore = useHeaderStore();
       return headerStore.usdBalance;
     },
@@ -503,7 +504,7 @@ export default {
       const res = await getTheUserBalance();
 
       if (res && res.code == 200) {
-        let balanceList=res.data.balanceList;
+        let balanceList = res.data.balanceList;
         this.balanceList = [];
         for (let i = 0; i < balanceList.length; i++) {
           if (balanceList[i].coinName != "USDT") {

@@ -222,11 +222,36 @@ export default {
       if (property == "Verify") {
         this.handleVerify(row);
       } else {
-        this.$emit("toHistory", row);
+        const data = this.historyData[0];
+
+        if (row.id == data.id && this.page == 1) {
+          this.$emit("toWar");
+        } else {
+          this.$emit("toHistory", row);
+        }
       }
     },
     handleVerify(event) {
-      // openUrl(event);
+      let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;
+      if (event.lotteryChainType == "OKT_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      } else if (event.lotteryChainType == "BSC_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      } else if (event.lotteryChainType == "BASE") {
+        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+      } else if (event.lotteryChainType == "BSC") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+      } else if (event.lotteryChainType == "OKT") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+      } else if (event.lotteryChainType == "ThunderCore") {
+        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+      } else if (event.lotteryChainType == "TRC_20_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+      } else if (event.lotteryChainType == "TRC_20") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
+      }
+
+      openUrl(`${chainLink}${event.hash}`);
     },
   },
   created() {

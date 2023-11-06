@@ -53,20 +53,6 @@
             <div class="round_title">Current Round</div>
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
-          <div class="prize_box">
-            <div class="title">Your Unclaimed Winnings</div>
-            <div class="prize_val">
-              <div class="prize">
-                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>
-                  {{
-                    Number(accurateDecimal(rewardAmount, 2)).toLocaleString()
-                  }}
-                </span>
-              </div>
-              <div class="claim_btn" @click="receiveAmount()">CLAIM</div>
-            </div>
-          </div>
         </div>
         <div class="war_game_box">
           <svg id="war_container" width="450" height="450"></svg>
@@ -210,129 +196,169 @@
       </div>
     </div>
     <div class="introduce_panel">
-      <div class="introduce_box">
-        <div class="introduce_title">Here's How It Works</div>
-        <div class="introduce_description">
-          <p>
-            投入USDT以获得弹药来让您参加公平抽奖，并赢取USDT获得第一名，您将获得大奖。
-          </p>
-          <p>至于亚军？将会失去所有投入，但可以获得积分。</p>
-          <p>
-            每颗弹药都有机会赢得大奖。你拥有的弹药越多，你的中奖几率也就越大！
-          </p>
-        </div>
-        <div class="step_box">
-          <div class="step_item">
-            <img src="@/assets/svg/home/warGame/icon_connect.svg" alt="" />
-            <div class="round">1</div>
-            <div class="description">
-              确保您的Bitzing账号有足够的余额参加游戏
-            </div>
+      <div class="introduce_bg">
+        <div class="introduce_box">
+          <div class="introduce_title">Here's How It Works</div>
+          <img
+            class="introduce_divider"
+            src="@/assets/svg/home/warGame/bg/introduce_divider.svg"
+            alt=""
+          />
+          <div class="introduce_description">
+            <p>
+              投入USDT以获得弹药来让您参加公平抽奖，并赢取USDT获得第一名，您将获得大奖。
+            </p>
+            <p>至于亚军？将会失去所有投入，但可以获得积分。</p>
+            <p>
+              每颗弹药都有机会赢得大奖。你拥有的弹药越多，你的中奖几率也就越大！
+            </p>
           </div>
-          <div class="step_item">
-            <img src="@/assets/svg/home/warGame/icon_share.svg" alt="" />
-            <div class="round">2</div>
-            <div class="description">
-              输入您想要投入的弹药量并等待抽奖开始，10000弹药=1 ETH
+          <div class="step_box">
+            <div class="step_arrow">
+              <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
+              <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
+              <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
             </div>
-          </div>
-          <div class="step_item">
-            <img src="@/assets/svg/home/warGame/icon_invite_users.svg" alt="" />
-            <div class="round">3</div>
-            <div class="description">
-              当人数大于1且倒计时结束时将开始抽奖，在那之前，你可以去尝试盲盒或一元购等任何事情
+            <div class="step_item">
+              <div class="step_img img_1">
+                <img src="@/assets/svg/home/warGame/icon_connect.svg" alt="" />
+              </div>
+              <div class="round">01</div>
+              <div class="description">
+                确保您的Bitzing账号有足够的余额参加游戏
+              </div>
             </div>
-          </div>
-          <div class="step_item">
-            <img src="@/assets/svg/home/warGame/icon_calculate.svg" alt="" />
-            <div class="round">4</div>
-            <div class="description">回来领取胜利果实</div>
+            <div class="step_item">
+              <div class="step_img img_2">
+                <img src="@/assets/svg/home/warGame/icon_share.svg" alt="" />
+              </div>
+              <div class="round">02</div>
+              <div class="description">
+                输入您想要投入的弹药量并等待抽奖开始，10000弹药=1 ETH
+              </div>
+            </div>
+            <div class="step_item">
+              <div class="step_img img_3">
+                <img
+                  src="@/assets/svg/home/warGame/icon_invite_users.svg"
+                  alt=""
+                />
+              </div>
+              <div class="round">03</div>
+              <div class="description">
+                当人数大于1且倒计时结束时将开始抽奖，在那之前，你可以去尝试盲盒或一元购等任何事情
+              </div>
+            </div>
+            <div class="step_item">
+              <div class="step_img img_4">
+                <img
+                  src="@/assets/svg/home/warGame/icon_calculate.svg"
+                  alt=""
+                />
+              </div>
+              <div class="round">04</div>
+              <div class="description">回来领取胜利果实</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="faq_panel">
-        <div class="faq_item">
-          <div class="faq_item_title">开战条件</div>
-          <div class="faq_item_description">
-            <ul>
-              <li>每一局开始时将从3分钟开始倒计时</li>
-              <li>
-                当参与人数为0-1时，倒计时结束战斗失败，自动进入下一局，上一局如果有一个人下注，则自动退款
-              </li>
-              <li>当参与人数为2时，倒计时结束则开始战斗</li>
-              <li>当参与人数为3时，倒计时自动变为15秒</li>
-              <li>
-                任何情况下，只要有人入场或再次投入，那么如果倒计时低于15秒都会重置到15秒。
-              </li>
-            </ul>
+        <div class="faq_bg">
+          <div class="faq_item">
+            <div class="faq_item_title">
+              <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
+              <span>开战条件</span>
+            </div>
+            <div class="faq_item_description">
+              <ul>
+                <li>每一局开始时将从3分钟开始倒计时</li>
+                <li>
+                  当参与人数为0-1时，倒计时结束战斗失败，自动进入下一局，上一局如果有一个人下注，则自动退款
+                </li>
+                <li>当参与人数为2时，倒计时结束则开始战斗</li>
+                <li>当参与人数为3时，倒计时自动变为15秒</li>
+                <li>
+                  任何情况下，只要有人入场或再次投入，那么如果倒计时低于15秒都会重置到15秒。
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="faq_item">
-          <div class="faq_item_title">战斗结果</div>
-          <div class="faq_item_description">
-            <ul>
-              <li>
-                Token
-                War是赢者通吃的游戏，失败者将失去你所有的投入，但会获得Points
-                and tickets.
-              </li>
-              <li>
-                战斗将在智能合约上进行验证，在开展瞬间，每个参与者都会根据自己参赛的顺序和总金额获得对应的中奖ID
-              </li>
-              <li>
-                只能合约会在1-最大中奖ID之间进行随机，选中的ID持有者就是最终的胜利者
-              </li>
-              <li>
-                胜利者将会获得所有
-                参赛者的投入作为奖励（Bitzing扣除5%作为手续费）
-              </li>
-              <li>
-                每一轮战斗结束后，Bitzing将手续费的20%投入大型活动血战到底中，当条件到达时，将开启一次更加血腥暴力的特殊游戏
-              </li>
-            </ul>
+          <div class="faq_item">
+            <div class="faq_item_title">
+              <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
+              <span>战斗结果</span>
+            </div>
+            <div class="faq_item_description">
+              <ul>
+                <li>
+                  Token
+                  War是赢者通吃的游戏，失败者将失去你所有的投入，但会获得Points
+                  and tickets.
+                </li>
+                <li>
+                  战斗将在智能合约上进行验证，在开展瞬间，每个参与者都会根据自己参赛的顺序和总金额获得对应的中奖ID
+                </li>
+                <li>
+                  只能合约会在1-最大中奖ID之间进行随机，选中的ID持有者就是最终的胜利者
+                </li>
+                <li>
+                  胜利者将会获得所有
+                  参赛者的投入作为奖励（Bitzing扣除5%作为手续费）
+                </li>
+                <li>
+                  每一轮战斗结束后，Bitzing将手续费的20%投入大型活动血战到底中，当条件到达时，将开启一次更加血腥暴力的特殊游戏
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="faq_item">
-          <div class="faq_item_title">血战到底</div>
-          <div class="faq_item_description">
-            <ul>
-              <li>
-                当血战到底积累的奖池达到一定程度后，将停止货币战争，转而进行一场惊险刺激的新游戏
-              </li>
-              <li>血战到底将持续10分钟，所有玩家都可以加入进来。</li>
-              <li>
-                每位玩家都有3次购买弹药的机会，任意玩家购买一次弹药都会将血战到底的倒计时增加10秒，但最多不会超过10分钟。
-              </li>
-              <li>
-                倒计时结束后，弹药最多的玩家将获得奖池金额以及所有其他玩家的弹药（Bitzing扣除总金额的5%作为手续费）。
-              </li>
-              <li>
-                血战到底结束后，Bitzing会将手续费的20%作为下一轮血战到底的初始奖池。
-              </li>
-              <li>
-                失败的玩家将失去一切，但会获得Points and tickets 作为安慰。
-              </li>
-              <li>血战到底极其血腥与残暴，胆小勿入。</li>
-            </ul>
+          <div class="faq_item">
+            <div class="faq_item_title">
+              <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
+              <span>血战到底</span>
+            </div>
+            <div class="faq_item_description">
+              <ul>
+                <li>
+                  当血战到底积累的奖池达到一定程度后，将停止货币战争，转而进行一场惊险刺激的新游戏
+                </li>
+                <li>血战到底将持续10分钟，所有玩家都可以加入进来。</li>
+                <li>
+                  每位玩家都有3次购买弹药的机会，任意玩家购买一次弹药都会将血战到底的倒计时增加10秒，但最多不会超过10分钟。
+                </li>
+                <li>
+                  倒计时结束后，弹药最多的玩家将获得奖池金额以及所有其他玩家的弹药（Bitzing扣除总金额的5%作为手续费）。
+                </li>
+                <li>
+                  血战到底结束后，Bitzing会将手续费的20%作为下一轮血战到底的初始奖池。
+                </li>
+                <li>
+                  失败的玩家将失去一切，但会获得Points and tickets 作为安慰。
+                </li>
+                <li>血战到底极其血腥与残暴，胆小勿入。</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="faq_item">
-          <div class="faq_item_title">100%透明公正，公平性可验证</div>
-          <div class="faq_item_description">
-            <ul>
-              <li>
-                比赛将在区块链上经过验证、审计、符合web3标准的智能合约上运行
-              </li>
-              <li>不用担心Gas费，Bitzing会为您承担一切的gas成本。</li>
-              <li>购买后无法退款，除非未达到开战条件。</li>
-              <li>完整的参与者名单可以在游戏页面或智能合约中找到。</li>
-              <li>由于血战到底特殊的机制，将无法使用此方法验证公平性。</li>
-            </ul>
+          <div class="faq_item">
+            <div class="faq_item_title">
+              <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
+              <span>100%透明公正，公平性可验证</span>
+            </div>
+            <div class="faq_item_description">
+              <ul>
+                <li>
+                  比赛将在区块链上经过验证、审计、符合web3标准的智能合约上运行
+                </li>
+                <li>不用担心Gas费，Bitzing会为您承担一切的gas成本。</li>
+                <li>购买后无法退款，除非未达到开战条件。</li>
+                <li>完整的参与者名单可以在游戏页面或智能合约中找到。</li>
+                <li>由于血战到底特殊的机制，将无法使用此方法验证公平性。</li>
+              </ul>
+            </div>
+            <div
+              class="special_instructions"
+              v-html="`对于进阶用户，您可以通过${clickHere()}自行验证公平性。`"
+            ></div>
           </div>
-          <div
-            class="special_instructions"
-            v-html="`对于进阶用户，您可以通过${clickHere()}自行验证公平性。`"
-          ></div>
         </div>
       </div>
     </div>
@@ -393,11 +419,7 @@ import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import config from "@/services/env";
-import {
-  getRewardAmount,
-  receiveAmount,
-  getCommonData,
-} from "@/services/api/tokenWar";
+import { getCommonData } from "@/services/api/tokenWar";
 import * as d3 from "d3";
 import {
   accurateDecimal,
@@ -525,7 +547,6 @@ export default {
         return;
       } else if (page == "war_win") {
         this.pageType = "";
-        this.fetchRewardAmount();
         return;
       }
       this.pageType = page;
@@ -1076,23 +1097,6 @@ export default {
 
       return accurateDecimal(rate, 2);
     },
-    // 获取未领取奖金
-    async fetchRewardAmount() {
-      const res = await getRewardAmount();
-      if (res.code == 200) {
-        this.rewardAmount = res.data;
-      }
-    },
-    // 领取奖金
-    async receiveAmount() {
-      if (this.rewardAmount <= 0) return;
-      const res = await receiveAmount();
-      if (res.code == 200) {
-        this.$message.success("Received successfully!");
-        this.headerStoreStore.getTheUserBalanceApi();
-        this.fetchRewardAmount();
-      }
-    },
     // 处理弹窗事件
     handlePopups(event) {
       if (event == "must_read") {
@@ -1288,10 +1292,6 @@ export default {
       this.fetchCommonData();
     } else {
       this.createSSE();
-    }
-
-    if (this.isLogin && this.userInfo?.id) {
-      this.fetchRewardAmount();
     }
   },
   mounted() {},

@@ -48,8 +48,8 @@
             <div class="title">您的盈利倍率</div>
           </div>
         </div>
-        <div class="close_win_btn" @click="receiveAmount()">
-          <span>CLAIM REWARD</span>
+        <div class="close_win_btn" @click="handleClose()">
+          <span>CANCEL</span>
         </div>
         <div class="win_safe">
           <img src="@/assets/svg/home/warGame/icon_safe.svg" alt="" />
@@ -79,8 +79,7 @@
 <script>
 import { useHeaderStore } from "@/store/header.js";
 import bigNumber from "bignumber.js";
-import { accurateDecimal } from "@/utils";
-import { getRewardAmount, receiveAmount } from "@/services/api/tokenWar";
+import { accurateDecimal, openUrl } from "@/utils";
 export default {
   name: "warWinning",
   props: {
@@ -95,26 +94,28 @@ export default {
     };
   },
   methods: {
-    // 获取未领取奖金
-    async fetchRewardAmount() {
-      const res = await getRewardAmount();
-      if (res.code == 200) {
-        this.rewardAmount = res.data;
-      }
-    },
-    // 领取奖金
-    async receiveAmount() {
-      if (this.rewardAmount <= 0) return;
-      const res = await receiveAmount();
-      if (res.code == 200) {
-        this.$message.success("Received successfully!");
-        const { getTheUserBalanceApi } = useHeaderStore();
-        getTheUserBalanceApi();
-        this.$emit("closeReceiveFun");
-      }
-    },
     // 验证公平性
-    onVerify() {},
+    onVerify(event) {
+      let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;
+      if (event.lotteryChainType == "OKT_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+      } else if (event.lotteryChainType == "BSC_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+      } else if (event.lotteryChainType == "BASE") {
+        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+      } else if (event.lotteryChainType == "BSC") {
+        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+      } else if (event.lotteryChainType == "OKT") {
+        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+      } else if (event.lotteryChainType == "ThunderCore") {
+        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+      } else if (event.lotteryChainType == "TRC_20_TEST") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+      } else if (event.lotteryChainType == "TRC_20") {
+        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
+      }
+      openUrl(`${chainLink}${event.hash}`);
+    },
     // 格式化胜率
     getWinningRate(event) {
       const { winInfo } = this;

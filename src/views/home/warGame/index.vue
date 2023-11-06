@@ -21,7 +21,11 @@
       v-if="pageType == 'warGame'"
       @toWar="handleWer"
     ></warGame>
-    <history v-if="pageType == 'history'" @toHistory="handleHistory"></history>
+    <history
+      v-if="pageType == 'history'"
+      @toWar="handleWar"
+      @toHistory="handleHistory"
+    ></history>
   </div>
 </template>
 <script>
@@ -46,6 +50,10 @@ export default {
     handleWer() {
       this.warData = null;
       this.isHistory = false;
+    },
+    // war
+    handleWar() {
+      this.pageType = "warGame";
     },
     // history事件
     handleHistory(event) {

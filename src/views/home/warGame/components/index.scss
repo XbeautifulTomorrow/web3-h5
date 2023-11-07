@@ -115,6 +115,16 @@
   .user_item+.user_item {
     margin-top: 0.25rem;
   }
+
+  &.active {
+    .user_item {
+      opacity: 0.4;
+
+      &.hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .user_item {
@@ -124,6 +134,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   position: relative;
+  transition: all 0.3s;
 
   .borderSvg {
     position: absolute;
@@ -794,5 +805,102 @@
     font-size: 1rem;
     text-align: left;
     color: white;
+  }
+}
+
+.tooltips_box {
+  width: 15.625rem;
+  height: 4.25rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: absolute;
+
+  .tooltip_badge {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    box-sizing: border-box;
+    padding-right: 0.5rem;
+    z-index: 1;
+
+    img {
+      width: 2rem;
+      height: auto;
+    }
+  }
+
+  .war_data_box {
+    z-index: 1;
+    flex: 1;
+    padding-right: 1rem;
+    box-sizing: border-box;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .box_avatar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user_name {
+      font-family: Inter;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      text-align: left;
+      color: white;
+
+      width: 7rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ratio {
+      font-family: Inter;
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.43;
+      text-align: right;
+      color: #11cde9;
+    }
+  }
+
+  .box_tickets {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .reward_id {
+      display: inline-block;
+      font-family: Inter;
+      font-size: 0.75rem;
+      line-height: 1.33;
+      text-align: right;
+      color: #a9a4b4;
+    }
+
+    .buy {
+      display: inline-flex;
+      align-items: center;
+      font-family: Inter;
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.43;
+      text-align: left;
+      color: #11cde9;
+
+      img {
+        width: 1rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+    }
   }
 }

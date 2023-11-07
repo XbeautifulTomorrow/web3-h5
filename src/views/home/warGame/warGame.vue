@@ -9,8 +9,15 @@
             <span>{{ `${watcherNum} Watcher` }}</span>
           </div>
         </div>
-        <div class="user_list_box">
-          <div class="user_item" v-for="(item, index) in warData" :key="index">
+        <div :class="['user_list_box', showTooltips ? 'active' : '']">
+          <div
+            :class="[
+              'user_item',
+              tooltips?.userId == item.userId ? 'hover' : '',
+            ]"
+            v-for="(item, index) in warData"
+            :key="index"
+          >
             <div class="user_badge">
               <img :src="getRank(item.buyPrice)" alt="" />
             </div>
@@ -57,7 +64,7 @@
         <div class="war_game_box">
           <svg id="war_container" width="450" height="450"></svg>
           <div
-            :class="['outer_ring', isHover ? 'hover' : '']"
+            class="outer_ring"
             :style="{
               pointerEvents: currentStatus == 'WAIT' ? 'auto' : 'none',
             }"
@@ -362,26 +369,22 @@
         </div>
       </div>
     </div>
-    <!-- 自动配置 -->
     <war-config
       :type="operationType"
       v-if="operationType"
       @closeDialogFun="handleClose"
     ></war-config>
-    <!-- 战前必读 -->
     <war-must-read
       v-if="pageType == 'must_read'"
       @closeDialogFun="handlePopups"
       @changeTypeFun="changeTypeFun"
     ></war-must-read>
-    <!-- 如果中奖者是登录用户 -->
     <war-winning
       v-if="pageType == 'war_win'"
       :winInfo="winInfo"
       @closeReceiveFun="changeTypeFun"
       @closeDialogFun="closeDialogFun"
     ></war-winning>
-    <!-- 登录相关 -->
     <Login
       v-if="pageType === 'login'"
       @closeDialogFun="closeDialogFun"
@@ -411,6 +414,30 @@
       @closeDialogFun="changeNameFun"
     >
     </createVerification>
+    <div class="tooltips_box" :style="style" v-if="showTooltips">
+      <div class="tooltip_badge">
+        <img :src="getRank(tooltips?.buyPrice)" alt="" />
+      </div>
+      <div class="war_data_box">
+        <div class="box_avatar">
+          <div class="user_name">{{ tooltips?.userName || "--" }}</div>
+          <span class="ratio"> {{ getWinningRate(tooltips?.buyPrice) }}% </span>
+        </div>
+        <div class="box_tickets">
+          <div class="buy">
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            <span>{{ tooltips?.buyPrice }}</span>
+          </div>
+          <span class="reward_id">
+            {{
+              `Reward ID:${tooltips?.startNumber || "-"}-${
+                tooltips?.endNumber || ""
+              }`
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
   <script>
@@ -429,6 +456,7 @@ import {
   getLocalStore,
   easeIn,
   easeOut,
+  handleWindowResize,
 } from "@/utils";
 import { userColor, getRank, getLevel } from "./components/config";
 import bigNumber from "bignumber.js";
@@ -512,7 +540,11 @@ export default {
       endDeg: 0, // 减速角度
       winUserId: null, // 中奖者id
 
-      isHover: false,
+      //tooltips
+      screenWidth: null,
+      showTooltips: false,
+      tooltips: null,
+      style: {},
     };
   },
   computed: {
@@ -734,6 +766,7 @@ export default {
     },
     // 初始化SVG
     setSvg() {
+      let that = this;
       const { warData } = this;
       let warPath = [{ buyPrice: 1 }];
       if (warData.length > 0) {
@@ -786,12 +819,13 @@ export default {
           return arc(d);
         })
         .on("mouseover", arcTween(1, 2))
+        .on("mousemove", arcTween(1, 2))
         .on("mouseout", arcTween(2, 2));
 
       // 鼠标悬停
       function arcTween(outerRadius, delay) {
         // 设置缓动函数,为鼠标事件使用
-        return function () {
+        return function (event) {
           let array = [];
           let ss = d3.select(this);
 
@@ -801,10 +835,13 @@ export default {
               array = pointEnd.centroid(d);
               const outer_ring = document.getElementsByClassName("outer_ring");
               if (outerRadius == 1) {
+                if (that.warData.length > 0) {
+                  that.mouseenterFun(d, event);
+                }
+
                 if (outer_ring.length > 0) {
                   outer_ring[0].classList.add("hover");
                 }
-
                 ss.transition()
                   .delay(delay)
                   .attr(
@@ -816,6 +853,9 @@ export default {
                       " )"
                   );
               } else {
+                that.showTooltips = false;
+                that.tooltips = null;
+
                 if (outer_ring.length > 0) {
                   outer_ring[0].classList.remove("hover");
                 }
@@ -830,6 +870,7 @@ export default {
     },
     // 动态新增Path路径
     setSvgPath() {
+      let that = this;
       const { warData } = this;
 
       const [width, height] = [800, 800];
@@ -872,12 +913,13 @@ export default {
           return arc(d);
         })
         .on("mouseover", arcTween(1, 2))
+        .on("mousemove", arcTween(1, 2))
         .on("mouseout", arcTween(2, 2));
 
       // 鼠标悬停
       function arcTween(outerRadius, delay) {
         // 设置缓动函数,为鼠标事件使用
-        return function () {
+        return function (event) {
           let array = [];
           let ss = d3.select(this);
 
@@ -887,10 +929,10 @@ export default {
               array = pointEnd.centroid(d);
               const outer_ring = document.getElementsByClassName("outer_ring");
               if (outerRadius == 1) {
+                that.mouseenterFun(d, event);
                 if (outer_ring.length > 0) {
                   outer_ring[0].classList.add("hover");
                 }
-
                 ss.transition()
                   .delay(delay)
                   .attr(
@@ -902,6 +944,9 @@ export default {
                       " )"
                   );
               } else {
+                that.showTooltips = false;
+                that.tooltips = null;
+
                 if (outer_ring.length > 0) {
                   outer_ring[0].classList.remove("hover");
                 }
@@ -1214,11 +1259,25 @@ export default {
         // 如果已有边框就跳过本次
         if (docTag.querySelectorAll("svg").length > 0) continue;
 
-        this.renderAsSvg(svg, i);
+        this.renderAsSvg(1, svg, i);
       }
     },
+    setTooltip(event, index) {
+      if (!document.getElementsByClassName("tooltips_box").length > 0) return;
+
+      let svg = getLevel(event.buyPrice, 2);
+
+      const docTag = document.getElementsByClassName("tooltips_box")[0];
+
+      if (docTag.querySelectorAll("svg").length > 0) {
+        document
+          .getElementsByClassName("tooltips_box")[0]
+          .removeChild(docTag.querySelectorAll("svg")[0]);
+      }
+      this.renderAsSvg(2, svg, index);
+    },
     // SVG填色
-    async renderAsSvg(url, index) {
+    async renderAsSvg(type, url, index) {
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
       xhr.send();
@@ -1256,15 +1315,45 @@ export default {
             item.attributes.stroke.value = this.getColor(index);
           }
         }
+        if (type == 1) {
+          document
+            .getElementsByClassName("user_item")
+            // eslint-disable-next-line no-unexpected-multiline
+            [index].insertAdjacentElement("afterbegin", svgDom);
+        } else {
+          if (!document.getElementsByClassName("tooltips_box").length > 0)
+            return;
 
-        document
-          .getElementsByClassName("user_item")
-          // eslint-disable-next-line no-unexpected-multiline
-          [index].insertAdjacentElement("afterbegin", svgDom);
+          document
+            .getElementsByClassName("tooltips_box") // eslint-disable-next-line no-unexpected-multiline
+            [0].insertAdjacentElement("afterbegin", svgDom);
+        }
       });
       xhr.addEventListener("error", (err) => {
         console.log(err);
       });
+    },
+    // 悬浮
+    mouseenterFun(d, event) {
+      this.showTooltips = true;
+
+      if (this.tooltips?.userId != d.data.userId) {
+        // 等待页面加载完成
+        this.$nextTick(() => {
+          this.setTooltip(d.data, d.index);
+        });
+      }
+
+      this.tooltips = d.data;
+
+      const x = event.pageX || event.clientX + document.body.scroolLeft;
+      const y = event.pageY || event.clientY + document.body.scrollTop;
+      const top = y + 5;
+      const left = x + 5;
+      this.style = {
+        top: `${top}px`,
+        left: `${left}px`,
+      };
     },
   },
   beforeUnmount() {
@@ -1294,7 +1383,16 @@ export default {
       this.createSSE();
     }
   },
-  mounted() {},
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>

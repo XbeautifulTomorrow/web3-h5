@@ -88,21 +88,49 @@ export function getRank(evnet) {
 }
 
 // 获取等级
-export function getLevel(evnet) {
+export function getLevel(evnet, type = 1) {
   const amount = Number(evnet || 0);
   if (amount < 10) {
-    return require("@/assets/svg/home/warGame/level/level_1.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_1.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_1.svg");
+    }
   } else if (amount < 50) {
-    return require("@/assets/svg/home/warGame/level/level_2.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_2.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_2.svg");
+    }
   } else if (amount < 1000) {
-    return require("@/assets/svg/home/warGame/level/level_3.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_3.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_3.svg");
+    }
   } else if (amount < 10000) {
-    return require("@/assets/svg/home/warGame/level/level_4.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_4.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_4.svg");
+    }
   } else if (amount < 100000) {
-    return require("@/assets/svg/home/warGame/level/level_5.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_5.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_5.svg");
+    }
   } else if (amount < 1000000) {
-    return require("@/assets/svg/home/warGame/level/level_6.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_6.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_6.svg");
+    }
   } else {
-    return require("@/assets/svg/home/warGame/level/level_7.svg");
+    if (type == 1) {
+      return require("@/assets/svg/home/warGame/level/level_7.svg");
+    } else {
+      return require("@/assets/svg/home/warGame/tooltip/level_7.svg");
+    }
   }
 }

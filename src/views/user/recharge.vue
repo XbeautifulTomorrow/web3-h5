@@ -300,8 +300,8 @@
                 `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
               }}</span>
               <!-- <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" /> -->
-              <div class="progress" style="width:20px;height:20px;border:4px solid rgba(169, 164, 180, 0.5)">
-                <div class="inner_progress"  style="width:20px;height:20px;left: -4px;top: 5px;" v-if="processStatus">
+              <div class="progress" style="width: 20px; height: 20px; border: 4px solid rgba(169, 164, 180, 0.5)">
+                <div class="inner_progress" style="width: 20px; height: 20px; left: -4px; top: 5px" v-if="processStatus">
                   <svg id="svgelem" height="20">
                     <circle cx="20" cy="10" r="8" stroke-width="4">
                       <animate attributeName="stroke-dasharray" from="0,50.265" to="50.265,0" dur="10s" fill="freeze" />
@@ -348,7 +348,7 @@ import {
 
 import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat, isValidEthAddress,isValiTronAddress, handleWindowResize } from "@/utils";
+import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, isValiTronAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./rechargeExchangeResult.vue";
 export default {
@@ -406,7 +406,7 @@ export default {
       exchangeAmountTips: null,
       exchangeRateTimer: null,
       receiverAddrList: [],
-      processStatus:true
+      processStatus: true,
     };
   },
   computed: {
@@ -462,7 +462,7 @@ export default {
           return;
         }
 
-        if (operatingCoin == "ETH"||operatingCoin == "WETH") {
+        if (operatingCoin == "ETH" || operatingCoin == "WETH") {
           this.ethNum = newV || 0;
           return;
         }
@@ -528,7 +528,7 @@ export default {
         exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
-      this.onVerifyExchange()
+      this.onVerifyExchange();
     },
     onVerifyExchange(type) {
       if (type) {
@@ -563,7 +563,7 @@ export default {
         }
         if (type == 1) {
           this.exchangeFromAmountFunc();
-        } else if(type==2){
+        } else if (type == 2) {
           this.exchangeToAmountFunc();
         }
       }
@@ -575,13 +575,12 @@ export default {
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
-      if(this.exchangeOperating == 1){
+      if (this.exchangeOperating == 1) {
         this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
         this.fetchExchangeRate(1);
       } else {
         this.exchangeInfo.exchangeToAmount = this.exchangeInfo.exchangeFromAmount;
         this.fetchExchangeRate(2);
-        
       }
       setTimeout(() => {
         this.onVerifyExchange();
@@ -616,9 +615,9 @@ export default {
         this.fetchExchangeRate(1);
         this.exchangeRateTimer = setInterval(() => {
           this.fetchExchangeRate();
-          this.processStatus=false;
+          this.processStatus = false;
           setTimeout(() => {
-            this.processStatus=true
+            this.processStatus = true;
           }, 100);
         }, 10000);
       } else {
@@ -634,6 +633,7 @@ export default {
 
       if (this.networkDrop.length > 0) {
         this.walletNetwork = this.networkDrop[0].chain;
+        this.getWalletAddress();
       }
 
       if (this.walletOperating == 1) {
@@ -670,13 +670,16 @@ export default {
     },
     walletNetworkChange() {
       if (this.walletNetwork && this.networkDrop) {
-        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
-        this.receiverAddr = this.receiverAddrList.find((x) => x.type == type)?.address;
+        this.getWalletAddress();
         localStorage.setItem("receiver", this.receiverAddr);
         this.$nextTick(() => {
           this.createQrcode();
         });
       }
+    },
+    getWalletAddress() {
+      const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+      this.receiverAddr = this.receiverAddrList.find((x) => x.type == type)?.address;
     },
     // 收款地址
     async fetchReceivingAddr() {
@@ -690,10 +693,10 @@ export default {
     // 充值汇率
     async fetchRechargeExchangeRate() {
       const res = await exchangeRateV2({
-        coinName: 'ETH',
+        coinName: "ETH",
       });
       if (res && res.code == 200) {
-        const down = this.getExchangeDown('ETH');
+        const down = this.getExchangeDown("ETH");
         this.exchangeRate = res.data / (1 - down);
         this.walletAmount = 1;
       }
@@ -710,7 +713,7 @@ export default {
       this.walletAmount = 0;
     },
 
-     // 真实汇率
+    // 真实汇率
     async fetchRealExchangeRate(coin) {
       const res = await exchangeRateV2({
         coinName: coin,
@@ -718,7 +721,7 @@ export default {
       if (res && res.code == 200) {
         const down = this.getExchangeDown(coin);
         this.exchangeRate = res.data / (1 - down);
-        this.relExchangeRate = res.data
+        this.relExchangeRate = res.data;
       }
     },
     // 验证
@@ -755,15 +758,15 @@ export default {
           this.verifys = false;
           return;
         }
-        console.log(this.walletNetwork,this.walletNetwork)
+        console.log(this.walletNetwork, this.walletNetwork);
         const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
-        if(type=='TRON'&&!isValiTronAddress(walletAddr)){
+        if (type == "TRON" && !isValiTronAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });
           this.verifys = false;
           return;
-        } else if (type!='TRON'&&!isValidEthAddress(walletAddr)) {
+        } else if (type != "TRON" && !isValidEthAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });

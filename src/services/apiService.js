@@ -21,7 +21,8 @@ const notMessage = [
   "mystery-web-user/auth/genQrCode",
   "mystery-web-user/oneNftOrders/getWalletNftEth",
   "mystery-web-user/twitterInfo/shareTwitter",
-  "mystery-web-user/oneNftLotteryOrders/tweetSendTikect"
+  "mystery-web-user/oneNftLotteryOrders/tweetSendTikect",
+  "mystery-web-user/box/catGas",
 ];
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -67,7 +68,6 @@ axiosInstance.interceptors.response.use(
 
 // eslint-disable-next-line no-unused-vars
 const handleRes = ({ response, url, data }) => {
-
   const { headers } = response;
 
   if (headers && headers["tweet-verify"]) {

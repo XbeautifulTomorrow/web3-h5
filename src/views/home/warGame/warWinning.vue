@@ -133,9 +133,7 @@ export default {
       this.$emit("closeDialogFun");
     },
   },
-  created() {
-    this.fetchRewardAmount();
-  },
+  created() {},
   watch: {},
 };
 </script>

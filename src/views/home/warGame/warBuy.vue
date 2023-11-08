@@ -227,9 +227,16 @@ export default {
 
       const res = await warBuy({ buyPrice: buyNum });
       if (res.code == 200) {
+        this.getTheUserBalanceInfo();
         this.$message.success("Operation successfully!");
         this.buyNum = null;
       }
+    },
+    async getTheUserBalanceInfo() {
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
+      headerStore.fetchTheUserPoint();
+      headerStore.fetchGlobalNew();
     },
     // 获取自动配置
     async fetchAutoConfig() {
@@ -282,7 +289,9 @@ export default {
     },
   },
   created() {
-    this.fetchAutoConfig();
+    if (this.userInfo?.id && this.isLogin) {
+      this.fetchAutoConfig();
+    }
   },
   watch: {
     config(newV) {

@@ -54,6 +54,8 @@ export default {
     // war
     handleWar() {
       this.pageType = "warGame";
+      this.warData = null;
+      this.isHistory = false;
     },
     // history事件
     handleHistory(event) {

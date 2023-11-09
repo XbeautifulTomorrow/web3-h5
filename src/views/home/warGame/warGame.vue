@@ -62,6 +62,13 @@
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
         </div>
+        <div class="bloody_battle" v-if="warInfo?.bigPrizeStatus == 'TRUE'">
+          <div class="war_title">END WAR</div>
+          <div class="total_bonus">
+            <div class="unit">$</div>
+            <div class="val">{{ formatUsd(warInfo?.totalBigPrize) }}</div>
+          </div>
+        </div>
         <div class="war_game_box">
           <svg id="war_container" width="450" height="450"></svg>
           <div
@@ -91,11 +98,11 @@
             >
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span v-if="currentStatus != 'WIN'">
-                {{ warInfo?.totalBonus }}
+                {{ formatUsd(warInfo?.totalBonus) }}
               </span>
               <span v-else>
                 {{
-                  `${winInfo?.winerIncome || 0} · ${accurateDecimal(
+                  `${formatUsd(winInfo?.winerIncome)} · ${accurateDecimal(
                     winInfo?.winerMultipleRate || 0,
                     2
                   )} x WIN`
@@ -108,9 +115,7 @@
                 currentStatus == 'WAIT' ? 'cancel' : '',
               ]"
             >
-              <span v-if="currentStatus == 'INIT' || currentStatus == 'WAIT'">
-                等待合约计算结果
-              </span>
+              <span v-if="currentStatus == 'WAIT'">等待合约计算结果</span>
               <span v-if="currentStatus == 'CANCEL'">流局</span>
               <span v-if="currentStatus == 'WIN'" class="win_id">
                 {{ `Winner ID: ${winInfo?.openId || "--"}` }}
@@ -194,7 +199,6 @@
               {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
             </countDown>
             <div v-else-if="currentStatus == 'WAIT'" class="dot">
-              <span>Battle</span>
               <span class="dot-ani"></span>
             </div>
             <div v-else>{{ "00:00:" + `00${seconds}`.slice(-2) }}</div>
@@ -208,7 +212,7 @@
             <div class="info_item">
               <div class="info_val">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span>{{ warInfo?.totalBonus }}</span>
+                <span>{{ formatUsd(warInfo?.totalBonus) }}</span>
               </div>
               <div class="info_title">Winner Bonus</div>
             </div>
@@ -224,7 +228,7 @@
                 <img src="@/assets/svg/home/warGame/icon_troops.svg" alt="" />
                 <span>{{ userData?.tickerNumber || 0 }}</span>
               </div>
-              <div class="info_title">Your Tickets</div>
+              <div class="info_title">Your Soldiers</div>
             </div>
             <div class="info_item">
               <div class="info_val">
@@ -514,6 +518,7 @@ import {
   easeIn,
   easeOut,
   handleWindowResize,
+  formatUsd,
 } from "@/utils";
 import { userColor, getRank, getLevel } from "./components/config";
 import bigNumber from "bignumber.js";
@@ -567,7 +572,7 @@ export default {
       warData: [], // 下注数据
       userData: {}, // 用户信息
       winInfo: {}, // 中奖信息
-      winUser:{}, // 登录用户中奖
+      winUser: {}, // 登录用户中奖
       watcherNum: 0, // 观众人数
       isWaiting: false, // 获取开奖状态
       rewardAmount: 0, // 未领取奖励
@@ -626,6 +631,7 @@ export default {
   methods: {
     getRank: getRank,
     getLevel: getLevel,
+    formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
     closeDialogFun() {
@@ -1101,6 +1107,7 @@ export default {
       if (warData.length > 1) {
         this.currentStatus = "WAIT";
         this.percentage = 100;
+
         // 开奖函数
         this.timer = setTimeout(this.animation, 1000 / 60);
       } else {
@@ -1125,6 +1132,10 @@ export default {
         this.initRotate(); // 重置圆环位置
         return;
       }
+
+      // 有延迟不会更新进度条
+      this.percentage = 100;
+      this.$forceUpdate();
 
       // 当前使用的时间段
       const currentTime = Date.now() - startTime;

@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="buy_panel">
-      <p class="buy_title">Add Troops</p>
+      <p class="buy_title">Dispatch Soldiers</p>
       <div class="user_usd_balance">
         <div class="title">Your Balance:</div>
         <div class="val">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span>
-            {{ Number(accurateDecimal(usdBalance, 2)).toLocaleString() }}
+            {{ formatUsd(usdBalance) }}
           </span>
         </div>
       </div>
@@ -35,10 +35,18 @@
       <div class="choose_box">
         <div class="choose_tips">1 Soldier = 1 USDT</div>
         <div class="choose_items">
-          <div class="choose_btn" @click="setAmount(1)">+1</div>
-          <div class="choose_btn" @click="setAmount(10)">+10</div>
-          <div class="choose_btn" @click="setAmount(100)">+100</div>
-          <div class="choose_btn" @click="setAmount(1000)">+1000</div>
+          <div class="choose_btn" @click="setAmount(1)">
+            <span>+1</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(10)">
+            <span>+10</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(100)">
+            <span>+100</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(1000)">
+            <span>+1000</span>
+          </div>
         </div>
       </div>
       <div class="auto_war_box">
@@ -66,11 +74,7 @@
             <div class="title">单局投入</div>
             <div class="val" v-if="autoConfig?.autoBuyAmount">
               <span>
-                {{
-                  Number(
-                    accurateDecimal(autoConfig?.autoBuyAmount || 0, 2)
-                  ).toLocaleString()
-                }}
+                {{ formatUsd(autoConfig?.autoBuyAmount) }}
               </span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
@@ -78,21 +82,34 @@
           </div>
           <div class="auto_item">
             <div class="title">入场时机</div>
-            <div class="val">{{ autoConfig?.autoBuyTime || "--" }}</div>
+            <div class="val">
+              <span
+                style="
+                  color: #a9a4b4;
+                  -webkit-text-fill-color: #a9a4b4;
+                  font-weight: 400;
+                "
+                >last
+                <span
+                  style="
+                    color: white;
+                    -webkit-text-fill-color: transparent;
+                    font-weight: bold;
+                  "
+                  >{{ autoConfig?.autoBuyTime }}</span
+                >
+                sec</span
+              >
+            </div>
           </div>
           <div class="auto_item">
             <div class="title">最低战利品</div>
-            <div class="val" v-if="autoConfig?.lowBounsPool">
+            <div class="val">
               <span>
-                {{
-                  Number(
-                    accurateDecimal(autoConfig?.lowBounsPool || 0, 2)
-                  ).toLocaleString()
-                }}
+                {{ formatUsd(autoConfig?.lowBounsPool) }}
               </span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
-            <div class="val" v-else>--</div>
           </div>
         </div>
       </div>
@@ -153,7 +170,7 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
-import { accurateDecimal } from "@/utils";
+import { accurateDecimal, formatUsd } from "@/utils";
 import { warBuy, getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 
@@ -203,6 +220,7 @@ export default {
     },
   },
   methods: {
+    formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
     // 更新购买数据

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="buy_panel">
-      <p class="buy_title">Add Troops</p>
+      <p class="buy_title">Dispatch Soldiers</p>
       <div class="user_usd_balance">
         <div class="title">Your Balance:</div>
         <div class="val">
@@ -35,10 +35,18 @@
       <div class="choose_box">
         <div class="choose_tips">1 Soldier = 1 USDT</div>
         <div class="choose_items">
-          <div class="choose_btn" @click="setAmount(1)">+1</div>
-          <div class="choose_btn" @click="setAmount(10)">+10</div>
-          <div class="choose_btn" @click="setAmount(100)">+100</div>
-          <div class="choose_btn" @click="setAmount(1000)">+1000</div>
+          <div class="choose_btn" @click="setAmount(1)">
+            <span>+1</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(10)">
+            <span>+10</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(100)">
+            <span>+100</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(1000)">
+            <span>+1000</span>
+          </div>
         </div>
       </div>
       <div class="auto_war_box">
@@ -75,20 +83,33 @@
           <div class="auto_item">
             <div class="title">入场时机</div>
             <div class="val">
-              <span style="color: #a9a4b4;"
-                >last <span style="color: white;">{{ autoConfig?.autoBuyTime }}</span> seconds</span
+              <span
+                style="
+                  color: #a9a4b4;
+                  -webkit-text-fill-color: #a9a4b4;
+                  font-weight: 400;
+                "
+                >last
+                <span
+                  style="
+                    color: white;
+                    -webkit-text-fill-color: transparent;
+                    font-weight: bold;
+                  "
+                  >{{ autoConfig?.autoBuyTime }}</span
+                >
+                sec</span
               >
             </div>
           </div>
           <div class="auto_item">
             <div class="title">最低战利品</div>
-            <div class="val" v-if="autoConfig?.lowBounsPool">
+            <div class="val">
               <span>
                 {{ formatUsd(autoConfig?.lowBounsPool) }}
               </span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
-            <div class="val" v-else>--</div>
           </div>
         </div>
       </div>

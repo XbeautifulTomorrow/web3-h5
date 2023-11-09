@@ -72,6 +72,7 @@ export default {
       if (data.split("?").length > 1) {
         query = parseQuery(data.split("?")[1]);
       }
+      console.log(data, "-------");
       this.$router.push({ path: data, query });
     },
     closeDialogFun() {

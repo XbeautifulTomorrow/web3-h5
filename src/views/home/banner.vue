@@ -1,24 +1,35 @@
 <template>
   <div class="banner_wrapper">
-    <swiper
-      v-if="bannerList?.length > 0"
-      :slides-per-view="1"
-      :space-between="0"
-      :loop="true"
-      :centeredSlides="true"
-      :pagination="{
-        clickable: true,
-      }"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false,
-      }"
-      :modules="modules"
-    >
-      <swiper-slide v-for="item in bannerList" :key="item.id">
-        <img :src="item.bannerImage" @click="goUrl(item)" :class="[{ url_img: item.bannerUrl }]" alt="" />
-      </swiper-slide>
-    </swiper>
+    <div class="banner_bg">
+      <div class="banner_txt_box">
+        <div>
+          <p>Get 200% Bonus</p>
+          <p>Up to 100 eth</p>
+        </div>
+        <div class="join_button" @click="goUrl(bgUrl)">JOIN NOW</div>
+      </div>
+    </div>
+    <div class="swiper_box">
+      <swiper
+        v-if="bannerList?.length > 0"
+        :slides-per-view="innerWidth > 950 ? 3 : 2"
+        :slides-per-group="innerWidth > 950 ? 3 : 2"
+        :space-between="16"
+        :loop="true"
+        :pagination="{
+          clickable: true,
+        }"
+        :autoplay="{
+          delay: 3000,
+          disableOnInteraction: false,
+        }"
+        :modules="modules"
+      >
+        <swiper-slide v-for="item in bannerList" :key="item.id">
+          <img :src="item.bannerImage" :class="[{ url_img: item.bannerUrl }]" @click="goUrl(item)" alt="" />
+        </swiper-slide>
+      </swiper>
+    </div>
   </div>
 </template>
 
@@ -38,6 +49,8 @@ export default {
     return {
       modules: [Autoplay, Pagination, A11y],
       bannerList: [],
+      innerWidth: 0,
+      bgUrl: { bannerUrl: "/user/promotions" },
     };
   },
   created() {
@@ -45,6 +58,9 @@ export default {
       this.bannerList = JSON.parse(localStorage.getItem("banner"));
     }
     this.getBannerListFunc();
+  },
+  mounted() {
+    this.innerWidth = window.innerWidth;
   },
 
   methods: {

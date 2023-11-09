@@ -165,8 +165,17 @@
           </el-tooltip>
         </p>
         <div class="lock_status">
-          <div class="status_title">锁定开关</div>
+          <div class="status_title">Mode</div>
           <div class="rounds_num">
+            <div
+              :class="[
+                'rounds_item',
+                autoConfig.lockWinRateStatus == 'CLOSE' ? 'active' : '',
+              ]"
+              @click="chooseLock('CLOSE')"
+            >
+              关闭
+            </div>
             <div
               :class="[
                 'rounds_item',
@@ -355,13 +364,25 @@ export default {
           ...deepClone(res.data),
           lockWinRate: winRate,
         };
-        this.autoConfig = params;
-        if (
-          this.type == "lock" &&
-          this.autoConfig.lockWinRateStatus == "CLOSE"
-        ) {
-          this.autoConfig.lockWinRateStatus = "OPEN";
+
+        if (!rate?.autoBuyNumber) {
+          this.autoChoose = 1;
+          params.autoBuyNumber = 10;
+        } else if (rate?.autoBuyNumber == 10) {
+          this.autoChoose = 1;
+        } else if (rate?.autoBuyNumber == 20) {
+          this.autoChoose = 2;
+        } else if (rate?.autoBuyNumber == 50) {
+          this.autoChoose = 3;
+        } else if (rate?.autoBuyNumber == 100) {
+          this.autoChoose = 4;
+        } else {
+          this.autoChoose = 5;
+          this.customize = rate?.autoBuyNumber;
         }
+
+        params.autoBuyNumber = rate?.autoBuyNumber;
+        this.autoConfig = params;
       }
     },
     // 选择自动局数
@@ -377,6 +398,11 @@ export default {
     },
     async submitData() {
       const { type, autoConfig } = this;
+
+      if (type == "auto" && !autoConfig.autoBuyNumber) {
+        this.$message.error("请选择自动局数");
+        return;
+      }
 
       let res = null;
       let params = autoConfig;
@@ -415,17 +441,15 @@ export default {
     customize(newV) {
       const { autoChoose } = this;
 
-      if (!newV) return;
-
       if (autoChoose == 5) {
         if (this.timer) {
           clearTimeout(this.timer);
           this.timer = null;
         }
 
+        this.autoConfig.autoBuyNumber = Math.floor(newV);
         this.timer = setTimeout(() => {
           this.customize = Math.floor(newV);
-          this.autoConfig.autoBuyNumber = Math.floor(newV);
         }, 300);
       }
     },

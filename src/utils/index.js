@@ -579,3 +579,9 @@ export const easeOut = (t, b, c, d) => {
 export const rAF = (callback) => {
   return window.setTimeout(callback, 1000 / 60)
 }
+
+// 格式化U
+export const formatUsd = (event, type = 2) => {
+  const num = event || 0;
+  return Number(accurateDecimal(num, type)).toLocaleString();
+}

@@ -20,13 +20,13 @@
         <div class="win_title">YOU WIN!</div>
         <div class="win_amount">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-          <span>{{ winInfo?.winerIncome || 0 }}</span>
+          <span>{{ formatUsd(winInfo?.winerIncome) }}</span>
         </div>
         <div class="win_info">
           <div class="info_item">
             <div class="val">
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-              <span>{{ winInfo?.winerBuyPrice || 0 }}</span>
+              <span>{{ formatUsd(winInfo?.winerBuyPrice) }}</span>
             </div>
             <div class="title">您参与的价值</div>
           </div>
@@ -77,9 +77,8 @@
   </div>
 </template>
 <script>
-import { useHeaderStore } from "@/store/header.js";
 import bigNumber from "bignumber.js";
-import { accurateDecimal, openUrl } from "@/utils";
+import { accurateDecimal, openUrl, formatUsd } from "@/utils";
 export default {
   name: "warWinning",
   props: {
@@ -94,6 +93,7 @@ export default {
     };
   },
   methods: {
+    formatUsd: formatUsd,
     // 验证公平性
     onVerify(event) {
       let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;

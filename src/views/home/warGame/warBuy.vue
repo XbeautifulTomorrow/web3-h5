@@ -7,7 +7,7 @@
         <div class="val">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span>
-            {{ Number(accurateDecimal(usdBalance, 2)).toLocaleString() }}
+            {{ formatUsd(usdBalance) }}
           </span>
         </div>
       </div>
@@ -66,11 +66,7 @@
             <div class="title">单局投入</div>
             <div class="val" v-if="autoConfig?.autoBuyAmount">
               <span>
-                {{
-                  Number(
-                    accurateDecimal(autoConfig?.autoBuyAmount || 0, 2)
-                  ).toLocaleString()
-                }}
+                {{ formatUsd(autoConfig?.autoBuyAmount) }}
               </span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
@@ -78,17 +74,17 @@
           </div>
           <div class="auto_item">
             <div class="title">入场时机</div>
-            <div class="val">{{ autoConfig?.autoBuyTime || "--" }}</div>
+            <div class="val">
+              <span style="color: #a9a4b4;"
+                >last <span style="color: white;">{{ autoConfig?.autoBuyTime }}</span> seconds</span
+              >
+            </div>
           </div>
           <div class="auto_item">
             <div class="title">最低战利品</div>
             <div class="val" v-if="autoConfig?.lowBounsPool">
               <span>
-                {{
-                  Number(
-                    accurateDecimal(autoConfig?.lowBounsPool || 0, 2)
-                  ).toLocaleString()
-                }}
+                {{ formatUsd(autoConfig?.lowBounsPool) }}
               </span>
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
             </div>
@@ -153,7 +149,7 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
-import { accurateDecimal } from "@/utils";
+import { accurateDecimal, formatUsd } from "@/utils";
 import { warBuy, getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 
@@ -203,6 +199,7 @@ export default {
     },
   },
   methods: {
+    formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
     // 更新购买数据

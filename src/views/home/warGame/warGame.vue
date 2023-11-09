@@ -62,7 +62,7 @@
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
         </div>
-        <div class="bloody_battle" v-if="warInfo?.bigPrizeStatus == 'TRUE'">
+        <div class="bloody_battle">
           <div class="war_title">END WAR</div>
           <div class="total_bonus">
             <div class="unit">$</div>
@@ -952,7 +952,7 @@ export default {
       //设置饼图的半径
       let radius = (Math.min(width, height) * 0.5) / 2;
 
-      let arc = d3.arc().innerRadius(140);
+      let arc = d3.arc().innerRadius(150);
 
       let svg = d3.select("#war_container").select("g").select(".war");
 

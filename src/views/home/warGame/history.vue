@@ -8,7 +8,7 @@
         inactive-value="FALSE"
         style="
           --el-switch-on-color: #927a51;
-          --el-switch-off-color: rgba(60, 60, 67, 0.3);
+          --el-switch-off-color: rgba(60, 60, 67, 0.8);
         "
       />
       <span>Only Your Rounds</span>

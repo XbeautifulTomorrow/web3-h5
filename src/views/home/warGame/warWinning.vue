@@ -43,7 +43,9 @@
                 src="@/assets/svg/home/warGame/icon_multiplication.svg"
                 alt=""
               />
-              <span>{{ winInfo?.winerMultipleRate || 0 }}</span>
+              <span>
+                {{ accurateDecimal(winInfo?.winerMultipleRate, 2) || 0 }}
+              </span>
             </div>
             <div class="title">您的盈利倍率</div>
           </div>

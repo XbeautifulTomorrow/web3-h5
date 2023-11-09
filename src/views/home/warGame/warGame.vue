@@ -115,9 +115,7 @@
                 currentStatus == 'WAIT' ? 'cancel' : '',
               ]"
             >
-              <span v-if="currentStatus == 'INIT' || currentStatus == 'WAIT'">
-                等待合约计算结果
-              </span>
+              <span v-if="currentStatus == 'WAIT'">等待合约计算结果</span>
               <span v-if="currentStatus == 'CANCEL'">流局</span>
               <span v-if="currentStatus == 'WIN'" class="win_id">
                 {{ `Winner ID: ${winInfo?.openId || "--"}` }}
@@ -201,7 +199,6 @@
               {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
             </countDown>
             <div v-else-if="currentStatus == 'WAIT'" class="dot">
-              <span>Battle</span>
               <span class="dot-ani"></span>
             </div>
             <div v-else>{{ "00:00:" + `00${seconds}`.slice(-2) }}</div>
@@ -231,7 +228,7 @@
                 <img src="@/assets/svg/home/warGame/icon_troops.svg" alt="" />
                 <span>{{ userData?.tickerNumber || 0 }}</span>
               </div>
-              <div class="info_title">Your Tickets</div>
+              <div class="info_title">Your Soldiers</div>
             </div>
             <div class="info_item">
               <div class="info_val">

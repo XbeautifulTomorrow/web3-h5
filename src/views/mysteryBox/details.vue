@@ -85,7 +85,7 @@
               <div class="val">{{ `${fiveRebate}% OFF` }}</div>
             </div>
             <div class="sub_lottery">
-              <div class="lottery_box_title">OPEN 5 BOX</div>
+              <div class="lottery_box_title">OPEN 5 BOXES</div>
               <div class="lottery_price_box">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
@@ -97,7 +97,7 @@
               <div class="val">{{ `${tenRebate}% OFF` }}</div>
             </div>
             <div class="sub_lottery">
-              <div class="lottery_box_title">OPEN 10 BOX</div>
+              <div class="lottery_box_title">OPEN 10 BOXES</div>
               <div class="lottery_price_box">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>

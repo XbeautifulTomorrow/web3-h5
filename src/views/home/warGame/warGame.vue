@@ -433,7 +433,7 @@
     ></war-must-read>
     <war-winning
       v-if="pageType == 'war_win'"
-      :winInfo="winInfo"
+      :winInfo="winUser"
       @closeReceiveFun="changeTypeFun"
       @closeDialogFun="closeDialogFun"
     ></war-winning>
@@ -567,6 +567,7 @@ export default {
       warData: [], // 下注数据
       userData: {}, // 用户信息
       winInfo: {}, // 中奖信息
+      winUser:{}, // 登录用户中奖
       watcherNum: 0, // 观众人数
       isWaiting: false, // 获取开奖状态
       rewardAmount: 0, // 未领取奖励
@@ -1195,6 +1196,7 @@ export default {
 
           //如果中奖者是登录用户
           if (this.winUserId == this.userInfo?.id) {
+            this.winUser = this.winInfo;
             this.pageType = "war_win";
           }
 

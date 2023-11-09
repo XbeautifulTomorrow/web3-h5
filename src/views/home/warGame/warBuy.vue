@@ -36,9 +36,9 @@
         <div class="choose_tips">1 Soldier = 1 USDT</div>
         <div class="choose_items">
           <div class="choose_btn" @click="setAmount(1)">+1</div>
-          <div class="choose_btn" @click="setAmount(50)">+50</div>
+          <div class="choose_btn" @click="setAmount(10)">+10</div>
           <div class="choose_btn" @click="setAmount(100)">+100</div>
-          <div class="choose_btn" @click="setAmount(500)">+500</div>
+          <div class="choose_btn" @click="setAmount(1000)">+1000</div>
         </div>
       </div>
       <div class="auto_war_box">
@@ -51,7 +51,7 @@
               inactive-value="CLOSE"
               style="
                 --el-switch-on-color: #927a51;
-                --el-switch-off-color: rgba(60, 60, 67, 0.3);
+                --el-switch-off-color: rgba(60, 60, 67, 0.8);
               "
             />
             <div class="btn" @click="changeAuto()"></div>

@@ -27,7 +27,13 @@
             label="Round"
             align="center"
             show-overflow-tooltip
-          />
+          >
+            <template #default="scope">
+              <span style="color: #a9a4b4">
+                {{ scope.row.id }}
+              </span>
+            </template></el-table-column
+          >
           <el-table-column
             prop="winerUserName"
             label="Winner"
@@ -123,15 +129,12 @@
             show-overflow-tooltip
           >
             <template #default="scope">
-              {{ timeFormat(scope.row.lotteryTime) }}
+              <span style="color: #a9a4b4">
+                {{ timeFormat(scope.row.lotteryTime) }}
+              </span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="Verify"
-            label="Verify"
-            align="center"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="Verify" label="Verify" align="center">
             <template #default="scope">
               <div class="buy_box" v-if="scope.row.winerUserId">
                 <img

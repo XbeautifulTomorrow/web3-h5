@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="close_win_btn" @click="handleClose()">
-          <span>CANCEL</span>
+          <span>CLOSE</span>
         </div>
         <div class="win_safe">
           <img src="@/assets/svg/home/warGame/icon_safe.svg" alt="" />
@@ -133,9 +133,7 @@ export default {
       this.$emit("closeDialogFun");
     },
   },
-  created() {
-    this.fetchRewardAmount();
-  },
+  created() {},
   watch: {},
 };
 </script>

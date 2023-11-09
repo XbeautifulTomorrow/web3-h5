@@ -16,6 +16,7 @@
               tooltips?.userId == item.userId ? 'hover' : '',
             ]"
             v-for="(item, index) in warData"
+            @click="showWarUser(item)"
             :key="index"
           >
             <div class="user_badge">
@@ -118,13 +119,36 @@
                 v-if="currentStatus == 'WIN' && !isHistory"
                 class="next_round"
               >
-                {{ `Next Round: 15s` }}
+                {{ `Next Round: ` + `00${seconds}s`.slice(-2) }}
               </span>
             </div>
           </div>
         </div>
-        <div class="countdown_box">
-          <img src="@/assets/svg/home/warGame/icon_countdown.svg" alt="" />
+        <div
+          :class="[
+            'countdown_box',
+            currentStatus == 'INIT'
+              ? ''
+              : currentStatus == 'WAIT'
+              ? 'battle'
+              : 'next',
+          ]"
+          v-if="!isHistory"
+        >
+          <div class="time">
+            <img
+              v-if="currentStatus == 'INIT'"
+              src="@/assets/svg/home/warGame/progress/icon_war.svg"
+            />
+            <img
+              v-else-if="currentStatus == 'WAIT'"
+              src="@/assets/svg/home/warGame/progress/icon_battle.svg"
+            />
+            <img
+              v-else
+              src="@/assets/svg/home/warGame/progress/icon_next.svg"
+            />
+          </div>
           <div class="progress_bar">
             <el-progress
               :percentage="percentage"
@@ -132,13 +156,36 @@
               striped
               striped-flow
               :duration="10"
-              :color="'#fad54d'"
+              :color="
+                currentStatus == 'INIT'
+                  ? '#fad54d'
+                  : currentStatus == 'WAIT'
+                  ? '#c72ae9'
+                  : '#b3b9c4'
+              "
               :show-text="false"
             />
-            <div class="progress_bg"></div>
+            <div class="progress_bg">
+              <img
+                v-if="currentStatus == 'INIT'"
+                src="@/assets/svg/home/warGame/progress/progress_bg.svg"
+                alt=""
+              />
+              <img
+                v-else-if="currentStatus == 'WAIT'"
+                src="@/assets/svg/home/warGame/progress/progress_battle_bg.svg"
+                alt=""
+              />
+              <img
+                v-else
+                src="@/assets/svg/home/warGame/progress/progress_next_bg.svg"
+                alt=""
+              />
+            </div>
           </div>
           <div class="countdown">
             <countDown
+              v-if="currentStatus == 'INIT'"
               v-slot="timeObj"
               @onEnd="startLottery()"
               @onCountDown="getPercentage"
@@ -146,6 +193,11 @@
             >
               {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
             </countDown>
+            <div v-else-if="currentStatus == 'WAIT'" class="dot">
+              <span>Battle</span>
+              <span class="dot-ani"></span>
+            </div>
+            <div v-else>{{ "00:00:" + `00${seconds}`.slice(-2) }}</div>
           </div>
         </div>
       </div>
@@ -381,10 +433,15 @@
     ></war-must-read>
     <war-winning
       v-if="pageType == 'war_win'"
-      :winInfo="winInfo"
+      :winInfo="winUser"
       @closeReceiveFun="changeTypeFun"
       @closeDialogFun="closeDialogFun"
     ></war-winning>
+    <war-user-info
+      :id="warUserId"
+      v-if="pageType == 'user_info'"
+      @closeDialogFun="closeDialogFun"
+    ></war-user-info>
     <Login
       v-if="pageType === 'login'"
       @closeDialogFun="closeDialogFun"
@@ -465,6 +522,7 @@ import warBuy from "./warBuy.vue";
 import warConfig from "./warConfig.vue";
 import warMustRead from "./warMustRead.vue";
 import warWinning from "./warWinning.vue";
+import warUserInfo from "./warUserInfo.vue";
 import countDown from "@/components/countDown";
 
 /** LOGIN */
@@ -492,6 +550,7 @@ export default {
     countDown,
     warMustRead,
     warWinning,
+    warUserInfo,
     Login,
     Register,
     Forgot,
@@ -508,6 +567,7 @@ export default {
       warData: [], // 下注数据
       userData: {}, // 用户信息
       winInfo: {}, // 中奖信息
+      winUser:{}, // 登录用户中奖
       watcherNum: 0, // 观众人数
       isWaiting: false, // 获取开奖状态
       rewardAmount: 0, // 未领取奖励
@@ -526,7 +586,8 @@ export default {
 
       svgGraphics: null, // svg对象
       countdown: 0,
-      timer: null,
+      seconds: 0,
+      nextTimer: null,
 
       // 旋转参数
       startTime: null, // 旋转开始时间
@@ -539,12 +600,16 @@ export default {
       endTime: null, // 减速开始时间
       endDeg: 0, // 减速角度
       winUserId: null, // 中奖者id
+      timer: null,
 
       //tooltips
       screenWidth: null,
       showTooltips: false,
       tooltips: null,
       style: {},
+
+      //war user
+      warUserId: null,
     };
   },
   computed: {
@@ -675,6 +740,12 @@ export default {
             this.userData = null;
             this.winUserId = null;
             this.currentStatus = "INIT";
+            if (this.nextTimer) {
+              clearInterval(this.nextTimer);
+              this.nextTimer = null;
+              this.seconds = 0;
+            }
+
             this.$forceUpdate();
 
             setSessionStore("currentRound", warGame.id);
@@ -818,6 +889,7 @@ export default {
           d.outerRadius = radius;
           return arc(d);
         })
+        .on("click", (e, d) => that.showWarUser(e, d, 2))
         .on("mouseover", arcTween(1, 2))
         .on("mousemove", arcTween(1, 2))
         .on("mouseout", arcTween(2, 2));
@@ -825,46 +897,42 @@ export default {
       // 鼠标悬停
       function arcTween(outerRadius, delay) {
         // 设置缓动函数,为鼠标事件使用
-        return function (event) {
+        return function (event, d) {
           let array = [];
           let ss = d3.select(this);
 
-          ss.transition()
-            .delay(delay)
-            .attrTween("d", (d) => {
-              array = pointEnd.centroid(d);
-              const outer_ring = document.getElementsByClassName("outer_ring");
-              if (outerRadius == 1) {
-                if (that.warData.length > 0) {
-                  that.mouseenterFun(d, event);
-                }
+          array = pointEnd.centroid(d);
+          const outer_ring = document.getElementsByClassName("outer_ring");
+          if (outerRadius == 1) {
+            if (that.warData.length > 0) {
+              that.mouseenterFun(d, event);
+            }
 
-                if (outer_ring.length > 0) {
-                  outer_ring[0].classList.add("hover");
-                }
-                ss.transition()
-                  .delay(delay)
-                  .attr(
-                    "transform",
-                    "translate( " +
-                      Number(array[0]).toFixed(4) +
-                      ", " +
-                      Number(array[1]).toFixed(4) +
-                      " )"
-                  );
-              } else {
-                that.showTooltips = false;
-                that.tooltips = null;
+            if (outer_ring.length > 0) {
+              outer_ring[0].classList.add("hover");
+            }
+            ss.transition()
+              .delay(delay)
+              .attr(
+                "transform",
+                "translate( " +
+                  Number(array[0]).toFixed(4) +
+                  ", " +
+                  Number(array[1]).toFixed(4) +
+                  " )"
+              );
+          } else {
+            that.showTooltips = false;
+            that.tooltips = null;
 
-                if (outer_ring.length > 0) {
-                  outer_ring[0].classList.remove("hover");
-                }
+            if (outer_ring.length > 0) {
+              outer_ring[0].classList.remove("hover");
+            }
 
-                ss.transition()
-                  .delay(delay)
-                  .attr("transform", "translate( " + 0 + ", " + 0 + " )");
-              }
-            });
+            ss.transition()
+              .delay(delay)
+              .attr("transform", "translate( " + 0 + ", " + 0 + " )");
+          }
         };
       }
     },
@@ -912,6 +980,7 @@ export default {
           d.outerRadius = radius;
           return arc(d);
         })
+        .on("click", (e, d) => that.showWarUser(e, d, 2))
         .on("mouseover", arcTween(1, 2))
         .on("mousemove", arcTween(1, 2))
         .on("mouseout", arcTween(2, 2));
@@ -919,43 +988,39 @@ export default {
       // 鼠标悬停
       function arcTween(outerRadius, delay) {
         // 设置缓动函数,为鼠标事件使用
-        return function (event) {
+        return function (event, d) {
           let array = [];
           let ss = d3.select(this);
 
-          ss.transition()
-            .delay(delay)
-            .attrTween("d", (d) => {
-              array = pointEnd.centroid(d);
-              const outer_ring = document.getElementsByClassName("outer_ring");
-              if (outerRadius == 1) {
-                that.mouseenterFun(d, event);
-                if (outer_ring.length > 0) {
-                  outer_ring[0].classList.add("hover");
-                }
-                ss.transition()
-                  .delay(delay)
-                  .attr(
-                    "transform",
-                    "translate( " +
-                      Number(array[0]).toFixed(4) +
-                      ", " +
-                      Number(array[1]).toFixed(4) +
-                      " )"
-                  );
-              } else {
-                that.showTooltips = false;
-                that.tooltips = null;
+          array = pointEnd.centroid(d);
+          const outer_ring = document.getElementsByClassName("outer_ring");
+          if (outerRadius == 1) {
+            that.mouseenterFun(d, event);
+            if (outer_ring.length > 0) {
+              outer_ring[0].classList.add("hover");
+            }
+            ss.transition()
+              .delay(delay)
+              .attr(
+                "transform",
+                "translate( " +
+                  Number(array[0]).toFixed(4) +
+                  ", " +
+                  Number(array[1]).toFixed(4) +
+                  " )"
+              );
+          } else {
+            that.showTooltips = false;
+            that.tooltips = null;
 
-                if (outer_ring.length > 0) {
-                  outer_ring[0].classList.remove("hover");
-                }
+            if (outer_ring.length > 0) {
+              outer_ring[0].classList.remove("hover");
+            }
 
-                ss.transition()
-                  .delay(delay)
-                  .attr("transform", "translate( " + 0 + ", " + 0 + " )");
-              }
-            });
+            ss.transition()
+              .delay(delay)
+              .attr("transform", "translate( " + 0 + ", " + 0 + " )");
+          }
         };
       }
     },
@@ -1013,17 +1078,35 @@ export default {
       if (this.currentStatus != "INIT") return;
 
       // 当前状态不是未开奖也不转
-      if (this.warInfo?.currentStatus != "WAIT") return;
+      if (this.warInfo?.currentStatus != "WAIT") {
+        if (this.warInfo.currentStatus == "OPEN") {
+          // 加载胜利者数据
+          this.winInfo = this.warInfo.warWinBO;
+
+          this.winUserId = this.winInfo.winerUserId;
+          this.svgAngle = this.getSlowDeg() % 360;
+          this.setSvgPath();
+
+          this.currentStatus = "WIN";
+        } else {
+          this.currentStatus = "CANCEL";
+          this.countDown(1);
+        }
+
+        return;
+      }
 
       const { warData } = this;
 
       if (warData.length > 1) {
         this.currentStatus = "WAIT";
+        this.percentage = 100;
         // 开奖函数
         this.timer = setTimeout(this.animation, 1000 / 60);
       } else {
         // 开奖失败
         this.currentStatus = "CANCEL";
+        this.countDown(1);
       }
     },
     // 启动旋转和均速旋转
@@ -1109,13 +1192,16 @@ export default {
         if (currentTime >= this.endHoldTime) {
           // 开奖成功
           this.currentStatus = "WIN";
+          this.countDown(2);
 
           //如果中奖者是登录用户
           if (this.winUserId == this.userInfo?.id) {
+            this.winUser = this.winInfo;
             this.pageType = "war_win";
           }
 
           this.warTime.countdownTime = null;
+          this.getTheUserBalanceInfo();
           return;
         }
 
@@ -1213,7 +1299,6 @@ export default {
         });
 
         if (this.warInfo.currentStatus == "OPEN") {
-          this.currentStatus = "WIN";
           // 加载胜利者数据
           this.winInfo = {
             ...this.warHistory,
@@ -1222,6 +1307,8 @@ export default {
           this.winUserId = this.winInfo.winerUserId;
           this.svgAngle = this.getSlowDeg() % 360;
           this.setSvgPath();
+
+          this.currentStatus = "WIN";
         } else if (
           !this.warHistory.currentStatus ||
           this.warHistory.currentStatus == "CANCELED" ||
@@ -1355,6 +1442,45 @@ export default {
         left: `${left}px`,
       };
     },
+    // 显示参与信息
+    showWarUser(event, data = {}, type = 1) {
+      if (!this.warData.length > 0) return;
+
+      if (type == 2) {
+        const user = this.warData[data.index];
+        this.warUserId = user.userId;
+        this.pageType = "user_info";
+        return;
+      }
+
+      this.warUserId = event.userId;
+      this.pageType = "user_info";
+    },
+    // 倒计时
+    countDown(type) {
+      const Countdown = type == 1 ? 15 : 12;
+      if (!this.nextTimer) {
+        this.countdown = Countdown;
+        this.nextTimer = setInterval(() => {
+          if (this.countdown > 0 && this.countdown <= 15) {
+            this.countdown--;
+            if (this.countdown !== 0) {
+              this.seconds = this.countdown;
+              this.percentage = Number(
+                accurateDecimal(
+                  new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
+                  2
+                )
+              );
+            } else {
+              clearInterval(this.nextTimer);
+              this.countdown = 15;
+              this.nextTimer = null;
+            }
+          }
+        }, 1000);
+      }
+    },
   },
   beforeUnmount() {
     if (this.eventSource) {
@@ -1370,10 +1496,11 @@ export default {
     }
   },
   created() {
-    const is_must_read = getLocalStore("must_read");
-
-    if (is_must_read == "1") {
-      this.showBuy = true;
+    if (this.userInfo?.id && this.isLogin) {
+      const is_must_read = getLocalStore("must_read");
+      if (is_must_read == "1") {
+        this.showBuy = true;
+      }
     }
 
     if (this.isHistory) {

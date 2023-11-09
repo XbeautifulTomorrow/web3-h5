@@ -1,6 +1,8 @@
 <template>
   <div class="war_game_index_wrapper">
-    <div class="banner_box"></div>
+    <div class="banner_box">
+      <img src="@/assets/svg/home/warGame/banner/war_banner.svg" alt="" />
+    </div>
     <div class="tag_items">
       <div
         :class="['tag_item', pageType == 'warGame' ? 'active' : '']"
@@ -54,6 +56,8 @@ export default {
     // war
     handleWar() {
       this.pageType = "warGame";
+      this.warData = null;
+      this.isHistory = false;
     },
     // history事件
     handleHistory(event) {

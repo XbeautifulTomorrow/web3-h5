@@ -13,44 +13,21 @@
       <div class="lottery_boxs">
         <div class="lottery_boxs_l">
           <div class="img_box">
-            <Image
-              fit="cover"
-              class="nft_img"
-              :src="blindDetailInfo.boxImg"
-              alt=""
-            />
+            <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
-          <div
-            :class="[
-              'description_box',
-              { 'description-loaing': isShowMore === null },
-            ]"
-          >
+          <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
             <div class="title">
               <img src="@/assets/svg/box/icon_description.svg" alt="" />
               {{ $t("mysteryBox.description") }}
             </div>
-            <div
-              ref="contentInfo"
-              :class="['text', { 'all-text': !isShowMore }]"
-              v-html="blindDetailInfo.boxDesc"
-            ></div>
-            <p
-              class="see-more"
-              @click="isShowMore = !isShowMore"
-              v-if="isShowMore"
-              ref="contentInfo2"
-            >
+            <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
+            <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
               <span>See more</span>
-              <img
-                class="header-user-down"
-                src="@/assets/img/headerFooter/icon-arrowup.png"
-                alt=""
-              />
+              <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
             </p>
           </div>
         </div>
-        <div class="lottery_boxs_r">
+        <div class="lottery_boxs_r" v-if="innerWidth > 950">
           <div class="top">
             <div class="lottery_type" @click="rollNumberFun('ONE')">
               <div class="lottery_info">
@@ -74,13 +51,7 @@
               </div>
               <div class="lottery_btn">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span
-                  v-priceFormat="
-                    new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(
-                      5
-                    )
-                  "
-                ></span>
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
               </div>
             </div>
           </div>
@@ -95,11 +66,42 @@
             </div>
             <div class="lottery_btn">
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-              <span
-                v-priceFormat="
-                  new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)
-                "
-              ></span>
+              <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
+            </div>
+          </div>
+        </div>
+        <div class="h5_lottery_boxs_r" v-else>
+          <div class="sub_lottery_box one_lottery" @click="rollNumberFun('ONE')">
+            <div class="sub_lottery">
+              <div class="lottery_box_title">OPEN 1 BOX</div>
+              <div class="lottery_price_box">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span v-priceFormat="blindDetailInfo?.price"></span>
+              </div>
+            </div>
+          </div>
+          <div class="sub_lottery_box five_lottery" @click="rollNumberFun('FIVE')">
+            <div class="h5_discount" v-if="fiveRebate > 0">
+              <div class="val">{{ `${fiveRebate}% OFF` }}</div>
+            </div>
+            <div class="sub_lottery">
+              <div class="lottery_box_title">OPEN 5 BOX</div>
+              <div class="lottery_price_box">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
+              </div>
+            </div>
+          </div>
+          <div class="sub_lottery_box ten_lottery" @click="rollNumberFun('TEN')">
+            <div class="h5_discount" v-if="tenRebate > 0">
+              <div class="val">{{ `${tenRebate}% OFF` }}</div>
+            </div>
+            <div class="sub_lottery">
+              <div class="lottery_box_title">OPEN 10 BOX</div>
+              <div class="lottery_price_box">
+                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -174,10 +176,7 @@
             :placeholder="$t('mysteryBox.snapshotIdHint')"
           >
             <template #suffix>
-              <el-icon
-                class="search_btn el-input__icon"
-                @click="handleSearch()"
-              >
+              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
                 <search />
               </el-icon>
             </template>
@@ -186,23 +185,10 @@
       </div>
       <div class="snapshot_box">
         <div class="snapshot_panel">
-          <div
-            class="snapshot_item"
-            v-for="(item, index) in snapshotData"
-            @click="handleActive(item)"
-            :key="index"
-          >
+          <div class="snapshot_item" v-for="(item, index) in snapshotData" @click="handleActive(item)" :key="index">
             <div class="active_btn">
-              <img
-                class="nft_info"
-                src="@/assets/svg/box/icon_info.svg"
-                alt=""
-              />
-              <img
-                class="nft_info_active"
-                src="@/assets/svg/box/icon_info_active.svg"
-                alt=""
-              />
+              <img class="nft_info" src="@/assets/svg/box/icon_info.svg" alt="" />
+              <img class="nft_info_active" src="@/assets/svg/box/icon_info_active.svg" alt="" />
             </div>
             <div class="snapshot_num">{{ `NO.${item.id}` }}</div>
             <div class="snapshot_date">{{ timeFormat(item.createTime) }}</div>
@@ -223,47 +209,18 @@
       </div>
     </div>
   </div>
-  <Login
-    v-if="pageType === 'login'"
-    @closeDialogFun="closeDialogFun"
-    @changeTypeFun="changeTypeFun"
-  />
-  <Register
-    v-if="pageType === 'register'"
-    @closeDialogFun="closeDialogFun"
-    @changeTypeFun="changeTypeFun"
-  />
-  <Forgot
-    v-if="pageType === 'forgot'"
-    @closeDialogFun="closeDialogFun"
-    @changeTypeFun="changeTypeFun"
-  />
-  <Modify
-    v-if="pageType === 'modify'"
-    @onModify="closeDialogFun"
-    @closeDialogFun="closeDialogFun"
-  ></Modify>
-  <Recharge
-    v-if="pageType === 'recharge'"
-    @closeDialogFun="closeDialogFun"
-  ></Recharge>
-  <el-dialog
-    v-model="showSeriesDialog"
-    class="series_dialog"
-    fullscreen
-    align-center
-  >
+  <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+  <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+  <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
+  <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
         <CircleClose />
       </el-icon>
     </div>
-    <series-slider
-      :nftParams="nftList"
-      :nftType="seriesType"
-      :sName="seriesName"
-      @closeFun="showSeriesDialog = false"
-    ></series-slider>
+    <series-slider :nftParams="nftList" :nftType="seriesType" :sName="seriesName" @closeFun="showSeriesDialog = false"></series-slider>
   </el-dialog>
 </template>
 
@@ -322,6 +279,7 @@ export default {
       size: 36,
       count: 0,
       isShowMore: null,
+      innerWidth: 0,
     };
   },
   computed: {
@@ -443,13 +401,8 @@ export default {
      */
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
-      const numTotal = Number(
-        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
-      );
-      return new bigNumber(num)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      const numTotal = Number(new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum));
+      return new bigNumber(num).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     /**
      * @description Nft概率计算
@@ -464,10 +417,7 @@ export default {
         numTotal += +series[i].nftNumber;
       }
 
-      return new bigNumber(event)
-        .dividedBy(numTotal)
-        .multipliedBy(100)
-        .toFixed(4);
+      return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
     },
     closeDialogFun() {
       this.pageType = "";
@@ -490,13 +440,12 @@ export default {
       this.fetchSnapshotList();
       this.$nextTick(() => {
         const contentInfo = this.$refs.contentInfo;
-        this.isShowMore = contentInfo
-          ? contentInfo.scrollHeight > contentInfo.clientHeight
-          : false;
+        this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
       });
     },
   },
   mounted() {
+    this.innerWidth = window.innerWidth;
     emitter.on("unBoxAgainFunc", (type) => {
       this.rollNumberFun(type);
     });

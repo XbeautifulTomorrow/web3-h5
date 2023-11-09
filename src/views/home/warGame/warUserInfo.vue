@@ -37,7 +37,9 @@
           </div>
           <div class="war_item">
             <div class="title">最大奖金</div>
-            <div class="val">{{ userData?.maxBouns || "--" }}</div>
+            <div class="val">
+              {{ userData?.maxBouns ? formatUsd(userData?.maxBouns) : "--" }}
+            </div>
           </div>
           <div class="war_item">
             <div class="title">幸运时刻</div>
@@ -55,7 +57,7 @@
   </div>
 </template>
 <script>
-import { accurateDecimal } from "@/utils";
+import { accurateDecimal, formatUsd } from "@/utils";
 import { getWarUserInfo } from "@/services/api/tokenWar";
 export default {
   name: "WarUserInfo",
@@ -69,6 +71,7 @@ export default {
     };
   },
   methods: {
+    formatUsd: formatUsd,
     accurateDecimal: accurateDecimal,
     // 获取信息
     async fetchWarUserInfo() {

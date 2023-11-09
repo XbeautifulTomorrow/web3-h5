@@ -25,7 +25,7 @@
           <el-table-column
             prop="id"
             label="Round"
-            align="center"
+            align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
@@ -37,19 +37,44 @@
           <el-table-column
             prop="winerUserName"
             label="Winner"
-            align="center"
-            show-overflow-tooltip
+            align="left"
+            width="260"
           >
             <template #default="scope">
-              <div v-if="!scope.row.winerUserName">--</div>
+              <div class="buy_box" v-if="scope.row.winerUserName">
+                <div class="avatar_box">
+                  <img src="@/assets/svg/user/default_avatar.svg" alt="" />
+                  <span class="name">{{ scope.row.winerUserName }}</span>
+                </div>
+              </div>
+              <div v-if="!scope.row.winerUserName" class="buy_box">
+                <div class="status_box" v-if="page == 1 && scope.$index == 0">
+                  <div class="status_img">
+                    <img
+                      src="@/assets/svg/home/warGame/icon_current_round.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div>Current Round</div>
+                </div>
+                <div class="status_box" v-else>
+                  <div class="status_img">
+                    <img
+                      src="@/assets/svg/home/warGame/icon_canceled.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div>Canceled</div>
+                </div>
+              </div>
             </template>
           </el-table-column>
-          <el-table-column prop="jackpot" label="Prize Pool" align="center">
+          <el-table-column prop="jackpot" label="Prize Pool" align="left">
             <template #default="scope">
               <div class="buy_box" v-if="scope.row.jackpot">
                 <div class="prize_pool">
                   <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                  <span v-priceFormat="scope.row.jackpot"></span>
+                  <span>{{ formatUsd(scope.row.jackpot) }}</span>
                 </div>
               </div>
               <div v-else>--</div>
@@ -58,7 +83,7 @@
           <el-table-column
             prop="winerBuyPrice"
             label="Winner Tickets"
-            align="center"
+            align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
@@ -79,7 +104,7 @@
           <el-table-column
             prop="winerMultipleRate"
             label="Win"
-            align="center"
+            align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
@@ -94,7 +119,7 @@
           <el-table-column
             prop="yourBuyPrice"
             label="Your Tickets"
-            align="center"
+            align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
@@ -102,7 +127,7 @@
                 <div class="buy_num">
                   <div class="num">
                     <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                    <span v-priceFormat="scope.row.yourBuyPrice"></span>
+                    <span>{{ formatUsd(scope.row.yourBuyPrice) }}</span>
                   </div>
                   <div class="rate">
                     {{ getWinningRate(scope.row, scope.row.yourBuyPrice) }}%
@@ -115,18 +140,18 @@
           <el-table-column
             prop="player"
             label="Players"
-            align="center"
+            align="left"
             show-overflow-tooltip
           >
             <template #default="scope">
-              <span v-if="!scope.row.player">--</span>
+              <span v-if="!scope.row.player">0</span>
             </template>
           </el-table-column>
           <el-table-column
             prop="lotteryTime"
             label="Time"
-            align="center"
-            show-overflow-tooltip
+            align="left"
+            width="200"
           >
             <template #default="scope">
               <span style="color: #a9a4b4">
@@ -136,7 +161,7 @@
           </el-table-column>
           <el-table-column prop="Verify" label="Verify" align="center">
             <template #default="scope">
-              <div class="buy_box" v-if="scope.row.winerUserId">
+              <div class="buy_box center" v-if="scope.row.winerUserId">
                 <img
                   style="cursor: pointer"
                   src="@/assets/svg/user/icon_link.svg"
@@ -163,7 +188,7 @@
   </div>
 </template>
 <script>
-import { timeFormat, openUrl, accurateDecimal } from "@/utils";
+import { timeFormat, openUrl, accurateDecimal, formatUsd } from "@/utils";
 import { getWarHistory } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 export default {
@@ -180,10 +205,11 @@ export default {
   },
   computed: {},
   methods: {
+    formatUsd: formatUsd,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
     // 只看登录用户
-    handleChange(event) {
+    handleChange() {
       this.fetchWarHistory();
     },
     // 获取未领取奖金

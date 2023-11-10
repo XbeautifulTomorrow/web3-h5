@@ -22,7 +22,11 @@
             <span>{{ $t("tokenWar.warMustRead") }}</span>
           </p>
           <div class="must_read_text">
-            {{ $t("tokenWar.warMustReadText") }}
+            <span>{{ $t("tokenWar.warMustReadText1") }}</span>
+            <span style="color: #fad54d">
+              {{ $t("tokenWar.warMustReadText2") }}
+            </span>
+            <span>{{ $t("tokenWar.warMustReadText3") }}</span>
           </div>
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun">

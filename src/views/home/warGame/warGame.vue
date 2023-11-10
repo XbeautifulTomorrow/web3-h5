@@ -530,8 +530,6 @@ import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
 
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 export default {
   name: "TokenWar",
   props: {

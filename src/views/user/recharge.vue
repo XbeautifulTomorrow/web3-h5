@@ -350,7 +350,7 @@ import QRCode from "qrcodejs2";
 import bigNumber from "bignumber.js";
 import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, isValiTronAddress, handleWindowResize } from "@/utils";
 import { getSetting } from "@/services/api/invite";
-import rechargeExchangeResult from "./rechargeExchangeResult.vue";
+import rechargeExchangeResult from "./components/rechargeExchangeResult";
 export default {
   name: "myWallet",
   components: {

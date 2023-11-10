@@ -89,7 +89,7 @@
                   -webkit-text-fill-color: #a9a4b4;
                   font-weight: 400;
                 "
-                >last
+                >Last
                 <span
                   style="
                     color: white;

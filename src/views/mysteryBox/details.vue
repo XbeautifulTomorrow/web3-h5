@@ -248,6 +248,7 @@ import Recharge from "@/views/user/recharge.vue";
 
 export default {
   name: "boxDetails",
+  emits: ["rollNumberFun"],
   components: {
     seriesSlider,
     Login,

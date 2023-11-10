@@ -99,6 +99,8 @@
     }
 
     &.disabled {
+      background-image: none;
+      background-color: #c3c4c8;
       cursor: not-allowed;
     }
   }

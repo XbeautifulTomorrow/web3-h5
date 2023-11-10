@@ -124,7 +124,7 @@
                 v-if="currentStatus == 'WIN' && !isHistory"
                 class="next_round"
               >
-                {{ `Next Round: ` + `00${seconds}s`.slice(-2) }}
+                {{ `Next Round: ` + `00${seconds}`.slice(-2) + "s" }}
               </span>
             </div>
           </div>
@@ -507,7 +507,7 @@ import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import config from "@/services/env";
-import { getCommonData } from "@/services/api/tokenWar";
+import { getCommonData, getConfig } from "@/services/api/tokenWar";
 import * as d3 from "d3";
 import {
   accurateDecimal,
@@ -519,6 +519,7 @@ import {
   easeOut,
   handleWindowResize,
   formatUsd,
+  deepClone,
 } from "@/utils";
 import { userColor, getRank, getLevel } from "./components/config";
 import bigNumber from "bignumber.js";
@@ -615,6 +616,7 @@ export default {
 
       //war user
       warUserId: null,
+      config: null,
     };
   },
   computed: {
@@ -1207,7 +1209,7 @@ export default {
 
           //如果中奖者是登录用户
           if (this.winUserId == this.userInfo?.id) {
-            this.winUser = this.winInfo;
+            this.winUser = deepClone(this.winInfo);
             this.pageType = "war_win";
           }
 
@@ -1273,13 +1275,13 @@ export default {
     },
     // 获取进度
     getPercentage(event) {
-      const maxSecond = 300;
+      const { singleTime } = this.config || { singleTime: 300 };
 
       let end = Number(new bigNumber(event).div(1000));
 
       // 计算出百分比
       this.percentage = Number(
-        accurateDecimal(new bigNumber(end).div(maxSecond).multipliedBy(100), 2)
+        accurateDecimal(new bigNumber(end).div(singleTime).multipliedBy(100), 2)
       );
     },
     // 获取用户颜色
@@ -1492,6 +1494,13 @@ export default {
         }, 1000);
       }
     },
+    // 获取配置
+    async fetchConfig() {
+      const res = await getConfig();
+      if (res.code == 200) {
+        this.config = res.data;
+      }
+    },
   },
   beforeUnmount() {
     if (this.eventSource) {
@@ -1520,6 +1529,8 @@ export default {
     } else {
       this.createSSE();
     }
+
+    this.fetchConfig();
   },
   mounted() {
     const that = this;

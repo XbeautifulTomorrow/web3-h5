@@ -96,6 +96,7 @@ export default {
   },
   methods: {
     formatUsd: formatUsd,
+    accurateDecimal: accurateDecimal,
     // 验证公平性
     onVerify(event) {
       let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;

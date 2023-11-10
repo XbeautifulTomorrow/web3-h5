@@ -171,8 +171,15 @@ import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { accurateDecimal, formatUsd } from "@/utils";
-import { warBuy, getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
+import {
+  warBuy,
+  getAutoConfig,
+  setAutoConfig,
+  getConfig,
+} from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 
 export default {
   name: "WarBuy",
@@ -202,6 +209,7 @@ export default {
       autoChoose: 1,
       customize: 0,
       timer: null,
+      systemConfig: null,
     };
   },
   computed: {
@@ -229,17 +237,23 @@ export default {
     },
     // 购买战争游戏门票
     async buyTickets() {
-      const { buyNum, usdBalance } = this;
+      const {
+        buyNum,
+        usdBalance,
+        systemConfig: { singlePrice },
+      } = this;
 
       if (this.status != "INIT") return;
 
       if (Number(buyNum) > Number(usdBalance)) {
-        this.$message.error("余额不足");
+        this.$message.error(t("lottery.tips5"));
         return;
       }
 
       if (!Number(buyNum || 0) || !Number(buyNum || 0) > 0) {
-        this.$message.error("请输入购买数量");
+        this.$message.error(
+          `The amount added must be greater than ${singlePrice} USDT.`
+        );
         return;
       }
 
@@ -305,16 +319,30 @@ export default {
         this.$emit("showDialogFun", "lock");
       }
     },
+    // 获取配置
+    async fetchConfig() {
+      const res = await getConfig();
+      if (res.code == 200) {
+        this.systemConfig = res.data;
+      }
+    },
   },
   created() {
     if (this.userInfo?.id && this.isLogin) {
       this.fetchAutoConfig();
     }
+
+    this.fetchConfig();
   },
   watch: {
     config(newV) {
       if (!newV) return;
       this.fetchAutoConfig();
+    },
+    status(newV) {
+      if (newV == "INIT") {
+        this.fetchAutoConfig();
+      }
     },
     buyNum(newV) {
       if (!newV) return;
@@ -325,7 +353,11 @@ export default {
       }
 
       this.timer = setTimeout(() => {
-        if (!newV) return;
+        const { singlePrice } = this.systemConfig;
+        if (Number(newV) % singlePrice > 1) {
+          this.buyNum = Math.floor(Number(newV) - (Number(newV) % singlePrice));
+          return;
+        }
         this.buyNum = Math.floor(newV);
       }, 300);
     },

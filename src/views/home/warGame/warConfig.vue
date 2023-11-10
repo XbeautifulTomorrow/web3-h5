@@ -290,7 +290,6 @@ export default {
       show: true,
       isChangeNum: false,
       autoBuyAmount: 0, //自动购买金额
-      autoBuyNumber: 0, //自动局数
       autoBuyTime: 0, //几秒入局
       lockMaxAmount: 0, //最大投注
       lockWinRate: 1, //胜率
@@ -298,7 +297,7 @@ export default {
 
       autoConfig: {
         autoBuyAmount: 0, //自动购买金额
-        autoBuyNumber: 0, //自动局数
+        autoBuyNumber: 10, //自动局数
         autoBuyStatus: "CLOSE", //自动状态：OPEN,CLOSE
         autoBuyTime: 0, //几秒入局
         lockMaxAmount: 0, //最大投注
@@ -400,7 +399,7 @@ export default {
       const { type, autoConfig } = this;
 
       if (type == "auto" && !autoConfig.autoBuyNumber) {
-        this.$message.error("请选择自动局数");
+        this.$message.error("The number of games must be greater than 0.");
         return;
       }
 
@@ -448,6 +447,8 @@ export default {
         }
 
         this.autoConfig.autoBuyNumber = Math.floor(newV);
+
+        if (!newV) return;
         this.timer = setTimeout(() => {
           this.customize = Math.floor(newV);
         }, 300);

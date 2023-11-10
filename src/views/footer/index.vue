@@ -6,69 +6,117 @@
           <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
-        
+
         <div class="friendship-logo">
           <img src="@/assets/svg/featured_certik_logo.svg" alt="logo" />
         </div>
         <div class="in_progress">{{ $t("footer.inProgress") }}</div>
       </div>
       <div class="footer-nav-box">
-        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
+        <img
+          src="@/assets/svg/home/footer_interval.svg"
+          class="footer_interval"
+          alt=""
+        />
         <div class="footer-nav-items">
           <div>
             <li class="footer-nav-text active">
               {{ $t("footer.menu") }}
             </li>
             <ul class="footer-nav">
-              <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+              <li
+                class="footer-nav-text"
+                v-for="(item, index) in nav"
+                :key="`footer-nav-${index}`"
+                @click="goTo(item.page)"
+              >
                 {{ item.text }}
               </li>
             </ul>
           </div>
         </div>
-        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
+        <img
+          src="@/assets/svg/home/footer_interval.svg"
+          class="footer_interval"
+          alt=""
+        />
         <div class="footer-nav-items">
           <div>
             <li class="footer-nav-text active">
               {{ $t("footer.about") }}
             </li>
             <ul class="footer-nav">
-              <li class="footer-nav-text" v-for="(item, index) in aboutUs" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+              <li
+                class="footer-nav-text"
+                v-for="(item, index) in aboutUs"
+                :key="`footer-nav-${index}`"
+                @click="goTo(item.page)"
+              >
                 {{ item.text }}
               </li>
             </ul>
           </div>
         </div>
-        <img src="@/assets/svg/home/footer_interval.svg" class="footer_interval" alt="" />
+        <img
+          src="@/assets/svg/home/footer_interval.svg"
+          class="footer_interval"
+          alt=""
+        />
       </div>
       <div class="link_box">
         <div>
           <p class="footer-social">{{ $t("footer.link") }}</p>
           <ul class="footer-link">
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_twitter.svg" @click="goLink(1)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_twitter.svg"
+                @click="goLink(1)"
+                alt=""
+              />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_telegram.svg" @click="goLink(2)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_telegram.svg"
+                @click="goLink(2)"
+                alt=""
+              />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_discord_btn.svg" @click="goLink(3)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_discord_btn.svg"
+                @click="goLink(3)"
+                alt=""
+              />
             </li>
           </ul>
           <ul class="footer-link">
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_instagram.svg" @click="goLink(4)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_instagram.svg"
+                @click="goLink(4)"
+                alt=""
+              />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_reddit.svg" @click="goLink(5)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_reddit.svg"
+                @click="goLink(5)"
+                alt=""
+              />
             </li>
             <li class="footer-link-icon">
-              <img src="@/assets/svg/footer_media_medium.svg" @click="goLink(6)" alt="" />
+              <img
+                src="@/assets/svg/footer_media_medium.svg"
+                @click="goLink(6)"
+                alt=""
+              />
             </li>
           </ul>
         </div>
         <div class="footer-contact">
-          <p class="footer-social footer-contact-label">{{ $t("footer.contactUs") }}</p>
+          <p class="footer-social footer-contact-label">
+            {{ $t("footer.contactUs") }}
+          </p>
           <p class="footer-contact-txt">
             <a href="mailto:support@Bitzing.io">support@Bitzing.io</a>
           </p>
@@ -79,7 +127,11 @@
       </div>
     </div>
     <div class="footer-featured">
-      <img src="@/assets/svg/home/footer_interval2.svg" class="footer_interval_module" alt="" />
+      <img
+        src="@/assets/svg/home/footer_interval2.svg"
+        class="footer_interval_module"
+        alt=""
+      />
       <div class="fetaure-tip">We Are Featured In</div>
       <div class="footer-featured-img">
         <div class="friendship-logo">
@@ -126,6 +178,10 @@ const nav = computed(() => {
     {
       text: t("header.competitions"),
       page: "TreasureDraw",
+    },
+    {
+      text: t("header.tokenWar"),
+      page: "TokenWar"
     },
   ];
 });
@@ -195,7 +251,9 @@ const goLink = (event) => {
     openUrl("https://discord.gg/bitzing");
     return;
   } else if (event === 4) {
-    openUrl("https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D");
+    openUrl(
+      "https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D"
+    );
     return;
   } else if (event === 5) {
     openUrl("https://www.reddit.com/r/Bitzing/");

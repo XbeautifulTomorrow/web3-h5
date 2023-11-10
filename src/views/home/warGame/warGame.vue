@@ -3,67 +3,82 @@
     <div class="war_game_panel">
       <div class="war_game_user panel_bg">
         <div class="basic_info">
-          <div class="user_num">{{ `${warData.length} Players` }}</div>
+          <div class="user_num">
+            {{ $t("tokenWar.playersNum", { num: warData.length }) }}
+          </div>
           <div class="watcher_num">
             <img src="@/assets/svg/home/warGame/icon_watching.svg" alt="" />
-            <span>{{ `${watcherNum} Watcher` }}</span>
+            <span>{{ $t("tokenWar.watcher", { num: watcherNum }) }}</span>
           </div>
         </div>
         <div :class="['user_list_box', showTooltips ? 'active' : '']">
-          <div
-            :class="[
-              'user_item',
-              tooltips?.userId == item.userId ? 'hover' : '',
-            ]"
-            v-for="(item, index) in warData"
-            @click="showWarUser(item)"
-            :key="index"
+          <c-scrollbar
+            class="choose_nft"
+            width="100%"
+            trigger="hover"
+            :vBarStyle="{ 'background-color': 'rgb(29, 15, 54, 1)' }"
+            :vThumbStyle="{ 'background-color': 'rgb(109, 101, 130, 1)' }"
+            :height="screenWidth > 950 ? '36.3125rem' : '14rem'"
           >
-            <div class="user_badge">
-              <img :src="getRank(item.buyPrice)" alt="" />
-            </div>
-            <div class="user_info">
-              <div class="info_box">
-                <div class="avatar">
-                  <img
-                    class="avatar_img"
-                    src="@/assets/svg/user/default_avatar.svg"
-                    alt=""
-                  />
-                  <div class="buy_info">
-                    <div class="user_name">{{ item.userName || "--" }}</div>
-                    <div class="buy">
-                      <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                      <span>{{ item.buyPrice }}</span>
+            <div
+              :class="[
+                'user_item',
+                tooltips?.userId == item.userId ? 'hover' : '',
+              ]"
+              v-for="(item, index) in warData"
+              @click="showWarUser(item)"
+              :key="index"
+            >
+              <div class="user_badge">
+                <img :src="getRank(item.buyPrice)" alt="" />
+              </div>
+              <div class="user_info">
+                <div class="info_box">
+                  <div class="avatar">
+                    <img
+                      class="avatar_img"
+                      src="@/assets/svg/user/default_avatar.svg"
+                      alt=""
+                    />
+                    <div class="buy_info">
+                      <div class="user_name">{{ item.userName || "--" }}</div>
+                      <div class="buy">
+                        <img
+                          src="@/assets/svg/user/icon_usdt_gold.svg"
+                          alt=""
+                        />
+                        <span>{{ item.buyPrice }}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="tickets_box">
-                  <span class="ratio">
-                    {{ getWinningRate(item.buyPrice) }}%
-                  </span>
-                  <span class="reward_id">
-                    {{
-                      `Reward ID:${item.startNumber || "-"}-${
-                        item.endNumber || ""
-                      }`
-                    }}
-                  </span>
+                  <div class="tickets_box">
+                    <span class="ratio">
+                      {{ getWinningRate(item.buyPrice) }}%
+                    </span>
+                    <span class="reward_id">
+                      {{
+                        $t("tokenWar.rewardId", {
+                          start: item.startNumber,
+                          end: item.endNumber,
+                        })
+                      }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </c-scrollbar>
         </div>
       </div>
       <div class="lottery_panel panel_bg">
         <div class="prize_pool">
           <div class="round">
-            <div class="round_title">Current Round</div>
+            <div class="round_title">{{ $t("tokenWar.currentRound") }}</div>
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
         </div>
         <div class="bloody_battle">
-          <div class="war_title">END WAR</div>
+          <div class="war_title">{{ $t("tokenWar.endWar") }}</div>
           <div class="total_bonus">
             <div class="unit">$</div>
             <div class="val">{{ formatUsd(warInfo?.totalBigPrize) }}</div>
@@ -84,7 +99,7 @@
           ></div>
           <div class="round_prize">
             <div class="round_num" v-if="currentStatus != 'WIN'">
-              {{ `Round ${warInfo?.id || "--"}` }}
+              {{ $t("tokenWar.roundId", { num: warInfo?.id || "--" }) }}
             </div>
             <div class="win_user" v-else>
               <div class="win_bg">
@@ -102,10 +117,10 @@
               </span>
               <span v-else>
                 {{
-                  `${formatUsd(winInfo?.winerIncome)} · ${accurateDecimal(
-                    winInfo?.winerMultipleRate || 0,
-                    2
-                  )} x WIN`
+                  $t("tokenWar.win", {
+                    income: formatUsd(winInfo?.winerIncome),
+                    rate: accurateDecimal(winInfo?.winerMultipleRate || 0, 2),
+                  })
                 }}
               </span>
             </div>
@@ -115,16 +130,22 @@
                 currentStatus == 'WAIT' ? 'cancel' : '',
               ]"
             >
-              <span v-if="currentStatus == 'WAIT'">等待合约计算结果</span>
-              <span v-if="currentStatus == 'CANCEL'">流局</span>
+              <span v-if="currentStatus == 'WAIT'">
+                {{ $t("tokenWar.waitHint") }}
+              </span>
+              <span v-if="currentStatus == 'CANCEL'">
+                {{ $t("tokenWar.lostSituation") }}
+              </span>
               <span v-if="currentStatus == 'WIN'" class="win_id">
-                {{ `Winner ID: ${winInfo?.openId || "--"}` }}
+                {{ $t("tokenWar.winnerId", { num: winInfo?.openId || "--" }) }}
               </span>
               <span
                 v-if="currentStatus == 'WIN' && !isHistory"
                 class="next_round"
               >
-                {{ `Next Round: ` + `00${seconds}`.slice(-2) + "s" }}
+                {{
+                  $t("tokenWar.nextRound", { time: `00${seconds}`.slice(-2) })
+                }}
               </span>
             </div>
           </div>
@@ -207,47 +228,57 @@
       </div>
       <div class="round_info_panel">
         <div class="round_info panel_bg">
-          <div class="round_num">{{ `Round ${warInfo?.id || "--"}` }}</div>
+          <div class="round_num">
+            {{ $t("tokenWar.roundId", { num: warInfo?.id || "--" }) }}
+          </div>
           <div class="info">
             <div class="info_item">
               <div class="info_val">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ formatUsd(warInfo?.totalBonus) }}</span>
               </div>
-              <div class="info_title">Winner Bonus</div>
+              <div class="info_title">
+                {{ $t("tokenWar.winnerBonus") }}
+              </div>
             </div>
             <div class="info_item">
               <div class="info_val">
                 <img src="@/assets/svg/home/warGame/icon_players.svg" alt="" />
                 <span>{{ warData.length }}</span>
               </div>
-              <div class="info_title">Player</div>
+              <div class="info_title">
+                {{ $t("tokenWar.players") }}
+              </div>
             </div>
             <div class="info_item">
               <div class="info_val">
                 <img src="@/assets/svg/home/warGame/icon_troops.svg" alt="" />
                 <span>{{ userData?.tickerNumber || 0 }}</span>
               </div>
-              <div class="info_title">Your Soldiers</div>
+              <div class="info_title">
+                {{ $t("tokenWar.yourSoldiers") }}
+              </div>
             </div>
             <div class="info_item">
               <div class="info_val">
                 <img src="@/assets/svg/home/warGame/icon_win.svg" alt="" />
                 <span>{{ `${getWinningRate(userData?.buyPrice || 0)}` }}%</span>
               </div>
-              <div class="info_title">Your Win Chance</div>
+              <div class="info_title">
+                {{ $t("tokenWar.yourWinChance") }}
+              </div>
             </div>
           </div>
         </div>
         <div class="connect_box panel_bg">
           <div class="not_connect" v-if="!showBuy">
             <div class="enter_war" v-if="!isHistory" @click="handleBuy()">
-              ENTER WAR
+              {{ $t("tokenWar.enterWar") }}
             </div>
             <div class="enter_war" v-else-if="isHistory" @click="handleBack()">
-              Back to Current Round
+              {{ $t("tokenWar.backText") }}
             </div>
-            <div class="enter_war" v-else>ENTER WAR</div>
+            <div class="enter_war" v-else>{{ $t("tokenWar.enterWar") }}</div>
           </div>
           <war-buy
             v-else
@@ -261,20 +292,19 @@
     <div class="introduce_panel">
       <div class="introduce_bg">
         <div class="introduce_box">
-          <div class="introduce_title">Here's How It Works</div>
+          <div class="introduce_title">
+            {{ $t("tokenWar.illustrateTitle") }}
+          </div>
           <img
             class="introduce_divider"
             src="@/assets/svg/home/warGame/bg/introduce_divider.svg"
             alt=""
           />
           <div class="introduce_description">
-            <p>
-              投入USDT以获得弹药来让您参加公平抽奖，并赢取USDT获得第一名，您将获得大奖。
-            </p>
-            <p>至于亚军？将会失去所有投入，但可以获得积分。</p>
-            <p>
-              每颗弹药都有机会赢得大奖。你拥有的弹药越多，你的中奖几率也就越大！
-            </p>
+            <p>{{ $t("tokenWar.illustrateText1") }}</p>
+            <p>{{ $t("tokenWar.illustrateText2") }}</p>
+            <p>{{ $t("tokenWar.illustrateText3") }}</p>
+            <p>{{ $t("tokenWar.illustrateText4") }}</p>
           </div>
           <div class="step_box">
             <div class="step_arrow">
@@ -287,18 +317,14 @@
                 <img src="@/assets/svg/home/warGame/icon_connect.svg" alt="" />
               </div>
               <div class="round">01</div>
-              <div class="description">
-                确保您的Bitzing账号有足够的余额参加游戏
-              </div>
+              <div class="description">{{ $t("tokenWar.stepText1") }}</div>
             </div>
             <div class="step_item">
               <div class="step_img img_2">
                 <img src="@/assets/svg/home/warGame/icon_share.svg" alt="" />
               </div>
               <div class="round">02</div>
-              <div class="description">
-                输入您想要投入的弹药量并等待抽奖开始，10000弹药=1 ETH
-              </div>
+              <div class="description">{{ $t("tokenWar.stepText2") }}</div>
             </div>
             <div class="step_item">
               <div class="step_img img_3">
@@ -308,9 +334,7 @@
                 />
               </div>
               <div class="round">03</div>
-              <div class="description">
-                当人数大于1且倒计时结束时将开始抽奖，在那之前，你可以去尝试盲盒或一元购等任何事情
-              </div>
+              <div class="description">{{ $t("tokenWar.stepText3") }}</div>
             </div>
             <div class="step_item">
               <div class="step_img img_4">
@@ -320,7 +344,7 @@
                 />
               </div>
               <div class="round">04</div>
-              <div class="description">回来领取胜利果实</div>
+              <div class="description">{{ $t("tokenWar.stepText4") }}</div>
             </div>
           </div>
         </div>
@@ -330,97 +354,62 @@
           <div class="faq_item">
             <div class="faq_item_title">
               <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
-              <span>开战条件</span>
+              <span>{{ $t("tokenWar.warConditions") }}</span>
             </div>
             <div class="faq_item_description">
               <ul>
-                <li>每一局开始时将从3分钟开始倒计时</li>
-                <li>
-                  当参与人数为0-1时，倒计时结束战斗失败，自动进入下一局，上一局如果有一个人下注，则自动退款
-                </li>
-                <li>当参与人数为2时，倒计时结束则开始战斗</li>
-                <li>当参与人数为3时，倒计时自动变为15秒</li>
-                <li>
-                  任何情况下，只要有人入场或再次投入，那么如果倒计时低于15秒都会重置到15秒。
-                </li>
+                <li>{{ $t("tokenWar.warConditionText1") }}</li>
+                <li>{{ $t("tokenWar.warConditionText2") }}</li>
+                <li>{{ $t("tokenWar.warConditionText3") }}</li>
+                <li>{{ $t("tokenWar.warConditionText4") }}</li>
+                <li>{{ $t("tokenWar.warConditionText5") }}</li>
               </ul>
             </div>
           </div>
           <div class="faq_item">
             <div class="faq_item_title">
               <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
-              <span>战斗结果</span>
+              <span>{{ $t("tokenWar.results") }}</span>
             </div>
             <div class="faq_item_description">
               <ul>
-                <li>
-                  Token
-                  War是赢者通吃的游戏，失败者将失去你所有的投入，但会获得Points
-                  and tickets.
-                </li>
-                <li>
-                  战斗将在智能合约上进行验证，在开展瞬间，每个参与者都会根据自己参赛的顺序和总金额获得对应的中奖ID
-                </li>
-                <li>
-                  只能合约会在1-最大中奖ID之间进行随机，选中的ID持有者就是最终的胜利者
-                </li>
-                <li>
-                  胜利者将会获得所有
-                  参赛者的投入作为奖励（Bitzing扣除5%作为手续费）
-                </li>
-                <li>
-                  每一轮战斗结束后，Bitzing将手续费的20%投入大型活动血战到底中，当条件到达时，将开启一次更加血腥暴力的特殊游戏
-                </li>
+                <li>{{ $t("tokenWar.resultText1") }}</li>
+                <li>{{ $t("tokenWar.resultText2") }}</li>
+                <li>{{ $t("tokenWar.resultText3") }}</li>
+                <li>{{ $t("tokenWar.resultText4") }}</li>
+                <li>{{ $t("tokenWar.resultText5") }}</li>
               </ul>
             </div>
           </div>
           <div class="faq_item">
             <div class="faq_item_title">
               <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
-              <span>血战到底</span>
+              <span>{{ $t("tokenWar.endWar") }}</span>
             </div>
             <div class="faq_item_description">
               <ul>
-                <li>
-                  当血战到底积累的奖池达到一定程度后，将停止货币战争，转而进行一场惊险刺激的新游戏
-                </li>
-                <li>血战到底将持续10分钟，所有玩家都可以加入进来。</li>
-                <li>
-                  每位玩家都有3次购买弹药的机会，任意玩家购买一次弹药都会将血战到底的倒计时增加10秒，但最多不会超过10分钟。
-                </li>
-                <li>
-                  倒计时结束后，弹药最多的玩家将获得奖池金额以及所有其他玩家的弹药（Bitzing扣除总金额的5%作为手续费）。
-                </li>
-                <li>
-                  血战到底结束后，Bitzing会将手续费的20%作为下一轮血战到底的初始奖池。
-                </li>
-                <li>
-                  失败的玩家将失去一切，但会获得Points and tickets 作为安慰。
-                </li>
-                <li>血战到底极其血腥与残暴，胆小勿入。</li>
+                <li>{{ $t("tokenWar.endWarText1") }}</li>
+                <li>{{ $t("tokenWar.endWarText2") }}</li>
+                <li>{{ $t("tokenWar.endWarText3") }}</li>
+                <li>{{ $t("tokenWar.endWarText4") }}</li>
+                <li>{{ $t("tokenWar.endWarText5") }}</li>
+                <li>{{ $t("tokenWar.endWarText6") }}</li>
               </ul>
             </div>
           </div>
           <div class="faq_item">
             <div class="faq_item_title">
               <img src="@/assets/svg/home/warGame/icon_arrow_mini.svg" alt="" />
-              <span>100%透明公正，公平性可验证</span>
+              <span>{{ $t("tokenWar.fairness") }}</span>
             </div>
             <div class="faq_item_description">
               <ul>
-                <li>
-                  比赛将在区块链上经过验证、审计、符合web3标准的智能合约上运行
-                </li>
-                <li>不用担心Gas费，Bitzing会为您承担一切的gas成本。</li>
-                <li>购买后无法退款，除非未达到开战条件。</li>
-                <li>完整的参与者名单可以在游戏页面或智能合约中找到。</li>
-                <li>由于血战到底特殊的机制，将无法使用此方法验证公平性。</li>
+                <li>{{ $t("tokenWar.fairnessText1") }}</li>
+                <li>{{ $t("tokenWar.fairnessText2") }}</li>
+                <li>{{ $t("tokenWar.fairnessText3") }}</li>
+                <li>{{ $t("tokenWar.fairnessText4") }}</li>
               </ul>
             </div>
-            <div
-              class="special_instructions"
-              v-html="`对于进阶用户，您可以通过${clickHere()}自行验证公平性。`"
-            ></div>
           </div>
         </div>
       </div>
@@ -530,6 +519,8 @@ import warMustRead from "./warMustRead.vue";
 import warWinning from "./warWinning.vue";
 import warUserInfo from "./warUserInfo.vue";
 import countDown from "@/components/countDown";
+// scrollbar
+import { CScrollbar } from "c-scrollbar";
 
 /** LOGIN */
 import Login from "@/views/login/index.vue";
@@ -538,6 +529,9 @@ import Forgot from "@/views/forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
+
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 export default {
   name: "TokenWar",
   props: {
@@ -557,6 +551,7 @@ export default {
     warMustRead,
     warWinning,
     warUserInfo,
+    CScrollbar,
     Login,
     Register,
     Forgot,
@@ -1261,10 +1256,6 @@ export default {
         this.cahngeConfig = "";
       }, 300);
     },
-    clickHere() {
-      let str = `<span style="color:#11cde9;cursor:pointer;">点击这里</span>`;
-      return str;
-    },
     // 取得用户所占度数
     getDeg(event) {
       const {
@@ -1476,6 +1467,14 @@ export default {
       const Countdown = type == 1 ? 15 : 12;
       if (!this.nextTimer) {
         this.countdown = Countdown;
+        this.seconds = this.countdown;
+        this.percentage = Number(
+          accurateDecimal(
+            new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
+            2
+          )
+        );
+
         this.nextTimer = setInterval(() => {
           if (this.countdown > 0 && this.countdown <= 15) {
             this.countdown--;
@@ -1488,6 +1487,13 @@ export default {
                 )
               );
             } else {
+              this.seconds = this.countdown;
+              this.percentage = Number(
+                accurateDecimal(
+                  new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
+                  2
+                )
+              );
               clearInterval(this.nextTimer);
               this.countdown = 15;
               this.nextTimer = null;

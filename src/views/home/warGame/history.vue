@@ -11,7 +11,7 @@
           --el-switch-off-color: rgba(60, 60, 67, 0.8);
         "
       />
-      <span>Only Your Rounds</span>
+      <span>{{ $t("tokenWar.onlyYourRounds") }}</span>
     </div>
     <div class="history_data_box">
       <div class="history_data_bg">
@@ -24,7 +24,7 @@
         >
           <el-table-column
             prop="id"
-            label="Round"
+            :label="$t('tokenWar.round')"
             align="left"
             show-overflow-tooltip
           >
@@ -36,7 +36,7 @@
           >
           <el-table-column
             prop="winerUserName"
-            label="Winner"
+            :label="$t('tokenWar.winner')"
             align="left"
             width="260"
           >
@@ -55,7 +55,7 @@
                       alt=""
                     />
                   </div>
-                  <div>Current Round</div>
+                  <div>{{ $t("tokenWar.currentRound") }}</div>
                 </div>
                 <div class="status_box" v-else>
                   <div class="status_img">
@@ -64,12 +64,16 @@
                       alt=""
                     />
                   </div>
-                  <div>Canceled</div>
+                  <div>{{ $t("tokenWar.canceled") }}</div>
                 </div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="jackpot" label="Prize Pool" align="left">
+          <el-table-column
+            prop="jackpot"
+            :label="$t('tokenWar.prizePool')"
+            align="left"
+          >
             <template #default="scope">
               <div class="buy_box" v-if="scope.row.jackpot">
                 <div class="prize_pool">
@@ -82,7 +86,7 @@
           </el-table-column>
           <el-table-column
             prop="winerBuyPrice"
-            label="Winner Tickets"
+            :label="$t('tokenWar.winnerTickets')"
             align="left"
             show-overflow-tooltip
           >
@@ -103,7 +107,7 @@
           </el-table-column>
           <el-table-column
             prop="winerMultipleRate"
-            label="Win"
+            :label="$t('tokenWar.winLabel')"
             align="left"
             show-overflow-tooltip
           >
@@ -118,7 +122,7 @@
           </el-table-column>
           <el-table-column
             prop="yourBuyPrice"
-            label="Your Tickets"
+            :label="$t('tokenWar.yourTickets')"
             align="left"
             show-overflow-tooltip
           >
@@ -139,7 +143,7 @@
           </el-table-column>
           <el-table-column
             prop="player"
-            label="Players"
+            :label="$t('tokenWar.players')"
             align="left"
             show-overflow-tooltip
           >
@@ -149,7 +153,7 @@
           </el-table-column>
           <el-table-column
             prop="lotteryTime"
-            label="Time"
+            :label="$t('tokenWar.time')"
             align="left"
             width="200"
           >
@@ -159,7 +163,11 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="Verify" label="Verify" align="center">
+          <el-table-column
+            prop="Verify"
+            :label="$t('tokenWar.verify')"
+            align="center"
+          >
             <template #default="scope">
               <div class="buy_box center" v-if="scope.row.winerUserId">
                 <img

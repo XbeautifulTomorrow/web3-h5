@@ -301,7 +301,7 @@
               }}</span>
               <!-- <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" /> -->
               <div class="progress" style="width: 20px; height: 20px; border: 4px solid rgba(169, 164, 180, 0.5)">
-                <div class="inner_progress" style="width: 20px; height: 20px; left: -4px; top: 5px" v-if="processStatus">
+                <div class="inner_progress" style="width: 20px; height: 20px; left: -4px; top: 6px" v-if="processStatus">
                   <svg id="svgelem" height="20">
                     <circle cx="20" cy="10" r="8" stroke-width="4">
                       <animate attributeName="stroke-dasharray" from="0,50.265" to="50.265,0" dur="10s" fill="freeze" />

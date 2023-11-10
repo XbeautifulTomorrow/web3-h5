@@ -734,7 +734,7 @@ export default {
       this.eventSource.onopen = (e) => {
         // 公共数据
         this.eventSource.addEventListener("COMMON_DATA", (e) => {
-          console.log("---COMMON_DATA:" + JSON.parse(e.data));
+          console.log("---COMMON_DATA:" + e.data);
           const warGame = JSON.parse(e.data);
           const currentRound = getSessionStore("currentRound");
 
@@ -789,7 +789,7 @@ export default {
 
         // 中奖推送
         this.eventSource.addEventListener("OPEN_PRIZE", (e) => {
-          console.log("---OPEN_PRIZE:" + JSON.parse(e.data));
+          console.log("---OPEN_PRIZE:" + e.data);
           this.winInfo = JSON.parse(e.data);
           this.winUserId = this.winInfo.winerUserId;
         });
@@ -801,7 +801,7 @@ export default {
 
         // 结束时间
         this.eventSource.addEventListener("OPEN_TIME", (e) => {
-          console.log("---OPEN_TIME:" + JSON.parse(e.data));
+          console.log("---OPEN_TIME:" + e.data);
           try {
             this.warTime = JSON.parse(e.data);
 

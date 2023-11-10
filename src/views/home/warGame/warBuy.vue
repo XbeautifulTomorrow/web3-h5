@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="buy_panel">
-      <p class="buy_title">Dispatch Soldiers</p>
+      <p class="buy_title">{{ $t("tokenWar.dispatchSoldiers") }}</p>
       <div class="user_usd_balance">
-        <div class="title">Your Balance:</div>
+        <div class="title">{{ $t("tokenWar.yourBalance") }}</div>
         <div class="val">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span>
@@ -27,13 +27,17 @@
               src="@/assets/svg/home/warGame/icon_add.svg"
               alt=""
             />
-            <span>ADD</span>
+            <span>{{ $t("tokenWar.addText") }}</span>
           </div>
         </template>
       </el-input>
       <div class="input_error"></div>
       <div class="choose_box">
-        <div class="choose_tips">1 Soldier = 1 USDT</div>
+        <div class="choose_tips">
+          {{
+            $t("tokenWar.soldierPrice", { num: systemConfig?.singlePrice || 1 })
+          }}
+        </div>
         <div class="choose_items">
           <div class="choose_btn" @click="setAmount(1)">
             <span>+1</span>
@@ -51,7 +55,7 @@
       </div>
       <div class="auto_war_box">
         <div class="tips_text">
-          <span>自动参战</span>
+          <span>{{ $t("tokenWar.autoWar") }}</span>
           <div class="auto_btn">
             <el-switch
               v-model="autoConfig.autoBuyStatus"
@@ -67,11 +71,11 @@
         </div>
         <div v-if="autoConfig.autoBuyStatus != 'CLOSE'">
           <div class="auto_item">
-            <div class="title">剩余局数</div>
+            <div class="title">{{ $t("tokenWar.remainingNum") }}</div>
             <div class="val">{{ autoConfig?.autoActualNumber || "--" }}</div>
           </div>
           <div class="auto_item">
-            <div class="title">单局投入</div>
+            <div class="title">{{ $t("tokenWar.singleInvest") }}</div>
             <div class="val" v-if="autoConfig?.autoBuyAmount">
               <span>
                 {{ formatUsd(autoConfig?.autoBuyAmount) }}
@@ -81,29 +85,20 @@
             <div class="val" v-else>--</div>
           </div>
           <div class="auto_item">
-            <div class="title">入场时机</div>
+            <div class="title">{{ $t("tokenWar.joinOpportunity") }}</div>
             <div class="val">
               <span
-                style="
-                  color: #a9a4b4;
-                  -webkit-text-fill-color: #a9a4b4;
-                  font-weight: 400;
+                class="last"
+                v-html="
+                  $t('tokenWar.lastNumSec', {
+                    num: `<span style='${customizeStyle}'>${autoConfig?.autoBuyTime}</span>`,
+                  })
                 "
-                >Last
-                <span
-                  style="
-                    color: white;
-                    -webkit-text-fill-color: transparent;
-                    font-weight: bold;
-                  "
-                  >{{ autoConfig?.autoBuyTime }}</span
-                >
-                sec</span
-              >
+              ></span>
             </div>
           </div>
           <div class="auto_item">
-            <div class="title">最低战利品</div>
+            <div class="title">{{ $t("tokenWar.minLoot") }}</div>
             <div class="val">
               <span>
                 {{ formatUsd(autoConfig?.lowBounsPool) }}
@@ -115,7 +110,7 @@
       </div>
       <div class="lock_winning_box">
         <div class="tips_text">
-          <span>锁定胜率</span>
+          <span>{{ $t("tokenWar.lockWinRate") }}</span>
           <div class="lock_switch">
             <div
               :class="[
@@ -127,9 +122,13 @@
                   : 'close',
               ]"
             >
-              <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">关</span>
-              <span v-else-if="autoConfig.lockWinRateStatus == 'OPEN'">开</span>
-              <span v-else>自动</span>
+              <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">
+                {{ $t("tokenWar.close") }}
+              </span>
+              <span v-else-if="autoConfig.lockWinRateStatus == 'OPEN'">
+                {{ $t("tokenWar.open") }}
+              </span>
+              <span v-else>{{ $t("tokenWar.auto") }}</span>
             </div>
             <div class="btns">
               <div class="btn_left" @click="changeLock(1)"></div>
@@ -140,7 +139,7 @@
         </div>
         <div v-if="autoConfig.lockWinRateStatus != 'CLOSE'">
           <div class="auto_item">
-            <div class="title">目标胜率</div>
+            <div class="title">{{ $t("tokenWar.targetWinRate") }}</div>
             <div class="val" v-if="autoConfig?.lockWinRate">
               {{
                 accurateDecimal(
@@ -152,7 +151,7 @@
             <div class="val" v-else>--</div>
           </div>
           <div class="auto_item">
-            <div class="title">最大投入兵力</div>
+            <div class="title">{{ $t("tokenWar.maxInvest") }}</div>
             <div class="val" v-if="autoConfig?.lockMaxAmount">
               <span>
                 {{ autoConfig?.lockMaxAmount }}
@@ -210,6 +209,7 @@ export default {
       customize: 0,
       timer: null,
       systemConfig: null,
+      customizeStyle: null,
     };
   },
   computed: {
@@ -251,16 +251,13 @@ export default {
       }
 
       if (!Number(buyNum || 0) || !Number(buyNum || 0) > 0) {
-        this.$message.error(
-          `The amount added must be greater than ${singlePrice} USDT.`
-        );
+        this.$message.error(t("tokenWar.numErrorTips", { num: singlePrice }));
         return;
       }
 
       const res = await warBuy({ buyPrice: buyNum });
       if (res.code == 200) {
         this.getTheUserBalanceInfo();
-        this.$message.success("Operation successfully!");
         this.buyNum = null;
       }
     },
@@ -296,7 +293,6 @@ export default {
         });
 
         if (res.code == 200) {
-          this.$message.success("Operation successfully!");
           this.fetchAutoConfig();
         }
       }
@@ -312,7 +308,6 @@ export default {
         });
 
         if (res.code == 200) {
-          this.$message.success("Operation successfully!");
           this.fetchAutoConfig();
         }
       } else {
@@ -333,6 +328,9 @@ export default {
     }
 
     this.fetchConfig();
+
+    this.customizeStyle =
+      "-webkit-text-fill-color: transparent;font-weight: bold;";
   },
   watch: {
     config(newV) {

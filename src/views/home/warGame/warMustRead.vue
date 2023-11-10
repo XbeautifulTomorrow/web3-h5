@@ -19,13 +19,10 @@
       <div class="public-dialog-content form-content">
         <div class="must_read_box">
           <p class="must_read_title">
-            <span>战前必读...</span>
+            <span>{{ $t("tokenWar.warMustRead") }}</span>
           </p>
           <div class="must_read_text">
-            在你参战之前，我们希望您对游戏的规则有着全面的了解。
-            这是一个赢者通吃的游戏，如果您获得了胜利，将收获整个奖池。
-            反之，如果您失败了，您将失去所有投入奖池的金额。 It’s TOKEN WAR,
-            winner TAKING ALL!
+            {{ $t("tokenWar.warMustReadText") }}
           </div>
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun">
@@ -34,13 +31,15 @@
                 class="form-rember-rectangle-fill"
               ></span>
             </span>
-            <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
+            <span class="form-rember-text">{{ $t("tokenWar.notPrompt") }}</span>
           </div>
           <div class="must_read_btns">
             <div class="btn_confirm" @click="joinWar()">
-              I Understand - Let's Do It
+              {{ $t("tokenWar.continueText") }}
             </div>
-            <div class="btn_cancel" @click="handleClose()">算了，我胆小</div>
+            <div class="btn_cancel" @click="handleClose()">
+              {{ $t("tokenWar.cancelText") }}
+            </div>
           </div>
         </div>
       </div>

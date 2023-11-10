@@ -11,11 +11,11 @@
     >
       <div class="public-dialog-content form-content" v-if="type == 'auto'">
         <p class="buy_title">
-          <span>自动参战</span>
+          <span>{{ $t("tokenWar.autoWar") }}</span>
           <el-tooltip
             popper-class="tips_box"
             effect="dark"
-            content="开启此选项后，如果您尚未加入本局游戏，同时本局战利品大于最低战利品，且剩余时间少于设置的时间时，您将会自动投入相应的兵力以加入游戏。"
+            :content="$t('tokenWar.autoTips')"
           >
             <img src="@/assets/svg/home/warGame/icon_help.svg" alt="" />
           </el-tooltip>
@@ -53,7 +53,7 @@
               class="rounds_val"
               type="number"
               v-model.number="customize"
-              placeholder="自定义"
+              :placeholder="$t('tokenWar.customize')"
             >
             </el-input>
           </div>
@@ -88,7 +88,7 @@
               </template>
             </el-input>
           </div>
-          <div class="config_title">投入兵力</div>
+          <div class="config_title">{{ $t("tokenWar.dedicateTroops") }}</div>
           <div class="config_item">
             <div class="config_slider_box">
               <div class="slider_bar">
@@ -113,11 +113,11 @@
               placeholder=""
             >
               <template #append>
-                <div class="time_box">秒</div>
+                <div class="time_box">{{ $t("tokenWar.second") }}</div>
               </template>
             </el-input>
           </div>
-          <div class="config_title">入场时机</div>
+          <div class="config_title">{{ $t("tokenWar.entryTime") }}</div>
           <div class="config_item">
             <div class="config_slider_box">
               <div class="slider_bar">
@@ -146,26 +146,30 @@
               </template>
             </el-input>
           </div>
-          <div class="config_title">最低战利品</div>
+          <div class="config_title">{{ $t("tokenWar.minLoot") }}</div>
         </div>
         <div class="config_btns">
-          <div class="btn_cancel" @click="handleClose()">CANCEL</div>
-          <div class="btn_confirm" @click="submitData()">OK</div>
+          <div class="btn_cancel" @click="handleClose()">
+            {{ $t("common.cancelUpper") }}
+          </div>
+          <div class="btn_confirm" @click="submitData()">
+            {{ $t("login.ok") }}
+          </div>
         </div>
       </div>
       <div class="public-dialog-content form-content" v-if="type == 'lock'">
         <p class="buy_title">
-          <span>锁定胜率</span>
+          <span>{{ $t("tokenWar.lockWinRate") }}</span>
           <el-tooltip
             popper-class="tips_box"
             effect="dark"
-            content="开启此选项后，如果您参与了本局游戏，那么当您的胜率低于目标胜率时，会自动增加兵力以保证胜率与目标胜率一致，直到投入金额达到最大兵力为止。开启自动后，每一局都将自动开启锁定胜率。"
+            :content="$t('tokenWar.lockTips')"
           >
             <img src="@/assets/svg/home/warGame/icon_help.svg" alt="" />
           </el-tooltip>
         </p>
         <div class="lock_status">
-          <div class="status_title">Mode</div>
+          <div class="status_title">{{ $t("tokenWar.mode") }}</div>
           <div class="rounds_num">
             <div
               :class="[
@@ -174,7 +178,7 @@
               ]"
               @click="chooseLock('CLOSE')"
             >
-              关闭
+              {{ $t("tokenWar.close") }}
             </div>
             <div
               :class="[
@@ -183,7 +187,7 @@
               ]"
               @click="chooseLock('OPEN')"
             >
-              仅一次
+              {{ $t("tokenWar.onlyOnce") }}
             </div>
             <div
               :class="[
@@ -192,7 +196,7 @@
               ]"
               @click="chooseLock('AUTO')"
             >
-              自动
+              {{ $t("tokenWar.auto") }}
             </div>
           </div>
         </div>
@@ -226,7 +230,9 @@
               </template>
             </el-input>
           </div>
-          <div class="config_title">目标胜率</div>
+          <div class="config_title">
+            {{ $t("tokenWar.targetWinRate") }}
+          </div>
           <div class="config_item">
             <div class="config_slider_box">
               <div class="slider_bar">
@@ -255,11 +261,17 @@
               </template>
             </el-input>
           </div>
-          <div class="config_title">最大投入兵力</div>
+          <div class="config_title">
+            {{ $t("tokenWar.maxInvest") }}
+          </div>
         </div>
         <div class="config_btns">
-          <div class="btn_cancel" @click="handleClose()">CANCEL</div>
-          <div class="btn_confirm" @click="submitData()">OK</div>
+          <div class="btn_cancel" @click="handleClose()">
+            {{ $t("common.cancelUpper") }}
+          </div>
+          <div class="btn_confirm" @click="submitData()">
+            {{ $t("login.ok") }}
+          </div>
         </div>
       </div>
     </el-dialog>
@@ -272,7 +284,8 @@ import { useHeaderStore } from "@/store/header.js";
 import { deepClone, accurateDecimal } from "@/utils";
 import { getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
-
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 export default {
   name: "WarConfig",
   props: {
@@ -399,7 +412,7 @@ export default {
       const { type, autoConfig } = this;
 
       if (type == "auto" && !autoConfig.autoBuyNumber) {
-        this.$message.error("The number of games must be greater than 0.");
+        this.$message.error(t("tokenWar.lockErrorTips"));
         return;
       }
 
@@ -421,7 +434,6 @@ export default {
       });
 
       if (res.code == 200) {
-        this.$message.success("Operation successfully!");
         this.handleClose();
       }
     },

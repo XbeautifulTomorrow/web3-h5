@@ -8,13 +8,13 @@
         :class="['tag_item', pageType == 'warGame' ? 'active' : '']"
         @click="pageType = 'warGame'"
       >
-        TOKEN WAR
+        {{ $t("tokenWar.tokenWar") }}
       </div>
       <div
         :class="['tag_item', pageType == 'history' ? 'active' : '']"
         @click="pageType = 'history'"
       >
-        HISTORY
+        {{ $t("tokenWar.history") }}
       </div>
     </div>
     <warGame

@@ -25,28 +25,28 @@
           />
           <span>{{ userData?.userName }}</span>
         </div>
-        <div class="war_title">战斗记录</div>
+        <div class="war_title">{{ $t("tokenWar.battleRecord") }}</div>
         <div class="war_items">
           <div class="war_item">
-            <div class="title">参与次数</div>
+            <div class="title">{{ $t("tokenWar.participateNum") }}</div>
             <div class="val">{{ userData?.joinNumber || "--" }}</div>
           </div>
           <div class="war_item">
-            <div class="title">获胜次数</div>
+            <div class="title">{{ $t("tokenWar.winNumber") }}</div>
             <div class="val">{{ userData?.winNumber || "--" }}</div>
           </div>
           <div class="war_item">
-            <div class="title">最大奖金</div>
+            <div class="title">{{ $t("tokenWar.maxBonus") }}</div>
             <div class="val">
               {{ userData?.maxBouns ? formatUsd(userData?.maxBouns) : "--" }}
             </div>
           </div>
           <div class="war_item">
-            <div class="title">幸运时刻</div>
+            <div class="title">{{ $t("tokenWar.luckyMoment") }}</div>
             <div class="val">
               {{
                 userData?.winerMultipleRate
-                  ? `${accurateDecimal(userData?.winerMultipleRate, 2)} 倍`
+                  ? `${accurateDecimal(userData?.winerMultipleRate, 2)} x`
                   : "--"
               }}
             </div>

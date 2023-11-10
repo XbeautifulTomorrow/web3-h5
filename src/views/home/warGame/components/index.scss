@@ -718,9 +718,9 @@
 
   .introduce_description {
     margin: 0 auto;
-    width: 42rem;
+    width: 58rem;
     font-family: Inter;
-    font-size: 1.25rem;
+    font-size: 1rem;
     text-align: center;
     color: white;
   }
@@ -793,7 +793,7 @@
   .round {
     width: 5rem;
     height: 5.0625rem;
-    margin: -0.375rem 0;
+    margin: -1rem 0 -0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -811,6 +811,7 @@
   }
 
   .description {
+    width: 20rem;
     font-family: Inter;
     font-size: 1rem;
     font-weight: 500;
@@ -875,14 +876,6 @@
         list-style-type: disc;
       }
     }
-  }
-
-  .special_instructions {
-    padding-top: 1.5rem;
-    font-family: Inter;
-    font-size: 1rem;
-    text-align: left;
-    color: white;
   }
 }
 

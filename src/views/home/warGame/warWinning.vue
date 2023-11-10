@@ -17,7 +17,7 @@
         </div>
       </template>
       <div class="public-dialog-content form-content">
-        <div class="win_title">YOU WIN!</div>
+        <div class="win_title">{{ $t("tokenWar.youWin") }}</div>
         <div class="win_amount">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           <span>{{ formatUsd(winInfo?.winerIncome) }}</span>
@@ -28,14 +28,14 @@
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span>{{ formatUsd(winInfo?.winerBuyPrice) }}</span>
             </div>
-            <div class="title">您参与的价值</div>
+            <div class="title">{{ $t("tokenWar.participatePrice") }}</div>
           </div>
           <div class="info_item">
             <div class="val">
               <img src="@/assets/svg/home/warGame/icon_chance.svg" alt="" />
               <span>{{ getWinningRate(winInfo?.winerBuyPrice) || 0 }}%</span>
             </div>
-            <div class="title">Your Win Chance</div>
+            <div class="title">{{ $t("tokenWar.yourWinChance") }}</div>
           </div>
           <div class="info_item">
             <div class="val">
@@ -47,7 +47,7 @@
                 {{ accurateDecimal(winInfo?.winerMultipleRate, 2) || 0 }}
               </span>
             </div>
-            <div class="title">您的盈利倍率</div>
+            <div class="title">{{ $t("tokenWar.profitMultiple") }}</div>
           </div>
         </div>
         <div class="close_win_btn" @click="handleClose()">

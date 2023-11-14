@@ -345,8 +345,8 @@ const { t } = i18n.global;
 
 import {
   getTheUserSPayoutAddress,
-  getRechargeExchangeRate,
-  getWithdrawalExchangeRate,
+  // getRechargeExchangeRate,
+  // getWithdrawalExchangeRate,
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,

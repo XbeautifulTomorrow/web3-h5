@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <template v-if="coin != 'CONVERT'">
+      <template v-if="coin == 'COIN' || coin == 'NFT'">
         <el-table :data="historyData" class="table_container">
           <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1">
             <template #default="scope">
@@ -229,7 +229,7 @@
           </el-table-column>
         </el-table>
       </template>
-      <template v-else>
+      <template v-else-if="coin == 'CONVERT'">
         <el-table :data="exchangeData" class="table_container">
           <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
             <template #default="scope">
@@ -251,6 +251,55 @@
               <div class="amount_box">
                 <span>{{ scope.row.userNum }}</span>
                 <img :src="getCoin(scope.row.buyCoin)" alt="" />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
+            <template #default="scope">
+              {{ timeFormat(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+      <template v-else-if="coin == 'BUY CRYPTO'">
+        <el-table :data="exchangeData" class="table_container">
+          <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
+            <template #default="scope">
+              <span>{{ "BUY CRYPTO" }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="sellCoin" :label="$t('user.currency')" min-width="100" align="center" key="2" show-overflow-tooltip />
+          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel2')" min-width="100" align="center" key="2" show-overflow-tooltip />
+          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel3')" min-width="100" align="center" key="2" show-overflow-tooltip>
+            <template #default="scope">
+              <span>{{ scope.row.amount }}USDT</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="provider" :label="$t('user.balanceTabel10')" min-width="100" align="center" key="1">
+            <template #default="scope">
+              <span>{{ "BUY CRYPTO" }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel4')" min-width="100" align="center" key="2" show-overflow-tooltip>
+            <template #default="scope">
+              <div :class="['sync_status', scope.row.syncStatus]">
+                <span> {{ scope.row.syncStatus }}</span>
+                <el-tooltip
+                  v-if="scope.row.syncStatus == 'REJECTED' || scope.row.syncStatus == 'FAIL'"
+                  popper-class="tips_box"
+                  effect="dark"
+                  placement="top"
+                >
+                  <template #content>
+                    <span v-if="scope.row.syncStatus == 'FAIL'">
+                      The chain is congested and the transfer failed, please try again later.
+                    </span>
+                    <span v-else-if="scope.row.syncStatus == 'REJECTED'">
+                      {{ scope.row.remark }}
+                    </span>
+                  </template>
+                  <img src="@/assets/svg/user/icon_info.svg" alt="" />
+                </el-tooltip>
               </div>
             </template>
           </el-table-column>
@@ -338,7 +387,7 @@ export default {
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT", "CONVERT"],
+      coinList: ["COIN", "NFT", "CONVERT", "BUY CRYPTO"],
       historyData: [],
       userPoints: null,
       userTickets: null,

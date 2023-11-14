@@ -60,6 +60,9 @@ const getActivityPoint = (params) => apiService.get("mystery-web-user/activity/g
 const flashExchange = (params) => apiService.post("mystery-web-user/withdrawal/flashExchange", params); // 闪兑
 const exchangeRateV2 = (params) => apiService.get("mystery-web-user/index/exchangeRateV2", params); // 获取真实汇率
 
+const productionOfThirdPartyOrders = (params) =>
+  apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrders", params); // 法币交易提交提单
+
 export {
   getKey,
   authLogin,
@@ -96,4 +99,5 @@ export {
   getActivityPoint,
   flashExchange,
   exchangeRateV2,
+  productionOfThirdPartyOrders,
 };

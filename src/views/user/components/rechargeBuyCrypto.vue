@@ -9,29 +9,30 @@
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
           <div class="exhange_icon">
-            <el-select v-model="exchangeInfo.exchangeFromCoin" @change="fetchExchangeRate" :popper-append-to-body="false">
+            <el-select v-model="exchangeFromCoin" @change="getAmountFunc('from')" :popper-append-to-body="false">
               <template #prefix>
-                <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
+                <img :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)" alt="" />
               </template>
-              <template v-for="(item, index) in networkList">
-                <el-option :key="index" :label="item.coinName" :value="item.coinName" v-if="item.coinName != 'USDT' && item.isExchange">
+              <template v-for="(item, index) in coinList" :key="index">
+                <el-option :label="index" :value="index">
                   <div class="icon_label">
-                    <img :src="getCion(item.coinName)" alt="" />
-                    <span>{{ item.coinName }}</span>
+                    <img :src="require(`@/assets/svg/newCoin/${index}.svg`)" alt="" />
+                    <span>{{ index }}</span>
                   </div>
                 </el-option>
               </template>
             </el-select>
           </div>
-          <el-input
-            type="number"
-            v-model="exchangeInfo.exchangeFromAmount"
-            placeholder="0.0000"
-            @input="onVerifyExchange('amount')"
-          ></el-input>
+          <el-input type="number" v-model="exchangeFromAmount" :readonly="fromLoading" placeholder="0.0000" @input="handleInput('from')">
+            <template #suffix>
+              <el-icon class="is-loading" v-if="fromLoading">
+                <Loading />
+              </el-icon>
+            </template>
+          </el-input>
         </div>
         <div class="withdraw_item_error">
-          <p>{{ exchangeAmountTips }}</p>
+          <p>{{ exchangeFromAmountTips }}</p>
         </div>
       </div>
       <div class="withdraw_item">
@@ -42,41 +43,55 @@
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
           <div class="exhange_icon">
-            <img :src="getCion('USDT')" alt="" />
+            <img :src="getCoin('USDT')" alt="" />
             <span>USDT</span>
           </div>
-          <el-input
-            type="number"
-            v-model="exchangeInfo.exchangeFromAmount"
-            placeholder="0.0000"
-            @input="onVerifyExchange('amount')"
-          ></el-input>
+
+          <el-input type="number" v-model="exchangeToAmount" :readonly="toLoading" placeholder="0.0000" @input="handleInput('to')">
+            <template #suffix>
+              <el-icon class="is-loading" v-if="toLoading">
+                <Loading />
+              </el-icon>
+            </template>
+          </el-input>
         </div>
         <div class="withdraw_item_error">
-          <p>{{ exchangeAmountTips }}</p>
+          <p>{{ exchangeToAmountTips }}</p>
         </div>
       </div>
     </div>
     <div class="module_info">
       <div class="item_info">
         <p class="label">{{ $t("Payment Provider") }}</p>
-        <p class="info_tag">{{ $t("user.zeroFee") }}</p>
+        <p class="info_tag">
+          <img src="@/assets/img/user/payment.png" alt="" />
+        </p>
       </div>
       <div class="item_info">
-        <p class="label">{{ $t("user.exchangeRate") }}</p>
+        <p class="label">{{ $t("Deposit To Account") }}</p>
         <p class="info">
-          {{ $t("xxxxxxx") }}
+          {{ userInfo?.userName || userInfo?.email }}
         </p>
       </div>
     </div>
     <div class="module_info">
       <div class="item_info">
         <p class="label">{{ $t("Total（including fee）") }}</p>
-        <p class="info font1">100 USD</p>
+        <p class="info font1">
+          <el-icon class="is-loading" v-if="fromLoading">
+            <Loading />
+          </el-icon>
+          <span v-else>{{ (exchangeFromAmount || 0) + " " + exchangeFromCoin }}</span>
+        </p>
       </div>
       <div class="item_info">
         <p class="label">{{ $t("You Will Get") }}</p>
-        <p class="info font2">98.54 USDT</p>
+        <p class="info font2">
+          <el-icon class="is-loading" v-if="toLoading">
+            <Loading />
+          </el-icon>
+          <span v-else>{{ (exchangeToAmount || 0) + " " + exchangeToCoin }}</span>
+        </p>
       </div>
     </div>
     <div class="notice_box">
@@ -84,21 +99,31 @@
       <span class="tip">Depending on the blockchain, the deposit may take a few minutes to 1 hour to arrive.</span>
     </div>
     <div class="form-rember">
-      <span class="form-rember-rectangle" @click="showRememberFun">
-        <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
+      <span class="form-rember-rectangle" @click="agreeFun">
+        <span v-show="agree" class="form-rember-rectangle-fill"></span>
       </span>
       <div class="form-rember-text">
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Disclaimer: The above third party services can be used to purchase crypto that can be used to play on Bitzing. By registering on their platform, you are also accepting to their terms of service and will be required to pass their KYC process, which runs independently to ours."
-          placement="top"
-        >
+        <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
+          <template #content>
+            <div class="tooltip_content">
+              Disclaimer: The above third party services can be used to purchase crypto that can be used to play on Bitzing. By registering
+              on their platform, you are also accepting to their terms of service and will be required to pass their KYC process, which runs
+              independently to ours.
+            </div>
+          </template>
           <p>{{ $t("I have read and agree to the disclaimer.") }}</p>
         </el-tooltip>
       </div>
     </div>
-    <div class="handle_btn" @click="submitFunc">第三方支付的名称</div>
+    <div
+      :class="[
+        'handle_btn',
+        { dark_btn: !exchangeFromAmount || !exchangeToAmount || exchangeFromAmountTips || exchangeToAmountTips || !agree },
+      ]"
+      @click="submitFunc"
+    >
+      MERCURYO
+    </div>
   </div>
 </template>
 <script>
@@ -107,36 +132,159 @@ import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
-import {} from "@/services/api/user";
+import { productionOfThirdPartyOrders } from "@/services/api/user";
+import { i18n } from "@/locales";
+import axios from "axios";
+const { t } = i18n.global;
 export default {
   name: "rechargeBuyCrypto",
   props: {},
   data() {
     return {
-      showRemember: false,
-      exchangeInfo: {
-        exchangeFromAmount: null,
-        exchangeToAmount: null,
-        exchangeFromCoin: "USDT",
-        exchangeToCoin: "ETH",
-        exchangeRate: 0,
-      },
+      agree: false,
+      exchangeAmountTips: "",
+      exchangeFromAmountTips: null,
+      exchangeToAmountTips: null,
+      exchangeFromAmount: null,
+      exchangeToAmount: null,
+      exchangeFromCoin: "AUD",
+      exchangeToCoin: "USDT",
+      errorRes: null,
+      rate: null,
+      inputTimer: null,
+      fromLoading: false,
+      toLoading: false,
     };
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
+    coinList() {
+      const headerStore = useUserStore();
+      return headerStore.buyCryptoCoinRates;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+  },
+  watch: {
+    coinList(val) {
+      if (Object.keys(val).length !== 0) {
+        this.rate = val[this.exchangeFromAmount];
+      }
+    },
   },
   methods: {
     bigNumber: bigNumber,
     timeForStr: timeForStr,
-    getCion(coin) {
+    getCoin(coin) {
       const headerStore = useUserStore();
       return headerStore.getCoin(coin);
     },
-    showRememberFun() {
-      this.showRemember = !this.showRemember;
+    getNewCoin(coin) {
+      return this.coinList[coin]?.img;
     },
-    submitFunc() {},
+    agreeFun() {
+      this.agree = !this.agree;
+    },
+    handleInput(type) {
+      clearTimeout(this.inputTimer);
+      this.inputTimer = setTimeout(() => {
+        this.getAmountFunc(type);
+      }, 500);
+    },
+    getAmountFunc(type) {
+      this.errorRes = null;
+      this.onVerifyExchange(type);
+      type == "from" ? (this.exchangeToAmount = null) : (this.exchangeFromAmount = null);
+      let from = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
+      let to = type == "from" ? this.exchangeToCoin : this.exchangeFromCoin;
+      let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
+      let is_total = type == "from" ? true : false;
+
+      if (amount > 0) {
+        type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
+        const getUrl = `https://api.mercuryo.io/v1.6/widget/buy/rate?from=${from}&to=${to}&amount=${amount}&network=TRON&widget_id=67710925-8b40-4767-846e-3b88db69f04d&is_total=${is_total}`;
+        axios
+          .get(getUrl, {
+            responseType: "json",
+          })
+          .then((res) => {
+            if (res?.data?.status == 200) {
+              type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+              this.errorRes = null;
+              let data = res?.data?.data;
+              if (type == "from") {
+                this.exchangeToAmount = data?.amount;
+              } else {
+                this.exchangeFromAmount = data?.fiat_amount;
+              }
+              this.onVerifyExchange(type);
+            }
+          })
+          .catch((err) => {
+            type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+            let data = err?.response?.data;
+            if (data?.code == 400005) {
+              this.errorRes = data?.data;
+              this.onVerifyExchange(type);
+            } else if (data?.code == 400001) {
+              console.log(data?.data, "------------------");
+              if (type == "from") {
+                this.exchangeFromAmountTips = data?.data?.amount[0];
+              } else {
+                this.exchangeToAmountTips = data?.data?.amount[0];
+              }
+            }
+          });
+      }
+    },
+    async submitFunc() {
+      this.onVerifyExchange("from");
+      this.onVerifyExchange("to");
+      if (!this.exchangeFromAmountTips && !this.exchangeToAmountTips && this.agree) {
+        let res = await productionOfThirdPartyOrders();
+        if (res && res.code == 200) {
+          let targetUrl = `${res.data}&amount=${this.exchangeToAmount}&fiat_currencies=${this.exchangeFromCoin}`;
+          window.open(targetUrl);
+        }
+      }
+    },
+    onVerifyExchange(type) {
+      this.exchangeFromAmountTips = null;
+      this.exchangeToAmountTips = null;
+      let exchangeAmountTips = null;
+      let coin = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
+      let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
+      let min = 0;
+      let max = 0;
+      console.log(this.errorRes, "this.errorRes");
+      if (this.errorRes) {
+        min = this.errorRes[coin].min;
+        max = this.errorRes[coin].max;
+      }
+      if (!this.errorRes) {
+        if (!amount) {
+          exchangeAmountTips = t("user.enterError6");
+        } else if (amount <= 0) {
+          exchangeAmountTips = t("Amount must be greater than 0");
+        }
+      } else {
+        if (Number(amount) < Number(min)) {
+          exchangeAmountTips = `Limits are off — min ${min + " " + this.exchangeFromCoin}`;
+        } else if (Number(amount) > Number(max)) {
+          exchangeAmountTips = `Limits are off — max ${max + " " + this.exchangeFromCoin}`;
+        } else {
+          exchangeAmountTips = null;
+        }
+      }
+
+      if (type == "from") {
+        this.exchangeFromAmountTips = exchangeAmountTips;
+      } else {
+        this.exchangeToAmountTips = exchangeAmountTips;
+      }
+    },
   },
   mounted() {},
   created() {},
@@ -145,6 +293,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./wallet.scss";
+:deep(.tooltip_popper_disclaimer) {
+  width: 22.25rem;
+}
 .buy_crypto_box {
   .module_info {
     padding: 1.25rem;
@@ -164,15 +315,10 @@ export default {
         color: #a9a4b4;
       }
       .info_tag {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        padding: 4px 16px;
-        border-radius: 4px;
-        background-color: rgba(12, 187, 62, 0.3);
-        color: #0cbb3e;
-        font-size: 0.875rem;
+        img {
+          width: 8.8125rem;
+          height: 2.5rem;
+        }
       }
       .info {
         display: flex;
@@ -218,7 +364,7 @@ export default {
   .form-rember {
     display: flex;
     align-items: center;
-    margin-top: 0.625rem;
+    margin-top: 0.825rem;
     margin-bottom: 1.875rem;
   }
 
@@ -247,6 +393,7 @@ export default {
     line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
+    cursor: pointer;
   }
 
   .handle_btn {
@@ -399,5 +546,56 @@ export default {
   color: #a9a4b4;
 }
 @media screen and (max-width: 950px) {
+  .buy_crypto_box {
+    .module_info {
+      margin-top: 0.5rem;
+      .item_info {
+        .info {
+          &.font1 {
+            font-size: 1rem;
+          }
+          &.font2 {
+            font-size: 1rem;
+          }
+        }
+        .info_tag {
+          img {
+            width: auto;
+            height: 1.875rem;
+          }
+        }
+      }
+    }
+    .notice_box {
+      display: block;
+      text-align: left;
+      padding: 0 0.5rem;
+      margin-top: 0.5rem;
+      .label {
+        margin-right: 0.25rem;
+      }
+    }
+    .form-rember {
+      margin-bottom: 1rem;
+    }
+    .handle_btn {
+      width: 100%;
+      height: 2rem;
+      border-radius: 0.25rem;
+      font-size: 0.625rem;
+      margin-top: 0rem;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.tooltip_popper_disclaimer {
+  width: 22.25rem;
+  background-color: #2c115b !important;
+  color: #a9a4b4 !important;
+  border-color: #2c115b !important;
+  .el-popper__arrow::before {
+    background-color: #2c115b !important;
+  }
 }
 </style>

@@ -33,7 +33,7 @@ export default {
     ...mapStores(useUserStore),
     locale() {
       const { locale } = this.userStore;
-      return locale
+      return locale;
     },
   },
   methods: {
@@ -43,14 +43,15 @@ export default {
         this.isRouterAlive = true; //再打开
       });
     },
-    getCoinList(){
-      const headerStore = useUserStore();
-      return headerStore.getCoinList();
-    }
+    getCoinList() {
+      const { getCoinList, exchangeLegalRate } = useUserStore();
+      getCoinList();
+      exchangeLegalRate();
+    },
   },
-  created(){
-    this.getCoinList()
-  }
+  created() {
+    this.getCoinList();
+  },
 };
 </script>
 
@@ -92,7 +93,7 @@ body {
   overflow: hidden;
   min-height: 100vh;
 
-  &>div:nth-child(1) {
+  & > div:nth-child(1) {
     top: 98.875rem;
     left: -9.6875rem;
     position: absolute;
@@ -103,7 +104,7 @@ body {
     filter: blur(16.5625rem);
   }
 
-  &>div:nth-child(2) {
+  & > div:nth-child(2) {
     top: 122.625rem;
     right: -10.0625rem;
     position: absolute;
@@ -114,7 +115,7 @@ body {
     background-color: #ed21b4;
   }
 
-  &>div:nth-child(3) {
+  & > div:nth-child(3) {
     top: 206.4375rem;
     left: -18.9375rem;
     position: absolute;
@@ -126,7 +127,7 @@ body {
     background-color: #ed21b4;
   }
 
-  &>div:nth-child(4) {
+  & > div:nth-child(4) {
     top: 242.25rem;
     right: -24.125rem;
     position: absolute;
@@ -137,17 +138,14 @@ body {
     border-radius: 50%;
     background-color: #a21ae2;
   }
-
-
 }
 
 @media screen and (max-width: 950px) {
-
   .bg-panl {
     display: flex;
     flex-direction: column;
 
-    &>.gradual-bg {
+    & > .gradual-bg {
       display: none;
     }
 

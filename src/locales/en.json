@@ -278,6 +278,7 @@
     "balanceTabel7": "Collection",
     "balanceTabel8": "Gas Fee",
     "balanceTabel9": "Fee",
+    "balanceTabel10": "Provider",
     "view": "VIEW",
     "enterId": "ENTER TRANSACTION ID",
     "enterHint": "Transaction ID",

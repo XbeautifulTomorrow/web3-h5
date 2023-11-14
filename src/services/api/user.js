@@ -62,6 +62,8 @@ const exchangeRateV2 = (params) => apiService.get("mystery-web-user/index/exchan
 
 const productionOfThirdPartyOrders = (params) =>
   apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrders", params); // 法币交易提交提单
+const getProductionOfThirdPartyOrdersList = (params) =>
+  apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrdersList", params); // 第三方支付历史记录
 
 export {
   getKey,
@@ -100,4 +102,5 @@ export {
   flashExchange,
   exchangeRateV2,
   productionOfThirdPartyOrders,
+  getProductionOfThirdPartyOrdersList,
 };

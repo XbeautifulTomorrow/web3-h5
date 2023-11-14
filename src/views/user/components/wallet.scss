@@ -346,14 +346,14 @@
       margin-left: 0.75rem;
     }
 
-    &.TRANSFERRING {
+    &.TRANSFERRING,
+    &.IN_PROGRESS {
       color: #fad54d;
     }
 
     &.SUCCESS {
       color: #0cbb3e;
     }
-
     &.FAIL,
     &.REJECTED {
       color: #df4328;

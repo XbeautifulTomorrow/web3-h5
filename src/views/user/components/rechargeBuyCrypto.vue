@@ -229,7 +229,6 @@ export default {
               this.errorRes = data?.data;
               this.onVerifyExchange(type);
             } else if (data?.code == 400001) {
-              console.log(data?.data, "------------------");
               if (type == "from") {
                 this.exchangeFromAmountTips = data?.data?.amount[0];
               } else {
@@ -258,7 +257,6 @@ export default {
       let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
       let min = 0;
       let max = 0;
-      console.log(this.errorRes, "this.errorRes");
       if (this.errorRes) {
         min = this.errorRes[coin].min;
         max = this.errorRes[coin].max;

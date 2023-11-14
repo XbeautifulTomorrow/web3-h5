@@ -429,6 +429,9 @@ export default {
         new bigNumber(rate.lockWinRate).dividedBy(100)
       );
 
+      // 删除剩余局数
+      delete params.autoActualNumber;
+
       res = await setAutoConfig({
         ...params,
       });
@@ -462,7 +465,7 @@ export default {
 
         if (!newV) return;
         this.timer = setTimeout(() => {
-          this.customize = Math.floor(newV);
+          this.customize = newV <= 1000 ? Math.floor(newV) : 1000;
         }, 300);
       }
     },

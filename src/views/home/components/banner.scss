@@ -93,14 +93,14 @@
     }
     .swiper_box {
       width: 94vw;
-      height: 26vw;
+      height: 20vw;
       left: 3vw;
       :deep(.swiper) {
         .swiper-wrapper {
           height: 80%;
         }
         img {
-          width: 46vw;
+          width: 100%;
           height: 100%;
         }
         .swiper-pagination-bullet.swiper-pagination-bullet-active {

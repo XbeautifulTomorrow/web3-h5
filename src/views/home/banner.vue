@@ -4,7 +4,7 @@
       <div class="banner_txt_box">
         <div>
           <p>GET 200% BONUS</p>
-          <p>UP TO 100 ETH</p>
+          <p>UP TO 1,000,000 USDT</p>
         </div>
         <div class="join_button" @click="goUrl(bgUrl)">JOIN NOW</div>
       </div>

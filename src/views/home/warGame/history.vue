@@ -51,7 +51,7 @@
             prop="winerUserName"
             :label="$t('tokenWar.winner')"
             align="left"
-            width="260"
+            :width="screenWidth > 950 ? 260 : 150"
           >
             <template #default="scope">
               <div class="buy_box" v-if="scope.row.winerUserName">
@@ -312,20 +312,17 @@ export default {
     },
   },
   created() {
-    this.fetchWarHistory();
-
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
+
+    this.fetchWarHistory();
   },
   mounted() {
     const that = this;
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-
-      that.initSvg();
-      that.setSvg();
     });
   },
 };

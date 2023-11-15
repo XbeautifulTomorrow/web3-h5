@@ -1,16 +1,7 @@
 <template>
   <div class="war_game_index_wrapper">
-    <div class="banner_box panel_bg">
-      <img
-        v-if="screenWidth >= 950"
-        src="@/assets/svg/home/warGame/banner/war_banner.webp"
-        alt=""
-      />
-      <img
-        v-else
-        src="@/assets/svg/home/warGame/banner/war_banner_mobile.webp"
-        alt=""
-      />
+    <div class="banner_box panel_bg" v-if="screenWidth > 950">
+      <img src="@/assets/svg/home/warGame/banner/war_banner.webp" alt="" />
     </div>
     <warGame
       :warHistory="warData"
@@ -65,7 +56,11 @@ export default {
     },
   },
   beforeUnmount() {},
-  created() {},
+  created() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+  },
   mounted() {
     const that = this;
     window.screenWidth = document.body.clientWidth;

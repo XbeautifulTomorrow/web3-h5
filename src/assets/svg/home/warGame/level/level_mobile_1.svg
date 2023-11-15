@@ -1,0 +1,13 @@
+<svg width="323" height="66" viewBox="0 0 323 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="323" height="66" fill="black" fill-opacity="0.01"/>
+<path d="M1.25 1.25H64.75V64.75H1.25V1.25Z" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
+<rect x="5" y="5" width="56" height="56" fill="white" fill-opacity="0.1"/>
+<rect x="5.5" y="5.5" width="55" height="55" stroke="white" stroke-opacity="0.3"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 66L-8.30516e-07 47L0.999999 46L1 65L20 65L19 66L0 66Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M66 0L66 19L65 20L65 1L46 0.999999L47 -8.30516e-07L66 0Z" fill="white"/>
+<rect x="73.25" y="1.25" width="248.5" height="63.5" stroke="white" stroke-opacity="0.6" stroke-width="0.5"/>
+<rect x="77.0001" y="5" width="241" height="56" fill="white" fill-opacity="0.1"/>
+<rect x="77.5001" y="5.5" width="240" height="55" stroke="white" stroke-opacity="0.3"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M323 66L304 66L303 65L322 65L322 46L323 47L323 66Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M72 0L91 0L92 1L73 1V20L72 19V0Z" fill="white"/>
+</svg>

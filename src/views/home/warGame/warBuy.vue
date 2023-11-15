@@ -1,56 +1,108 @@
 <template>
   <div>
     <div class="buy_panel">
-      <p class="buy_title">{{ $t("tokenWar.dispatchSoldiers") }}</p>
-      <div class="user_usd_balance">
-        <div class="title">{{ $t("tokenWar.yourBalance") }}</div>
-        <div class="val">
-          <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-          <span>
-            {{ formatUsd(usdBalance) }}
-          </span>
-        </div>
-      </div>
-      <el-input
-        class="buy_input"
-        type="number"
-        v-model.number="buyNum"
-        placeholder=""
-      >
-        <template #append>
-          <div
-            :class="['add_btn', status != 'INIT' ? 'disabled' : '']"
-            @click="buyTickets()"
-          >
-            <img
-              class="not-select"
-              src="@/assets/svg/home/warGame/icon_add.svg"
-              alt=""
-            />
-            <span>{{ $t("tokenWar.addText") }}</span>
+      <div :class="['user_usd_box', screenWidth <= 950 ? 'panel_bg' : '']">
+        <p class="buy_title">{{ $t("tokenWar.dispatchSoldiers") }}</p>
+        <div class="user_usd_balance">
+          <div class="title">{{ $t("tokenWar.yourBalance") }}</div>
+          <div class="val">
+            <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            <span>
+              {{ formatUsd(usdBalance) }}
+            </span>
           </div>
-        </template>
-      </el-input>
-      <div class="input_error"></div>
-      <div class="choose_box">
+        </div>
+        <div class="buy_input_box">
+          <el-input
+            class="buy_input"
+            type="number"
+            v-model.number="buyNum"
+            placeholder=""
+          >
+            <template #append>
+              <div
+                :class="['add_btn', status != 'INIT' ? 'disabled' : '']"
+                @click="buyTickets()"
+              >
+                <img
+                  class="not-select"
+                  src="@/assets/svg/home/warGame/icon_add.svg"
+                  alt=""
+                />
+                <span>{{ $t("tokenWar.addText") }}</span>
+              </div>
+            </template>
+          </el-input>
+          <div class="config_box" v-if="screenWidth <= 950">
+            <div class="auto_config">
+              <img
+                v-if="autoConfig.autoBuyStatus == 'CLOSE'"
+                @click="changeAuto()"
+                src="@/assets/svg/home/warGame/bg/config_auto.svg"
+                alt=""
+              />
+              <div class="auto" @click="changeAuto()" v-else>
+                <div class="auto_num">{{ autoConfig?.autoActualNumber }}</div>
+                <div class="aotu_val">
+                  <span>{{ formatUsd(autoConfig?.autoBuyAmount) }}</span>
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="lock_config">
+              <img
+                v-if="autoConfig.lockWinRateStatus == 'CLOSE'"
+                @click="changeLock(2)"
+                src="@/assets/svg/home/warGame/bg/config_lock.svg"
+                alt=""
+              />
+              <div @click="changeLock(1)" v-else class="lock">
+                <span
+                  class="status"
+                  v-if="autoConfig.lockWinRateStatus == 'CLOSE'"
+                >
+                  {{ $t("tokenWar.close") }}
+                </span>
+                <span
+                  class="status"
+                  v-else-if="autoConfig.lockWinRateStatus == 'OPEN'"
+                >
+                  {{ $t("tokenWar.open") }}
+                </span>
+                <span class="status" v-else>{{ $t("tokenWar.auto") }}</span>
+                <span class="rate">
+                  {{
+                    accurateDecimal(
+                      new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(
+                        100
+                      ),
+                      2
+                    )
+                  }}%
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="input_error"></div>
         <div class="choose_tips">
           {{
             $t("tokenWar.soldierPrice", { num: systemConfig?.singlePrice || 1 })
           }}
         </div>
-        <div class="choose_items">
-          <div class="choose_btn" @click="setAmount(1)">
-            <span>+1</span>
-          </div>
-          <div class="choose_btn" @click="setAmount(10)">
-            <span>+10</span>
-          </div>
-          <div class="choose_btn" @click="setAmount(100)">
-            <span>+100</span>
-          </div>
-          <div class="choose_btn" @click="setAmount(1000)">
-            <span>+1000</span>
-          </div>
+      </div>
+      <div :class="['choose_items', screenWidth <= 950 ? 'panel_bg' : '']">
+        <div class="choose_btn" @click="setAmount(1)">
+          <span>+1</span>
+        </div>
+        <div class="choose_btn" @click="setAmount(10)">
+          <span>+10</span>
+        </div>
+        <div class="choose_btn" @click="setAmount(100)">
+          <span>+100</span>
+        </div>
+        <div class="choose_btn" @click="setAmount(1000)">
+          <span>+1000</span>
         </div>
       </div>
       <div class="auto_war_box">
@@ -169,7 +221,7 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
-import { accurateDecimal, formatUsd } from "@/utils";
+import { accurateDecimal, formatUsd, handleWindowResize } from "@/utils";
 import {
   warBuy,
   getAutoConfig,
@@ -210,6 +262,7 @@ export default {
       timer: null,
       systemConfig: null,
       customizeStyle: null,
+      screenWidth: null,
     };
   },
   computed: {
@@ -331,6 +384,16 @@ export default {
 
     this.customizeStyle =
       "-webkit-text-fill-color: transparent;font-weight: bold;";
+  },
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    });
   },
   watch: {
     config(newV) {

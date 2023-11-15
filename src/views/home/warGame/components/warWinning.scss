@@ -174,3 +174,127 @@
     }
   }
 }
+
+
+@media screen and (max-width: 950px) {
+  :deep(.public-dialog) {
+    &.el-dialog {
+      width: 21.4375rem;
+    }
+
+    .el-dialog__body {
+      padding: 2rem 1rem 0 !important;
+      min-height: 21.6875rem;
+      background-image: url("@/assets/svg/home/warGame/bg/config_mobile_bg.svg") !important;
+    }
+
+    .public-dialog-content {
+      padding: 0;
+    }
+
+    .close_btn {
+      top: 1rem;
+      right: 1rem;
+      width: 2rem;
+      height: 2rem;
+      background: transparent;
+      border: none;
+      font-size: 1.75rem;
+      color: #11cde9;
+    }
+  }
+
+  .win_title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .win_amount {
+    margin-top: 1rem;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin-right: 0.75rem;
+    }
+
+    span {
+      font-size: 1rem;
+    }
+  }
+
+  .win_info {
+    margin-top: 1rem;
+    height: 5rem;
+    border-radius: 0.25rem;
+  }
+
+  .info_item {
+
+    .val {
+      font-size: 0.875rem;
+
+      img {
+        width: 1rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .title {
+      font-size: 0.675rem;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .close_win_btn {
+    margin: 1rem 0;
+    height: 2rem;
+    background-image: none;
+    border-radius: 0.5rem;
+    box-shadow: inset 0 0 0.625rem 0 #c72ae9;
+    border: solid 0.125rem #c72ae9;
+    background-color: rgba(199, 42, 233, 0.3);
+    box-sizing: border-box;
+    font-size: 0.875rem;
+    line-height: 2rem;
+  }
+
+  .win_safe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &>div {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .safe_illustrate {
+      font-family: Inter;
+      font-size: 0.625rem;
+      text-align: left;
+      color: #a9a4b4;
+    }
+
+    .line {
+      width: auto;
+      height: 1.5rem;
+      margin: 0 0.5rem;
+    }
+
+    .safe_verify {
+      font-family: Inter;
+      font-size: 0.625rem;
+      color: white;
+
+      &>span:nth-child(1) {
+        color: #fad54d;
+        cursor: pointer;
+      }
+    }
+  }
+}

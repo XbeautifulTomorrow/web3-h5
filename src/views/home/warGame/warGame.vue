@@ -1,6 +1,16 @@
 <template>
   <div class="war_game_wrapper">
     <div class="war_game_panel">
+      <div class="bloody_battle">
+        <img src="@/assets/svg/home/warGame/bg/heading_bg.svg" alt="" />
+        <div class="bloody_battle_box">
+          <div class="war_title">{{ $t("tokenWar.endWar") }}</div>
+          <div class="total_bonus">
+            <div class="unit">$</div>
+            <div class="val">{{ formatUsd(warInfo?.totalBigPrize) }}</div>
+          </div>
+        </div>
+      </div>
       <div class="war_game_user panel_bg">
         <div class="basic_info">
           <div class="user_num">
@@ -18,7 +28,7 @@
             trigger="hover"
             :vBarStyle="{ 'background-color': 'rgb(29, 15, 54, 1)' }"
             :vThumbStyle="{ 'background-color': 'rgb(109, 101, 130, 1)' }"
-            :height="screenWidth > 950 ? '36.3125rem' : '14rem'"
+            height="17.75rem"
           >
             <div
               :class="[
@@ -76,12 +86,16 @@
             <div class="round_title">{{ $t("tokenWar.currentRound") }}</div>
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
-        </div>
-        <div class="bloody_battle">
-          <div class="war_title">{{ $t("tokenWar.endWar") }}</div>
-          <div class="total_bonus">
-            <div class="unit">$</div>
-            <div class="val">{{ formatUsd(warInfo?.totalBigPrize) }}</div>
+          <div
+            class="history_btn"
+            @click="
+              () => {
+                $emit('toHistory');
+              }
+            "
+          >
+            <img src="@/assets/svg/home/warGame/icon_history.svg" alt="" />
+            <span v-if="screenWidth > 950">{{ $t("tokenWar.history") }}</span>
           </div>
         </div>
         <div class="war_game_box">
@@ -178,7 +192,7 @@
           <div class="progress_bar">
             <el-progress
               :percentage="percentage"
-              :stroke-width="12"
+              :stroke-width="getRatio().fontSize * 0.75"
               striped
               striped-flow
               :duration="10"
@@ -191,7 +205,7 @@
               "
               :show-text="false"
             />
-            <div class="progress_bg">
+            <div class="progress_bg" v-if="screenWidth > 950">
               <img
                 v-if="currentStatus == 'INIT'"
                 src="@/assets/svg/home/warGame/progress/progress_bg.svg"
@@ -205,6 +219,23 @@
               <img
                 v-else
                 src="@/assets/svg/home/warGame/progress/progress_next_bg.svg"
+                alt=""
+              />
+            </div>
+            <div class="progress_bg" v-else>
+              <img
+                v-if="currentStatus == 'INIT'"
+                src="@/assets/svg/home/warGame/progress/progress_mobile_bg.svg"
+                alt=""
+              />
+              <img
+                v-else-if="currentStatus == 'WAIT'"
+                src="@/assets/svg/home/warGame/progress/progress_battle_mobile_bg.svg"
+                alt=""
+              />
+              <img
+                v-else
+                src="@/assets/svg/home/warGame/progress/progress_next_mobile_bg.svg"
                 alt=""
               />
             </div>
@@ -270,7 +301,7 @@
             </div>
           </div>
         </div>
-        <div class="connect_box panel_bg">
+        <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']">
           <div class="not_connect" v-if="!showBuy">
             <div class="enter_war" v-if="!isHistory" @click="handleBuy()">
               {{ $t("tokenWar.enterWar") }}
@@ -288,12 +319,22 @@
           ></war-buy>
         </div>
       </div>
+      <div class="faq_btn" @click="showFAQ()" v-if="screenWidth <= 950">
+        <img src="@/assets/svg/home/warGame/button/icon_help.svg" alt="" />
+        <span>How Does It Work?</span>
+      </div>
     </div>
-    <div class="introduce_panel">
+    <div class="introduce_panel" v-if="screenWidth > 950 || isFAQ">
       <div class="introduce_bg">
         <div class="introduce_box">
           <div class="introduce_title">
-            {{ $t("tokenWar.illustrateTitle") }}
+            <span>{{ $t("tokenWar.illustrateTitle") }}</span>
+            <img
+              class="back_btn"
+              src="@/assets/svg/home/warGame/icon_back.svg"
+              alt=""
+              @click="isFAQ = false"
+            />
           </div>
           <img
             class="introduce_divider"
@@ -307,7 +348,7 @@
             <p>{{ $t("tokenWar.illustrateText4") }}</p>
           </div>
           <div class="step_box">
-            <div class="step_arrow">
+            <div class="step_arrow" v-if="screenWidth > 950">
               <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
               <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
               <img src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
@@ -319,6 +360,12 @@
               <div class="round">01</div>
               <div class="description">{{ $t("tokenWar.stepText1") }}</div>
             </div>
+            <img
+              v-if="screenWidth <= 950"
+              class="step_arrow_img"
+              src="@/assets/svg/home/warGame/icon_arrow.svg"
+              alt=""
+            />
             <div class="step_item">
               <div class="step_img img_2">
                 <img src="@/assets/svg/home/warGame/icon_share.svg" alt="" />
@@ -326,6 +373,12 @@
               <div class="round">02</div>
               <div class="description">{{ $t("tokenWar.stepText2") }}</div>
             </div>
+            <img
+              v-if="screenWidth <= 950"
+              class="step_arrow_img"
+              src="@/assets/svg/home/warGame/icon_arrow.svg"
+              alt=""
+            />
             <div class="step_item">
               <div class="step_img img_3">
                 <img
@@ -336,6 +389,12 @@
               <div class="round">03</div>
               <div class="description">{{ $t("tokenWar.stepText3") }}</div>
             </div>
+            <img
+              v-if="screenWidth <= 950"
+              class="step_arrow_img"
+              src="@/assets/svg/home/warGame/icon_arrow.svg"
+              alt=""
+            />
             <div class="step_item">
               <div class="step_img img_4">
                 <img
@@ -425,8 +484,8 @@
       @changeTypeFun="changeTypeFun"
     ></war-must-read>
     <war-winning
-      v-if="pageType == 'war_win'"
       :winInfo="winUser"
+      v-if="pageType == 'war_win'"
       @closeReceiveFun="changeTypeFun"
       @closeDialogFun="closeDialogFun"
     ></war-winning>
@@ -610,6 +669,8 @@ export default {
       //war user
       warUserId: null,
       config: null,
+
+      isFAQ: false,
     };
   },
   computed: {
@@ -625,7 +686,6 @@ export default {
   },
   methods: {
     getRank: getRank,
-    getLevel: getLevel,
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
@@ -824,7 +884,7 @@ export default {
     },
     // 创建SVG对象
     initSvg() {
-      const [width, height] = [450, 450];
+      const { width, translateV } = this.getRatio();
 
       // 清除内容
       document.getElementById("war_container").innerHTML = null;
@@ -832,33 +892,45 @@ export default {
       let svg = d3
         .select("#war_container")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", width);
 
       this.svgGraphics = svg
         .append("g")
-        .attr("transform", "translate( 25, 25 )");
+        .attr("transform", `translate( ${translateV}, ${translateV} )`);
     },
     // 初始化SVG
     setSvg() {
       let that = this;
-      const { warData } = this;
+      const { warData, screenWidth } = this;
       let warPath = [{ buyPrice: 1 }];
       if (warData.length > 0) {
         warPath = warData;
       }
 
-      const [width, height] = [800, 800];
+      let innerRatio = 9.375;
+      let offsetRatio = 11.25;
+
+      if (screenWidth <= 950) {
+        innerRatio = 6.75;
+        offsetRatio = 8;
+      }
+
+      const { fontSize, width, translateV } = this.getRatio();
+
+      const pathWidth = width - translateV * 2;
+      const inner = innerRatio * fontSize;
+      const offset = offsetRatio * fontSize;
 
       //设置饼图的半径
-      let radius = (Math.min(width, height) * 0.5) / 2;
+      let radius = pathWidth / 2;
 
-      let arc = d3.arc().innerRadius(140);
+      let arc = d3.arc().innerRadius(inner);
 
       //饼图偏移的终点
       let pointEnd = d3
         .arc()
-        .innerRadius(radius - 180)
-        .outerRadius(radius - 180);
+        .innerRadius(radius - offset)
+        .outerRadius(radius - offset);
 
       const angles = this.svgAngle * ((Math.PI * 2) / 360);
 
@@ -942,14 +1014,25 @@ export default {
     // 动态新增Path路径
     setSvgPath() {
       let that = this;
-      const { warData } = this;
+      const { warData, screenWidth } = this;
+      let innerRatio = 9.375;
+      let offsetRatio = 11.25;
 
-      const [width, height] = [800, 800];
+      if (screenWidth <= 950) {
+        innerRatio = 6.75;
+        offsetRatio = 8;
+      }
+
+      const { fontSize, width, translateV } = this.getRatio();
+
+      const pathWidth = width - translateV * 2;
+      const inner = innerRatio * fontSize;
+      const offset = offsetRatio * fontSize;
 
       //设置饼图的半径
-      let radius = (Math.min(width, height) * 0.5) / 2;
+      let radius = pathWidth / 2;
 
-      let arc = d3.arc().innerRadius(150);
+      let arc = d3.arc().innerRadius(inner);
 
       let svg = d3.select("#war_container").select("g").select(".war");
 
@@ -958,8 +1041,8 @@ export default {
       //饼图偏移的终点
       let pointEnd = d3
         .arc()
-        .innerRadius(radius - 180)
-        .outerRadius(radius - 180);
+        .innerRadius(radius - offset)
+        .outerRadius(radius - offset);
 
       let drawData = d3
         .pie()
@@ -1267,12 +1350,18 @@ export default {
     // 获取进度
     getPercentage(event) {
       const { singleTime } = this.config || { singleTime: 300 };
+      let times = singleTime;
+      const { bigPrizeStatus } = this.warInfo;
+
+      if (bigPrizeStatus == "TRUE") {
+        times = 600;
+      }
 
       let end = Number(new bigNumber(event).div(1000));
 
       // 计算出百分比
       this.percentage = Number(
-        accurateDecimal(new bigNumber(end).div(singleTime).multipliedBy(100), 2)
+        accurateDecimal(new bigNumber(end).div(times).multipliedBy(100), 2)
       );
     },
     // 获取用户颜色
@@ -1345,7 +1434,7 @@ export default {
       if (!warData.length > 0) return;
 
       for (let i = 0; i < warData.length; i++) {
-        let svg = getLevel(warData[i].buyPrice);
+        let svg = getLevel(warData[i].buyPrice, undefined, this.screenWidth);
         const docTag = document.getElementsByClassName("user_item")[i];
         // 如果已有边框就跳过本次
         if (docTag.querySelectorAll("svg").length > 0) continue;
@@ -1426,6 +1515,8 @@ export default {
     },
     // 悬浮
     mouseenterFun(d, event) {
+      if (this.screenWidth <= 950) return;
+
       this.showTooltips = true;
 
       if (this.tooltips?.userId != d.data.userId) {
@@ -1507,6 +1598,41 @@ export default {
         this.config = res.data;
       }
     },
+    // 获取像素比例
+    getRatio() {
+      const { screenWidth } = this;
+      let fontSize = 16;
+      let widthRatio = 28.125;
+      let translateRatio = 1.5625;
+      if (screenWidth > 950 && screenWidth < 1366) {
+        fontSize = 10;
+      } else if (screenWidth >= 1366 && screenWidth < 1440) {
+        fontSize = 12;
+      } else if (screenWidth >= 1440 && screenWidth < 1600) {
+        fontSize = 14;
+      } else {
+        fontSize = 16;
+
+        if (screenWidth <= 950) {
+          widthRatio = 19.375;
+          translateRatio = 1.25;
+        }
+      }
+
+      const width = widthRatio * fontSize;
+      const translateV = translateRatio * fontSize;
+
+      return {
+        fontSize: fontSize,
+        width: width,
+        translateV: translateV,
+      };
+    },
+    //
+    showFAQ() {
+      this.isFAQ = true;
+      window.scrollTo(0, 0);
+    },
   },
   beforeUnmount() {
     if (this.eventSource) {
@@ -1522,6 +1648,10 @@ export default {
     }
   },
   created() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
     if (this.userInfo?.id && this.isLogin) {
       const is_must_read = getLocalStore("must_read");
       if (is_must_read == "1") {
@@ -1540,12 +1670,12 @@ export default {
   },
   mounted() {
     const that = this;
-    window.screenWidth = document.body.clientWidth;
-    that.screenWidth = window.screenWidth;
-
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
+
+      that.initSvg();
+      that.setSvg();
     });
   },
 };

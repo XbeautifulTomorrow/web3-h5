@@ -4,13 +4,40 @@
   margin: 0 auto;
 }
 
-.history_filter {
+.operating_box {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   padding-bottom: 2rem;
+
+  .back_btn {
+    width: 10rem;
+    display: flex;
+    align-items: center;
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: left;
+    color: #11cde9;
+    margin-bottom: 1rem;
+  }
+
+  img {
+    width: auto;
+    height: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.history_filter {
   font-family: Inter;
   font-size: 0.875rem;
   line-height: 1.43;
   text-align: left;
   color: #fad54d;
+  display: flex;
+  align-items: center;
 
   span {
     margin-left: 0.75rem;
@@ -287,6 +314,172 @@
         background-image: linear-gradient(to top, #e3a406, #fbd851);
         border-color: transparent;
         color: #13151f;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .war_history_wrapper {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .operating_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+
+    .back_btn {
+      width: auto;
+      font-size: 0.875rem;
+      margin-bottom: 0;
+    }
+
+    img {
+      margin-right: 0.25rem;
+    }
+  }
+
+  .history_filter {
+    font-size: 0.875rem;
+
+    span {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .history_data_box {
+    height: 74rem;
+    background-image: none;
+
+    .history_data_bg {
+      padding: 0 0.5rem;
+      background-image: url("@/assets/svg/home/warGame/bg/history_mobile_bg.svg");
+    }
+  }
+
+  :deep(.table_container) {
+
+    .prize_pool {
+      font-size: 0.75rem;
+
+      img {
+        width: 0.75rem;
+      }
+    }
+
+    .status_box {
+      font-size: 0.75rem;
+    }
+
+    .status_img {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.5rem;
+      border-radius: 50%;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .avatar_box {
+      .name {
+        width: 7rem;
+      }
+    }
+
+    .buy_num {
+      font-size: 0.75rem;
+
+      .num {
+
+        img {
+          width: 0.75rem;
+        }
+      }
+    }
+
+    .copy_btn {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &>img+img {
+        margin-left: 0.625rem;
+      }
+
+      img {
+        width: 1.5rem;
+        height: auto;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .pagination-box {
+    display: flex;
+    justify-content: center;
+    padding-top: 1.25rem;
+
+    :deep(.el-pagination) {
+      button {
+        background: transparent;
+        color: white;
+        font-family: Tomorrow;
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5;
+
+        &:disabled {
+          opacity: 0.8;
+        }
+
+        &.btn-prev {
+          margin-right: 1.25rem;
+        }
+
+        &.btn-next {
+          margin-left: 1.25rem;
+        }
+      }
+    }
+
+    :deep(.el-pager) {
+
+      &>li+li {
+        margin-left: 0.75rem;
+      }
+
+      li {
+        width: 3.25rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2.5rem;
+        background-color: transparent;
+        border: solid 1px rgba(146, 148, 156, 0.3);
+
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.6;
+        color: #a9a4b4;
+
+        &.is-active,
+        &:hover {
+          background-image: linear-gradient(to top, #e3a406, #fbd851);
+          border-color: transparent;
+          color: #13151f;
+        }
       }
     }
   }

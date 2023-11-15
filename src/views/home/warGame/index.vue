@@ -1,27 +1,23 @@
 <template>
   <div class="war_game_index_wrapper">
-    <div class="banner_box">
-      <img src="@/assets/svg/home/warGame/banner/war_banner.svg" alt="" />
-    </div>
-    <div class="tag_items">
-      <div
-        :class="['tag_item', pageType == 'warGame' ? 'active' : '']"
-        @click="pageType = 'warGame'"
-      >
-        {{ $t("tokenWar.tokenWar") }}
-      </div>
-      <div
-        :class="['tag_item', pageType == 'history' ? 'active' : '']"
-        @click="pageType = 'history'"
-      >
-        {{ $t("tokenWar.history") }}
-      </div>
+    <div class="banner_box panel_bg">
+      <img
+        v-if="screenWidth >= 950"
+        src="@/assets/svg/home/warGame/banner/war_banner.webp"
+        alt=""
+      />
+      <img
+        v-else
+        src="@/assets/svg/home/warGame/banner/war_banner_mobile.webp"
+        alt=""
+      />
     </div>
     <warGame
       :warHistory="warData"
       :isHistory="isHistory"
       v-if="pageType == 'warGame'"
       @toWar="handleWer"
+      @toHistory="pageType = 'history'"
     ></warGame>
     <history
       v-if="pageType == 'history'"
@@ -33,6 +29,7 @@
 <script>
 import warGame from "./warGame.vue";
 import history from "./history.vue";
+import { handleWindowResize } from "@/utils";
 export default {
   name: "TokenWar",
   components: {
@@ -44,6 +41,7 @@ export default {
       pageType: "warGame", // warGame / history
       isHistory: false,
       warData: null,
+      screenWidth: null,
     };
   },
   computed: {},
@@ -68,6 +66,16 @@ export default {
   },
   beforeUnmount() {},
   created() {},
+  mounted() {
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>

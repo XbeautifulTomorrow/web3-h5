@@ -722,7 +722,8 @@ export default {
     createSSE() {
       if (window.EventSource) {
         // 根据环境的不同，变更url
-        const url = config.api;
+        const url =
+          config.ENV == "pro" ? "https://sse.bitzing.io/" : config.api;
 
         let headerParams = {
           "Content-Type": "text/event-stream",

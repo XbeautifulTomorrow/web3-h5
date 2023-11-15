@@ -318,6 +318,7 @@
             :status="currentStatus"
             @showDialogFun="handlePopups"
             :config="cahngeConfig"
+            :warInfo="warInfo"
           ></war-buy>
         </div>
       </div>
@@ -685,6 +686,17 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
+    },
+    /**
+     * @description 用户总计参与金额
+     */
+    totalBonus() {
+      const { warData } = this;
+      let bonus = 0;
+      for (let i = 0; i < warData.length; i++) {
+        bonus += Number(warData[i].buyPrice);
+      }
+      return bonus;
     },
   },
   methods: {
@@ -1312,12 +1324,12 @@ export default {
     },
     // 格式化胜率
     getWinningRate(event) {
-      const { warInfo } = this;
+      const { totalBonus } = this;
       const amount = Number(event || 0);
-      if (!amount || !Number(warInfo?.totalBonus)) return 0;
+      if (!amount || !Number(totalBonus)) return 0;
 
       const rate = new bigNumber(event)
-        .div(Number(warInfo?.totalBonus))
+        .div(Number(totalBonus))
         .multipliedBy(100);
 
       return accurateDecimal(rate, 2);
@@ -1631,7 +1643,6 @@ export default {
         translateV: translateV,
       };
     },
-    //
     showFAQ() {
       this.isFAQ = true;
       window.scrollTo(0, 0);

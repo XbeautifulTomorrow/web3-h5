@@ -112,3 +112,89 @@
     border-left: 1px solid #c72ae9;
   }
 }
+
+
+@media screen and (max-width: 950px) {
+  :deep(.public-dialog) {
+    &.el-dialog {
+      width: 21.4375rem;
+    }
+
+    .el-dialog__body {
+      min-height: 16.75rem;
+      background-image: url("@/assets/svg/home/warGame/bg/war_user_info_mobile_bg.svg") !important;
+    }
+
+    .public-dialog-content {
+      padding: 0;
+    }
+
+    .close_btn {
+      top: 1rem;
+      right: 1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  .user_info_box {
+    padding: 2rem 0 1rem;
+
+    .avatar_img {
+      width: 3rem;
+      height: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    span {
+      font-size: 0.875rem;
+    }
+  }
+
+  .war_title {
+    padding: 0 1rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .war_items {
+    margin: 0 1rem;
+    height: 4.5rem;
+    border-radius: 0.75rem;
+
+    .war_item {
+      box-sizing: border-box;
+
+      .title {
+        font-size: 0.625rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .val {
+        font-family: Inter;
+        font-size: 0.875rem;
+        font-weight: bold;
+        line-height: 1.6;
+        text-align: center;
+        color: #fff;
+      }
+    }
+
+    .war_item:nth-child(1) {
+      border-radius: 0.75rem 0 0 0.75rem;
+      border-right: 1px solid #c72ae9;
+    }
+
+    .war_item:nth-child(2) {
+      border-right: 1px solid #c72ae9;
+    }
+
+    .war_item:last-child {
+      border-radius: 0 0.75rem 0.75rem 0;
+      border-left: 1px solid #c72ae9;
+    }
+  }
+}

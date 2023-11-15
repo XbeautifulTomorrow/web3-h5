@@ -9,12 +9,7 @@
 
   .el-dialog__body {
     padding: 2.0625rem;
-    box-sizing: border-box;
     min-height: 31.1875rem;
-    background-image: url("@/assets/svg/home/warGame/bg/config_bg.svg") !important;
-    background-size: contain !important;
-    background-repeat: no-repeat;
-    background-position: center center;
   }
 }
 
@@ -257,6 +252,10 @@
     text-align: center;
     cursor: pointer;
 
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+
     &.btn_cancel {
       color: #8590a2;
       background-image: url("@/assets/svg/home/warGame/button/button_cancel.svg");
@@ -292,4 +291,171 @@
       box-sizing: border-box;
     }
   }
+}
+
+@media screen and (max-width: 950px) {
+
+  :deep(.public-dialog) {
+    &.el-dialog {
+      width: 21.4375rem;
+    }
+
+    .el-dialog__body {
+      padding: 0 1rem;
+      box-sizing: border-box;
+      min-height: 26.75rem;
+      background-image: url("@/assets/svg/home/warGame/bg/must_read_mobile_bg.svg") !important;
+      background-size: contain !important;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+
+  .buy_title {
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: left;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: 1.5rem;
+      height: auto;
+    }
+  }
+
+  .rounds_num {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+  }
+
+  .rounds_item+.rounds_item {
+    margin-left: 0.5rem;
+  }
+
+  .rounds_item {
+    flex: 1;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: solid 1px #c72ae9;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1.4;
+    color: #a9a4b4;
+
+    &.active {
+      box-shadow: inset 0 0 20px 5px rgba(199, 42, 233, 0.5);
+      border: solid 1px #c72ae9;
+      background-color: rgba(199, 42, 233, 0.3);
+      color: white;
+    }
+
+    :deep(.rounds_val) {
+      .el-input__wrapper {
+        height: 2.25rem;
+        padding: 0;
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+        box-shadow: none;
+        outline: none;
+
+        &>input {
+          font-size: 0.875rem;
+          color: white;
+          text-align: center;
+
+          &::placeholder {
+            color: #fad54d;
+          }
+        }
+      }
+    }
+  }
+
+  .interval {
+    margin: 1rem 0;
+  }
+
+  .config_title {
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-weight: bold;
+    line-height: 1.43;
+    text-align: left;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .config_btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    &>div {
+      width: 9.5rem;
+      height: 2.75rem;
+      line-height: 2.75rem;
+      font-family: Inter;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+
+      &.btn_cancel {
+        color: #8590a2;
+        background-image: url("@/assets/svg/home/warGame/button/button_cancel_mobile.svg");
+      }
+
+      &.btn_confirm {
+        color: #ed9cff;
+        background-image: url("@/assets/svg/home/warGame/button/button_confirm_mobile.svg");
+      }
+    }
+  }
+
+  .lock_status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+
+    .status_title {
+      font-family: Inter;
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: left;
+      color: #a9a4b4;
+    }
+
+    .rounds_num {
+      margin-left: 0.5rem;
+      flex: 1;
+      padding: 0;
+
+      .rounds_item {
+        min-width: auto;
+        box-sizing: border-box;
+      }
+    }
+  }
+
 }

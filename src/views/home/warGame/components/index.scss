@@ -18,48 +18,21 @@
 }
 
 .banner_box {
-  height: 9.5625rem;
-  padding-bottom: 1rem;
+  display: flex;
   width: 100%;
   height: auto;
-}
+  margin-bottom: 4.75rem;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
 
-.tag_items {
-  display: flex;
-  align-items: center;
-  padding-bottom: 1rem;
-
-  &>div+div {
-    margin-left: 1rem;
+  img {
+    width: 100%;
+    height: auto;
   }
 
-  .tag_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10rem;
-    height: 2.75rem;
-    border-radius: 0.5rem;
-    background-image: linear-gradient(to bottom,
-        #c72ae9 0%,
-        rgba(199, 42, 233, 0) 45%),
-      linear-gradient(to bottom,
-        rgba(199, 42, 233, 0.1),
-        rgba(199, 42, 233, 0.1));
-
-    text-shadow: 0 0 0.625rem #c72ae9;
-    font-family: Tomorrow;
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 1.5;
-    text-align: center;
-    color: #ed9cff;
-    opacity: 0.6;
-    cursor: pointer;
-
-    &.active {
-      opacity: 1;
-    }
+  img {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -68,6 +41,7 @@
   align-items: center;
   justify-content: space-between;
   height: 40.3125rem;
+  position: relative;
 }
 
 .war_game_user {
@@ -264,18 +238,27 @@
 
 .bloody_battle {
   width: 21.875rem;
-  height: 8.75rem;
-  background-image: url("@/assets/svg/home/warGame/bg/heading_bg.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
   position: absolute;
   top: -3.75rem;
-  left: 0;
-  right: 0;
+  left: 40rem;
   margin: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
+  z-index: 20;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .bloody_battle_box {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .war_title {
     padding-top: 1.375rem;
@@ -330,12 +313,40 @@
   }
 }
 
+.history_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  width: 7.1875rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: solid 1px #11cde9;
+
+  text-shadow: 0 0 0.625rem #11cde9;
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 1.4;
+  text-align: center;
+  color: #11cde9;
+
+  img {
+    width: 1.25rem;
+    height: auto;
+    margin-right: 0.625rem;
+  }
+}
+
 .war_game_box {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 28.125rem;
   height: 28.125rem;
+  margin: 0 auto;
 }
 
 .outer_ring {
@@ -360,7 +371,6 @@
 .win_pointer {
   position: absolute;
   pointer-events: none;
-  bottom: 6.625rem;
   top: 50%;
   left: 50%;
   margin-top: -0.875rem;
@@ -430,7 +440,7 @@
 
     height: 4rem;
     border-radius: 6.25rem;
-    box-shadow: inset 0 0 10px 0 #c72ae9;
+    box-shadow: inset 0 0 0.625rem 0 #c72ae9;
     border: solid 1px #c72ae9;
     background-color: rgba(199, 42, 233, 0.3);
 
@@ -1001,5 +1011,775 @@
   to {
     -webkit-transform: translateY(-3rem);
     transform: translateY(-3rem);
+  }
+}
+
+
+@media screen and (max-width: 950px) {
+  .war_game_index_wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .war_game_wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .banner_box {
+    margin-bottom: 0.75rem;
+  }
+
+  .war_game_panel {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .war_game_user {
+    width: 100%;
+    order: 2;
+    margin-top: 0.625rem;
+  }
+
+  .basic_info {
+    padding: 0.5rem;
+    order: 1;
+
+    .user_num {
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    .watcher_num {
+      font-size: 0.875rem;
+
+      img {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  .user_list_box {
+    padding: 0 0.5rem 0.5rem;
+
+    :deep(.c-scrollbar-content) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .user_item+.user_item {
+      margin-top: 0.25rem;
+    }
+
+    &.active {
+      .user_item {
+        opacity: 0.4;
+
+        &.hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .user_item {
+    width: 20.3125rem;
+
+    .user_badge {
+      width: 4.125rem;
+      height: 3.375rem;
+      margin-right: 0.4375rem;
+
+      img {
+        width: 3.375rem;
+        height: auto;
+      }
+    }
+
+    .user_info {
+      flex: 1;
+      height: 100%;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+  }
+
+  .info_box {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .avatar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .avatar_img {
+      width: 2rem;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+
+    .buy_info {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .user_name {
+        max-width: 3.75rem;
+        font-family: Inter;
+        font-size: 0.875rem;
+        line-height: 1.43;
+        text-align: left;
+        color: white;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .buy {
+        display: flex;
+        align-items: center;
+        font-family: Inter;
+        font-size: 0.875rem;
+        font-weight: bold;
+        line-height: 1.43;
+        text-align: left;
+        color: #11cde9;
+
+        img {
+          width: 1rem;
+          height: auto;
+          margin-right: 0.25rem;
+        }
+      }
+    }
+  }
+
+  .tickets_box {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .ratio {
+      font-size: 0.875rem;
+    }
+
+    .reward_id {
+      font-size: 0.75rem;
+    }
+  }
+
+  .lottery_panel {
+    width: 100%;
+    height: auto;
+    padding: 0.5rem;
+    margin-top: -0.5rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .prize_pool {
+    padding: 0 0 1rem;
+  }
+
+  .bloody_battle {
+    width: 21.4375rem;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .war_title {
+      padding-top: 1.5rem;
+      font-size: 2.5rem;
+    }
+
+    .total_bonus {
+      margin-top: 0.75rem;
+      padding-left: 0.75rem;
+      position: relative;
+    }
+  }
+
+  .round {
+
+    .round_title {
+      font-size: 0.875rem;
+      color: #79bcc6;
+    }
+
+    .round_val {
+      font-size: 0.875rem;
+      color: #fff;
+    }
+  }
+
+  .history_btn {
+    width: auto;
+    height: auto;
+    border: none;
+
+    img {
+      margin-right: 0;
+    }
+  }
+
+  .war_game_box {
+    width: 100%;
+    height: auto;
+    order: 2;
+  }
+
+  .outer_ring {
+    width: 17.75rem;
+    height: 17.75rem;
+  }
+
+  .win_pointer {
+    margin-top: -0.65625rem;
+    width: 13.1875rem;
+    height: 14.5rem;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .round_prize {
+    max-width: none;
+    max-height: 10rem;
+
+    .round_num {
+      font-size: 0.875rem;
+    }
+
+    .win_user {
+      .win_bg {
+        width: 6.25rem;
+        height: 2.5rem;
+        margin-bottom: 0.25rem;
+
+        img {
+          margin-top: 0;
+          width: 2rem;
+          height: auto;
+        }
+      }
+
+      span {
+        font-size: 0.875rem;
+      }
+    }
+
+    .round_prize_val {
+      width: 11.125rem;
+      margin: 0.25rem 0;
+
+      height: 2.25rem;
+      border-radius: 1.25rem;
+
+      span {
+        font-size: 0.875rem;
+      }
+
+      &.win {
+        height: 2.25rem;
+
+        span {
+          font-size: 0.75rem;
+        }
+      }
+
+      img {
+        width: 1rem;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .round_prize_status {
+      font-size: 0.875rem;
+
+      .win_id {
+        font-size: 0.75rem;
+      }
+
+      .next_round {
+        padding-top: 0.25rem;
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+
+
+  .countdown_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+
+    .time {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      img {
+        width: 1.5rem;
+        height: auto;
+      }
+    }
+
+
+    .progress_bar {
+      width: 13.75rem;
+      margin: 0 0 0 0.5rem;
+      position: relative;
+      box-sizing: border-box;
+
+      .progress_bg {
+        position: absolute;
+        width: 13.75rem;
+        height: 1.375rem;
+        top: 50%;
+        left: 0;
+        transform: translate(0, -50%);
+        z-index: 10;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    :deep(.el-progress) {
+      padding: 0 0.25rem;
+
+      .el-progress-bar {
+        .el-progress-bar__outer {
+          border-radius: 0 0.5rem 0 0;
+          background-color: transparent;
+
+          .el-progress-bar__inner {
+            border-radius: 0;
+          }
+        }
+      }
+    }
+
+    .countdown {
+      min-width: 4.375rem;
+      font-family: Tomorrow;
+      font-size: 0.875rem;
+      font-weight: bold;
+      text-align: right;
+      color: #fad54d;
+    }
+
+    &.battle {
+      .countdown {
+        color: #c72ae9;
+      }
+    }
+
+    &.next {
+      .countdown {
+        color: #b3b9c4;
+      }
+    }
+
+
+  }
+
+  .round_info_panel {
+    width: 100%;
+    height: auto;
+    margin-top: 0.625rem;
+
+    &>div+div {
+      margin-top: 0.625rem;
+    }
+  }
+
+  .round_info {
+    height: auto;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    .round_num {
+      font-family: Inter;
+      font-size: 1rem;
+      font-weight: bold;
+      line-height: 1.5;
+      text-align: left;
+      color: #79bcc6;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+
+      .info_item {
+        width: auto;
+      }
+
+      .info_item:nth-child(n+3) {
+        margin-top: 0;
+      }
+
+      .info_item:last-child {
+        min-width: 6rem;
+      }
+    }
+
+
+
+    .info_val {
+      padding-bottom: 0.25rem;
+
+      img {
+        width: 1.25rem;
+        height: auto;
+        margin-right: 0.25rem;
+      }
+
+      span {
+        font-size: 0.875rem;
+      }
+    }
+
+    .info_title {
+      font-size: 0.625rem;
+    }
+  }
+
+  .connect_box {
+    border-radius: 0.5rem;
+    height: auto;
+    background-image: none;
+  }
+
+  .not_connect {
+    border-radius: 0.5rem;
+  }
+
+  .enter_war {
+    width: 100%;
+    height: 2.75rem;
+    background-image: none;
+    font-size: 0.875rem;
+    box-shadow: inset 0 0 0.625rem 0 #c72ae9;
+    border: solid 0.125rem #c72ae9;
+    background-color: rgba(199, 42, 233, 0.3);
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+  }
+
+  .faq_btn {
+    margin-top: 0.625rem;
+    width: 100%;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 3;
+
+    border-radius: 0.5rem;
+    box-shadow: inset 0 0 0.625REM 0 #79bcc6;
+    border: solid 0.125rem #79bcc6;
+    background-color: rgba(121, 188, 198, 0.2);
+    text-shadow: 0 0 0.625rem #79bcc6;
+    box-sizing: border-box;
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    color: #79bcc6;
+
+    img {
+      width: 1.25rem;
+      height: auto;
+      margin-right: 0.25rem;
+    }
+  }
+
+  .introduce_panel {
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 20;
+    box-sizing: border-box;
+  }
+
+  .introduce_bg {
+    width: 100%;
+    height: auto;
+    background-image: none;
+    border-radius: 0.5rem;
+  }
+
+  .introduce_box {
+    height: auto;
+    padding: 0.5rem 1rem;
+    background-image: none;
+
+    .introduce_title {
+      font-size: 1.5rem;
+      position: relative;
+
+      .back_btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        cursor: pointer;
+      }
+    }
+
+    .introduce_divider {
+      width: 100%;
+      height: auto;
+    }
+
+    .introduce_description {
+      width: 100%;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+  }
+
+  .step_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    margin-top: 0.5rem;
+
+    .step_arrow_img {
+      width: 2rem;
+      height: auto;
+      transform: rotate(90deg);
+      margin-left: 2rem;
+    }
+  }
+
+  .step_item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    .step_img {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      order: 1;
+
+      &.img_1 {
+        img {
+          width: auto;
+          height: 2.625rem;
+        }
+      }
+
+      &.img_2 {
+        img {
+          width: auto;
+          height: 2.5rem;
+        }
+      }
+
+      &.img_3 {
+        img {
+          width: 2.5rem;
+          height: auto;
+        }
+      }
+
+      &.img_4 {
+        img {
+          width: 2.5rem;
+          height: auto;
+        }
+      }
+    }
+
+    .round {
+      width: 4rem;
+      height: 4rem;
+      margin: -0.5rem -1rem -0.5rem -1.5rem;
+      font-size: 0.625rem;
+      text-align: l;
+      order: 0;
+    }
+
+    .description {
+      flex: 1;
+      width: auto;
+      font-size: 0.75rem;
+      text-align: left;
+      order: 2;
+    }
+  }
+
+  .faq_panel {
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    height: auto;
+
+    .faq_item+.faq_item {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .faq_bg {
+    height: auto;
+    padding: 0.5rem;
+    background-image: none;
+  }
+
+  .faq_item {
+    .faq_item_title {
+      height: 1rem;
+      font-family: Inter;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: left;
+      color: #fad54d;
+      margin-bottom: 0.625rem;
+      text-shadow: 0 0 0.625rem #c72ae9;
+
+      display: flex;
+      align-items: center;
+
+      img {
+        transform: scale(0.8);
+        margin: 0 -0.5rem;
+      }
+
+      ;
+    }
+
+    .faq_item_description {
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+
+      ul {
+        padding-left: 1.5rem;
+
+        li {
+          list-style-type: disc;
+        }
+      }
+    }
+  }
+
+  .tooltips_box {
+    width: 15.625rem;
+    height: 4.25rem;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    position: absolute;
+
+    .tooltip_badge {
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      box-sizing: border-box;
+      padding-right: 0.5rem;
+      z-index: 1;
+
+      img {
+        width: 2rem;
+        height: auto;
+      }
+    }
+
+    .war_data_box {
+      z-index: 1;
+      flex: 1;
+      padding-right: 1rem;
+      box-sizing: border-box;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .box_avatar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .user_name {
+        font-family: Inter;
+        font-size: 0.875rem;
+        line-height: 1.43;
+        text-align: left;
+        color: white;
+
+        width: 7rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .ratio {
+        font-family: Inter;
+        font-size: 0.875rem;
+        font-weight: bold;
+        line-height: 1.43;
+        text-align: right;
+        color: #11cde9;
+      }
+    }
+
+    .box_tickets {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .reward_id {
+        display: inline-block;
+        font-family: Inter;
+        font-size: 0.75rem;
+        line-height: 1.33;
+        text-align: right;
+        color: #a9a4b4;
+      }
+
+      .buy {
+        display: inline-flex;
+        align-items: center;
+        font-family: Inter;
+        font-size: 0.875rem;
+        font-weight: bold;
+        line-height: 1.43;
+        text-align: left;
+        color: #11cde9;
+
+        img {
+          width: 1rem;
+          height: auto;
+          margin-right: 0.25rem;
+        }
+      }
+    }
   }
 }

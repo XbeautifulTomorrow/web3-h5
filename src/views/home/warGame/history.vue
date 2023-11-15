@@ -1,24 +1,37 @@
 <template>
   <div class="war_history_wrapper">
-    <div class="history_filter">
-      <el-switch
-        v-model="myStatus"
-        @change="handleChange"
-        active-value="TRUE"
-        inactive-value="FALSE"
-        style="
-          --el-switch-on-color: #927a51;
-          --el-switch-off-color: rgba(60, 60, 67, 0.8);
+    <div class="operating_box">
+      <div
+        class="back_btn"
+        @click="
+          () => {
+            $emit('toWar');
+          }
         "
-      />
-      <span>{{ $t("tokenWar.onlyYourRounds") }}</span>
+      >
+        <img src="@/assets/svg/home/warGame/icon_history_back.svg" alt="" />
+        <span>{{ $t("tokenWar.currentRound") }}</span>
+      </div>
+      <div class="history_filter">
+        <el-switch
+          v-model="myStatus"
+          @change="handleChange"
+          active-value="TRUE"
+          inactive-value="FALSE"
+          style="
+            --el-switch-on-color: #927a51;
+            --el-switch-off-color: rgba(60, 60, 67, 0.8);
+          "
+        />
+        <span>{{ $t("tokenWar.onlyYourRounds") }}</span>
+      </div>
     </div>
     <div class="history_data_box">
       <div class="history_data_bg">
         <el-table
           :data="historyData"
           class="table_container"
-          height="76.5rem"
+          :height="screenWidth > 950 ? '76.5rem' : '74rem'"
           style="width: 100%"
           @row-click="handleHistory"
         >
@@ -186,7 +199,7 @@
         v-model="page"
         :page-size="size"
         @current-change="handleCurrentChange"
-        :pager-count="7"
+        :pager-count="5"
         layout="prev, pager, next"
         :total="count"
         prev-text="Pre"
@@ -196,7 +209,13 @@
   </div>
 </template>
 <script>
-import { timeFormat, openUrl, accurateDecimal, formatUsd } from "@/utils";
+import {
+  timeFormat,
+  openUrl,
+  accurateDecimal,
+  formatUsd,
+  handleWindowResize,
+} from "@/utils";
 import { getWarHistory } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
 export default {
@@ -209,6 +228,7 @@ export default {
       page: 1,
       size: 20,
       count: 0,
+      screenWidth: null,
     };
   },
   computed: {},
@@ -293,6 +313,20 @@ export default {
   },
   created() {
     this.fetchWarHistory();
+
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+  },
+  mounted() {
+    const that = this;
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+
+      that.initSvg();
+      that.setSvg();
+    });
   },
 };
 </script>

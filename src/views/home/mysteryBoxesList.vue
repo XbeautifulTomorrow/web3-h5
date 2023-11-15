@@ -73,7 +73,7 @@
           v-model="page"
           :page-size="size"
           @current-change="handleCurrentChange"
-          :pager-count="7"
+          :pager-count="5"
           layout="prev, pager, next"
           :total="count"
           :prev-text="$t('common.prev')"

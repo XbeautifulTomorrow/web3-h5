@@ -865,6 +865,7 @@
     "fairnessText1": "The competition will undergo verification, auditing, and operation through blockchain-compatible smart contracts that adhere to web3 standards.",
     "fairnessText2": "You won't need to concern yourself with gas fees, as Bitzing will cover all associated costs on your behalf.",
     "fairnessText3": "Please note that refunds are only permissible if the conditions necessary for commencing the game have not been met.",
-    "fairnessText4": "For a comprehensive list of participants, you can access the information on the game page."
+    "fairnessText4": "For a comprehensive list of participants, you can access the information on the game page.",
+    "buyTips": "Reinvestment amount must be greater than {num} USDT"
   }
 }

@@ -216,7 +216,12 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
-import { accurateDecimal, formatUsd, handleWindowResize } from "@/utils";
+import {
+  accurateDecimal,
+  formatUsd,
+  handleWindowResize,
+  deepClone,
+} from "@/utils";
 import {
   warBuy,
   getAutoConfig,
@@ -231,6 +236,10 @@ export default {
   name: "WarBuy",
   props: {
     warInfo: {
+      type: Object,
+      default: null,
+    },
+    userData: {
       type: Object,
       default: null,
     },
@@ -282,22 +291,22 @@ export default {
      * @description 最高参与金额用户
      */
     maxBonus() {
-      const { warData } = this.warInfo;
+      const { joinDataList } = this.warInfo;
 
-      if (!warData || !warData.length > 0) return null;
-      let wars = warData;
+      if (!joinDataList || !joinDataList.length > 0) return null;
+      let wars = deepClone(joinDataList);
 
       for (var i = 0; i < wars.length - 1; i++) {
         for (var j = 0; j < wars.length - 1 - i; j++) {
-          if (wars[j] > wars[j + 1]) {
-            var temp = wars[i];
+          if (Number(wars[j].buyPrice) > Number(wars[j + 1].buyPrice)) {
+            var temp = wars[j];
             wars[j] = wars[j + 1];
             wars[j + 1] = temp;
           }
         }
       }
 
-      return wars[0];
+      return wars[wars.length - 1];
     },
   },
   methods: {
@@ -315,12 +324,15 @@ export default {
         return;
       }
 
+      if (this.status != "INIT") return;
+
       const {
         buyNum,
         usdBalance,
         systemConfig: { singlePrice },
         maxBonus,
         userInfo,
+        userData,
       } = this;
 
       // 血战到底购买提示
@@ -328,16 +340,16 @@ export default {
 
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
-          if (maxBonus.userId != userInfo?.id && maxBonus.buyPrice > buyNum) {
-            this.$message.error(
-              t("tokenWar.buyTips", { num: maxBonus.buyPrice })
-            );
+          const maxNum = Number(
+            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0)
+          );
+
+          if (maxBonus.userId != userInfo?.id && maxNum > Number(buyNum)) {
+            this.$message.error(t("tokenWar.buyTips", { num: maxNum }));
             return;
           }
         }
       }
-
-      if (this.status != "INIT") return;
 
       if (Number(buyNum) > Number(usdBalance)) {
         this.$message.error(t("lottery.tips5"));

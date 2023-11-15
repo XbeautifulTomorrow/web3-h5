@@ -462,7 +462,7 @@ export default {
       {
         text: t("header.tokenWar"),
         page: "TokenWar",
-        icon: require("@/assets/svg/home/mini/icon_treasure_draw.svg"),
+        icon: require("@/assets/svg/home/mini/icon_token_war.svg"),
       },
       {
         text: t("header.whitebook"),

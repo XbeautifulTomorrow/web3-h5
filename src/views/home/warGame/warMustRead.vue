@@ -26,7 +26,9 @@
             <span style="color: #fad54d">
               {{ $t("tokenWar.warMustReadText2") }}
             </span>
-            <span>{{ $t("tokenWar.warMustReadText3") }}</span>
+            <br />
+            <br />
+            <span style="font-weight: bold;">{{ $t("tokenWar.warMustReadText3") }}</span>
           </div>
           <div class="must_read_btns">
             <div class="btn_confirm" @click="joinWar()">

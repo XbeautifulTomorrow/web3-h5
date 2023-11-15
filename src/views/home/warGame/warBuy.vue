@@ -216,7 +216,12 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
-import { accurateDecimal, formatUsd, handleWindowResize } from "@/utils";
+import {
+  accurateDecimal,
+  formatUsd,
+  handleWindowResize,
+  deepClone,
+} from "@/utils";
 import {
   warBuy,
   getAutoConfig,
@@ -282,22 +287,22 @@ export default {
      * @description 最高参与金额用户
      */
     maxBonus() {
-      const { warData } = this.warInfo;
+      const { joinDataList } = this.warInfo;
 
-      if (!warData || !warData.length > 0) return null;
-      let wars = warData;
+      if (!joinDataList || !joinDataList.length > 0) return null;
+      let wars = deepClone(joinDataList);
 
       for (var i = 0; i < wars.length - 1; i++) {
         for (var j = 0; j < wars.length - 1 - i; j++) {
-          if (wars[j] > wars[j + 1]) {
-            var temp = wars[i];
+          if (Number(wars[j].buyPrice) > Number(wars[j + 1].buyPrice)) {
+            var temp = wars[j];
             wars[j] = wars[j + 1];
             wars[j + 1] = temp;
           }
         }
       }
 
-      return wars[0];
+      return wars[wars.length - 1];
     },
   },
   methods: {
@@ -314,6 +319,8 @@ export default {
         this.$emit("showLogin");
         return;
       }
+
+      if (this.status != "INIT") return;
 
       const {
         buyNum,
@@ -336,8 +343,6 @@ export default {
           }
         }
       }
-
-      if (this.status != "INIT") return;
 
       if (Number(buyNum) > Number(usdBalance)) {
         this.$message.error(t("lottery.tips5"));

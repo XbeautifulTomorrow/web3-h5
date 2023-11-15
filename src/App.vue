@@ -33,7 +33,7 @@ export default {
     ...mapStores(useUserStore),
     locale() {
       const { locale } = this.userStore;
-      return locale
+      return locale;
     },
   },
   methods: {
@@ -43,14 +43,14 @@ export default {
         this.isRouterAlive = true; //再打开
       });
     },
-    getCoinList(){
+    getCoinList() {
       const headerStore = useUserStore();
       return headerStore.getCoinList();
-    }
+    },
   },
-  created(){
-    this.getCoinList()
-  }
+  created() {
+    this.getCoinList();
+  },
 };
 </script>
 
@@ -92,62 +92,57 @@ body {
   overflow: hidden;
   min-height: 100vh;
 
-  &>div:nth-child(1) {
-    top: 98.875rem;
-    left: -9.6875rem;
+  & > div:nth-child(1) {
+    top: 42.875rem;
+    left: -40rem;
     position: absolute;
-    width: 25.1875rem;
-    height: 28.5rem;
-    pointer-events: none;
-    background-color: #a21ae2;
-    filter: blur(16.5625rem);
+    width: 91rem;
+    height: 94rem;
+    background: url("@/assets/img/home/bg_lt.webp") no-repeat center;
+    background-size: contain;
+    z-index: 1;
   }
 
-  &>div:nth-child(2) {
-    top: 122.625rem;
-    right: -10.0625rem;
+  & > div:nth-child(2) {
+    top: 60rem;
+    right: -45rem;
     position: absolute;
-    width: 29.875rem;
-    height: 33.8125rem;
-    pointer-events: none;
-    filter: blur(18.75rem);
-    background-color: #ed21b4;
+    width: 91rem;
+    height: 94rem;
+    background: url("@/assets/img/home/bg_rt.webp") no-repeat center;
+    background-size: contain;
+    z-index: 1;
   }
 
-  &>div:nth-child(3) {
-    top: 206.4375rem;
-    left: -18.9375rem;
+  & > div:nth-child(3) {
+    top: 130.4375rem;
+    left: -52rem;
     position: absolute;
-    width: 29.875rem;
-    height: 33.8125rem;
-    pointer-events: none;
-    filter: blur(18.75rem);
-    border-radius: 50%;
-    background-color: #ed21b4;
+    width: 91rem;
+    height: 94rem;
+    background: url("@/assets/img/home/bg_lb.webp") no-repeat center;
+    background-size: contain;
+    z-index: 1;
   }
 
-  &>div:nth-child(4) {
-    top: 242.25rem;
-    right: -24.125rem;
+  & > div:nth-child(4) {
+    top: 180.25rem;
+    right: -50rem;
     position: absolute;
-    width: 29.875rem;
-    height: 33.8125rem;
-    pointer-events: none;
-    filter: blur(18.75rem);
-    border-radius: 50%;
-    background-color: #a21ae2;
+    width: 91rem;
+    height: 94rem;
+    background: url("@/assets/img/home/bg_rb.webp") no-repeat center;
+    background-size: contain;
+    z-index: 1;
   }
-
-
 }
 
 @media screen and (max-width: 950px) {
-
   .bg-panl {
     display: flex;
     flex-direction: column;
 
-    &>.gradual-bg {
+    & > .gradual-bg {
       display: none;
     }
 

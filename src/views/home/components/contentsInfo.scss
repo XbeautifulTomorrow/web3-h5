@@ -2,7 +2,7 @@
   box-sizing: border-box;
   width: 95rem;
   margin: 0 auto;
-  margin-top: 10.625rem;
+  margin-top: 6.25rem;
   padding-bottom: 4rem;
 }
 
@@ -14,7 +14,6 @@
 }
 
 .title-box-l {
-
   .title_text {
     margin: 0 auto;
     background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
@@ -38,7 +37,6 @@
 }
 
 :deep(.nft_type) {
-
   .el-input {
     &.is-focus {
       .el-input__wrapper {
@@ -59,7 +57,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -93,7 +91,7 @@
       background-color: transparent;
       padding-left: 8.75rem;
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: #fad54d;
       }
     }
@@ -104,7 +102,6 @@
     width: 14.6875rem;
 
     :deep(.nft_type) {
-
       .el-input__wrapper {
         padding-left: 5.4375rem;
       }
@@ -112,9 +109,7 @@
   }
 }
 
-
 :deep(.table_container) {
-
   .cell {
     line-height: 2.5rem;
     font-size: 1.125rem;
@@ -125,7 +120,7 @@
   th {
     &.el-table__cell {
       background-color: #191c28;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -139,7 +134,7 @@
 
   td {
     &.el-table__cell {
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -149,7 +144,7 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: #281d31 !important;
   }
 
@@ -226,8 +221,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -256,7 +250,6 @@
   }
 }
 
-
 @media screen and (max-width: 950px) {
   .contents-info {
     box-sizing: border-box;
@@ -271,7 +264,6 @@
   }
 
   .title-box-l {
-
     .title_text {
       font-size: 1.5rem;
       line-height: 1.2;
@@ -304,7 +296,7 @@
       height: 2rem;
       padding: 0 0.5rem;
 
-      &>input {
+      & > input {
         height: 2rem;
         font-size: 0.75rem;
       }
@@ -335,7 +327,7 @@
         background-color: transparent;
         padding-left: 5rem;
 
-        &>input::placeholder {
+        & > input::placeholder {
           color: #fad54d;
         }
       }
@@ -343,7 +335,6 @@
   }
 
   :deep(.table_container) {
-
     .cell {
       line-height: 1.5rem;
       font-size: 0.75rem;
@@ -369,7 +360,7 @@
 
     td {
       &.el-table__cell {
-        border-bottom-color: #23172A;
+        border-bottom-color: #23172a;
       }
     }
 
@@ -382,7 +373,6 @@
         height: auto;
         border-radius: 0.25rem;
       }
-
 
       .user_text {
         width: 2rem;
@@ -430,8 +420,7 @@
     }
 
     :deep(.el-pager) {
-
-      &>li+li {
+      & > li + li {
         margin-left: 0.5rem;
       }
 

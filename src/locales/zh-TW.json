@@ -377,6 +377,7 @@
     "createTitle": "設置專屬邀請碼",
     "createEnterHint": "輸入邀請碼..",
     "create": "創建",
+    "createCode": "CREATE REFERRAL CODE",
     "CLICKS": "點擊量",
     "REFERRALS": "成功邀請",
     "POINT": "積分",

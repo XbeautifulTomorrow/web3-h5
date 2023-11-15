@@ -239,6 +239,10 @@ export default {
       type: Object,
       default: null,
     },
+    userData: {
+      type: Object,
+      default: null,
+    },
     config: {
       type: String,
       default: "",
@@ -328,6 +332,7 @@ export default {
         systemConfig: { singlePrice },
         maxBonus,
         userInfo,
+        userData,
       } = this;
 
       // 血战到底购买提示
@@ -335,10 +340,12 @@ export default {
 
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
-          if (maxBonus.userId != userInfo?.id && maxBonus.buyPrice > buyNum) {
-            this.$message.error(
-              t("tokenWar.buyTips", { num: maxBonus.buyPrice })
-            );
+          const maxNum = Number(
+            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0)
+          );
+
+          if (maxBonus.userId != userInfo?.id && maxNum > Number(buyNum)) {
+            this.$message.error(t("tokenWar.buyTips", { num: maxNum }));
             return;
           }
         }

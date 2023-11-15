@@ -28,7 +28,7 @@
             trigger="hover"
             :vBarStyle="{ 'background-color': 'rgb(29, 15, 54, 1)' }"
             :vThumbStyle="{ 'background-color': 'rgb(109, 101, 130, 1)' }"
-            :height="screenWidth > 950 ? '35.75rem' : '17.75rem'"
+            :height="screenWidth > 950 ? '35.75rem' : '19rem'"
           >
             <div
               :class="[
@@ -291,6 +291,7 @@
             @showLogin="pageType = 'login'"
             :config="cahngeConfig"
             :warInfo="warInfo"
+            :userData="userData"
           ></war-buy>
         </div>
       </div>

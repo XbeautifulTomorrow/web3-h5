@@ -3,8 +3,8 @@
     <div class="banner_bg">
       <div class="banner_txt_box">
         <div>
-          <p>Get 200% Bonus</p>
-          <p>Up to 100 eth</p>
+          <p>GET 200% BONUS</p>
+          <p>UP TO 100 ETH</p>
         </div>
         <div class="join_button" @click="goUrl(bgUrl)">JOIN NOW</div>
       </div>

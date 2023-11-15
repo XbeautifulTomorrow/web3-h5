@@ -533,29 +533,28 @@
     margin: 0 1.25rem 0 0.75rem;
     position: relative;
     box-sizing: border-box;
+    border-radius: 0 0.5rem 0.5rem 0;
+    border: 0.25rem solid transparent;
+    overflow: hidden;
 
-    .progress_bg {
-      position: absolute;
-      width: 34.6875rem;
-      height: 1.375rem;
-      top: 50%;
-      left: 0;
-      transform: translate(0, -50%);
-      z-index: 10;
+    &.init {
+      border-color: #5D443B;
+    }
 
-      img {
-        width: 100%;
-        height: auto;
-      }
+    &.wait {
+      border-color: #4E116A;
+    }
+
+    &.next {
+      border-color: #483C5E;
     }
   }
 
   :deep(.el-progress) {
-    padding: 0 0.25rem;
 
     .el-progress-bar {
       .el-progress-bar__outer {
-        border-radius: 0 0.5rem 0 0;
+        border-radius: 0;
         background-color: transparent;
 
         .el-progress-bar__inner {
@@ -1335,40 +1334,11 @@
 
 
     .progress_bar {
-      width: 13.75rem;
-      margin: 0 0 0 0.5rem;
+      flex: 1;
+      width: auto;
+      margin: 0 0.5rem 0 0.5rem;
       position: relative;
       box-sizing: border-box;
-
-      .progress_bg {
-        position: absolute;
-        width: 13.75rem;
-        height: 1.375rem;
-        top: 50%;
-        left: 0;
-        transform: translate(0, -50%);
-        z-index: 10;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-    }
-
-    :deep(.el-progress) {
-      padding: 0 0.25rem;
-
-      .el-progress-bar {
-        .el-progress-bar__outer {
-          border-radius: 0 0.5rem 0 0;
-          background-color: transparent;
-
-          .el-progress-bar__inner {
-            border-radius: 0;
-          }
-        }
-      }
     }
 
     .countdown {

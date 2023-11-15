@@ -28,7 +28,7 @@
             trigger="hover"
             :vBarStyle="{ 'background-color': 'rgb(29, 15, 54, 1)' }"
             :vThumbStyle="{ 'background-color': 'rgb(109, 101, 130, 1)' }"
-            height="17.75rem"
+            :height="screenWidth > 950 ? '35.75rem' : '17.75rem'"
           >
             <div
               :class="[
@@ -190,7 +190,16 @@
                 src="@/assets/svg/home/warGame/progress/icon_next.svg"
               />
             </div>
-            <div class="progress_bar">
+            <div
+              :class="[
+                'progress_bar',
+                currentStatus == 'INIT'
+                  ? 'init'
+                  : currentStatus == 'WAIT'
+                  ? 'wait'
+                  : 'next',
+              ]"
+            >
               <el-progress
                 :percentage="percentage"
                 :stroke-width="getRatio().fontSize * 0.75"
@@ -206,40 +215,6 @@
                 "
                 :show-text="false"
               />
-              <div class="progress_bg" v-if="screenWidth > 950">
-                <img
-                  v-if="currentStatus == 'INIT'"
-                  src="@/assets/svg/home/warGame/progress/progress_bg.svg"
-                  alt=""
-                />
-                <img
-                  v-else-if="currentStatus == 'WAIT'"
-                  src="@/assets/svg/home/warGame/progress/progress_battle_bg.svg"
-                  alt=""
-                />
-                <img
-                  v-else
-                  src="@/assets/svg/home/warGame/progress/progress_next_bg.svg"
-                  alt=""
-                />
-              </div>
-              <div class="progress_bg" v-else>
-                <img
-                  v-if="currentStatus == 'INIT'"
-                  src="@/assets/svg/home/warGame/progress/progress_mobile_bg.svg"
-                  alt=""
-                />
-                <img
-                  v-else-if="currentStatus == 'WAIT'"
-                  src="@/assets/svg/home/warGame/progress/progress_battle_mobile_bg.svg"
-                  alt=""
-                />
-                <img
-                  v-else
-                  src="@/assets/svg/home/warGame/progress/progress_next_mobile_bg.svg"
-                  alt=""
-                />
-              </div>
             </div>
           </div>
           <div class="countdown">
@@ -304,19 +279,16 @@
           </div>
         </div>
         <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']">
-          <div class="not_connect" v-if="!showBuy">
-            <div class="enter_war" v-if="!isHistory" @click="handleBuy()">
-              {{ $t("tokenWar.enterWar") }}
-            </div>
-            <div class="enter_war" v-else-if="isHistory" @click="handleBack()">
+          <div class="not_connect" v-if="isHistory">
+            <div class="enter_war" @click="handleBack()">
               {{ $t("tokenWar.backText") }}
             </div>
-            <div class="enter_war" v-else>{{ $t("tokenWar.enterWar") }}</div>
           </div>
           <war-buy
             v-else
             :status="currentStatus"
             @showDialogFun="handlePopups"
+            @showLogin="pageType = 'login'"
             :config="cahngeConfig"
             :warInfo="warInfo"
           ></war-buy>
@@ -489,6 +461,8 @@
     ></war-must-read>
     <war-winning
       :winInfo="winUser"
+      :warData="warData"
+      :config="config"
       v-if="pageType == 'war_win'"
       @closeReceiveFun="changeTypeFun"
       @closeDialogFun="closeDialogFun"
@@ -716,7 +690,6 @@ export default {
     changeTypeFun(page) {
       if (page == "must_read") {
         this.pageType = "";
-        this.showBuy = true;
         return;
       } else if (page == "war_win") {
         this.pageType = "";
@@ -1307,7 +1280,10 @@ export default {
           }
 
           this.warTime.countdownTime = null;
-          this.getTheUserBalanceInfo();
+
+          if (this.userInfo?.id && this.isLogin) {
+            this.getTheUserBalanceInfo();
+          }
           return;
         }
 
@@ -1666,11 +1642,11 @@ export default {
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
 
-    if (this.userInfo?.id && this.isLogin) {
-      const is_must_read = getLocalStore("must_read");
-      if (is_must_read == "1") {
-        this.showBuy = true;
-      }
+    const is_must_read = getLocalStore("must_read");
+    if (is_must_read == "1") {
+      this.showBuy = true;
+    } else {
+      this.pageType = "must_read";
     }
 
     if (this.isHistory) {

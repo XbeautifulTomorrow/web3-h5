@@ -28,21 +28,9 @@
             </span>
             <span>{{ $t("tokenWar.warMustReadText3") }}</span>
           </div>
-          <div class="form-rember">
-            <span class="form-rember-rectangle" @click="showRememberFun">
-              <span
-                v-show="rememberMe"
-                class="form-rember-rectangle-fill"
-              ></span>
-            </span>
-            <span class="form-rember-text">{{ $t("tokenWar.notPrompt") }}</span>
-          </div>
           <div class="must_read_btns">
             <div class="btn_confirm" @click="joinWar()">
               {{ $t("tokenWar.continueText") }}
-            </div>
-            <div class="btn_cancel" @click="handleClose()">
-              {{ $t("tokenWar.cancelText") }}
             </div>
           </div>
         </div>
@@ -58,18 +46,11 @@ export default {
   data() {
     return {
       show: true,
-      rememberMe: false,
     };
   },
   methods: {
-    showRememberFun() {
-      this.rememberMe = !this.rememberMe;
-    },
     joinWar() {
-      if (this.rememberMe) {
-        setLocalStore("must_read", "1");
-      }
-
+      setLocalStore("must_read", "1");
       this.$emit("changeTypeFun", "must_read");
     },
     // 关闭弹窗

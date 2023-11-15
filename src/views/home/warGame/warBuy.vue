@@ -284,7 +284,7 @@ export default {
     maxBonus() {
       const { warData } = this.warInfo;
 
-      if (!warData.length > 0) return null;
+      if (!warData || !warData.length > 0) return null;
       let wars = warData;
 
       for (var i = 0; i < wars.length - 1; i++) {
@@ -310,6 +310,11 @@ export default {
     },
     // 购买战争游戏门票
     async buyTickets() {
+      if (!this.userInfo?.id || !this.isLogin) {
+        this.$emit("showLogin");
+        return;
+      }
+
       const {
         buyNum,
         usdBalance,
@@ -320,9 +325,10 @@ export default {
 
       // 血战到底购买提示
       const { bigPrizeStatus, joinDataList } = this.warInfo;
+
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
-          if (maxBonus.buyPrice > buyNum) {
+          if (maxBonus.userId != userInfo?.id && maxBonus.buyPrice > buyNum) {
             this.$message.error(
               t("tokenWar.buyTips", { num: maxBonus.buyPrice })
             );
@@ -367,6 +373,11 @@ export default {
     },
     // 自动战争设置
     async changeAuto() {
+      if (!this.userInfo?.id || !this.isLogin) {
+        this.$emit("showLogin");
+        return;
+      }
+
       const {
         autoConfig: { autoBuyStatus },
       } = this;
@@ -387,6 +398,11 @@ export default {
     },
     // 锁定胜率设置
     async changeLock(event) {
+      if (!this.userInfo?.id || !this.isLogin) {
+        this.$emit("showLogin");
+        return;
+      }
+
       if (event == 1) {
         if (this.autoConfig.lockWinRateStatus == "CLOSE") return;
         // 关闭
@@ -433,10 +449,19 @@ export default {
   watch: {
     config(newV) {
       if (!newV) return;
-      this.fetchAutoConfig();
+      if (this.userInfo?.id && this.isLogin) {
+        this.fetchAutoConfig();
+      }
     },
     status(newV) {
       if (newV == "INIT") {
+        if (this.userInfo?.id && this.isLogin) {
+          this.fetchAutoConfig();
+        }
+      }
+    },
+    isLogin() {
+      if (this.userInfo?.id && this.isLogin) {
         this.fetchAutoConfig();
       }
     },

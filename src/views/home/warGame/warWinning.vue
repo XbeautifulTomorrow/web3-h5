@@ -20,7 +20,7 @@
         <div class="win_title">{{ $t("tokenWar.youWin") }}</div>
         <div class="win_amount">
           <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-          <span>{{ formatUsd(winInfo?.winerIncome) }}</span>
+          <span>{{ formatUsd(calculateProfit()) }}</span>
         </div>
         <div class="win_info">
           <div class="info_item">
@@ -88,11 +88,35 @@ export default {
       type: Object,
       default: null,
     },
+    config: {
+      type: Object,
+      default: null,
+    },
+    warData: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
   },
   data() {
     return {
       show: true,
     };
+  },
+
+  computed: {
+    /**
+     * @description 用户总计参与金额
+     */
+    totalBonus() {
+      const { warData } = this;
+      let bonus = 0;
+      for (let i = 0; i < warData.length; i++) {
+        bonus += Number(warData[i].buyPrice);
+      }
+      return bonus;
+    },
   },
   methods: {
     formatUsd: formatUsd,
@@ -121,15 +145,26 @@ export default {
     },
     // 格式化胜率
     getWinningRate(event) {
-      const { winInfo } = this;
+      const { totalBonus } = this;
       const amount = Number(event || 0);
-      if (!amount || !Number(winInfo?.jackpot)) return 0;
+      if (!amount || !Number(totalBonus)) return 0;
 
       const rate = new bigNumber(event)
-        .div(Number(winInfo?.jackpot))
+        .div(Number(totalBonus))
         .multipliedBy(100);
 
       return accurateDecimal(rate, 2);
+    },
+    // 计算收益
+    calculateProfit() {
+      const { winInfo, config } = this;
+      if (!winInfo?.winerIncome || !config?.fee) return;
+
+      const winFee = Number(
+        new bigNumber(winInfo?.winerIncome || 0).multipliedBy(config?.fee)
+      );
+
+      return Number(new bigNumber(winInfo?.winerIncome || 0).minus(winFee));
     },
     // 关闭弹窗
     handleClose() {

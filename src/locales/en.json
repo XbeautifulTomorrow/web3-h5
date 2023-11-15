@@ -785,8 +785,8 @@
     "backText": "Back to Current Round",
     "warMustRead": "Before the Combat…",
     "warMustReadText1": "Before you join the combat, we want you to have a comprehensive understanding of the game's rules. This is a winner-takes-all game. If you are the winner, you will claim the entire prize pool. Conversely, ",
-    "warMustReadText2":"if you fail, you will lose the entire amount you have contributed to the prize pool. ",
-    "warMustReadText3":"It's TOKEN WAR, winner TAKES ALL!",
+    "warMustReadText2": "if you fail, you will lose the entire amount you have contributed to the prize pool. ",
+    "warMustReadText3": "It's TOKEN WAR, winner TAKES ALL!",
     "notPrompt": "Don't show me this again",
     "continueText": "I Understand - Let's Do It",
     "cancelText": "Never mind",
@@ -803,7 +803,7 @@
     "lockWinRate": "Win Rate Lock-In",
     "close": "Off",
     "onlyOnce": "On",
-    "open": "Open",
+    "open": "On",
     "auto": "Auto",
     "targetWinRate": "Target Win Rate",
     "maxInvest": "Max Troop Deployment",
@@ -865,6 +865,7 @@
     "fairnessText1": "The competition will undergo verification, auditing, and operation through blockchain-compatible smart contracts that adhere to web3 standards.",
     "fairnessText2": "You won't need to concern yourself with gas fees, as Bitzing will cover all associated costs on your behalf.",
     "fairnessText3": "Please note that refunds are only permissible if the conditions necessary for commencing the game have not been met.",
-    "fairnessText4": "For a comprehensive list of participants, you can access the information on the game page."
+    "fairnessText4": "For a comprehensive list of participants, you can access the information on the game page.",
+    "buyTips": "Reinvestment amount must be greater than {num} USDT"
   }
 }

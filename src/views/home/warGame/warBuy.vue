@@ -230,6 +230,10 @@ const { t } = i18n.global;
 export default {
   name: "WarBuy",
   props: {
+    warInfo: {
+      type: Object,
+      default: null,
+    },
     config: {
       type: String,
       default: "",
@@ -274,6 +278,27 @@ export default {
       const { isLogin } = this.userStore;
       return isLogin;
     },
+    /**
+     * @description 最高参与金额用户
+     */
+    maxBonus() {
+      const { warData } = this.warInfo;
+
+      if (!warData.length > 0) return null;
+      let wars = warData;
+
+      for (var i = 0; i < wars.length - 1; i++) {
+        for (var j = 0; j < wars.length - 1 - i; j++) {
+          if (wars[j] > wars[j + 1]) {
+            var temp = wars[i];
+            wars[j] = wars[j + 1];
+            wars[j + 1] = temp;
+          }
+        }
+      }
+
+      return wars[0];
+    },
   },
   methods: {
     formatUsd: formatUsd,
@@ -289,7 +314,22 @@ export default {
         buyNum,
         usdBalance,
         systemConfig: { singlePrice },
+        maxBonus,
+        userInfo,
       } = this;
+
+      // 血战到底购买提示
+      const { bigPrizeStatus, joinDataList } = this.warInfo;
+      if (bigPrizeStatus == "TRUE") {
+        if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
+          if (maxBonus.buyPrice > buyNum) {
+            this.$message.error(
+              t("tokenWar.buyTips", { num: maxBonus.buyPrice })
+            );
+            return;
+          }
+        }
+      }
 
       if (this.status != "INIT") return;
 

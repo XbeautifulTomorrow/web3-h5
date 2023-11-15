@@ -311,7 +311,7 @@
               </div>
             </div>
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
-              <span>{{ $t("EXCHANGE") }}</span>
+              <span>{{ t("EXCHANGE") }}</span>
             </div>
           </div>
         </div>
@@ -603,6 +603,9 @@ export default {
     handleOperating(event) {
       this.walletOperating = event;
       this.walletAmount = null;
+      if (this.exchangeRateTimer) {
+        clearInterval(this.exchangeRateTimer);
+      }
       if (this.walletOperating == 1 && this.operatingCoin != null) {
         this.$nextTick(() => {
           this.createQrcode();

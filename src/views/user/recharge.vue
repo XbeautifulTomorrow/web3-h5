@@ -642,7 +642,7 @@ export default {
           this.createQrcode();
         });
 
-        this.fetchRechargeExchangeRate();
+        this.fetchRechargeExchangeRate(event);
       } else {
         this.fetchWithdrawalExchangeRate();
       }
@@ -695,12 +695,13 @@ export default {
     },
 
     // 充值汇率
-    async fetchRechargeExchangeRate() {
+    async fetchRechargeExchangeRate(data = "ETH") {
+      let coin = data == "USDT" ? "ETH" : data;
       const res = await exchangeRateV2({
-        coinName: "ETH",
+        coinName: coin,
       });
       if (res && res.code == 200) {
-        const down = this.getExchangeDown("ETH");
+        const down = this.getExchangeDown(coin);
         this.exchangeRate = 1 / (res.data * (1 - down));
         this.walletAmount = 1;
       }

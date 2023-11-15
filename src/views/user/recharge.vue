@@ -465,9 +465,6 @@ export default {
           this.ethNum = newV || 0;
           return;
         }
-        console.log(newV);
-        console.log(exchangeRate);
-
         this.ethNum = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8) || 0;
       }, 300);
     },
@@ -761,7 +758,6 @@ export default {
           this.verifys = false;
           return;
         }
-        console.log(this.walletNetwork, this.walletNetwork);
         const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
         if (type == "TRON" && !isValiTronAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {

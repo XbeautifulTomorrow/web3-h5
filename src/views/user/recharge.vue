@@ -115,13 +115,13 @@
             <div class="price_convert">
               <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
                 <template #prefix>
-                  <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  <img :src="getCion(operatingCoin)" alt="" />
                 </template>
               </el-input>
               <div class="convert_interval">~</div>
               <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
                 <template #prefix>
-                  <img :src="getCion(operatingCoin)" alt="" />
+                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 </template>
               </el-input>
             </div>
@@ -461,13 +461,14 @@ export default {
           this.ethNum = newV || 0;
           return;
         }
-
-        if (operatingCoin == "ETH" || operatingCoin == "WETH") {
+        if (operatingCoin == "USDT") {
           this.ethNum = newV || 0;
           return;
         }
+        console.log(newV);
+        console.log(exchangeRate);
 
-        this.ethNum = accurateDecimal(new bigNumber(newV || 0).multipliedBy(exchangeRate || 0), 8) || 0;
+        this.ethNum = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8) || 0;
       }, 300);
     },
     ethNum(newV) {
@@ -480,12 +481,12 @@ export default {
           return;
         }
 
-        if (operatingCoin == "ETH") {
+        if (operatingCoin == "USDT") {
           this.walletAmount = newV || 0;
           return;
         }
 
-        this.walletAmount = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8) || 0;
+        this.walletAmount = accurateDecimal(new bigNumber(newV || 0).multipliedBy(exchangeRate || 0), 8) || 0;
       }, 300);
     },
   },
@@ -649,7 +650,7 @@ export default {
       this.$forceUpdate();
     },
     // 支持的网络
-    async fetchWithdrawalChain() {
+    async fetchWithdrawalChain(type) {
       const res = await getWithdrawalChain();
       if (res && res.code == 200) {
         this.networkList = res.data;
@@ -665,6 +666,9 @@ export default {
         if (this.networkDrop.length > 0) {
           this.walletNetwork = this.networkDrop[0].chain;
           this.walletNetworkChange();
+        }
+        if (type == true) {
+          this.fetchRechargeExchangeRate();
         }
       }
     },
@@ -697,7 +701,7 @@ export default {
       });
       if (res && res.code == 200) {
         const down = this.getExchangeDown("ETH");
-        this.exchangeRate = res.data / (1 - down);
+        this.exchangeRate = 1 / (res.data * (1 - down));
         this.walletAmount = 1;
       }
     },
@@ -721,7 +725,6 @@ export default {
       if (res && res.code == 200) {
         const down = this.getExchangeDown(coin);
         this.exchangeRate = res.data / (1 - down);
-        this.relExchangeRate = res.data;
       }
     },
     // 验证
@@ -902,7 +905,7 @@ export default {
   created() {
     this.renewBalance();
     this.fetchSetting();
-    this.fetchWithdrawalChain();
+    this.fetchWithdrawalChain(true);
   },
   unmounted() {
     if (this.exchangeRateTimer) {

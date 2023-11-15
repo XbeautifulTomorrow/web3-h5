@@ -94,10 +94,10 @@ body {
 
   & > div:nth-child(1) {
     top: 42.875rem;
-    left: -40rem;
+    left: -38rem;
     position: absolute;
-    width: 91rem;
-    height: 94rem;
+    width: 75rem;
+    height: 77rem;
     background: url("@/assets/img/home/bg_lt.webp") no-repeat center;
     background-size: contain;
     z-index: 1;
@@ -107,8 +107,8 @@ body {
     top: 60rem;
     right: -45rem;
     position: absolute;
-    width: 91rem;
-    height: 94rem;
+    width: 75rem;
+    height: 77rem;
     background: url("@/assets/img/home/bg_rt.webp") no-repeat center;
     background-size: contain;
     z-index: 1;
@@ -116,10 +116,10 @@ body {
 
   & > div:nth-child(3) {
     top: 130.4375rem;
-    left: -52rem;
+    left: -45rem;
     position: absolute;
-    width: 91rem;
-    height: 94rem;
+    width: 75rem;
+    height: 77rem;
     background: url("@/assets/img/home/bg_lb.webp") no-repeat center;
     background-size: contain;
     z-index: 1;
@@ -127,10 +127,10 @@ body {
 
   & > div:nth-child(4) {
     top: 180.25rem;
-    right: -50rem;
+    right: -45rem;
     position: absolute;
-    width: 91rem;
-    height: 94rem;
+    width: 75rem;
+    height: 77rem;
     background: url("@/assets/img/home/bg_rb.webp") no-repeat center;
     background-size: contain;
     z-index: 1;

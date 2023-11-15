@@ -325,6 +325,7 @@
     padding: 0;
     box-sizing: border-box;
     margin: 0 auto;
+    margin-top: 0.5rem;
   }
 
   .operating_box {
@@ -332,7 +333,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
 
     .back_btn {
       width: auto;
@@ -356,10 +357,11 @@
   .history_data_box {
     height: 74rem;
     background-image: none;
+    border-radius: 0.5rem;
 
     .history_data_bg {
       padding: 0 0.5rem;
-      background-image: url("@/assets/svg/home/warGame/bg/history_mobile_bg.svg");
+      background-image: none;
     }
   }
 

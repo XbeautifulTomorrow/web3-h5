@@ -21,7 +21,7 @@
   display: flex;
   width: 100%;
   height: auto;
-  margin-bottom: 4.75rem;
+  margin-bottom: 3.5rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
 
@@ -510,6 +510,12 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 1.5rem;
+
+  .percentage_box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
 
   .time {
     width: 2rem;
@@ -1064,11 +1070,6 @@
 
   .user_list_box {
     padding: 0 0.5rem 0.5rem;
-
-    :deep(.c-scrollbar-content) {
-      display: flex;
-      flex-wrap: wrap;
-    }
 
     .user_item+.user_item {
       margin-top: 0.25rem;
@@ -1781,5 +1782,12 @@
         }
       }
     }
+  }
+}
+
+
+@media screen and (min-width: 620px)and (max-width:950px) {
+  .lottery_panel {
+    margin-top: -3rem;
   }
 }

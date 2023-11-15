@@ -175,69 +175,71 @@
           ]"
           v-if="!isHistory"
         >
-          <div class="time">
-            <img
-              v-if="currentStatus == 'INIT'"
-              src="@/assets/svg/home/warGame/progress/icon_war.svg"
-            />
-            <img
-              v-else-if="currentStatus == 'WAIT'"
-              src="@/assets/svg/home/warGame/progress/icon_battle.svg"
-            />
-            <img
-              v-else
-              src="@/assets/svg/home/warGame/progress/icon_next.svg"
-            />
-          </div>
-          <div class="progress_bar">
-            <el-progress
-              :percentage="percentage"
-              :stroke-width="getRatio().fontSize * 0.75"
-              striped
-              striped-flow
-              :duration="10"
-              :color="
-                currentStatus == 'INIT'
-                  ? '#fad54d'
-                  : currentStatus == 'WAIT'
-                  ? '#c72ae9'
-                  : '#b3b9c4'
-              "
-              :show-text="false"
-            />
-            <div class="progress_bg" v-if="screenWidth > 950">
+          <div class="percentage_box">
+            <div class="time">
               <img
                 v-if="currentStatus == 'INIT'"
-                src="@/assets/svg/home/warGame/progress/progress_bg.svg"
-                alt=""
+                src="@/assets/svg/home/warGame/progress/icon_war.svg"
               />
               <img
                 v-else-if="currentStatus == 'WAIT'"
-                src="@/assets/svg/home/warGame/progress/progress_battle_bg.svg"
-                alt=""
+                src="@/assets/svg/home/warGame/progress/icon_battle.svg"
               />
               <img
                 v-else
-                src="@/assets/svg/home/warGame/progress/progress_next_bg.svg"
-                alt=""
+                src="@/assets/svg/home/warGame/progress/icon_next.svg"
               />
             </div>
-            <div class="progress_bg" v-else>
-              <img
-                v-if="currentStatus == 'INIT'"
-                src="@/assets/svg/home/warGame/progress/progress_mobile_bg.svg"
-                alt=""
+            <div class="progress_bar">
+              <el-progress
+                :percentage="percentage"
+                :stroke-width="getRatio().fontSize * 0.75"
+                striped
+                striped-flow
+                :duration="10"
+                :color="
+                  currentStatus == 'INIT'
+                    ? '#fad54d'
+                    : currentStatus == 'WAIT'
+                    ? '#c72ae9'
+                    : '#b3b9c4'
+                "
+                :show-text="false"
               />
-              <img
-                v-else-if="currentStatus == 'WAIT'"
-                src="@/assets/svg/home/warGame/progress/progress_battle_mobile_bg.svg"
-                alt=""
-              />
-              <img
-                v-else
-                src="@/assets/svg/home/warGame/progress/progress_next_mobile_bg.svg"
-                alt=""
-              />
+              <div class="progress_bg" v-if="screenWidth > 950">
+                <img
+                  v-if="currentStatus == 'INIT'"
+                  src="@/assets/svg/home/warGame/progress/progress_bg.svg"
+                  alt=""
+                />
+                <img
+                  v-else-if="currentStatus == 'WAIT'"
+                  src="@/assets/svg/home/warGame/progress/progress_battle_bg.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/warGame/progress/progress_next_bg.svg"
+                  alt=""
+                />
+              </div>
+              <div class="progress_bg" v-else>
+                <img
+                  v-if="currentStatus == 'INIT'"
+                  src="@/assets/svg/home/warGame/progress/progress_mobile_bg.svg"
+                  alt=""
+                />
+                <img
+                  v-else-if="currentStatus == 'WAIT'"
+                  src="@/assets/svg/home/warGame/progress/progress_battle_mobile_bg.svg"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="@/assets/svg/home/warGame/progress/progress_next_mobile_bg.svg"
+                  alt=""
+                />
+              </div>
             </div>
           </div>
           <div class="countdown">
@@ -330,6 +332,7 @@
           <div class="introduce_title">
             <span>{{ $t("tokenWar.illustrateTitle") }}</span>
             <img
+              v-if="screenWidth <= 950"
               class="back_btn"
               src="@/assets/svg/home/warGame/icon_back.svg"
               alt=""

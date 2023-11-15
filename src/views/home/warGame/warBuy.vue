@@ -85,24 +85,19 @@
           </div>
         </div>
         <div class="input_error"></div>
-        <div class="choose_tips">
-          {{
-            $t("tokenWar.soldierPrice", { num: systemConfig?.singlePrice || 1 })
-          }}
-        </div>
-      </div>
-      <div :class="['choose_items', screenWidth <= 950 ? 'panel_bg' : '']">
-        <div class="choose_btn" @click="setAmount(1)">
-          <span>+1</span>
-        </div>
-        <div class="choose_btn" @click="setAmount(10)">
-          <span>+10</span>
-        </div>
-        <div class="choose_btn" @click="setAmount(100)">
-          <span>+100</span>
-        </div>
-        <div class="choose_btn" @click="setAmount(1000)">
-          <span>+1000</span>
+        <div class="choose_items">
+          <div class="choose_btn" @click="setAmount(1)">
+            <span>+1</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(10)">
+            <span>+10</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(100)">
+            <span>+100</span>
+          </div>
+          <div class="choose_btn" @click="setAmount(1000)">
+            <span>+1000</span>
+          </div>
         </div>
       </div>
       <div class="auto_war_box">

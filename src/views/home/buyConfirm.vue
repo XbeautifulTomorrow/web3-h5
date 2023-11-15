@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-      class="public-dialog" width="50rem" :before-close="handleClose">
+    <el-dialog
+      v-model="show"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      width="50rem"
+      :before-close="handleClose"
+    >
       <template #header>
         <div class="close_btn" @click="handleClose()">
           <el-icon>
@@ -12,11 +20,22 @@
       <div class="public-dialog-content form-content">
         <p class="public-dialog-title">{{ t("ticketsInfo.buyTipsTitle") }}</p>
         <div class="confirm-description">
-          <span v-html="$t('ticketsInfo.buyTipsText1', { tickets: ticketsNum(), num: buyNum() })"></span>
+          <span
+            v-html="
+              t('ticketsInfo.buyTipsText1', {
+                tickets: ticketsNum(),
+                num: buyNum(),
+              })
+            "
+          ></span>
         </div>
         <div class="deposit_tx_id">
-          <span>SHARE THIS COMPETITION</span>
-          <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink()" alt="">
+          <span>{{ t("ticketsInfo.buyTipsShare") }}</span>
+          <img
+            src="@/assets/svg/airdrop/icon_twitter_btn.svg"
+            @click="shareInviteLink()"
+            alt=""
+          />
         </div>
         <div class="form-buttons">
           <el-button class="public-button" @click="handleClose()">
@@ -30,48 +49,51 @@
     
 <script>
 import { openUrl, handleWindowResize } from "@/utils";
+import { i18n } from "@/locales";
+const { t } = i18n.global;
 
 export default {
-  name: 'modifyName',
+  name: "modifyName",
   props: {
     nftInfo: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     orderId: {
       type: String,
-      default: ""
+      default: "",
     },
     tickets: {
       type: Number,
-      default: 0
+      default: 0,
     },
     price: {
       type: Number,
-      default: 0
+      default: 0,
     },
     inviteCode: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       show: true,
       screenWidth: null,
-      setting: {}
+      setting: {},
     };
   },
   methods: {
+    t: t,
     ticketsNum() {
       let strV = ``;
       if (this.screenWidth > 950) {
-        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
+        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require("@/assets/svg/home/icon_info_price.svg")}'>`;
         strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.tickets}</span></div>`;
       } else {
-        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/home/icon_info_price.svg')}'>`;
+        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require("@/assets/svg/home/icon_info_price.svg")}'>`;
         strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.tickets}</span>`;
       }
       return strV;
@@ -79,10 +101,10 @@ export default {
     buyNum() {
       let strV = ``;
       if (this.screenWidth > 950) {
-        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
+        strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem;vertical-align: text-bottom;' src='${require("@/assets/svg/user/icon_usdt_gold.svg")}'>`;
         strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.price}</span></div>`;
       } else {
-        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
+        strV += `<img style='width: 1rem;height: auto;margin-right: 0.25rem;vertical-align: top;' src='${require("@/assets/svg/user/icon_usdt_gold.svg")}'>`;
         strV += `<span style='font-size: 1rem;color: #fad54d;' >${this.price}</span>`;
       }
       return strV;
@@ -94,8 +116,8 @@ export default {
     shareInviteLink() {
       const series = `I've entered BITZING's ${this.nftInfo.name} competition, come compete with me\n\n`;
       let description = null;
-      if (this.nftInfo.orderType == 'LIMITED_TIME') {
-        description = `${this.nftInfo.name} #${this.nftInfo.tokenId} SWEEPSTAKES draws in `
+      if (this.nftInfo.orderType == "LIMITED_TIME") {
+        description = `${this.nftInfo.name} #${this.nftInfo.tokenId} SWEEPSTAKES draws in `;
         const { dd, hh } = this.durationFormatter(this.duration);
         if (dd <= 1 && hh <= 1) {
           // 一小时以内
@@ -113,9 +135,12 @@ export default {
           // 两天以上
           description += `${Math.floor(dd)} days ${Math.floor(hh)} hours!⏳\n`;
         }
-
       } else {
-        description = `${this.nftInfo.name} #${this.nftInfo.tokenId} will sell out with ${this.nftInfo.maximumPurchaseQuantity || 0} TICKETS left.\n`;
+        description = `${this.nftInfo.name} #${
+          this.nftInfo.tokenId
+        } will sell out with ${
+          this.nftInfo.maximumPurchaseQuantity || 0
+        } TICKETS left.\n`;
       }
       const inviteLink = `\nEnter HERE:`;
       const currentLink = window.location;
@@ -126,21 +151,23 @@ export default {
       }
       link += "?id=" + this.orderId;
 
-
-
       let inviteText = series;
       inviteText += description;
 
       inviteText += inviteLink;
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl =
+        "https://twitter.com/share?text=" +
+        encodeURIComponent(inviteText) +
+        "&url=" +
+        link;
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },
     /**
- * @description: 格式化地址
- */
+     * @description: 格式化地址
+     */
     formatAddr(event) {
       if (!event) return "";
       var reg = /^(\S{6})\S+(\S{4})$/;
@@ -152,7 +179,7 @@ export default {
 
       if (done) {
         done();
-        return
+        return;
       }
     },
   },
@@ -164,8 +191,8 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-    })
-  }
+    });
+  },
 };
 </script>
     
@@ -205,7 +232,7 @@ export default {
     align-items: center;
     justify-content: center;
 
-    span+span {
+    span + span {
       padding-left: 0.25rem;
     }
 
@@ -249,11 +276,10 @@ export default {
   flex-direction: column;
   padding-bottom: 1.875rem;
 
-  &>.public-button+.public-button {
+  & > .public-button + .public-button {
     margin: 1.5rem 0 0;
   }
 }
-
 
 @media screen and (max-width: 950px) {
   .public-dialog-title {

@@ -48,11 +48,14 @@
     cursor: pointer;
   }
 }
+.swiper_big_box {
+  display: flex;
+  justify-content: center;
+}
 .swiper_box {
   width: 95rem;
   height: 12.875rem;
   position: absolute;
-  left: 12.1rem;
   bottom: 1rem;
   :deep(.swiper) {
     img {

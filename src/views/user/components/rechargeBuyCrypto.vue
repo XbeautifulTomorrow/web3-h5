@@ -204,8 +204,9 @@ export default {
       let from = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
       let to = type == "from" ? this.exchangeToCoin : this.exchangeFromCoin;
       let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
-      type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
+
       if (amount > 0) {
+        type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
         const res = await productionOfThirdPartyRate({ from, to, amount, widget_id: this.three_pay_widget_id });
         if (res && res.data) {
           if (res?.headers) {

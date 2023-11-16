@@ -260,9 +260,7 @@ export default {
         max = this.errorRes[coin].max;
       }
       if (!this.errorRes) {
-        if (!amount) {
-          exchangeAmountTips = t("user.enterError6");
-        } else if (amount <= 0) {
+        if (amount && amount <= 0) {
           exchangeAmountTips = t("Amount must be greater than 0");
         }
       } else {

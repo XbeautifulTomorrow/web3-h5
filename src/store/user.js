@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
 import { getWithdrawalChain } from "@/services/api/user";
-
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
+import axios from "axios";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -24,6 +24,7 @@ export const useUserStore = defineStore("user", {
       { name: "BUSD", img: require("@/assets/svg/user/coin/icon_busd.svg") },
       { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") },
     ],
+    buyCryptoCoinRates: {},
   }),
   persist: {
     enabled: true,
@@ -48,7 +49,7 @@ export const useUserStore = defineStore("user", {
             }
           });
         }
-      }    
+      }
     },
     getCoin(event) {
       const { currencyData } = this;
@@ -97,6 +98,20 @@ export const useUserStore = defineStore("user", {
       window.NavigationPreloadManager;
       window.location.href = "/home";
       // router.push({ path: "/home" });
+    },
+    // 获取法币交易币种和汇率
+    exchangeLegalRate() {
+      const getUrl = "https://api.mercuryo.io/v1.6/widget/rates?widget_id=67710925-8b40-4767-846e-3b88db69f04d";
+      axios
+        .get(getUrl, {
+          responseType: "json",
+        })
+        .then((res) => {
+          if (res?.data?.status == 200) {
+            this.buyCryptoCoinRates = res?.data?.data?.buy?.USDT;
+          }
+        })
+        .catch(() => {});
     },
   },
 });

@@ -1668,7 +1668,6 @@ export default {
     screenWidth(newV, oldV) {
       if (!newV) return;
 
-      console.log(newV);
       this.initSvg();
       this.setSvg();
     },

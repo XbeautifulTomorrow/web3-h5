@@ -97,6 +97,7 @@ body {
     top: 42.875rem;
     left: -38rem;
     position: absolute;
+    pointer-events: none;
     width: 75rem;
     height: 77rem;
     background: url("@/assets/img/home/bg_lt.webp") no-repeat center;
@@ -108,6 +109,7 @@ body {
     top: 60rem;
     right: -45rem;
     position: absolute;
+    pointer-events: none;
     width: 75rem;
     height: 77rem;
     background: url("@/assets/img/home/bg_rt.webp") no-repeat center;
@@ -119,6 +121,7 @@ body {
     top: 130.4375rem;
     left: -45rem;
     position: absolute;
+    pointer-events: none;
     width: 75rem;
     height: 77rem;
     background: url("@/assets/img/home/bg_lb.webp") no-repeat center;
@@ -130,6 +133,7 @@ body {
     top: 180.25rem;
     right: -45rem;
     position: absolute;
+    pointer-events: none;
     width: 75rem;
     height: 77rem;
     background: url("@/assets/img/home/bg_rb.webp") no-repeat center;

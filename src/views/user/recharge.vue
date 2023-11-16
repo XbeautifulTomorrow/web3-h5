@@ -462,14 +462,9 @@ export default {
   watch: {
     walletAmount(newV) {
       if (!this.isConvert) return;
-
-      const { operatingCoin, exchangeRate } = this;
+      const { exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
-          this.ethNum = newV || 0;
-          return;
-        }
-        if (operatingCoin == "USDT") {
           this.ethNum = newV || 0;
           return;
         }
@@ -478,15 +473,9 @@ export default {
     },
     ethNum(newV) {
       if (this.isConvert) return;
-
-      const { operatingCoin, exchangeRate } = this;
+      const { exchangeRate } = this;
       this.rateTimer = setTimeout(() => {
         if (!newV) {
-          this.walletAmount = newV || 0;
-          return;
-        }
-
-        if (operatingCoin == "USDT") {
           this.walletAmount = newV || 0;
           return;
         }
@@ -619,7 +608,7 @@ export default {
           this.createQrcode();
         });
 
-        this.fetchRechargeExchangeRate();
+        this.fetchRechargeExchangeRate(this.operatingCoin);
       } else if (this.walletOperating == 3) {
         this.fetchExchangeRate(1);
         this.exchangeRateTimer = setInterval(() => {
@@ -662,7 +651,6 @@ export default {
       const res = await getWithdrawalChain();
       if (res && res.code == 200) {
         this.networkList = res.data;
-
         const coin = this.networkList.find((e) => e.coinName == "ETH");
 
         if (coin == -1) {
@@ -676,7 +664,7 @@ export default {
           this.walletNetworkChange();
         }
         if (type == true) {
-          this.fetchRechargeExchangeRate();
+          this.fetchRechargeExchangeRate(this.operatingCoin);
         }
       }
     },
@@ -703,15 +691,25 @@ export default {
     },
 
     // 充值汇率
-    async fetchRechargeExchangeRate(data = "ETH") {
-      let coin = data == "USDT" ? "ETH" : data;
+    async fetchRechargeExchangeRate(coin = "ETH") {
+      const down = this.getExchangeDown(coin);
+      if (coin == "USDT") {
+        this.exchangeRate = 1 / (1 * (1 - down));
+        this.walletAmount = null;
+        setTimeout(() => {
+          this.walletAmount = 1;
+        }, 200);
+        return;
+      }
       const res = await exchangeRateV2({
         coinName: coin,
       });
       if (res && res.code == 200) {
-        const down = this.getExchangeDown(coin);
         this.exchangeRate = 1 / (res.data * (1 - down));
-        this.walletAmount = 1;
+        this.walletAmount = null;
+        setTimeout(() => {
+          this.walletAmount = 1;
+        }, 200);
       }
     },
     // 提款汇率

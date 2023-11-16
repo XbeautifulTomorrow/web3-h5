@@ -132,7 +132,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
-import { productionOfThirdPartyOrders } from "@/services/api/user";
+import { productionOfThirdPartyOrders, productionOfThirdPartyRate } from "@/services/api/user";
 import { i18n } from "@/locales";
 import axios from "axios";
 const { t } = i18n.global;
@@ -161,6 +161,10 @@ export default {
     coinList() {
       const headerStore = useUserStore();
       return headerStore.buyCryptoCoinRates;
+    },
+    three_pay_widget_id() {
+      const headerStore = useUserStore();
+      return headerStore.three_pay_widget_id;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -193,49 +197,42 @@ export default {
         this.getAmountFunc(type);
       }, 500);
     },
-    getAmountFunc(type) {
+    async getAmountFunc(type) {
       this.errorRes = null;
       this.onVerifyExchange(type);
       type == "from" ? (this.exchangeToAmount = null) : (this.exchangeFromAmount = null);
       let from = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
       let to = type == "from" ? this.exchangeToCoin : this.exchangeFromCoin;
       let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
-      let is_total = type == "from" ? true : false;
-
+      type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
       if (amount > 0) {
-        type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
-        const getUrl = `https://api.mercuryo.io/v1.6/widget/buy/rate?from=${from}&to=${to}&amount=${amount}&network=TRON&widget_id=67710925-8b40-4767-846e-3b88db69f04d&is_total=${is_total}`;
-        axios
-          .get(getUrl, {
-            responseType: "json",
-          })
-          .then((res) => {
-            if (res?.data?.status == 200) {
-              type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
-              this.errorRes = null;
-              let data = res?.data?.data;
-              if (type == "from") {
-                this.exchangeToAmount = data?.amount;
-              } else {
-                this.exchangeFromAmount = data?.fiat_amount;
-              }
-              this.onVerifyExchange(type);
-            }
-          })
-          .catch((err) => {
+        const res = await productionOfThirdPartyRate({ from, to, amount, widget_id: this.three_pay_widget_id });
+        if (res && res.data) {
+          if (res?.headers) {
             type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
-            let data = err?.response?.data;
+            let data = res?.data;
             if (data?.code == 400005) {
               this.errorRes = data?.data;
               this.onVerifyExchange(type);
             } else if (data?.code == 400001) {
               if (type == "from") {
-                this.exchangeFromAmountTips = data?.data?.amount[0];
+                this.exchangeFromAmountTips = data?.data.amount[0];
               } else {
-                this.exchangeToAmountTips = data?.data?.amount[0];
+                this.exchangeToAmountTips = data?.data.amount[0];
               }
             }
-          });
+          } else {
+            type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+            this.errorRes = null;
+            let data = res?.data;
+            if (type == "from") {
+              this.exchangeToAmount = data?.amount;
+            } else {
+              this.exchangeFromAmount = data?.fiat_amount;
+            }
+            this.onVerifyExchange(type);
+          }
+        }
       }
     },
     async submitFunc() {

@@ -741,7 +741,7 @@ export default {
           `${url}mystery-web-game/sse/createConnect`,
           {
             // 设置重连时间
-            heartbeatTimeout: 60 * 60 * 1000,
+            heartbeatTimeout:  60 * 1000,
             // 添加token
             headers: headerParams,
           }

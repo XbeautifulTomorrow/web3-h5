@@ -9,7 +9,12 @@
 
   .el-dialog__body {
     padding: 2.0625rem;
+    box-sizing: border-box;
     min-height: 31.1875rem;
+    background-image: url("@/assets/svg/home/warGame/bg/config_bg.svg") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    background-position: center center;
   }
 }
 
@@ -302,12 +307,8 @@
 
     .el-dialog__body {
       padding: 0 1rem;
-      box-sizing: border-box;
       min-height: 26.75rem;
       background-image: url("@/assets/svg/home/warGame/bg/must_read_mobile_bg.svg") !important;
-      background-size: contain !important;
-      background-repeat: no-repeat;
-      background-position: center center;
     }
   }
 

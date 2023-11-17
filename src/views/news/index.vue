@@ -3,18 +3,18 @@
     <div class="news_box">
       <p class="title">Bitzing News</p>
       <div class="news_content">
-        <div class="news_item">
-          <img src="@/assets/img/lottery/default_nft.webp" alt="" />
+        <div class="news_item" v-for="item in dataList" :key="item.id" @click="goDetailPage(item.id)">
+          <img :src="item.imgUrl" alt="" />
           <div class="news_text_box">
             <p class="news_title">
-              文章标题，最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最
+              {{ item.title }}
             </p>
             <p class="news_info">
-              文章标题，最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多文章标题，最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多四行最多
+              {{ item.content }}
             </p>
             <div class="news_time">
               <p>by Bitzing</p>
-              <p>123 days ago</p>
+              <p>{{ timeFormat(item.createTime) }}</p>
             </div>
           </div>
         </div>
@@ -24,14 +24,34 @@
 </template>
 
 <script>
+import { getAnnouncementList } from "@/services/api/announce";
+import { timeFormat } from "@/utils";
 export default {
   name: "NewsPage",
   components: {},
   data() {
-    return {};
+    return {
+      dataList: [],
+    };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getAnnounceListFunc();
+  },
+  methods: {
+    timeFormat: timeFormat,
+    async getAnnounceListFunc() {
+      const res = await getAnnouncementList({
+        page: 1,
+        size: 100,
+      });
+      if (res) {
+        this.dataList = res?.data?.records;
+      }
+    },
+    goDetailPage(id) {
+      this.$router.push({ name: "NewsDeatails", params: { id } });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -41,6 +61,7 @@ export default {
   background-image: url("@/assets/img/box/lottery_bg.png");
   background-size: 100% auto;
   background-repeat: no-repeat;
+  margin-bottom: 10rem;
   .news_box {
     width: 75rem;
     margin: 0 auto;
@@ -62,12 +83,14 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.875rem;
     .news_item {
-      width: 380px;
       background: rgb(29, 15, 54);
-      border-radius: 8px;
+      border-radius: 0.5rem;
+      cursor: pointer;
       img {
         width: 100%;
         height: 11.875rem;
+        object-fit: cover;
+        border-radius: 0.5rem 0.5rem 0 0;
       }
       .news_text_box {
         padding: 1.25rem;
@@ -83,6 +106,7 @@ export default {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
+          text-align: left;
         }
         .news_info {
           font-family: Inter;
@@ -97,6 +121,7 @@ export default {
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
           margin-bottom: 2rem;
+          text-align: left;
         }
         .news_time {
           font-family: Inter;
@@ -108,7 +133,49 @@ export default {
           letter-spacing: normal;
           text-align: left;
           color: #68647d;
+          p {
+            margin-bottom: 0.25rem;
+          }
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 950px) {
+  .news_wrap {
+    .news_box {
+      width: auto;
+      padding: 0 0.75rem;
+    }
+    .news_content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .news_wrap {
+    .title {
+      font-size: 1.25rem;
+      margin: 1.875rem 0;
+    }
+    .news_content {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      img {
+        height: 48vw;
+      }
+      .news_text_box {
+        padding: 0.5rem !important;
+      }
+      .news_title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem !important;
+      }
+      .news_info {
+        font-size: 0.75rem;
+        margin-bottom: 1rem !important;
       }
     }
   }

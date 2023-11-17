@@ -26,6 +26,7 @@ const warGame = () => import(/* webpackChunkName: "user" */ "../views/home/warGa
 const privacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/privacyPolicy.vue");
 const userAgreement = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/userAgreement.vue");
 const news = () => import(/* webpackChunkName: "user" */ "../views/news");
+const newsDeatails = () => import(/* webpackChunkName: "user" */ "../views/news/details.vue");
 
 //2. 路由配置
 const routes = [
@@ -174,6 +175,15 @@ const routes = [
     name: "News",
     components: {
       default: news,
+      Header,
+      Footer,
+    },
+  },
+  {
+    path: "/news/deatails/:id",
+    name: "NewsDeatails",
+    components: {
+      default: newsDeatails,
       Header,
       Footer,
     },

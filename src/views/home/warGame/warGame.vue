@@ -741,7 +741,7 @@ export default {
           `${url}mystery-web-game/sse/createConnect`,
           {
             // 设置重连时间
-            heartbeatTimeout:  60 * 1000,
+            heartbeatTimeout: 60 * 1000,
             // 添加token
             headers: headerParams,
           }
@@ -1662,10 +1662,16 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-
-      that.initSvg();
-      that.setSvg();
     });
+  },
+  watch: {
+    screenWidth(newV, oldV) {
+      if (!newV) return;
+
+      console.log(newV);
+      this.initSvg();
+      this.setSvg();
+    },
   },
 };
 </script>

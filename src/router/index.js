@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { statisticsClick } from "@/services/api/user";
-import { setSessionStore, getSessionStore } from "@/utils";
-import { authIp } from "@/services/api/index";
-import config from "@/services/env";
+import { setSessionStore, upperFirstConcat } from "@/utils";
 import { useUserStore } from "@/store/user.js";
 
 //1. 定义要使用到的路由组件  （一定要使用文件的全名，得包含文件后缀名）
@@ -214,72 +212,39 @@ router.onError((error) => {
 
 router.beforeEach(async (to, from, next) => {
   const { path, query } = to;
-  let res = null;
 
-  if (config.ENV == "dev" || config.ENV == "test") {
-    res = {
-      code: 200,
-      data: false,
-    };
-  } else {
-    res = await authIp();
-  }
+  const invateUrl = [
+    "Home",
+    "home",
+    "FreeNFT",
+    "freeNFT",
+    "TokenWar",
+    "tokenWar"
+  ];
 
-  if (res && res.code == 200) {
-    const isShield = res.data;
-    if (isShield && !(path && path.indexOf("/1020") > -1)) {
-      setSessionStore("referrer", path);
-      next({ name: "1020" });
-    } else if (!isShield && path && path.indexOf("/1020") > -1) {
-      const referrer = getSessionStore("referrer");
-      if (!referrer) {
-        next({ name: "Home" });
-      } else {
-        sessionStorage.removeItem("referrer");
-        next({ path: referrer });
-      }
-    }
-  }
-
-  if (path && path.indexOf("/Home/") > -1) {
-    const code = path.replace("/Home/", "");
-    // 保存邀请码到本地存储
-    if (code) {
-      setSessionStore("invateCode", code);
-      // 统计邀请链接打开数量
-      statisticsClick({ code: code });
-    }
-
-    next({ name: "Home" });
-  }
-
-  if (path && path.indexOf("/FreeNFT/") > -1) {
-    const code = path.replace("/FreeNFT/", "");
-
-    // 保存邀请码到本地存储
-    if (code) {
-      setSessionStore("invateCode", code);
-      // 统计邀请链接打开数量
-      statisticsClick({ code: code });
-    }
-
-    next({ name: "FreeNFT", query: { id: query.id } });
-  }
   const userStore = useUserStore();
   if (to.meta.requiresAuth && !userStore.isLogin) {
     next({ name: "Home" });
   }
 
-  // else if (path && path.indexOf("/Airdrop/") > -1) {
-  //   const code = path.replace("/Airdrop/", "")
-  //   // 保存邀请码到本地存储
-  //   setSessionStore("invateCode", code);
-  //   // 统计邀请链接打开数量
-  //   statisticsClick({ code: code });
+  const pathArray = path.split("/"); // 这里会取到["", path, code]
 
-  //   next({ name: "Airdrop" });
-  // }
-  else {
+  if (pathArray.length > 2 && invateUrl.indexOf(pathArray[1]) > -1) {
+    const code = pathArray[2];
+    // 保存邀请码到本地存储
+    if (code) {
+      setSessionStore("invateCode", code);
+      // 统计邀请链接打开数量
+      statisticsClick({ code: code });
+    }
+
+    const pathUrl = upperFirstConcat(pathArray[1]);
+    if (pathUrl == "FreeNFT") {
+      next({ name: "FreeNFT", query: { id: query.id } });
+    } else {
+      next({ name: upperFirstConcat(pathArray[1]) });
+    }
+  } else {
     next();
   }
 });

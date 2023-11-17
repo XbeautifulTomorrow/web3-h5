@@ -585,3 +585,13 @@ export const formatUsd = (event, type = 2) => {
   const num = event || 0;
   return Number(accurateDecimal(num, type)).toLocaleString();
 }
+
+// 首字母大写
+export const upperFirstConcat = (strV) => {
+  let str = strV;
+  str = str.replace(/\b\w+\b/g, word => {
+    return word.substring(0, 1).toUpperCase() + word.substring(1)
+  })
+
+  return str
+}

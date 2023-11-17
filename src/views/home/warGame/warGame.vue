@@ -1666,7 +1666,7 @@ export default {
     });
   },
   watch: {
-    screenWidth(newV, oldV) {
+    screenWidth(newV) {
       if (!newV) return;
 
       this.initSvg();

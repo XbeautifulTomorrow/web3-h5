@@ -77,6 +77,7 @@ export default {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 3.75rem 0;
+    word-break: break-all;
   }
   .news_content {
     display: grid;
@@ -156,6 +157,10 @@ export default {
 }
 @media screen and (max-width: 500px) {
   .news_wrap {
+    background: url("@/assets/img/box/lottery_bg.png") no-repeat center top;
+    background-size: 400%;
+    padding-bottom: 2rem;
+    margin-bottom: 0;
     .title {
       font-size: 1.25rem;
       margin: 1.875rem 0;

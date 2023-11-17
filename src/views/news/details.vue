@@ -47,7 +47,7 @@ export default {
 <style lang="scss" scoped>
 .news_wrap {
   width: 100%;
-  min-height: 62.5rem;
+  min-height: 40rem;
   background-image: url("@/assets/img/box/lottery_bg.png");
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -71,6 +71,7 @@ export default {
     cursor: pointer;
     img {
       width: 1.5rem;
+      height: 1.5rem;
       margin-right: 0.625rem;
       margin-top: 0.125rem;
     }
@@ -121,9 +122,24 @@ export default {
 }
 @media screen and (max-width: 500px) {
   .news_wrap {
+    background: url("@/assets/img/box/lottery_bg.png") no-repeat center top;
+    background-size: 400%;
+    padding-bottom: 2rem;
+    margin-bottom: 0;
+    .back_btn {
+      font-size: 0.875rem;
+    }
     .title {
-      font-size: 1.25rem;
-      margin: 1.875rem 0;
+      font-size: 1rem;
+      margin: 1rem 0;
+    }
+  }
+  :deep(.news_content) {
+    img {
+      width: 100%;
+    }
+    P {
+      font-size: 0.875rem;
     }
   }
 }

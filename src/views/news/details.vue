@@ -108,8 +108,11 @@ export default {
       font-weight: bold;
     }
   }
-  .news_content {
+  :deep(.news_content) {
     text-align: initial;
+    img {
+      width: 100%;
+    }
   }
 }
 @media screen and (max-width: 950px) {
@@ -135,9 +138,6 @@ export default {
     }
   }
   :deep(.news_content) {
-    img {
-      width: 100%;
-    }
     P {
       font-size: 0.875rem;
     }

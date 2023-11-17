@@ -249,7 +249,8 @@
           <el-table-column prop="eth_amount" min-width="120" :label="$t('user.receivedCoin')" align="center" key="6">
             <template #default="scope">
               <div class="amount_box">
-                <span>{{ scope.row.userNum }}</span>
+                <span v-priceFormat:4="scope.row.userNum" v-if="scope.row.buyCoin == 'ETH'"></span>
+                <span v-priceFormat="scope.row.userNum" v-else></span>
                 <img :src="getCoin(scope.row.buyCoin)" alt="" />
               </div>
             </template>
@@ -271,7 +272,7 @@
           <el-table-column prop="orderId" :label="'Id'" min-width="100" align="center" key="2" show-overflow-tooltip />
           <el-table-column prop="sellCoin" :label="$t('user.balanceTabel3')" min-width="100" align="center" key="2" show-overflow-tooltip>
             <template #default="scope">
-              <span>{{ scope.row.amount }}USDT</span>
+              <p><span v-priceFormat="scope.row.amount"></span> USDT</p>
             </template>
           </el-table-column>
           <el-table-column prop="provider" :label="$t('user.balanceTabel10')" min-width="100" align="center" key="1"> </el-table-column>
@@ -343,6 +344,8 @@
     <Recharge v-if="showRecharge" :type="walletOperating" @closeDialogFun="handleClose()"></Recharge>
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
+    <!-- 第三方支付成功弹框 -->
+    <checkResult v-if="checkResultDialog" @closeDialogFun="checkResultDialog = false"></checkResult>
   </div>
 </template>
 <script>
@@ -366,11 +369,13 @@ import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
+import checkResult from "@/components/checkDialog/checkResult";
 export default {
   name: "myWallet",
   components: {
     Points,
     Recharge,
+    checkResult,
   },
   data() {
     return {
@@ -399,6 +404,7 @@ export default {
       exchangeCount: 0,
       exchangeData: [],
       thirdPartyList: [],
+      checkResultDialog: false,
     };
   },
   computed: {
@@ -641,6 +647,9 @@ export default {
     },
   },
   created() {
+    if (this.$route.query?.paymentType) {
+      this.checkResultDialog = true;
+    }
     if (this.isLogin && this.userInfo?.id) {
       this.fetchHistory();
       this.fetchTheUserPoint();

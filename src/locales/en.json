@@ -727,7 +727,7 @@
     "return": "RETURN",
     "balance": "BALANCE",
     "click_hold": "CLICK TO HOLD",
-    "loading_tip1": "Your purchase is being processed.",
+    "loading_tip1": "Your deposit is being processed.",
     "loading_tip2": "Your transaction is being processed and will be confirmed on the blockchain soon.",
     "choose_token": "Choose a Token",
     "Choose_purchase": "Choose a Token for Purchase",

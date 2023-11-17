@@ -56,7 +56,7 @@
                 src="@/assets/svg/home/warGame/bg/config_lock.svg"
                 alt=""
               />
-              <div @click="changeLock(1)" v-else class="lock">
+              <div @click="changeLock(2)" v-else class="lock">
                 <span
                   class="status"
                   v-if="autoConfig.lockWinRateStatus == 'CLOSE'"
@@ -178,7 +178,7 @@
               <span v-else>{{ $t("tokenWar.auto") }}</span>
             </div>
             <div class="btns">
-              <div class="btn_left" @click="changeLock(1)"></div>
+              <div class="btn_left" @click="changeLock(2)"></div>
               <div class="btn_center" @click="changeLock(2)"></div>
               <div class="btn_right" @click="changeLock(3)"></div>
             </div>

@@ -102,7 +102,7 @@
       <span class="form-rember-rectangle" @click="agreeFun">
         <span v-show="agree" class="form-rember-rectangle-fill"></span>
       </span>
-      <div class="form-rember-text">
+      <div class="form-rember-text" @click="agreeFun">
         <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
           <template #content>
             <div class="tooltip_content">
@@ -124,6 +124,7 @@
     >
       MERCURYO
     </div>
+    <checkLoading v-if="showLoadingeDialog" @closeDialogFun="showLoadingeDialog = false"></checkLoading>
   </div>
 </template>
 <script>
@@ -134,11 +135,13 @@ import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
 import { productionOfThirdPartyOrders, productionOfThirdPartyRate } from "@/services/api/user";
 import { i18n } from "@/locales";
-import axios from "axios";
 const { t } = i18n.global;
+import checkLoading from "@/components/checkDialog/checkLoading";
+
 export default {
   name: "rechargeBuyCrypto",
   props: {},
+  components: { checkLoading },
   data() {
     return {
       agree: false,
@@ -154,6 +157,7 @@ export default {
       inputTimer: null,
       fromLoading: false,
       toLoading: false,
+      showLoadingeDialog: false,
     };
   },
   computed: {
@@ -243,7 +247,10 @@ export default {
         let res = await productionOfThirdPartyOrders();
         if (res && res.code == 200) {
           let targetUrl = `${res.data}&amount=${this.exchangeToAmount}&fiat_currencies=${this.exchangeFromCoin}`;
-          window.open(targetUrl);
+          this.showLoadingeDialog = true;
+          setTimeout(() => {
+            window.open(targetUrl);
+          }, 1000);
         }
       }
     },

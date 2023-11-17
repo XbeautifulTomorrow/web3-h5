@@ -394,6 +394,10 @@ export default {
         }
 
         params.autoBuyNumber = rate?.autoBuyNumber;
+
+        if (this.type == "lock" && params.lockWinRateStatus == "CLOSE") {
+          this.autoConfig.lockWinRateStatus = "OPEN";
+        }
         this.autoConfig = params;
       }
     },

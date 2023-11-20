@@ -88,6 +88,7 @@ export default {
     margin-top: 1.875rem;
     margin-bottom: 1rem;
     text-align: left;
+    word-break: break-all;
   }
   .news_time {
     font-family: Inter;
@@ -110,6 +111,7 @@ export default {
   }
   :deep(.news_content) {
     text-align: initial;
+    word-break: break-all;
     img {
       width: 100%;
     }

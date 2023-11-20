@@ -84,6 +84,8 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.875rem;
     .news_item {
+      position: relative;
+      height: 31.375rem;
       background: rgb(29, 15, 54);
       border-radius: 0.5rem;
       cursor: pointer;
@@ -125,6 +127,9 @@ export default {
           text-align: left;
         }
         .news_time {
+          position: absolute;
+          left: 1.25rem;
+          bottom: 1.25rem;
           font-family: Inter;
           font-size: 0.75rem;
           font-weight: normal;

@@ -110,6 +110,7 @@ export default {
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
           text-align: left;
+          word-break: break-all;
         }
         .news_info {
           font-family: Inter;
@@ -125,6 +126,7 @@ export default {
           text-overflow: ellipsis;
           margin-bottom: 2rem;
           text-align: left;
+          word-break: break-all;
         }
         .news_time {
           position: absolute;

@@ -9,26 +9,28 @@
         <div class="join_button" @click="goUrl(bgUrl)">JOIN NOW</div>
       </div>
     </div>
-    <div class="swiper_box">
-      <swiper
-        v-if="bannerList?.length > 0"
-        :slides-per-view="innerWidth > 950 ? 3 : 2"
-        :slides-per-group="innerWidth > 950 ? 3 : 2"
-        :space-between="16"
-        :loop="true"
-        :pagination="{
-          clickable: true,
-        }"
-        :autoplay="{
-          delay: 3000,
-          disableOnInteraction: false,
-        }"
-        :modules="modules"
-      >
-        <swiper-slide v-for="item in bannerList" :key="item.id">
-          <img :src="item.bannerImage" :class="[{ url_img: item.bannerUrl }]" @click="goUrl(item)" alt="" />
-        </swiper-slide>
-      </swiper>
+    <div class="swiper_big_box">
+      <div class="swiper_box">
+        <swiper
+          v-if="bannerList?.length > 0"
+          :slides-per-view="innerWidth > 950 ? 3 : 2"
+          :slides-per-group="innerWidth > 950 ? 3 : 2"
+          :space-between="16"
+          :loop="true"
+          :pagination="{
+            clickable: true,
+          }"
+          :autoplay="{
+            delay: 3000,
+            disableOnInteraction: false,
+          }"
+          :modules="modules"
+        >
+          <swiper-slide v-for="item in bannerList" :key="item.id">
+            <img :src="item.bannerImage" :class="[{ url_img: item.bannerUrl }]" @click="goUrl(item)" alt="" />
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </div>
 </template>

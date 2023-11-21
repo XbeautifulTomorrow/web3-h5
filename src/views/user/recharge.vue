@@ -792,7 +792,7 @@ export default {
           this.tipsText = t("user.enterError3");
           this.verifys = false;
           return;
-        } else if (Number(walletAmount) > Number(this.ethBalance)) {
+        } else if (Number(walletAmount) > this.getCoinBalance(this.operatingCoin)) {
           this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;

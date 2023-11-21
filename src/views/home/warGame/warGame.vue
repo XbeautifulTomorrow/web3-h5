@@ -722,8 +722,9 @@ export default {
     createSSE() {
       if (window.EventSource) {
         // 根据环境的不同，变更url
-        const url =
-          config.ENV == "pro" ? "https://sse.bitzing.io/" : config.api;
+        const url = config.api;
+        // const url =
+        //   config.ENV == "pro" ? "https://sse.bitzing.io/" : config.api;
 
         let headerParams = {
           "Content-Type": "text/event-stream",
@@ -741,7 +742,7 @@ export default {
           `${url}mystery-web-game/sse/createConnect`,
           {
             // 设置重连时间
-            heartbeatTimeout: 60 * 60 * 1000,
+            heartbeatTimeout: 60 * 1000,
             // 添加token
             headers: headerParams,
           }
@@ -1662,10 +1663,15 @@ export default {
     handleWindowResize(() => {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
-
-      that.initSvg();
-      that.setSvg();
     });
+  },
+  watch: {
+    screenWidth(newV) {
+      if (!newV) return;
+
+      this.initSvg();
+      this.setSvg();
+    },
   },
 };
 </script>

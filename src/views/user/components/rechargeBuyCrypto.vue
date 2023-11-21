@@ -4,7 +4,7 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("YOU PAY WITH") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youPayWith") }} </span> <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
@@ -38,7 +38,7 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("YOU GET") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youGet") }} </span> <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
@@ -62,13 +62,13 @@
     </div>
     <div class="module_info">
       <div class="item_info">
-        <p class="label">{{ $t("Payment Provider") }}</p>
+        <p class="label">{{ $t("user.paymentProvider") }}</p>
         <p class="info_tag">
           <img src="@/assets/img/user/payment.png" alt="" />
         </p>
       </div>
       <div class="item_info">
-        <p class="label">{{ $t("Deposit To Account") }}</p>
+        <p class="label">{{ $t("user.depositAccount") }}</p>
         <p class="info">
           {{ userInfo?.userName || userInfo?.email }}
         </p>
@@ -76,7 +76,7 @@
     </div>
     <div class="module_info">
       <div class="item_info">
-        <p class="label">{{ $t("Total（including fee）") }}</p>
+        <p class="label">{{ $t("user.totalAmount") }}</p>
         <p class="info font1">
           <el-icon class="is-loading" v-if="fromLoading">
             <Loading />
@@ -85,7 +85,7 @@
         </p>
       </div>
       <div class="item_info">
-        <p class="label">{{ $t("You Will Get") }}</p>
+        <p class="label">{{ $t("user.youWillGet") }}</p>
         <p class="info font2">
           <el-icon class="is-loading" v-if="toLoading">
             <Loading />
@@ -95,8 +95,8 @@
       </div>
     </div>
     <div class="notice_box">
-      <span class="label">NOTICE:</span>
-      <span class="tip">Depending on the blockchain, the deposit may take a few minutes to 1 hour to arrive.</span>
+      <span class="label">{{$t("lottery.notice")}}:</span>
+      <span class="tip">{{$t("user.threePayTip")}}</span>
     </div>
     <div class="form-rember">
       <span class="form-rember-rectangle" @click="agreeFun">
@@ -106,12 +106,10 @@
         <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
           <template #content>
             <div class="tooltip_content">
-              Disclaimer: The above third party services can be used to purchase crypto that can be used to play on Bitzing. By registering
-              on their platform, you are also accepting to their terms of service and will be required to pass their KYC process, which runs
-              independently to ours.
+              {{$t("user.threePayDisclaimer")}}
             </div>
           </template>
-          <p>{{ $t("I have read and agree to the disclaimer.") }}</p>
+          <p v-html="$t('user.agreeDisclaimer')"></p>
         </el-tooltip>
       </div>
     </div>
@@ -268,13 +266,13 @@ export default {
       }
       if (!this.errorRes) {
         if (amount && amount <= 0) {
-          exchangeAmountTips = t("Amount must be greater than 0");
+          exchangeAmountTips = t("user.ruleTip1");
         }
       } else {
         if (Number(amount) < Number(min)) {
-          exchangeAmountTips = `Limits are off — min ${min + " " + this.exchangeFromCoin}`;
+          exchangeAmountTips = t("user.ruleTip2",{min,coin:this.exchangeFromCoin});
         } else if (Number(amount) > Number(max)) {
-          exchangeAmountTips = `Limits are off — max ${max + " " + this.exchangeFromCoin}`;
+          exchangeAmountTips = t("user.ruleTip3",{max,coin:this.exchangeFromCoin});
         } else {
           exchangeAmountTips = null;
         }

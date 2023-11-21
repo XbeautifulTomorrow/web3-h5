@@ -291,9 +291,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./wallet.scss";
-:deep(.tooltip_popper_disclaimer) {
-  width: 22.25rem;
-}
 .buy_crypto_box {
   .module_info {
     padding: 1.25rem;

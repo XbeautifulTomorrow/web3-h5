@@ -13,7 +13,7 @@
         <p class="buy_title">
           <span>{{ $t("tokenWar.autoWar") }}</span>
           <el-tooltip
-            popper-class="tips_box"
+            popper-class="config_tips_box"
             effect="dark"
             :content="$t('tokenWar.autoTips')"
           >
@@ -161,7 +161,7 @@
         <p class="buy_title">
           <span>{{ $t("tokenWar.lockWinRate") }}</span>
           <el-tooltip
-            popper-class="tips_box"
+            popper-class="config_tips_box"
             effect="dark"
             :content="$t('tokenWar.lockTips')"
           >
@@ -623,7 +623,7 @@ export default {
 @import "./components/warConfig.scss";
 </style>
 <style lang="scss">
-.tips_box {
+.config_tips_box {
   width: 24.125rem;
   padding: 0.75rem !important;
   border-radius: 0.5rem;
@@ -644,7 +644,7 @@ export default {
 }
 
 @media screen and (max-width: 950px) {
-  .tips_box {
+  .config_tips_box {
     width: auto;
     max-width: 90%;
   }

@@ -5,6 +5,7 @@
     <nft-tickets />
     <contents-info />
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <war-poster v-if="isWarPosterShow" @closeDialogFun="isWarPosterShow = false"></war-poster>
   </div>
 </template>
 
@@ -17,7 +18,9 @@ import MysteryBoxes from "./mysteryBoxes.vue";
 import NftTickets from "./nftTickets.vue";
 import ContentsInfo from "./contentsInfo.vue";
 import Login from "../login/index.vue";
+import WarPoster from "./warGame/warPoster";
 import { getBoxList, getNFTList } from "@/services/api/index";
+import { setSessionStore, getSessionStore } from "@/utils";
 
 export default {
   name: "IndexPage",
@@ -27,6 +30,7 @@ export default {
     MysteryBoxes,
     NftTickets,
     ContentsInfo,
+    WarPoster,
   },
   beforeRouteLeave(to, from, next) {
     if (to.meta.requiresAuth && (!this.isLogin || !this.userInfo?.id)) {
@@ -52,9 +56,16 @@ export default {
       boxList: [],
       NFTList: [],
       generateKey: "",
+      isWarPosterShow: false,
     };
   },
   created() {
+    const showTips = getSessionStore("showWarTips");
+    if (showTips && showTips == 2) {
+      this.isWarPosterShow = false;
+    } else {
+      setSessionStore("showWarTips", 2);
+    }
     getBoxList().then((res) => {
       if (res.data && res.data.length > 0) {
         this.boxList = res.data;

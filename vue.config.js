@@ -1,8 +1,8 @@
-const { defineConfig } = require("@vue/cli-service");
-const TerserPlugin = require("terser-webpack-plugin");
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+import { defineConfig } from "@vue/cli-service";
+import TerserPlugin from "terser-webpack-plugin";
+import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
-module.exports = defineConfig({
+export default defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
@@ -28,12 +28,12 @@ module.exports = defineConfig({
         new TerserPlugin({
           terserOptions: {
             output: {
-              comments: false
-            }
+              comments: false,
+            },
           },
-          extractComments: false
-        })
-      ]
-    }
+          extractComments: false,
+        }),
+      ],
+    },
   },
 });

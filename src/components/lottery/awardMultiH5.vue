@@ -2,17 +2,54 @@
   <div class="award-multi-h5">
     <div class="turntable-box">
       <div class="turntable-content">
-        <img :src="blindDetailInfo.showImgTwo" :class="['nft-img', , { autoplay: isPlay }]" alt="" />
-        <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" class="award-img" />
+        <img
+          :src="blindDetailInfo.showImgTwo"
+          :class="['nft-img', , { autoplay: isPlay }]"
+          alt=""
+        />
+        <ImageView
+          :src="currentItem.nftCompressImg || currentItem.nftImg"
+          class="award-img"
+        />
       </div>
       <div class="turntable-middle">
         <img :src="blindDetailInfo.showImgOne" class="nft-logo" alt="" />
-        <img src="@/assets/img/h5/lottery/02.webp" :class="['nft-close', { 'nft-open': isOpen }]" alt="" />
-        <img :src="EPICLight" class="light" v-if="isLight && currentItem.qualityType == 'EPIC'" alt="" />
-        <img :src="LEGENDLight" class="light" v-if="isLight && currentItem.qualityType == 'LEGEND'" alt="" />
-        <img :src="NORMALLight" class="light" v-if="isLight && currentItem.qualityType == 'NORMAL'" alt="" />
-        <img :src="RARELight" class="light" v-if="isLight && currentItem.qualityType == 'RARE'" alt="" />
-        <div :class="['nft-img', currentItem.qualityType, { 'nft-img-big': isNft, 'nft-img-hidden': isStop }]">
+        <img
+          src="@/assets/img/h5/lottery/02.webp"
+          :class="['nft-close', { 'nft-open': isOpen }]"
+          alt=""
+        />
+        <img
+          :src="EPICLight"
+          class="light"
+          v-if="isLight && currentItem.qualityType == 'EPIC'"
+          alt=""
+        />
+        <img
+          :src="LEGENDLight"
+          class="light"
+          v-if="isLight && currentItem.qualityType == 'LEGEND'"
+          alt=""
+        />
+        <img
+          :src="NORMALLight"
+          class="light"
+          v-if="isLight && currentItem.qualityType == 'NORMAL'"
+          alt=""
+        />
+        <img
+          :src="RARELight"
+          class="light"
+          v-if="isLight && currentItem.qualityType == 'RARE'"
+          alt=""
+        />
+        <div
+          :class="[
+            'nft-img',
+            currentItem.qualityType,
+            { 'nft-img-big': isNft, 'nft-img-hidden': isStop },
+          ]"
+        >
           <ImageView :src="currentItem.nftCompressImg || currentItem.nftImg" />
         </div>
       </div>
@@ -26,7 +63,11 @@
           <ImageView :src="item.nftCompressImg || item.nftImg" />
         </div>
         <div class="award-price">
-          <img class="award-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+          <img
+            class="award-icon"
+            src="@/assets/svg/user/icon_usdt_gold.svg"
+            alt=""
+          />
           <span v-priceFormat="item.initPrice"></span>
         </div>
       </div>
@@ -66,7 +107,9 @@ export default {
   },
   data() {
     return {
-      poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(JSON.parse(JSON.stringify(this.prizePoolList))),
+      poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(
+        JSON.parse(JSON.stringify(this.prizePoolList))
+      ),
       isPlay: true,
       isOpen: false,
       isLight: false,
@@ -86,13 +129,17 @@ export default {
     this.$emit("delayTime", this.delayTime);
   },
   beforeCreate() {
-    let count = 0;
-    let imgs = [EPICLight, LEGENDLight, NORMALLight, RARELight, this.blindDetailInfo.showImgOne, this.blindDetailInfo.showImgTwo];
+    let imgs = [
+      EPICLight,
+      LEGENDLight,
+      NORMALLight,
+      RARELight,
+      this.blindDetailInfo.showImgOne,
+      this.blindDetailInfo.showImgTwo,
+    ];
     for (let img of imgs) {
       let image = new Image();
-      image.onload = () => {
-        count++;
-      };
+      image.onload = () => {};
       image.src = img;
     }
   },

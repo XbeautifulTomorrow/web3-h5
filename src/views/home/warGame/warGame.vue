@@ -170,8 +170,8 @@
             currentStatus == 'INIT'
               ? ''
               : currentStatus == 'WAIT'
-              ? 'battle'
-              : 'next',
+                ? 'battle'
+                : 'next',
           ]"
           v-if="!isHistory"
         >
@@ -196,8 +196,8 @@
                 currentStatus == 'INIT'
                   ? 'init'
                   : currentStatus == 'WAIT'
-                  ? 'wait'
-                  : 'next',
+                    ? 'wait'
+                    : 'next',
               ]"
             >
               <el-progress
@@ -210,8 +210,8 @@
                   currentStatus == 'INIT'
                     ? '#fad54d'
                     : currentStatus == 'WAIT'
-                    ? '#c72ae9'
-                    : '#b3b9c4'
+                      ? '#c72ae9'
+                      : '#b3b9c4'
                 "
                 :show-text="false"
               />
@@ -528,7 +528,7 @@
     </div>
   </div>
 </template>
-  <script>
+<script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
@@ -733,7 +733,7 @@ export default {
         // 加载TOKEN
         if (localStorage.getItem("certificate")) {
           headerParams["certificate"] = decryptCBC(
-            localStorage.getItem("certificate")
+            localStorage.getItem("certificate"),
           );
         }
 
@@ -745,7 +745,7 @@ export default {
             heartbeatTimeout: 60 * 1000,
             // 添加token
             headers: headerParams,
-          }
+          },
         );
         // 删除标记
         window.sessionStorage.removeItem("currentRound");
@@ -769,7 +769,7 @@ export default {
       // 加载TOKEN
       if (localStorage.getItem("certificate")) {
         headerParams["certificate"] = decryptCBC(
-          localStorage.getItem("certificate")
+          localStorage.getItem("certificate"),
         );
       }
 
@@ -813,7 +813,7 @@ export default {
 
           if (this.userInfo?.id && this.isLogin) {
             const user = this.warData.find(
-              (e) => e.userId == this.userInfo?.id
+              (e) => e.userId == this.userInfo?.id,
             );
 
             if (user) {
@@ -982,7 +982,7 @@ export default {
                   Number(array[0]).toFixed(4) +
                   ", " +
                   Number(array[1]).toFixed(4) +
-                  " )"
+                  " )",
               );
           } else {
             that.showTooltips = false;
@@ -1081,7 +1081,7 @@ export default {
                   Number(array[0]).toFixed(4) +
                   ", " +
                   Number(array[1]).toFixed(4) +
-                  " )"
+                  " )",
               );
           } else {
             that.showTooltips = false;
@@ -1124,7 +1124,7 @@ export default {
         if (degArray[i].userId == winUserId) {
           // 需要再加上一半中奖者所占度数才能到顶点
           degCount += Number(
-            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2)
+            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2),
           );
         } else {
           degCount += this.getDeg(degArray[i].buyPrice);
@@ -1213,7 +1213,7 @@ export default {
         currentTime,
         timeStartPoint,
         maxSpeed,
-        startHoldTime
+        startHoldTime,
       );
 
       // 旋转角度
@@ -1352,7 +1352,7 @@ export default {
 
       // 计算出百分比
       this.percentage = Number(
-        accurateDecimal(new bigNumber(end).div(times).multipliedBy(100), 2)
+        accurateDecimal(new bigNumber(end).div(times).multipliedBy(100), 2),
       );
     },
     // 获取用户颜色
@@ -1551,8 +1551,8 @@ export default {
         this.percentage = Number(
           accurateDecimal(
             new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-            2
-          )
+            2,
+          ),
         );
 
         this.nextTimer = setInterval(() => {
@@ -1563,16 +1563,16 @@ export default {
               this.percentage = Number(
                 accurateDecimal(
                   new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-                  2
-                )
+                  2,
+                ),
               );
             } else {
               this.seconds = this.countdown;
               this.percentage = Number(
                 accurateDecimal(
                   new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-                  2
-                )
+                  2,
+                ),
               );
               clearInterval(this.nextTimer);
               this.countdown = 15;
@@ -1678,4 +1678,3 @@ export default {
 <style lang="scss" scoped>
 @import "./components/index.scss";
 </style>
-      

@@ -7,6 +7,14 @@ import localeEN from "element-plus/dist/locale/en.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
 
+import eth from "@/assets/svg/user/coin/icon_eth.svg";
+import weth from "@/assets/svg/user/coin/icon_weth.svg";
+import usdt from "@/assets/svg/user/coin/icon_usdt.svg";
+import bnb from "@/assets/svg/user/coin/icon_bnb.svg";
+import busd from "@/assets/svg/user/coin/icon_busd.svg";
+import usdc from "@/assets/svg/user/coin/icon_usdc.svg";
+
+
 export const useUserStore = defineStore("user", {
   state: () => ({
     locale: getLang() == "en_US" ? localeEN : localeZH,
@@ -17,12 +25,12 @@ export const useUserStore = defineStore("user", {
     isLogin: getLocalStore("certificate") ? true : false,
     loadLog: false,
     currencyData: [
-      { name: "ETH", img: require("@/assets/svg/user/coin/icon_eth.svg") },
-      { name: "WETH", img: require("@/assets/svg/user/coin/icon_weth.svg") },
-      { name: "USDT", img: require("@/assets/svg/user/coin/icon_usdt.svg") },
-      { name: "BNB", img: require("@/assets/svg/user/coin/icon_bnb.svg") },
-      { name: "BUSD", img: require("@/assets/svg/user/coin/icon_busd.svg") },
-      { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") },
+      { name: "ETH", img: eth },
+      { name: "WETH", img: weth },
+      { name: "USDT", img: usdt },
+      { name: "BNB", img: bnb },
+      { name: "BUSD", img: busd },
+      { name: "USDC", img: usdc },
     ],
   }),
   persist: {
@@ -40,7 +48,9 @@ export const useUserStore = defineStore("user", {
         if (res && res.data) {
           const networkList = res.data;
           this.currencyData = this.currencyData.map((data) => {
-            const matchingCoin = networkList.find((x) => x.coinName === data.name);
+            const matchingCoin = networkList.find(
+              (x) => x.coinName === data.name,
+            );
             if (matchingCoin && matchingCoin.img) {
               return { ...data, img: matchingCoin.img };
             } else {
@@ -48,7 +58,7 @@ export const useUserStore = defineStore("user", {
             }
           });
         }
-      }    
+      }
     },
     getCoin(event) {
       const { currencyData } = this;

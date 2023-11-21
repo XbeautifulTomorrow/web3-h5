@@ -73,7 +73,7 @@
 }
 .delorean .delorean-top .top-lines-on-top:before {
   position: absolute;
-  content: '';
+  content: "";
   background: inherit;
   left: 0;
   top: -0.4vmin;
@@ -82,7 +82,7 @@
 }
 .delorean .delorean-top .top-lines-on-top:after {
   position: absolute;
-  content: '';
+  content: "";
   background: inherit;
   left: 6.3vmin;
   top: -0.65vmin;
@@ -111,7 +111,7 @@
   clip-path: polygon(18% 25%, 82% 25%, 100% 100%, 0% 100%);
 }
 .delorean .delorean-top .rear-window:after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -168,7 +168,7 @@
 }
 .delorean .delorean-top .lights:after {
   pointer-events: none;
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -181,7 +181,9 @@
       transparent 0.3vmin
     ),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0.3vmin, transparent 0.3vmin);
-  background-size: 1.5vmin 100px, 100px 1.5vmin;
+  background-size:
+    1.5vmin 100px,
+    100px 1.5vmin;
   mix-blend-mode: soft-light;
 }
 .delorean .delorean-top .lights-frame {
@@ -287,10 +289,15 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  content: 'KODE';
+  content: "KODE";
   font-size: 1.3vmin;
   font-weight: bold;
-  font-family: 'Capone', 'Inter', 'Helvetica Neue', 'Helvetic', sans serif;
+  font-family:
+    "Capone",
+    "Inter",
+    "Helvetica Neue",
+    "Helvetic",
+    sans serif;
   position: absolute;
   letter-spacing: 0.05vmin;
   display: grid;
@@ -299,7 +306,7 @@
   transform: translateY(0.25vmin);
 }
 .delorean .delorean-top .id:before {
-  content: 'OUTATIME';
+  content: "OUTATIME";
   color: var(--labs-sys-color-sun-2);
   font-size: 0.6vmin;
   font-weight: bold;
@@ -335,8 +342,12 @@
       var(--labs-sys-color-delorean-lights-red) 70%
     );
   background-repeat: no-repeat;
-  background-size: 100% 0.045vmin, 100% 0.25vmin;
-  background-position: 0 7.5px, 0 -0.05vmin;
+  background-size:
+    100% 0.045vmin,
+    100% 0.25vmin;
+  background-position:
+    0 7.5px,
+    0 -0.05vmin;
   height: 1vmin;
   width: 12vmin;
   transform: translate(1.8vmin, -0.5vmin);
@@ -377,7 +388,7 @@
 }
 .delorean .mirror-left:before,
 .delorean .mirror-right:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0.5vmin;
   right: 0.5vmin;

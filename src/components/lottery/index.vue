@@ -8,7 +8,11 @@
     :append-to-body="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :custom-class="['roll-dialog', { 'roll-one-dialog': rollNumber === 'ONE' }, { 'roll-lottery-dialog': !showResult }]"
+    :custom-class="[
+      'roll-dialog',
+      { 'roll-one-dialog': rollNumber === 'ONE' },
+      { 'roll-lottery-dialog': !showResult },
+    ]"
   >
     <!-- 单个中奖 -->
     <keep-alive v-if="rollNumber === 'ONE'">
@@ -40,7 +44,10 @@
       @closeDialogFun="closeDialogFun"
     />
     <!-- 弹窗 -->
-    <choose-token v-if="showDialog === 'chooseToken'" @closeDialogFun="closeDialogFun" />
+    <choose-token
+      v-if="showDialog === 'chooseToken'"
+      @closeDialogFun="closeDialogFun"
+    />
     <your-reard
       v-else-if="showDialog === 'yourReard'"
       :sold="awardItem[0]"
@@ -137,7 +144,15 @@ export default {
     oneAward,
     Loading,
   },
-  props: ["lottoList", "lottResult", "apiIsError", "errorText", "showRoll", "rollNumber", "blindDetailInfo"],
+  props: [
+    "lottoList",
+    "lottResult",
+    "apiIsError",
+    "errorText",
+    "showRoll",
+    "rollNumber",
+    "blindDetailInfo",
+  ],
   data() {
     return {
       loading: false,
@@ -181,9 +196,13 @@ export default {
         if (this.rollNumber === "ONE") {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
-          price = new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5);
+          price = new bigNumber(
+            this.blindDetailInfo.fivePrice || 0,
+          ).multipliedBy(5);
         } else if (this.rollNumber === "TEN") {
-          price = new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10);
+          price = new bigNumber(
+            this.blindDetailInfo.tenPrice || 0,
+          ).multipliedBy(10);
         }
       }
 
@@ -199,11 +218,19 @@ export default {
     showDialog(newData) {
       const dialog = ["yourReard", "chainDialog", "beenSold", "partSold"];
       if (dialog.includes(newData)) {
-        document.getElementsByClassName("header-wallet")[0].classList.add("show-top-walletvb");
-        document.getElementsByClassName("header-wallet")[1].classList.add("show-top-walletvb");
+        document
+          .getElementsByClassName("header-wallet")[0]
+          .classList.add("show-top-walletvb");
+        document
+          .getElementsByClassName("header-wallet")[1]
+          .classList.add("show-top-walletvb");
       } else {
-        document.getElementsByClassName("header-wallet")[0].classList.remove("show-top-walletvb");
-        document.getElementsByClassName("header-wallet")[1].classList.remove("show-top-walletvb");
+        document
+          .getElementsByClassName("header-wallet")[0]
+          .classList.remove("show-top-walletvb");
+        document
+          .getElementsByClassName("header-wallet")[1]
+          .classList.remove("show-top-walletvb");
       }
       this.clearResultTimer = true;
     },
@@ -220,7 +247,10 @@ export default {
         const { errorText } = this;
         this.$emit("apiIsErrorFun", true);
         this.showDialog = "transactionWarning";
-        this.warningText = typeof errorText === "string" ? errorText : this.$t("errorTips.image_enum_error");
+        this.warningText =
+          typeof errorText === "string"
+            ? errorText
+            : this.$t("errorTips.image_enum_error");
       }
     },
   },
@@ -242,7 +272,10 @@ export default {
         }
       });
       const notifyObj = this.$notify({
-        customClass: type == "warning" ? "custom-notify lottery-warning-notify" : "custom-notify",
+        customClass:
+          type == "warning"
+            ? "custom-notify lottery-warning-notify"
+            : "custom-notify",
         position: "bottom-right",
         duration: 0,
         dangerouslyUseHTMLString: true,
@@ -259,7 +292,9 @@ export default {
         let waitData = data.filter((x) => x.lotteryStatus == "WAIT");
         if (waitData?.length == 0) {
           this.checkInterVal && clearInterval(this.checkInterVal);
-          const failList = data.filter((x) => x.lotteryStatus == "FAIL").map((x) => x.id);
+          const failList = data
+            .filter((x) => x.lotteryStatus == "FAIL")
+            .map((x) => x.id);
           if (failList?.length > 0) {
             type = "warning";
           } else {
@@ -268,7 +303,9 @@ export default {
         } else {
           type = "loading";
         }
-        let filterData = data.filter((x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL");
+        let filterData = data.filter(
+          (x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL",
+        );
         if (filterData?.length > 0) {
           this.notificationFunc(type, filterData, awardItem[0]?.orderId);
         }
@@ -312,7 +349,10 @@ export default {
         }
         this.headerStoreStore.getTheUserBalanceApi();
       } else {
-        if (res?.length == 3 && res[2].messageKey == "already_automatically_recycled") {
+        if (
+          res?.length == 3 &&
+          res[2].messageKey == "already_automatically_recycled"
+        ) {
           localStorage.removeItem("result");
           this.showDialog = dialog;
           this.headerStoreStore.getTheUserBalanceApi();
@@ -584,7 +624,11 @@ $borWidth: 180px;
   align-content: center;
 
   .lottery-carousel-list {
-    background-image: linear-gradient(228deg, hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0) 62%);
+    background-image: linear-gradient(
+      228deg,
+      hsla(0, 0%, 100%, 0.3),
+      hsla(0, 0%, 100%, 0) 62%
+    );
     background-color: #e38d4c;
     border-radius: 5px;
     overflow: hidden;

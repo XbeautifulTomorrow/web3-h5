@@ -2,7 +2,9 @@
   &.el-dialog {
     border-radius: 0px;
     background-position: top center !important;
-    box-shadow: inset 0 0 0 1px #c72ae9, inset 0 0 3.75rem 0.3125rem rgba(199, 42, 233, 0.5);
+    box-shadow:
+      inset 0 0 0 1px #c72ae9,
+      inset 0 0 3.75rem 0.3125rem rgba(199, 42, 233, 0.5);
     box-sizing: border-box;
     background-color: #230533;
   }
@@ -144,7 +146,7 @@
   align-items: center;
   justify-content: center;
 
-  &>div {
+  & > div {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
@@ -168,13 +170,12 @@
     font-size: 0.625rem;
     color: white;
 
-    &>span:nth-child(1) {
+    & > span:nth-child(1) {
       color: #fad54d;
       cursor: pointer;
     }
   }
 }
-
 
 @media screen and (max-width: 950px) {
   :deep(.public-dialog) {
@@ -232,7 +233,6 @@
   }
 
   .info_item {
-
     .val {
       font-size: 0.875rem;
 
@@ -267,7 +267,7 @@
     align-items: center;
     justify-content: center;
 
-    &>div {
+    & > div {
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
@@ -291,7 +291,7 @@
       font-size: 0.625rem;
       color: white;
 
-      &>span:nth-child(1) {
+      & > span:nth-child(1) {
         color: #fad54d;
         cursor: pointer;
       }

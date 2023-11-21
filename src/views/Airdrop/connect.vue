@@ -1,7 +1,13 @@
 <template>
   <div>
-    <el-dialog v-model="show" width="43.75rem" lock-scroll :align-center="true" :close-on-click-modal="false"
-      :before-close="closePopup">
+    <el-dialog
+      v-model="show"
+      width="43.75rem"
+      lock-scroll
+      :align-center="true"
+      :close-on-click-modal="false"
+      :before-close="closePopup"
+    >
       <div class="close_btn" @click="closePopup()">
         <el-icon>
           <Close />
@@ -12,19 +18,39 @@
           <span>{{ $t("airdrop.connectBtn") }}</span>
         </div>
         <div class="operating_tips">{{ $t("airdrop.connectWalletTips") }}</div>
-        <div class="operating_item" v-loading="loadingType == 1" @click="connectWallet(1)">
+        <div
+          class="operating_item"
+          v-loading="loadingType == 1"
+          @click="connectWallet(1)"
+        >
           <div class="item_l">
-            <img src="@/assets/svg/user/meta_mask.svg" alt="" srcset="">
+            <img src="@/assets/svg/user/meta_mask.svg" alt="" srcset="" />
             <span>MetaMask</span>
           </div>
-          <img class="item_r" v-show="loadingType != 1" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img
+            class="item_r"
+            v-show="loadingType != 1"
+            src="@/assets/svg/user/icon_arrow.svg"
+            alt=""
+            srcset=""
+          />
         </div>
-        <div class="operating_item" v-loading="loadingType == 2" @click="connectWallet(2)">
+        <div
+          class="operating_item"
+          v-loading="loadingType == 2"
+          @click="connectWallet(2)"
+        >
           <div class="item_l">
-            <img src="@/assets/svg/user/wallet_connect.svg" alt="" srcset="">
+            <img src="@/assets/svg/user/wallet_connect.svg" alt="" srcset="" />
             <span>WalletConnect</span>
           </div>
-          <img class="item_r" v-show="loadingType != 2" src="@/assets/svg/user/icon_arrow.svg" alt="" srcset="">
+          <img
+            class="item_r"
+            v-show="loadingType != 2"
+            src="@/assets/svg/user/icon_arrow.svg"
+            alt=""
+            srcset=""
+          />
         </div>
       </div>
     </el-dialog>
@@ -36,12 +62,12 @@ export default {
   props: {
     loadingType: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
-      show: true
+      show: true,
     };
   },
   methods: {
@@ -55,7 +81,7 @@ export default {
 
       if (done) {
         done();
-        return
+        return;
       }
     },
   },
@@ -115,7 +141,7 @@ export default {
     padding-bottom: 1.875rem;
   }
 
-  .operating_item+.operating_item {
+  .operating_item + .operating_item {
     margin-top: 1.25rem;
   }
 
@@ -141,7 +167,7 @@ export default {
         width: 1.875rem;
       }
 
-      &>span {
+      & > span {
         padding-left: 0.625rem;
       }
     }
@@ -204,7 +230,7 @@ export default {
       padding-bottom: 1.5rem;
     }
 
-    .operating_item+.operating_item {
+    .operating_item + .operating_item {
       margin-top: 0.75rem;
     }
 
@@ -224,7 +250,7 @@ export default {
           width: 1.5rem;
         }
 
-        &>span {
+        & > span {
           padding-left: 0.5rem;
         }
       }
@@ -234,7 +260,6 @@ export default {
       }
 
       :deep(.el-loading-mask) {
-
         .el-loading-spinner {
           padding-right: 1rem;
 

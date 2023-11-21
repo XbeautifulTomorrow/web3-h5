@@ -18,9 +18,15 @@
         >
           <div v-for="(list, index) in awardsList" :key="index">
             <div class="roll-one-carousel" ref="subAwards">
-              <div :class="['roll-one-carousel-list', list.qualityType]" :style="liStyle">
+              <div
+                :class="['roll-one-carousel-list', list.qualityType]"
+                :style="liStyle"
+              >
                 <div class="roll-one-list-bor" ref="light" :style="borStyle">
-                  <image-view class="roll-one-list-img" :src="list.nftCompressImg || list.nftImg" />
+                  <image-view
+                    class="roll-one-list-img"
+                    :src="list.nftCompressImg || list.nftImg"
+                  />
                 </div>
                 <p class="roll-one-list-seriesName">
                   <span class="roll-one-list-seriesName-text text-ellipsis">
@@ -31,9 +37,17 @@
                   <!-- <img class="roll-one-list-logo" :src="list.seriesImg" /> -->
                   <div class="roll-one-list-price">
                     <span class="roll-one-list-minPrice text-ellipsis">
-                      <el-tooltip class="box-item" effect="dark" :content="`${list.price}`">
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="`${list.price}`"
+                      >
                         <p class="price-box">
-                          <img class="coin-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                          <img
+                            class="coin-icon"
+                            src="@/assets/svg/user/icon_usdt_gold.svg"
+                            alt=""
+                          />
                           <span v-priceFormat="list.price"></span>
                         </p>
                       </el-tooltip>
@@ -42,8 +56,17 @@
                       {{ list.coin }}
                     </span> -->
                   </div>
-                  <div class="roll-one-list-nftNumber text-ellipsis" v-if="list.tokenId">
-                    <el-tooltip class="box-item" effect="dark" :content="`# ${list.tokenId}`"> #&nbsp;{{ list.tokenId }} </el-tooltip>
+                  <div
+                    class="roll-one-list-nftNumber text-ellipsis"
+                    v-if="list.tokenId"
+                  >
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`# ${list.tokenId}`"
+                    >
+                      #&nbsp;{{ list.tokenId }}
+                    </el-tooltip>
                   </div>
                 </div>
               </div>
@@ -60,7 +83,8 @@
 </template>
 <script>
 import { Howl } from "howler";
-import { slipe, oneSlow } from "@/utils/audioResource";
+import slipe from "@/assets/music/more-slipe.mp3";
+import oneSlow from "@/assets/music/one-slow.mp3";
 import resultLink from "../resultLink";
 import ImageView from "../imageView";
 
@@ -105,7 +129,9 @@ export default {
         margin: "0 3px",
         padding: "5px 10px",
       },
-      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(JSON.parse(JSON.stringify(this.awards))),
+      awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
+        JSON.parse(JSON.stringify(this.awards))
+      ),
       linearTime: null, //匀速动画duration时间
       slowTime: "6s", //减速动画duration时间
       boxOffsetWidth: 0,

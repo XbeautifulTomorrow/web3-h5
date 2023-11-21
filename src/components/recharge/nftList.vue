@@ -1,7 +1,16 @@
 <template>
   <div>
-    <el-dialog v-model="show" :destroy-on-close="true" width="78.125rem" :append-to-body="true" :show-close="false"
-      :align-center="true" :before-close="handleClose" :close-on-click-modal="false" class="public-dialog recharge-coin">
+    <el-dialog
+      v-model="show"
+      :destroy-on-close="true"
+      width="78.125rem"
+      :append-to-body="true"
+      :show-close="false"
+      :align-center="true"
+      :before-close="handleClose"
+      :close-on-click-modal="false"
+      class="public-dialog recharge-coin"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, handleClose] }">
           <el-icon>
@@ -21,9 +30,18 @@
             <span>WITHDRAWAL NETWORK</span>
             <span class="required">*</span>
           </div>
-          <el-select v-model="params.chain" class="nft_type wallet_network" placeholder="Select network"
-            :popper-append-to-body="false">
-            <el-option v-for="(item, index) in networkList" :key="index" :label="item.label" :value="item.value" />
+          <el-select
+            v-model="params.chain"
+            class="nft_type wallet_network"
+            placeholder="Select network"
+            :popper-append-to-body="false"
+          >
+            <el-option
+              v-for="(item, index) in networkList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
           <div class="hint_text">
             <img src="" alt="" />
@@ -44,74 +62,140 @@
             <span>RECEIVING NFT'S ADDRESS</span>
             <span class="required">*</span>
           </div>
-          <el-input class="wallet_input" v-model="params.wallet" placeholder="Paste your ERC20 wallet address here">
+          <el-input
+            class="wallet_input"
+            v-model="params.wallet"
+            placeholder="Paste your ERC20 wallet address here"
+          >
           </el-input>
         </div>
       </div>
       <div class="choose_panel" v-if="showNft">
         <div class="search_box">
-          <el-input class="nft_input" v-if="!isDeposit" @keyup.enter="fetchSystemNft()" v-model="params.nftName" clearable
-            placeholder="Search NFTs">
+          <el-input
+            class="nft_input"
+            v-if="!isDeposit"
+            @keyup.enter="fetchSystemNft()"
+            v-model="params.nftName"
+            clearable
+            placeholder="Search NFTs"
+          >
             <template #prefix>
-              <el-icon class="el-input__icon search_icon" @click="fetchSystemNft()">
+              <el-icon
+                class="el-input__icon search_icon"
+                @click="fetchSystemNft()"
+              >
                 <search />
               </el-icon>
             </template>
           </el-input>
           <div class="collections_box type_box" v-if="!isDeposit">
             <div class="collections_text">Type:</div>
-            <el-select v-model="params.type" @change="changeType" class="nft_type">
-              <el-option v-for="item in nftTypes" :key="item.value" :label="item.label" :value="item.value" />
+            <el-select
+              v-model="params.type"
+              @change="changeType"
+              class="nft_type"
+            >
+              <el-option
+                v-for="item in nftTypes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
             </el-select>
           </div>
           <div class="collections_box">
             <div class="collections_text">Collections:</div>
-            <el-select v-model="params.collections" @change="changeSeries" class="nft_type" placeholder="All" clearable
-              :popper-append-to-body="false">
-              <el-option v-for="(item, index) in seriesDrop" :key="index" :label="item.seriesName"
-                :value="`${item.contractAddress}${Number(item.tokenId) > -1 && '+' + item.tokenId || ''}`" />
+            <el-select
+              v-model="params.collections"
+              @change="changeSeries"
+              class="nft_type"
+              placeholder="All"
+              clearable
+              :popper-append-to-body="false"
+            >
+              <el-option
+                v-for="(item, index) in seriesDrop"
+                :key="index"
+                :label="item.seriesName"
+                :value="`${item.contractAddress}${
+                  (Number(item.tokenId) > -1 && '+' + item.tokenId) || ''
+                }`"
+              />
             </el-select>
           </div>
-          <el-input :class="['nft_input', !params.collections && 'disabled']" :disabled="!params.collections"
-            v-model="params.nftName" v-if="isDeposit" @keyup.enter="getWalletNftApi()" clearable
-            placeholder="Search NFTs">
+          <el-input
+            :class="['nft_input', !params.collections && 'disabled']"
+            :disabled="!params.collections"
+            v-model="params.nftName"
+            v-if="isDeposit"
+            @keyup.enter="getWalletNftApi()"
+            clearable
+            placeholder="Search NFTs"
+          >
             <template #prefix>
-              <el-icon class="el-input__icon search_icon" @click="getWalletNftApi()">
+              <el-icon
+                class="el-input__icon search_icon"
+                @click="getWalletNftApi()"
+              >
                 <search />
               </el-icon>
             </template>
           </el-input>
         </div>
         <div class="choose_nft" v-if="count > 0">
-          <div class="choose_nft_item" v-for="(item, index) in chooseNftData" :key="index">
+          <div
+            class="choose_nft_item"
+            v-for="(item, index) in chooseNftData"
+            :key="index"
+          >
             <div class="img_box">
-              <Image fit="cover" class="nft_img" v-if="isDeposit" :src="item.nftImg" />
+              <Image
+                fit="cover"
+                class="nft_img"
+                v-if="isDeposit"
+                :src="item.nftImg"
+              />
               <Image fit="cover" class="nft_img" v-else :src="item.img" />
               <div class="tips text-ellipsis">{{ `#${item.tokenId}` }}</div>
-              <div v-if="isDeposit" class="num_tips text-ellipsis">{{ `x ${item.amount}` }}</div>
+              <div v-if="isDeposit" class="num_tips text-ellipsis">
+                {{ `x ${item.amount}` }}
+              </div>
             </div>
             <div class="nft_name">{{ item.name || "--" }}</div>
             <template v-if="isDeposit">
-              <div class="confirm_btn" v-if="!depositConfirm(item.tokenId)" @click="depositOne(item)">
+              <div
+                class="confirm_btn"
+                v-if="!depositConfirm(item.tokenId)"
+                @click="depositOne(item)"
+              >
                 DEPOSIT
               </div>
-              <div class="confirm_btn disabled" v-else>
-                DEPOSITING
-              </div>
+              <div class="confirm_btn disabled" v-else>DEPOSITING</div>
             </template>
             <template v-else>
-              <div class="confirm_btn" v-if="item.currentStatus == 'WAIT'" @click.stop="onWithdrawConfirm(item)">
+              <div
+                class="confirm_btn"
+                v-if="item.currentStatus == 'WAIT'"
+                @click.stop="onWithdrawConfirm(item)"
+              >
                 WITHDRAW
               </div>
-              <div class="confirm_btn disabled" v-else-if="item.currentStatus == 'ONE_DOLLAR'">
+              <div
+                class="confirm_btn disabled"
+                v-else-if="item.currentStatus == 'ONE_DOLLAR'"
+              >
                 {{ $t("user.onSale") }}
               </div>
-              <div class="confirm_btn disabled" v-else>
-                WITHDRAWLING
-              </div>
+              <div class="confirm_btn disabled" v-else>WITHDRAWLING</div>
             </template>
-            <div class="disabled_mask" v-if="isDeposit && !findSeries(item.contractAddress)">
-              <div class="tips_text">{{ $t("recharge.notDeposit", { name: item.name || "--" }) }}</div>
+            <div
+              class="disabled_mask"
+              v-if="isDeposit && !findSeries(item.contractAddress)"
+            >
+              <div class="tips_text">
+                {{ $t("recharge.notDeposit", { name: item.name || "--" }) }}
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +209,10 @@
             {{ `${startNum}-${endNum} of ${count}` }}
           </div>
           <div class="pagination not-select">
-            <div :class="['prev', !pageCount.prev && 'disabled']" @click="handlePageChange(-1)">
+            <div
+              :class="['prev', !pageCount.prev && 'disabled']"
+              @click="handlePageChange(-1)"
+            >
               <el-icon>
                 <ArrowLeftBold />
               </el-icon>
@@ -134,7 +221,10 @@
               <span>{{ page + 1 }}</span>
               <span>{{ `/ ${Math.ceil(count / size) || 1}` }}</span>
             </div>
-            <div :class="['next', !pageCount.next && 'disabled']" @click="handlePageChange(1)">
+            <div
+              :class="['next', !pageCount.next && 'disabled']"
+              @click="handlePageChange(1)"
+            >
               <el-icon>
                 <ArrowRightBold />
               </el-icon>
@@ -142,13 +232,27 @@
           </div>
         </div>
         <div class="pagination-box" v-if="!isDeposit && count > size">
-          <el-pagination v-model="page" :page-size="size" @current-change="handleCurrentChange" :pager-count="7"
-            layout="prev, pager, next" :total="count" :prev-text="$t('common.prev')" :next-text="$t('common.next')" />
+          <el-pagination
+            v-model="page"
+            :page-size="size"
+            @current-change="handleCurrentChange"
+            :pager-count="7"
+            layout="prev, pager, next"
+            :total="count"
+            :prev-text="$t('common.prev')"
+            :next-text="$t('common.next')"
+          />
         </div>
       </div>
       <Loading :loading="loading" />
-      <withdraw v-if="showWithdraw" :dialogType="dialogType" :nftInfo="chooseNft" :txId="transactionId"
-        @confirm="onWithdrawalNft()" @cancelDialogFun="handleCancel()"></withdraw>
+      <withdraw
+        v-if="showWithdraw"
+        :dialogType="dialogType"
+        :nftInfo="chooseNft"
+        :txId="transactionId"
+        @confirm="onWithdrawalNft()"
+        @cancelDialogFun="handleCancel()"
+      ></withdraw>
     </el-dialog>
   </div>
 </template>
@@ -161,7 +265,7 @@ import {
   defineEmits,
   onMounted,
 } from "vue";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { useUserStore } from "@/store/user.js";
@@ -189,7 +293,7 @@ const props = defineProps({
   isDeposit: {
     type: Boolean,
     default: true,
-  }
+  },
 });
 
 const page = ref(1);
@@ -252,14 +356,13 @@ const seriesDrop = computed(() => {
 const showNft = computed(() => {
   const { chain } = params;
 
-
   if (props.isDeposit) {
     return true;
   } else {
     if (chain) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 });
@@ -282,7 +385,6 @@ const handleClose = () => {
   emit("closeDialogFun");
 };
 
-
 const depositOne = async (item) => {
   chooseNft.value = item;
   showWithdraw.value = true;
@@ -296,10 +398,16 @@ const depositOne = async (item) => {
   if (item.contractType == "ERC1155") {
     let nft1155Contract = new web3.eth.Contract(
       nft1155Abi,
-      item.contractAddress
+      item.contractAddress,
     );
     nft1155Contract.methods
-      .safeTransferFrom(accountAddress.value, receiver.value, item.tokenId, 1, "0x")
+      .safeTransferFrom(
+        accountAddress.value,
+        receiver.value,
+        item.tokenId,
+        1,
+        "0x",
+      )
       .send({ from: accountAddress.value })
       .catch((error) => {
         console.error(error.message);
@@ -339,20 +447,20 @@ const depositOne = async (item) => {
 const getTheUserBalanceInfo = () => {
   const headerStore = useHeaderStore();
   headerStore.getTheUserBalanceApi();
-}
+};
 
 // 确认中状态
 const depositConfirm = (item) => {
   if (!confirmNft.value > 0) return false;
 
-  const confirm = confirmNft.value.findIndex(e => e == item) > -1;
-  return confirm
-}
+  const confirm = confirmNft.value.findIndex((e) => e == item) > -1;
+  return confirm;
+};
 
 // 删除确认中状态
 const delDeposit = () => {
   confirmNft.value.splice(confirmIndex.value, 1);
-}
+};
 
 // 打开确认弹窗
 const onWithdrawConfirm = (item) => {
@@ -376,7 +484,7 @@ const onWithdrawConfirm = (item) => {
   chooseNft.value = item;
   dialogType.value = 1;
   showWithdraw.value = true;
-}
+};
 
 // 提取Nft
 const onWithdrawalNft = async () => {
@@ -393,8 +501,8 @@ const onWithdrawalNft = async () => {
 };
 
 const findSeries = (event) => {
-  return collections.value.findIndex(e => e.contractAddress == event) > -1;
-}
+  return collections.value.findIndex((e) => e.contractAddress == event) > -1;
+};
 
 // 获取系统Nft列表
 const fetchSystemNft = async (isSearch = true) => {
@@ -404,14 +512,15 @@ const fetchSystemNft = async (isSearch = true) => {
     _page = 1;
   }
 
-  const collections = params.collections && params.collections.split("+") || [];
+  const collections =
+    (params.collections && params.collections.split("+")) || [];
 
   loading.value = true;
   const res = await getSystemNft({
     contractType: params.type,
     contractAddress: collections[0],
     keyword: params.nftName,
-    tokenId: collections[1] && collections[1] || undefined,
+    tokenId: (collections[1] && collections[1]) || undefined,
     page: _page,
     size: size.value,
   });
@@ -434,7 +543,7 @@ const fetchExternalSeries = async () => {
   const { userInfo } = useUserStore();
   const res = await getTheExternalNFTSeries({
     userId: props.isDeposit ? null : userInfo?.id,
-    type: "ALL"
+    type: "ALL",
   });
 
   collections.value = res.data;
@@ -451,7 +560,7 @@ const changeType = () => {
   } else {
     fetchSystemNft();
   }
-}
+};
 
 const getWalletNftApi = async (isSearch = true) => {
   let _page = page.value;
@@ -460,7 +569,8 @@ const getWalletNftApi = async (isSearch = true) => {
     _page = 0;
   }
 
-  const collections = params.collections && params.collections.split("+") || [];
+  const collections =
+    (params.collections && params.collections.split("+")) || [];
 
   loading.value = true;
   if (accountAddress.value) {
@@ -471,8 +581,8 @@ const getWalletNftApi = async (isSearch = true) => {
       size: size.value,
       chatId: config.ENV == "pro" ? 1 : null,
       keyword: params.nftName,
-      tokenId: collections[1] && collections[1] || undefined,
-    })
+      tokenId: (collections[1] && collections[1]) || undefined,
+    });
 
     loading.value = false;
 
@@ -480,9 +590,7 @@ const getWalletNftApi = async (isSearch = true) => {
       count.value = res.data.total;
       addCursor(res.data.cursor);
 
-      chooseNftData.value = JSON.parse(
-        JSON.stringify(res.data.records)
-      )
+      chooseNftData.value = JSON.parse(JSON.stringify(res.data.records));
     }
   }
 };
@@ -502,11 +610,11 @@ const handleCancel = async () => {
   }
 };
 
-const pageList = ref([""])
+const pageList = ref([""]);
 
 const startNum = computed(() => {
   return page.value * size.value + 1;
-})
+});
 
 const endNum = computed(() => {
   const num = page.value * size.value + size.value;
@@ -516,7 +624,7 @@ const endNum = computed(() => {
   }
 
   return count.value;
-})
+});
 
 const pageCount = computed(() => {
   const pager = Math.ceil(count.value / size.value);
@@ -526,38 +634,42 @@ const pageCount = computed(() => {
     isPrev = false;
   }
 
-  if ((page.value + 1) == pager) {
+  if (page.value + 1 == pager) {
     isNext = false;
   }
 
   if (!pager > 0) {
     return {
       prev: false,
-      next: false
-    }
+      next: false,
+    };
   }
 
   return {
     prev: isPrev,
-    next: isNext
-  }
-})
+    next: isNext,
+  };
+});
 
 // 翻页
 const addCursor = (event) => {
-  const isRepeat = pageList.value.findIndex(e => e == event) > -1;
+  const isRepeat = pageList.value.findIndex((e) => e == event) > -1;
 
   if (!isRepeat) {
     pageList.value.push(event);
   }
-}
+};
 
 // 翻页
 const handlePageChange = (event) => {
-  if (event < 0 && !pageCount.value.prev || event > 0 && !pageCount.value.next) return
+  if (
+    (event < 0 && !pageCount.value.prev) ||
+    (event > 0 && !pageCount.value.next)
+  )
+    return;
   page.value += event;
   getWalletNftApi(false);
-}
+};
 
 // 翻页
 const handleCurrentChange = (event) => {
@@ -568,7 +680,7 @@ const handleCurrentChange = (event) => {
   } else {
     fetchSystemNft(false);
   }
-}
+};
 
 const getTheUserSPayoutAddressApi = async () => {
   const res = getTheUserSPayoutAddress();
@@ -614,7 +726,7 @@ const getTheUserSPayoutAddressApi = async () => {
     }
 
     .search_box {
-      &>div+div {
+      & > div + div {
         margin-left: 0.5rem;
 
         &:first-child {
@@ -677,15 +789,15 @@ const getTheUserSPayoutAddressApi = async () => {
     }
 
     .choose_nft {
-      &>div:nth-child(n + 3) {
+      & > div:nth-child(n + 3) {
         margin-top: 0.25rem;
       }
 
-      &>div:nth-child(3n + 1) {
+      & > div:nth-child(3n + 1) {
         margin-left: 0;
       }
 
-      &>div:nth-child(3n + 2) {
+      & > div:nth-child(3n + 2) {
         margin-left: 0.25rem;
       }
 
@@ -712,22 +824,20 @@ const getTheUserSPayoutAddressApi = async () => {
 
           .nft_img {
             width: 100%;
-            height: 100%
+            height: 100%;
           }
-
-          ;
 
           .tips {
             padding: 0.2rem 0.4rem;
             line-height: 1;
-            font-size: .75rem;
+            font-size: 0.75rem;
           }
 
           .num_tips {
-            font-size: .75rem;
+            font-size: 0.75rem;
             padding: 0rem 0.5rem;
             line-height: 1.8;
-            bottom: .75rem;
+            bottom: 0.75rem;
           }
         }
 
@@ -751,10 +861,9 @@ const getTheUserSPayoutAddressApi = async () => {
         }
       }
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.25rem;
       }
-
     }
 
     .pagination_boxs {
@@ -826,15 +935,15 @@ const getTheUserSPayoutAddressApi = async () => {
     }
 
     .choose_nft {
-      &>div:nth-child(n + 3) {
+      & > div:nth-child(n + 3) {
         margin-top: 0.25rem;
       }
 
-      &>div:nth-child(2n + 1) {
+      & > div:nth-child(2n + 1) {
         margin-left: 0;
       }
 
-      &>div:nth-child(2n) {
+      & > div:nth-child(2n) {
         margin-left: 0.25rem;
       }
 
@@ -847,4 +956,5 @@ const getTheUserSPayoutAddressApi = async () => {
       }
     }
   }
-}</style>
+}
+</style>

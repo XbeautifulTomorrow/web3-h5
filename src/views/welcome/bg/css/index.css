@@ -1,5 +1,5 @@
 @property --shift {
-  syntax: '<number>';
+  syntax: "<number>";
   inherits: false;
   initial-value: 0;
 }
@@ -76,7 +76,7 @@
   filter: drop-shadow(0 0 4rem var(--labs-sys-color-sun-glow));
 }
 .sun:after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   --shift: 1;
@@ -156,7 +156,7 @@
   );
 }
 .sun:before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image: linear-gradient(
@@ -214,7 +214,7 @@
     url('../../img/bg-top.png') no-repeat; */
 }
 .top:after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -0.5vmin;
   left: 0;
@@ -269,7 +269,7 @@
   );
 }
 .top:before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -1vmin;
   left: 0;
@@ -351,7 +351,7 @@
   /* background: url('../../img/bg-line.png') 0% -527%/100% 90% no-repeat; */
 }
 .bottom:before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   --line-width: 0.0635rem;
@@ -365,7 +365,9 @@
       var(--labs-sys-color-grid) var(--line-width),
       transparent var(--line-width)
     );
-  background-size: 2rem 125rem, 125rem 2rem;
+  background-size:
+    2rem 125rem,
+    125rem 2rem;
   transform: rotateX(53deg) scale(1.8) translateZ(43px);
   -webkit-animation: grid calc(var(--base-speed) * 1) linear infinite;
   animation: grid calc(var(--base-speed) * 1) linear infinite;
@@ -558,7 +560,7 @@
   z-index: -1;
 }
 .scene:after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;

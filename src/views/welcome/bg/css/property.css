@@ -1,5 +1,5 @@
 @property --angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   inherits: true;
   initial-value: 0deg;
 }
@@ -43,7 +43,7 @@
   perspective: 40px;
 }
 .kode-text:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 8vmin;
   left: 1vmin;
@@ -128,7 +128,7 @@
   animation: triangle 10s linear infinite;
 }
 .triangle:after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(45deg, white, var(--labs-sys-color-triangle));

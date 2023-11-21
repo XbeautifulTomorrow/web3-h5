@@ -6,7 +6,12 @@
         <span v-html="notifyTxt"></span>
       </div>
       <div class="notification-title" v-if="type == 'fail'">
-        <img src="@/assets/img/lottery/notice2.png" class="type-img" alt="" v-if="type == 'fail'" />
+        <img
+          src="@/assets/img/lottery/notice2.png"
+          class="type-img"
+          alt=""
+          v-if="type == 'fail'"
+        />
         <span v-html="notifyTxt"></span>
       </div>
     </div>

@@ -83,7 +83,6 @@ export function getLocalStore(key) {
  */
 export function setSessionStore(key, value) {
   sessionStorage.setItem(key, value);
-
 }
 
 /**
@@ -156,20 +155,41 @@ export function timeForStr(time, str) {
   const date = new Date(time);
   if (!str) str = "YYYY/MM/DD hh:mm:ss";
   str = str.replace(/yyyy|YYYY/, date.getFullYear());
-  str = str.replace(/yy|YY/, date.getYear() % 100 > 9 ? (date.getYear() % 100).toString() : "0" + (date.getYear() % 100));
+  str = str.replace(
+    /yy|YY/,
+    date.getYear() % 100 > 9
+      ? (date.getYear() % 100).toString()
+      : "0" + (date.getYear() % 100),
+  );
   const month = date.getMonth() + 1;
   str = str.replace(/MM/, month > 9 ? month.toString() : "0" + month);
   str = str.replace(/M/g, month);
 
-  str = str.replace(/dd|DD/, date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate());
+  str = str.replace(
+    /dd|DD/,
+    date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate(),
+  );
   str = str.replace(/d|D/g, date.getDate());
 
-  str = str.replace(/hh|HH/, date.getHours() > 9 ? date.getHours().toString() : "0" + date.getHours());
+  str = str.replace(
+    /hh|HH/,
+    date.getHours() > 9 ? date.getHours().toString() : "0" + date.getHours(),
+  );
   str = str.replace(/h|H/g, date.getHours());
-  str = str.replace(/mm/, date.getMinutes() > 9 ? date.getMinutes().toString() : "0" + date.getMinutes());
+  str = str.replace(
+    /mm/,
+    date.getMinutes() > 9
+      ? date.getMinutes().toString()
+      : "0" + date.getMinutes(),
+  );
   str = str.replace(/m/g, date.getMinutes());
 
-  str = str.replace(/ss|SS/, date.getSeconds() > 9 ? date.getSeconds().toString() : "0" + date.getSeconds());
+  str = str.replace(
+    /ss|SS/,
+    date.getSeconds() > 9
+      ? date.getSeconds().toString()
+      : "0" + date.getSeconds(),
+  );
   str = str.replace(/s|S/g, date.getSeconds());
   return str;
 }
@@ -214,7 +234,11 @@ export function timeFormat(endTime) {
     } else {
       return Math.floor(timeAbsolute / 60) + " minutes later";
     }
-  } else if (curDate.getFullYear() == Y && curDate.getMonth() + 1 == m && curDate.getDate() == d) {
+  } else if (
+    curDate.getFullYear() == Y &&
+    curDate.getMonth() + 1 == m &&
+    curDate.getDate() == d
+  ) {
     return "Today " + zeroize(H) + ":" + zeroize(i);
   } else {
     let newDate = new Date((curTimestamp - 86400) * 1000); // 当前时间戳减一天转换成的日期对象(昨天)
@@ -222,16 +246,28 @@ export function timeFormat(endTime) {
       newDate = new Date((curTimestamp + 86400) * 1000); // 当前时间戳加一天转换成的日期对象(明天)
     }
 
-    if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
+    if (
+      newDate.getFullYear() == Y &&
+      newDate.getMonth() + 1 == m &&
+      newDate.getDate() == d
+    ) {
       return "Yesterday " + zeroize(H) + ":" + zeroize(i);
-    } else if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() + 1 == d) {
+    } else if (
+      newDate.getFullYear() == Y &&
+      newDate.getMonth() + 1 == m &&
+      newDate.getDate() + 1 == d
+    ) {
       return "Tomorrow at " + zeroize(H) + ":" + zeroize(i);
     } else if (curDate.getFullYear() == Y) {
       // return zeroize(m) + 'Month' + zeroize(d) + 'day ' + zeroize(H) + ':' + zeroize(i);
-      return `${monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}`;
+      return `${monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(
+        H,
+      )}:${zeroize(i)}`;
     } else {
       // return Y + 'Year' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
-      return `${monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(H)}:${zeroize(i)}，${Y}`;
+      return `${monthFormat(zeroize(m))} ${parseInt(zeroize(d))} ${zeroize(
+        H,
+      )}:${zeroize(i)}，${Y}`;
     }
   }
 }
@@ -348,7 +384,9 @@ export const formatNumber = (num) => {
   if (num % 1 === 0) {
     return parseFloat(num).toFixed(2);
   } else {
-    return parseFloat(num).toFixed(Math.max(num.toString().split(".")[1].length, 2));
+    return parseFloat(num).toFixed(
+      Math.max(num.toString().split(".")[1].length, 2),
+    );
   }
 };
 
@@ -394,7 +432,11 @@ export const accurateDecimal = (number, format, zeroFill) => {
 
 //非空验证
 function isEmpty(ObjVal) {
-  if (ObjVal == null || typeof ObjVal == "undefined" || (typeof ObjVal == "string" && ObjVal == "" && ObjVal != "undefined")) {
+  if (
+    ObjVal == null ||
+    typeof ObjVal == "undefined" ||
+    (typeof ObjVal == "string" && ObjVal == "" && ObjVal != "undefined")
+  ) {
     return true;
   } else {
     return false;
@@ -442,7 +484,8 @@ export const isValidEthAddress = (address) => {
 export const isValiTronAddress = (address) => {
   if (!address) return false;
   // Base58字符集
-  const base58Chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+  const base58Chars =
+    "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
   // 使用正则表达式检查地址是否只包含Base58字符
   const regex = new RegExp(`^[${base58Chars}]+$`);
   if (!regex.test(address)) {
@@ -470,7 +513,10 @@ export const encryptECB = (word, keyStr) => {
   try {
     var key = CryptoJS.enc.Utf8.parse(keyStr);
     var srcs = CryptoJS.enc.Utf8.parse(word);
-    var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+    var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7,
+    });
     return encrypted.toString();
   } catch {
     return word;
@@ -483,10 +529,13 @@ export const encryptECB = (word, keyStr) => {
  * @param {string} keyStr：key值（16位）
  */
 export const decryptECB = (word, keyStr) => {
-  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥） 
+  keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
   try {
     var key = CryptoJS.enc.Utf8.parse(keyStr); // Latin1 w8m31+Yy/Nw6thPsMpO5fg==
-    var decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+    var decrypt = CryptoJS.AES.decrypt(word, key, {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7,
+    });
     return CryptoJS.enc.Utf8.stringify(decrypt).toString();
   } catch {
     return word;
@@ -557,41 +606,41 @@ export const decryptCBC = (word, keyStr) => {
   }
 };
 /*
-* 描述: tween动画算法。
-* @param Number t: 动画已经执行的时间（实际上时执行多少次/帧数）
-* @param Number b: 起始位置
-* @param Number c: 终止位置
-* @param Number d: 从起始位置到终止位置的经过时间（实际上时执行多少次/帧数）
-*/
+ * 描述: tween动画算法。
+ * @param Number t: 动画已经执行的时间（实际上时执行多少次/帧数）
+ * @param Number b: 起始位置
+ * @param Number c: 终止位置
+ * @param Number d: 从起始位置到终止位置的经过时间（实际上时执行多少次/帧数）
+ */
 // 缓入函数
 export const easeIn = (t, b, c, d) => {
   if (t >= d) t = d;
   return c * (t /= d) * t + b;
-}
+};
 
 // 缓出函数
 export const easeOut = (t, b, c, d) => {
   if (t >= d) t = d;
   return -c * (t /= d) * (t - 2) + b;
-}
+};
 
 // 动画循环（每秒60帧）
 export const rAF = (callback) => {
-  return window.setTimeout(callback, 1000 / 60)
-}
+  return window.setTimeout(callback, 1000 / 60);
+};
 
 // 格式化U
 export const formatUsd = (event, type = 2) => {
   const num = event || 0;
   return Number(accurateDecimal(num, type)).toLocaleString();
-}
+};
 
 // 首字母大写
 export const upperFirstConcat = (strV) => {
   let str = strV;
-  str = str.replace(/\b\w+\b/g, word => {
-    return word.substring(0, 1).toUpperCase() + word.substring(1)
-  })
+  str = str.replace(/\b\w+\b/g, (word) => {
+    return word.substring(0, 1).toUpperCase() + word.substring(1);
+  });
 
-  return str
-}
+  return str;
+};

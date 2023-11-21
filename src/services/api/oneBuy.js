@@ -43,7 +43,7 @@ const delNftOrder = (params) =>
 const getOneBuyList = (params) =>
   apiService.get(
     serviceUrl + "/oneNftOrders/inquireAboutIndividualOrders",
-    params
+    params,
   );
 
 /**
@@ -64,7 +64,7 @@ const getOneBuyInfo = (params) =>
 const getAListOfActivities = (params) =>
   apiService.get(
     serviceUrl + "/oneNftLotteryOrders/getAListOfActivities",
-    params
+    params,
   );
 
 /**
@@ -73,7 +73,7 @@ const getAListOfActivities = (params) =>
 const getAListOfParticipants = (params) =>
   apiService.get(
     serviceUrl + "/oneNftLotteryOrders/getAListOfParticipants",
-    params
+    params,
   );
 
 /**
@@ -101,31 +101,40 @@ const buyNftWallet = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/onChainPurchases", params);
 
 /**
-* @description 查询个人订单
-*/
+ * @description 查询个人订单
+ */
 const getUserOneOrder = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/userOneOrder", params);
 
 /**
-* @description 查询个人总参与票数
-*/
+ * @description 查询个人总参与票数
+ */
 const getUserTotalTicket = (params) =>
-  apiService.get(serviceUrl + "/oneNftLotteryOrders/getUserTotalTicket", params);
+  apiService.get(
+    serviceUrl + "/oneNftLotteryOrders/getUserTotalTicket",
+    params,
+  );
 
 /**
-* @description 查询个人总参与票数
-*/
+ * @description 查询个人总参与票数
+ */
 const getNftAttrRate = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getNftAttrRate", params);
 
-const getGlobalNew = params =>
-  apiService.get(serviceUrl + '/oneNftOrders/global/redDots', params); // 全局new
+const getGlobalNew = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/global/redDots", params); // 全局new
 
-const delNewWalletNftMark = params =>
-  apiService.get(serviceUrl + '/oneNftOrders/remove/walletNftSystemRedDots', params); // 取消背包标记
+const delNewWalletNftMark = (params) =>
+  apiService.get(
+    serviceUrl + "/oneNftOrders/remove/walletNftSystemRedDots",
+    params,
+  ); // 取消背包标记
 
-const delNewOrderMark = params =>
-  apiService.get(serviceUrl + '/oneNftOrders/remove/oneNftOrderRedDots', params); // 取消一元购标记
+const delNewOrderMark = (params) =>
+  apiService.get(
+    serviceUrl + "/oneNftOrders/remove/oneNftOrderRedDots",
+    params,
+  ); // 取消一元购标记
 
 /**
  * @description 获取一元购历史
@@ -146,14 +155,14 @@ const getServiceFee = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getServiceCharge", params);
 
 /**
-* @description 获取推特验证
-*/
+ * @description 获取推特验证
+ */
 const getTweetInfo = (params) =>
   apiService.get(serviceUrl + "/oneNftLotteryOrders/getTweetInfo", params);
 
 /**
-* @description 获取推特验证
-*/
+ * @description 获取推特验证
+ */
 const getShareTwitter = (params) =>
   apiService.get(serviceUrl + "/twitterInfo/shareTwitter", params);
 
@@ -164,20 +173,22 @@ const tweetSendTikect = (params) =>
   apiService.post(serviceUrl + "/oneNftLotteryOrders/tweetSendTikect", params);
 
 /**
-* @description 获取配置Key
-*/
+ * @description 获取配置Key
+ */
 const getCofingKey = (params) =>
   apiService.get(serviceUrl + "/oneNftOrders/getCofingK", params);
 
-  /**
-* @description 查询币种一元购所有订单
-*/
-const getCoinAllOrders = (params) => apiService.get(serviceUrl + "/oneNftOrders/coinAllOrders", params);
+/**
+ * @description 查询币种一元购所有订单
+ */
+const getCoinAllOrders = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/coinAllOrders", params);
 
-  /**
-* @description 查询一元购nft全部订单
-*/
-const getNftAllOrders = (params) => apiService.get(serviceUrl + "/oneNftOrders/nftAllOrders", params);
+/**
+ * @description 查询一元购nft全部订单
+ */
+const getNftAllOrders = (params) =>
+  apiService.get(serviceUrl + "/oneNftOrders/nftAllOrders", params);
 
 export {
   getWalletNft,

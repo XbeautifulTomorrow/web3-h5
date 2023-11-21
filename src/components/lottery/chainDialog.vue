@@ -11,7 +11,12 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
+        <img
+          class="public-dialog-header-icon"
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">
@@ -20,12 +25,20 @@
         class="public-dialog-text magin-text"
         v-html="
           $t('lottery.tips1', {
-            name: `${sold?.seriesName} ${(sold?.tokenId&&sold?.nftType!='PLATFORM')?('# '+sold?.tokenId):''}`,
+            name: `${sold?.seriesName} ${
+              sold?.tokenId && sold?.nftType != 'PLATFORM'
+                ? '# ' + sold?.tokenId
+                : ''
+            }`,
           })
         "
       ></p>
       <div class="public-dialog-pointer-box" v-if="sold?.point">
-        <img class="public-dialog-pointer-icon" src="@/assets/svg/user/icon_point.svg" alt="" />
+        <img
+          class="public-dialog-pointer-icon"
+          src="@/assets/svg/user/icon_point.svg"
+          alt=""
+        />
         <span class="public-dialog-total-number">
           {{ sold?.point }}
         </span>
@@ -33,7 +46,11 @@
       <el-button class="public-button" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_usdt_gold.svg"
+            alt=""
+          />
           <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>

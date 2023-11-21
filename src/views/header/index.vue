@@ -219,6 +219,8 @@ import createVerification from "@/views/user/createVerification.vue";
 import { accurateDecimal, openUrl, handleWindowResize } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
+import icon_promotions from "@/assets/img/user/icon_Promotions.gif";
+
 export default {
   name: "HeaderCom",
   components: {
@@ -292,59 +294,72 @@ export default {
     },
     userList() {
       const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
+
+      const userIcon = import.meta.glob("@/assets/svg/user/nav/*.svg", {
+        eager: true,
+      });
+
+      const userNav = {};
+      for (const key in userIcon) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        userIcon[key]().that((e) => {
+          userNav[name] = e.default;
+        });
+      }
+
       return [
         {
           text: t("header.profile"),
           page: "profile",
-          icon: require("@/assets/svg/user/nav/icon_profile.svg"),
+          icon: userNav.icon_profile,
           showDota: false,
         },
         {
           text: t("header.balances"),
           page: "balances",
-          icon: require("@/assets/svg/user/nav/icon_balances.svg"),
+          icon: userNav.icon_balances,
           showDota: false,
         },
         {
           text: t("header.inventory"),
           page: "inventory",
-          icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
+          icon: userNav.icon_inventory,
           showDot: walletNftSystemStatus,
         },
         {
           text: t("header.promotions"),
           page: "promotions",
-          icon: require("@/assets/img/user/icon_Promotions.gif"),
+          icon: icon_promotions,
           showDot: false,
           className: "promotions_nav",
         },
         {
           text: t("header.competition"),
           page: "competition",
-          icon: require("@/assets/svg/user/nav/icon_competition.svg"),
+          icon: userNav.icon_competition,
           showDot: oneNftStatus,
         },
         {
           text: t("header.history"),
           page: "history",
-          icon: require("@/assets/svg/user/nav/icon_history.svg"),
+          icon: userNav.icon_history,
           showDota: false,
         },
         {
           text: t("header.referrals"),
           page: "referrals",
-          icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
+          icon: userNav.icon_referrals,
           showDota: false,
         },
         // {
         //   text: t("header.settings"),
         //   page: "settings",
-        //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
+        //   icon: userNav.icon_setting,
         // },
         {
           text: t("header.logout"),
           page: "logout",
-          icon: require("@/assets/svg/user/nav/icon_logout.svg"),
+          icon: userNav.icon_logout,
           showDota: false,
         },
       ];
@@ -415,6 +430,20 @@ export default {
         this.showUser = true;
       }
     },
+    async getUserNav() {
+      const userIcon = import.meta.glob("@/assets/svg/user/nav/*.svg", {
+        eager: true,
+      });
+
+      const userNav = {};
+      for (const key in userIcon) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        const flie = await userIcon[key]();
+        userNav[name] = flie.default;
+      }
+
+      return userNav;
+    },
   },
   // 监听,当路由发生变化的时候执行
   watch: {
@@ -426,7 +455,7 @@ export default {
       deep: true,
     },
   },
-  created() {
+  async created() {
     emitter.on("pageTypeChange", (type) => {
       this.pageType = type;
     });
@@ -437,42 +466,52 @@ export default {
     }
 
     this.timeoutBalance();
+    const homeIcon = import.meta.glob("@/assets/svg/home/mini/*.svg", {
+      eager: true,
+    });
+
+    const homeNav = {};
+    for (const key in homeIcon) {
+      let name = key.split("/").slice(-1)[0].split(".")[0];
+      const flie = await homeIcon[key]();
+      homeNav[name] = flie.default;
+    }
 
     this.nav = [
       {
         text: t("header.home"),
         page: "Home",
-        icon: require("@/assets/svg/home/mini/icon_home.svg"),
+        icon: homeNav.icon_home,
       },
       // {
       //   text: t("header.airdrop"),
       //   page: "Airdrop",
-      //   icon: require("@/assets/svg/home/mini/icon_aridrop.svg"),
+      //   icon: homeNav.icon_aridrop,
       // },
       {
         text: t("header.mysteryBox"),
         page: "RaffleBoxesList",
-        icon: require("@/assets/svg/home/mini/icon_boxs.svg"),
+        icon: homeNav.icon_boxs,
       },
       {
         text: t("header.competitions"),
         page: "TreasureDraw",
-        icon: require("@/assets/svg/home/mini/icon_treasure_draw.svg"),
+        icon: homeNav.icon_treasure_draw,
       },
       {
         text: t("header.tokenWar"),
         page: "TokenWar",
-        icon: require("@/assets/svg/home/mini/icon_token_war.svg"),
+        icon: homeNav.icon_token_war,
       },
       {
         text: t("header.whitebook"),
         page: "Whitebook",
-        icon: require("@/assets/svg/home/mini/icon_white_book.svg"),
+        icon: homeNav.icon_white_book,
       },
       {
         text: t("header.faq"),
         page: "FAQ",
-        icon: require("@/assets/svg/home/mini/icon_faq.svg"),
+        icon: homeNav.icon_faq,
       },
     ];
   },

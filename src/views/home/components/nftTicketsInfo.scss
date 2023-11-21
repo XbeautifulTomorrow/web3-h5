@@ -44,11 +44,11 @@
     color: white;
     z-index: 2;
 
-    &>div {
+    & > div {
       display: flex;
       align-items: center;
 
-      &>img {
+      & > img {
         width: 1.125rem;
         height: auto;
         margin-right: 0.25rem;
@@ -86,19 +86,23 @@
 .border_bg {
   box-sizing: border-box;
   padding: 1px;
-  border-image-source: linear-gradient(120deg,
-      #ff25c2 0%,
-      rgba(0, 0, 0, 0) 30%,
-      rgba(0, 0, 0, 0) 75%,
-      #ff25c2 100%, );
+  border-image-source: linear-gradient(
+    120deg,
+    #ff25c2 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0) 75%,
+    #ff25c2 100%
+  );
   border-image-slice: 1;
   border-radius: 0.625rem;
-  background-image: linear-gradient(135deg, #2D1642, #13151F),
-    linear-gradient(120deg,
+  background-image: linear-gradient(135deg, #2d1642, #13151f),
+    linear-gradient(
+      120deg,
       #ff25c2 0%,
       rgba(0, 0, 0, 0) 30%,
       rgba(0, 0, 0, 0) 75%,
-      #ff25c2 100%, );
+      #ff25c2 100%
+    );
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
@@ -228,7 +232,7 @@
     padding-top: 1rem;
     display: flex;
 
-    &>div {
+    & > div {
       padding-right: 2.25rem;
       font-size: 0.875rem;
       line-height: 1.6;
@@ -244,8 +248,6 @@
         padding-right: 3.75rem;
       }
     }
-
-
   }
 
   .buy_relevant {
@@ -256,7 +258,7 @@
     background-color: rgba(255, 255, 255, 0.05);
 
     .enter_relevant {
-      &>.title {
+      & > .title {
         font-family: BlenderPro;
         font-size: 2.875rem;
         font-weight: bold;
@@ -265,7 +267,7 @@
         color: white;
       }
 
-      &>.buy_tips {
+      & > .buy_tips {
         font-size: 1.125rem;
         line-height: 1.6;
         text-align: center;
@@ -294,7 +296,7 @@
         background-color: #13151f;
         box-shadow: none;
 
-        &>input {
+        & > input {
           font-size: 1.125rem;
           line-height: 1.6;
           text-align: left;
@@ -304,7 +306,7 @@
 
       &.is-disabled {
         .el-input__wrapper {
-          background-color: #282A34;
+          background-color: #282a34;
         }
       }
     }
@@ -337,7 +339,7 @@
         display: flex;
         flex-direction: column;
 
-        &>div+div {
+        & > div + div {
           margin-top: 0.25rem;
         }
       }
@@ -427,7 +429,6 @@
       margin-bottom: 1.875rem;
     }
 
-
     :deep(.el-tabs__nav-wrap::after) {
       height: 0.125rem;
       background-color: #1d1f2b;
@@ -439,7 +440,7 @@
       background-image: linear-gradient(to top, #e3a406, #fbd851);
     }
 
-    :deep(.el-tabs__item+.el-tabs__item) {
+    :deep(.el-tabs__item + .el-tabs__item) {
       margin-left: 1.875rem;
     }
 
@@ -484,8 +485,6 @@
       height: auto;
       border-radius: 50%;
     }
-
-
   }
 
   .buy_item_r {
@@ -579,7 +578,6 @@
     text-align: left;
     color: white;
   }
-
 }
 
 .history_filter {
@@ -595,7 +593,7 @@
       border-radius: 0.5rem;
       background-color: #1d0f36;
 
-      &>.el-input__inner {
+      & > .el-input__inner {
         height: 1.25rem;
         font-family: Inter;
         font-size: 0.875rem;
@@ -612,7 +610,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.625rem;
     }
 
@@ -655,7 +653,7 @@
   th {
     &.el-table__cell {
       background-color: #191c28;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
       padding: 0;
 
       .cell {
@@ -676,7 +674,7 @@
 
   td {
     &.el-table__cell {
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -686,14 +684,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: transparent;
   }
 
   .el-table__body {
-    &>tbody {
-
-      &>.el-table__row {
+    & > tbody {
+      & > .el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -701,7 +698,7 @@
         }
       }
 
-      &>.el-table__row:nth-child(2n) {
+      & > .el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -848,7 +845,7 @@
     justify-content: center;
     background-color: #191b27;
 
-    &>span {
+    & > span {
       margin: 0 auto;
       display: block;
       border-radius: 0.5rem;
@@ -871,15 +868,15 @@
   flex-wrap: wrap;
   margin-top: 2.5rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
-  &>div:nth-child(n+5) {
+  & > div:nth-child(n + 5) {
     margin-top: 1.25rem;
   }
 
-  &>div:nth-child(4n+1) {
+  & > div:nth-child(4n + 1) {
     margin-left: 0px;
   }
 
@@ -931,7 +928,7 @@
       justify-content: space-between;
       white-space: nowrap;
 
-      &>.item_val {
+      & > .item_val {
         display: block;
         width: 70%;
         overflow: hidden;
@@ -975,7 +972,6 @@
       width: 13.625rem;
       margin: 0 1.25rem;
 
-
       .el-input__wrapper {
         height: 3.75rem;
         border: none;
@@ -984,7 +980,7 @@
         background-color: #1d0f36;
         box-shadow: none !important;
 
-        &>input {
+        & > input {
           font-size: 1.125rem;
           font-weight: 500;
           line-height: 1.6;
@@ -1000,7 +996,7 @@
       cursor: pointer;
     }
 
-    &>img+img {
+    & > img + img {
       margin-left: 0.625rem;
     }
   }
@@ -1019,7 +1015,12 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
   }
 }
 
@@ -1028,7 +1029,7 @@
   flex-wrap: wrap;
   padding-top: 3.75rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.875rem;
   }
 }
@@ -1042,7 +1043,7 @@
 
   &:hover {
     .img-box {
-      &>.nft_img {
+      & > .nft_img {
         transform: scale(1.15);
         transition: all 0.3s;
       }
@@ -1120,7 +1121,7 @@
     align-items: center;
     justify-content: center;
 
-    &>span {
+    & > span {
       display: inline-block;
       overflow: hidden;
       white-space: nowrap;
@@ -1154,22 +1155,16 @@
     border-radius: 1.875rem;
     box-sizing: border-box;
     padding: 0.125rem;
-    border-image-source: linear-gradient(to bottom,
-        #1e90f9 12%,
-        #e022e3 70%);
+    border-image-source: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
     border-image-slice: 1;
     background-image: linear-gradient(to bottom, #1b082b, #1b082b),
-      linear-gradient(to bottom,
-        #1e90f9 12%,
-        #e022e3 70%);
+      linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
     background-origin: border-box;
     background-clip: content-box, border-box;
     cursor: pointer;
 
-    &>span {
-      background-image: linear-gradient(180deg,
-          #1e90f9 0%,
-          #e022e3 100%);
+    & > span {
+      background-image: linear-gradient(180deg, #1e90f9 0%, #e022e3 100%);
       font-size: 1.125rem;
       font-weight: bold;
       -webkit-background-clip: text;
@@ -1263,8 +1258,8 @@
     display: flex;
     align-items: center;
 
-    &>img+div,
-    &>div+div {
+    & > img + div,
+    & > div + div {
       margin-left: 2.5rem;
     }
 
@@ -1284,7 +1279,7 @@
       flex-direction: column;
       color: white;
 
-      &>span:nth-child(1) {
+      & > span:nth-child(1) {
         color: #fad54d;
         text-decoration: underline;
         cursor: pointer;
@@ -1308,7 +1303,7 @@
   justify-content: space-between;
   padding-top: 0.625rem;
 
-  .choose_nums_item+.choose_nums_item {
+  .choose_nums_item + .choose_nums_item {
     margin-left: 1.5rem;
   }
 
@@ -1336,7 +1331,6 @@
   }
 
   &.disabled {
-
     .choose_nums_item {
       border: 1px solid rgba(228, 231, 245, 0.15);
       box-sizing: border-box;
@@ -1380,7 +1374,6 @@
 }
 
 :deep(.invite_code_input) {
-
   .el-input__wrapper {
     height: 4.375rem;
     border-radius: 0.5rem;
@@ -1389,7 +1382,7 @@
     box-sizing: border-box;
     box-shadow: none;
 
-    &>input {
+    & > input {
       padding: 0 1.25rem;
       font-size: 1.125rem;
       line-height: 1.6;
@@ -1452,7 +1445,7 @@
     vertical-align: middle;
   }
 
-  &>p+p {
+  & > p + p {
     margin-top: 0.75rem;
   }
 }
@@ -1522,9 +1515,8 @@
       border-radius: 0.25rem;
       font-size: 0.75rem;
 
-      &>div {
-
-        &>img {
+      & > div {
+        & > img {
           width: 1rem;
           margin-right: 0.25rem;
         }
@@ -1630,7 +1622,6 @@
       .finish,
       .aborted,
       .cancel {
-
         img {
           width: 0.75rem;
           height: auto;
@@ -1658,7 +1649,7 @@
     .creator {
       padding-top: 0.625rem;
       justify-content: space-between;
-      &>div {
+      & > div {
         padding-right: 0;
         font-size: 0.75rem;
 
@@ -1670,8 +1661,6 @@
           padding-right: 3rem;
         }
       }
-
-
     }
 
     .buy_relevant {
@@ -1681,11 +1670,11 @@
       backdrop-filter: blur(2rem);
 
       .enter_relevant {
-        &>.title {
+        & > .title {
           font-size: 1.5rem;
         }
 
-        &>.buy_tips {
+        & > .buy_tips {
           font-size: 0.625rem;
         }
       }
@@ -1708,7 +1697,7 @@
           padding: 0 0.5rem !important;
           border-radius: 0.25rem;
 
-          &>input {
+          & > input {
             font-size: 0.75rem;
             height: 1.5rem;
           }
@@ -1716,7 +1705,7 @@
 
         &.is-disabled {
           .el-input__wrapper {
-            background-color: #282A34;
+            background-color: #282a34;
           }
         }
       }
@@ -1727,7 +1716,7 @@
       display: flex;
       flex-direction: column;
 
-      .el-button+.el-button {
+      .el-button + .el-button {
         margin-top: 0.75rem;
         margin-left: 0;
       }
@@ -1739,7 +1728,7 @@
         .share_box {
           display: flex;
 
-          &>div+div {
+          & > div + div {
             margin-top: 0.25rem;
           }
         }
@@ -1806,7 +1795,7 @@
         margin-bottom: 0.5rem;
       }
 
-      :deep(.el-tabs__item+.el-tabs__item) {
+      :deep(.el-tabs__item + .el-tabs__item) {
         margin-left: 0.5rem;
       }
 
@@ -1828,7 +1817,7 @@
     padding: 0.5rem 0;
   }
 
-  .buy_item+.buy_item {
+  .buy_item + .buy_item {
     margin-top: 0.5rem;
   }
 
@@ -1841,13 +1830,10 @@
       img {
         width: 1.5rem;
       }
-
-
     }
 
     .buy_info,
     .buy_other {
-
       .buy_name {
         font-size: 0.75rem;
       }
@@ -1887,7 +1873,6 @@
     padding: 0;
 
     .history_title {
-
       img {
         width: 1rem;
         margin-right: 0.25rem;
@@ -1895,19 +1880,17 @@
 
       font-size: 0.75rem;
     }
-
   }
 
   .history_filter {
     padding-top: 0.5rem;
 
     :deep(.status_type) {
-
       .el-input__wrapper {
         padding: 0.25rem 0.5rem;
         border-radius: 0.25rem;
 
-        &>.el-input__inner {
+        & > .el-input__inner {
           height: 2rem;
           font-size: 0.75rem;
         }
@@ -1917,7 +1900,7 @@
     .choose_array {
       padding-top: 0.25rem;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.25rem;
       }
 
@@ -1960,13 +1943,11 @@
       font-size: 1rem;
     }
 
-    .el-table__body tr:hover>td {
+    .el-table__body tr:hover > td {
       background-color: #281d31 !important;
     }
 
-
     .price_box {
-      
       img {
         width: 1rem;
         margin-right: 0.25rem;
@@ -2024,7 +2005,6 @@
     padding: 0;
 
     .charts_title {
-
       img {
         width: 1rem;
         height: auto;
@@ -2071,7 +2051,7 @@
       min-height: 12.5rem;
       margin: 0;
 
-      &>span {
+      & > span {
         margin: 0 auto;
         border-radius: 0.25rem;
         font-size: 1rem;
@@ -2093,23 +2073,23 @@
     flex-wrap: wrap;
     margin-top: 0.25rem;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.5rem;
     }
 
-    &>div:nth-child(n+5) {
+    & > div:nth-child(n + 5) {
       margin-top: 0;
     }
 
-    &>div:nth-child(n+3) {
+    & > div:nth-child(n + 3) {
       margin-top: 0.5rem;
     }
 
-    &>div:nth-child(4n+1) {
+    & > div:nth-child(4n + 1) {
       margin-left: 0.5rem;
     }
 
-    &>div:nth-child(2n+1) {
+    & > div:nth-child(2n + 1) {
       margin-left: 0;
     }
 
@@ -2121,7 +2101,6 @@
       border-radius: 0.25rem;
 
       .traits_item_top {
-
         .traits_item_name {
           font-size: 0.75rem;
         }
@@ -2167,7 +2146,7 @@
         cursor: pointer;
       }
 
-      &>img+img {
+      & > img + img {
         margin-left: 0.5rem;
       }
     }
@@ -2187,15 +2166,15 @@
     flex-wrap: wrap;
     padding-top: 0.5rem;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.25rem;
     }
 
-    &>div:nth-child(n+3) {
+    & > div:nth-child(n + 3) {
       margin-top: 0.25rem;
     }
 
-    &>div:nth-child(2n+1) {
+    & > div:nth-child(2n + 1) {
       margin-left: 0;
     }
   }
@@ -2267,7 +2246,7 @@
       align-items: center;
       justify-content: center;
 
-      &>span {
+      & > span {
         font-size: 0.75rem;
       }
     }
@@ -2313,8 +2292,8 @@
       border-radius: 0.5rem;
       font-size: 0.625rem;
 
-      &>img+div,
-      &>div+div {
+      & > img + div,
+      & > div + div {
         margin-left: 1.25rem;
       }
 
@@ -2333,7 +2312,7 @@
   .choose_nums {
     padding-top: 0.5rem;
 
-    .choose_nums_item+.choose_nums_item {
+    .choose_nums_item + .choose_nums_item {
       margin-left: 0.25rem;
     }
 

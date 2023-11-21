@@ -1,15 +1,27 @@
 <template>
-  <div :class="[
-    'public-input-com',
-    { showBorder: isShowBorder },
-    { showIcon: modelValue },
-  ]">
-    <el-input class="public-input" v-model="newValue" :placeholder="placeholder" @focus="focusFun" @blur="blurFun">
+  <div
+    :class="[
+      'public-input-com',
+      { showBorder: isShowBorder },
+      { showIcon: modelValue },
+    ]"
+  >
+    <el-input
+      class="public-input"
+      v-model="newValue"
+      :placeholder="placeholder"
+      @focus="focusFun"
+      @blur="blurFun"
+    >
       <template #suffix>
         <el-icon class="check-icon input-icon" color="#9497C3">
           <CircleCheckFilled />
         </el-icon>
-        <el-icon class="clear-icon input-icon" @click="clearFun" color="#9497C3">
+        <el-icon
+          class="clear-icon input-icon"
+          @click="clearFun"
+          color="#9497C3"
+        >
           <CircleCloseFilled />
         </el-icon>
       </template>
@@ -17,16 +29,16 @@
   </div>
 </template>
 <script>
-import { CircleCheckFilled, CircleCloseFilled } from '@element-plus/icons-vue';
+import { CircleCheckFilled, CircleCloseFilled } from "@element-plus/icons-vue";
 export default {
-  name: 'InputCom',
+  name: "InputCom",
   props: {
     modelValue: {
       type: Number,
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   computed: {
@@ -35,7 +47,7 @@ export default {
         return this.modelValue;
       },
       set: function (value) {
-        this.$emit('update:modelValue', value);
+        this.$emit("update:modelValue", value);
       },
     },
   },
@@ -48,7 +60,7 @@ export default {
   },
   methods: {
     clearFun() {
-      this.$emit('update:modelValue', null);
+      this.$emit("update:modelValue", null);
     },
     focusFun() {
       this.isShowBorder = true;
@@ -82,10 +94,12 @@ export default {
 }
 
 .showBorder {
-  border-image-source: linear-gradient(to bottom,
-      #dd82af,
-      #d12398 61%,
-      #fab597);
+  border-image-source: linear-gradient(
+    to bottom,
+    #dd82af,
+    #d12398 61%,
+    #fab597
+  );
   background-image: linear-gradient(to bottom, #1b082b, #1b082b),
     linear-gradient(to bottom, #dd82af, #d12398 61%, #fab597);
 
@@ -117,7 +131,7 @@ export default {
 <style lang="scss">
 .public-input {
   .el-input__wrapper {
-    background: #1B082B;
+    background: #1b082b;
     border: none;
     box-shadow: none;
   }

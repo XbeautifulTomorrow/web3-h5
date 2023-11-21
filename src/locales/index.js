@@ -5,7 +5,7 @@ import en_US from "./en.json";
 
 const LANG_MENU = {
   cn: "zh_CN",
-  en: "en_US"
+  en: "en_US",
 };
 
 // 获取当前语言
@@ -40,11 +40,11 @@ function getLang() {
 
 const messages = {
   zh_CN: {
-    ...zh_CN
+    ...zh_CN,
   },
   en_US: {
-    ...en_US
-  }
+    ...en_US,
+  },
 };
 
 //对比语言包json属性
@@ -59,12 +59,12 @@ const i18n = new createI18n({
   warnHtmlMessage: false,
   warnHtmlInMessage: "off",
   silentFallbackWarn: true,
-  silentTranslationWarn: true //去除警告信息
+  silentTranslationWarn: true, //去除警告信息
 });
 
 // 设置当前语言
 function setLang(lang) {
-  Object.keys(LANG_MENU).forEach(key => {
+  Object.keys(LANG_MENU).forEach((key) => {
     // i18n.locale = lang;
     i18n.locale = "en_US";
     if (LANG_MENU[key] === lang) localStorage.setItem("lang", key);

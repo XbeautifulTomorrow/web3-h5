@@ -39,7 +39,7 @@
                 activeType != 'MYSTERY_BOX' &&
                 item.orderType == 'LIMITED_PRICE_COIN'
               "
-              :src="require('@/assets/svg/user/create_eth.webp')"
+              :src="createEthImg"
             />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
           </div>
@@ -186,6 +186,7 @@ import { useUserStore } from "@/store/user.js";
 import { timeFormat, setSessionStore, openUrl } from "@/utils";
 import Image from "@/components/imageView";
 
+import createEth from "@/assets/svg/user/create_eth.webp";
 export default {
   name: "myHistory",
   components: {
@@ -199,6 +200,7 @@ export default {
       page: 1,
       size: 5,
       count: 0,
+      createEthImg: createEth,
     };
   },
   computed: {
@@ -261,23 +263,23 @@ export default {
      * @description: 打开链上
      */
     openLenk(event) {
-      let chainLink = process.env.VUE_APP_CHAIN_MUMBAI_ADDR;
+      let chainLink = import.meta.env.VITE_APP_CHAIN_MUMBAI_ADDR;
       if (event.lotteryChainType == "OKT_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_TEST_ADDR;
       } else if (event.lotteryChainType == "BSC_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_TEST_ADDR;
       } else if (event.lotteryChainType == "BASE") {
-        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BASE_ADDR;
       } else if (event.lotteryChainType == "BSC") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_ADDR;
       } else if (event.lotteryChainType == "OKT") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_ADDR;
       } else if (event.lotteryChainType == "ThunderCore") {
-        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_THUNDERCORE_ADDR;
       } else if (event.chainType == "TRC_20_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20TEST_ADDR;
       } else if (event.chainType == "TRC_20") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20_ADDR;
       }
 
       openUrl(`${chainLink}${event.hash}`);

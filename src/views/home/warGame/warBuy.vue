@@ -74,9 +74,9 @@
                   {{
                     accurateDecimal(
                       new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(
-                        100
+                        100,
                       ),
-                      2
+                      2,
                     )
                   }}%
                 </span>
@@ -165,8 +165,8 @@
                 autoConfig.lockWinRateStatus == 'OPEN'
                   ? 'open'
                   : autoConfig.lockWinRateStatus == 'AUTO'
-                  ? 'auto'
-                  : 'close',
+                    ? 'auto'
+                    : 'close',
               ]"
             >
               <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">
@@ -191,7 +191,7 @@
               {{
                 accurateDecimal(
                   new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(100),
-                  2
+                  2,
                 )
               }}%
             </div>
@@ -341,7 +341,7 @@ export default {
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
           const maxNum = Number(
-            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0)
+            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0),
           );
 
           if (maxBonus.userId != userInfo?.id && maxNum > Number(buyNum)) {

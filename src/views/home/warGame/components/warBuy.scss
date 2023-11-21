@@ -56,7 +56,6 @@
 }
 
 :deep(.buy_input) {
-
   .el-input__wrapper {
     height: 2.5rem;
     border-radius: 0.5rem 0 0 0.5rem;
@@ -67,7 +66,7 @@
     outline: none;
     background-color: #13151f;
 
-    &>input {
+    & > input {
       font-size: 0.875rem;
       color: white;
     }
@@ -122,7 +121,7 @@
   align-items: center;
   justify-content: space-between;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.5rem;
   }
 }
@@ -215,7 +214,7 @@
   }
 }
 
-.auto_item+.auto_item {
+.auto_item + .auto_item {
   margin-top: 0.25rem;
 }
 
@@ -318,7 +317,7 @@
     display: flex;
     align-items: center;
 
-    &>div {
+    & > div {
       flex: 1;
       height: 1.25rem;
       cursor: pointer;
@@ -333,7 +332,7 @@
   padding-top: 1rem;
 }
 
-.rounds_item+.rounds_item {
+.rounds_item + .rounds_item {
   margin-left: 0.5rem;
 }
 
@@ -369,7 +368,7 @@
       box-shadow: none;
       outline: none;
 
-      &>input {
+      & > input {
         font-size: 0.875rem;
         color: white;
         text-align: center;
@@ -417,7 +416,7 @@
       outline: none;
       background-color: #13151f;
 
-      &>input {
+      & > input {
         font-size: 0.875rem;
         color: white;
       }
@@ -466,7 +465,7 @@
     display: flex;
     align-items: center;
 
-    &>div {
+    & > div {
       width: 2.25rem;
       height: 2.25rem;
       margin-left: 0.5rem;

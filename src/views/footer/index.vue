@@ -181,7 +181,7 @@ const nav = computed(() => {
     },
     {
       text: t("header.tokenWar"),
-      page: "TokenWar"
+      page: "TokenWar",
     },
   ];
 });
@@ -252,7 +252,7 @@ const goLink = (event) => {
     return;
   } else if (event === 4) {
     openUrl(
-      "https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D"
+      "https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D",
     );
     return;
   } else if (event === 5) {

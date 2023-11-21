@@ -12,10 +12,17 @@
           Send the amount of Ethereum of your choice to the following address to
           receive the equivalent in Coins.
         </p>
-        <el-input v-model="address" placeholder="Paste your Ethereum wallet address here">
+        <el-input
+          v-model="address"
+          placeholder="Paste your Ethereum wallet address here"
+        >
           <template #suffix>
             <div class="recharge-add">
-              <el-button class="public-button" type="primary" @click.stop="copyFun">
+              <el-button
+                class="public-button"
+                type="primary"
+                @click.stop="copyFun"
+              >
                 COPY
               </el-button>
             </div>
@@ -25,7 +32,11 @@
     </div>
     <div class="recharge-warning">
       <div class="recharge-warning-first">
-        <img class="recharge-warning-img" src="@/assets/img/recharge/warning.png" alt="" />
+        <img
+          class="recharge-warning-img"
+          src="@/assets/img/recharge/warning.png"
+          alt=""
+        />
         <p class="recharge-text warning-text">
           Only deposit over the ETH network. Do not use BNB or BSC networks.
           Also do not use third-party smart contracts for transfers.
@@ -41,7 +52,7 @@
 <script setup>
 import { ref, defineProps, onMounted, onUnmounted } from "vue";
 import { ElMessage } from "element-plus";
-import QRCode from "qrcodejs2";
+import QRCode from "qrcodejs2-fix-fix";
 
 defineProps({
   tokenChoose: {

@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: center;
 
-  .wallet_operating_item+.wallet_operating_item {
+  .wallet_operating_item + .wallet_operating_item {
     margin-left: 1.875rem;
   }
 
@@ -99,7 +99,7 @@
   text-align: left;
   color: #a9a4b4;
 
-  &>p+p {
+  & > p + p {
     margin-top: 1rem;
   }
 }
@@ -112,7 +112,6 @@
     line-height: 1.2;
     color: white;
     padding-bottom: 1.875rem;
-
   }
 
   .image_box {
@@ -197,7 +196,7 @@
   width: 100%;
   margin-bottom: 0.625rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
@@ -220,7 +219,7 @@
     border: solid 1px #363945;
     background-color: #13151f;
 
-    &>.val {
+    & > .val {
       padding-left: 0.625rem;
       color: white;
       display: flex;
@@ -238,7 +237,7 @@
     }
   }
 }
-.input_label{
+.input_label {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
@@ -246,7 +245,7 @@
   line-height: 1.6 !important;
   color: #a9a4b4;
   margin-bottom: 0.625rem !important;
-  .balance_box{
+  .balance_box {
     font-weight: normal;
   }
 }
@@ -278,7 +277,7 @@
       box-sizing: border-box;
       box-shadow: none !important;
 
-      &>input {
+      & > input {
         font-size: 1.5rem;
         font-weight: bold;
         line-height: 1.25;
@@ -305,9 +304,9 @@
 
     &.disabled {
       .el-input__wrapper {
-        background-color: #282A34;
+        background-color: #282a34;
 
-        &>input {
+        & > input {
           color: rgba(169, 164, 180, 0.3);
         }
       }
@@ -331,7 +330,7 @@
     .el-input__wrapper {
       background-color: #1d0f36;
 
-      &>input {
+      & > input {
         text-align: left;
         font-size: 1.5rem;
       }
@@ -414,7 +413,6 @@
   text-align: right;
   color: #a9a4b4;
 
-
   img {
     width: 1.5rem;
     height: auto;
@@ -424,7 +422,6 @@
 
 .share_box {
   margin-bottom: 1.25rem;
-
 
   .form-rember-rectangle {
     display: flex;
@@ -485,7 +482,7 @@
       width: 14.25rem;
 
       .el-input__wrapper {
-        &>input {
+        & > input {
           color: white;
         }
       }
@@ -514,7 +511,7 @@
       border: none !important;
       cursor: pointer !important;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         height: 3.25rem;
         font-weight: 500;
@@ -524,7 +521,7 @@
         cursor: pointer !important;
       }
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: rgba(169, 164, 180, 0.6);
       }
     }
@@ -532,7 +529,6 @@
 }
 
 :deep(.invite_code_input) {
-
   .el-input__wrapper {
     height: 4.375rem;
     border-radius: 0.5rem;
@@ -541,7 +537,7 @@
     box-sizing: border-box;
     box-shadow: none;
 
-    &>input {
+    & > input {
       padding: 0 1.25rem;
       font-size: 1.125rem;
       line-height: 1.6;
@@ -589,7 +585,7 @@
   text-align: left;
   color: #a9a4b4;
 
-  &>p+p {
+  & > p + p {
     margin-top: 0.625rem;
   }
 }
@@ -618,7 +614,7 @@
   align-items: center;
   padding-bottom: 1.25rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
@@ -633,7 +629,7 @@
       box-shadow: none;
       padding: 0 1.25rem;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
@@ -679,7 +675,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -722,7 +718,7 @@
       background-color: transparent;
       padding-left: 8.75rem;
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: #fad54d;
       }
     }
@@ -734,15 +730,15 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(4n + 1) {
+  & > div:nth-child(4n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n + 5) {
+  & > div:nth-child(n + 5) {
     margin-top: 0.625rem;
   }
 
@@ -754,7 +750,7 @@
     height: 35rem;
     margin-top: -10rem;
 
-    &>span {
+    & > span {
       margin: 0 auto;
       display: block;
       padding: 1.25rem;
@@ -767,13 +763,13 @@
       text-align: center;
       color: #a9a4b4;
     }
-    .deposit_btn{
+    .deposit_btn {
       height: 2rem;
       line-height: 2rem;
-      padding: 0 .625rem;
+      padding: 0 0.625rem;
       background: #fad54d;
       margin-top: 1.25rem;
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       color: #13151f;
       font-weight: bold;
       cursor: pointer;
@@ -809,7 +805,7 @@
       color: #0cbb3e;
     }
 
-    &>.nft_img {
+    & > .nft_img {
       width: 100%;
       height: 100%;
     }
@@ -873,8 +869,6 @@
       }
     }
   }
-
-
 }
 
 .confirm_btn {
@@ -936,8 +930,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -983,7 +976,6 @@
 }
 
 @media screen and (max-width: 950px) {
-
   :deep(.create_dialog) {
     width: 90%;
     border-radius: 0.5rem !important;
@@ -1017,7 +1009,7 @@
     justify-content: center;
     padding: 1rem 0;
 
-    .wallet_operating_item+.wallet_operating_item {
+    .wallet_operating_item + .wallet_operating_item {
       margin-left: 0.75rem;
     }
 
@@ -1045,7 +1037,7 @@
     text-align: left;
     color: #a9a4b4;
 
-    &>p+p {
+    & > p + p {
       margin-top: 0.25rem;
     }
   }
@@ -1054,7 +1046,6 @@
     .create_title {
       font-size: 1.5rem;
       padding-bottom: 0.5rem;
-
     }
 
     .image_box {
@@ -1096,7 +1087,7 @@
     width: 100%;
     margin-bottom: 0.5rem;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.5rem;
     }
 
@@ -1107,7 +1098,7 @@
       padding: 0.25rem 0.75rem;
       border-radius: 0.25rem;
 
-      &>.val {
+      & > .val {
         padding-left: 0.25rem;
 
         img {
@@ -1154,7 +1145,7 @@
         padding: 0 0.5rem;
         box-shadow: none !important;
 
-        &>input {
+        & > input {
           font-size: 0.75rem;
           height: 2rem;
         }
@@ -1183,7 +1174,7 @@
       .el-input__wrapper {
         background-color: #1d0f36;
 
-        &>input {
+        & > input {
           text-align: left;
           font-size: 0.75rem;
         }
@@ -1194,7 +1185,7 @@
       justify-content: center;
       padding-top: 0.5rem;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.5rem;
       }
 
@@ -1219,7 +1210,6 @@
 
   .share_box {
     margin-bottom: 0.75rem;
-
 
     .form-rember-rectangle {
       display: flex;
@@ -1283,7 +1273,7 @@
         margin-left: 0.5rem;
 
         .el-input__wrapper {
-          &>input {
+          & > input {
             color: white;
           }
         }
@@ -1306,12 +1296,12 @@
         padding: 0 0.5rem;
         border-radius: 0.25rem;
 
-        &>input {
+        & > input {
           font-size: 0.75rem;
           height: 2rem;
         }
 
-        &>input::placeholder {
+        & > input::placeholder {
           color: rgba(169, 164, 180, 0.6);
         }
       }
@@ -1319,13 +1309,12 @@
   }
 
   :deep(.invite_code_input) {
-
     .el-input__wrapper {
       height: 2rem;
       padding: 0;
       border-radius: 0.25rem;
 
-      &>input {
+      & > input {
         height: 2rem;
         padding: 0 0.5rem;
         font-size: 0.75rem;
@@ -1359,7 +1348,7 @@
   .hint-text {
     font-size: 0.75rem;
 
-    &>p+p {
+    & > p + p {
       margin-top: 0.5rem;
     }
   }
@@ -1386,7 +1375,7 @@
     align-items: center;
     padding-bottom: 1rem;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0;
       margin-top: 0.25rem;
     }
@@ -1399,7 +1388,7 @@
         border-radius: 0.25rem;
         padding: 0 1rem;
 
-        &>input {
+        & > input {
           height: 2rem !important;
           font-size: 0.75rem;
         }
@@ -1442,7 +1431,7 @@
       box-shadow: none !important;
       border: none !important;
 
-      &>input {
+      & > input {
         height: 2rem !important;
         font-size: 0.75rem;
         font-weight: 500;
@@ -1486,11 +1475,11 @@
         background-color: transparent;
         padding-left: 8.75rem;
 
-        &>input {
+        & > input {
           height: 2rem !important;
         }
 
-        &>input::placeholder {
+        & > input::placeholder {
           color: #fad54d;
         }
       }
@@ -1502,15 +1491,15 @@
     display: flex;
     flex-wrap: wrap;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.5rem;
     }
 
-    &>div:nth-child(2n + 1) {
+    & > div:nth-child(2n + 1) {
       margin-left: 0;
     }
 
-    &>div:nth-child(n + 3) {
+    & > div:nth-child(n + 3) {
       margin-top: 0.625rem;
     }
 
@@ -1522,7 +1511,7 @@
       margin-top: 5rem;
       height: 25rem;
 
-      &>span {
+      & > span {
         margin: 0 auto;
         display: block;
         padding: 1.25rem;
@@ -1566,7 +1555,7 @@
         color: #0cbb3e;
       }
 
-      &>.nft_img {
+      & > .nft_img {
         width: 100%;
         height: 100%;
       }
@@ -1630,8 +1619,6 @@
         }
       }
     }
-
-
   }
 
   .confirm_btn {
@@ -1693,8 +1680,7 @@
     }
 
     :deep(.el-pager) {
-
-      &>li+li {
+      & > li + li {
         margin-left: 0.75rem;
       }
 

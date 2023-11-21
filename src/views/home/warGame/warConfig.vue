@@ -368,7 +368,7 @@ export default {
         const rate = deepClone(res.data);
 
         const winRate = Number(
-          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100)
+          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100),
         );
 
         const params = {
@@ -395,9 +395,8 @@ export default {
 
         params.autoBuyNumber = rate?.autoBuyNumber;
 
-
         if (this.type == "lock" && params.lockWinRateStatus == "CLOSE") {
-         params.lockWinRateStatus = "OPEN";
+          params.lockWinRateStatus = "OPEN";
         }
         this.autoConfig = params;
       }
@@ -431,7 +430,7 @@ export default {
       const rate = deepClone(autoConfig);
 
       params.lockWinRate = Number(
-        new bigNumber(rate.lockWinRate).dividedBy(100)
+        new bigNumber(rate.lockWinRate).dividedBy(100),
       );
 
       // 删除剩余局数

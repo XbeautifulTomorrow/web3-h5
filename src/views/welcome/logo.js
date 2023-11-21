@@ -1,7 +1,7 @@
 /* eslint-disable */
-import p5 from 'p5';
-import img from './img/logo.svg';
-export function logoFun(id = 'logo') {
+import p5 from "p5";
+import img from "./img/logo.svg";
+export function logoFun(id = "logo") {
   const _test = (sketch) => {
     const ele = document.getElementById(id);
     let windowW = ele.offsetWidth;
@@ -223,15 +223,18 @@ export function logoFun(id = 'logo') {
         let n = sketch.floor(sketch.random(100));
         if (n > 75 && this.throughFlag) {
           this.throughFlag = false;
-          setTimeout(() => {
-            this.throughFlag = true;
-          }, sketch.floor(sketch.random(40, 400)));
+          setTimeout(
+            () => {
+              this.throughFlag = true;
+            },
+            sketch.floor(sketch.random(40, 400)),
+          );
         }
         if (!this.throughFlag) {
           sketch.push();
           sketch.translate(
             (sketch.width - this.imgOrigin.width) / 2,
-            (sketch.height - this.imgOrigin.height) / 2
+            (sketch.height - this.imgOrigin.height) / 2,
           );
           sketch.image(this.imgOrigin, 0, 0);
           sketch.pop();
@@ -269,7 +272,7 @@ export function logoFun(id = 'logo') {
         sketch.push();
         sketch.translate(
           (sketch.width - this.imgOrigin.width) / 2,
-          (sketch.height - this.imgOrigin.height) / 2
+          (sketch.height - this.imgOrigin.height) / 2,
         );
         sketch.image(this.imgOrigin, 0, 0);
         sketch.pop();
@@ -279,17 +282,20 @@ export function logoFun(id = 'logo') {
           sketch.push();
           sketch.translate(
             (sketch.width - this.imgOrigin.width) / 2,
-            (sketch.height - this.imgOrigin.height) / 2
+            (sketch.height - this.imgOrigin.height) / 2,
           );
           if (sketch.floor(sketch.random(100)) > 80) {
             obj.x = sketch.floor(
               sketch.random(
                 -this.imgOrigin.width * 0.3,
-                this.imgOrigin.width * 0.7
-              )
+                this.imgOrigin.width * 0.7,
+              ),
             );
             obj.y = sketch.floor(
-              sketch.random(-this.imgOrigin.height * 0.1, this.imgOrigin.height)
+              sketch.random(
+                -this.imgOrigin.height * 0.1,
+                this.imgOrigin.height,
+              ),
             );
             obj.img = this.getRandomRectImg(this.imgOrigin);
           }

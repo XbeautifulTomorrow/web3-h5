@@ -17,12 +17,17 @@
   font-weight: bold;
   line-height: 1.2;
 
-  &>span {
+  & > span {
     display: inline-block;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
   }
 }
 
@@ -40,7 +45,7 @@
   display: flex;
   flex-direction: column;
 
-  &>div+div {
+  & > div + div {
     margin-top: 0.625rem;
   }
 }
@@ -92,7 +97,7 @@
         color: #a9a4b4;
         word-spacing: 0.25rem;
 
-        &>span {
+        & > span {
           display: inline-block;
         }
       }
@@ -125,8 +130,6 @@
     }
   }
 
-
-
   &.active {
     max-height: none;
     height: auto;
@@ -140,11 +143,16 @@
         padding-bottom: 0;
 
         .text {
-          &>span {
+          & > span {
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+            background-image: linear-gradient(
+              to bottom,
+              rgba(234, 32, 141, 0.9) 15%,
+              #e63a97 39%,
+              #f1f1cb 70%
+            );
           }
         }
 
@@ -214,7 +222,6 @@
     }
 
     .FAQ_content {
-
       .FAQ_content_title {
         align-items: flex-start;
         padding-bottom: 0.5rem;

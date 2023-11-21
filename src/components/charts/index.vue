@@ -4,10 +4,11 @@
 
 <script>
 import * as echarts from "echarts";
-require("echarts/theme/macarons"); // echarts theme
+import "echarts/theme/macarons"; // echarts theme
 import resize from "./resize";
 
 export default {
+  name: "ChartsMode",
   mixins: [resize],
   props: {
     className: {
@@ -29,14 +30,13 @@ export default {
     chartData: {
       type: Object,
       default: () => {
-        return {}
+        return {};
       },
     },
   },
   data() {
-    this.chart = null
-    return {
-    };
+    this.chart = null;
+    return {};
   },
   watch: {
     chartData: {

@@ -91,8 +91,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-
   }
 
   .statistics_item {
@@ -102,7 +100,7 @@
     border-radius: 0.5rem;
     background-color: #1d0f36;
 
-    &>div {
+    & > div {
       border-bottom: 0.125rem solid #1d1f2b;
     }
 
@@ -176,17 +174,14 @@
       box-shadow: none;
 
       padding: 0.125rem 0 0.125rem 0.125rem;
-      border-image-source: linear-gradient(to bottom,
-          #1e90f9 12%,
-          #e022e3 70%);
+      border-image-source: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       border-image-slice: 1;
-      background-image: linear-gradient(to bottom, #13151F, #13151F),
+      background-image: linear-gradient(to bottom, #13151f, #13151f),
         linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       background-origin: border-box;
       background-clip: content-box, border-box;
 
-
-      &>input {
+      & > input {
         padding: 0 1.25rem;
         font-size: 1.125rem;
         line-height: 1.6;
@@ -232,7 +227,6 @@
 }
 
 :deep(.table_container) {
-
   .cell {
     height: 2.875rem;
     line-height: 2.875rem;
@@ -243,7 +237,7 @@
   th {
     &.el-table__cell {
       background-color: #191c28;
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
       padding: 0;
 
       .cell {
@@ -263,7 +257,7 @@
 
   td {
     &.el-table__cell {
-      border-bottom-color: #23172A;
+      border-bottom-color: #23172a;
     }
   }
 
@@ -273,14 +267,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: transparent;
   }
 
   .el-table__body {
-    &>tbody {
-
-      &>.el-table__row {
+    & > tbody {
+      & > .el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -288,7 +281,7 @@
         }
       }
 
-      &>.el-table__row:nth-child(2n) {
+      & > .el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -315,7 +308,7 @@
       cursor: pointer;
     }
 
-    img+img {
+    img + img {
       margin-left: 0.5rem;
     }
   }
@@ -350,8 +343,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -401,7 +393,6 @@
   user-select: none;
 }
 
-
 @media screen and (max-width: 950px) {
   .referral_container {
     margin-top: 0.75rem;
@@ -419,7 +410,6 @@
     align-items: flex-start;
 
     .step_item {
-
       img {
         width: 3rem;
       }
@@ -463,11 +453,11 @@
     .statistics_box {
       flex-wrap: wrap;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.5rem;
       }
 
-      &>div:nth-child(n+3) {
+      & > div:nth-child(n + 3) {
         margin-left: 0;
         margin-top: 0.5rem;
       }
@@ -479,7 +469,7 @@
       box-sizing: border-box;
       padding: 0.5rem;
 
-      &>div {
+      & > div {
         border-bottom: 1px solid #1d1f2b;
       }
 
@@ -506,7 +496,7 @@
         }
 
         .val {
-          font-size: .75rem;
+          font-size: 0.75rem;
           line-height: 1.6;
           color: #fad54d;
         }
@@ -531,7 +521,7 @@
         border-radius: 0.5rem 0 0 0.5rem;
         padding: 1px 0 1px 1px;
 
-        &>input {
+        & > input {
           padding: 0 0.75rem;
           font-size: 0.75rem;
           line-height: 1;
@@ -539,7 +529,6 @@
       }
 
       .el-input-group__append {
-
         .create_btn {
           width: 5.5rem;
           height: 2.25rem;
@@ -561,7 +550,6 @@
   }
 
   :deep(.table_container) {
-
     .cell {
       height: 2.25rem;
       line-height: 2.25rem;
@@ -572,7 +560,6 @@
 
     th {
       &.el-table__cell {
-
         .cell {
           font-size: 0.625rem;
         }
@@ -596,7 +583,7 @@
         cursor: pointer;
       }
 
-      img+img {
+      img + img {
         margin-left: 0.25rem;
       }
     }
@@ -631,8 +618,7 @@
     }
 
     :deep(.el-pager) {
-
-      &>li+li {
+      & > li + li {
         margin-left: 0.75rem;
       }
 

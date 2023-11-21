@@ -16,13 +16,25 @@
       </div>
       <div class="recharge_box">
         <div class="operating_box">
-          <div class="operating_btn" :class="[walletOperating == 1 && 'active']" @click="handleOperating(1)">
+          <div
+            class="operating_btn"
+            :class="[walletOperating == 1 && 'active']"
+            @click="handleOperating(1)"
+          >
             {{ t("user.deposit") }}
           </div>
-          <div class="operating_btn" :class="[walletOperating == 2 && 'active']" @click="handleOperating(2)">
+          <div
+            class="operating_btn"
+            :class="[walletOperating == 2 && 'active']"
+            @click="handleOperating(2)"
+          >
             {{ t("user.withdraw") }}
           </div>
-          <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
+          <div
+            class="operating_btn"
+            :class="[walletOperating == 3 && 'active']"
+            @click="handleOperating(3)"
+          >
             {{ t("user.exchange") }}
           </div>
         </div>
@@ -32,7 +44,9 @@
               <span>
                 {{
                   t("user.currency", {
-                    operating: `${walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"}`,
+                    operating: `${
+                      walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
+                    }`,
                   })
                 }}
               </span>
@@ -48,7 +62,12 @@
               <template #prefix>
                 <img :src="getCion(operatingCoin)" alt="" />
               </template>
-              <el-option v-for="(item, index) in networkList" :key="index" :label="item.coinName" :value="item.coinName">
+              <el-option
+                v-for="(item, index) in networkList"
+                :key="index"
+                :label="item.coinName"
+                :value="item.coinName"
+              >
                 <div class="icon_label">
                   <img :src="getCion(item.coinName)" alt="" />
                   <span>{{ item.coinName }}</span>
@@ -64,7 +83,9 @@
               <span>
                 {{
                   t("user.network", {
-                    operating: `${walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"}`,
+                    operating: `${
+                      walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
+                    }`,
                   })
                 }}
               </span>
@@ -77,7 +98,12 @@
               placeholder="Select network"
               :popper-append-to-body="false"
             >
-              <el-option v-for="(item, index) in networkDrop" :key="index" :label="item.chain" :value="item.chain" />
+              <el-option
+                v-for="(item, index) in networkDrop"
+                :key="index"
+                :label="item.chain"
+                :value="item.chain"
+              />
             </el-select>
             <div class="withdraw_item_error">
               {{ networkTips }}
@@ -91,11 +117,25 @@
                 <div class="tips_text">
                   {{ t("user.sendHint", { coin: operatingCoin }) }}
                 </div>
-                <div class="img_box" v-if="screenWidth < 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
-                <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr" :placeholder="t('user.enterAddrHint')">
+                <div
+                  class="img_box"
+                  v-if="screenWidth < 950"
+                  id="qrCodeDiv"
+                  ref="qrCodeDiv"
+                ></div>
+                <el-input
+                  class="wallet_addr_input"
+                  readonly="readonly"
+                  v-model="receiverAddr"
+                  :placeholder="t('user.enterAddrHint')"
+                >
                   <template #append>
                     <div class="copy_btn" @click="onCopy(receiverAddr)">
-                      <img class="not-select" src="@/assets/svg/user/icon_copy.svg" alt="" />
+                      <img
+                        class="not-select"
+                        src="@/assets/svg/user/icon_copy.svg"
+                        alt=""
+                      />
                     </div>
                   </template>
                 </el-input>
@@ -108,18 +148,33 @@
                   }}</span>
                 </div>
               </div>
-              <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
+              <div
+                class="img_box"
+                v-if="screenWidth > 950"
+                id="qrCodeDiv"
+                ref="qrCodeDiv"
+              ></div>
             </div>
           </div>
           <div class="recharge_estimated_price" v-if="walletOperating == 1">
             <div class="price_convert">
-              <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
+              <el-input
+                class="price_input"
+                @focus="isConvert = true"
+                v-model="walletAmount"
+                type="number"
+              >
                 <template #prefix>
                   <img :src="getCion(operatingCoin)" alt="" />
                 </template>
               </el-input>
               <div class="convert_interval">~</div>
-              <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
+              <el-input
+                class="price_input"
+                @focus="isConvert = false"
+                v-model="ethNum"
+                type="number"
+              >
                 <template #prefix>
                   <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 </template>
@@ -158,11 +213,23 @@
                   <span>{{ t("user.withdrawalAmount") }}</span>
                   <span class="required">*</span>
                 </p>
-                <p>可用 {{ getCoinBalance(operatingCoin).toFixed(4) + " " + operatingCoin }}</p>
+                <p>
+                  可用
+                  {{
+                    getCoinBalance(operatingCoin).toFixed(4) +
+                    " " +
+                    operatingCoin
+                  }}
+                </p>
               </div>
               <div class="withdraw_convert">
                 <div class="price_convert">
-                  <el-input class="price_input" @blur="onVerify('amount')" v-model="walletAmount" type="number">
+                  <el-input
+                    class="price_input"
+                    @blur="onVerify('amount')"
+                    v-model="walletAmount"
+                    type="number"
+                  >
                     <template #prefix>
                       <img :src="getCion(operatingCoin)" alt="" />
                     </template>
@@ -185,15 +252,24 @@
                   {{ t("user.fee") }}
                 </span>
                 <span class="fee_val">
-                  {{ `${network?.newGas || network?.gas} ${operatingCoin || "--"}` }}
+                  {{
+                    `${network?.newGas || network?.gas} ${
+                      operatingCoin || "--"
+                    }`
+                  }}
                 </span>
-                <span class="free_text" v-if="setting.freeFeeStatus">{{ t("recharge.free") }}</span>
+                <span class="free_text" v-if="setting.freeFeeStatus">{{
+                  t("recharge.free")
+                }}</span>
               </div>
               <div class="withdraw_item_error">
                 {{ tipsText }}
               </div>
             </div>
-            <div :class="['withdraw_btn', loading && 'loading']" @click="onWithdrawalBalance()">
+            <div
+              :class="['withdraw_btn', loading && 'loading']"
+              @click="onWithdrawalBalance()"
+            >
               <img v-if="loading" src="@/assets/img/user/loading.png" alt="" />
               <span>{{ t("user.requestBtn") }}</span>
             </div>
@@ -208,11 +284,16 @@
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p>
-                    <span> {{ t("user.from") }} </span> <span class="required">*</span>
+                    <span> {{ t("user.from") }} </span>
+                    <span class="required">*</span>
                   </p>
                   <p>
                     {{ t("user.available") }}
-                    {{ getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) + " " + exchangeInfo.exchangeFromCoin }}
+                    {{
+                      getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) +
+                      " " +
+                      exchangeInfo.exchangeFromCoin
+                    }}
                   </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
@@ -221,9 +302,16 @@
                     <span>USDT</span>
                   </div>
                   <div class="exhange_icon" v-else>
-                    <el-select v-model="exchangeInfo.exchangeFromCoin" @change="fetchExchangeRate" :popper-append-to-body="false">
+                    <el-select
+                      v-model="exchangeInfo.exchangeFromCoin"
+                      @change="fetchExchangeRate"
+                      :popper-append-to-body="false"
+                    >
                       <template #prefix>
-                        <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
+                        <img
+                          :src="getCion(exchangeInfo.exchangeFromCoin)"
+                          alt=""
+                        />
                       </template>
                       <template v-for="(item, index) in networkList">
                         <el-option
@@ -253,19 +341,29 @@
                 </div>
               </div>
             </div>
-            <div class="swap_box" @click="exchangeOperatingFunc"><img src="@/assets/svg/user/icon_swap.svg" /></div>
+            <div class="swap_box" @click="exchangeOperatingFunc">
+              <img src="@/assets/svg/user/icon_swap.svg" />
+            </div>
             <div class="withdraw_relevant exchange_relevant">
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p>
-                    <span> {{ t("user.to") }} </span> <span class="required">*</span>
+                    <span> {{ t("user.to") }} </span>
+                    <span class="required">*</span>
                   </p>
                 </div>
                 <div class="withdraw_addr_input exchange_addr_input">
                   <div class="exhange_icon" v-if="exchangeOperating == 1">
-                    <el-select v-model="exchangeInfo.exchangeToCoin" @change="fetchExchangeRate" :popper-append-to-body="false">
+                    <el-select
+                      v-model="exchangeInfo.exchangeToCoin"
+                      @change="fetchExchangeRate"
+                      :popper-append-to-body="false"
+                    >
                       <template #prefix>
-                        <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
+                        <img
+                          :src="getCion(exchangeInfo.exchangeToCoin)"
+                          alt=""
+                        />
                       </template>
                       <template v-for="(item, index) in networkList">
                         <el-option
@@ -297,20 +395,44 @@
             </div>
             <div class="conversion_box">
               <span>{{
-                `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}`
+                `1 ${
+                  exchangeInfo.exchangeToCoin
+                } ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${
+                  exchangeInfo.exchangeFromCoin
+                }`
               }}</span>
               <!-- <img src="@/assets/svg/user/restart.svg" @click="fetchExchangeRate()" /> -->
-              <div class="progress" style="width: 20px; height: 20px; border: 4px solid rgba(169, 164, 180, 0.5)">
-                <div class="inner_progress" style="width: 20px; height: 20px; left: -4px; top: 6px" v-if="processStatus">
+              <div
+                class="progress"
+                style="
+                  width: 20px;
+                  height: 20px;
+                  border: 4px solid rgba(169, 164, 180, 0.5);
+                "
+              >
+                <div
+                  class="inner_progress"
+                  style="width: 20px; height: 20px; left: -4px; top: 6px"
+                  v-if="processStatus"
+                >
                   <svg id="svgelem" height="20">
                     <circle cx="20" cy="10" r="8" stroke-width="4">
-                      <animate attributeName="stroke-dasharray" from="0,50.265" to="50.265,0" dur="10s" fill="freeze" />
+                      <animate
+                        attributeName="stroke-dasharray"
+                        from="0,50.265"
+                        to="50.265,0"
+                        dur="10s"
+                        fill="freeze"
+                      />
                     </circle>
                   </svg>
                 </div>
               </div>
             </div>
-            <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
+            <div
+              :class="['withdraw_btn exchange_btn', loading && 'loading']"
+              @click="exchangeFunc"
+            >
               <span>{{ t("EXCHANGE") }}</span>
             </div>
           </div>
@@ -339,16 +461,21 @@ const { t } = i18n.global;
 
 import {
   getTheUserSPayoutAddress,
-  getRechargeExchangeRate,
-  getWithdrawalExchangeRate,
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,
 } from "@/services/api/user";
 
-import QRCode from "qrcodejs2";
+import QRCode from "qrcodejs2-fix";
 import bigNumber from "bignumber.js";
-import { onCopy, accurateDecimal, timeFormat, isValidEthAddress, isValiTronAddress, handleWindowResize } from "@/utils";
+import {
+  onCopy,
+  accurateDecimal,
+  timeFormat,
+  isValidEthAddress,
+  isValiTronAddress,
+  handleWindowResize,
+} from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./components/rechargeExchangeResult";
 export default {
@@ -460,7 +587,11 @@ export default {
           this.ethNum = newV || 0;
           return;
         }
-        this.ethNum = accurateDecimal(new bigNumber(newV || 0).dividedBy(exchangeRate || 0), 8) || 0;
+        this.ethNum =
+          accurateDecimal(
+            new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
+            8
+          ) || 0;
       }, 300);
     },
     ethNum(newV) {
@@ -472,7 +603,11 @@ export default {
           return;
         }
 
-        this.walletAmount = accurateDecimal(new bigNumber(newV || 0).multipliedBy(exchangeRate || 0), 8) || 0;
+        this.walletAmount =
+          accurateDecimal(
+            new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
+            8
+          ) || 0;
       }, 300);
     },
   },
@@ -493,7 +628,10 @@ export default {
       }
     },
     maxFunc() {
-      this.exchangeInfo.exchangeFromAmount = Math.floor(this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000) / 10000;
+      this.exchangeInfo.exchangeFromAmount =
+        Math.floor(
+          this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000
+        ) / 10000;
       this.exchangeFromAmountFunc();
     },
     // 获取下浮比率
@@ -505,14 +643,24 @@ export default {
     exchangeFromAmountFunc() {
       let exchangeToAmount = null;
       if (this.exchangeInfo.exchangeFromAmount) {
-        exchangeToAmount = Math.floor((this.exchangeInfo.exchangeFromAmount / this.exchangeInfo.exchangeRate) * 10000) / 10000;
+        exchangeToAmount =
+          Math.floor(
+            (this.exchangeInfo.exchangeFromAmount /
+              this.exchangeInfo.exchangeRate) *
+              10000
+          ) / 10000;
       }
       this.exchangeInfo.exchangeToAmount = exchangeToAmount;
     },
     exchangeToAmountFunc() {
       let exchangeFromAmount = null;
       if (this.exchangeInfo.exchangeToAmount) {
-        exchangeFromAmount = Math.floor(this.exchangeInfo.exchangeToAmount * this.exchangeInfo.exchangeRate * 10000) / 10000;
+        exchangeFromAmount =
+          Math.floor(
+            this.exchangeInfo.exchangeToAmount *
+              this.exchangeInfo.exchangeRate *
+              10000
+          ) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
       this.onVerifyExchange();
@@ -521,13 +669,21 @@ export default {
       if (type) {
         this.exchangeFromAmountFunc();
       }
-      if (!this.exchangeInfo.exchangeFromAmount || this.exchangeInfo.exchangeFromAmount == 0) {
+      if (
+        !this.exchangeInfo.exchangeFromAmount ||
+        this.exchangeInfo.exchangeFromAmount == 0
+      ) {
         this.exchangeAmountTips = t("user.enterError6");
-      } else if (this.exchangeInfo.exchangeFromAmount > this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)) {
+      } else if (
+        this.exchangeInfo.exchangeFromAmount >
+        this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)
+      ) {
         this.exchangeAmountTips = t("user.enterError4");
       } else if (
-        (this.exchangeInfo.exchangeFromCoin == "USDT" && this.exchangeInfo.exchangeFromAmount < 1) ||
-        (this.exchangeInfo.exchangeToCoin == "USDT" && this.exchangeInfo.exchangeToAmount < 1)
+        (this.exchangeInfo.exchangeFromCoin == "USDT" &&
+          this.exchangeInfo.exchangeFromAmount < 1) ||
+        (this.exchangeInfo.exchangeToCoin == "USDT" &&
+          this.exchangeInfo.exchangeToAmount < 1)
       ) {
         this.exchangeAmountTips = t("user.enterError7", { data: "1 USDT" });
       } else {
@@ -537,7 +693,10 @@ export default {
 
     // exchange汇率
     async fetchExchangeRate(type) {
-      const coin = this.exchangeInfo.exchangeToCoin == "USDT" ? this.exchangeInfo.exchangeFromCoin : this.exchangeInfo.exchangeToCoin;
+      const coin =
+        this.exchangeInfo.exchangeToCoin == "USDT"
+          ? this.exchangeInfo.exchangeFromCoin
+          : this.exchangeInfo.exchangeToCoin;
       const res = await exchangeRateV2({
         coinName: coin,
       });
@@ -557,16 +716,20 @@ export default {
     },
 
     async exchangeOperatingFunc() {
-      this.exchangeOperating == 1 ? (this.exchangeOperating = 2) : (this.exchangeOperating = 1);
+      this.exchangeOperating == 1
+        ? (this.exchangeOperating = 2)
+        : (this.exchangeOperating = 1);
       [this.exchangeInfo.exchangeFromCoin, this.exchangeInfo.exchangeToCoin] = [
         this.exchangeInfo.exchangeToCoin,
         this.exchangeInfo.exchangeFromCoin,
       ];
       if (this.exchangeOperating == 1) {
-        this.exchangeInfo.exchangeFromAmount = this.exchangeInfo.exchangeToAmount;
+        this.exchangeInfo.exchangeFromAmount =
+          this.exchangeInfo.exchangeToAmount;
         this.fetchExchangeRate(1);
       } else {
-        this.exchangeInfo.exchangeToAmount = this.exchangeInfo.exchangeFromAmount;
+        this.exchangeInfo.exchangeToAmount =
+          this.exchangeInfo.exchangeFromAmount;
         this.fetchExchangeRate(2);
       }
       setTimeout(() => {
@@ -670,8 +833,12 @@ export default {
       }
     },
     getWalletAddress() {
-      const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
-      this.receiverAddr = this.receiverAddrList.find((x) => x.type == type)?.address;
+      const type = this.networkDrop.find(
+        (x) => x.chain == this.walletNetwork
+      )?.type;
+      this.receiverAddr = this.receiverAddrList.find(
+        (x) => x.type == type
+      )?.address;
     },
     // 收款地址
     async fetchReceivingAddr() {
@@ -728,7 +895,14 @@ export default {
     },
     // 验证
     onVerify(type) {
-      const { operatingCoin, walletNetwork, setting, walletAmount, walletAddr, network } = this;
+      const {
+        operatingCoin,
+        walletNetwork,
+        setting,
+        walletAmount,
+        walletAddr,
+        network,
+      } = this;
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
@@ -760,7 +934,9 @@ export default {
           this.verifys = false;
           return;
         }
-        const type = this.networkDrop.find((x) => x.chain == this.walletNetwork)?.type;
+        const type = this.networkDrop.find(
+          (x) => x.chain == this.walletNetwork
+        )?.type;
         if (type == "TRON" && !isValiTronAddress(walletAddr)) {
           this.walletAddrTips = t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
@@ -784,11 +960,16 @@ export default {
           this.tipsText = t("user.enterError3");
           this.verifys = false;
           return;
-        } else if (Number(walletAmount) > this.getCoinBalance(this.operatingCoin)) {
+        } else if (
+          Number(walletAmount) > this.getCoinBalance(this.operatingCoin)
+        ) {
           this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;
-        } else if (!setting.freeFeeStatus && Number(network?.gas) > Number(this.walletAmount)) {
+        } else if (
+          !setting.freeFeeStatus &&
+          Number(network?.gas) > Number(this.walletAmount)
+        ) {
           this.tipsText = t("user.enterError5");
           this.verifys = false;
           return;
@@ -800,7 +981,13 @@ export default {
     },
     // 提款余额freeFeeStatus
     async onWithdrawalBalance() {
-      const { walletAmount, walletAddr, operatingCoin, walletNetwork, loading } = this;
+      const {
+        walletAmount,
+        walletAddr,
+        operatingCoin,
+        walletNetwork,
+        loading,
+      } = this;
       if (loading) return;
 
       this.onVerify("submit");

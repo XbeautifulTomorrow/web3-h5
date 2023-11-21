@@ -124,9 +124,7 @@
         </li>
         <li class="popup-list">
           <span class="popup-list-title text-ellipsis">
-            {{
-            $t("virtualCurrency.price")
-          }} 
+            {{ $t("virtualCurrency.price") }}
           </span>
           <p class="popup-list-text text-ellipsis" style="color: #fff">
             $ <span v-priceFormat="currencyList[activeIndex].price"></span>

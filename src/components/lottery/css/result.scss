@@ -26,7 +26,12 @@
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(234, 32, 141, 0.9) 15%,
+    #e63a97 39%,
+    #f1f1cb 70%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -326,7 +331,8 @@
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  background: rgba(19, 7, 27, 0.8) url("@/assets/img/lottery/hold.png") center no-repeat;
+  background: rgba(19, 7, 27, 0.8) url("@/assets/img/lottery/hold.png") center
+    no-repeat;
 }
 .result-link {
   display: inline-flex;

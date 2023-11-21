@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: 'PopupCom',
+  name: "PopupCom",
   props: {
     modelValue: {
       type: Boolean,
@@ -19,7 +19,7 @@ export default {
     },
     title: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   state() {
@@ -30,7 +30,7 @@ export default {
   computed: {},
   methods: {
     closePopup() {
-      this.$emit('closePopup');
+      this.$emit("closePopup");
     },
   },
 };
@@ -79,9 +79,9 @@ export default {
   width: 24px;
   height: 24px;
   cursor: pointer;
-  background: url('@/assets/img/popup/icon-closedefault.png') no-repeat 100%/100%;
+  background: url("@/assets/img/popup/icon-closedefault.png") no-repeat 100%/100%;
   &:hover {
-    background: url('@/assets/img/popup/icon-closeactive.png') no-repeat 100%/100%;
+    background: url("@/assets/img/popup/icon-closeactive.png") no-repeat 100%/100%;
   }
 }
 .popup-title {

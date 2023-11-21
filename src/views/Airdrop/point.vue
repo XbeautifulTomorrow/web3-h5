@@ -7,7 +7,11 @@
           <div class="username_text">
             <div class="name_text">
               <span>{{ airdrop.userName }}</span>
-              <img @click="showModify = true" src="@/assets/svg/user/icon_modify.svg" alt="">
+              <img
+                @click="showModify = true"
+                src="@/assets/svg/user/icon_modify.svg"
+                alt=""
+              />
             </div>
             <div class="title_btn" v-if="!accountPoint">
               <span class="title_btn_text">{{ $t("airdrop.syncText") }}</span>
@@ -22,7 +26,9 @@
       <div class="user_info_r">
         <div class="data_item">
           <div class="item_label">{{ $t("airdrop.ranking") }}</div>
-          <div class="item_data rank">{{ accountPoint ? airdrop.rankIndex || "--" : "--" }}</div>
+          <div class="item_data rank">
+            {{ accountPoint ? airdrop.rankIndex || "--" : "--" }}
+          </div>
         </div>
         <div class="data_item">
           <div class="item_label">{{ $t("airdrop.totalPoint") }}</div>
@@ -35,31 +41,53 @@
       </div>
     </div>
     <div class="details_info">
-      <div class="details_item statistics" v-for="(item, index) in statisticsRow" :key="index">
+      <div
+        class="details_item statistics"
+        v-for="(item, index) in statisticsRow"
+        :key="index"
+      >
         <div class="statistics_type">
           <div class="title">{{ item.statisticsType }}</div>
           <div class="val">
             <span>{{ accountPoint ? item.totalPoint : "--" }}</span>
             <el-tooltip popper-class="tips_box" effect="dark" placement="top">
               <template #content>
-                <span v-if="item.tips.tips" class="tips_title">{{ item.tips.tips }}</span>
+                <span v-if="item.tips.tips" class="tips_title">{{
+                  item.tips.tips
+                }}</span>
                 <br v-if="item.tips.tips" />
-                <span v-if="item.tips.title" class="tips_title">{{ item.tips.title }}</span>
+                <span v-if="item.tips.title" class="tips_title">{{
+                  item.tips.title
+                }}</span>
                 <br v-if="item.tips.title" />
-                <span v-if="item.tips.detail" class="tips_text">{{ item.tips.detail }}</span>
+                <span v-if="item.tips.detail" class="tips_text">{{
+                  item.tips.detail
+                }}</span>
               </template>
-              <img src="@/assets/svg/airdrop/icon_help.svg" alt="">
+              <img src="@/assets/svg/airdrop/icon_help.svg" alt="" />
             </el-tooltip>
           </div>
         </div>
-        <div class="statistics_time" v-for="(event, key, i) in item.detail" :key="i">
+        <div
+          class="statistics_time"
+          v-for="(event, key, i) in item.detail"
+          :key="i"
+        >
           <div class="title">{{ $t("airdrop." + key) }}</div>
-          <div class="val">{{ accountPoint ? event == null ? "--" : event : "--" }}</div>
+          <div class="val">
+            {{ accountPoint ? (event == null ? "--" : event) : "--" }}
+          </div>
         </div>
       </div>
-      <div class="details_item list" v-loading="loading" element-loading-text="Loading...">
+      <div
+        class="details_item list"
+        v-loading="loading"
+        element-loading-text="Loading..."
+      >
         <div class="no_date" v-if="!accountPoint || !nftList?.length > 0">
-          <div class="tips_text" v-if="!accountPoint">{{ $t("airdrop.syncNft") }}</div>
+          <div class="tips_text" v-if="!accountPoint">
+            {{ $t("airdrop.syncNft") }}
+          </div>
           <div class="tips_text" v-else>{{ $t("airdrop.noData") }}</div>
         </div>
         <div class="nft_box" v-if="accountPoint && nftList?.length > 0">
@@ -73,7 +101,7 @@
                 <span class="text-ellipsis">{{ `#${item.tokenId}` }}</span>
               </div>
               <div class="time_box">
-                <img src="@/assets/svg/airdrop/icon_time.svg" alt="">
+                <img src="@/assets/svg/airdrop/icon_time.svg" alt="" />
                 <span>Holding Time:</span>
                 <span>{{ `${timeDiff(item.time)} D` }}</span>
               </div>
@@ -85,7 +113,10 @@
             {{ `${startNum}-${endNum} of ${count}` }}
           </div>
           <div class="pagination not-select">
-            <div :class="['prev', !pageCount.prev && 'disabled']" @click="handleCurrentChange(-1)">
+            <div
+              :class="['prev', !pageCount.prev && 'disabled']"
+              @click="handleCurrentChange(-1)"
+            >
               <el-icon>
                 <ArrowLeftBold />
               </el-icon>
@@ -94,7 +125,10 @@
               <span>{{ page + 1 }}</span>
               <span>{{ `/ ${Math.ceil(count / size)}` }}</span>
             </div>
-            <div :class="['next', !pageCount.next && 'disabled']" @click="handleCurrentChange(1)">
+            <div
+              :class="['next', !pageCount.next && 'disabled']"
+              @click="handleCurrentChange(1)"
+            >
               <el-icon>
                 <ArrowRightBold />
               </el-icon>
@@ -103,12 +137,20 @@
         </div>
       </div>
     </div>
-    <Modify v-if="showModify" @onModify="() => { this.$emit('onModify') }" @closeDialogFun="showModify = false"></Modify>
+    <Modify
+      v-if="showModify"
+      @onModify="
+        () => {
+          this.$emit('onModify');
+        }
+      "
+      @closeDialogFun="showModify = false"
+    ></Modify>
   </div>
 </template>
-  
+
 <script>
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { getWalletNft } from "@/services/api/oneBuy";
 
@@ -118,16 +160,16 @@ import Modify from "./components/modify.vue";
 import Image from "@/components/imageView";
 
 export default {
-  name: 'AirdropPoint',
+  name: "AirdropPoint",
   components: {
     Modify,
-    Image
+    Image,
   },
   props: {
     airdrop: {
       type: Object,
       default: () => {
-        return {}
+        return {};
       },
     },
   },
@@ -142,8 +184,8 @@ export default {
       loading: false,
       showModify: false,
       formUser: {
-        name: null
-      }
+        name: null,
+      },
     };
   },
   computed: {
@@ -155,49 +197,65 @@ export default {
           tips: {
             tips: t("airdrop.uniswapTitle"),
             title: t("airdrop.uniswapTips"),
-            detail: "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*365/(365+DU)*2*FACTOR"
+            detail:
+              "(SWAPS*30/(30+SWAPS)*5+TA*20/(20+TA)*20)*DU*365/(365+DU)*2*FACTOR",
           },
           totalPoint: airdrop.uniswapPoint,
           detail: {
             Duration: t("common.dayNum", { days: airdrop.uniswapDay || 0 }), //uniwap刚链接的瞬间的使用天数
             Swaps: airdrop.uniswapExchangeNum, //uniwap兑换笔数
-            "Total Amount": `${accurateDecimal(airdrop.uniswapExchangeAmount || 0, 4)} ETH`, //uniwap兑换总额
-            "Total Gas": `${this.toNonExponential(accurateDecimal(airdrop.uniswapExpendGas || 0, 8))} ETH`, //uniwapGas支出
-          }
+            "Total Amount": `${accurateDecimal(
+              airdrop.uniswapExchangeAmount || 0,
+              4,
+            )} ETH`, //uniwap兑换总额
+            "Total Gas": `${this.toNonExponential(
+              accurateDecimal(airdrop.uniswapExpendGas || 0, 8),
+            )} ETH`, //uniwapGas支出
+          },
         },
         {
           statisticsType: t("airdrop.openSeaPoint"),
           tips: {
             title: t("airdrop.openSeaTitle"),
-            detail: "TXN*20/(20+TXN)*10+PUR^2/(PUR+SALE)*2*DU*180/(180+DU)*2*FACTOR"
+            detail:
+              "TXN*20/(20+TXN)*10+PUR^2/(PUR+SALE)*2*DU*180/(180+DU)*2*FACTOR",
           },
           totalPoint: airdrop.openseaPoint,
           detail: {
             Duration: t("common.dayNum", { days: airdrop.openseaDay }), //opensea刚链接的瞬间的使用天数
             Transactions: airdrop.openseaTraNum, //opensea交易数量
-            "Total purchases": `${accurateDecimal(airdrop.openseaBuyAmount || 0, 4)} ETH`, //opensea购买金额
-            "Total Sale": `${accurateDecimal(this.toNonExponential(airdrop.openseaSellAmount) || 0, 4)} ETH`, //opensea售卖金额
-          }
+            "Total purchases": `${accurateDecimal(
+              airdrop.openseaBuyAmount || 0,
+              4,
+            )} ETH`, //opensea购买金额
+            "Total Sale": `${accurateDecimal(
+              this.toNonExponential(airdrop.openseaSellAmount) || 0,
+              4,
+            )} ETH`, //opensea售卖金额
+          },
         },
         {
           statisticsType: t("airdrop.walletPoint"),
           tips: {
             title: t("airdrop.walletTitle"),
-            detail: "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*365/(365+DU)*2*FACTOR"
+            detail:
+              "RARE*NFT/(NFT+RARE)*MHT*200/(200+MHT)*2*DU*365/(365+DU)*2*FACTOR",
           },
           totalPoint: airdrop.walletPoint,
           detail: {
             Duration: t("common.dayNum", { days: airdrop.walletDay || 0 }), //钱包使用天数
             "Total NFT": airdrop.walletHoldNft, //持有NFT数量
             "Rare NFT": airdrop.walletQualityNft, //优质NFT数量
-            "Max Holding Time": t("common.dayNum", { days: airdrop.walletLongestDay || 0 }), //钱包最长天数
-          }
+            "Max Holding Time": t("common.dayNum", {
+              days: airdrop.walletLongestDay || 0,
+            }), //钱包最长天数
+          },
         },
         {
           statisticsType: t("airdrop.referrals"),
           tips: {
             title: t("airdrop.referralsTitle"),
-            detail: ""
+            detail: "",
           },
           totalPoint: airdrop.invatePoint,
           detail: {
@@ -205,9 +263,9 @@ export default {
             Referrals: airdrop.regNumber, //注册人数
             "This month": airdrop.thisMonthPoint, //这个月积分
             "Last month": airdrop.lastMonthPoint, //上个月积分
-          }
+          },
         },
-      ]
+      ];
     },
     startNum() {
       const { page, size } = this;
@@ -230,28 +288,34 @@ export default {
         isPrev = false;
       }
 
-      if ((page + 1) == pager) {
+      if (page + 1 == pager) {
         isNext = false;
       }
 
       if (!pager > 0) {
         return {
           prev: false,
-          next: false
-        }
+          next: false,
+        };
       }
 
       return {
         prev: isPrev,
-        next: isNext
-      }
+        next: isNext,
+      };
     },
     accountPoint() {
-      const { uniswapPoint, openseaPoint, walletPoint, invatePoint } = this.airdrop;
-      if (uniswapPoint == null || openseaPoint == null || walletPoint == null) return false;
-      const point = new bigNumber(uniswapPoint || 0).plus(openseaPoint || 0).plus(walletPoint || 0).plus(invatePoint || 0).toString();
-      return point
-    }
+      const { uniswapPoint, openseaPoint, walletPoint, invatePoint } =
+        this.airdrop;
+      if (uniswapPoint == null || openseaPoint == null || walletPoint == null)
+        return false;
+      const point = new bigNumber(uniswapPoint || 0)
+        .plus(openseaPoint || 0)
+        .plus(walletPoint || 0)
+        .plus(invatePoint || 0)
+        .toString();
+      return point;
+    },
   },
   methods: {
     timeFormat: timeFormat,
@@ -268,24 +332,28 @@ export default {
         address: this.airdrop.walletAddress,
         cursor: this.pageList[_page],
         size: size,
-        chatId: 1
+        chatId: 1,
       });
       if (res && res.code == 200) {
         this.nftList = res.data?.records || [];
         this.count = res.data?.total || 0;
         this.loading = false;
         if (!res.data?.cursor) return;
-        this.addCursor(res.data?.cursor)
+        this.addCursor(res.data?.cursor);
       }
     },
     addCursor(event) {
-      const isRepeat = this.pageList.findIndex(e => e == event) > -1;
+      const isRepeat = this.pageList.findIndex((e) => e == event) > -1;
       if (!isRepeat) {
         this.pageList.push(event);
       }
     },
     handleCurrentChange(event) {
-      if (event < 0 && !this.pageCount.prev || event > 0 && !this.pageCount.next) return
+      if (
+        (event < 0 && !this.pageCount.prev) ||
+        (event > 0 && !this.pageCount.next)
+      )
+        return;
       this.page += event;
       this.fetchWalletNft(false);
     },
@@ -297,13 +365,13 @@ export default {
      * @return
      */
     timeDiff(event) {
-      if (!event) return 0
+      if (!event) return 0;
       const setTime = new Date(event).getTime();
       const nowTime = new Date().getTime();
 
       // 按照传入的格式生成一个simpledateformate对象
       let nd = 1000 * 24 * 60 * 60; // 一天的毫秒数
-      let nh = 1000 * 60 * 60;// 一小时的毫秒数
+      let nh = 1000 * 60 * 60; // 一小时的毫秒数
       let nm = 1000 * 60; // 一分钟的毫秒数
       let ns = 1000; // 一秒钟的毫秒数;
 
@@ -311,13 +379,13 @@ export default {
       let diff;
       diff = Number(new bigNumber(nowTime).minus(setTime));
 
-      let day = Number(new bigNumber(diff).div(nd));// 计算差多少天
+      let day = Number(new bigNumber(diff).div(nd)); // 计算差多少天
       // eslint-disable-next-line no-unused-vars
-      let hour = Number(new bigNumber(diff).mod(nd).div(nh));// 计算差多少小时
+      let hour = Number(new bigNumber(diff).mod(nd).div(nh)); // 计算差多少小时
       // eslint-disable-next-line no-unused-vars
-      let min = Number(new bigNumber(diff).mod(nd).mod(nh).div(nm));// 计算差多少分钟
+      let min = Number(new bigNumber(diff).mod(nd).mod(nh).div(nm)); // 计算差多少分钟
       // eslint-disable-next-line no-unused-vars
-      let sec = Number(new bigNumber(diff).mod(nd).mod(nh).mod(nm).div(ns));// 计算差多少秒//输出结果
+      let sec = Number(new bigNumber(diff).mod(nd).mod(nh).mod(nm).div(ns)); // 计算差多少秒//输出结果
 
       return Math.floor(day);
     },
@@ -325,7 +393,7 @@ export default {
      * @description: 科学计数法修正
      */
     toNonExponential(num) {
-      if (!num) return 0
+      if (!num) return 0;
       var m = Number(num)
         .toExponential()
         .match(/\d(?:\.(\d*))?e([+-]\d+)/);
@@ -339,13 +407,13 @@ export default {
   },
   watch: {
     accountPoint(newV) {
-      if (!newV) return
+      if (!newV) return;
       this.fetchWalletNft();
-    }
-  }
+    },
+  },
 };
 </script>
-  
+
 <style lang="scss" scoped>
 @import "./components/point.scss";
 </style>
@@ -358,7 +426,7 @@ export default {
   box-sizing: border-box;
 
   .tips_title {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;
@@ -366,7 +434,7 @@ export default {
   }
 
   .tips_text {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;

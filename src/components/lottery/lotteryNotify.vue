@@ -1,6 +1,9 @@
 <template>
   <div class="lottery-notify-box">
-    <div class="lottery-notify-loading notification-title" v-if="type == 'loading'">
+    <div
+      class="lottery-notify-loading notification-title"
+      v-if="type == 'loading'"
+    >
       <img src="@/assets/img/lottery/loading.png" class="loading-img" alt="" />
       <span>{{ $t("lottery.loading_tip2") }}</span>
     </div>
@@ -10,7 +13,12 @@
         <span>{{ $t("lottery.noticeSuccess") }}</span>
       </div>
       <div class="notification-title" v-if="type == 'warning'">
-        <img src="@/assets/img/lottery/notice2.png" class="type-img" alt="" v-if="type == 'warning'" />
+        <img
+          src="@/assets/img/lottery/notice2.png"
+          class="type-img"
+          alt=""
+          v-if="type == 'warning'"
+        />
         <span>{{ $t("lottery.noticeFail") }}</span>
       </div>
       <div class="click-txt" v-if="type != 'loading' && !isShowRes">

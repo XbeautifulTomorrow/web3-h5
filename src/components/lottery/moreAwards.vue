@@ -6,7 +6,13 @@
         <p class="roll-text-official">{{ $t("lottery.tips_txt") }}</p>
       </div>
       <div class="lottery-moreLuck-bg">
-        <div :class="['lottery-moreLuck', { 'lottery-moreLuck-Big': prizeList?.length > 5 }]" v-if="innerWidth > 950">
+        <div
+          :class="[
+            'lottery-moreLuck',
+            { 'lottery-moreLuck-Big': prizeList?.length > 5 },
+          ]"
+          v-if="innerWidth > 950"
+        >
           <p class="lottery-moreLuck-line"></p>
           <awards-list
             v-for="(item, index) in prizeList"
@@ -35,20 +41,18 @@
 
 <script>
 import { Howl } from "howler";
-import {
-  slipeStart,
-  slipe,
-  EPIC1,
-  EPIC2,
-  EPIC3,
-  LEGEND,
-  NORMAL1,
-  NORMAL2,
-  NORMAL3,
-  NORMAL4,
-  NORMAL5,
-  moreUsually,
-} from "@/utils/audioResource";
+import slipe from "@/assets/music/more-slipe.mp3";
+import moreUsually from "@/assets/music/more-usually.mp3";
+import slipeStart from "@/assets/music/more-slipe-start.mp3";
+import EPIC1 from "@/assets/music/more-EPIC1.mp3";
+import EPIC2 from "@/assets/music/more-EPIC2.mp3";
+import EPIC3 from "@/assets/music/more-EPIC3.mp3";
+import LEGEND from "@/assets/music/more-LEGEND.wav";
+import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
+import NORMAL2 from "@/assets/music/more-NORMAL2.mp3";
+import NORMAL3 from "@/assets/music/more-NORMAL3.mp3";
+import NORMAL4 from "@/assets/music/more-NORMAL4.mp3";
+import NORMAL5 from "@/assets/music/more-NORMAL5.mp3";
 
 import ResultLink from "../resultLink";
 import AwardsList from "./awardList.vue";
@@ -141,7 +145,9 @@ export default {
         NORMAL: [moreUsually],
       };
       let targetAwardType = this.winData[index].qualityType;
-      const sametype = this.winData.filter((x) => x.qualityType == targetAwardType);
+      const sametype = this.winData.filter(
+        (x) => x.qualityType == targetAwardType
+      );
       if (sametype?.length) {
         let file = null;
         let type = targetAwardType;

@@ -1,6 +1,6 @@
 <template>
   <el-config-provider :locale="locale">
-    <div class="bg-panl" v-if="isRouterAlive">
+    <div v-if="isRouterAlive" class="bg-panl">
       <div class="gradual-bg"></div>
       <div class="gradual-bg"></div>
       <div class="gradual-bg"></div>
@@ -36,6 +36,9 @@ export default {
       return locale;
     },
   },
+  created() {
+    this.getCoinList();
+  },
   methods: {
     reload() {
       this.isRouterAlive = false; //先关闭，
@@ -47,9 +50,6 @@ export default {
       const headerStore = useUserStore();
       return headerStore.getCoinList();
     },
-  },
-  created() {
-    this.getCoinList();
   },
 };
 </script>

@@ -7,7 +7,7 @@
             fit="cover"
             class="nft_img"
             v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.webp')" 
+            :src="createEthImg"
           />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
           <div
@@ -546,7 +546,10 @@
                         src="@/assets/svg/user/icon_usdt_gold.svg"
                         alt=""
                       />
-                      <span v-if="scope.row.price" v-priceFormat="scope.row.price"></span>
+                      <span
+                        v-if="scope.row.price"
+                        v-priceFormat="scope.row.price"
+                      ></span>
                       <span v-else>--</span>
                     </div>
                   </template>
@@ -619,7 +622,10 @@
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
                 <div class="price_val">
-                  <span v-if="historyPrice" v-priceFormat:0="historyPrice"></span>
+                  <span
+                    v-if="historyPrice"
+                    v-priceFormat:0="historyPrice"
+                  ></span>
                   <span v-else>--</span>
                 </div>
               </div>
@@ -790,7 +796,7 @@
                 fit="cover"
                 class="nft_img"
                 v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.webp')"
+                :src="createEthImg"
               />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             </div>
@@ -808,17 +814,31 @@
                 {{ `${Number(item.price).toLocaleString()} ETH` }}
               </span>
               <p class="val" v-else>
-                $ 
-                <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+                $
+                <span
+                  v-priceFormat="
+                    new bigNumber(exchangeRate).multipliedBy(item.price)
+                  "
+                ></span>
               </p>
             </div>
             <div class="buy_btn">
               <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
             <div class="remaining_votes">
-              <span  v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
+              <span
+                v-html="
+                  $t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-if="item.numberOfTicketsSold > 1"
+              >
               </span>
-              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
+              <span
+                v-html="
+                  $t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-else
+              >
               </span>
             </div>
           </div>
@@ -959,6 +979,9 @@ import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
 import Recharge from "@/views/user/recharge.vue";
 import LineChart from "@/components/charts";
+import defaultAvatar from "@/assets/svg/user/default_avatar.svg";
+import createEth from "@/assets/svg/user/create_eth.webp";
+
 import {
   accurateDecimal,
   openUrl,
@@ -1000,7 +1023,7 @@ export default {
       finished: false,
       timer: null,
       drawnInfo: null,
-      avatarImg: require("@/assets/svg/user/default_avatar.svg"),
+      avatarImg: defaultAvatar,
 
       chooseVal: null,
       statusDrop: [],
@@ -1022,6 +1045,9 @@ export default {
       loading: false,
       verifys: false,
       errorTips: null,
+
+      // eth img
+      createEthImg: createEth,
     };
   },
   computed: {
@@ -1491,23 +1517,23 @@ export default {
      * @description: 打开链上
      */
     openLenk(event) {
-      let chainLink = process.env.VUE_APP_CHAIN_MUMBAI_ADDR;
+      let chainLink = import.meta.env.VITE_APP_CHAIN_MUMBAI_ADDR;
       if (event.chainType == "OKT_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_TEST_ADDR;
       } else if (event.chainType == "BSC_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_TEST_ADDR;
       } else if (event.chainType == "BASE") {
-        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BASE_ADDR;
       } else if (event.chainType == "BSC") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_ADDR;
       } else if (event.chainType == "OKT") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_ADDR;
       } else if (event.chainType == "ThunderCore") {
-        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_THUNDERCORE_ADDR;
       } else if (event.chainType == "TRC_20_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20TEST_ADDR;
       } else if (event.chainType == "TRC_20") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20_ADDR;
       }
       openUrl(`${chainLink}${event.txid}`);
     },

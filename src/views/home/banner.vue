@@ -27,7 +27,12 @@
           :modules="modules"
         >
           <swiper-slide v-for="item in bannerList" :key="item.id">
-            <img :src="item.bannerImage" :class="[{ url_img: item.bannerUrl }]" @click="goUrl(item)" alt="" />
+            <img
+              :src="item.bannerImage"
+              :class="[{ url_img: item.bannerUrl }]"
+              @click="goUrl(item)"
+              alt=""
+            />
           </swiper-slide>
         </swiper>
       </div>

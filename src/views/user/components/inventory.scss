@@ -15,7 +15,12 @@
 }
 
 .title_text {
-  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(234, 32, 141, 0.9) 15%,
+    #e63a97 39%,
+    #f1f1cb 70%
+  );
   font-family: Tomorrow;
   font-size: 1.5rem;
   font-weight: bold;
@@ -52,7 +57,7 @@
   .operating_btns {
     display: flex;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0.625rem;
     }
 
@@ -74,19 +79,19 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(5n + 1) {
+  & > div:nth-child(5n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n + 6) {
+  & > div:nth-child(n + 6) {
     margin-top: 0.625rem;
   }
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
@@ -99,7 +104,7 @@
 
     &:hover {
       .img_box {
-        &>.nft_img {
+        & > .nft_img {
           transform: scale(1.15);
           transition: all 0.3s;
         }
@@ -193,7 +198,7 @@
   align-items: center;
   margin-top: 5rem;
 
-  &>span {
+  & > span {
     margin: 0 auto;
     display: block;
     padding: 1.25rem;
@@ -272,7 +277,7 @@
     padding-bottom: 1.25rem;
   }
 
-  .condition_item+.condition_item {
+  .condition_item + .condition_item {
     margin-top: 1.25rem;
   }
 
@@ -306,7 +311,7 @@
         box-shadow: none;
         padding: 0 1.25rem;
 
-        &>input {
+        & > input {
           font-size: 0.875rem;
           line-height: 1.6;
           text-align: left;
@@ -326,7 +331,7 @@
     display: flex;
     align-items: center;
 
-    &>img {
+    & > img {
       margin-right: 0.875rem;
     }
   }
@@ -347,7 +352,7 @@
   align-items: center;
   padding-bottom: 1.25rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
@@ -362,7 +367,7 @@
       box-shadow: none;
       padding: 0 1.25rem;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
@@ -402,7 +407,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -445,7 +450,7 @@
       background-color: transparent;
       padding-left: 8.75rem;
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: #fad54d;
       }
     }
@@ -467,15 +472,15 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(4n + 1) {
+  & > div:nth-child(4n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n + 5) {
+  & > div:nth-child(n + 5) {
     margin-top: 0.625rem;
   }
 }
@@ -514,7 +519,7 @@
       color: #0cbb3e;
     }
 
-    &>img {
+    & > img {
       width: 100%;
       height: auto;
     }
@@ -667,7 +672,7 @@
   width: 100%;
   margin-bottom: 0.625rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
@@ -690,7 +695,7 @@
     border: solid 1px #363945;
     background-color: #13151f;
 
-    &>.val {
+    & > .val {
       padding-left: 0.625rem;
       color: white;
       display: flex;
@@ -736,7 +741,7 @@
       box-sizing: border-box;
       box-shadow: none !important;
 
-      &>input {
+      & > input {
         font-size: 1.5rem;
         font-weight: bold;
         line-height: 1.25;
@@ -749,7 +754,7 @@
       .el-input__wrapper {
         background-color: #282a34;
 
-        &>input {
+        & > input {
           color: rgba(169, 164, 180, 0.3);
         }
       }
@@ -773,7 +778,7 @@
     .el-input__wrapper {
       background-color: #1d0f36;
 
-      &>input {
+      & > input {
         text-align: left;
         font-size: 1.5rem;
       }
@@ -866,7 +871,6 @@
 .share_box {
   margin-bottom: 1.25rem;
 
-
   .form-rember-rectangle {
     display: flex;
     align-items: center;
@@ -926,7 +930,7 @@
       width: 14.25rem;
 
       .el-input__wrapper {
-        &>input {
+        & > input {
           color: white;
         }
       }
@@ -954,7 +958,7 @@
       border: none !important;
       cursor: pointer !important;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         height: 3.25rem;
         font-weight: 500;
@@ -979,7 +983,6 @@
 }
 
 :deep(.invite_code_input) {
-
   .el-input__wrapper {
     height: 4.375rem;
     border-radius: 0.5rem;
@@ -988,7 +991,7 @@
     box-sizing: border-box;
     box-shadow: none;
 
-    &>input {
+    & > input {
       padding: 0 1.25rem;
       font-size: 1.125rem;
       line-height: 1.6;
@@ -1023,7 +1026,7 @@
   text-align: left;
   color: #a9a4b4;
 
-  &>p+p {
+  & > p + p {
     margin-top: 0.625rem;
   }
 }
@@ -1048,7 +1051,7 @@
   text-align: left;
   color: #a9a4b4;
 
-  &>p+p {
+  & > p + p {
     margin-top: 0.625rem;
   }
 }
@@ -1082,7 +1085,7 @@
   }
 
   :deep(.el-pager) {
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -1185,7 +1188,7 @@
     }
 
     .search_box {
-      &>div+div {
+      & > div + div {
         margin-left: 0.25rem;
       }
 
@@ -1236,11 +1239,11 @@
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 0.25rem;
 
-      &>div:nth-child(n + 6) {
+      & > div:nth-child(n + 6) {
         margin-top: 0;
       }
 
-      &>div+div {
+      & > div + div {
         margin-left: 0;
       }
 
@@ -1421,7 +1424,7 @@
         line-height: 1.375rem;
         border-radius: 0.25rem;
 
-        &>.val {
+        & > .val {
           padding-left: 0.25rem;
 
           img {
@@ -1492,7 +1495,6 @@
   .share_box {
     margin-bottom: 0.75rem;
 
-
     .form-rember-rectangle {
       display: flex;
       align-items: center;
@@ -1555,7 +1557,7 @@
         margin-left: 0.5rem;
 
         .el-input__wrapper {
-          &>input {
+          & > input {
             color: white;
           }
         }
@@ -1579,12 +1581,12 @@
         padding: 0 0.5rem;
         border-radius: 0.25rem;
 
-        &>input {
+        & > input {
           font-size: 0.75rem;
           height: 2rem;
         }
 
-        &>input::placeholder {
+        & > input::placeholder {
           color: rgba(169, 164, 180, 0.6);
         }
       }
@@ -1592,13 +1594,12 @@
   }
 
   :deep(.invite_code_input) {
-
     .el-input__wrapper {
       height: 2rem;
       padding: 0;
       border-radius: 0.25rem;
 
-      &>input {
+      & > input {
         height: 2rem;
         padding: 0 0.5rem;
         font-size: 0.75rem;

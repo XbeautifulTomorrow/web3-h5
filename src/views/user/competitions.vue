@@ -54,7 +54,7 @@
               fit="cover"
               class="nft_img"
               v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-              :src="require('@/assets/svg/user/create_eth.webp')"
+              :src="createEthImg"
             />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
@@ -157,7 +157,12 @@
               $ <span v-priceFormat:0="item.price"></span>
             </p>
             <p v-else>
-              $ <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+              $
+              <span
+                v-priceFormat="
+                  new bigNumber(exchangeRate).multipliedBy(item.price)
+                "
+              ></span>
             </p>
           </div>
           <div
@@ -212,7 +217,7 @@
                 fit="cover"
                 class="nft_img"
                 v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.webp')"
+                :src="createEthImg"
               />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
               <div class="new_dot" v-if="item.redDotStatus == 'FALSE'"></div>
@@ -317,7 +322,12 @@
                 $ <span v-priceFormat:0="item.price"></span>
               </p>
               <p v-else>
-                $ <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+                $
+                <span
+                  v-priceFormat="
+                    new bigNumber(exchangeRate).multipliedBy(item.price)
+                  "
+                ></span>
               </p>
             </div>
             <div
@@ -346,9 +356,19 @@
               {{ $t("user.delete") }}
             </div>
             <div class="remaining_votes">
-              <span v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
+              <span
+                v-html="
+                  $t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-if="item.numberOfTicketsSold > 1"
+              >
               </span>
-              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
+              <span
+                v-html="
+                  $t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-else
+              >
               </span>
             </div>
           </div>
@@ -393,7 +413,7 @@
           fit="cover"
           class="nft_img"
           v-if="competitionNft.orderType == 'LIMITED_PRICE_COIN'"
-          :src="require('@/assets/svg/user/create_eth.webp')"
+          :src="createEthImg"
         />
         <Image
           fit="cover"
@@ -411,7 +431,10 @@
         </div>
         <div
           class="nft_id text-ellipsis"
-          v-if="competitionNft.orderType != 'LIMITED_PRICE_COIN' && competitionNft?.seriesName.indexOf(competitionNft?.tokenId)==-1"
+          v-if="
+            competitionNft.orderType != 'LIMITED_PRICE_COIN' &&
+            competitionNft?.seriesName.indexOf(competitionNft?.tokenId) == -1
+          "
         >
           {{ `#${competitionNft?.tokenId}` }}
         </div>
@@ -431,7 +454,7 @@
       @closeDialogFun="handleClose()"
     ></create-com>
   </div>
-</template>    
+</template>
 <script>
 import {
   getOneBuyList,
@@ -452,6 +475,8 @@ import countDown from "@/components/countDown";
 import { accurateDecimal, openUrl, dateDiff, timeFormat } from "@/utils";
 import createCom from "./components/createComponents.vue";
 import Image from "@/components/imageView";
+
+import createEth from "@/assets/svg/user/create_eth.webp";
 export default {
   name: "UserCompetitions",
   components: {
@@ -479,6 +504,8 @@ export default {
       count: 0,
 
       showCreateCom: false,
+
+      createEthImg: createEth,
     };
   },
   computed: {

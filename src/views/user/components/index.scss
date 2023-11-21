@@ -15,7 +15,7 @@
   .nav_box {
     width: 10.25rem;
 
-    &>div+div {
+    & > div + div {
       margin-top: 0.625rem;
     }
   }
@@ -24,7 +24,6 @@
     width: 82.8125rem;
   }
 }
-
 
 .nav_item {
   height: 2.5rem;
@@ -41,8 +40,8 @@
   color: #a9a4b4;
   cursor: pointer;
   position: relative;
-  &.promotions_nav{
-    img{
+  &.promotions_nav {
+    img {
       width: 1.5rem;
     }
   }
@@ -94,22 +93,21 @@
   .wrapper_bg {
     background-image: none;
   }
-  
+
   .index_wrapper {
     width: 100%;
     padding: 0.5rem 1rem;
     box-sizing: border-box;
-  
+
     .nav_box {
       display: none;
     }
-  
+
     .page_box {
       width: 100%;
     }
   }
-  
-  
+
   .nav_item {
     height: 2.5rem;
     display: flex;
@@ -118,14 +116,14 @@
     background-color: #13151f;
     padding-left: 1.25rem;
     box-sizing: border-box;
-  
+
     font-size: 0.75rem;
     line-height: 1.4;
     text-align: left;
     color: #a9a4b4;
     cursor: pointer;
     position: relative;
-  
+
     .new_dot {
       position: absolute;
       top: 0.5rem;
@@ -137,31 +135,31 @@
       background-color: #df4328;
       z-index: 3;
     }
-  
+
     img {
       width: 1.25rem;
       height: auto;
       margin-right: 0.5rem;
-  
+
       &.default {
         display: block;
       }
-  
+
       &.active {
         display: none;
       }
     }
-  
+
     &.active,
     &:hover {
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       color: #13151f;
-  
+
       img {
         &.default {
           display: none;
         }
-  
+
         &.active {
           display: block;
         }

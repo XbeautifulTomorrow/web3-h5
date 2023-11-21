@@ -4,7 +4,6 @@
   background-repeat: no-repeat;
 }
 
-
 .airdrop_container {
   box-sizing: border-box;
   width: 95rem;
@@ -29,7 +28,7 @@
   z-index: 2;
   text-align: left;
 
-  &>div {
+  & > div {
     margin-top: 0.625rem;
   }
 
@@ -50,7 +49,12 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
   }
 
   .description {
@@ -78,19 +82,23 @@
 .border_bg {
   box-sizing: border-box;
   padding: 1px;
-  border-image-source: linear-gradient(145deg,
-      #ff25c2 0%,
-      rgba(0, 0, 0, 0) 30%,
-      rgba(0, 0, 0, 0) 75%,
-      #ff25c2 100%, );
+  border-image-source: linear-gradient(
+    145deg,
+    #ff25c2 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0) 75%,
+    #ff25c2 100%
+  );
   border-image-slice: 1;
   border-radius: 0.625rem;
   background-image: linear-gradient(135deg, #281d31, #281d31),
-    linear-gradient(145deg,
+    linear-gradient(
+      145deg,
       #ff25c2 0%,
       rgba(0, 0, 0, 0) 30%,
       rgba(0, 0, 0, 0) 75%,
-      #ff25c2 100%, );
+      #ff25c2 100%
+    );
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
@@ -157,7 +165,7 @@
       flex-direction: column;
       text-align: left;
 
-      &>div {
+      & > div {
         margin-top: 0.625rem;
       }
 
@@ -283,7 +291,7 @@
       border: solid 1px #363945;
       background-color: #13151f;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         line-height: 1.6;
         text-align: left;
@@ -297,7 +305,7 @@
     align-items: center;
     justify-content: space-between;
 
-    &>div+div {
+    & > div + div {
       margin-left: 1.875rem;
     }
 
@@ -320,7 +328,6 @@
         background-color: #292c36;
         color: white;
       }
-
 
       &.submit {
         background-image: linear-gradient(to top, #e3a406, #fbd851);
@@ -353,9 +360,14 @@
   border-radius: 0.5rem;
   border-style: solid;
   border-width: 1px;
-  border-image-source: linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  border-image-source: linear-gradient(
+    180deg,
+    #302449 30%,
+    rgba(228, 231, 245, 0) 70%
+  );
   border-image-slice: 1;
-  background-image: linear-gradient(to bottom, #1d0f36, #1d0f36), linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
+  background-image: linear-gradient(to bottom, #1d0f36, #1d0f36),
+    linear-gradient(180deg, #302449 30%, rgba(228, 231, 245, 0) 70%);
   background-origin: border-box;
   background-clip: content-box, border-box;
 
@@ -386,7 +398,7 @@
   display: flex;
   align-items: flex-start;
 
-  &>div:nth-child(2n+1) {
+  & > div:nth-child(2n + 1) {
     width: 3.75rem;
   }
 
@@ -411,7 +423,7 @@
   }
 }
 
-.public-button+.public-button {
+.public-button + .public-button {
   margin-left: 0;
   margin-top: 1.5rem;
 }
@@ -433,7 +445,7 @@
   .banner_l {
     text-align: left;
 
-    &>div {
+    & > div {
       margin-top: 0;
     }
 
@@ -457,13 +469,12 @@
     }
   }
 
-
   .taps_box {
     justify-content: center;
     flex-direction: column;
     padding-top: 0.75rem;
 
-    &>div+div {
+    & > div + div {
       margin-top: 0.5rem;
     }
 
@@ -502,7 +513,7 @@
       .user_box {
         max-width: 7.5rem;
 
-        &>div {
+        & > div {
           margin-top: 0;
         }
 
@@ -570,7 +581,6 @@
   }
 
   .countdown {
-
     .content {
       align-items: flex-start;
       flex-direction: column;
@@ -593,12 +603,11 @@
   }
 
   .countdown_time_box {
-    &>div:nth-child(2n+1) {
+    & > div:nth-child(2n + 1) {
       width: 1.75rem;
     }
 
     .countdown_item {
-
       .val {
         font-size: 1.125rem;
       }

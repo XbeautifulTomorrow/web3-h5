@@ -30,7 +30,10 @@ onUnmounted(() => {
 
 <template>
   <div class="wrap" ref="wrapRef">
-    <div class="scale" :style="`transform: scale(${state.ratio});transform-origin: ${state.origin}`">
+    <div
+      class="scale"
+      :style="`transform: scale(${state.ratio});transform-origin: ${state.origin}`"
+    >
       <div class="content">
         <slot />
       </div>

@@ -16,13 +16,13 @@ const raffleBoxesList = () => import("../views/home/mysteryBoxesList.vue");
 const FreeNFT = () => import("../views/home/nftTicketsInfo.vue");
 const nftTicketsList = () => import("../views/home/nftTicketsList.vue");
 const Snapshot = () => import("../views/snapshot/index.vue");
-const Airdrop = () => import(/* webpackChunkName: "Airdrop" */ "../views/Airdrop/index.vue");
-const FAQ = () => import(/* webpackChunkName: "FAQ" */ "../views/FAQ/index.vue");
-const toIntercept = () => import(/* webpackChunkName: "1020" */ "../views/1020/index.vue");
-const User = () => import(/* webpackChunkName: "user" */ "../views/user/index.vue");
-const warGame = () => import(/* webpackChunkName: "user" */ "../views/home/warGame/index.vue");
-const privacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/privacyPolicy.vue");
-const userAgreement = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/userAgreement.vue");
+const Airdrop = () => import("../views/Airdrop/index.vue");
+const FAQ = () => import("../views/FAQ/index.vue");
+const toIntercept = () => import("../views/1020/index.vue");
+const User = () => import("../views/user/index.vue");
+const warGame = () => import("../views/home/warGame/index.vue");
+const privacyPolicy = () => import("../views/privacyPolicy/privacyPolicy.vue");
+const userAgreement = () => import("../views/privacyPolicy/userAgreement.vue");
 
 //2. 路由配置
 const routes = [
@@ -199,7 +199,7 @@ router.beforeEach(async (to, from, next) => {
     "FreeNFT",
     "freeNFT",
     "TokenWar",
-    "tokenWar"
+    "tokenWar",
   ];
 
   const userStore = useUserStore();

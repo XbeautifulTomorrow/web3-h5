@@ -1,41 +1,41 @@
 @font-face {
-  font-family: 'LeagueSpartan';
-  src: url('./LeagueSpartan-Bold.ttf');
+  font-family: "LeagueSpartan";
+  src: url("./LeagueSpartan-Bold.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Tomorrow';
-  src: url('./Tomorrow-Bold.ttf');
+  font-family: "Tomorrow";
+  src: url("./Tomorrow-Bold.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Medium';
-  src: url('./Inter-Medium.ttf');
+  font-family: "Medium";
+  src: url("./Inter-Medium.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Regular';
-  src: url('./Inter-Regular.ttf');
+  font-family: "Regular";
+  src: url("./Inter-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'BlenderPro';
-  src: url('./BlenderPro-Bold.otf');
+  font-family: "BlenderPro";
+  src: url("./BlenderPro-Bold.otf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Bungee';
-  src: url('./Bungee-Regular.ttf');
+  font-family: "Bungee";
+  src: url("./Bungee-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }

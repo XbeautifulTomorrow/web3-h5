@@ -3,12 +3,20 @@
   <el-image class="lottery-img" :src="src">
     <template #placeholder>
       <div class="image-slot">
-        <img src="@/assets/img/lottery/default_nft.webp" alt="" class="lottery-placeholder-img" />
+        <img
+          src="@/assets/img/lottery/default_nft.webp"
+          alt=""
+          class="lottery-placeholder-img"
+        />
       </div>
     </template>
     <template #error>
       <div class="image-slot">
-        <img src="@/assets/img/lottery/default_nft.webp" alt="" class="lottery-placeholder-img" />
+        <img
+          src="@/assets/img/lottery/default_nft.webp"
+          alt=""
+          class="lottery-placeholder-img"
+        />
       </div>
     </template>
   </el-image>
@@ -38,7 +46,7 @@ defineProps({
   :deep(.el-image__inner) {
     object-fit: cover;
   }
-  img{
+  img {
     object-fit: cover;
   }
 }

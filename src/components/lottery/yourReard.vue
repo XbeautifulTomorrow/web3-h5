@@ -11,22 +11,40 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
+        <img
+          class="public-dialog-header-icon"
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-title">{{ $t("lottery.notice") }}</h2>
-      <p class="public-dialog-illustrate">{{ sold?.nftType == "EXTERNAL" ? $t("lottery.loading_tip2") : $t("lottery.tips3") }}</p>
+      <p class="public-dialog-illustrate">
+        {{
+          sold?.nftType == "EXTERNAL"
+            ? $t("lottery.loading_tip2")
+            : $t("lottery.tips3")
+        }}
+      </p>
       <h3 class="public-dialog-title-other">{{ $t("lottery.your_reward") }}</h3>
       <div class="public-dialog-img">
         <image-view class="public-dialog-portrait" :src="sold?.nftImg" />
-        <span class="public-dialog-list-result waiting" v-if="sold?.nftType == 'EXTERNAL'">
+        <span
+          class="public-dialog-list-result waiting"
+          v-if="sold?.nftType == 'EXTERNAL'"
+        >
           {{ $t("lottery.waiting") }}
         </span>
       </div>
       <p class="public-dialog-club">{{ sold?.seriesName }}</p>
       <div class="public-dialog-pointer-box" v-if="sold?.point > 0">
-        <img class="public-dialog-pointer-icon" src="@/assets/svg/user/icon_point.svg" alt="" />
+        <img
+          class="public-dialog-pointer-icon"
+          src="@/assets/svg/user/icon_point.svg"
+          alt=""
+        />
         <span class="public-dialog-total-number">
           {{ sold?.point }}
         </span>
@@ -34,7 +52,11 @@
       <el-button class="public-button margin-t" @click="unboxAgainFunc">
         {{ $t("lottery.unBox_again") }}
         <p class="public-dialog-price-box">
-          <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+          <img
+            class="public-dialog-icon"
+            src="@/assets/svg/user/icon_usdt_gold.svg"
+            alt=""
+          />
           <span v-priceFormat="blindPrice"></span>
         </p>
       </el-button>
@@ -75,7 +97,7 @@ const unboxAgainFunc = () => {
 .public-dialog-club {
   font-size: 1.375rem;
   color: #4473eb;
-  font-weight:bold;
+  font-weight: bold;
 }
 .public-dialog-img {
   position: relative;

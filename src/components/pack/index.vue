@@ -13,7 +13,7 @@
 </template>
 <script>
 export default {
-  name: 'PackCom',
+  name: "PackCom",
   props: {
     height: {
       type: Number,
@@ -21,7 +21,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#fff',
+      default: "#fff",
     },
     borderRadius: {
       type: Number,
@@ -33,15 +33,15 @@ export default {
     },
     className: {
       type: String,
-      default: 'pack-border',
+      default: "pack-border",
     },
     hoverClssName: {
       type: String,
-      default: 'pack-bg',
+      default: "pack-bg",
     },
     text: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   data() {
@@ -62,12 +62,12 @@ export default {
     },
     mouseleaveFun() {
       if (this.hover) {
-        this.classNamePack = this.classNamePack.replace(this.hoverClssName, '');
+        this.classNamePack = this.classNamePack.replace(this.hoverClssName, "");
       }
     },
     clickFun(e) {
       if (e) return;
-      this.$emit('click');
+      this.$emit("click");
     },
   },
 };
@@ -99,7 +99,7 @@ export default {
   border: solid 2px #fff;
   background-image: linear-gradient(0, #b164f6 15%, #026aa1 58%, #42e2f0 79%);
 }
-.pack-com-conyent{
+.pack-com-conyent {
   padding: 0 20px;
 }
 </style>

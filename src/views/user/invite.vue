@@ -1,5 +1,7 @@
 <template>
-  <div :class="['my_invite_wrapper', activeType == 'referred_user' && 'small_bg']">
+  <div
+    :class="['my_invite_wrapper', activeType == 'referred_user' && 'small_bg']"
+  >
     <div class="invite_text">
       <img src="@/assets/svg/user/icon_referrals.svg" alt="" />
       <span>{{ $t("user.referrals") }}</span>
@@ -29,7 +31,12 @@
       </div>
       <div class="create_invite_code">
         <div class="create_title">{{ $t("user.createTitle") }}</div>
-        <el-input class="create_input" @blur="onVerify()" v-model="inviteCode" :placeholder="$t('user.createEnterHint')">
+        <el-input
+          class="create_input"
+          @blur="onVerify()"
+          v-model="inviteCode"
+          :placeholder="$t('user.createEnterHint')"
+        >
           <template #append>
             <div class="create_btn" @click="createInvite()">
               {{ $t("user.create") }}
@@ -41,50 +48,139 @@
       <div class="statistics_panel">
         <div class="statistics_title">{{ $t("airdrop.yourStatistics") }}</div>
         <div class="statistics_box">
-          <div class="statistics_item" v-for="(item, index) in statisticsRow" :key="index">
+          <div
+            class="statistics_item"
+            v-for="(item, index) in statisticsRow"
+            :key="index"
+          >
             <div class="statistics_type">
               <div class="title">{{ $t("user." + item.statisticsType) }}</div>
-              <div class="val" v-if="item.statisticsType == 'CLICKS' || item.statisticsType == 'REFERRALS'">{{ item.totalData }}</div>
+              <div
+                class="val"
+                v-if="
+                  item.statisticsType == 'CLICKS' ||
+                  item.statisticsType == 'REFERRALS'
+                "
+              >
+                {{ item.totalData }}
+              </div>
               <div class="val" v-priceFormat="item.totalData" v-else></div>
             </div>
             <div class="statistics_time">
               <div class="title">{{ $t("airdrop.toDay") }}</div>
-              <div class="val" v-if="item.statisticsType == 'CLICKS' || item.statisticsType == 'REFERRALS'">{{ item.todayData }}</div>
+              <div
+                class="val"
+                v-if="
+                  item.statisticsType == 'CLICKS' ||
+                  item.statisticsType == 'REFERRALS'
+                "
+              >
+                {{ item.todayData }}
+              </div>
               <div class="val" v-priceFormat="item.todayData" v-else></div>
             </div>
             <div class="statistics_time">
               <div class="title">{{ $t("airdrop.yesterday") }}</div>
-              <div class="val" v-if="item.statisticsType == 'CLICKS' || item.statisticsType == 'REFERRALS'">{{ item.yesterdayData }}</div>
+              <div
+                class="val"
+                v-if="
+                  item.statisticsType == 'CLICKS' ||
+                  item.statisticsType == 'REFERRALS'
+                "
+              >
+                {{ item.yesterdayData }}
+              </div>
               <div class="val" v-priceFormat="item.yesterdayData" v-else></div>
             </div>
             <div class="statistics_time">
               <div class="title">{{ $t("airdrop.thisMonth") }}</div>
-              <div class="val" v-if="item.statisticsType == 'CLICKS' || item.statisticsType == 'REFERRALS'">{{ item.thisMonthData }}</div>
+              <div
+                class="val"
+                v-if="
+                  item.statisticsType == 'CLICKS' ||
+                  item.statisticsType == 'REFERRALS'
+                "
+              >
+                {{ item.thisMonthData }}
+              </div>
               <div class="val" v-priceFormat="item.thisMonthData" v-else></div>
             </div>
             <div class="statistics_time">
               <div class="title">{{ $t("airdrop.lastMonth") }}</div>
-              <div class="val" v-if="item.statisticsType == 'CLICKS' || item.statisticsType == 'REFERRALS'">{{ item.lastMonthData }}</div>
+              <div
+                class="val"
+                v-if="
+                  item.statisticsType == 'CLICKS' ||
+                  item.statisticsType == 'REFERRALS'
+                "
+              >
+                {{ item.lastMonthData }}
+              </div>
               <div class="val" v-priceFormat="item.lastMonthData" v-else></div>
             </div>
           </div>
         </div>
-        <el-table :data="inviteList" height="23.5rem" class="table_container" style="width: 100%">
-          <el-table-column prop="traAmount" :label="$t('user.default')" align="center" show-overflow-tooltip>
+        <el-table
+          :data="inviteList"
+          height="23.5rem"
+          class="table_container"
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="traAmount"
+            :label="$t('user.default')"
+            align="center"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              <img class="setCode" v-if="scope.row.defaultStatus == 'TRUE'" src="@/assets/svg/icon_choose_active.svg" alt="" />
-              <img class="setCode" v-else @click="setDefault(scope.row)" src="@/assets/svg/icon_choose.svg" alt="" />
+              <img
+                class="setCode"
+                v-if="scope.row.defaultStatus == 'TRUE'"
+                src="@/assets/svg/icon_choose_active.svg"
+                alt=""
+              />
+              <img
+                class="setCode"
+                v-else
+                @click="setDefault(scope.row)"
+                src="@/assets/svg/icon_choose.svg"
+                alt=""
+              />
             </template>
           </el-table-column>
-          <el-table-column prop="inviteCode" :label="$t('user.code')" align="center" show-overflow-tooltip />
-          <el-table-column prop="receiveAmount" :label="$t('user.claimed')" align="center" show-overflow-tooltip />
-          <el-table-column prop="invitePeople" :label="$t('user.refs')" align="center" show-overflow-tooltip />
+          <el-table-column
+            prop="inviteCode"
+            :label="$t('user.code')"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="receiveAmount"
+            :label="$t('user.claimed')"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="invitePeople"
+            :label="$t('user.refs')"
+            align="center"
+            show-overflow-tooltip
+          />
           <el-table-column label="%" align="center" show-overflow-tooltip>
             <template #default>
-              {{ `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(100)}%` }}
+              {{
+                `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(
+                  100,
+                )}%`
+              }}
             </template>
           </el-table-column>
-          <el-table-column prop="traAmount" :label="$t('user.default')" align="center" show-overflow-tooltip>
+          <el-table-column
+            prop="traAmount"
+            :label="$t('user.default')"
+            align="center"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               <div class="consumption_box">
                 <span v-priceFormat="scope.row.traAmount"></span>
@@ -92,9 +188,18 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.claim')" width="200" align="center" show-overflow-tooltip>
+          <el-table-column
+            :label="$t('user.claim')"
+            width="200"
+            align="center"
+            show-overflow-tooltip
+          >
             <template #default="scope">
-              <div v-if="extraMoney(scope.row) > 0" :class="['claim_box']" @click="handleReceive(scope.row)">
+              <div
+                v-if="extraMoney(scope.row) > 0"
+                :class="['claim_box']"
+                @click="handleReceive(scope.row)"
+              >
                 <span>{{ $t("user.claim") }}</span>
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                 <span>{{ accurateDecimal(extraMoney(scope.row), 2) }}</span>
@@ -106,14 +211,36 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.copy')" align="center" fixed="right">
+          <el-table-column
+            :label="$t('user.copy')"
+            align="center"
+            fixed="right"
+          >
             <template #default="scope">
               <div class="copy_btn">
-                <el-tooltip class="item" effect="dark" content="Copy" placement="top">
-                  <img src="@/assets/svg/user/icon_invite_copy.svg" @click="copyInviteLink(scope.row.inviteCode)" alt="" />
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content="Copy"
+                  placement="top"
+                >
+                  <img
+                    src="@/assets/svg/user/icon_invite_copy.svg"
+                    @click="copyInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="Share on Twitter" placement="top">
-                  <img src="@/assets/svg/airdrop/icon_twitter_btn.svg" @click="shareInviteLink(scope.row.inviteCode)" alt="" />
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content="Share on Twitter"
+                  placement="top"
+                >
+                  <img
+                    src="@/assets/svg/airdrop/icon_twitter_btn.svg"
+                    @click="shareInviteLink(scope.row.inviteCode)"
+                    alt=""
+                  />
                 </el-tooltip>
               </div>
             </template>
@@ -122,10 +249,30 @@
       </div>
     </div>
     <div class="referred_user_box" v-else>
-      <el-table :data="detailList" class="table_container" height="26.5rem" style="width: 100%">
-        <el-table-column prop="inviteCode" :label="$t('user.referralCode')" align="center" show-overflow-tooltip />
-        <el-table-column prop="userName" :label="$t('user.userName')" align="center" show-overflow-tooltip />
-        <el-table-column prop="traAmount" :label="$t('user.default')" align="center" show-overflow-tooltip>
+      <el-table
+        :data="detailList"
+        class="table_container"
+        height="26.5rem"
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="inviteCode"
+          :label="$t('user.referralCode')"
+          align="center"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="userName"
+          :label="$t('user.userName')"
+          align="center"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="traAmount"
+          :label="$t('user.default')"
+          align="center"
+          show-overflow-tooltip
+        >
           <template #default="scope">
             <div class="consumption_box">
               <span v-priceFormat="scope.row.traAmount"></span>
@@ -133,7 +280,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="rebatesAmount" :label="$t('user.rewards')" align="center" show-overflow-tooltip>
+        <el-table-column
+          prop="rebatesAmount"
+          :label="$t('user.rewards')"
+          align="center"
+          show-overflow-tooltip
+        >
           <template #default="scope">
             <div class="consumption_box">
               <span v-priceFormat="scope.row.rebatesAmount"></span>
@@ -141,7 +293,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" :label="$t('user.date')" align="center" show-overflow-tooltip>
+        <el-table-column
+          prop="createTime"
+          :label="$t('user.date')"
+          align="center"
+          show-overflow-tooltip
+        >
           <template #default="scope">
             {{ timeFormat(scope.row.createTime) }}
           </template>
@@ -325,12 +482,16 @@ export default {
     },
     // 计算剩余未领取佣金
     extraMoney(event) {
-      const receiveBalance = Number(new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0));
+      const receiveBalance = Number(
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
+      );
       return receiveBalance;
     },
     // 领取佣金
     async handleReceive(event) {
-      const receiveBalance = Number(new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0));
+      const receiveBalance = Number(
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
+      );
       if (!receiveBalance) {
         this.$message.error(t("user.receivedHint"));
         return;
@@ -365,7 +526,11 @@ export default {
       const inviteText = this.setting.inviteText.replace(/,/g, "\n");
 
       // 构建推特的分享链接
-      var twitterUrl = "https://twitter.com/share?text=" + encodeURIComponent(inviteText) + "&url=" + link;
+      var twitterUrl =
+        "https://twitter.com/share?text=" +
+        encodeURIComponent(inviteText) +
+        "&url=" +
+        link;
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },

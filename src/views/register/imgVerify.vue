@@ -1,8 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <el-dialog v-model="showVerify" destroy-on-close :close-on-click-modal="false" :show-close="false"
-      :align-center="true" class="public-dialog" width="34.375rem" :before-close="closeDialogFun">
+    <el-dialog
+      v-model="showVerify"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      width="34.375rem"
+      :before-close="closeDialogFun"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
           <el-icon>
@@ -16,9 +24,21 @@
           <div class="email">&nbsp;{{ email }}</div>
         </div>
         <div class="auth_code">
-          <el-input v-model="codeVerify" class="public-input" :placeholder="$t('common.verifyEnter')" />
-          <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
-          <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
+          <el-input
+            v-model="codeVerify"
+            class="public-input"
+            :placeholder="$t('common.verifyEnter')"
+          />
+          <img
+            class="verify_img"
+            :src="codeImg"
+            alt=""
+            v-show="codeImg"
+            @click="refreshAuthimage()"
+          />
+          <div class="refresh_btn" @click="refreshAuthimage()">
+            {{ $t("common.refresh") }}
+          </div>
         </div>
         <el-button class="public-button form-button" @click="changeTypeFun()">
           {{ $t("common.confirm") }}
@@ -40,15 +60,15 @@ const email = ref(getSessionStore("email"));
 const refreshAuthimage = async () => {
   const res = await getAuthimage();
   if (res) {
-    sessionStorage.setItem('verify', res.headers.verify);
+    sessionStorage.setItem("verify", res.headers.verify);
 
     let blob = new Blob([res.data], {
-      type: res.headers.contentType
+      type: res.headers.contentType,
     });
 
     codeImg.value = window.URL.createObjectURL(blob);
   }
-}
+};
 
 const closeDialogFun = () => {
   emit("closeFun");
@@ -56,16 +76,15 @@ const closeDialogFun = () => {
 
 const changeTypeFun = () => {
   emit("changeTypeFun", codeVerify.value);
-}
+};
 
 onMounted(() => {
   refreshAuthimage();
 });
 
 defineExpose({
-  refreshAuthimage
-})
-
+  refreshAuthimage,
+});
 </script>
 <style lang="scss" scoped>
 .verify_text {
@@ -123,7 +142,6 @@ defineExpose({
   }
 
   .auth_code {
-
     .public-input {
       flex: 1;
     }

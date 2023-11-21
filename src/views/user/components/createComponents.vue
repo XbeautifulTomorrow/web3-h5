@@ -41,16 +41,16 @@
             v-if="operatingType == 'NFT'"
             :src="competitionNft?.img"
           />
-          <Image
-            fit="cover"
-            class="nft_img"
-            v-else
-            :src="require('@/assets/svg/user/create_eth.webp')"
-          />
+          <Image fit="cover" class="nft_img" v-else :src="createEthImg" />
         </div>
         <div class="nft_info" v-if="operatingType == 'NFT'">
           <div class="nft_name">{{ competitionNft?.name }}</div>
-          <div class="nft_id text-ellipsis" v-if="competitionNft?.name.indexOf(competitionNft?.tokenId)==-1">#{{ competitionNft?.tokenId }}</div>
+          <div
+            class="nft_id text-ellipsis"
+            v-if="competitionNft?.name.indexOf(competitionNft?.tokenId) == -1"
+          >
+            #{{ competitionNft?.tokenId }}
+          </div>
         </div>
         <div class="nft_info" v-else>
           <div class="nft_name">{{ operatingType }}</div>
@@ -66,21 +66,16 @@
           <div class="input_label">
             <p>
               {{
-              operatingType == 'NFT'
-                ? $t('user.setPrice')
-                : $t('user.totalSupply')
-            }}
+                operatingType == "NFT"
+                  ? $t("user.setPrice")
+                  : $t("user.totalSupply")
+              }}
             </p>
             <p class="balance_box" v-if="operatingType !== 'NFT'">
               {{ $t("user.available") }} {{ ethBalance.toFixed(4) + " ETH" }}
             </p>
           </div>
-          <el-form-item
-            label=""
-            prop="price"
-            class="total_price_box"
-          >
-            
+          <el-form-item label="" prop="price" class="total_price_box">
             <div class="choose_price" v-if="operatingType == 'NFT'">
               <div
                 class="price_item"
@@ -129,11 +124,7 @@
           <!-- <div class="input_label">
             {{$t("user.setPrice")}}
           </div> -->
-          <el-form-item
-            label=""
-            prop="usdtPrice"
-            v-if="operatingType == 'ETH'"
-          >
+          <el-form-item label="" prop="usdtPrice" v-if="operatingType == 'ETH'">
             <el-input v-model="competitionForm.usdtPrice" type="number" min="0">
               <template #prefix>
                 <img
@@ -379,7 +370,6 @@
                 <p class="deposit_btn" @click="showLink = true">DEPOSIT NFT</p>
               </div>
             </div>
-            
           </div>
           <div class="pagination-box" v-if="count > size">
             <el-pagination
@@ -547,7 +537,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
@@ -570,11 +560,15 @@ import wallet from "../../wallet/index";
 import { i18n } from "@/locales";
 import { accurateDecimal } from "@/utils";
 const { t } = i18n.global;
+import usdImg from "@/assets/svg/user/icon_usdt_gold.svg"; // usdt
+import eth from "@/assets/svg/user/coin/icon_eth.svg"; // eth
+import createEth from "@/assets/svg/user/create_eth.webp";
+
 export default {
   name: "modifyName",
   components: {
     Image,
-    wallet
+    wallet,
   },
   data() {
     return {
@@ -624,7 +618,9 @@ export default {
       },
 
       exchangeRate: null,
-      showLink:false
+      showLink: false,
+
+      createEthImg: createEth,
     };
   },
   computed: {
@@ -635,7 +631,7 @@ export default {
     // },
     ethBalance() {
       const headerStore = useHeaderStore();
-      return headerStore.getCoinBalance('ETH');
+      return headerStore.getCoinBalance("ETH");
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -1045,7 +1041,7 @@ export default {
     formatText(event) {
       if (this.operatingType == "NFT") {
         if (event == 1) {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${Number(
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 0.8;'>${Number(
             accurateDecimal(this.competitionForm?.price || 0, 2)
           ).toLocaleString()}</span>`;
         } else if (event == 2) {
@@ -1054,17 +1050,17 @@ export default {
             ? `${competitionNft?.name} #${competitionNft?.tokenId}`
             : `${competitionNft?.name}`;
         } else {
-          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${Number(
+          return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 1;'>${Number(
             accurateDecimal(this.competitionNft?.floorPrice || 0, 2)
           ).toLocaleString()}</span>`;
         }
       } else {
         if (event == 1) {
-          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${Number(
+          return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 0.8;'>${Number(
             accurateDecimal(this.competitionForm.usdtPrice || 0, 2)
           ).toLocaleString()}</span>`;
         } else {
-          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/coin/icon_eth.svg")}" /> <span style='line-height: 0.8;'>${Number(
+          return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${eth}" /> <span style='line-height: 0.8;'>${Number(
             accurateDecimal(this.competitionForm.price || 0, 2)
           ).toLocaleString()}</span>`;
         }
@@ -1223,7 +1219,7 @@ export default {
   },
 };
 </script>
-    
+
 <style lang="scss" scoped>
 @import "./createComponents.scss";
 </style>

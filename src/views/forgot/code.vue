@@ -1,23 +1,55 @@
 <template>
-  <el-form :label-width="0" :model="formData" style="max-width: 100%" ref="codeForm" class="code-form" :inline="true">
-    <el-form-item class="code-list" label="" v-for="(item, index) in formData.code"
-      :key="`code-${index}-${autofocus[index]}`" @keydown.delete="myKeydown">
-      <input-number v-model.number="formData.code[index]" :autofocus="autofocus[index]" :maxlength="1" :ref="inputEle" />
+  <el-form
+    :label-width="0"
+    :model="formData"
+    style="max-width: 100%"
+    ref="codeForm"
+    class="code-form"
+    :inline="true"
+  >
+    <el-form-item
+      class="code-list"
+      label=""
+      v-for="(item, index) in formData.code"
+      :key="`code-${index}-${autofocus[index]}`"
+      @keydown.delete="myKeydown"
+    >
+      <input-number
+        v-model.number="formData.code[index]"
+        :autofocus="autofocus[index]"
+        :maxlength="1"
+        :ref="inputEle"
+      />
     </el-form-item>
     <p class="explain-text">
       {{ $t("login.verificationHint") }}
     </p>
-    <el-button :class="['public-button', { 'cancel-button': !isAgain }]" v-loading="loading" @click="sendVerify()">
+    <el-button
+      :class="['public-button', { 'cancel-button': !isAgain }]"
+      v-loading="loading"
+      @click="sendVerify()"
+    >
       {{ $t("login.sendAgain") }}
       <template v-if="!isAgain"> ({{ time }}) </template>
     </el-button>
-    <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
-    <error-tips v-if="showErr" :isReturn="false" @closeFun="handleClose()"></error-tips>
-    <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="codeFun" @closeFun="handleClose()"></imgVerify>
+    <div class="tips_btn" @click="showDialog()">
+      {{ $t("login.notReceived") }}
+    </div>
+    <error-tips
+      v-if="showErr"
+      :isReturn="false"
+      @closeFun="handleClose()"
+    ></error-tips>
+    <imgVerify
+      ref="childComp"
+      v-if="showVerify"
+      @changeTypeFun="codeFun"
+      @closeFun="handleClose()"
+    ></imgVerify>
   </el-form>
 </template>
 <script>
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { reactive, watch, toRefs, onMounted, ref, onBeforeUnmount } from "vue";
 import { ElMessage } from "element-plus";
@@ -31,7 +63,7 @@ export default {
   components: {
     InputNumber,
     errorTips,
-    imgVerify
+    imgVerify,
   },
   props: {
     email: {
@@ -67,11 +99,11 @@ export default {
 
     const showDialog = () => {
       showErr.value = true;
-    }
+    };
     const handleClose = () => {
-      showErr.value = false
+      showErr.value = false;
       showVerify.value = false;
-    }
+    };
 
     onMounted(() => {
       initializationFun();
@@ -159,7 +191,7 @@ export default {
       const res = await getCaptcha({
         type: "update_password",
         email: props.email,
-        code: code
+        code: code,
       });
       if (res && res.code === 200) {
         ElMessage({
@@ -221,7 +253,7 @@ export default {
             if (value.length > 0) {
               if (value.length > 1) {
                 state.formData.code[i] = Number(value.charAt(0));
-                return
+                return;
               }
               state.formData.code[i] = Number(value.charAt(value.length - 1));
             }
@@ -229,7 +261,7 @@ export default {
         }
         checkCaptchaFun();
       },
-      { deep: true }
+      { deep: true },
     );
     return {
       ...toRefs(state),
@@ -244,7 +276,7 @@ export default {
       codeForm,
       inputEle,
       myKeydown,
-      sendVerify
+      sendVerify,
     };
   },
 };
@@ -285,13 +317,12 @@ export default {
     }
   }
 
-  .code-list+.code-list {
+  .code-list + .code-list {
     margin-left: 1.25rem;
   }
 }
 
 .explain-text {
-
   font-size: 1rem;
   width: 100%;
   margin-bottom: 2.5rem;
@@ -337,7 +368,7 @@ export default {
       }
     }
 
-    .code-list+.code-list {
+    .code-list + .code-list {
       margin-left: 0.5rem;
     }
   }

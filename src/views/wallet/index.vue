@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-dialog v-model="newValue" destroy-on-close width="43.75rem" class="public-dialog recharge-coin"
-      :show-close="false" :align-center="true" :before-close="closeDialogFun" :append-to-body="true">
+    <el-dialog
+      v-model="newValue"
+      destroy-on-close
+      width="43.75rem"
+      class="public-dialog recharge-coin"
+      :show-close="false"
+      :align-center="true"
+      :before-close="closeDialogFun"
+      :append-to-body="true"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
           <el-icon>
@@ -11,26 +19,38 @@
       </template>
       <h2 class="wallet-title">{{ title }} NFT'S</h2>
       <p class="wallet-text">Choose a wallet connection method</p>
-      <Link class="login-margin-top" v-loading="connectType == 1" :src="require('@/assets/svg/user/meta_mask.svg')"
-        text="MetaMask" :showIcon="connectType == 1" link="home" @click="connectMetaMask" />
-      <Link class="login-margin-top" v-loading="connectType == 2" :src="require('@/assets/svg/user/wallet_connect.svg')"
-        text="WalletConnect" :showIcon="connectType == 2" link="https://translate.google.com" @click="connectWallet()" />
+      <Link
+        class="login-margin-top"
+        v-loading="connectType == 1"
+        :src="require('@/assets/svg/user/meta_mask.svg')"
+        text="MetaMask"
+        :showIcon="connectType == 1"
+        link="home"
+        @click="connectMetaMask"
+      />
+      <Link
+        class="login-margin-top"
+        v-loading="connectType == 2"
+        :src="require('@/assets/svg/user/wallet_connect.svg')"
+        text="WalletConnect"
+        :showIcon="connectType == 2"
+        link="https://translate.google.com"
+        @click="connectWallet()"
+      />
     </el-dialog>
   </div>
 </template>
 <script>
 import Web3 from "web3";
-import { EthereumProvider } from '@walletconnect/ethereum-provider';
-import { i18n } from '@/locales';
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { BigNumber } from "bignumber.js";
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
 
-import {
-  getTheUserSPayoutAddress,
-} from "@/services/api/user";
+import { getTheUserSPayoutAddress } from "@/services/api/user";
 import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet.js";
 
@@ -54,7 +74,7 @@ export default {
     return {
       web3: null,
       connectType: 0,
-      connectProvider: null
+      connectProvider: null,
     };
   },
   computed: {
@@ -130,50 +150,53 @@ export default {
       _that.connectType = 2;
       //  Create WalletConnect Provider
       this.connectProvider = await EthereumProvider.init({
-        projectId: process.env.VUE_APP_PROJECT_ID,
+        projectId: import.meta.env.VITE_APP_PROJECT_ID,
         chains: [1, 5],
         optionalMethods: ["eth_signTypedData_v4"],
         showQrModal: true,
         qrModalOptions: {
-          themeMode: 'dark',
+          themeMode: "dark",
           themeVariables: {
-            "--wcm-z-index": 3100
-          }
-        }
+            "--wcm-z-index": 3100,
+          },
+        },
       });
 
-      this.connectProvider.on('disconnect', (event) => {
+      this.connectProvider.on("disconnect", (event) => {
         console.log(event);
         _that.connectType = 0;
       });
 
       //  Enable session (triggers QR Code modal)
-      await this.connectProvider.enable().then(async (accounts) => {
-        const web3 = new Web3(this.connectProvider);
-        //如果用户同意了登录请求，你就可以拿到用户的账号
-        web3.eth.defaultAccount = accounts[0];
-        _that.walletStore.setWeb3(web3);
-        _that.web3 = web3;
-        const headerStore = useHeaderStore();
-        const _ethBalance = new BigNumber(
-          await _that.web3.eth.getBalance(accounts[0])
-        )
-          .div(1e18)
-          .toFixed(4);
-        headerStore.setBalance(_ethBalance);
-        headerStore.setWallet(accounts[0]);
-        this.connectType = 0;
-        _that.login();
-      }).catch((reason) => {
-        this.connectType = 0;
-        //如果用户拒绝了登录请求
-        if (reason === "User rejected provider access") {
-          // 用户拒绝登录后执行语句；
-        } else {
-          // 本不该执行到这里，但是真到这里了，说明发生了意外
-          ElMessage.error(t("airdrop.failedTips"));
-        }
-      })
+      await this.connectProvider
+        .enable()
+        .then(async (accounts) => {
+          const web3 = new Web3(this.connectProvider);
+          //如果用户同意了登录请求，你就可以拿到用户的账号
+          web3.eth.defaultAccount = accounts[0];
+          _that.walletStore.setWeb3(web3);
+          _that.web3 = web3;
+          const headerStore = useHeaderStore();
+          const _ethBalance = new BigNumber(
+            await _that.web3.eth.getBalance(accounts[0])
+          )
+            .div(1e18)
+            .toFixed(4);
+          headerStore.setBalance(_ethBalance);
+          headerStore.setWallet(accounts[0]);
+          this.connectType = 0;
+          _that.login();
+        })
+        .catch((reason) => {
+          this.connectType = 0;
+          //如果用户拒绝了登录请求
+          if (reason === "User rejected provider access") {
+            // 用户拒绝登录后执行语句；
+          } else {
+            // 本不该执行到这里，但是真到这里了，说明发生了意外
+            ElMessage.error(t("airdrop.failedTips"));
+          }
+        });
     },
     getTheUserBalanceInfo() {
       this.headerStoreStore.getTheUserBalanceApi();

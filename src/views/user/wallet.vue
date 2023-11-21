@@ -20,9 +20,12 @@
             <div class="num">
               <span>
                 {{
-                  Number(accurateDecimal(usdtBalance, 2)).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                  }) || 0
+                  Number(accurateDecimal(usdtBalance, 2)).toLocaleString(
+                    undefined,
+                    {
+                      minimumFractionDigits: 2,
+                    }
+                  ) || 0
                 }}
               </span>
               <span>USDT</span>
@@ -32,39 +35,59 @@
             <div class="label">{{ $t("user.assetEstimate") }}</div>
             <div class="num">
               <span>
-                {{ Number(accurateDecimal(ethBalance, 2)).toLocaleString() || 0 }}
+                {{
+                  Number(accurateDecimal(ethBalance, 2)).toLocaleString() || 0
+                }}
               </span>
               <span>USD</span>
             </div>
           </div>
         </div>
         <div class="balance_item_r not-select">
-          <span class="details show_other_btn" v-if="!showOther" @click="showOther = !showOther">
+          <span
+            class="details show_other_btn"
+            v-if="!showOther"
+            @click="showOther = !showOther"
+          >
             {{ $t("user.showAllCoin") }}
           </span>
-          <span class="details show_other_btn" v-if="showOther" @click="showOther = !showOther">
+          <span
+            class="details show_other_btn"
+            v-if="showOther"
+            @click="showOther = !showOther"
+          >
             {{ $t("user.hideAllCoin") }}
           </span>
         </div>
       </div>
       <template v-if="showOther">
-        <div class="balance_item" v-for="(item, index) in balanceList" :key="index">
+        <div
+          class="balance_item"
+          v-for="(item, index) in balanceList"
+          :key="index"
+        >
           <div class="balance_item_l">
             <img :src="getCoin(item.coinName)" alt="" />
             <div class="num">
               <div class="balance_val">
                 <span v-if="item.coinName != 'USDT'">
                   {{
-                    Number(accurateDecimal(item.balance, 4)).toLocaleString(undefined, {
-                      minimumFractionDigits: 4,
-                    })
+                    Number(accurateDecimal(item.balance, 4)).toLocaleString(
+                      undefined,
+                      {
+                        minimumFractionDigits: 4,
+                      }
+                    )
                   }}
                 </span>
                 <span v-else>
                   {{
-                    Number(accurateDecimal(item.balance, 2)).toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                    })
+                    Number(accurateDecimal(item.balance, 2)).toLocaleString(
+                      undefined,
+                      {
+                        minimumFractionDigits: 2,
+                      }
+                    )
                   }}
                 </span>
                 <span class="balance_convert">
@@ -75,7 +98,12 @@
             </div>
           </div>
           <div class="balance_item_r">
-            <img class="convert_btn" src="@/assets/svg/user/icon_exchange.svg" alt="" @click="showRechargeFunc(3)" />
+            <img
+              class="convert_btn"
+              src="@/assets/svg/user/icon_exchange.svg"
+              alt=""
+              @click="showRechargeFunc(3)"
+            />
           </div>
         </div>
       </template>
@@ -125,9 +153,17 @@
       </div>
       <template v-if="coin != 'CONVERT'">
         <el-table :data="historyData" class="table_container">
-          <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1">
+          <el-table-column
+            prop="logType"
+            :label="$t('user.balanceTabel1')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
             <template #default="scope">
-              {{ scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType }}
+              {{
+                scope.row.logType == "DEPOST" ? "DEPOSIT" : scope.row.logType
+              }}
             </template>
           </el-table-column>
           <el-table-column
@@ -139,20 +175,45 @@
             key="2"
             show-overflow-tooltip
           />
-          <el-table-column prop="tokenId" v-if="coin == 'NFT'" min-width="100" label="TOKEN ID" align="center" key="3">
+          <el-table-column
+            prop="tokenId"
+            v-if="coin == 'NFT'"
+            min-width="100"
+            label="TOKEN ID"
+            align="center"
+            key="3"
+          >
             <template #default="scope">
               {{ `#${scope.row.tokenId}` }}
             </template>
           </el-table-column>
-          <el-table-column prop="serviceFee" v-if="coin == 'NFT'" min-width="100" :label="$t('user.balanceTabel8')" align="center" key="4">
+          <el-table-column
+            prop="serviceFee"
+            v-if="coin == 'NFT'"
+            min-width="100"
+            :label="$t('user.balanceTabel8')"
+            align="center"
+            key="4"
+          >
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ scope.row.serviceFee || "--" }}</span>
-                <img v-if="scope.row.serviceFee" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <img
+                  v-if="scope.row.serviceFee"
+                  src="@/assets/svg/user/icon_usdt_gold.svg"
+                  alt=""
+                />
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="amount" v-if="coin != 'NFT'" min-width="100" :label="$t('user.balanceTabel2')" align="center" key="5">
+          <el-table-column
+            prop="amount"
+            v-if="coin != 'NFT'"
+            min-width="100"
+            :label="$t('user.balanceTabel2')"
+            align="center"
+            key="5"
+          >
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ accurateDecimal(scope.row.amount, 4) }}</span>
@@ -160,7 +221,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel3')" align="center" key="6">
+          <el-table-column
+            prop="eth_amount"
+            v-if="coin != 'NFT'"
+            min-width="120"
+            :label="$t('user.balanceTabel3')"
+            align="center"
+            key="6"
+          >
             <template #default="scope">
               <div class="amount_box" v-if="scope.row.logType != 'WITHDRAW'">
                 <span>{{ accurateDecimal(scope.row.criditAmount, 2) }}</span>
@@ -169,7 +237,14 @@
               <div v-else>--</div>
             </template>
           </el-table-column>
-          <el-table-column prop="eth_amount" v-if="coin != 'NFT'" min-width="120" :label="$t('user.balanceTabel9')" align="center" key="6">
+          <el-table-column
+            prop="eth_amount"
+            v-if="coin != 'NFT'"
+            min-width="120"
+            :label="$t('user.balanceTabel9')"
+            align="center"
+            key="6"
+          >
             <template #default="scope">
               <div class="amount_box" v-if="scope.row.serviceFee">
                 <span>{{ accurateDecimal(scope.row.serviceFee, 6) }}</span>
@@ -187,19 +262,29 @@
             key="7"
             show-overflow-tooltip
           />
-          <el-table-column prop="syncStatus" :label="$t('user.balanceTabel4')" min-width="140" align="center" key="8">
+          <el-table-column
+            prop="syncStatus"
+            :label="$t('user.balanceTabel4')"
+            min-width="140"
+            align="center"
+            key="8"
+          >
             <template #default="scope">
               <div :class="['sync_status', scope.row.syncStatus]">
                 <span> {{ scope.row.syncStatus }}</span>
                 <el-tooltip
-                  v-if="scope.row.syncStatus == 'REJECTED' || scope.row.syncStatus == 'FAIL'"
+                  v-if="
+                    scope.row.syncStatus == 'REJECTED' ||
+                    scope.row.syncStatus == 'FAIL'
+                  "
                   popper-class="tips_box"
                   effect="dark"
                   placement="top"
                 >
                   <template #content>
                     <span v-if="scope.row.syncStatus == 'FAIL'">
-                      The chain is congested and the transfer failed, please try again later.
+                      The chain is congested and the transfer failed, please try
+                      again later.
                     </span>
                     <span v-else-if="scope.row.syncStatus == 'REJECTED'">
                       {{ scope.row.remark }}
@@ -210,16 +295,32 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="creation_time" :label="$t('user.balanceTabel5')" min-width="160" align="center" key="9">
+          <el-table-column
+            prop="creation_time"
+            :label="$t('user.balanceTabel5')"
+            min-width="160"
+            align="center"
+            key="9"
+          >
             <template #default="scope">
               {{ timeFormat(scope.row.createTime) }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="100" key="10" fixed="right">
+          <el-table-column
+            :label="$t('user.balanceTabel6')"
+            align="center"
+            min-width="100"
+            key="10"
+            fixed="right"
+          >
             <template #default="scope">
               <div
                 class="view_btn"
-                v-if="scope.row.syncStatus != 'REJECTED' && scope.row.syncStatus != 'FAIL' && scope.row.hash"
+                v-if="
+                  scope.row.syncStatus != 'REJECTED' &&
+                  scope.row.syncStatus != 'FAIL' &&
+                  scope.row.hash
+                "
                 @click="viewTxid(scope.row)"
               >
                 {{ $t("user.view") }}
@@ -231,13 +332,32 @@
       </template>
       <template v-else>
         <el-table :data="exchangeData" class="table_container">
-          <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
-            <template #default="scope">
+          <el-table-column
+            prop="logType"
+            :label="$t('user.logType')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
+            <template #default>
               <span>{{ $t("user.exchange") }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="sellCoin" :label="$t('user.from')" min-width="100" align="center" key="2" show-overflow-tooltip />
-          <el-table-column prop="serviceFee" min-width="100" :label="$t('user.spent')" align="center" key="4">
+          <el-table-column
+            prop="sellCoin"
+            :label="$t('user.from')"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="serviceFee"
+            min-width="100"
+            :label="$t('user.spent')"
+            align="center"
+            key="4"
+          >
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ scope.row.sellNum }}</span>
@@ -245,8 +365,21 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="buyCoin" min-width="100" :label="$t('user.to')" align="center" key="5"> </el-table-column>
-          <el-table-column prop="eth_amount" min-width="120" :label="$t('user.receivedCoin')" align="center" key="6">
+          <el-table-column
+            prop="buyCoin"
+            min-width="100"
+            :label="$t('user.to')"
+            align="center"
+            key="5"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="eth_amount"
+            min-width="120"
+            :label="$t('user.receivedCoin')"
+            align="center"
+            key="6"
+          >
             <template #default="scope">
               <div class="amount_box">
                 <span>{{ scope.row.userNum }}</span>
@@ -254,7 +387,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
+          <el-table-column
+            prop="chainType"
+            :label="$t('user.date')"
+            min-width="100"
+            align="center"
+            key="7"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               {{ timeFormat(scope.row.createTime) }}
             </template>
@@ -292,7 +432,12 @@
         <div class="operating_title">
           <span>{{ $t("user.enterId") }}</span>
         </div>
-        <el-input class="wallet_addr" v-model="transactionId" :placeholder="$t('user.enterHint')"> </el-input>
+        <el-input
+          class="wallet_addr"
+          v-model="transactionId"
+          :placeholder="$t('user.enterHint')"
+        >
+        </el-input>
         <div class="btns_box">
           <div class="btn_item cancel" @click="handleClose()">
             {{ $t("common.cancel") }}
@@ -304,7 +449,11 @@
       </div>
     </el-dialog>
     <!-- 充值ETH USDT -->
-    <Recharge v-if="showRecharge" :type="walletOperating" @closeDialogFun="handleClose()"></Recharge>
+    <Recharge
+      v-if="showRecharge"
+      :type="walletOperating"
+      @closeDialogFun="handleClose()"
+    ></Recharge>
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
   </div>
@@ -326,7 +475,13 @@ import {
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
 import bigNumber from "bignumber.js";
-import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
+import {
+  accurateDecimal,
+  onCopy,
+  timeFormat,
+  openUrl,
+  isEthTransactionHashValid,
+} from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
 export default {
@@ -535,23 +690,23 @@ export default {
       }
     },
     viewTxid(event) {
-      let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;
+      let chainLink = import.meta.env.VITE_APP_TRANSACTION_ADDR;
       if (event.chainType == "OKT_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_TEST_ADDR;
       } else if (event.chainType == "BSC_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_TEST_ADDR;
       } else if (event.chainType == "BASE") {
-        chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BASE_ADDR;
       } else if (event.chainType == "BSC") {
-        chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_BSC_ADDR;
       } else if (event.chainType == "OKT") {
-        chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_OKT_ADDR;
       } else if (event.chainType == "ThunderCore") {
-        chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_THUNDERCORE_ADDR;
       } else if (event.chainType == "TRC_20_TEST") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20TEST_ADDR;
       } else if (event.chainType == "TRC_20") {
-        chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
+        chainLink = import.meta.env.VITE_APP_CHAIN_TRC20_ADDR;
       }
       openUrl(`${chainLink}${event.hash}`);
     },

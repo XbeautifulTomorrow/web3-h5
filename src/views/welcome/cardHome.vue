@@ -9,16 +9,35 @@
       </div>
       <iframe class="bitzing-iframe" :src="iframeSrc" frameborder="0"></iframe>
       <div class="bitzing-link">
-        <a class="bitzing-link-svg link-twitter" href="https://twitter.com/Bitzing_io" target="_blank"></a>
-        <a class="bitzing-link-svg link-discord" href="https://discord.gg/J9KVVtWu" target="_blank"></a>
+        <a
+          class="bitzing-link-svg link-twitter"
+          href="https://twitter.com/Bitzing_io"
+          target="_blank"
+        ></a>
+        <a
+          class="bitzing-link-svg link-discord"
+          href="https://discord.gg/J9KVVtWu"
+          target="_blank"
+        ></a>
       </div>
     </div>
-    <audio id="music" ref="music" preload="auto" webkit-playsinline="true" playsinline="true" autoplay="true"
-      class="bitzing-audio"></audio>
+    <audio
+      id="music"
+      ref="music"
+      preload="auto"
+      webkit-playsinline="true"
+      playsinline="true"
+      autoplay="true"
+      class="bitzing-audio"
+    ></audio>
     <div v-show="isShow" class="audio-play" @click="audioAutoPlay('music')">
       <div class="audio-play-main">
         <div class="audio-play-close">
-          <img src="./img/invalid-name.png" class="audio-play-close-img" alt="" />
+          <img
+            src="./img/invalid-name.png"
+            class="audio-play-close-img"
+            alt=""
+          />
         </div>
         <img src="./img/get-ready-badass-d.png" alt="" />
         <button class="audio-play-button">
@@ -31,16 +50,16 @@
 </template>
 
 <script>
-import { logoFun } from './logo';
-import bitzingmusic from './music/bitzingmusic.mp3';
+import { logoFun } from "./logo";
+import bitzingmusic from "./music/bitzingmusic.mp3";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String,
   },
   data() {
     return {
-      bitzingStyle: { transform: 'translate(-50%, -50%) scale(1)' },
+      bitzingStyle: { transform: "translate(-50%, -50%) scale(1)" },
       isShow: true,
       iframeSrc: `/card/`,
       src: `${window.location.origin}/main.png`,
@@ -50,7 +69,7 @@ export default {
   created() {
     const { search } = window.location;
     if (search) {
-      const searchArr = search.split('=');
+      const searchArr = search.split("=");
       if (searchArr[1]) {
         this.iframeSrc += `?imgUrl=${searchArr[1]}`;
         return;
@@ -68,7 +87,7 @@ export default {
     this.bitzingStyleFun();
   },
   methods: {
-    bitzingStyleFun(id = 'logo') {
+    bitzingStyleFun(id = "logo") {
       const { offsetHeight } = this.$refs.bitzing;
       const { clientHeight } = document.body;
       let _style = this.bitzingStyle;
@@ -97,7 +116,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .bitzing {
   width: 100%;
   height: 100vh;
@@ -177,12 +195,12 @@ export default {
 }
 
 .link-twitter {
-  background-image: url('./img/button-twitter-sprite.png');
+  background-image: url("./img/button-twitter-sprite.png");
   margin-right: 20px;
 }
 
 .link-discord {
-  background-image: url('./img/button-discord-sprite.png');
+  background-image: url("./img/button-discord-sprite.png");
 }
 
 .bitzing-link-svg:hover {

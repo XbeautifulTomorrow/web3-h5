@@ -5,11 +5,11 @@
 </template>
 <script>
 export default {
-  name: 'ButtonCom',
+  name: "ButtonCom",
   props: {
     text: {
       type: String,
-      default: '',
+      default: "",
     },
     width: {
       type: Number,
@@ -21,11 +21,11 @@ export default {
     },
     background: {
       type: String,
-      default: 'linear-gradient(#1d7751, #0e382c)',
+      default: "linear-gradient(#1d7751, #0e382c)",
     },
     color: {
       type: String,
-      default: '#fff',
+      default: "#fff",
     },
   },
   data() {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     handeleClick() {
-      this.$emit('click');
+      this.$emit("click");
     },
   },
 };
@@ -48,7 +48,7 @@ export default {
 <style scoped>
 .button {
   font-size: 12px;
-  font-family: 'Rajdhani', sans-serif;
+  font-family: "Rajdhani", sans-serif;
   text-align: center;
   /* border: 3px #25793b solid; */
   border-radius: 5px;
@@ -79,7 +79,7 @@ export default {
 }
 
 .button:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;

@@ -1,8 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <el-dialog v-model="visible" destroy-on-close :close-on-click-modal="true" :show-close="false" :align-center="true"
-      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+    <el-dialog
+      v-model="visible"
+      destroy-on-close
+      :close-on-click-modal="true"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      width="43.75rem"
+      :before-close="closeDialogFun"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
           <el-icon>
@@ -12,29 +20,69 @@
       </template>
       <div class="public-dialog-content form-content">
         <p class="public-dialog-title">{{ title }}</p>
-        <el-form v-if="type === 0" ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin"
-          :rules="rules" :hide-required-asterisk="true" :status-icon="true" class="public-form">
+        <el-form
+          v-if="type === 0"
+          ref="ruleFormRef"
+          label-position="top"
+          label-width="max-content"
+          :model="formLogin"
+          :rules="rules"
+          :hide-required-asterisk="true"
+          :status-icon="true"
+          class="public-form"
+        >
           <el-form-item :label="$t('login.email')" prop="email">
-            <el-input class="public-input" v-model="formLogin.email" :placeholder="$t('login.emailHint')" />
+            <el-input
+              class="public-input"
+              v-model="formLogin.email"
+              :placeholder="$t('login.emailHint')"
+            />
           </el-form-item>
           <el-form-item prop="code">
             <div class="auth_code">
-              <el-input v-model="formLogin.code" class="public-input" :placeholder="$t('common.verifyEnter')" />
-              <img class="verify_img" :src="codeImg" alt="" v-show="codeImg" @click="refreshAuthimage()" />
-              <div class="refresh_btn" @click="refreshAuthimage()">{{ $t("common.refresh") }}</div>
+              <el-input
+                v-model="formLogin.code"
+                class="public-input"
+                :placeholder="$t('common.verifyEnter')"
+              />
+              <img
+                class="verify_img"
+                :src="codeImg"
+                alt=""
+                v-show="codeImg"
+                @click="refreshAuthimage()"
+              />
+              <div class="refresh_btn" @click="refreshAuthimage()">
+                {{ $t("common.refresh") }}
+              </div>
             </div>
           </el-form-item>
           <div class="form-buttons">
-            <el-button class="public-button cancel-button" v-on="{ click: [closeDialogFun] }">
+            <el-button
+              class="public-button cancel-button"
+              v-on="{ click: [closeDialogFun] }"
+            >
               {{ $t("common.cancel") }}
             </el-button>
-            <el-button class="public-button" @click="resetFun(ruleFormRef)" v-loading="loading">
+            <el-button
+              class="public-button"
+              @click="resetFun(ruleFormRef)"
+              v-loading="loading"
+            >
               {{ $t("login.resetPwd") }}
             </el-button>
           </div>
         </el-form>
-        <code-popup v-else-if="type === 1" :email="formLogin.email" @changeTypeFun="changeTypeFun" />
-        <change-paw v-else-if="type === 2" @changeTypeFun="changeTypeFun" :formLogin="formLogin" />
+        <code-popup
+          v-else-if="type === 1"
+          :email="formLogin.email"
+          @changeTypeFun="changeTypeFun"
+        />
+        <change-paw
+          v-else-if="type === 2"
+          @changeTypeFun="changeTypeFun"
+          :formLogin="formLogin"
+        />
         <template v-else>
           <p class="public-dialog-illustrate">
             {{ $t("login.resetSuccess") }}
@@ -56,7 +104,7 @@ import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
 import { setSessionStore } from "@/utils";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 // const router = useRouter();
 const visible = ref(true);
@@ -72,7 +120,7 @@ let formLogin = reactive({
   email: "",
   passWord: "",
   captcha: "",
-  code: ""
+  code: "",
 });
 const rules = reactive({
   email: [
@@ -87,25 +135,27 @@ const rules = reactive({
       trigger: ["blur", "change"],
     },
   ],
-  code: [{
-    required: true,
-    message: t("common.verifyEnter"),
-    trigger: "blur",
-  },]
+  code: [
+    {
+      required: true,
+      message: t("common.verifyEnter"),
+      trigger: "blur",
+    },
+  ],
 });
 
 const refreshAuthimage = async () => {
   const res = await getAuthimage();
   if (res) {
-    sessionStorage.setItem('verify', res.headers.verify);
+    sessionStorage.setItem("verify", res.headers.verify);
 
     let blob = new Blob([res.data], {
-      type: res.headers.contentType
+      type: res.headers.contentType,
     });
 
     codeImg.value = window.URL.createObjectURL(blob);
   }
-}
+};
 
 const changeTypeFun = (_type, data) => {
   if (_type === 0) {
@@ -143,7 +193,7 @@ const resetFun = async (formEl) => {
       const res = await getCaptcha({
         type: "update_password",
         email: formLogin.email,
-        code: formLogin.code
+        code: formLogin.code,
       });
 
       if (res && res.code === 200) {
@@ -213,14 +263,12 @@ const resetFun = async (formEl) => {
   margin: 1.875rem 0;
 }
 
-
 @media screen and (max-width: 950px) {
   .form-buttons {
     margin-top: 1rem;
   }
 
   .auth_code {
-
     .public-input {
       flex: 1;
     }

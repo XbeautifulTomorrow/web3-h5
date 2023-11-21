@@ -10,26 +10,47 @@
       <img :src="details.banner" alt="" class="banner" />
       <p class="name">{{ details.name }}</p>
       <div class="activity_desc" v-html="details.activityDesc"></div>
-      <div class="handler_btn deposit_btn_box" v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length == 0">
-        <p class="btn active deposit_btn" @click="depositFunc">{{ $t("user.deposit") }}</p>
+      <div
+        class="handler_btn deposit_btn_box"
+        v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length == 0"
+      >
+        <p class="btn active deposit_btn" @click="depositFunc">
+          {{ $t("user.deposit") }}
+        </p>
       </div>
       <div
         class="progress_box"
-        v-if="(details.activityType == 'WELCOME_BONUS' && tableData?.length > 0) || details.activityType != 'WELCOME_BONUS'"
+        v-if="
+          (details.activityType == 'WELCOME_BONUS' && tableData?.length > 0) ||
+          details.activityType != 'WELCOME_BONUS'
+        "
       >
         <p class="title">{{ $t("user.progress") }}</p>
-        <div class="progress_item_box" v-if="details.activityType == 'WELCOME_BONUS'">
+        <div
+          class="progress_item_box"
+          v-if="details.activityType == 'WELCOME_BONUS'"
+        >
           <div class="progress_item">
             <!-- 奖金总额： -->
             <p class="progress_item_label">
-              <span>{{ $t("user.totalBonus") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.totalRewards"></span>
+              <span>{{ $t("user.totalBonus") }}</span
+              ><span v-if="screenWidth > 950">:</span>
+              <span
+                class="data"
+                v-priceFormat="welcomeStatic?.totalRewards"
+              ></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
           <div class="progress_item">
             <!-- 已领取： -->
             <p class="progress_item_label">
-              <span>{{ $t("user.received") }}</span><span v-if="screenWidth > 950">:</span> <span class="data" v-priceFormat="welcomeStatic?.receivedReward"></span>
+              <span>{{ $t("user.received") }}</span
+              ><span v-if="screenWidth > 950">:</span>
+              <span
+                class="data"
+                v-priceFormat="welcomeStatic?.receivedReward"
+              ></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
           </div>
@@ -40,7 +61,11 @@
               <span v-if="screenWidth > 950">:</span>
               <span
                 class="data"
-                v-priceFormat="new bigNumber(welcomeStatic?.totalRewards).minus(new bigNumber(welcomeStatic?.receivedReward))"
+                v-priceFormat="
+                  new bigNumber(welcomeStatic?.totalRewards).minus(
+                    new bigNumber(welcomeStatic?.receivedReward),
+                  )
+                "
               ></span>
             </p>
             <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
@@ -50,17 +75,30 @@
           <div class="progress_item">
             <!-- 您获得总积分： -->
             <p>
-              <span>{{ $t("user.getTotalPoint") }}</span> <span class="point data" v-priceFormat="pointStatic"></span>
+              <span>{{ $t("user.getTotalPoint") }}</span>
+              <span class="point data" v-priceFormat="pointStatic"></span>
             </p>
             <img src="@/assets/svg/user/icon_point.svg" alt="" />
           </div>
         </div>
       </div>
-      <el-table :data="tableData" class="table_container" v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length > 0">
-        <el-table-column prop="id" :label="$t('user.round')" min-width="60" align="center" key="1" />
+      <el-table
+        :data="tableData"
+        class="table_container"
+        v-if="details.activityType == 'WELCOME_BONUS' && tableData?.length > 0"
+      >
+        <el-table-column
+          prop="id"
+          :label="$t('user.round')"
+          min-width="60"
+          align="center"
+          key="1"
+        />
         <el-table-column
           prop="seriesName"
-          :label="screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')"
+          :label="
+            screenWidth > 950 ? $t('user.spendingGoals') : $t('user.targeted')
+          "
           min-width="140"
           show-overflow-tooltip
           align="center"
@@ -70,40 +108,86 @@
             <div class="progress_bar_box">
               <div
                 class="progress_bar_active"
-                :style="{ width: `${(scope.row.consumptionAmount / scope.row.targetAmount) * 100}%` }"
+                :style="{
+                  width: `${
+                    (scope.row.consumptionAmount / scope.row.targetAmount) * 100
+                  }%`,
+                }"
                 v-if="scope.row.consumptionAmount > 0"
               ></div>
-              <p><span v-priceFormat="scope.row.consumptionAmount"></span> / <span v-priceFormat="scope.row.targetAmount"></span></p>
+              <p>
+                <span v-priceFormat="scope.row.consumptionAmount"></span> /
+                <span v-priceFormat="scope.row.targetAmount"></span>
+              </p>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="bonus" :label="$t('user.bonus')" min-width="80" align="center" key="3">
+        <el-table-column
+          prop="bonus"
+          :label="$t('user.bonus')"
+          min-width="80"
+          align="center"
+          key="3"
+        >
           <template #default="scope">
             <div class="amount_box">
-              <span v-if="scope.row.bonus" v-priceFormat="scope.row.bonus"></span>
+              <span
+                v-if="scope.row.bonus"
+                v-priceFormat="scope.row.bonus"
+              ></span>
               <span v-else>--</span>
-              <img v-if="scope.row.bonus" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+              <img
+                v-if="scope.row.bonus"
+                src="@/assets/svg/user/icon_usdt_gold.svg"
+                alt=""
+              />
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="serviceFee" min-width="80" :label="$t('user.claim')" align="center" key="4" fixed="right">
+        <el-table-column
+          prop="serviceFee"
+          min-width="80"
+          :label="$t('user.claim')"
+          align="center"
+          key="4"
+          fixed="right"
+        >
           <template #default="scope">
-            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed2") }}</p>
-            <p class="table-btn active" v-else-if="scope.row.status == 'NOT_CLAIMED'" @click="activityReceiveFunc">
+            <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">
+              {{ $t("user.claimed2") }}
+            </p>
+            <p
+              class="table-btn active"
+              v-else-if="scope.row.status == 'NOT_CLAIMED'"
+              @click="activityReceiveFunc"
+            >
               {{ $t("user.claim") }}
             </p>
-            <p class="btn-text" v-else-if="scope.row.status == 'IN_PROGRESS'">{{ $t("user.underWay") }}</p>
+            <p class="btn-text" v-else-if="scope.row.status == 'IN_PROGRESS'">
+              {{ $t("user.underWay") }}
+            </p>
             <span v-else>--</span>
           </template>
         </el-table-column>
       </el-table>
       <div class="conditions_box">
-        <div class="conditions_head" @click="isConditionsShow = !isConditionsShow">
+        <div
+          class="conditions_head"
+          @click="isConditionsShow = !isConditionsShow"
+        >
           <p>{{ $t("login.userAgreement") }}</p>
-          <img src="@/assets/svg/chevron-down.svg" :class="[{ 'icon-up': isConditionsShow }]" alt="" />
+          <img
+            src="@/assets/svg/chevron-down.svg"
+            :class="[{ 'icon-up': isConditionsShow }]"
+            alt=""
+          />
         </div>
         <transition name="fade">
-          <div class="conditions_content" v-show="isConditionsShow" v-html="details.conditionRule"></div>
+          <div
+            class="conditions_content"
+            v-show="isConditionsShow"
+            v-html="details.conditionRule"
+          ></div>
         </transition>
       </div>
     </div>
@@ -115,7 +199,12 @@ const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { getActivityTargetList, getActivityTargetHeaderDataTotal, activityReceive, getActivityPoint } from "@/services/api/user";
+import {
+  getActivityTargetList,
+  getActivityTargetHeaderDataTotal,
+  activityReceive,
+  getActivityPoint,
+} from "@/services/api/user";
 
 import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat } from "@/utils";

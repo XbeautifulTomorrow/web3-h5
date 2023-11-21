@@ -4,7 +4,11 @@
     <mystery-boxes :boxList="boxList" />
     <nft-tickets />
     <contents-info />
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
   </div>
 </template>
 

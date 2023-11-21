@@ -1,6 +1,10 @@
 <template>
   <el-carousel
-    :class="['award-carousel', autoPlay ? 'autoplay-box' : 'no-autoplay-box', { 'no-autoplay-box2': stopPlay }]"
+    :class="[
+      'award-carousel',
+      autoPlay ? 'autoplay-box' : 'no-autoplay-box',
+      { 'no-autoplay-box2': stopPlay },
+    ]"
     :height="`${height * 3}`"
     :interval="interval"
     :autoplay="false"
@@ -18,25 +22,38 @@
       :class="[
         'lottery-moreLuck-list',
         {
-          'is-active': item.map((x) => x.tokenId).includes(winData.tokenId) && stopPlay,
+          'is-active':
+            item.map((x) => x.tokenId).includes(winData.tokenId) && stopPlay,
         },
       ]"
     >
       <div
         v-for="(_img, imgIndex) in item"
-        :class="['lottery-moreLuck-list-content', _img.qualityType, { 'is-active-item': winData.tokenId == _img.tokenId && stopPlay }]"
+        :class="[
+          'lottery-moreLuck-list-content',
+          _img.qualityType,
+          { 'is-active-item': winData.tokenId == _img.tokenId && stopPlay },
+        ]"
         :key="`img-${imgIndex}`"
       >
         <image-view
           class="lottery-moreLuck-list-img"
-          :src="winData.nftImg == _img.nftImg ? _img.nftImg : _img.nftCompressImg || _img.nftImg"
+          :src="
+            winData.nftImg == _img.nftImg
+              ? _img.nftImg
+              : _img.nftCompressImg || _img.nftImg
+          "
         />
         <div v-if="winData && winData.nftImg == _img.nftImg && stopPlay">
           <p class="lottery-moreLuck-seriesName">
             {{ winData.seriesName }}
           </p>
           <p class="lottery-moreLuck-price">
-            <img class="public-dialog-list-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            <img
+              class="public-dialog-list-img"
+              src="@/assets/svg/user/icon_usdt_gold.svg"
+              alt=""
+            />
             <span v-priceFormat="winData.initPrice"></span>
           </p>
         </div>
@@ -76,7 +93,9 @@ export default {
   },
   data() {
     return {
-      poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(JSON.parse(JSON.stringify(this.prizePoolList))),
+      poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(
+        JSON.parse(JSON.stringify(this.prizePoolList)),
+      ),
       autoPlay: this.autoplay,
       linearTime: null,
       stopTime: null,
@@ -96,16 +115,23 @@ export default {
       if (newData) {
         this.autoPlay = false;
         let index = parseInt(this.poolList.length * Math.abs(0.5));
-        this.poolList[index] = [...this.poolList[index].map((x) => (x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x))];
+        this.poolList[index] = [
+          ...this.poolList[index].map((x) =>
+            x.tokenId == newData.tokenId ? { ...x, tokenId: "" } : x,
+          ),
+        ];
         this.poolList[index].splice(1, 1, newData);
       }
     },
     autoplay: function (newData) {
       this.autoPlay = newData;
       if (!newData) {
-        setTimeout(() => {
-          this.stopPlay = true;
-        }, parseFloat(this.stopTime) * 1000);
+        setTimeout(
+          () => {
+            this.stopPlay = true;
+          },
+          parseFloat(this.stopTime) * 1000,
+        );
       }
     },
   },

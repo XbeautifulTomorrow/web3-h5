@@ -27,7 +27,7 @@
     padding-bottom: 1.25rem;
   }
 
-  .condition_item+.condition_item {
+  .condition_item + .condition_item {
     margin-top: 1.25rem;
   }
 
@@ -61,7 +61,7 @@
         box-shadow: none !important;
         padding: 0 1.25rem;
 
-        &>input {
+        & > input {
           font-size: 0.875rem;
           line-height: 1.6;
           text-align: left;
@@ -81,7 +81,7 @@
     display: flex;
     align-items: center;
 
-    &>img {
+    & > img {
       margin-right: 0.875rem;
     }
   }
@@ -101,7 +101,7 @@
   align-items: center;
   padding-bottom: 1.25rem;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.25rem;
   }
 
@@ -116,7 +116,7 @@
       box-shadow: none;
       padding: 0 1.25rem;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         font-weight: 500;
         line-height: 1.6;
@@ -162,7 +162,7 @@
     box-shadow: none !important;
     border: none !important;
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -205,7 +205,7 @@
       background-color: transparent;
       padding-left: 8.75rem;
 
-      &>input::placeholder {
+      & > input::placeholder {
         color: #fad54d;
       }
     }
@@ -215,7 +215,6 @@
     width: 14.6875rem;
 
     :deep(.nft_type) {
-
       .el-input__wrapper {
         padding-left: 5.4375rem;
       }
@@ -228,15 +227,15 @@
   display: flex;
   flex-wrap: wrap;
 
-  &>div+div {
+  & > div + div {
     margin-left: 0.625rem;
   }
 
-  &>div:nth-child(4n + 1) {
+  & > div:nth-child(4n + 1) {
     margin-left: 0;
   }
 
-  &>div:nth-child(n + 5) {
+  & > div:nth-child(n + 5) {
     margin-top: 0.625rem;
   }
 
@@ -248,7 +247,7 @@
     margin-top: 5rem;
     height: 25rem;
 
-    &>span {
+    & > span {
       margin: 0 auto;
       display: block;
       padding: 1.25rem;
@@ -292,7 +291,7 @@
       color: #0cbb3e;
     }
 
-    &>.nft_img {
+    & > .nft_img {
       width: 100%;
       height: 100%;
     }
@@ -356,8 +355,6 @@
       }
     }
   }
-
-
 }
 
 .confirm_btn {
@@ -419,8 +416,7 @@
   }
 
   :deep(.el-pager) {
-
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 

@@ -221,6 +221,7 @@
   .refund {
     background-color: rgba(250, 213, 77, 0.9);
   }
+
   .waiting {
     background-color: rgba(234, 122, 103, 0.9);
   }
@@ -328,7 +329,7 @@
 }
 
 @media (max-width: 950px) {
-  &.dialog_box {
+  .dialog_box {
     width: 94% !important;
   }
 
@@ -366,6 +367,7 @@
         margin-bottom: 0;
       }
     }
+
     &.mystery-dialog {
       width: 20.4375rem;
 
@@ -421,6 +423,7 @@
           font-size: 1.25rem;
         }
       }
+
       .public-dialog-list-result {
         height: 0.875rem;
         line-height: 0.875rem;
@@ -508,6 +511,7 @@
     .tips_btn {
       font-size: 0.75rem;
     }
+
     .public-dialog-portrait {
       border-radius: 0.25rem;
     }

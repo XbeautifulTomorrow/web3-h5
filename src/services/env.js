@@ -12,6 +12,6 @@ const config = {
 };
 
 export default {
-  ENV: process.env.VUE_APP_DOMAIN_CONFIG,
-  ...config[process.env.VUE_APP_DOMAIN_CONFIG],
+  ENV: import.meta.env.VITE_APP_DOMAIN_CONFIG,
+  ...config[import.meta.env.VITE_APP_DOMAIN_CONFIG],
 };

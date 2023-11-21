@@ -122,7 +122,7 @@ export default {
   },
 };
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .content {
   min-width: 3.75rem;
   width: auto;

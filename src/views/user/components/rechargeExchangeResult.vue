@@ -20,13 +20,21 @@
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeFromCoin)" alt="" />
             <p class="txt">{{ $t("user.from") }}</p>
-            <p class="val">{{ exchangeInfo.exchangeFromAmount }} {{ exchangeInfo.exchangeFromCoin }}</p>
+            <p class="val">
+              {{ exchangeInfo.exchangeFromAmount }}
+              {{ exchangeInfo.exchangeFromCoin }}
+            </p>
           </div>
-          <div class="exchange_icon"><img src="@/assets/svg/user/icon_swap2.svg" /></div>
+          <div class="exchange_icon">
+            <img src="@/assets/svg/user/icon_swap2.svg" />
+          </div>
           <div class="dialog_sub_exchange">
             <img :src="getCion(exchangeInfo.exchangeToCoin)" alt="" />
             <p class="txt">{{ $t("user.to") }}</p>
-            <p class="val">{{ exchangeInfo.exchangeToAmount }} {{ exchangeInfo.exchangeToCoin }}</p>
+            <p class="val">
+              {{ exchangeInfo.exchangeToAmount }}
+              {{ exchangeInfo.exchangeToCoin }}
+            </p>
           </div>
         </div>
         <div class="dialog_exchange_info">
@@ -38,16 +46,30 @@
             <p class="label">{{ $t("user.exchangeRate") }}</p>
             <p class="info">
               {{ $t("user.estimate") }}
-              {{ `1 ${exchangeInfo.exchangeToCoin} ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+              {{
+                `1 ${
+                  exchangeInfo.exchangeToCoin
+                } ≈ ${exchangeInfo?.exchangeRate.toFixed(4)} ${
+                  exchangeInfo.exchangeFromCoin
+                }`
+              }}
             </p>
           </div>
         </div>
         <div class="tip_box">
-          <p class="tip" v-show="seconds < 1"><img src="@/assets/svg/user/warning.svg" />{{ $t("user.freshExchangeRate") }}</p>
+          <p class="tip" v-show="seconds < 1">
+            <img src="@/assets/svg/user/warning.svg" />{{
+              $t("user.freshExchangeRate")
+            }}
+          </p>
         </div>
 
-        <div class="handle_btn" @click="exchangeSubmit" v-if="seconds > 0">{{ $t("user.exchange") }}（{{ seconds }}s）</div>
-        <div class="handle_btn dark_btn" v-else @click="refreshFunc">{{ $t("user.freshPrice") }}</div>
+        <div class="handle_btn" @click="exchangeSubmit" v-if="seconds > 0">
+          {{ $t("user.exchange") }}（{{ seconds }}s）
+        </div>
+        <div class="handle_btn dark_btn" v-else @click="refreshFunc">
+          {{ $t("user.freshPrice") }}
+        </div>
       </div>
       <div v-else>
         <div class="dialog_title">Conversion Successful</div>
@@ -57,13 +79,18 @@
             <p class="label">{{ $t("user.from") }}</p>
             <p class="info">
               <span>{{ exchangeInfo.exchangeFromAmount }}</span
-              ><img :src="getCion(exchangeInfo.exchangeFromCoin)" class="coin" alt="" />
+              ><img
+                :src="getCion(exchangeInfo.exchangeFromCoin)"
+                class="coin"
+                alt=""
+              />
             </p>
           </div>
           <div class="item_info">
             <p class="label">{{ $t("user.to") }}</p>
             <p class="info">
-              <span v-priceFormat:4="result.exchangeToAmount"></span><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
+              <span v-priceFormat:4="result.exchangeToAmount"></span
+              ><img :src="getCion(result.exchangeToCoin)" class="coin" alt="" />
             </p>
           </div>
           <div class="item_info">
@@ -73,7 +100,11 @@
           <div class="item_info">
             <p class="label">{{ $t("user.exchangeRate") }}</p>
             <p class="info">
-              {{ `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(4)} ${exchangeInfo.exchangeFromCoin}` }}
+              {{
+                `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(
+                  4,
+                )} ${exchangeInfo.exchangeFromCoin}`
+              }}
             </p>
           </div>
           <div class="item_info">
@@ -142,7 +173,7 @@ export default {
       });
       if (res?.code == 200) {
         this.$parent.renewBalance();
-        this.result.exchangeRate =  1/res.data.exchangeRate ;
+        this.result.exchangeRate = 1 / res.data.exchangeRate;
         this.result.exchangeToAmount = res.data.amount;
         this.result.exchangeToCoin = res.data.coin;
         this.result.exchangeTime = res.localDateTime;

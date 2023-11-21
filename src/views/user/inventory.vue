@@ -151,7 +151,12 @@
       </div>
       <div class="nft_info">
         <div class="nft_name">{{ competitionNft?.name }}</div>
-        <div class="nft_id text-ellipsis" v-if="competitionNft?.name.indexOf(competitionNft?.tokenId)==-1">#{{ competitionNft?.tokenId }}</div>
+        <div
+          class="nft_id text-ellipsis"
+          v-if="competitionNft?.name.indexOf(competitionNft?.tokenId) == -1"
+        >
+          #{{ competitionNft?.tokenId }}
+        </div>
       </div>
       <el-form
         ref="competitionForm"
@@ -477,6 +482,7 @@ import { useUserStore } from "@/store/user.js";
 import wallet from "../wallet/index.vue";
 import Image from "@/components/imageView";
 import nftList from "@/components/recharge/nftList.vue";
+import usdImg from "@/assets/svg/user/icon_usdt_gold.svg";
 
 export default {
   name: "myInventory",
@@ -816,7 +822,7 @@ export default {
     // 确认文本更新
     formatText(event) {
       if (event == 1) {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 0.8;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 0.8;'>${
           this.competitionForm?.price || 0
         }</span>`;
       } else if (event == 2) {
@@ -825,7 +831,7 @@ export default {
           ? `${competitionNft?.name} #${competitionNft?.tokenId}`
           : `${competitionNft?.name}`;
       } else {
-        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${require("@/assets/svg/user/icon_usdt_gold.svg")}" /> <span style='line-height: 1;'>${
+        return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 1;'>${
           this.competitionNft?.floorPrice || 0
         }</span>`;
       }
@@ -1006,7 +1012,7 @@ export default {
       limitDay: [
         {
           required: true,
-          validator:validateDay,
+          validator: validateDay,
           trigger: ["blur", "change"],
         },
       ],

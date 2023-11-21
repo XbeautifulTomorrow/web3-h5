@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 import {
   userInvateStatistics,
@@ -6,15 +6,15 @@ import {
   rebatesFindList,
   rebatesDetailPageList,
   rebatesReceive,
-} from '@/services/api/invite';
+} from "@/services/api/invite";
 
-export const useInviteStore = defineStore('inviteStore', {
+export const useInviteStore = defineStore("inviteStore", {
   state: () => ({
     userInvateStatistics: [],
-    rebatesCreateCode: '',
+    rebatesCreateCode: "",
     rebatesFindList: [],
     rebatesDetailPageList: [],
-    rebatesReceive: '',
+    rebatesReceive: "",
   }),
   actions: {
     async getUserInvateStatisticsApi(params) {

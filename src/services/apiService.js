@@ -27,7 +27,9 @@ const notMessage = [
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
-      config.headers.certificate = decryptCBC(localStorage.getItem("certificate"));
+      config.headers.certificate = decryptCBC(
+        localStorage.getItem("certificate"),
+      );
     }
 
     if (sessionStorage.getItem("tweet-verify")) {
@@ -49,7 +51,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axiosInstance.interceptors.response.use(
@@ -63,7 +65,7 @@ axiosInstance.interceptors.response.use(
       type: "warning",
     });
     return Promise.reject(error);
-  }
+  },
 );
 
 // eslint-disable-next-line no-unused-vars

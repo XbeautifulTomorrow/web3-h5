@@ -1,17 +1,19 @@
 <template>
-  <Bg />
-   <CardHome />
+  <div>
+    <Bg />
+    <CardHome />
+  </div>
 </template>
 
 <script>
- import CardHome from './cardHome.vue';
- import Bg from './bg/index.vue';
+import CardHome from "./cardHome.vue";
+import Bg from "./bg/index.vue";
 
 export default {
-  name: 'WelcomePage',
+  name: "WelcomePage",
   components: {
-     CardHome,
-     Bg,
+    CardHome,
+    Bg,
   },
 };
 </script>

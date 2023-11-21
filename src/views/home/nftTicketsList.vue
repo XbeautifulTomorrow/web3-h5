@@ -5,19 +5,33 @@
       <div class="search_box">
         <div class="search_input_box">
           <div class="type_btn">
-            <div :class="['type_btn_item',{'active':type=='ETH'}]" @click="getListFunc">
+            <div
+              :class="['type_btn_item', { active: type == 'ETH' }]"
+              @click="getListFunc"
+            >
               <span>ETH</span>
-              <img src="@/assets/svg/home/icon_eth.svg" alt="" v-if="type=='ETH'">
-              <img src="@/assets/svg/home/coin_eth_enable.svg" alt="" v-else>
+              <img
+                src="@/assets/svg/home/icon_eth.svg"
+                alt=""
+                v-if="type == 'ETH'"
+              />
+              <img src="@/assets/svg/home/coin_eth_enable.svg" alt="" v-else />
             </div>
-            <div :class="['type_btn_item',{'active':type=='NFT'}]" @click="getListFunc">
+            <div
+              :class="['type_btn_item', { active: type == 'NFT' }]"
+              @click="getListFunc"
+            >
               <span>NFT</span>
-              <img src="@/assets/svg/home/coin_nft.svg" alt="" v-if="type=='NFT'">
-              <img src="@/assets/svg/home/coin_nft_enable.svg" alt="" v-else>
+              <img
+                src="@/assets/svg/home/coin_nft.svg"
+                alt=""
+                v-if="type == 'NFT'"
+              />
+              <img src="@/assets/svg/home/coin_nft_enable.svg" alt="" v-else />
             </div>
           </div>
           <el-input
-            v-if="type=='NFT'"
+            v-if="type == 'NFT'"
             v-model="searchVal"
             clearable
             @input="handleSearch"
@@ -54,7 +68,7 @@
               v-model="sort"
               @change="fetchCheckAllOrders()"
               :placeholder="$t('homeReplenish.all')"
-              :class="['select_box',{'sort_select':type=='ETH'}]"
+              :class="['select_box', { sort_select: type == 'ETH' }]"
               size="large"
             >
               <el-option
@@ -66,7 +80,7 @@
             </el-select>
             <div class="sort_title">{{ $t("homeReplenish.sort") }}</div>
           </div>
-          <div class="sort_box collections" v-if="type=='NFT'">
+          <div class="sort_box collections" v-if="type == 'NFT'">
             <el-select
               v-model="nftId"
               clearable
@@ -99,7 +113,7 @@
                 fit="cover"
                 class="nft_img"
                 v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-                :src="require('@/assets/svg/user/create_eth.webp')"
+                :src="createEthImg"
               />
               <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
               <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
@@ -221,10 +235,20 @@
                 {{ item.winningName || item.winningAddress }}
               </span>
             </div>
-            <div class="sold-box" v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
-            </div>
-            <div class="sold-box" v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
-            </div>
+            <div
+              class="sold-box"
+              v-html="
+                $t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })
+              "
+              v-if="item.numberOfTicketsSold > 1"
+            ></div>
+            <div
+              class="sold-box"
+              v-html="
+                $t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })
+              "
+              v-else
+            ></div>
           </li>
         </template>
       </ul>
@@ -292,6 +316,8 @@ import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import createCom from "@/views/user/components/createComponents.vue";
+
+import createEth from "@/assets/svg/user/create_eth.webp";
 export default {
   name: "ntfTicketsList",
   components: {
@@ -319,7 +345,9 @@ export default {
       count: 0,
       pageType: "",
       timer: null,
-      type:"ETH"
+      type: "ETH",
+
+      createEthImg: createEth,
     };
   },
   computed: {
@@ -338,8 +366,8 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
-    getListFunc(){
-      this.type = this.type=='NFT'?'ETH':'NFT';
+    getListFunc() {
+      this.type = this.type == "NFT" ? "ETH" : "NFT";
       this.fetchCheckAllOrders();
     },
     // 获取所有系列，用做筛选
@@ -359,11 +387,11 @@ export default {
         this.exchangeRate = res.data;
       }
     },
-    fetchCheckAllOrders(){
-      if(this.type=='ETH'){
-        this.fetchCoinAllOrders()
+    fetchCheckAllOrders() {
+      if (this.type == "ETH") {
+        this.fetchCoinAllOrders();
       } else {
-        this.fetchNftAllOrders()
+        this.fetchNftAllOrders();
       }
     },
     // nft最新购买

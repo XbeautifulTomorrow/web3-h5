@@ -10,12 +10,12 @@
         </div>
         <template v-if="dataLists">
           <div class="promotions_item-box" v-if="dataLists?.length">
-            <div class="promotions_item" v-for="item in dataLists" :key="item.id">
-              <img
-                :src="item.banner"
-                alt=""
-                class="banner"
-              />
+            <div
+              class="promotions_item"
+              v-for="item in dataLists"
+              :key="item.id"
+            >
+              <img :src="item.banner" alt="" class="banner" />
               <p class="name">{{ item.name }}</p>
               <p class="tip">
                 {{ item.shortWord }}
@@ -23,14 +23,30 @@
                 <span style="color: #fad54d; font-weight: bold">10</span> ETH -->
               </p>
               <div class="handler_btn">
-                <p class="btn active" v-if="item.activityType == 'WELCOME_BONUS'" @click="goDetail(item)">{{ $t("user.deposit") }}</p>
-                <p class="btn active" v-else-if="item.activityType == 'OPEN_BOX_WIN_POINTS'" @click="goPage('raffleBoxesList')">
+                <p
+                  class="btn active"
+                  v-if="item.activityType == 'WELCOME_BONUS'"
+                  @click="goDetail(item)"
+                >
+                  {{ $t("user.deposit") }}
+                </p>
+                <p
+                  class="btn active"
+                  v-else-if="item.activityType == 'OPEN_BOX_WIN_POINTS'"
+                  @click="goPage('raffleBoxesList')"
+                >
                   {{ $t("user.unboxNow") }}
                 </p>
-                <p class="btn active" v-else-if="item.activityType == 'TREASURES_WIN_POINTS'" @click="goPage('treasureDraw')">
+                <p
+                  class="btn active"
+                  v-else-if="item.activityType == 'TREASURES_WIN_POINTS'"
+                  @click="goPage('treasureDraw')"
+                >
                   {{ $t("home.nftTicketBtn") }}
                 </p>
-                <p class="btn" @click="goDetail(item)">{{ $t("user.readMore") }}</p>
+                <p class="btn" @click="goDetail(item)">
+                  {{ $t("user.readMore") }}
+                </p>
               </div>
             </div>
           </div>
@@ -40,7 +56,12 @@
         </template>
       </div>
     </div>
-    <PromotionsDetails v-else @hide="isDetailPage = false" :details="details" @depositFunc="depositFunc"></PromotionsDetails>
+    <PromotionsDetails
+      v-else
+      @hide="isDetailPage = false"
+      :details="details"
+      @depositFunc="depositFunc"
+    ></PromotionsDetails>
   </div>
 </template>
 <script>

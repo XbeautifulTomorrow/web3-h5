@@ -22,15 +22,20 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
   }
 }
-.policy_content_other{
-  p{
+.policy_content_other {
+  p {
     margin-bottom: 1rem;
   }
-  ul{
-    margin-bottom: 1rem; 
+  ul {
+    margin-bottom: 1rem;
   }
 }
 .policy_content {
@@ -47,8 +52,8 @@
     a {
       color: #a9a4b4;
     }
-    b{
-      color:#e4e7f5;
+    b {
+      color: #e4e7f5;
     }
   }
   .separate {
@@ -56,7 +61,7 @@
   }
   .title {
     margin-bottom: 0.625rem;
-    color:#e4e7f5;
+    color: #e4e7f5;
   }
   li {
     list-style: disc;

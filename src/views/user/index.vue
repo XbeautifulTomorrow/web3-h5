@@ -2,11 +2,19 @@
   <div class="wrapper_bg">
     <div class="index_wrapper">
       <div class="nav_box">
-        <div :class="['nav_item', userPage == item.page && 'active', item.className]" @click="chooseNav(item)"
-          v-for="(item, index) in navList" :key="index">
+        <div
+          :class="[
+            'nav_item',
+            userPage == item.page && 'active',
+            item.className,
+          ]"
+          @click="chooseNav(item)"
+          v-for="(item, index) in navList"
+          :key="index"
+        >
           <div class="new_dot" v-if="item.showDot"></div>
-          <img class="default" :src="item.icon" alt="">
-          <img class="active" :src="item.iconActive" alt="">
+          <img class="default" :src="item.icon" alt="" />
+          <img class="active" :src="item.iconActive" alt="" />
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -27,7 +35,7 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import Setting from "./setting.vue";
 import Wallet from "./wallet.vue";
@@ -36,6 +44,10 @@ import Competitions from "./competitions.vue";
 import History from "./history.vue";
 import Referrals from "./invite.vue";
 import Promotions from "./promotions.vue";
+
+const userNav = import.meta.glob("@/assets/svg/user/nav/*.svg");
+import icon_promotions from "@/assets/img/user/icon_Promotions.gif";
+
 export default {
   name: "myIndex",
   components: {
@@ -45,11 +57,10 @@ export default {
     Competitions,
     History,
     Referrals,
-    Promotions
+    Promotions,
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
@@ -74,66 +85,66 @@ export default {
       return isLogin;
     },
     navList() {
-      const { walletNftSystemStatus, oneNftStatus } = this.newStatus
+      const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
       return [
         {
           text: t("header.profile"),
           page: "profile",
-          icon: require("@/assets/svg/user/nav/icon_profile.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_profile_active.svg"),
-          showDot: false
+          icon: userNav.icon_profile,
+          iconActive: userNav.icon_profile_active,
+          showDot: false,
         },
         {
           text: t("header.balances"),
           page: "balances",
-          icon: require("@/assets/svg/user/nav/icon_balances.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_balances_active.svg"),
-          showDot: false
+          icon: userNav.icon_balances,
+          iconActive: userNav.icon_balances_active,
+          showDot: false,
         },
         {
           text: t("header.inventory"),
           page: "inventory",
-          icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg"),
-          showDot: walletNftSystemStatus
+          icon: userNav.icon_inventory,
+          iconActive: userNav.icon_inventory_active,
+          showDot: walletNftSystemStatus,
         },
         {
           text: t("header.promotions"),
           page: "promotions",
-          icon: require("@/assets/img/user/icon_Promotions.gif"),
-          iconActive: require("@/assets/img/user/icon_Promotions.gif"),
+          icon: icon_promotions,
+          iconActive: icon_promotions,
           showDot: false,
           className: "promotions_nav",
         },
         {
           text: t("header.competition"),
           page: "competition",
-          icon: require("@/assets/svg/user/nav/icon_competition.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_competition_active.svg"),
-          showDot: oneNftStatus
+          icon: userNav.icon_competition,
+          iconActive: userNav.icon_competition_active,
+          showDot: oneNftStatus,
         },
         {
           text: t("header.history"),
           page: "history",
-          icon: require("@/assets/svg/user/nav/icon_history.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_history_active.svg"),
-          showDot: false
+          icon: userNav.icon_history,
+          iconActive: userNav.icon_history_active,
+          showDot: false,
         },
         {
           text: t("header.referrals"),
           page: "referrals",
-          icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
-          iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg"),
-          showDot: false
+          icon: userNav.icon_referrals,
+          iconActive: userNav.icon_referrals_active,
+          showDot: false,
         },
         // {
         //   text: "Settings",
         //   page: "settings",
-        //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
-        //   iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
+        //   icon: userNav.icon_setting,
+        //   iconActive: userNav.icon_setting_active
         // }
-      ]
-    }
+      ];
+    },
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {
@@ -145,7 +156,7 @@ export default {
   methods: {
     chooseNav(evnet) {
       this.userStore.setUserPage(this.$route.path, evnet.page);
-    }
+    },
   },
 };
 </script>
@@ -162,7 +173,7 @@ export default {
   box-sizing: border-box;
 
   .tips_title {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;
@@ -170,7 +181,7 @@ export default {
   }
 
   .tips_text {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;

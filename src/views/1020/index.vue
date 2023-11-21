@@ -1,49 +1,29 @@
 <template>
   <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error hidden" id="cookie-alert" data-translate="enable_cookies">
+    <div
+      class="cf-alert cf-alert-error cf-cookie-error hidden"
+      id="cookie-alert"
+      data-translate="enable_cookies"
+    >
       Please enable cookies.
     </div>
     <div id="cf-error-details" class="p-0">
-      <header class="
-            mx-auto
-            pt-10
-            lg:pt-6 lg:px-8
-            w-240
-            lg:w-full
-            mb-15
-            antialiased
-          ">
-        <h1 class="
-              inline-block
-              md:block
-              mr-2
-              md:mb-2
-              font-light
-              text-60
-              md:text-3xl
-              text-black-light
-              leading-tight
-            ">
+      <header
+        class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-15 antialiased"
+      >
+        <h1
+          class="inline-block md:block mr-2 md:mb-2 font-light text-60 md:text-3xl text-black-light leading-tight"
+        >
           <span data-translate="error">Error</span>
           <span>1020</span>
         </h1>
-        <span class="
-              inline-block
-              md:block
-              heading-ray-id
-              font-mono
-              text-15
-              lg:text-sm lg:leading-relaxed
-            ">
+        <span
+          class="inline-block md:block heading-ray-id font-mono text-15 lg:text-sm lg:leading-relaxed"
+        >
         </span>
-        <span class="
-              inline-block
-              md:block
-              heading-ray-id
-              font-mono
-              text-15
-              lg:text-sm lg:leading-relaxed
-            ">
+        <span
+          class="inline-block md:block heading-ray-id font-mono text-15 lg:text-sm lg:leading-relaxed"
+        >
         </span>
         <h2 class="text-gray-600 leading-1.3 text-3xl lg:text-2xl font-light">
           Access denied
@@ -51,32 +31,21 @@
       </header>
       <section class="w-240 lg:w-full mx-auto mb-8 lg:px-8">
         <div id="what-happened-section" class="w-1/2 md:w-full">
-          <h2 class="
-                text-3xl
-                leading-tight
-                font-normal
-                mb-4
-                text-black-light
-                antialiased
-              " data-translate="what_happened">
+          <h2
+            class="text-3xl leading-tight font-normal mb-4 text-black-light antialiased"
+            data-translate="what_happened"
+          >
             What happened?
           </h2>
           <p class="text-p-light">
-            According to your IP and nationality, you are in a country/region where our service is restricted.
+            According to your IP and nationality, you are in a country/region
+            where our service is restricted.
           </p>
         </div>
       </section>
-      <div class="
-            cf-error-footer cf-wrapper
-            w-240
-            lg:w-full
-            py-10
-            sm:py-4 sm:px-8
-            mx-auto
-            text-center
-            sm:text-left
-            border-solid border-0 border-t border-gray-300
-          ">
+      <div
+        class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300"
+      >
         <p class="text-13"></p>
       </div>
     </div>
@@ -86,8 +55,7 @@
 export default {
   name: "toIntercept",
   data() {
-    return {
-    };
+    return {};
   },
 };
 </script>
@@ -381,14 +349,36 @@ body {
 }
 
 .transition {
-  -webkit-transition-property: background-color, border-color, color, fill,
-    stroke, opacity, box-shadow, -webkit-transform;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, -webkit-transform;
+  -webkit-transition-property:
+    background-color,
+    border-color,
+    color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    -webkit-transform;
+  transition-property:
+    background-color,
+    border-color,
+    color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    -webkit-transform;
   transition-property: background-color, border-color, color, fill, stroke,
     opacity, box-shadow, transform;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform, -webkit-transform;
+  transition-property:
+    background-color,
+    border-color,
+    color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    transform,
+    -webkit-transform;
 }
 
 body,
@@ -398,9 +388,20 @@ html {
   color: rgba(64, 64, 64, var(--text-opacity));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
-    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Helvetica Neue,
+    Arial,
+    Noto Sans,
+    sans-serif,
+    Apple Color Emoji,
+    Segoe UI Emoji,
+    Segoe UI Symbol,
+    Noto Color Emoji;
   font-size: 16px;
 }
 
@@ -450,11 +451,13 @@ strong {
 }
 
 .bg-gradient-gray {
-  background-image: -webkit-linear-gradient(top,
-      #dedede,
-      #ebebeb 3%,
-      #ebebeb 97%,
-      #dedede);
+  background-image: -webkit-linear-gradient(
+    top,
+    #dedede,
+    #ebebeb 3%,
+    #ebebeb 97%,
+    #dedede
+  );
 }
 
 .cf-error-source:after {
@@ -471,9 +474,18 @@ strong {
   --transform-skew-y: 0;
   --transform-scale-x: 1;
   --transform-scale-y: 1;
-  -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-  -ms-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-  transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+  -webkit-transform: translateX(var(--transform-translate-x))
+    translateY(var(--transform-translate-y)) rotate(var(--transform-rotate))
+    skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
+    scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+  -ms-transform: translateX(var(--transform-translate-x))
+    translateY(var(--transform-translate-y)) rotate(var(--transform-rotate))
+    skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
+    scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+  transform: translateX(var(--transform-translate-x))
+    translateY(var(--transform-translate-y)) rotate(var(--transform-rotate))
+    skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
+    scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
   --transform-rotate: 45deg;
   content: "";
   bottom: -1.75rem;

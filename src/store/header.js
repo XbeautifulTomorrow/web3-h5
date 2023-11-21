@@ -27,7 +27,9 @@ export const useHeaderStore = defineStore("headerStore", {
   }),
   persist: {
     enabled: true,
-    strategies: [{ key: "balance", storage: sessionStorage, paths: ["balance"] }],
+    strategies: [
+      { key: "balance", storage: sessionStorage, paths: ["balance"] },
+    ],
   },
   actions: {
     async getTheUserBalanceApi(params) {
@@ -38,14 +40,21 @@ export const useHeaderStore = defineStore("headerStore", {
           if (element.coinName == "USDT") {
             this.usdBalance = element.balance;
           }
-          balanceVal += Number(new bigNumber(element.balance || 0).multipliedBy(element.usdt || 0).toFixed(2));
+          balanceVal += Number(
+            new bigNumber(element.balance || 0)
+              .multipliedBy(element.usdt || 0)
+              .toFixed(2),
+          );
         });
 
         this.balance = balanceVal;
         this.assetLists = res.data.balanceList;
         // 充值数据
         this.userRechargeShowList = res.data.userRechargeShowList;
-        let totalPrice = this.userRechargeShowList.reduce((sum, item) => sum + item.price, 0);
+        let totalPrice = this.userRechargeShowList.reduce(
+          (sum, item) => sum + item.price,
+          0,
+        );
         if (totalPrice > 0) {
           try {
             // eslint-disable-next-line no-undef
@@ -59,7 +68,10 @@ export const useHeaderStore = defineStore("headerStore", {
           this.userRechargeShowList.map((x) => {
             let notifyTxt =
               x.oldCoin != x.newCoin
-                ? t("user.depositNotify1", { oldPrice: x.oldPrice, price: x.price })
+                ? t("user.depositNotify1", {
+                    oldPrice: x.oldPrice,
+                    price: x.price,
+                  })
                 : t("user.depositNotify2", { price: x.price });
             setTimeout(() => {
               ElNotification({

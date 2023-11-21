@@ -6,7 +6,13 @@
         {{ text }}
       </p>
     </div>
-    <img v-if="!showIcon" class="link-img-go" src="@/assets/img/login/icon-chickdefault.png" alt="" @click="goToLink" />
+    <img
+      v-if="!showIcon"
+      class="link-img-go"
+      src="@/assets/img/login/icon-chickdefault.png"
+      alt=""
+      @click="goToLink"
+    />
   </div>
 </template>
 
@@ -28,8 +34,8 @@ export default {
     },
     showIcon: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   methods: {
     goToLink() {

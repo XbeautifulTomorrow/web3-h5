@@ -79,7 +79,7 @@
 </template>
 <script>
 export default {
-  name: 'BgCanvas',
+  name: "BgCanvas",
 
   mounted() {
     // const volume = document.getElementById('volume');
@@ -90,7 +90,7 @@ export default {
     //     this.volumeToggle();
     //   }
     // });
-    window.addEventListener('resize', () => requestAnimationFrame(this.render));
+    window.addEventListener("resize", () => requestAnimationFrame(this.render));
   },
   methods: {
     getRandomInt(min, max) {
@@ -99,18 +99,18 @@ export default {
       return Math.floor(Math.random() * (max - min) + min);
     },
     render() {
-      const stars = document.getElementById('stars');
-      stars.innerHTML = '';
+      const stars = document.getElementById("stars");
+      stars.innerHTML = "";
       const w = window.innerWidth;
       const h = window.innerHeight;
       const starCount = this.getRandomInt(42, 100);
       for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
+        const star = document.createElement("div");
+        star.classList.add("star");
         const x = this.getRandomInt(0, w);
         const y = this.getRandomInt(0, h);
-        star.style.setProperty('--x', `${x}px`);
-        star.style.setProperty('--y', `${y}px`);
+        star.style.setProperty("--x", `${x}px`);
+        star.style.setProperty("--y", `${y}px`);
         stars.appendChild(star);
       }
     },
@@ -129,5 +129,5 @@ export default {
 };
 </script>
 <style scoped>
-@import './css/index.css';
+@import "./css/index.css";
 </style>

@@ -35,7 +35,11 @@
           ]"
         >
           <li
-            :class="['result-list', { flop: result.length > 0 }, { 'result-more-list': result.length > 1 }]"
+            :class="[
+              'result-list',
+              { flop: result.length > 0 },
+              { 'result-more-list': result.length > 1 },
+            ]"
             :style="{ height: result.length > 1 ? cardRefH : '' }"
             v-for="(item, index) in result"
             :key="`result-${index}`"
@@ -61,29 +65,66 @@
                 </div>
                 <div class="result-club text-ellipsis">
                   <div class="result-club-title text-ellipsis">
-                    <el-tooltip class="box-item" effect="dark" :content="item.seriesName">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="item.seriesName"
+                    >
                       <span class="result-club-title-text text-ellipsis">
                         {{ item.seriesName }}
                       </span>
                     </el-tooltip>
-                    <img src="@/assets/svg/home/icon_certified.svg" alt="" class="verity-icon" />
+                    <img
+                      src="@/assets/svg/home/icon_certified.svg"
+                      alt=""
+                      class="verity-icon"
+                    />
                   </div>
-                  <span class="result-club-serial text-ellipsis" v-if="item.tokenId || item.tokenId === 0">
-                    <el-tooltip class="box-item" effect="dark" :content="`# ${item.tokenId}`"> #&nbsp;{{ item.tokenId }} </el-tooltip>
+                  <span
+                    class="result-club-serial text-ellipsis"
+                    v-if="item.tokenId || item.tokenId === 0"
+                  >
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`# ${item.tokenId}`"
+                    >
+                      #&nbsp;{{ item.tokenId }}
+                    </el-tooltip>
                   </span>
                 </div>
-                <el-tooltip class="box-item" effect="dark" :content="`${item.initPrice} ${item.coin}`">
+                <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  :content="`${item.initPrice} ${item.coin}`"
+                >
                   <div class="result-sell-text-box">
                     <!-- 图类型 -->
                     <template v-if="item.tokenId !== null">
-                      <span class="amount" v-if="second < 1">{{ $t("virtualCurrency.price") }}</span>
-                      <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
+                      <span class="amount" v-if="second < 1">{{
+                        $t("virtualCurrency.price")
+                      }}</span>
+                      <span class="amount" v-else>{{
+                        $t("lottery.sell_for")
+                      }}</span>
                     </template>
                     <!-- 币类型 -->
-                    <span class="amount" v-else>{{ $t("lottery.sell_for") }}</span>
+                    <span class="amount" v-else>{{
+                      $t("lottery.sell_for")
+                    }}</span>
                     <p class="result-sell-coin">
-                      <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                      <span v-priceFormat="item.nftType == 'EXTERNAL' && second < 1 ? item.initPrice : item.price"></span>
+                      <img
+                        class="public-dialog-icon"
+                        src="@/assets/svg/user/icon_usdt_gold.svg"
+                        alt=""
+                      />
+                      <span
+                        v-priceFormat="
+                          item.nftType == 'EXTERNAL' && second < 1
+                            ? item.initPrice
+                            : item.price
+                        "
+                      ></span>
                     </p>
                   </div>
                 </el-tooltip>
@@ -96,22 +137,31 @@
                     </p>
                   </el-button> -->
 
-                    <el-button
-                      :class="['result-one-button sell', { 'not-click': isSell }]"
-                      type="warning"
-                      round
-                      @click="chooseLotteryHold('hold')"
-                    >
-                      {{ $t("lottery.take_nft") }}
-                      <span v-if="second > 0">（{{ second }}s）</span>
-                    </el-button>
-                    <el-button class="result-one-button take" round @click="chooseLotteryHold">
-                      <p class="public-dialog-button-p">
-                        <span>{{ $t("lottery.sell_for") }}</span>
-                        <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                        <span class="result-total" v-priceFormat="item.price"> </span>
-                      </p>
-                    </el-button>
+                  <el-button
+                    :class="['result-one-button sell', { 'not-click': isSell }]"
+                    type="warning"
+                    round
+                    @click="chooseLotteryHold('hold')"
+                  >
+                    {{ $t("lottery.take_nft") }}
+                    <span v-if="second > 0">（{{ second }}s）</span>
+                  </el-button>
+                  <el-button
+                    class="result-one-button take"
+                    round
+                    @click="chooseLotteryHold"
+                  >
+                    <p class="public-dialog-button-p">
+                      <span>{{ $t("lottery.sell_for") }}</span>
+                      <img
+                        class="public-dialog-icon"
+                        src="@/assets/svg/user/icon_usdt_gold.svg"
+                        alt=""
+                      />
+                      <span class="result-total" v-priceFormat="item.price">
+                      </span>
+                    </p>
+                  </el-button>
                 </div>
                 <template v-else>
                   <div class="result-sell" v-if="second > 0">
@@ -119,35 +169,62 @@
                   </div>
                   <p v-else class="result-sell-get">
                     {{ $t("lottery.get_eth") }}
-                    <img class="public-dialog-icon-two" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                    <img
+                      class="public-dialog-icon-two"
+                      src="@/assets/svg/user/icon_usdt_gold.svg"
+                      alt=""
+                    />
                     <span v-priceFormat="item.price"></span>
                   </p>
                 </template>
               </div>
 
-              <div class="hold-mask" v-if="result.length > 1 && nfts.includes(item.id)"></div>
+              <div
+                class="hold-mask"
+                v-if="result.length > 1 && nfts.includes(item.id)"
+              ></div>
             </div>
           </li>
         </ul>
         <div class="result-footer" v-if="result.length > 1">
           <div class="resule-footer-buttons">
-            <el-button :class="['result-footer-button', nfts.length == 0 ? 'sell-more' : 'take']" round @click="chooseLotteryHold('hold')">
+            <el-button
+              :class="[
+                'result-footer-button',
+                nfts.length == 0 ? 'sell-more' : 'take',
+              ]"
+              round
+              @click="chooseLotteryHold('hold')"
+            >
               <p class="public-dialog-button-p" v-if="nfts.length == 0">
                 <span>{{ $t("lottery.sell_all_for") }}</span>
-                <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                <img
+                  class="public-dialog-icon"
+                  src="@/assets/svg/user/icon_usdt_gold.svg"
+                  alt=""
+                />
                 <span class="result-total font5" v-priceFormat="total"> </span>
                 <span class="font3" v-if="second > 0">({{ second }}s)</span>
               </p>
-              <p class="public-dialog-button-p" v-else-if="nfts.length > 0 && nfts.length != result.length">
+              <p
+                class="public-dialog-button-p"
+                v-else-if="nfts.length > 0 && nfts.length != result.length"
+              >
                 <span
                   class="public-dialog-button-p"
-                  v-html="$t('lottery.get_eth_nft', { takeNum: nfts.length, total, src: coinSrc })"
+                  v-html="
+                    $t('lottery.get_eth_nft', {
+                      takeNum: nfts.length,
+                      total,
+                      src: coinSrc,
+                    })
+                  "
                 ></span>
                 <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
               <p class="public-dialog-button-p" v-else>
-                  {{ $t("lottery.take_all") }}
-                  <span class="font1" v-if="second > 0">({{ second }}s)</span>
+                {{ $t("lottery.take_all") }}
+                <span class="font1" v-if="second > 0">({{ second }}s)</span>
               </p>
             </el-button>
           </div>
@@ -159,15 +236,33 @@
           {{ $t("lottery.tips7") }}
         </p>
         <div class="result-link">
-          <img class="result-link-img" src="@/assets/img/lottery/fair.png" alt="" />
-          <img class="result-link-line" src="@/assets/img/lottery/Line15.png" alt="" />
+          <img
+            class="result-link-img"
+            src="@/assets/img/lottery/fair.png"
+            alt=""
+          />
+          <img
+            class="result-link-line"
+            src="@/assets/img/lottery/Line15.png"
+            alt=""
+          />
           <p class="result-link-text">
             {{ $t("lottery.tips9") }}
           </p>
-          <img class="result-link-line" src="@/assets/img/lottery/Line15.png" alt="" />
+          <img
+            class="result-link-line"
+            src="@/assets/img/lottery/Line15.png"
+            alt=""
+          />
           <div class="result-link-go">
             <p class="result-link-go-text">
-              <a class="result-link-go-view" :href="item.src" target="_blank" v-for="(item, index) in link" :key="`link-${index}`">
+              <a
+                class="result-link-go-view"
+                :href="item.src"
+                target="_blank"
+                v-for="(item, index) in link"
+                :key="`link-${index}`"
+              >
                 {{ item.text }}
               </a>
             </p>
@@ -182,7 +277,15 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, onMounted, onUnmounted, nextTick, watch } from "vue";
+import {
+  ref,
+  defineProps,
+  defineEmits,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  watch,
+} from "vue";
 import * as workerTimers from "worker-timers";
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
@@ -193,7 +296,13 @@ import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
 import { i18n } from "@/locales";
 import { Howl } from "howler";
-import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
+
+import moreUsually from "@/assets/music/more-usually.mp3";
+import flop from "@/assets/music/flop.mp3";
+import flopAfter from "@/assets/music/flop-after.mp3";
+import EPIC1 from "@/assets/music/more-EPIC1.mp3";
+import LEGEND from "@/assets/music/more-LEGEND.wav";
+import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
 
 import coinSrc from "@/assets/svg/user/icon_usdt_gold.svg";
 
@@ -221,10 +330,10 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["chooseLotteryHold", "closeDialogFun"]);
-const chainType = `VUE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUpperCase()}_ADDR`;
+const chainType = `VITE_APP_CHAIN_${props.result[0].lotteryChainType.toLocaleUpperCase()}_ADDR`;
 const link = [
   {
-    src: process.env[chainType] + props.result[0].hash,
+    src: import.meta.env[chainType] + props.result[0].hash,
     text: t("lottery.verify_faimess"),
   },
   {
@@ -337,16 +446,22 @@ const nftsFun = (_data) => {
   const _index = nfts.value.findIndex((item) => item === _data.id);
   if (_index > -1) {
     nfts.value.splice(_index, 1);
-    total.value = BigNumber(total.value).plus(Number(_data.price)).decimalPlaces(2);
+    total.value = BigNumber(total.value)
+      .plus(Number(_data.price))
+      .decimalPlaces(2);
   } else {
     nfts.value.push(_data.id);
-    total.value = BigNumber(total.value).minus(Number(_data.price)).decimalPlaces(2);
+    total.value = BigNumber(total.value)
+      .minus(Number(_data.price))
+      .decimalPlaces(2);
   }
 };
 const totalFun = () => {
   const { result } = props;
   result.forEach((item) => {
-    total.value = BigNumber(total.value).plus(Number(item.price)).decimalPlaces(2);
+    total.value = BigNumber(total.value)
+      .plus(Number(item.price))
+      .decimalPlaces(2);
   });
 };
 const timerFun = () => {
@@ -373,9 +488,16 @@ const getTheUserBalanceApi = async () => {
   const { result } = props;
   const res = await getTheUserBalance();
   if (res && res.localDateTime) {
-    const timer = parseInt(60 - Math.ceil(new Date(res.localDateTime) - new Date(result[0].lotteryTime)) / 1000);
+    const timer = parseInt(
+      60 -
+        Math.ceil(
+          new Date(res.localDateTime) - new Date(result[0].lotteryTime)
+        ) /
+          1000
+    );
     const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 11;
-    second.value = parseInt(timer + extraTime) > 60 ? 60 : parseInt(timer + extraTime);
+    second.value =
+      parseInt(timer + extraTime) > 60 ? 60 : parseInt(timer + extraTime);
   }
 };
 </script>
@@ -510,7 +632,7 @@ const getTheUserBalanceApi = async () => {
     background-color: transparent;
   }
 }
-.result-footer-button img{
+.result-footer-button img {
   width: 1.375rem;
   height: 1.375rem;
 }

@@ -1,13 +1,31 @@
 <template>
-  <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
-    :hide-required-asterisk="true" :status-icon="true" class="public-form">
+  <el-form
+    ref="ruleFormRef"
+    label-position="top"
+    label-width="max-content"
+    :model="formForgot"
+    :rules="rules"
+    :hide-required-asterisk="true"
+    :status-icon="true"
+    class="public-form"
+  >
     <el-form-item prop="password">
-      <el-input v-model="formForgot.password" placeholder="New Password" class="public-input" type="password"
-        show-password />
+      <el-input
+        v-model="formForgot.password"
+        placeholder="New Password"
+        class="public-input"
+        type="password"
+        show-password
+      />
     </el-form-item>
     <el-form-item prop="confirm">
-      <el-input v-model="formForgot.confirm" placeholder="Confirm password" class="public-input" type="password"
-        show-password />
+      <el-input
+        v-model="formForgot.confirm"
+        placeholder="Confirm password"
+        class="public-input"
+        type="password"
+        show-password
+      />
     </el-form-item>
     <div class="form-link">
       <div class="form-rember">
@@ -17,7 +35,10 @@
         <span class="form-rember-text">{{ $t("login.resetAuth") }}</span>
       </div>
     </div>
-    <el-button :class="['public-button form-button', { 'cancel-button': !isSure }]" @click="forgotFun(ruleFormRef)">
+    <el-button
+      :class="['public-button form-button', { 'cancel-button': !isSure }]"
+      @click="forgotFun(ruleFormRef)"
+    >
       Reset password
     </el-button>
   </el-form>
@@ -25,7 +46,7 @@
 <script setup>
 import { ref, reactive, defineEmits, defineProps } from "vue";
 import { getForgetPasswordtcha } from "@/services/api/user";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 const emit = defineEmits(["changeTypeFun"]);
@@ -48,9 +69,9 @@ const showRememberFun = () => {
 };
 
 const validatePass = (rule, value, callback) => {
-  const upperStr = /^(?=.*[A-Z]).{8,}$/
-  const lowerStr = /^(?=.*[a-z]).{8,}$/
-  const numStr = /^(?=.*[0-9]).{8,}$/
+  const upperStr = /^(?=.*[A-Z]).{8,}$/;
+  const lowerStr = /^(?=.*[a-z]).{8,}$/;
+  const numStr = /^(?=.*[0-9]).{8,}$/;
 
   if (value === "") {
     callback(new Error(t("login.passwordErrText1")));
@@ -95,7 +116,7 @@ const forgotFun = async (formEl) => {
         email: props.formLogin.email,
         passWord: password,
         captcha: props.formLogin.captcha,
-        resetGoogleCheck: rememberMe.value ? "TRUE" : "FALSE"
+        resetGoogleCheck: rememberMe.value ? "TRUE" : "FALSE",
       };
       const res = await getForgetPasswordtcha(formLogin);
       if (res && res.code === 200) {

@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-      class="public-dialog" width="49.0625rem" :before-close="handleClose">
+    <el-dialog
+      v-model="show"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      width="49.0625rem"
+      :before-close="handleClose"
+    >
       <template #header>
         <div class="close_btn" @click="handleClose()">
           <el-icon>
@@ -16,14 +24,20 @@
             <p>{{ $t("user.bindText1") }}</p>
             <p>{{ $t("user.bindText2") }}</p>
           </div>
-          <img class="img_box" :src="qrCode" alt="">
+          <img class="img_box" :src="qrCode" alt="" />
         </div>
         <div class="verification_code">
           <div class="label_text">
-            <span>{{ $t("user.inputTitle") }} </span><span class="required">*</span>
+            <span>{{ $t("user.inputTitle") }} </span
+            ><span class="required">*</span>
           </div>
-          <el-input class="verification_input" @blur="onVerify('auth')" v-model="googleCode" placeholder="Code"
-            type="number"></el-input>
+          <el-input
+            class="verification_input"
+            @blur="onVerify('auth')"
+            v-model="googleCode"
+            placeholder="Code"
+            type="number"
+          ></el-input>
           <div class="error_box">
             <span>{{ walletAddrTips }}</span>
           </div>
@@ -37,15 +51,15 @@
     </el-dialog>
   </div>
 </template>
-    
+
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { getGoogleQrCode, bindGoogleAuth } from "@/services/api/user";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 export default {
-  name: 'modifyName',
+  name: "modifyName",
   data() {
     return {
       show: true,
@@ -53,7 +67,7 @@ export default {
       googleCode: null,
       walletAddrTips: null,
       verifys: false,
-      setting: {}
+      setting: {},
     };
   },
   computed: {
@@ -65,7 +79,7 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
-    }
+    },
   },
   methods: {
     onConfirm() {
@@ -95,12 +109,12 @@ export default {
     },
     async fetchGoogleQrCode() {
       const res = await getGoogleQrCode({
-        email: this.userInfo.email
-      })
+        email: this.userInfo.email,
+      });
 
       if (res) {
         let blob = new Blob([res.data], {
-          type: res.headers.contentType
+          type: res.headers.contentType,
         });
 
         this.qrCode = window.URL.createObjectURL(blob);
@@ -113,11 +127,11 @@ export default {
 
       const res = await bindGoogleAuth({
         email: this.userInfo.email,
-        code: this.googleCode
-      })
+        code: this.googleCode,
+      });
 
       if (res && res.code == 200) {
-        this.$message.success("Bind successfully!")
+        this.$message.success("Bind successfully!");
         this.handleClose();
       }
     },
@@ -127,7 +141,7 @@ export default {
 
       if (done) {
         done();
-        return
+        return;
       }
     },
   },
@@ -138,7 +152,7 @@ export default {
   },
 };
 </script>
-    
+
 <style lang="scss" scoped>
 .public-dialog-title {
   padding-top: 1.875rem;
@@ -201,7 +215,7 @@ export default {
       box-shadow: none !important;
       outline: none !important;
 
-      &>input {
+      & > input {
         color: white;
         font-size: 1.25rem;
       }
@@ -227,17 +241,13 @@ export default {
   flex-direction: column;
   padding-bottom: 1.875rem;
 
-  &>.public-button+.public-button {
+  & > .public-button + .public-button {
     margin: 1.5rem 0 0;
   }
 }
 
-
 @media screen and (max-width: 950px) {
-
   .public-dialog {
-
-
     .public-dialog-title {
       padding-top: 1rem;
       font-size: 1.5rem;
@@ -277,7 +287,7 @@ export default {
           height: 2.5rem;
           border-radius: 0.25rem;
 
-          &>input {
+          & > input {
             color: white;
             font-size: 0.75rem;
           }

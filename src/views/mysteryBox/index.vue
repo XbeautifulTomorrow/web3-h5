@@ -1,6 +1,13 @@
 <template>
   <div class="blind-detail">
-    <div class="blind-lottory-box" v-if="blindDetailInfo && blindDetailInfo.series && blindDetailInfo.series.length > 0">
+    <div
+      class="blind-lottory-box"
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
       <Lottory
         v-if="showRoll"
         ref="roll"
@@ -15,46 +22,56 @@
         @closeRollFun="closeRollFun"
       />
     </div>
-    <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
+    <boxDetails
+      :blindDetailInfo="blindDetailInfo"
+      @rollNumberFun="rollNumberFun"
+    ></boxDetails>
     <Loading :loading="loading" />
     <div class="preloadingimg"></div>
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
-      <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
+      <img
+        v-for="(item, index) in preloadingImg"
+        :src="item"
+        :key="`img-${index}`"
+      />
     </div>
-  </div>
-  <el-dialog
-    v-model="showTips"
-    destroy-on-close
-    :close-on-click-modal="false"
-    :show-close="false"
-    :align-center="true"
-    class="public-dialog mystery-dialog"
-    width="800px"
-    :before-close="handleClose"
-  >
-    <template #header>
-      <div class="close_btn" @click="handleClose()">
-        <el-icon>
-          <Close />
-        </el-icon>
-      </div>
-    </template>
-    <div class="public-dialog-content form-content">
-      <p class="public-dialog-title">{{ $t("mysteryBox.boxTipsTitle") }}</p>
-      <div class="tips-box">
-        <div class="tips-text">{{ $t("mysteryBox.boxTipsDescription1") }}</div>
-        <div class="tips-text bottom">
-          {{ $t("mysteryBox.boxTipsDescription2") }}
+
+    <el-dialog
+      v-model="showTips"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog mystery-dialog"
+      width="800px"
+      :before-close="handleClose"
+    >
+      <template #header>
+        <div class="close_btn" @click="handleClose()">
+          <el-icon>
+            <Close />
+          </el-icon>
+        </div>
+      </template>
+      <div class="public-dialog-content form-content">
+        <p class="public-dialog-title">{{ $t("mysteryBox.boxTipsTitle") }}</p>
+        <div class="tips-box">
+          <div class="tips-text">
+            {{ $t("mysteryBox.boxTipsDescription1") }}
+          </div>
+          <div class="tips-text bottom">
+            {{ $t("mysteryBox.boxTipsDescription2") }}
+          </div>
+        </div>
+        <div class="form-buttons">
+          <el-button class="public-button" @click="handleClose()">
+            <span>{{ $t("mysteryBox.boxTipsClose") }}</span>
+          </el-button>
         </div>
       </div>
-      <div class="form-buttons">
-        <el-button class="public-button" @click="handleClose()">
-          <span>{{ $t("mysteryBox.boxTipsClose") }}</span>
-        </el-button>
-      </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -64,7 +81,13 @@ import timezone from "dayjs/plugin/timezone";
 import { mapStores } from "pinia";
 import bigNumber from "bignumber.js";
 
-import { balanceOrder, lotteryResult, blindBoxDetail, walletOrder, getBoxCatGas } from "@/services/api/blindBox";
+import {
+  balanceOrder,
+  lotteryResult,
+  blindBoxDetail,
+  walletOrder,
+  getBoxCatGas,
+} from "@/services/api/blindBox";
 import lottAbi from "@/config/lott.json";
 import erc20Abi from "@/config/erc20.json";
 import transferAbi from "@/config/transfer.json";
@@ -196,9 +219,13 @@ export default {
       this.apiIsError = false;
       let price = this.blindDetailInfo.price;
       if (coiledType == "FIVE") {
-        price = Number(new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5));
+        price = Number(
+          new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5)
+        );
       } else if (coiledType == "TEN") {
-        price = Number(new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10));
+        price = Number(
+          new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10)
+        );
       }
       await this.getBlindBoxDetail();
       this.showRoll = true;
@@ -235,7 +262,10 @@ export default {
         if (result?.code == 200) {
           if (result.data && result.data.length) {
             this.lottResult = result;
-            localStorage.setItem("result", JSON.stringify({ result, rollNumber: this.rollNumber }));
+            localStorage.setItem(
+              "result",
+              JSON.stringify({ result, rollNumber: this.rollNumber })
+            );
             this.clearTimerFun();
           } else {
             this.timeOutFun(walletOrderInfo);
@@ -277,15 +307,24 @@ export default {
         amountVal = this.blindDetailInfo.price;
       }
       if (coiledType == "FIVE") {
-        amountVal = web3.utils.toWei((this.blindDetailInfo.fivePrice * 5).toString(), "ether");
+        amountVal = web3.utils.toWei(
+          (this.blindDetailInfo.fivePrice * 5).toString(),
+          "ether"
+        );
       }
       if (coiledType == "TEN") {
-        amountVal = web3.utils.toWei((this.blindDetailInfo.tenPrice * 10).toString(), "ether");
+        amountVal = web3.utils.toWei(
+          (this.blindDetailInfo.tenPrice * 10).toString(),
+          "ether"
+        );
       }
       this.dialogVisible = false;
 
       const contractAddress = this.transferAddress;
-      const transferContract = new web3.eth.Contract(transferAbi, contractAddress);
+      const transferContract = new web3.eth.Contract(
+        transferAbi,
+        contractAddress
+      );
       let tokenChoose = 2;
       if (this.blindDetailInfo.coin == "ETH") {
         tokenChoose = 1;
@@ -304,31 +343,46 @@ export default {
         method: "eth_requestAccounts",
       });
       const erc20Contract = new web3.eth.Contract(erc20Abi, this.usdtAddress);
-      let allowance = await erc20Contract.methods.allowance(accounts[0], contractAddress).call();
+      let allowance = await erc20Contract.methods
+        .allowance(accounts[0], contractAddress)
+        .call();
       if (allowance == "0") {
-        await erc20Contract.methods.approve(contractAddress, 10000).send({ from: accounts[0] });
+        await erc20Contract.methods
+          .approve(contractAddress, 10000)
+          .send({ from: accounts[0] });
       }
       if (tokenChoose == 2) {
-        await transferContract.methods.transferToken(this.usdtAddress, amount, receiver, orderId).send({
-          from: accounts[0],
-          to: contractAddress,
-        });
+        await transferContract.methods
+          .transferToken(this.usdtAddress, amount, receiver, orderId)
+          .send({
+            from: accounts[0],
+            to: contractAddress,
+          });
         return;
       }
-      await transferContract.methods.transferETH(amount, receiver, orderId).send({
-        from: accounts[0],
-        to: contractAddress,
-        value: amount,
-      });
+      await transferContract.methods
+        .transferETH(amount, receiver, orderId)
+        .send({
+          from: accounts[0],
+          to: contractAddress,
+          value: amount,
+        });
     },
     async lotteryBox() {
-      var accountsFromMetaMask = await window.ethereum.send("eth_requestAccounts");
+      var accountsFromMetaMask = await window.ethereum.send(
+        "eth_requestAccounts"
+      );
       let web3 = this.walletStore.web3;
       if (!web3) return;
       let idStr = this.walletOrderDetail.orderId.toString();
       let str = this.walletOrderDetail.orderNumber;
-      var lottContract = new web3.eth.Contract(lottAbi, this.lottContractAddress);
-      await lottContract.methods.getRandomness(idStr, 10, str).send({ from: accountsFromMetaMask.result[0] });
+      var lottContract = new web3.eth.Contract(
+        lottAbi,
+        this.lottContractAddress
+      );
+      await lottContract.methods
+        .getRandomness(idStr, 10, str)
+        .send({ from: accountsFromMetaMask.result[0] });
     },
     // 关闭弹窗
     handleClose(done) {
@@ -409,7 +463,11 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(228deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 62%);
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
 
   &:last-child {
     margin-right: 0;
@@ -445,16 +503,27 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   border-image-slice: 1;
-  background-image: linear-gradient(to bottom, #1b082b, #1b082b), linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+    linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
   background-origin: border-box;
   background-clip: content-box, border-box;
   cursor: pointer;
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

@@ -52,7 +52,11 @@
         show-overflow-tooltip
       >
         <template #default="scope">
-          {{ `$${Number(accurateDecimal(scope.row.usdtPrice, 2)).toLocaleString()}` }}
+          {{
+            `$${Number(
+              accurateDecimal(scope.row.usdtPrice, 2),
+            ).toLocaleString()}`
+          }}
         </template>
       </el-table-column>
       <el-table-column

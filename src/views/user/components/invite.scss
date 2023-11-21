@@ -20,7 +20,12 @@
 
   & > span {
     display: block;
-    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%
+    );
     font-family: Tomorrow;
     font-size: 1.5rem;
     font-weight: bold;
@@ -81,7 +86,12 @@
 }
 
 .title_text {
-  background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(234, 32, 141, 0.9) 15%,
+    #e63a97 39%,
+    #f1f1cb 70%
+  );
   font-family: BlenderPro;
   font-size: 2.875rem;
   font-weight: bold;
@@ -129,7 +139,8 @@
       padding: 0.125rem 0 0.125rem 0.125rem;
       border-image-source: linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       border-image-slice: 1;
-      background-image: linear-gradient(to bottom, #13151f, #13151f), linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
+      background-image: linear-gradient(to bottom, #13151f, #13151f),
+        linear-gradient(to bottom, #1e90f9 12%, #e022e3 70%);
       background-origin: border-box;
       background-clip: content-box, border-box;
 
@@ -552,17 +563,16 @@
         }
       }
     }
-    .consumption_box img{
+    .consumption_box img {
       width: 0.75rem;
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
-    .claim_box img{
+    .claim_box img {
       width: 0.75rem;
     }
     :deep(.table_container) {
       th.el-table__cell .cell {
         font-size: 0.75rem;
-        
       }
       .el-table__empty-text {
         font-size: 0.75rem;

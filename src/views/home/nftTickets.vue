@@ -17,7 +17,7 @@
               fit="cover"
               class="nft_img"
               v-if="item.orderType == 'LIMITED_PRICE_COIN'"
-              :src="require('@/assets/svg/user/create_eth.webp')"
+              :src="createEthImg"
             />
             <Image fit="cover" class="nft_img" v-else :src="item.nftImage" />
             <div class="type-box" v-if="item.currentStatus == 'IN_PROGRESS'">
@@ -131,10 +131,20 @@
               {{ item.winningName || item.winningAddress }}
             </span>
           </div>
-          <div class="sold-box" v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
-          </div>
-          <div class="sold-box" v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
-          </div>
+          <div
+            class="sold-box"
+            v-html="
+              $t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })
+            "
+            v-if="item.numberOfTicketsSold > 1"
+          ></div>
+          <div
+            class="sold-box"
+            v-html="
+              $t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })
+            "
+            v-else
+          ></div>
         </li>
       </template>
     </ul>
@@ -157,6 +167,8 @@ import { getCheckAllOrders } from "@/services/api/oneBuy";
 import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
+import createEth from "@/assets/svg/user/create_eth.webp";
+
 export default {
   name: "NtfTickets",
   components: {
@@ -167,6 +179,7 @@ export default {
     return {
       exchangeRate: null,
       ticketList: [],
+      createEthImg: createEth,
     };
   },
   computed: {

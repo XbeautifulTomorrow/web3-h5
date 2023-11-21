@@ -13,11 +13,11 @@
   align-items: center;
   justify-content: space-between;
 
-  &>div+div {
+  & > div + div {
     margin-left: 1.875rem;
   }
 
-  &>div {
+  & > div {
     flex: 1;
 
     .statistics_title {
@@ -39,7 +39,7 @@
     align-items: center;
     justify-content: space-between;
 
-    &>img {
+    & > img {
       height: 5.125rem;
     }
 
@@ -88,8 +88,7 @@
   }
 
   .tabel_item {
-
-    &>div+div {
+    & > div + div {
       margin-left: 3.875rem;
     }
 
@@ -114,7 +113,7 @@
   .tabel_tbody {
     margin-top: 0.25rem;
 
-    &>div+div {
+    & > div + div {
       margin-top: 0.25rem;
     }
   }
@@ -178,7 +177,7 @@
       display: flex;
       align-items: center;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.625rem;
       }
 
@@ -210,7 +209,11 @@
         }
 
         &.total {
-          background-image: linear-gradient(to bottom, #1e90f9 0%, #e022e3 100%);
+          background-image: linear-gradient(
+            to bottom,
+            #1e90f9 0%,
+            #e022e3 100%
+          );
 
           .val {
             color: white;
@@ -302,7 +305,6 @@
   user-select: none;
 }
 
-
 @media screen and (max-width: 950px) {
   .leaderboard_container {
     margin-top: 1.25rem;
@@ -313,12 +315,12 @@
   .statistics_box {
     flex-direction: column;
 
-    &>div+div {
+    & > div + div {
       margin-left: 0;
       margin-top: 0.75rem;
     }
 
-    &>div {
+    & > div {
       width: 100%;
 
       .statistics_title {
@@ -331,12 +333,11 @@
       padding: 0.5rem;
       border-radius: 0.5rem;
 
-      &>img {
+      & > img {
         height: 3.75rem;
       }
 
       .statistics_item {
-
         .label {
           font-size: 0.5rem;
         }
@@ -360,8 +361,7 @@
     }
 
     .tabel_item {
-
-      &>div+div {
+      & > div + div {
         margin-left: 1rem;
       }
 
@@ -417,12 +417,11 @@
       }
 
       .point {
-
-        &>div+div {
+        & > div + div {
           margin-left: 0;
         }
 
-        &>div:nth-child(n+2) {
+        & > div:nth-child(n + 2) {
           display: none;
         }
 
@@ -462,7 +461,6 @@
     }
 
     .pagination {
-
       .prev,
       .next {
         width: 1.625rem;

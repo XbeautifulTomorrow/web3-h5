@@ -11,7 +11,12 @@
   >
     <template #header="{ close }">
       <div class="public-dialog-header">
-        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
+        <img
+          class="public-dialog-header-icon"
+          src="@/assets/svg/close.svg"
+          alt=""
+          v-on="{ click: [close, closeDialogFun] }"
+        />
       </div>
     </template>
     <div class="public-dialog-content">

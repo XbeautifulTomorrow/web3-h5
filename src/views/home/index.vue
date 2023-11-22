@@ -56,7 +56,7 @@ export default {
       boxList: [],
       NFTList: [],
       generateKey: "",
-      isWarPosterShow: true,
+      isWarPosterShow: false,
     };
   },
   created() {
@@ -80,6 +80,7 @@ export default {
       } else {
         const image = new Image();
         image.onload = () => {
+          this.isWarPosterShow = true;
           if (this.isLogin) {
             setSessionStore("showWarTips", 2);
           }

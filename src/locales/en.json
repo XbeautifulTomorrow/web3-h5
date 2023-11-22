@@ -628,7 +628,19 @@
     "faqQuestion13": "What are the Bitzing Disc NFTs?",
     "faqAnswer13": "In addition to the Blue-Chip NFTs, Bitzing Disc NFTs are assets found within Raffle Boxes, used to extend gameplay and enhance winning opportunities for Blue Chip NFTs. These Bitzing Disc NFTs hold no value outside of Bitzing’s ecosystem and are designed to be sold within 60 seconds, offering you the opportunity to recover ETH. They feature 9 different variations, including: Wooden Disc (0.001ETH), Rock Disc (0.002ETH), Steel Disc (0.005ETH), Bronze Disc (0.01ETH), Silver Disc (0.02ETH), Golden Disc (0.05ETH), Diamond Disc (0.1ETH), Gem Disc (0.2ETH), and the highest-ranking Galaxy Disc (0.5ETH). The prices vary depending on the rarity, with the Galaxy Disc NFT being the most valuable and the Wooden Disc being the least valuable.",
     "faqQuestion14": "Can I earn ETH and other cryptocurrencies by participating in Raffle Box?",
-    "faqAnswer14": "Certainly! You can currently earn $ETH, and in the future, we plan to incorporate additional cryptocurrencies into the boxes."
+    "faqAnswer14": "Certainly! You can currently earn $ETH, and in the future, we plan to incorporate additional cryptocurrencies into the boxes.",
+    "faqQuestion15": "What is Token War?",
+    "faqAnswer15": "Token War is a multiplayer game where participants can deploy \"troops\" (USDT) to compete for prizes. The player who contributes the most troops wins the entire prize pool. Other players earn points based on their troop contributions.",
+    "faqQuestion16": "How do I participate in Token War?",
+    "faqAnswer16": "1. Ensure your Bitzing account has enough balance to deploy troops.<br>2. Enter the number of troops (USDT) you want to deploy. 1 USDT = 1 soldier.<br>3. Wait for the countdown to end and the combat to start. Combat starts once there are 2+ participants.<br>4. Return to claim your rewards if you win!",
+    "faqQuestion17": "What are the rules of Token War?",
+    "faqAnswer17": "- Each round has a 3 minute countdown. If only 1 player, countdown resets.<br>- If 2+ players when countdown ends, combat begins.<br>- If 3 players, countdown resets to 15 seconds. New players reset countdown to 15 secs.<br>- Winner gets entire prize pool (minus 5% fee for Bitzing). Others get points based on troops.",
+    "faqQuestion18": "What is End War?",
+    "faqAnswer18": "- End War starts when the cumulative prize pool from Token War rounds reaches a threshold.<br><br>- Initial duration is 10 mins. Players can contribute more troops to extend up to 10 mins max.<br><br>- Must contribute more troops than the current leader to extend. When countdown ends, winner randomly chosen based on winning ID.<br><br>- Winner gets combined prize pool (minus 5% Bitzing fee).",
+    "faqQuestion19": "Is Token War fair?",
+    "faqAnswer19": "Yes, Token War uses blockchain-compatible smart contracts for verification, auditing and operations. Bitzing covers gas fees. Refunds only if game conditions not met. Player info available on game page.",
+    "faqQuestion20": "Can I get a refund?",
+    "faqAnswer20": "Refunds are only provided if the minimum conditions to start the game are not met after you deploy troops."
   },
   "errorTips": {
     "no_access": "Access limited.",

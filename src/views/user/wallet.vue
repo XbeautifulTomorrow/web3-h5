@@ -262,7 +262,7 @@
           </el-table-column>
         </el-table>
       </template>
-      <template v-else-if="coin == 'BUY CRYPTO'">
+      <template v-else-if="coin == 'BUYCRYPTO'">
         <el-table :data="thirdPartyList" class="table_container">
           <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
             <template #default="scope">
@@ -380,7 +380,7 @@ export default {
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT", "CONVERT", "BUY CRYPTO"],
+      coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO"],
       historyData: [],
       userPoints: null,
       userTickets: null,
@@ -505,6 +505,9 @@ export default {
       } else if (this.coin == "CONVERT") {
         this.fetchConvertList(false);
         return;
+      } else if (this.coin == "BUYCRYPTO") {
+        this.getProductionOfThirdPartyOrdersListFunc(false);
+        return;
       }
 
       this.historyData = [];
@@ -625,7 +628,7 @@ export default {
       } else if (this.coin == "CONVERT") {
         this.fetchConvertList(false);
         return;
-      } else if (this.coin == "BUY CRYPTO") {
+      } else if (this.coin == "BUYCRYPTO") {
         this.getProductionOfThirdPartyOrdersListFunc();
         return;
       }

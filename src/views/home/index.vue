@@ -85,7 +85,7 @@ export default {
             setSessionStore("showWarTips", 2);
           }
         };
-        image.src = require("@/assets/img/home/poster/bg_03.webp");
+        image.src = require("@/assets/img/home/poster/bg_02.webp");
       }
     },
     bannerGo(data) {

@@ -95,8 +95,8 @@
       </div>
     </div>
     <div class="notice_box">
-      <span class="label">{{$t("lottery.notice")}}:</span>
-      <span class="tip">{{$t("user.threePayTip")}}</span>
+      <span class="label">{{ $t("lottery.notice") }}:</span>
+      <span class="tip">{{ $t("user.threePayTip") }}</span>
     </div>
     <div class="form-rember">
       <span class="form-rember-rectangle" @click="agreeFun">
@@ -106,7 +106,7 @@
         <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
           <template #content>
             <div class="tooltip_content">
-              {{$t("user.threePayDisclaimer")}}
+              {{ $t("user.threePayDisclaimer") }}
             </div>
           </template>
           <p v-html="$t('user.agreeDisclaimer')"></p>
@@ -270,9 +270,9 @@ export default {
         }
       } else {
         if (Number(amount) < Number(min)) {
-          exchangeAmountTips = t("user.ruleTip2",{min,coin:this.exchangeFromCoin});
+          exchangeAmountTips = t("user.ruleTip2", { min, coin: this.exchangeFromCoin });
         } else if (Number(amount) > Number(max)) {
-          exchangeAmountTips = t("user.ruleTip3",{max,coin:this.exchangeFromCoin});
+          exchangeAmountTips = t("user.ruleTip3", { max, coin: this.exchangeFromCoin });
         } else {
           exchangeAmountTips = null;
         }
@@ -389,7 +389,6 @@ export default {
 
   .form-rember-text {
     font-size: 1rem;
-    line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
     cursor: pointer;
@@ -548,6 +547,7 @@ export default {
   .buy_crypto_box {
     .module_info {
       margin-top: 0.5rem;
+      border-radius: 0.25rem;
       .item_info {
         .info {
           &.font1 {
@@ -566,10 +566,12 @@ export default {
       }
     }
     .notice_box {
+      height: auto;
       display: block;
       text-align: left;
-      padding: 0 0.5rem;
+      padding: 0.5rem;
       margin-top: 0.5rem;
+      border-radius: 0.25rem;
       .label {
         margin-right: 0.25rem;
       }

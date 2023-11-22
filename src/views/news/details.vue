@@ -55,12 +55,16 @@ export default {
   .news_box {
     width: 75rem;
     margin: 0 auto;
+    background-color: #1d0f36;
+    padding: 1.25rem 1.875rem;
+    margin-top: 3.75rem;
+    border-radius: 0.5rem;
   }
   .back_btn {
     display: flex;
     align-items: center;
     text-align: left;
-    margin-top: 3.75rem;
+
     font-family: Tomorrow;
     font-size: 1.5rem;
     font-weight: bold;
@@ -88,6 +92,7 @@ export default {
     margin-top: 1.875rem;
     margin-bottom: 1rem;
     text-align: left;
+    word-break: break-all;
   }
   .news_time {
     font-family: Inter;
@@ -110,6 +115,7 @@ export default {
   }
   :deep(.news_content) {
     text-align: initial;
+    word-break: break-all;
     img {
       width: 100%;
     }

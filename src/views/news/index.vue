@@ -84,6 +84,8 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.875rem;
     .news_item {
+      position: relative;
+      height: 31.375rem;
       background: rgb(29, 15, 54);
       border-radius: 0.5rem;
       cursor: pointer;
@@ -108,6 +110,7 @@ export default {
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
           text-align: left;
+          word-break: break-all;
         }
         .news_info {
           font-family: Inter;
@@ -123,8 +126,12 @@ export default {
           text-overflow: ellipsis;
           margin-bottom: 2rem;
           text-align: left;
+          word-break: break-all;
         }
         .news_time {
+          position: absolute;
+          left: 1.25rem;
+          bottom: 1.25rem;
           font-family: Inter;
           font-size: 0.75rem;
           font-weight: normal;

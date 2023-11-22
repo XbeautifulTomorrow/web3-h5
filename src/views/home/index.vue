@@ -81,9 +81,9 @@ export default {
         const image = new Image();
         image.onload = () => {
           this.isWarPosterShow = true;
-          if (this.isLogin) {
-            setSessionStore("showWarTips", 2);
-          }
+          // if (this.isLogin) {
+          //   setSessionStore("showWarTips", 2);
+          // }
         };
         image.src = require("@/assets/img/home/poster/bg_02.webp");
       }

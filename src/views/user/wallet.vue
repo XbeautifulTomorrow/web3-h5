@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <template v-if="coin != 'CONVERT'">
+      <template v-if="coin == 'COIN' || coin == 'NFT'">
         <el-table :data="historyData" class="table_container">
           <el-table-column prop="logType" :label="$t('user.balanceTabel1')" min-width="100" align="center" key="1">
             <template #default="scope">
@@ -229,7 +229,7 @@
           </el-table-column>
         </el-table>
       </template>
-      <template v-else>
+      <template v-else-if="coin == 'CONVERT'">
         <el-table :data="exchangeData" class="table_container">
           <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
             <template #default="scope">
@@ -249,7 +249,8 @@
           <el-table-column prop="eth_amount" min-width="120" :label="$t('user.receivedCoin')" align="center" key="6">
             <template #default="scope">
               <div class="amount_box">
-                <span>{{ scope.row.userNum }}</span>
+                <span v-priceFormat:4="scope.row.userNum" v-if="scope.row.buyCoin == 'ETH'"></span>
+                <span v-priceFormat="scope.row.userNum" v-else></span>
                 <img :src="getCoin(scope.row.buyCoin)" alt="" />
               </div>
             </template>
@@ -257,6 +258,42 @@
           <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
             <template #default="scope">
               {{ timeFormat(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+      <template v-else-if="coin == 'BUYCRYPTO'">
+        <el-table :data="thirdPartyList" class="table_container">
+          <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
+            <template #default="scope">
+              <span>{{ scope.row.logType }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="orderId" :label="'Id'" min-width="100" align="center" key="2" show-overflow-tooltip />
+          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel3')" min-width="100" align="center" key="2" show-overflow-tooltip>
+            <template #default="scope">
+              <p><span v-priceFormat="scope.row.amount"></span> USDT</p>
+            </template>
+          </el-table-column>
+          <el-table-column prop="provider" :label="$t('user.balanceTabel10')" min-width="100" align="center" key="1"> </el-table-column>
+          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel4')" min-width="100" align="center" key="2" show-overflow-tooltip>
+            <template #default="scope">
+              <div :class="['sync_status', scope.row.status]">
+                <span> {{ scope.row.status == "IN_PROGRESS" ? $t("user.inProgress") : scope.row.status }}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
+            <template #default="scope">
+              {{ timeFormat(scope.row.datetime) }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="100" key="10" fixed="right">
+            <template #default="scope">
+              <div class="view_btn" v-if="scope.row.status == 'SUCCESS'" @click="viewThreePartyTxid(scope.row)">
+                {{ $t("user.view") }}
+              </div>
+              <div v-else>--</div>
             </template>
           </el-table-column>
         </el-table>
@@ -307,6 +344,8 @@
     <Recharge v-if="showRecharge" :type="walletOperating" @closeDialogFun="handleClose()"></Recharge>
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
+    <!-- 第三方支付成功弹框 -->
+    <checkResult v-if="checkResultDialog" @closeDialogFun="checkResultDialog = false"></checkResult>
   </div>
 </template>
 <script>
@@ -322,6 +361,7 @@ import {
   getTheUserBalance,
   getNftWithdrawalList,
   getFlashExchangePage,
+  getProductionOfThirdPartyOrdersList,
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
@@ -329,16 +369,18 @@ import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
+import checkResult from "@/components/checkDialog/checkResult";
 export default {
   name: "myWallet",
   components: {
     Points,
     Recharge,
+    checkResult,
   },
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT", "CONVERT"],
+      coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO"],
       historyData: [],
       userPoints: null,
       userTickets: null,
@@ -361,6 +403,8 @@ export default {
       exchangePage: 1,
       exchangeCount: 0,
       exchangeData: [],
+      thirdPartyList: [],
+      checkResultDialog: false,
     };
   },
   computed: {
@@ -461,6 +505,9 @@ export default {
       } else if (this.coin == "CONVERT") {
         this.fetchConvertList(false);
         return;
+      } else if (this.coin == "BUYCRYPTO") {
+        this.getProductionOfThirdPartyOrdersListFunc(false);
+        return;
       }
 
       this.historyData = [];
@@ -478,6 +525,19 @@ export default {
         this.count = res.data.total;
       }
     },
+    // 获取第三方支付订单
+    async getProductionOfThirdPartyOrdersListFunc() {
+      const res = await getProductionOfThirdPartyOrdersList({
+        page: this.page,
+        size: this.size,
+      });
+
+      if (res && res.code == 200) {
+        this.thirdPartyList = res.data.records;
+        this.count = res.data.total;
+      }
+    },
+
     // 充值提款历史
     async fetchHistory(isSearch = true) {
       const { size } = this;
@@ -555,6 +615,10 @@ export default {
       }
       openUrl(`${chainLink}${event.hash}`);
     },
+    viewThreePartyTxid(event) {
+      let chainLink = process.env.VUE_APP_THREE_PARTY_ADDR;
+      openUrl(`${chainLink}${event.hash}`);
+    },
     handleCurrentChange(page) {
       this.page = page;
       if (this.coin == "NFT") {
@@ -562,6 +626,9 @@ export default {
         return;
       } else if (this.coin == "CONVERT") {
         this.fetchConvertList(false);
+        return;
+      } else if (this.coin == "BUYCRYPTO") {
+        this.getProductionOfThirdPartyOrdersListFunc();
         return;
       }
       this.fetchHistory(false);
@@ -583,12 +650,16 @@ export default {
     },
   },
   created() {
+    if (this.$route.query?.paymentType) {
+      this.checkResultDialog = true;
+    }
     if (this.isLogin && this.userInfo?.id) {
       this.fetchHistory();
       this.fetchTheUserPoint();
       this.fetchTheUserBalance();
       this.fetchUserTotalTicket();
-      this.fetchConvertList();
+      // this.fetchConvertList();
+      // this.getProductionOfThirdPartyOrdersListFunc();
     }
   },
 };

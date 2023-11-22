@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
+import { productionOfThirdPartyCoin } from "@/services/api/user";
 import { getWithdrawalChain } from "@/services/api/user";
-
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
 import { getLang } from "@/locales";
@@ -24,6 +24,8 @@ export const useUserStore = defineStore("user", {
       { name: "BUSD", img: require("@/assets/svg/user/coin/icon_busd.svg") },
       { name: "USDC", img: require("@/assets/svg/user/coin/icon_usdc.svg") },
     ],
+    buyCryptoCoinRates: {},
+    three_pay_widget_id: "67710925-8b40-4767-846e-3b88db69f04d",
   }),
   persist: {
     enabled: true,
@@ -48,7 +50,7 @@ export const useUserStore = defineStore("user", {
             }
           });
         }
-      }    
+      }
     },
     getCoin(event) {
       const { currencyData } = this;
@@ -97,6 +99,13 @@ export const useUserStore = defineStore("user", {
       window.NavigationPreloadManager;
       window.location.href = "/home";
       // router.push({ path: "/home" });
+    },
+    // 获取法币交易币种和汇率
+    async exchangeLegalRate() {
+      const res = await productionOfThirdPartyCoin({ widget_id: this.three_pay_widget_id });
+      if (res && res.data) {
+        this.buyCryptoCoinRates = res?.data?.buy?.USDT;
+      }
     },
   },
 });

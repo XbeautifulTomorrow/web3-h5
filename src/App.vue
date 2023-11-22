@@ -44,8 +44,9 @@ export default {
       });
     },
     getCoinList() {
-      const headerStore = useUserStore();
-      return headerStore.getCoinList();
+      const { getCoinList, exchangeLegalRate } = useUserStore();
+      getCoinList();
+      exchangeLegalRate();
     },
   },
   created() {

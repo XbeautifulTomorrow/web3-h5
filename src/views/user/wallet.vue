@@ -528,14 +528,13 @@ export default {
     // 获取第三方支付订单
     async getProductionOfThirdPartyOrdersListFunc() {
       const res = await getProductionOfThirdPartyOrdersList({
-        current: this.page,
+        page: this.page,
         size: this.size,
       });
 
       if (res && res.code == 200) {
         this.thirdPartyList = res.data.records;
         this.count = res.data.total;
-        console.log(this.count,'=')
       }
     },
 
@@ -659,8 +658,8 @@ export default {
       this.fetchTheUserPoint();
       this.fetchTheUserBalance();
       this.fetchUserTotalTicket();
-      this.fetchConvertList();
-      this.getProductionOfThirdPartyOrdersListFunc();
+      // this.fetchConvertList();
+      // this.getProductionOfThirdPartyOrdersListFunc();
     }
   },
 };

@@ -285,7 +285,7 @@
           </el-table-column>
           <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
             <template #default="scope">
-              {{ timeFormat(scope.row.createTime) }}
+              {{ timeFormat(scope.row.datetime) }}
             </template>
           </el-table-column>
           <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="100" key="10" fixed="right">
@@ -532,6 +532,7 @@ export default {
       if (res && res.code == 200) {
         this.thirdPartyList = res.data.records;
         this.count = res.data.total;
+        console.log(this.count,'=')
       }
     },
 

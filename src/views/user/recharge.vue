@@ -25,7 +25,7 @@
           <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
             {{ t("user.exchange") }}
           </div>
-          <div class="operating_btn" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
+          <div class="operating_btn buy_crypTo" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
             {{ t("BUY CRYPTO") }}
           </div>
         </div>

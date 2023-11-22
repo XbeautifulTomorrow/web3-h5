@@ -1414,11 +1414,15 @@
       }
 
       .operating_btn {
-        width: 6rem;
+        max-width: 6rem;
+        flex: 1;
         height: 2rem;
         line-height: 2rem;
         border-radius: 0.25rem;
         font-size: 0.75rem;
+        &.buy_crypTo {
+          flex: 1.2;
+        }
       }
     }
 

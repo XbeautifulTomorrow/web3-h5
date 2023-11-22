@@ -316,7 +316,7 @@
               </div>
             </div>
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
-              <span>{{ t("EXCHANGE") }}</span>
+              <span>{{ t("user.exchange") }}</span>
             </div>
           </div>
           <rechargeBuyCrypto v-else-if="walletOperating == 4"></rechargeBuyCrypto>

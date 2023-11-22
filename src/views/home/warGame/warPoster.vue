@@ -21,6 +21,7 @@
         <div class="title2">100,000 USDT</div>
       </div>
       <div class="turntable_box" @click="goTokenWar">
+        <img src="@/assets/img/home/poster/bg_02.webp" alt="" class="turntable" />
         <div class="text_box">
           <img src="@/assets/img/home/poster/bg_03.webp" alt="" class="text" />
           <img src="@/assets/img/home/poster/pointer.webp" alt="" class="pointer" />
@@ -125,16 +126,22 @@ export default {
     text-align: center;
   }
   .turntable_box {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 16.5625rem;
     height: 19.125rem;
-    background: url("@/assets/img/home/poster/bg_02.webp") no-repeat center;
-    background-size: cover;
     margin: 0 auto;
     margin-top: 2.625rem;
     cursor: pointer;
+    .turntable {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 16.5625rem;
+      height: 19.125rem;
+    }
     .text_box {
       position: relative;
       width: 6.4375rem;

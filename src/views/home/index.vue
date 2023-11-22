@@ -78,7 +78,7 @@ export default {
       if (showTips && showTips == 2) {
         this.isWarPosterShow = false;
       } else {
-        console.log(1);
+        this.isWarPosterShow = true;
         const image = new Image();
         image.onload = () => {
           console.log(2);

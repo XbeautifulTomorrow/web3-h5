@@ -76,9 +76,6 @@ export const useUserStore = defineStore("user", {
       }
       this.regInfo = data;
     },
-    setLocale(data) {
-      this.locale = data == "en_US" ? localeEN : localeZH;
-    },
     setCurrentTime(data) {
       this.currentTime = data;
     },

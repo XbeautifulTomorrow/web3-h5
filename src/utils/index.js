@@ -388,7 +388,7 @@ export function formatNumber(num) {
       Math.max(num.toString().split(".")[1].length, 2),
     );
   }
-};
+}
 
 /**
  * @description: 精确小数点
@@ -478,7 +478,7 @@ export function isValidEthAddress(address) {
   // }
 
   return true;
-};
+}
 
 // 验证地址正确性的函数
 export function isValiTronAddress(address) {
@@ -492,7 +492,7 @@ export function isValiTronAddress(address) {
     return false;
   }
   return true;
-};
+}
 
 // 验证 以太坊交易哈希
 export function isEthTransactionHashValid(hash) {
@@ -501,7 +501,7 @@ export function isEthTransactionHashValid(hash) {
 
   // 使用正则表达式进行验证
   return ethTxHashRegex.test(hash);
-};
+}
 
 /**
  * @description: ECB模式 加密
@@ -521,7 +521,7 @@ export function encryptECB(word, keyStr) {
   } catch {
     return word;
   }
-};
+}
 
 /**
  * @description: ECB模式 解密
@@ -540,7 +540,7 @@ export function decryptECB(word, keyStr) {
   } catch {
     return word;
   }
-};
+}
 
 /**
  * @description: CBC模式 加密
@@ -571,7 +571,7 @@ export function encryptCBC(word, keyStr) {
   } catch {
     return word;
   }
-};
+}
 
 /**
  * @description:CBC模式 解密
@@ -604,7 +604,7 @@ export function decryptCBC(word, keyStr) {
   } catch {
     return word;
   }
-};
+}
 /*
  * 描述: tween动画算法。
  * @param Number t: 动画已经执行的时间（实际上时执行多少次/帧数）
@@ -616,24 +616,24 @@ export function decryptCBC(word, keyStr) {
 export function easeIn(t, b, c, d) {
   if (t >= d) t = d;
   return c * (t /= d) * t + b;
-};
+}
 
 // 缓出函数
 export function easeOut(t, b, c, d) {
   if (t >= d) t = d;
   return -c * (t /= d) * (t - 2) + b;
-};
+}
 
 // 动画循环（每秒60帧）
 export function rAF(callback) {
   return window.setTimeout(callback, 1000 / 60);
-};
+}
 
 // 格式化U
 export function formatUsd(event, type = 2) {
   const num = event || 0;
   return Number(accurateDecimal(num, type)).toLocaleString();
-};
+}
 
 // 首字母大写
 export function upperFirstConcat(strV) {
@@ -643,4 +643,4 @@ export function upperFirstConcat(strV) {
   });
 
   return str;
-};
+}

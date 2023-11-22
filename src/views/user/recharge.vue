@@ -586,7 +586,7 @@ export default {
         this.ethNum =
           accurateDecimal(
             new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
-            8
+            8,
           ) || 0;
       }, 300);
     },
@@ -602,7 +602,7 @@ export default {
         this.walletAmount =
           accurateDecimal(
             new bigNumber(newV || 0).multipliedBy(exchangeRate || 0),
-            8
+            8,
           ) || 0;
       }, 300);
     },
@@ -624,7 +624,7 @@ export default {
     maxFunc() {
       this.exchangeInfo.exchangeFromAmount =
         Math.floor(
-          this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000
+          this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000,
         ) / 10000;
       this.exchangeFromAmountFunc();
     },
@@ -641,7 +641,7 @@ export default {
           Math.floor(
             (this.exchangeInfo.exchangeFromAmount /
               this.exchangeInfo.exchangeRate) *
-              10000
+              10000,
           ) / 10000;
       }
       this.exchangeInfo.exchangeToAmount = exchangeToAmount;
@@ -653,7 +653,7 @@ export default {
           Math.floor(
             this.exchangeInfo.exchangeToAmount *
               this.exchangeInfo.exchangeRate *
-              10000
+              10000,
           ) / 10000;
       }
       this.exchangeInfo.exchangeFromAmount = exchangeFromAmount;
@@ -830,10 +830,10 @@ export default {
     },
     getWalletAddress() {
       const type = this.networkDrop.find(
-        (x) => x.chain == this.walletNetwork
+        (x) => x.chain == this.walletNetwork,
       )?.type;
       this.receiverAddr = this.receiverAddrList.find(
-        (x) => x.type == type
+        (x) => x.type == type,
       )?.address;
     },
     // 收款地址
@@ -931,7 +931,7 @@ export default {
           return;
         }
         const type = this.networkDrop.find(
-          (x) => x.chain == this.walletNetwork
+          (x) => x.chain == this.walletNetwork,
         )?.type;
         if (type == "TRON" && !isValiTronAddress(walletAddr)) {
           this.walletAddrTips = this.$t("user.enterError2", {

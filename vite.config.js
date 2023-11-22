@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     //路径别名
     alias: {
-      "@": resolve(__dirname, "./src"),
+      "@": resolve(__dirname, "./src")
     },
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
   },
@@ -36,5 +36,5 @@ export default defineConfig({
         }),
       ],
     },
-  },
+  }
 });

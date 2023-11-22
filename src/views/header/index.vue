@@ -81,7 +81,7 @@
                   undefined,
                   {
                     minimumFractionDigits: 2,
-                  },
+                  }
                 )
               }}
             </span>
@@ -395,7 +395,7 @@ export default {
 
       if (page == "Stake" || page == "INO" || page == "MarketPlace") {
         ElMessage({
-          message: t("common.tipsText"),
+          message: this.$t("common.tipsText"),
           type: "warning",
         });
         return;
@@ -464,7 +464,7 @@ export default {
 
     this.nav = [
       {
-        text: t("header.home"),
+        text: this.$t("header.home"),
         page: "Home",
         icon: homeNav.icon_home,
       },
@@ -474,27 +474,27 @@ export default {
       //   icon: homeNav.icon_aridrop,
       // },
       {
-        text: t("header.mysteryBox"),
+        text: this.$t("header.mysteryBox"),
         page: "RaffleBoxesList",
         icon: homeNav.icon_boxs,
       },
       {
-        text: t("header.competitions"),
+        text: this.$t("header.competitions"),
         page: "TreasureDraw",
         icon: homeNav.icon_treasure_draw,
       },
       {
-        text: t("header.tokenWar"),
+        text: this.$t("header.tokenWar"),
         page: "TokenWar",
         icon: homeNav.icon_token_war,
       },
       {
-        text: t("header.whitebook"),
+        text: this.$t("header.whitebook"),
         page: "Whitebook",
         icon: homeNav.icon_white_book,
       },
       {
-        text: t("header.faq"),
+        text: this.$t("header.faq"),
         page: "FAQ",
         icon: homeNav.icon_faq,
       },

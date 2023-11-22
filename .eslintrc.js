@@ -12,5 +12,5 @@ module.exports = {
     "vue/require-default-prop": "off",
     "vue/no-v-for-template-key": "off",
     "vue/multi-word-component-names": "off",
-  },
+  }
 };

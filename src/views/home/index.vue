@@ -60,12 +60,7 @@ export default {
     };
   },
   created() {
-    const showTips = getSessionStore("showWarTips");
-    if (showTips && showTips == 2) {
-      this.isWarPosterShow = false;
-    } else if (this.isLogin) {
-      setSessionStore("showWarTips", 2);
-    }
+    this.showWarPoster();
     getBoxList().then((res) => {
       if (res.data && res.data.length > 0) {
         this.boxList = res.data;
@@ -78,6 +73,20 @@ export default {
     });
   },
   methods: {
+    showWarPoster() {
+      const showTips = getSessionStore("showWarTips");
+      if (showTips && showTips == 2) {
+        this.isWarPosterShow = false;
+      } else {
+        const image = new Image();
+        image.onload = () => {
+          if (this.isLogin) {
+            setSessionStore("showWarTips", 2);
+          }
+        };
+        image.src = require("@/assets/img/home/poster/bg_03.webp");
+      }
+    },
     bannerGo(data) {
       let query = {};
       if (data.split("?").length > 1) {

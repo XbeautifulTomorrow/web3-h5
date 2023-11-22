@@ -4,6 +4,8 @@ const express = require("express");
 const serveStatic = require("serve-static");
 const { createServer: createViteServer } = require("vite");
 
+require('dotenv').config({ path: path.resolve(__dirname, './.env.' + process.env.NODE_ENV) })
+
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 // 创建一个虚拟dom
@@ -72,8 +74,7 @@ async function createServer() {
 
   app.listen(3000, () =>
     console.log(
-      `server is running at ${
-        isProd ? "线上" : "开发"
+      `server is running at ${isProd ? "线上" : "开发"
       }环境： http://localhost:3000`,
     ),
   );

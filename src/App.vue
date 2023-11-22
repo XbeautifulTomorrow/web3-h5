@@ -94,51 +94,49 @@ body {
   min-height: 100vh;
 
   & > div:nth-child(1) {
-    top: 42.875rem;
-    left: -38rem;
+    top: 98.875rem;
+    left: -9.6875rem;
     position: absolute;
+    width: 25.1875rem;
+    height: 28.5rem;
     pointer-events: none;
-    width: 75rem;
-    height: 77rem;
-    background: url("@/assets/img/home/bg_lt.webp") no-repeat center;
-    background-size: contain;
-    z-index: 1;
+    background-color: #a21ae2;
+    filter: blur(16.5625rem);
   }
 
   & > div:nth-child(2) {
-    top: 60rem;
-    right: -45rem;
+    top: 122.625rem;
+    right: -10.0625rem;
     position: absolute;
+    width: 29.875rem;
+    height: 33.8125rem;
     pointer-events: none;
-    width: 75rem;
-    height: 77rem;
-    background: url("@/assets/img/home/bg_rt.webp") no-repeat center;
-    background-size: contain;
-    z-index: 1;
+    filter: blur(18.75rem);
+    background-color: #ed21b4;
   }
 
   & > div:nth-child(3) {
-    top: 130.4375rem;
-    left: -45rem;
+    top: 206.4375rem;
+    left: -18.9375rem;
     position: absolute;
+    width: 29.875rem;
+    height: 33.8125rem;
     pointer-events: none;
-    width: 75rem;
-    height: 77rem;
-    background: url("@/assets/img/home/bg_lb.webp") no-repeat center;
-    background-size: contain;
-    z-index: 1;
+    filter: blur(18.75rem);
+    border-radius: 50%;
+    background-color: #ed21b4;
   }
 
   & > div:nth-child(4) {
-    top: 180.25rem;
-    right: -45rem;
+    top: 242.25rem;
+    right: -24.125rem;
     position: absolute;
+    width: 29.875rem;
+    height: 33.8125rem;
     pointer-events: none;
-    width: 75rem;
-    height: 77rem;
-    background: url("@/assets/img/home/bg_rb.webp") no-repeat center;
-    background-size: contain;
-    z-index: 1;
+    filter: blur(18.75rem);
+    border-radius: 50%;
+    background-color: #a21ae2;
   }
 }
 

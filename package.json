@@ -55,8 +55,9 @@
     "html-webpack-plugin": "^5.5.1",
     "postcss-px-to-viewport": "^1.1.1",
     "prettier": "3.1.0",
+    "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.69.5",
-    "terser-webpack-plugin": "^5.3.9"
+    "terser": "^5.24.0"
   },
   "browserslist": [
     "> 1%",

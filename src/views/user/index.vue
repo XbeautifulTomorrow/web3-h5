@@ -31,7 +31,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
@@ -45,7 +44,6 @@ import History from "./history.vue";
 import Referrals from "./invite.vue";
 import Promotions from "./promotions.vue";
 
-const userNav = import.meta.glob("@/assets/svg/user/nav/*.svg");
 import icon_promotions from "@/assets/img/user/icon_Promotions.gif";
 
 export default {
@@ -60,10 +58,11 @@ export default {
     Promotions,
   },
   data() {
-    return {};
+    return {
+      userNav: {},
+    };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -72,20 +71,22 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.newStatus;
     },
+    isLogin() {
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     userPage() {
-      const { userPage } = this.userStore;
-      return userPage || "profile";
-    },
-    isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.userPage || "profile";
     },
     navList() {
       const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
+      const { userNav } = this;
+
       return [
         {
           text: t("header.profile"),
@@ -150,12 +151,27 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       // 获取类型
       const { id } = this.$route.params;
-      this.userStore.setUserPage(this.$route.path, id);
+      const userStore = useUserStore();
+      userStore.setUserPage(this.$route.path, id);
     }
+
+    this.getUserNav();
   },
   methods: {
     chooseNav(evnet) {
-      this.userStore.setUserPage(this.$route.path, evnet.page);
+      const userStore = useUserStore();
+      userStore.setUserPage(this.$route.path, evnet.page);
+    },
+    async getUserNav() {
+      const userIcon = import.meta.glob("@/assets/svg/user/nav/*.svg", {
+        eager: true,
+      });
+
+      for (const key in userIcon) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        const flie = await userIcon[key]();
+        this.userNav[name] = flie.default;
+      }
     },
   },
 };

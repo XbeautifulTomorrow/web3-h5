@@ -294,7 +294,6 @@
 <script>
 import Web3 from "web3";
 import { EthereumProvider } from "@walletconnect/ethereum-provider";
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
 import { getKey } from "@/services/api/user";
@@ -371,14 +370,13 @@ export default {
     },
   },
   computed: {
-    ...mapStores(useUserStore),
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   created() {

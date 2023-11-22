@@ -183,12 +183,12 @@ export default {
       return `${rateVal}%`;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   methods: {

@@ -325,7 +325,6 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -384,14 +383,13 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useUserStore),
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     fiveRebate() {
       const { price, fivePrice } = this.blindDetailInfo;
@@ -428,12 +426,7 @@ export default {
         return;
       }
       const { blindDetailInfo } = this;
-      const { balance } = this.headerStoreStore;
-      const { userInfo } = this.userStore;
-      if (!userInfo) {
-        this.messageFun(t("mysteryBox.loginHint"));
-        return;
-      }
+      const { balance } = useHeaderStore();
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
         this.pageType = "recharge";

@@ -457,12 +457,10 @@
 </template>
 <script>
 import bigNumber from "bignumber.js";
-import { mapStores } from "pinia";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
-import { useWalletStore } from "@/store/wallet";
 import {
   addNftOrder,
   getSystemNft,
@@ -584,7 +582,6 @@ export default {
     },
   },
   computed: {
-    ...mapStores(useUserStore, useWalletStore, useHeaderStore),
     // 总票数
     limitNum() {
       const { price, ticketPrice } = this.competitionForm;
@@ -593,13 +590,13 @@ export default {
       if (this.activeType == "LIMITED_TIME") return 0;
       return maxNum;
     },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     // 实际收益
     realIncome() {

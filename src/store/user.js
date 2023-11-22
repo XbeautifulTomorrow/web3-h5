@@ -15,7 +15,7 @@ import busd from "@/assets/svg/user/coin/icon_busd.svg";
 import usdc from "@/assets/svg/user/coin/icon_usdc.svg";
 
 
-export const useUserStore = defineStore("user", {
+export const useUserStore = defineStore("userStore", {
   state: () => ({
     locale: getLang() == "en_US" ? localeEN : localeZH,
     userInfo: undefined,

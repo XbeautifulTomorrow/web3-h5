@@ -14,7 +14,6 @@
 
 <script>
 import { parseQuery } from "vue-router";
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import Banner from "./banner.vue";
 import MysteryBoxes from "./mysteryBoxes.vue";
@@ -40,14 +39,13 @@ export default {
     next();
   },
   computed: {
-    ...mapStores(useUserStore),
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
   },
   data() {

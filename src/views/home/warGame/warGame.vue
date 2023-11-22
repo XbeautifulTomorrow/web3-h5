@@ -170,8 +170,8 @@
             currentStatus == 'INIT'
               ? ''
               : currentStatus == 'WAIT'
-                ? 'battle'
-                : 'next',
+              ? 'battle'
+              : 'next',
           ]"
           v-if="!isHistory"
         >
@@ -196,8 +196,8 @@
                 currentStatus == 'INIT'
                   ? 'init'
                   : currentStatus == 'WAIT'
-                    ? 'wait'
-                    : 'next',
+                  ? 'wait'
+                  : 'next',
               ]"
             >
               <el-progress
@@ -210,8 +210,8 @@
                   currentStatus == 'INIT'
                     ? '#fad54d'
                     : currentStatus == 'WAIT'
-                      ? '#c72ae9'
-                      : '#b3b9c4'
+                    ? '#c72ae9'
+                    : '#b3b9c4'
                 "
                 :show-text="false"
               />
@@ -529,7 +529,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -548,7 +547,7 @@ import {
   formatUsd,
   deepClone,
 } from "@/utils";
-import { userColor, getRank, getLevel } from "./components/config";
+import { userColor } from "./components/config";
 import bigNumber from "bignumber.js";
 
 import warBuy from "./warBuy.vue";
@@ -650,17 +649,20 @@ export default {
       config: null,
 
       isFAQ: false,
+
+      rankLevel: {},
+      level: {},
+      tooltip: {},
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     /**
      * @description 用户总计参与金额
@@ -675,7 +677,6 @@ export default {
     },
   },
   methods: {
-    getRank: getRank,
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
@@ -733,7 +734,7 @@ export default {
         // 加载TOKEN
         if (localStorage.getItem("certificate")) {
           headerParams["certificate"] = decryptCBC(
-            localStorage.getItem("certificate"),
+            localStorage.getItem("certificate")
           );
         }
 
@@ -745,7 +746,7 @@ export default {
             heartbeatTimeout: 60 * 1000,
             // 添加token
             headers: headerParams,
-          },
+          }
         );
         // 删除标记
         window.sessionStorage.removeItem("currentRound");
@@ -769,7 +770,7 @@ export default {
       // 加载TOKEN
       if (localStorage.getItem("certificate")) {
         headerParams["certificate"] = decryptCBC(
-          localStorage.getItem("certificate"),
+          localStorage.getItem("certificate")
         );
       }
 
@@ -813,7 +814,7 @@ export default {
 
           if (this.userInfo?.id && this.isLogin) {
             const user = this.warData.find(
-              (e) => e.userId == this.userInfo?.id,
+              (e) => e.userId == this.userInfo?.id
             );
 
             if (user) {
@@ -982,7 +983,7 @@ export default {
                   Number(array[0]).toFixed(4) +
                   ", " +
                   Number(array[1]).toFixed(4) +
-                  " )",
+                  " )"
               );
           } else {
             that.showTooltips = false;
@@ -1081,7 +1082,7 @@ export default {
                   Number(array[0]).toFixed(4) +
                   ", " +
                   Number(array[1]).toFixed(4) +
-                  " )",
+                  " )"
               );
           } else {
             that.showTooltips = false;
@@ -1124,7 +1125,7 @@ export default {
         if (degArray[i].userId == winUserId) {
           // 需要再加上一半中奖者所占度数才能到顶点
           degCount += Number(
-            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2),
+            new bigNumber(this.getDeg(degArray[i].buyPrice)).div(2)
           );
         } else {
           degCount += this.getDeg(degArray[i].buyPrice);
@@ -1213,7 +1214,7 @@ export default {
         currentTime,
         timeStartPoint,
         maxSpeed,
-        startHoldTime,
+        startHoldTime
       );
 
       // 旋转角度
@@ -1352,7 +1353,7 @@ export default {
 
       // 计算出百分比
       this.percentage = Number(
-        accurateDecimal(new bigNumber(end).div(times).multipliedBy(100), 2),
+        accurateDecimal(new bigNumber(end).div(times).multipliedBy(100), 2)
       );
     },
     // 获取用户颜色
@@ -1425,7 +1426,11 @@ export default {
       if (!warData.length > 0) return;
 
       for (let i = 0; i < warData.length; i++) {
-        let svg = getLevel(warData[i].buyPrice, undefined, this.screenWidth);
+        let svg = this.getLevel(
+          warData[i].buyPrice,
+          undefined,
+          this.screenWidth
+        );
         const docTag = document.getElementsByClassName("user_item")[i];
         // 如果已有边框就跳过本次
         if (docTag.querySelectorAll("svg").length > 0) continue;
@@ -1436,7 +1441,7 @@ export default {
     setTooltip(event, index) {
       if (!document.getElementsByClassName("tooltips_box").length > 0) return;
 
-      let svg = getLevel(event.buyPrice, 2);
+      let svg = this.getLevel(event.buyPrice, 2);
 
       const docTag = document.getElementsByClassName("tooltips_box")[0];
 
@@ -1551,8 +1556,8 @@ export default {
         this.percentage = Number(
           accurateDecimal(
             new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-            2,
-          ),
+            2
+          )
         );
 
         this.nextTimer = setInterval(() => {
@@ -1563,16 +1568,16 @@ export default {
               this.percentage = Number(
                 accurateDecimal(
                   new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-                  2,
-                ),
+                  2
+                )
               );
             } else {
               this.seconds = this.countdown;
               this.percentage = Number(
                 accurateDecimal(
                   new bigNumber(this.seconds).div(Countdown).multipliedBy(100),
-                  2,
-                ),
+                  2
+                )
               );
               clearInterval(this.nextTimer);
               this.countdown = 15;
@@ -1623,6 +1628,186 @@ export default {
       this.isFAQ = true;
       window.scrollTo(0, 0);
     },
+    // 批量获取图标
+    async initIconData() {
+      const rankData = import.meta.glob(
+        "@/assets/svg/home/warGame/rank/*.svg",
+        {
+          eager: true,
+        }
+      );
+
+      // 军衔
+      for (const key in rankData) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        const flie = await rankData[key]();
+        this.rankLevel[name] = flie.default;
+      }
+
+      const levelData = import.meta.glob(
+        "@/assets/svg/home/warGame/level/*.svg",
+        {
+          eager: true,
+        }
+      );
+
+      // 等级边框
+      for (const key in levelData) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        const flie = await levelData[key]();
+        this.level[name] = flie.default;
+      }
+
+      const tooltipData = import.meta.glob(
+        "@/assets/svg/home/warGame/tooltip/*.svg",
+        {
+          eager: true,
+        }
+      );
+
+      // 提示边框
+      for (const key in tooltipData) {
+        let name = key.split("/").slice(-1)[0].split(".")[0];
+        const flie = await tooltipData[key]();
+        this.tooltip[name] = flie.default;
+      }
+
+      // 等待图标资源加载完成
+      if (this.isHistory) {
+        this.showBuy = false;
+        this.fetchCommonData();
+      } else {
+        this.createSSE();
+      }
+    },
+    // 获取军衔
+    getRank(evnet) {
+      const { rankLevel } = this;
+      const amount = Number(evnet || 0);
+      if (amount == 0) {
+        return rankLevel["rank_1"];
+      } else if (amount <= 2) {
+        return rankLevel["rank_2"];
+      } else if (amount <= 4) {
+        return rankLevel["rank_3"];
+      } else if (amount <= 6) {
+        return rankLevel["rank_4"];
+      } else if (amount <= 8) {
+        return rankLevel["rank_5"];
+      } else if (amount <= 10) {
+        return rankLevel["rank_6"];
+      } else if (amount <= 25) {
+        return rankLevel["rank_7"];
+      } else if (amount <= 50) {
+        return rankLevel["rank_8"];
+      } else if (amount <= 100) {
+        return rankLevel["rank_9"];
+      } else if (amount <= 250) {
+        return rankLevel["rank_10"];
+      } else if (amount <= 500) {
+        return rankLevel["rank_11"];
+      } else if (amount <= 1000) {
+        return rankLevel["rank_12"];
+      } else if (amount <= 2500) {
+        return rankLevel["rank_13"];
+      } else if (amount <= 5000) {
+        return rankLevel["rank_14"];
+      } else if (amount <= 7500) {
+        return rankLevel["rank_15"];
+      } else if (amount <= 10000) {
+        return rankLevel["rank_16"];
+      } else if (amount <= 25000) {
+        return rankLevel["rank_17"];
+      } else if (amount <= 50000) {
+        return rankLevel["rank_18"];
+      } else if (amount <= 100000) {
+        return rankLevel["rank_19"];
+      } else if (amount <= 250000) {
+        return rankLevel["rank_20"];
+      } else if (amount <= 500000) {
+        return rankLevel["rank_21"];
+      } else if (amount <= 750000) {
+        return rankLevel["rank_22"];
+      } else {
+        return rankLevel["rank_23"];
+      }
+    },
+    getLevel(evnet, type = 1, screen = 1920) {
+      const { level, tooltip } = this;
+
+      const amount = Number(evnet || 0);
+      if (amount < 10) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_1;
+          }
+
+          return level.level_1;
+        } else {
+          return tooltip.level_1;
+        }
+      } else if (amount < 50) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_2;
+          }
+
+          return level.level_2;
+        } else {
+          return tooltip.level_2;
+        }
+      } else if (amount < 1000) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_3;
+          }
+
+          return level.level_3;
+        } else {
+          return tooltip.level_3;
+        }
+      } else if (amount < 10000) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_4;
+          }
+
+          return level.level_4;
+        } else {
+          return tooltip.level_4;
+        }
+      } else if (amount < 100000) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_5;
+          }
+
+          return level.level_5;
+        } else {
+          return tooltip.level_5;
+        }
+      } else if (amount < 1000000) {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_6;
+          }
+
+          return level.level_6;
+        } else {
+          return tooltip.level_6;
+        }
+      } else {
+        if (type == 1) {
+          if (screen < 950) {
+            return level.level_mobile_7;
+          }
+
+          return level.level_7;
+        } else {
+          return tooltip.level_7;
+        }
+      }
+    },
   },
   beforeUnmount() {
     if (this.eventSource) {
@@ -1649,13 +1834,7 @@ export default {
       this.pageType = "must_read";
     }
 
-    if (this.isHistory) {
-      this.showBuy = false;
-      this.fetchCommonData();
-    } else {
-      this.createSSE();
-    }
-
+    this.initIconData();
     this.fetchConfig();
   },
   mounted() {

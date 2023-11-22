@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 export default {
   name: "App",
@@ -30,10 +29,9 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
     locale() {
-      const { locale } = this.userStore;
-      return locale;
+      const userStore = useUserStore();
+      return userStore.locale;
     },
   },
   created() {

@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 
 import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
@@ -181,7 +180,6 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useUserStore),
     newValue: {
       get: function () {
         return this.showRoll;
@@ -197,11 +195,11 @@ export default {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
           price = new bigNumber(
-            this.blindDetailInfo.fivePrice || 0,
+            this.blindDetailInfo.fivePrice || 0
           ).multipliedBy(5);
         } else if (this.rollNumber === "TEN") {
           price = new bigNumber(
-            this.blindDetailInfo.tenPrice || 0,
+            this.blindDetailInfo.tenPrice || 0
           ).multipliedBy(10);
         }
       }
@@ -304,7 +302,7 @@ export default {
           type = "loading";
         }
         let filterData = data.filter(
-          (x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL",
+          (x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL"
         );
         if (filterData?.length > 0) {
           this.notificationFunc(type, filterData, awardItem[0]?.orderId);
@@ -316,7 +314,8 @@ export default {
       if (isSell.value) {
         localStorage.removeItem("result");
         this.showDialog = dialog;
-        this.headerStoreStore.getTheUserBalanceApi();
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
         this.loading = false;
         return;
       }
@@ -347,7 +346,8 @@ export default {
             this.lotteryCheckFunc();
           }, 3000);
         }
-        this.headerStoreStore.getTheUserBalanceApi();
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
       } else {
         if (
           res?.length == 3 &&
@@ -355,14 +355,16 @@ export default {
         ) {
           localStorage.removeItem("result");
           this.showDialog = dialog;
-          this.headerStoreStore.getTheUserBalanceApi();
+          const headerStore = useHeaderStore();
+          headerStore.getTheUserBalanceApi();
         } else {
           this.showDialog = "";
         }
       }
     },
     getTheUserBalanceApiFun() {
-      this.headerStoreStore.getTheUserBalanceApi();
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
     },
     goInventory() {
       localStorage.removeItem("result");
@@ -376,9 +378,11 @@ export default {
     },
     unboxAgain() {
       const { blindDetailInfo } = this;
-      this.headerStoreStore.getTheUserBalanceApi();
-      const { balance } = this.headerStoreStore;
-      const { userInfo } = this.userStore;
+      const headerStore = useHeaderStore();
+      const userStore = useUserStore();
+      headerStore.getTheUserBalanceApi();
+      const { balance } = headerStore;
+      const { userInfo } = userStore;
       const type = this.rollNumber;
       if (!userInfo) {
         this.messageFun(t("mysteryBox.loginHint"));
@@ -620,7 +624,6 @@ $borWidth: 180px;
 .moreAward {
   display: flex;
   flex-wrap: wrap;
-  align-oneawards: center;
   align-content: center;
 
   .lottery-carousel-list {

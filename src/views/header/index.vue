@@ -204,7 +204,6 @@
 <script>
 import { i18n } from "@/locales";
 const { t } = i18n.global;
-import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
@@ -260,10 +259,11 @@ export default {
       showNav: false,
       showUser: false,
       screenWidth: null,
+
+      userNav: {},
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     usdBalance() {
       const headerStore = useHeaderStore();
       return headerStore.usdBalance;
@@ -277,35 +277,24 @@ export default {
       return headerStore.newStatus;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     userPage() {
-      const { userPage } = this.userStore;
-      return userPage || "profile";
+      const userStore = useUserStore();
+      return userStore.userPage || "profile";
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
+      const userStore = useUserStore();
+      return userStore.regInfo;
     },
     userList() {
       const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
-
-      const userIcon = import.meta.glob("@/assets/svg/user/nav/*.svg", {
-        eager: true,
-      });
-
-      const userNav = {};
-      for (const key in userIcon) {
-        let name = key.split("/").slice(-1)[0].split(".")[0];
-        userIcon[key]().that((e) => {
-          userNav[name] = e.default;
-        });
-      }
+      const { userNav } = this;
 
       return [
         {
@@ -417,13 +406,14 @@ export default {
     },
     othersideBoxFun(item) {
       this.showUser = false;
+      const userStore = useUserStore();
       if (item.page === "logout") {
-        this.userStore.logoutApi();
+        userStore.logoutApi();
         this.reload();
         return;
       }
 
-      this.userStore.setUserPage(this.$route.path, item.page);
+      userStore.setUserPage(this.$route.path, item.page);
     },
     openUser() {
       if (this.screenWidth <= 950) {
@@ -435,14 +425,11 @@ export default {
         eager: true,
       });
 
-      const userNav = {};
       for (const key in userIcon) {
         let name = key.split("/").slice(-1)[0].split(".")[0];
         const flie = await userIcon[key]();
-        userNav[name] = flie.default;
+        this.userNav[name] = flie.default;
       }
-
-      return userNav;
     },
   },
   // 监听,当路由发生变化的时候执行
@@ -514,6 +501,8 @@ export default {
         icon: homeNav.icon_faq,
       },
     ];
+
+    this.getUserNav();
   },
   mounted() {
     const that = this;

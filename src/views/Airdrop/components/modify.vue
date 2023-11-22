@@ -60,7 +60,6 @@
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { updateUserInfo, verifyNickname } from "@/services/api/user";
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 export default {
@@ -75,9 +74,6 @@ export default {
       rules: {},
     };
   },
-  computed: {
-    ...mapStores(useUserStore),
-  },
   methods: {
     // 重复昵称校验
     async verifyNickname() {},
@@ -90,12 +86,13 @@ export default {
           });
           if (res) {
             this.$emit("onModify");
-            const { userInfo } = this.userStore;
+            const userStore = useUserStore();
+            const { userInfo } = userStore;
             const users = {
               ...userInfo,
               userName: this.formUser.name,
             };
-            this.userStore.setLogin(users);
+            userStore.setLogin(users);
             this.handleClose();
             this.$message.success(t("common.operationTips"));
           }

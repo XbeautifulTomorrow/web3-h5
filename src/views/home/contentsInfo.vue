@@ -54,7 +54,7 @@
         <template #default="scope">
           {{
             `$${Number(
-              accurateDecimal(scope.row.usdtPrice, 2),
+              accurateDecimal(scope.row.usdtPrice, 2)
             ).toLocaleString()}`
           }}
         </template>
@@ -127,12 +127,12 @@ export default {
   computed: {
     ...mapStores(useUserStore),
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   methods: {

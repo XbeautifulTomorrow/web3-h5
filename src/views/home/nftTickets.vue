@@ -156,7 +156,6 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 
 import bigNumber from "bignumber.js";
@@ -183,14 +182,13 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
   },
   methods: {

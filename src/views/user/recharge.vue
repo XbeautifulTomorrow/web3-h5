@@ -453,7 +453,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { i18n } from "@/locales";
@@ -537,7 +536,6 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -547,20 +545,20 @@ export default {
       return headerStore.assetLists;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
+      const userStore = useUserStore();
+      return userStore.regInfo;
     },
     loadLog() {
-      const { loadLog } = this.userStore;
-      return loadLog;
+      const userStore = useUserStore();
+      return userStore.loadLog;
     },
     currencyData() {
-      const { currencyData } = this.userStore;
-      return currencyData;
+      const userStore = useUserStore();
+      return userStore.currencyData;
     },
     networkDrop() {
       const { networkList, operatingCoin } = this;
@@ -1006,7 +1004,8 @@ export default {
       if (res && res.code == 200) {
         this.renewBalance();
 
-        this.userStore.setLoad(!this.loadLog);
+        const userStore = useUserStore();
+        userStore.setLoad(!this.loadLog);
 
         if (this.userInfo.userType == "NORMAL") {
           this.$message.success(t("user.submitTestHint"));

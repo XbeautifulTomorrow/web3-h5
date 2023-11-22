@@ -124,7 +124,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import Forgot from "../forgot/changePass.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
@@ -155,14 +154,13 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   created() {
@@ -194,12 +192,14 @@ export default {
         emailSubStatus: status,
       });
       if (res && res == 200) {
-        const { userInfo } = this.userStore;
+        const userStore = useUserStore();
+        const { userInfo } = userStore;
         const users = {
           ...userInfo,
           emailSubStatus: status,
         };
-        this.userStore.setLogin(users);
+
+        userStore.setLogin(users);
       }
     },
     async fetchGoogleValidateStatus() {
@@ -238,7 +238,8 @@ export default {
       }
     },
     onLogout() {
-      this.userStore.logoutApi();
+      const userStore = useUserStore();
+      userStore.logoutApi();
       this.reload();
     },
   },

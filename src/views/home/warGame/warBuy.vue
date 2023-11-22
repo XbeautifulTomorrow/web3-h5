@@ -74,9 +74,9 @@
                   {{
                     accurateDecimal(
                       new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(
-                        100,
+                        100
                       ),
-                      2,
+                      2
                     )
                   }}%
                 </span>
@@ -165,8 +165,8 @@
                 autoConfig.lockWinRateStatus == 'OPEN'
                   ? 'open'
                   : autoConfig.lockWinRateStatus == 'AUTO'
-                    ? 'auto'
-                    : 'close',
+                  ? 'auto'
+                  : 'close',
               ]"
             >
               <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">
@@ -191,7 +191,7 @@
               {{
                 accurateDecimal(
                   new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(100),
-                  2,
+                  2
                 )
               }}%
             </div>
@@ -213,7 +213,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import {
@@ -274,18 +273,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     usdBalance() {
       const headerStore = useHeaderStore();
       return headerStore.usdBalance;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     /**
      * @description 最高参与金额用户
@@ -341,7 +339,7 @@ export default {
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
           const maxNum = Number(
-            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0),
+            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0)
           );
 
           if (maxBonus.userId != userInfo?.id && maxNum > Number(buyNum)) {

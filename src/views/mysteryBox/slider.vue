@@ -132,10 +132,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "sass:math";
+
 $component: "slider";
 $slider-visible-item: 3;
 $slider-viewport-width: 100%;
-$slider-viewbox-ratio: 2/3;
+$slider-viewbox-ratio: math.div(2, 3);
 $slider-item-active: 3;
 $slider-viewbox-width: 22.375rem;
 $slider-viewbox-height: 28.625rem;

@@ -102,7 +102,7 @@
             <p class="info">
               {{
                 `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(
-                  4,
+                  4
                 )} ${exchangeInfo.exchangeFromCoin}`
               }}
             </p>
@@ -118,9 +118,6 @@
   </el-dialog>
 </template>
 <script>
-import { mapStores } from "pinia";
-import { useHeaderStore } from "@/store/header.js";
-import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
 import { flashExchange } from "@/services/api/user";
@@ -147,9 +144,6 @@ export default {
         exchangeTime: null,
       },
     };
-  },
-  computed: {
-    ...mapStores(useUserStore, useHeaderStore),
   },
   methods: {
     bigNumber: bigNumber,

@@ -466,7 +466,6 @@ import { getCacheTicker } from "@/services/api";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
@@ -509,18 +508,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     newStatus() {
       const headerStore = useHeaderStore();
       return headerStore.newStatus;
     },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     tabsList() {
       const { enteredStatus, myTreasureDrawStatus } = this.newStatus;

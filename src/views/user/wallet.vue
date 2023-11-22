@@ -461,7 +461,6 @@
 <script>
 import { i18n } from "@/locales";
 const { t } = i18n.global;
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import {
@@ -519,7 +518,6 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -528,21 +526,21 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.usdBalance;
     },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     loadLog() {
-      const { loadLog } = this.userStore;
-      return loadLog;
+      const userStore = useUserStore();
+      return userStore.loadLog;
     },
     currencyData() {
-      const { currencyData } = this.userStore;
-      return currencyData;
+      const userStore = useUserStore();
+      return userStore.currencyData;
     },
   },
   methods: {

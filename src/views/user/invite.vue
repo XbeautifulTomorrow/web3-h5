@@ -170,7 +170,7 @@
             <template #default>
               {{
                 `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(
-                  100,
+                  100
                 )}%`
               }}
             </template>
@@ -320,7 +320,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { i18n } from "@/locales";
@@ -367,14 +366,13 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   methods: {
@@ -483,14 +481,14 @@ export default {
     // 计算剩余未领取佣金
     extraMoney(event) {
       const receiveBalance = Number(
-        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0)
       );
       return receiveBalance;
     },
     // 领取佣金
     async handleReceive(event) {
       const receiveBalance = Number(
-        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0)
       );
       if (!receiveBalance) {
         this.$message.error(t("user.receivedHint"));

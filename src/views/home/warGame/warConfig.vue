@@ -278,7 +278,6 @@
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import { deepClone, accurateDecimal } from "@/utils";
@@ -326,18 +325,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     usdBalance() {
       const headerStore = useHeaderStore();
       return headerStore.usdBalance;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     // 结束数值
     endNum() {
@@ -368,7 +366,7 @@ export default {
         const rate = deepClone(res.data);
 
         const winRate = Number(
-          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100),
+          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100)
         );
 
         const params = {
@@ -430,7 +428,7 @@ export default {
       const rate = deepClone(autoConfig);
 
       params.lockWinRate = Number(
-        new bigNumber(rate.lockWinRate).dividedBy(100),
+        new bigNumber(rate.lockWinRate).dividedBy(100)
       );
 
       // 删除剩余局数

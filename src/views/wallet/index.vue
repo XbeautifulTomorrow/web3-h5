@@ -46,7 +46,6 @@ import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { BigNumber } from "bignumber.js";
-import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
 
@@ -78,18 +77,9 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useWalletStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
-    },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
-    regInfo() {
-      const { regInfo } = this.userStore;
-      return regInfo;
     },
     newValue: {
       get: function () {
@@ -119,7 +109,8 @@ export default {
             web3 = new Web3(window.ethereum);
             //如果用户同意了登录请求，你就可以拿到用户的账号
             web3.eth.defaultAccount = accounts[0];
-            _that.walletStore.setWeb3(web3);
+            const walletStore = useWalletStore();
+            walletStore.setWeb3(web3);
             _that.web3 = web3;
             const headerStore = useHeaderStore();
             const _ethBalance = new BigNumber(
@@ -174,7 +165,8 @@ export default {
           const web3 = new Web3(this.connectProvider);
           //如果用户同意了登录请求，你就可以拿到用户的账号
           web3.eth.defaultAccount = accounts[0];
-          _that.walletStore.setWeb3(web3);
+          const walletStore = useWalletStore();
+          walletStore.setWeb3(web3);
           _that.web3 = web3;
           const headerStore = useHeaderStore();
           const _ethBalance = new BigNumber(
@@ -199,12 +191,12 @@ export default {
         });
     },
     getTheUserBalanceInfo() {
-      this.headerStoreStore.getTheUserBalanceApi();
-      // let res = await getTheUserBalance();
-      // this.ethBalance = res.data[0].balance;
+      const headerStore = useHeaderStore();
+      headerStore.getTheUserBalanceApi();
     },
     async login() {
-      let web3 = this.walletStore.web3;
+      const walletStore = useWalletStore();
+      let web3 = walletStore.web3;
       if (!web3) return;
       let receiver = await getTheUserSPayoutAddress();
       this.receiver = receiver.data;

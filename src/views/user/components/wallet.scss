@@ -22,12 +22,10 @@
 }
 
 .title_text {
-  background-image: linear-gradient(
-    to bottom,
-    rgba(234, 32, 141, 0.9) 15%,
-    #e63a97 39%,
-    #f1f1cb 70%
-  );
+  background-image: linear-gradient(to bottom,
+      rgba(234, 32, 141, 0.9) 15%,
+      #e63a97 39%,
+      #f1f1cb 70%);
   font-family: Tomorrow;
   font-size: 1.5rem;
   font-weight: bold;
@@ -85,7 +83,8 @@
   }
 
   .num {
-    & > span:nth-child(1),
+
+    &>span:nth-child(1),
     .balance_val {
       display: block;
       font-family: Tomorrow;
@@ -95,7 +94,7 @@
       color: #11cde9;
     }
 
-    & > span:last-child,
+    &>span:last-child,
     .balance_convert {
       display: block;
       font-size: 0.625rem;
@@ -154,7 +153,7 @@
   }
 
   &.asset {
-    .balance_val_box + .balance_val_box {
+    .balance_val_box+.balance_val_box {
       margin-left: 1.25rem;
     }
 
@@ -167,7 +166,7 @@
       display: flex;
       align-items: baseline;
 
-      & > span:last-child {
+      &>span:last-child {
         text-indent: 0.25rem;
       }
     }
@@ -201,7 +200,7 @@
     flex: 1;
   }
 
-  .balance_item + .balance_item {
+  .balance_item+.balance_item {
     margin-left: 0.5rem;
   }
 }
@@ -215,7 +214,7 @@
   display: flex;
   align-items: center;
 
-  & > .coin_item + .coin_item {
+  &>.coin_item+.coin_item {
     margin-left: 0.625rem;
   }
 
@@ -301,13 +300,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover > td {
+  .el-table__body tr:hover>td {
     background-color: transparent;
   }
 
   .el-table__body {
-    & > tbody {
-      & > .el-table__row {
+    &>tbody {
+      &>.el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -315,7 +314,7 @@
         }
       }
 
-      & > .el-table__row:nth-child(2n) {
+      &>.el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -381,7 +380,7 @@
       border: solid 1px #363945;
       background-color: #13151f;
 
-      & > input {
+      &>input {
         font-size: 1.125rem;
         line-height: 1.6;
         text-align: left;
@@ -439,12 +438,10 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(
-      to bottom,
-      rgba(234, 32, 141, 0.9) 15%,
-      #e63a97 39%,
-      #f1f1cb 70%
-    );
+    background-image: linear-gradient(to bottom,
+        rgba(234, 32, 141, 0.9) 15%,
+        #e63a97 39%,
+        #f1f1cb 70%);
   }
 }
 
@@ -476,7 +473,7 @@
     align-items: center;
     justify-content: center;
 
-    .operating_btn + .operating_btn {
+    .operating_btn+.operating_btn {
       margin-left: 0.625rem;
     }
 
@@ -508,7 +505,7 @@
     align-items: center;
     justify-content: center;
 
-    .wallet_operating_item + .wallet_operating_item {
+    .wallet_operating_item+.wallet_operating_item {
       margin-left: 1.875rem;
     }
 
@@ -560,7 +557,7 @@
     flex: 1;
   }
 
-  .withdraw_item + .withdraw_item {
+  .withdraw_item+.withdraw_item {
     margin-left: 1rem;
   }
 
@@ -616,7 +613,7 @@
     box-sizing: border-box;
     background-color: #fff;
 
-    & > img {
+    img {
       width: 100% !important;
       height: auto !important;
     }
@@ -647,7 +644,7 @@
       padding-left: 1.25rem;
       height: 3.75rem;
 
-      & > input {
+      &>input {
         height: 3.75rem;
         font-size: 0.875rem;
         color: white;
@@ -718,7 +715,7 @@
       box-shadow: none;
       padding: 0;
 
-      & > input {
+      &>input {
         font-size: 1.5rem;
         color: white;
       }
@@ -738,10 +735,12 @@
   border-radius: 50%;
   margin-left: 0.625rem;
   box-sizing: border-box;
+
   .inner_progress {
     position: absolute;
     transform: rotate(-90deg);
   }
+
   svg circle {
     stroke: #11cde9;
     opacity: 1;
@@ -790,9 +789,11 @@
     text-align: left;
     color: #a9a4b4;
     padding-bottom: 0.625rem;
+
     &.exchange_item_lable {
       justify-content: space-between;
     }
+
     img {
       width: 1rem;
       height: auto;
@@ -817,7 +818,7 @@
       box-shadow: none;
       padding: 0;
 
-      & > input {
+      &>input {
         font-size: 0.875rem;
         color: white;
       }
@@ -865,42 +866,51 @@
 
 .exchange_box {
   margin: 1.875rem;
+
   .exchange_relevant {
     margin: 0;
   }
+
   .exchange_addr_input {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .exhange_icon {
       display: flex;
       align-items: center;
       font-size: 1.125rem;
       color: #a9a4b4;
+
       img {
         width: 1.5rem;
         height: 1.5rem;
         margin-right: 0.625rem;
       }
     }
+
     :deep(.el-input) {
       input {
         text-align: right;
         font-size: 1.5rem;
         font-family: Inter;
         font-weight: bold;
+
         &::placeholder {
           color: rgba(169, 164, 180, 0.3);
         }
       }
     }
+
     :deep(.el-select) {
-      .el-input__prefix-inner > :last-child {
+      .el-input__prefix-inner> :last-child {
         margin-right: 0;
       }
+
       .el-select__caret {
         font-size: 1.25rem;
       }
+
       .el-input__wrapper {
         height: 3.75rem;
         padding: 0 0.25rem;
@@ -908,6 +918,7 @@
         box-shadow: none !important;
         border: none !important;
         padding-left: 0 !important;
+
         input {
           width: 3.6rem;
           font-size: 1.125rem;
@@ -921,41 +932,49 @@
   .withdraw_addr_input {
     height: 3.75rem;
   }
+
   .withdraw_item_error {
     display: flex;
     justify-content: space-between;
+
     .max {
       font-size: 1rem;
       color: #2761f5;
       cursor: pointer;
     }
   }
+
   .swap_box {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 0.25rem;
     cursor: pointer;
+
     img {
       padding: 0.25rem;
       border-radius: 50%;
       background-color: #20222d;
     }
   }
+
   .conversion_box {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 1.25rem;
     color: #a9a4b4;
+
     img {
       margin-left: 0.625rem;
       cursor: pointer;
     }
   }
+
   .factor_box {
     margin-top: 1.25rem;
   }
+
   .exchange_btn {
     margin-top: 4.25rem;
   }
@@ -1026,14 +1045,14 @@
       box-shadow: none !important;
     }
 
-    & > .el-input__prefix {
+    &>.el-input__prefix {
       img {
         width: 1.5rem;
         height: auto;
       }
     }
 
-    & > input {
+    &>input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -1085,7 +1104,7 @@
   }
 
   :deep(.el-pager) {
-    & > li + li {
+    &>li+li {
       margin-left: 0.75rem;
     }
 
@@ -1123,7 +1142,7 @@
   text-align: center;
   color: #a9a4b4;
 
-  & > img {
+  &>img {
     width: 1rem;
     margin-left: 0.5rem;
   }
@@ -1169,14 +1188,17 @@
   text-align: center;
   color: white;
 }
+
 .icon_label {
   display: flex;
   align-items: center;
+
   img {
     width: 1.25rem;
     margin-right: 0.5rem;
   }
 }
+
 @media screen and (max-width: 950px) {
   .my_wallet_wrapper {
     background-image: none;
@@ -1225,11 +1247,11 @@
     }
 
     .num {
-      & > span:nth-child(1) {
+      &>span:nth-child(1) {
         font-size: 0.75rem;
       }
 
-      & > span:last-child {
+      &>span:last-child {
         font-size: 0.625rem;
       }
     }
@@ -1255,7 +1277,7 @@
     padding-top: 0.5rem;
     flex-wrap: wrap;
 
-    & > .coin_item + .coin_item {
+    &>.coin_item+.coin_item {
       margin-left: 0.25rem;
     }
 
@@ -1351,7 +1373,7 @@
         border-radius: 0.5rem;
         padding: 0 1rem;
 
-        & > input {
+        &>input {
           height: 2.5rem;
           font-size: 0.75rem;
         }
@@ -1363,7 +1385,7 @@
       align-items: center;
       justify-content: space-between;
 
-      & > div + div {
+      &>div+div {
         margin-left: 0.5rem;
       }
 
@@ -1418,8 +1440,9 @@
   .recharge_box {
     padding: 0 1rem;
     padding-top: 2.25rem;
+
     .operating_box {
-      .operating_btn + .operating_btn {
+      .operating_btn+.operating_btn {
         margin-left: 0.75rem;
       }
 
@@ -1437,7 +1460,7 @@
     }
 
     .wallet_operating {
-      .wallet_operating_item + .wallet_operating_item {
+      .wallet_operating_item+.wallet_operating_item {
         margin-left: 1rem;
       }
 
@@ -1478,7 +1501,7 @@
       flex: 1;
     }
 
-    .withdraw_item + .withdraw_item {
+    .withdraw_item+.withdraw_item {
       margin-left: 1rem;
     }
 
@@ -1525,7 +1548,7 @@
       margin-bottom: 0.5rem;
       padding: 0.25rem;
 
-      :deep(& > img) {
+      img {
         width: 100% !important;
         height: auto !important;
       }
@@ -1547,7 +1570,7 @@
         height: 1.875rem;
         padding-left: 0.25rem;
 
-        & > input {
+        &>input {
           height: 1.875rem;
           font-size: 0.75rem;
           color: white;
@@ -1609,7 +1632,7 @@
       .el-input__wrapper {
         height: 2rem;
 
-        & > input {
+        &>input {
           height: 2rem;
           font-size: 0.75rem;
           color: white;
@@ -1666,7 +1689,7 @@
       border-radius: 0.25rem;
 
       .el-input__wrapper {
-        & > input {
+        &>input {
           height: 2rem;
           font-size: 0.75rem;
         }
@@ -1700,26 +1723,32 @@
       margin-right: 0.25rem;
     }
   }
+
   .exchange_box {
     margin: 1.875rem 0;
+
     .exchange_item_lable {
       line-height: 2;
     }
+
     .withdraw_item_error {
       padding-bottom: 1.25rem;
       margin-top: 0.5rem;
     }
+
     :deep(.exchange_relevant) {
       .exhange_icon {
         font-size: 0.875rem;
         font-weight: bold;
+
         img {
           width: 1rem;
         }
       }
+
       .el-input {
         .el-input__wrapper {
-          & > input {
+          &>input {
             font-size: 0.875rem;
           }
         }
@@ -1751,14 +1780,14 @@
         box-shadow: none !important;
       }
 
-      & > .el-input__prefix {
+      &>.el-input__prefix {
         img {
           width: 1rem;
           height: auto;
         }
       }
 
-      & > input {
+      &>input {
         height: 1.875rem;
         font-size: 0.75rem;
       }
@@ -1803,7 +1832,7 @@
     }
 
     :deep(.el-pager) {
-      & > li + li {
+      &>li+li {
         margin-left: 0.5rem;
       }
 
@@ -1819,7 +1848,7 @@
   .amount_box {
     font-size: 0.75rem;
 
-    & > img {
+    &>img {
       width: 0.75rem;
       margin-left: 0.25rem;
     }

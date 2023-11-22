@@ -539,7 +539,6 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 import bigNumber from "bignumber.js";
@@ -624,7 +623,6 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     // ethBalance() {
     //   const headerStore = useHeaderStore();
     //   return headerStore?.balance;
@@ -633,13 +631,13 @@ export default {
       const headerStore = useHeaderStore();
       return headerStore.getCoinBalance("ETH");
     },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     seriesDrop() {
       const { type } = this.params;

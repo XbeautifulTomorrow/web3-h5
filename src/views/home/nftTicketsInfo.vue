@@ -962,7 +962,6 @@ import { getCacheTicker } from "@/services/api";
 import { getSetting } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import countDown from "@/components/countDown";
-import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 
@@ -1051,18 +1050,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
     },
     buyPrice() {
       const { buyVotes, nftInfo } = this;

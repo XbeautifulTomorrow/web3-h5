@@ -66,7 +66,6 @@
 </template>
 <script>
 import emitter from "@/utils/event-bus.js";
-import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import PromotionsDetails from "./promotionsDetails";
@@ -86,18 +85,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
     },
-    userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
-    },
     isLogin() {
-      const { isLogin } = this.userStore;
-      return isLogin;
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   methods: {

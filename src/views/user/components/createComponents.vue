@@ -556,9 +556,7 @@ import { getCacheTicker } from "@/services/api";
 
 import Image from "@/components/imageView";
 import wallet from "../../wallet/index";
-import { i18n } from "@/locales";
 import { accurateDecimal } from "@/utils";
-const { t } = i18n.global;
 import usdImg from "@/assets/svg/user/icon_usdt_gold.svg"; // usdt
 import eth from "@/assets/svg/user/coin/icon_eth.svg"; // eth
 import createEth from "@/assets/svg/user/create_eth.webp";
@@ -807,19 +805,19 @@ export default {
 
           if (this.operatingType == "NFT") {
             if (Number(this.competitionForm.price) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           } else {
             if (Number(this.competitionForm.usdtPrice) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
-              this.$message.error(t("user.freeInviteCodeEnter"));
+              this.$message.error(this.$t("user.freeInviteCodeEnter"));
               return;
             }
 
@@ -827,7 +825,7 @@ export default {
               !freeParams.sendTicketsNum ||
               !Number(freeParams.sendTicketsNum) > 0
             ) {
-              this.$message.error(t("user.freeTicketsEnter"));
+              this.$message.error(this.$t("user.freeTicketsEnter"));
               return;
             }
           }
@@ -844,19 +842,19 @@ export default {
 
           if (this.operatingType == "NFT") {
             if (Number(this.competitionForm.price) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           } else {
             if (Number(this.competitionForm.usdtPrice) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
-              this.$message.error(t("user.freeInviteCodeEnter"));
+              this.$message.error(this.$t("user.freeInviteCodeEnter"));
               return;
             }
 
@@ -864,7 +862,7 @@ export default {
               !freeParams.sendTicketsNum ||
               !Number(freeParams.sendTicketsNum) > 0
             ) {
-              this.$message.error(t("user.freeTicketsEnter"));
+              this.$message.error(this.$t("user.freeTicketsEnter"));
               return;
             }
           }
@@ -889,7 +887,7 @@ export default {
             if (res && res.code == 200) {
               this.showTips = false;
               this.handleClose();
-              this.$message.success(t("user.createSuccess"));
+              this.$message.success(this.$t("user.createSuccess"));
             }
           }, 100);
         } else {
@@ -902,11 +900,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = t("user.enterCodeError1");
+        this.inviteTips = this.$t("user.enterCodeError1");
         this.verifys = false;
         return;
       } else if (inviteCode.length < 3) {
-        this.inviteTips = t("user.enterCodeError2");
+        this.inviteTips = this.$t("user.enterCodeError2");
         this.verifys = false;
         return;
       }
@@ -928,7 +926,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteClose();
-        this.$message.success(t("common.createdTips"));
+        this.$message.success(this.$t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },
@@ -980,13 +978,13 @@ export default {
     validatePrice(rule, value, callback) {
       const { operatingType } = this;
       if (value === "") {
-        callback(new Error(t("user.priceEnter")));
+        callback(new Error(this.$t("user.priceEnter")));
       } else if (
         value &&
         operatingType == "ETH" &&
         Number(value) > Number(this.ethBalance)
       ) {
-        callback(new Error(t("user.enterError4")));
+        callback(new Error(this.$t("user.enterError4")));
       } else {
         callback();
       }
@@ -1000,7 +998,7 @@ export default {
       if (!price) {
         callback();
       } else if (value === "") {
-        callback(new Error(t("user.limitNumEnter")));
+        callback(new Error(this.$t("user.limitNumEnter")));
       } else if (
         value &&
         Number(value) / Number(exchangeRate || 0) >
@@ -1008,12 +1006,12 @@ export default {
       ) {
         callback(
           new Error(
-            t("user.ticketsHint", {
+            this.$t("user.ticketsHint", {
               ratio: `${new bigNumber(
-                configK?.ONE_ETH_LIMIT_PREMIUM || 0
+                configK?.ONE_ETH_LIMIT_PREMIUM || 0,
               ).multipliedBy(100)}%`,
-            })
-          )
+            }),
+          ),
         );
       } else {
         callback();
@@ -1040,7 +1038,7 @@ export default {
       if (this.operatingType == "NFT") {
         if (event == 1) {
           return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 0.8;'>${Number(
-            accurateDecimal(this.competitionForm?.price || 0, 2)
+            accurateDecimal(this.competitionForm?.price || 0, 2),
           ).toLocaleString()}</span>`;
         } else if (event == 2) {
           const { competitionNft, formatSeries } = this;
@@ -1049,17 +1047,17 @@ export default {
             : `${competitionNft?.name}`;
         } else {
           return `<img style='display: inline-block; width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 1;'>${Number(
-            accurateDecimal(this.competitionNft?.floorPrice || 0, 2)
+            accurateDecimal(this.competitionNft?.floorPrice || 0, 2),
           ).toLocaleString()}</span>`;
         }
       } else {
         if (event == 1) {
           return `<img style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${usdImg}" /> <span style='line-height: 0.8;'>${Number(
-            accurateDecimal(this.competitionForm.usdtPrice || 0, 2)
+            accurateDecimal(this.competitionForm.usdtPrice || 0, 2),
           ).toLocaleString()}</span>`;
         } else {
           return `<img  style='display: inline-block;width: 1rem;height: auto;vertical-align: top;' src="${eth}" /> <span style='line-height: 0.8;'>${Number(
-            accurateDecimal(this.competitionForm.price || 0, 2)
+            accurateDecimal(this.competitionForm.price || 0, 2),
           ).toLocaleString()}</span>`;
         }
       }
@@ -1169,7 +1167,7 @@ export default {
       price: [
         {
           required: true,
-          message: t("user.priceEnter"),
+          message: this.$t("user.priceEnter"),
           trigger: ["blur", "change"],
         },
         {
@@ -1181,7 +1179,7 @@ export default {
       limitDay: [
         {
           required: true,
-          message: t("user.limitDayEnter"),
+          message: this.$t("user.limitDayEnter"),
           trigger: ["blur", "change"],
         },
       ],
@@ -1189,7 +1187,7 @@ export default {
       limitNum: [
         {
           required: true,
-          message: t("user.limitNumEnter"),
+          message: this.$t("user.limitNumEnter"),
           trigger: ["blur", "change"],
         },
         {
@@ -1201,7 +1199,7 @@ export default {
       usdtPrice: [
         {
           required: true,
-          message: t("user.limitNumEnter"),
+          message: this.$t("user.limitNumEnter"),
           trigger: ["blur", "change"],
         },
         {

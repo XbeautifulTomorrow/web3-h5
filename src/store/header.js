@@ -8,9 +8,8 @@ import notifyMessage from "@/views/user/notifyMessage.vue";
 import { ElNotification } from "element-plus";
 import { h } from "vue";
 import { i18n } from "@/locales";
-const { t } = i18n.global;
 
-export const useHeaderStore = defineStore("headerStore", {
+export const useHeaderStore = defineStore("header", {
   state: () => ({
     assetLists: [],
     balance: "",
@@ -25,14 +24,9 @@ export const useHeaderStore = defineStore("headerStore", {
     walletAddr: "",
     userRechargeShowList: [],
   }),
-  persist: {
-    enabled: true,
-    strategies: [
-      { key: "balance", storage: sessionStorage, paths: ["balance"] },
-    ],
-  },
   actions: {
     async getTheUserBalanceApi(params) {
+      const { t } = i18n.global;
       const res = await getTheUserBalance(params);
       if (res && res.data) {
         let balanceVal = 0;

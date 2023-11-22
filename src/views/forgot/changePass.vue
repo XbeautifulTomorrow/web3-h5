@@ -69,8 +69,7 @@
 </template>
 <script setup>
 import { ref, reactive, defineEmits } from "vue";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import { useI18n } from "vue-i18n";
 import { resetPassword } from "@/services/api/user";
 import { ElMessage } from "element-plus";
 
@@ -86,6 +85,7 @@ const formForgot = reactive({
 });
 
 const validatePass = (rule, value, callback) => {
+  const { t } = useI18n();
   const upperStr = /^(?=.*[A-Z]).{8,}$/;
   const lowerStr = /^(?=.*[a-z]).{8,}$/;
   const numStr = /^(?=.*[0-9]).{8,}$/;
@@ -114,6 +114,7 @@ const closeDialogFun = () => {
 };
 
 const validatePass2 = (rule, value, callback) => {
+  const { t } = useI18n();
   if (value === "") {
     callback(new Error(t("login.captchaErrText1")));
   } else if (value !== formForgot.password) {
@@ -139,6 +140,7 @@ const forgotFun = async (formEl) => {
         oldPassword: oldPassword,
         newPassword: password,
       };
+      const { t } = useI18n();
       const res = await resetPassword(formLogin);
       if (res && res.code === 200) {
         ElMessage({

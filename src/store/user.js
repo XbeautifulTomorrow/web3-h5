@@ -2,9 +2,6 @@ import { defineStore } from "pinia";
 import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
 import { getWithdrawalChain } from "@/services/api/user";
 
-import localeZH from "element-plus/dist/locale/zh-tw.mjs";
-import localeEN from "element-plus/dist/locale/en.mjs";
-import { getLang } from "@/locales";
 import router from "@/router";
 
 import eth from "@/assets/svg/user/coin/icon_eth.svg";
@@ -14,10 +11,8 @@ import bnb from "@/assets/svg/user/coin/icon_bnb.svg";
 import busd from "@/assets/svg/user/coin/icon_busd.svg";
 import usdc from "@/assets/svg/user/coin/icon_usdc.svg";
 
-
-export const useUserStore = defineStore("userStore", {
+export const useUserStore = defineStore("user", {
   state: () => ({
-    locale: getLang() == "en_US" ? localeEN : localeZH,
     userInfo: undefined,
     regInfo: undefined,
     userPage: null,

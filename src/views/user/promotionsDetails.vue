@@ -63,7 +63,7 @@
                 class="data"
                 v-priceFormat="
                   new bigNumber(welcomeStatic?.totalRewards).minus(
-                    new bigNumber(welcomeStatic?.receivedReward)
+                    new bigNumber(welcomeStatic?.receivedReward),
                   )
                 "
               ></span>
@@ -194,8 +194,6 @@
   </div>
 </template>
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import {
@@ -275,7 +273,7 @@ export default {
     async activityReceiveFunc() {
       const res = await activityReceive();
       if (res && res.code == 200) {
-        this.$message.success(t("user.receiveSuccess"));
+        this.$message.success(this.$t("user.receiveSuccess"));
         this.getTheUserBalanceInfo();
         this.getActivityTargetListFunc();
         this.getActivityTargetHeaderDataTotalFunc();

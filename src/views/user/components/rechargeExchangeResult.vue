@@ -102,7 +102,7 @@
             <p class="info">
               {{
                 `1 ${result.exchangeToCoin} = ${result?.exchangeRate.toFixed(
-                  4
+                  4,
                 )} ${exchangeInfo.exchangeFromCoin}`
               }}
             </p>

@@ -1,4 +1,3 @@
-// import { createPinia, setMapStoreSuffix } from "pinia";
 import { createPinia } from "pinia";
 import piniaPluginPersist from "pinia-plugin-persist";
 

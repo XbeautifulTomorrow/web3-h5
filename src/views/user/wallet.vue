@@ -24,7 +24,7 @@
                     undefined,
                     {
                       minimumFractionDigits: 2,
-                    }
+                    },
                   ) || 0
                 }}
               </span>
@@ -76,7 +76,7 @@
                       undefined,
                       {
                         minimumFractionDigits: 4,
-                      }
+                      },
                     )
                   }}
                 </span>
@@ -86,7 +86,7 @@
                       undefined,
                       {
                         minimumFractionDigits: 2,
-                      }
+                      },
                     )
                   }}
                 </span>
@@ -459,8 +459,6 @@
   </div>
 </template>
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import {
@@ -574,12 +572,12 @@ export default {
     async onRechargeByHash() {
       const { transactionId } = this;
       if (!transactionId) {
-        this.$message.error(t("user.enterHint1"));
+        this.$message.error(this.$t("user.enterHint1"));
         return;
       }
 
       if (!isEthTransactionHashValid(transactionId)) {
-        this.$message.error(t("errorTips.transaction_id_does_not_exist"));
+        this.$message.error(this.$t("errorTips.transaction_id_does_not_exist"));
         return;
       }
 
@@ -588,7 +586,7 @@ export default {
       });
 
       if (res && res.code == 200) {
-        this.$message.success(t("user.enterHint2"));
+        this.$message.success(this.$t("user.enterHint2"));
         this.handleClose();
       }
     },

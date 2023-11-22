@@ -97,16 +97,14 @@
 </template>
 <script setup>
 import { ref, reactive, defineEmits, onMounted } from "vue";
-// import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import { ElMessage } from "element-plus";
 import { getAuthimage } from "@/services/api";
 import { getCaptcha } from "@/services/api/user";
 import codePopup from "./code.vue";
 import changePaw from "./changePaw.vue";
 import { setSessionStore } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
-// const router = useRouter();
+const { t } = useI18n();
 const visible = ref(true);
 const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
 const type = ref(0);

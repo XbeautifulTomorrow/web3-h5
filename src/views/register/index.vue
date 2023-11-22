@@ -162,8 +162,8 @@ import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
 import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 // const router = useRouter();
 const userStore = useUserStore();

@@ -91,13 +91,13 @@
 </template>
 <script setup>
 import { ref, reactive, onBeforeMount, onMounted, defineEmits } from "vue";
+import { useI18n } from "vue-i18n";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
 import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
 import { encryptCBC } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
+const { t } = useI18n();
 const userStore = useUserStore();
 // const router = useRouter();
 const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);

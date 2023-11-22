@@ -8,7 +8,7 @@ import {
   rebatesReceive,
 } from "@/services/api/invite";
 
-export const useInviteStore = defineStore("inviteStore", {
+export const useInviteStore = defineStore("invite", {
   state: () => ({
     userInvateStatistics: [],
     rebatesCreateCode: "",

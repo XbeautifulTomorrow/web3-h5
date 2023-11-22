@@ -49,8 +49,8 @@
                   v-if="
                     Number(
                       new bigNumber(item.limitNum || 0).minus(
-                        item.numberOfTicketsSold || 0
-                      )
+                        item.numberOfTicketsSold || 0,
+                      ),
                     ) > 1
                   "
                 >
@@ -58,8 +58,8 @@
                     $t("home.ticketsLeft", {
                       num: Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ),
                     })
                   }}</span
@@ -69,8 +69,8 @@
                     $t("home.ticketLeft", {
                       num: Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ),
                     })
                   }}
@@ -110,8 +110,8 @@
                 `$ ${Number(
                   accurateDecimal(
                     new bigNumber(exchangeRate).multipliedBy(item.price),
-                    4
-                  )
+                    4,
+                  ),
                 ).toLocaleString()}`
               }}
             </span>

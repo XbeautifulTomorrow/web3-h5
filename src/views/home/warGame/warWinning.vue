@@ -162,7 +162,7 @@ export default {
       if (!winInfo?.winerIncome || !config?.fee) return;
 
       const winFee = Number(
-        new bigNumber(winInfo?.winerIncome || 0).multipliedBy(config?.fee)
+        new bigNumber(winInfo?.winerIncome || 0).multipliedBy(config?.fee),
       );
 
       return Number(new bigNumber(winInfo?.winerIncome || 0).minus(winFee));

@@ -33,5 +33,5 @@ export default {
   NORMAL2,
   NORMAL3,
   NORMAL4,
-  NORMAL5
-}
+  NORMAL5,
+};

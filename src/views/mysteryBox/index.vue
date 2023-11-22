@@ -218,11 +218,11 @@ export default {
       let price = this.blindDetailInfo.price;
       if (coiledType == "FIVE") {
         price = Number(
-          new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5)
+          new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5),
         );
       } else if (coiledType == "TEN") {
         price = Number(
-          new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10)
+          new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10),
         );
       }
       await this.getBlindBoxDetail();
@@ -262,7 +262,7 @@ export default {
             this.lottResult = result;
             localStorage.setItem(
               "result",
-              JSON.stringify({ result, rollNumber: this.rollNumber })
+              JSON.stringify({ result, rollNumber: this.rollNumber }),
             );
             this.clearTimerFun();
           } else {
@@ -308,13 +308,13 @@ export default {
       if (coiledType == "FIVE") {
         amountVal = web3.utils.toWei(
           (this.blindDetailInfo.fivePrice * 5).toString(),
-          "ether"
+          "ether",
         );
       }
       if (coiledType == "TEN") {
         amountVal = web3.utils.toWei(
           (this.blindDetailInfo.tenPrice * 10).toString(),
-          "ether"
+          "ether",
         );
       }
       this.dialogVisible = false;
@@ -322,7 +322,7 @@ export default {
       const contractAddress = this.transferAddress;
       const transferContract = new web3.eth.Contract(
         transferAbi,
-        contractAddress
+        contractAddress,
       );
       let tokenChoose = 2;
       if (this.blindDetailInfo.coin == "ETH") {
@@ -369,7 +369,7 @@ export default {
     },
     async lotteryBox() {
       var accountsFromMetaMask = await window.ethereum.send(
-        "eth_requestAccounts"
+        "eth_requestAccounts",
       );
 
       const walletStore = useWalletStore();
@@ -379,7 +379,7 @@ export default {
       let str = this.walletOrderDetail.orderNumber;
       var lottContract = new web3.eth.Contract(
         lottAbi,
-        this.lottContractAddress
+        this.lottContractAddress,
       );
       await lottContract.methods
         .getRandomness(idStr, 10, str)

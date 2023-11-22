@@ -55,8 +55,7 @@
 <script>
 import { useUserStore } from "@/store/user.js";
 import { getGoogleQrCode, bindGoogleAuth } from "@/services/api/user";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+
 export default {
   name: "modifyName",
   data() {
@@ -88,7 +87,7 @@ export default {
       const { googleCode } = this;
       if (type == "submit" || type == "auth") {
         if (!googleCode) {
-          this.walletAddrTips = t("user.codeRequired");
+          this.walletAddrTips = this.$t("user.codeRequired");
           this.verifys = false;
           return;
         }

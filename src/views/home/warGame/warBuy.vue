@@ -74,9 +74,9 @@
                   {{
                     accurateDecimal(
                       new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(
-                        100
+                        100,
                       ),
-                      2
+                      2,
                     )
                   }}%
                 </span>
@@ -165,8 +165,8 @@
                 autoConfig.lockWinRateStatus == 'OPEN'
                   ? 'open'
                   : autoConfig.lockWinRateStatus == 'AUTO'
-                  ? 'auto'
-                  : 'close',
+                    ? 'auto'
+                    : 'close',
               ]"
             >
               <span v-if="autoConfig.lockWinRateStatus == 'CLOSE'">
@@ -191,7 +191,7 @@
               {{
                 accurateDecimal(
                   new bigNumber(autoConfig?.lockWinRate || 0).multipliedBy(100),
-                  2
+                  2,
                 )
               }}%
             </div>
@@ -228,8 +228,6 @@ import {
   getConfig,
 } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 export default {
   name: "WarBuy",
@@ -339,23 +337,25 @@ export default {
       if (bigPrizeStatus == "TRUE") {
         if (joinDataList.findIndex((e) => e.userId == userInfo?.id) > -1) {
           const maxNum = Number(
-            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0)
+            new bigNumber(maxBonus.buyPrice).minus(userData?.buyPrice || 0),
           );
 
           if (maxBonus.userId != userInfo?.id && maxNum > Number(buyNum)) {
-            this.$message.error(t("tokenWar.buyTips", { num: maxNum }));
+            this.$message.error(this.$t("tokenWar.buyTips", { num: maxNum }));
             return;
           }
         }
       }
 
       if (Number(buyNum) > Number(usdBalance)) {
-        this.$message.error(t("lottery.tips5"));
+        this.$message.error(this.$t("lottery.tips5"));
         return;
       }
 
       if (!Number(buyNum || 0) || !Number(buyNum || 0) > 0) {
-        this.$message.error(t("tokenWar.numErrorTips", { num: singlePrice }));
+        this.$message.error(
+          this.$t("tokenWar.numErrorTips", { num: singlePrice }),
+        );
         return;
       }
 

@@ -4,12 +4,8 @@ import { useUserStore } from "@/store/user.js";
 import config from "./env";
 import { i18n } from "@/locales";
 import { decryptCBC } from "@/utils";
-const { t } = i18n.global;
-// import qs from 'qs'
 
 const axiosInstance = axios.create({
-  // baseURL: 'http://localhost:3000/',
-  // baseURL: "http://221.236.31.34:6599",
   baseURL: config.api,
   withCredentials: true,
   timeout: 300000,
@@ -60,6 +56,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     ElMessage.closeAll();
+    const { t } = i18n.global;
     ElMessage({
       message: t("errorTips.network_not_available"),
       type: "warning",
@@ -90,6 +87,7 @@ const handleRes = ({ response, url, data }) => {
   } else {
     if (!notMessage.includes(url)) {
       ElMessage.closeAll();
+      const { t } = i18n.global;
       ElMessage({
         message: t("errorTips." + data.messageKey),
         type: "warning",

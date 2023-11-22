@@ -265,8 +265,7 @@ import {
   defineEmits,
   onMounted,
 } from "vue";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import { useI18n } from "vue-i18n";
 
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
@@ -464,6 +463,7 @@ const delDeposit = () => {
 
 // 打开确认弹窗
 const onWithdrawConfirm = (item) => {
+  const { t } = useI18n();
   const { wallet } = params;
   if (!wallet) {
     ElMessage({

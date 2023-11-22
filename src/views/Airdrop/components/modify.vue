@@ -57,8 +57,6 @@
 </template>
 
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { updateUserInfo, verifyNickname } from "@/services/api/user";
 import { useUserStore } from "@/store/user.js";
 
@@ -94,7 +92,7 @@ export default {
             };
             userStore.setLogin(users);
             this.handleClose();
-            this.$message.success(t("common.operationTips"));
+            this.$message.success(this.$t("common.operationTips"));
           }
         } else {
           console.log("error submit!!");
@@ -120,7 +118,7 @@ export default {
     const validateName = async (rule, value, callback) => {
       const res = await verifyNickname({ name: value });
       if (res.data) {
-        callback(new Error(t("errorTips.username_already_exist")));
+        callback(new Error(this.$t("errorTips.username_already_exist")));
       } else {
         callback();
       }
@@ -130,13 +128,13 @@ export default {
       name: [
         {
           required: true,
-          message: t("airdrop.pleaseName"),
+          message: this.$t("airdrop.pleaseName"),
           trigger: ["blur", "change"],
         },
         {
           min: 8,
           max: 20,
-          message: t("airdrop.nameTips"),
+          message: this.$t("airdrop.nameTips"),
           trigger: ["blur", "change"],
         },
         { validator: validateName, trigger: ["blur", "change"] },

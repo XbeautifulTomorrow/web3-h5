@@ -18,11 +18,11 @@
         </div>
       </template>
       <div class="public-dialog-content form-content">
-        <p class="public-dialog-title">{{ t("ticketsInfo.buyTipsTitle") }}</p>
+        <p class="public-dialog-title">{{ $t("ticketsInfo.buyTipsTitle") }}</p>
         <div class="confirm-description">
           <span
             v-html="
-              t('ticketsInfo.buyTipsText1', {
+              $t('ticketsInfo.buyTipsText1', {
                 tickets: ticketsNum(),
                 num: buyNum(),
               })
@@ -30,7 +30,7 @@
           ></span>
         </div>
         <div class="deposit_tx_id">
-          <span>{{ t("ticketsInfo.buyTipsShare") }}</span>
+          <span>{{ $t("ticketsInfo.buyTipsShare") }}</span>
           <img
             src="@/assets/svg/airdrop/icon_twitter_btn.svg"
             @click="shareInviteLink()"
@@ -39,7 +39,7 @@
         </div>
         <div class="form-buttons">
           <el-button class="public-button" @click="handleClose()">
-            <span>{{ t("airdrop.confirm") }}</span>
+            <span>{{ $t("airdrop.confirm") }}</span>
           </el-button>
         </div>
       </div>
@@ -51,9 +51,6 @@
 import { openUrl, handleWindowResize } from "@/utils";
 import priceImg from "@/assets/svg/home/icon_info_price.svg";
 import usdtImg from "@/assets/svg/user/icon_usdt_gold.svg";
-
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 export default {
   name: "modifyName",
@@ -89,7 +86,6 @@ export default {
     };
   },
   methods: {
-    t: t,
     ticketsNum() {
       let strV = ``;
       if (this.screenWidth > 950) {

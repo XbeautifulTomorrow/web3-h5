@@ -297,8 +297,6 @@ import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import { useUserStore } from "@/store/user.js";
 import { ElMessage } from "element-plus";
 import { getKey } from "@/services/api/user";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import { linkWallet, getAirdrop } from "@/services/api/airdrop";
 
@@ -412,7 +410,7 @@ export default {
     },
     handleConnect() {
       if (!this.isLogin) {
-        ElMessage.error(t("airdrop.loginText"));
+        ElMessage.error(this.$t("airdrop.loginText"));
         return;
       }
 
@@ -459,7 +457,7 @@ export default {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error(t("airdrop.failedTips"));
+              ElMessage.error(this.$t("airdrop.failedTips"));
             }
           });
       }
@@ -508,7 +506,7 @@ export default {
             // 用户拒绝登录后执行语句；
           } else {
             // 本不该执行到这里，但是真到这里了，说明发生了意外
-            ElMessage.error(t("airdrop.failedTips"));
+            ElMessage.error(this.$t("airdrop.failedTips"));
           }
         });
     },
@@ -518,7 +516,7 @@ export default {
       let web3 = window.web3;
       this.currentChainId = await web3.eth.getChainId();
       if (this.currentChainId != 1) {
-        ElMessage.error(t("airdrop.chainErr"));
+        ElMessage.error(this.$t("airdrop.chainErr"));
         this.connectType = 0;
         return;
       }
@@ -612,7 +610,7 @@ export default {
     // 测试绑定钱包
     async bindTestWallet() {
       if (!this.walletAddr) {
-        ElMessage.error(t("airdrop.enterTips"));
+        ElMessage.error(this.$t("airdrop.enterTips"));
         return;
       }
       const bindRes = await linkWallet({

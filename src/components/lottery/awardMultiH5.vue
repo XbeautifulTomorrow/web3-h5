@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       poolList: JSON.parse(JSON.stringify(this.prizePoolList)).concat(
-        JSON.parse(JSON.stringify(this.prizePoolList))
+        JSON.parse(JSON.stringify(this.prizePoolList)),
       ),
       isPlay: true,
       isOpen: false,

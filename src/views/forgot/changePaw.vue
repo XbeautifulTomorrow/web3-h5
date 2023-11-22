@@ -46,8 +46,7 @@
 <script setup>
 import { ref, reactive, defineEmits, defineProps } from "vue";
 import { getForgetPasswordtcha } from "@/services/api/user";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["changeTypeFun"]);
 const props = defineProps({
@@ -72,6 +71,7 @@ const validatePass = (rule, value, callback) => {
   const upperStr = /^(?=.*[A-Z]).{8,}$/;
   const lowerStr = /^(?=.*[a-z]).{8,}$/;
   const numStr = /^(?=.*[0-9]).{8,}$/;
+  const { t } = useI18n();
 
   if (value === "") {
     callback(new Error(t("login.passwordErrText1")));
@@ -93,6 +93,7 @@ const validatePass = (rule, value, callback) => {
 };
 
 const validatePass2 = (rule, value, callback) => {
+  const { t } = useI18n();
   if (value === "") {
     callback(new Error(t("login.captchaErrText1")));
   } else if (value !== formForgot.password) {

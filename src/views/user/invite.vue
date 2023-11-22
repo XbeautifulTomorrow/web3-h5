@@ -170,7 +170,7 @@
             <template #default>
               {{
                 `${new bigNumber(setting.downCommissionRate || 0).multipliedBy(
-                  100
+                  100,
                 )}%`
               }}
             </template>
@@ -322,8 +322,6 @@
 <script>
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import {
   userInvateStatistics,
@@ -398,11 +396,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = t("user.enterCodeError1");
+        this.inviteTips = this.$t("user.enterCodeError1");
         this.verifys = false;
         return;
       } else if (inviteCode.length < 3) {
-        this.inviteTips = t("user.enterCodeError2");
+        this.inviteTips = this.$t("user.enterCodeError2");
         this.verifys = false;
         return;
       }
@@ -419,7 +417,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteCode = null;
-        this.$message.success(t("common.createdTips"));
+        this.$message.success(this.$t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },
@@ -441,7 +439,7 @@ export default {
         inviteCode: event.inviteCode,
       });
       if (res && res.code == 200) {
-        this.$message.success(t("common.operationTips"));
+        this.$message.success(this.$t("common.operationTips"));
         this.fetchRebatesFindList();
       }
     },
@@ -481,24 +479,24 @@ export default {
     // 计算剩余未领取佣金
     extraMoney(event) {
       const receiveBalance = Number(
-        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0)
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
       );
       return receiveBalance;
     },
     // 领取佣金
     async handleReceive(event) {
       const receiveBalance = Number(
-        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0)
+        new bigNumber(event.totalAmount || 0).minus(event.receiveAmount || 0),
       );
       if (!receiveBalance) {
-        this.$message.error(t("user.receivedHint"));
+        this.$message.error(this.$t("user.receivedHint"));
         return;
       }
       const res = await rebatesReceive({
         inviteCode: event.inviteCode,
       });
       if (res && res.code == 200) {
-        this.$message.success(t("user.receiveSuccess"));
+        this.$message.success(this.$t("user.receiveSuccess"));
         this.renewBalance();
         this.fetchRebatesFindList();
       }
@@ -552,11 +550,11 @@ export default {
   created() {
     this.tabsList = [
       {
-        label: t("user.summary"),
+        label: this.$t("user.summary"),
         value: "summary",
       },
       {
-        label: t("user.referredUser"),
+        label: this.$t("user.referredUser"),
         value: "referred_user",
       },
     ];

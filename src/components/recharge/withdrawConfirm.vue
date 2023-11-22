@@ -88,8 +88,6 @@
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import Image from "@/components/imageView";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
 import { getSetting } from "@/services/api/invite";
@@ -154,7 +152,7 @@ export default {
       if (this.dialogType == 1) {
         if (this.ethBalance < Number(this.setting.nftWithdrawalFees)) {
           ElMessage({
-            message: t("lottery.tips5"),
+            message: this.$t("lottery.tips5"),
             type: "error",
           });
 

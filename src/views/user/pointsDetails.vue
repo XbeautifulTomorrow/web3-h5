@@ -16,7 +16,7 @@
         </el-icon>
       </div>
       <div class="point_details">
-        <div class="point_details_title">{{ $tt("user.pointDetails") }}</div>
+        <div class="point_details_title">{{ $t("user.pointDetails") }}</div>
         <div>
           <el-table
             :height="screenWidth > 950 ? '28.25rem' : '22.75rem'"
@@ -25,12 +25,12 @@
           >
             <el-table-column
               prop="source"
-              :label="$tt('user.pointTable1')"
+              :label="$t('user.pointTable1')"
               align="center"
             />
             <el-table-column
               prop="integral"
-              :label="$tt('user.pointTable2')"
+              :label="$t('user.pointTable2')"
               align="center"
             >
               <template #default="scope">
@@ -47,7 +47,7 @@
             </el-table-column>
             <el-table-column
               prop="date"
-              :label="$tt('user.balanceTabel5')"
+              :label="$t('user.balanceTabel5')"
               align="center"
             >
               <template #default="scope">
@@ -64,8 +64,8 @@
             :pager-count="5"
             layout="prev, pager, next"
             :total="count"
-            :prev-text="$tt('common.prev')"
-            :next-text="$tt('common.next')"
+            :prev-text="$t('common.prev')"
+            :next-text="$t('common.next')"
           />
         </div>
       </div>
@@ -76,8 +76,6 @@
 import { useUserStore } from "@/store/user.js";
 import { getAListOfUserPoints } from "@/services/api/user";
 import { timeFormat, handleWindowResize } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 export default {
   name: "myPoints",
   data() {
@@ -102,7 +100,6 @@ export default {
   },
   methods: {
     timeFormat: timeFormat,
-    $tt: t,
     // 获取用户积分
     async fetchUserPoints() {
       const res = await getAListOfUserPoints({

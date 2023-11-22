@@ -54,7 +54,7 @@
         <template #default="scope">
           {{
             `$${Number(
-              accurateDecimal(scope.row.usdtPrice, 2)
+              accurateDecimal(scope.row.usdtPrice, 2),
             ).toLocaleString()}`
           }}
         </template>

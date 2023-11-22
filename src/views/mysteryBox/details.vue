@@ -77,7 +77,7 @@
                 <span
                   v-priceFormat="
                     new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(
-                      5
+                      5,
                     )
                   "
                 ></span>
@@ -130,7 +130,7 @@
                 <span
                   v-priceFormat="
                     new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(
-                      5
+                      5,
                     )
                   "
                 ></span>
@@ -151,7 +151,7 @@
                 <span
                   v-priceFormat="
                     new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(
-                      10
+                      10,
                     )
                   "
                 ></span>
@@ -329,9 +329,6 @@ import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from "@/locales";
-const { t } = i18n.global;
-
 import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
@@ -414,7 +411,7 @@ export default {
     timeFormat: timeFormat,
 
     bigNumber: bigNumber,
-    messageFun(message = t("mysteryBox.rechargeHint"), type = "warning") {
+    messageFun(message = this.$t("mysteryBox.rechargeHint"), type = "warning") {
       ElMessage({
         message,
         type,
@@ -496,7 +493,7 @@ export default {
     probabilityFormat(event, num) {
       const { legendNum, epicNum, rareNum, normalNum } = event;
       const numTotal = Number(
-        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum)
+        new bigNumber(legendNum).plus(epicNum).plus(rareNum).plus(normalNum),
       );
       return new bigNumber(num)
         .dividedBy(numTotal)

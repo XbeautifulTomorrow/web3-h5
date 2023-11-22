@@ -457,8 +457,6 @@
 </template>
 <script>
 import bigNumber from "bignumber.js";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
 import {
@@ -603,7 +601,7 @@ export default {
       const { competitionForm, serverFees } = this;
       if (!competitionForm.price || !serverFees) return 0;
       const feeNum = new bigNumber(competitionForm.price).multipliedBy(
-        serverFees
+        serverFees,
       );
 
       return new bigNumber(competitionForm.price).minus(feeNum);
@@ -722,19 +720,19 @@ export default {
 
           if (this.operatingType == "NFT") {
             if (Number(this.competitionForm.price) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           } else {
             if (Number(this.totalPrice) < 0.1) {
-              this.$message.error(t("user.priceError"));
+              this.$message.error(this.$t("user.priceError"));
               return;
             }
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
-              this.$message.error(t("user.freeInviteCodeEnter"));
+              this.$message.error(this.$t("user.freeInviteCodeEnter"));
               return;
             }
 
@@ -742,7 +740,7 @@ export default {
               !freeParams.sendTicketsNum ||
               !Number(freeParams.sendTicketsNum) > 0
             ) {
-              this.$message.error(t("user.freeTicketsEnter"));
+              this.$message.error(this.$t("user.freeTicketsEnter"));
               return;
             }
           }
@@ -758,13 +756,13 @@ export default {
           const { activeType, competitionNft, freeParams } = this;
 
           if (Number(this.competitionForm.price) < 0.1) {
-            this.$message.error(t("user.priceError"));
+            this.$message.error(this.$t("user.priceError"));
             return;
           }
 
           if (freeParams.isOpen) {
             if (!freeParams.inviteCode) {
-              this.$message.error(t("user.freeInviteCodeEnter"));
+              this.$message.error(this.$t("user.freeInviteCodeEnter"));
               return;
             }
 
@@ -772,7 +770,7 @@ export default {
               !freeParams.sendTicketsNum ||
               !Number(freeParams.sendTicketsNum) > 0
             ) {
-              this.$message.error(t("user.freeTicketsEnter"));
+              this.$message.error(this.$t("user.freeTicketsEnter"));
               return;
             }
           }
@@ -796,7 +794,7 @@ export default {
             if (res && res.code == 200) {
               this.showTips = false;
               this.handleClose();
-              this.$message.success(t("user.createSuccess"));
+              this.$message.success(this.$t("user.createSuccess"));
             }
           }, 100);
         } else {
@@ -844,11 +842,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = t("user.enterCodeError1");
+        this.inviteTips = this.$t("user.enterCodeError1");
         this.verifys = false;
         return;
       } else if (inviteCode.length < 3) {
-        this.inviteTips = t("user.enterCodeError2");
+        this.inviteTips = this.$t("user.enterCodeError2");
         this.verifys = false;
         return;
       }
@@ -873,7 +871,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteClose();
-        this.$message.success(t("common.createdTips"));
+        this.$message.success(this.$t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },
@@ -991,7 +989,7 @@ export default {
     }
     const validateDay = (rule, value, callback) => {
       if (!value) {
-        callback(new Error(t("user.limitDayEnter")));
+        callback(new Error(this.$t("user.limitDayEnter")));
       } else {
         callback();
       }
@@ -1001,7 +999,7 @@ export default {
       price: [
         {
           required: true,
-          message: t("user.priceEnter"),
+          message: this.$t("user.priceEnter"),
           trigger: ["blur", "change"],
         },
       ],

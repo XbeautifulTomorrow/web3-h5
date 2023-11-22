@@ -122,9 +122,6 @@ import emitter from "@/utils/event-bus.js";
 import bigNumber from "bignumber.js";
 import { h } from "vue";
 
-import { i18n } from "@/locales";
-const { t } = i18n.global;
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -195,11 +192,11 @@ export default {
           price = this.blindDetailInfo.price;
         } else if (this.rollNumber === "FIVE") {
           price = new bigNumber(
-            this.blindDetailInfo.fivePrice || 0
+            this.blindDetailInfo.fivePrice || 0,
           ).multipliedBy(5);
         } else if (this.rollNumber === "TEN") {
           price = new bigNumber(
-            this.blindDetailInfo.tenPrice || 0
+            this.blindDetailInfo.tenPrice || 0,
           ).multipliedBy(10);
         }
       }
@@ -302,7 +299,7 @@ export default {
           type = "loading";
         }
         let filterData = data.filter(
-          (x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL"
+          (x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL",
         );
         if (filterData?.length > 0) {
           this.notificationFunc(type, filterData, awardItem[0]?.orderId);
@@ -385,7 +382,7 @@ export default {
       const { userInfo } = userStore;
       const type = this.rollNumber;
       if (!userInfo) {
-        this.messageFun(t("mysteryBox.loginHint"));
+        this.messageFun(this.$t("mysteryBox.loginHint"));
         return;
       }
       if (

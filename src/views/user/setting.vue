@@ -129,8 +129,6 @@ import Forgot from "../forgot/changePass.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import createVerification from "./createVerification.vue";
 import { updateUserInfo, getGoogleValidateStatus } from "@/services/api/user";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import defaultAvatar from "@/assets/svg/user/default_avatar.svg";
 export default {
@@ -219,7 +217,7 @@ export default {
         code: this.googleCode,
       });
       if (res && res.code == 200) {
-        this.$message.success(t("common.operationTips"));
+        this.$message.success(this.$t("common.operationTips"));
         this.fetchGoogleValidateStatus();
       }
     },
@@ -228,7 +226,7 @@ export default {
       const { googleCode } = this;
       if (type == "submit" || type == "auth") {
         if (!googleCode) {
-          this.walletAddrTips = t("user.codeRequired");
+          this.walletAddrTips = this.$t("user.codeRequired");
           this.verifys = false;
           return;
         }

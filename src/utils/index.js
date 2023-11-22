@@ -396,7 +396,7 @@ export const formatNumber = (num) => {
  * @param {string} format：要保留几位小数；譬如要保留2位，则值为2
  * @param {string} zerFill:是否补零。不需要补零可以不填写此参数
  */
-export const accurateDecimal = (number, format, zeroFill) => {
+export function accurateDecimal(number, format, zeroFill) {
   //判断非空
   if (!isEmpty(number)) {
     //正则匹配:正整数，负整数，正浮点数，负浮点数
@@ -428,7 +428,7 @@ export const accurateDecimal = (number, format, zeroFill) => {
     return str;
   }
   return number;
-};
+}
 
 //非空验证
 function isEmpty(ObjVal) {

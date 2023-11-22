@@ -179,6 +179,7 @@
   </el-dialog>
 </template>
 <script setup>
+import { useI18n } from "vue-i18n";
 import {
   ref,
   defineEmits,
@@ -189,9 +190,6 @@ import {
 } from "vue";
 import { BigNumber } from "bignumber.js";
 import ImageView from "../imageView";
-
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 const props = defineProps({
   chooseIds: {
@@ -226,6 +224,7 @@ const visible = ref(true);
 const total = ref(0);
 const text = ref("");
 onBeforeMount(() => {
+  const { t } = useI18n();
   const { failList } = props;
   if (failList.length) {
     text.value = t("lottery.tips2");

@@ -98,8 +98,8 @@
                   v-if="
                     Number(
                       new bigNumber(item.limitNum || 0).minus(
-                        item.numberOfTicketsSold || 0
-                      )
+                        item.numberOfTicketsSold || 0,
+                      ),
                     ) > 1
                   "
                 >
@@ -107,8 +107,8 @@
                     $t("home.ticketsLeft", {
                       num: Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ),
                     })
                   }}</span
@@ -118,8 +118,8 @@
                     $t("home.ticketLeft", {
                       num: Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ),
                     })
                   }}
@@ -260,8 +260,8 @@
                     v-if="
                       Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ) > 1
                     "
                   >
@@ -269,8 +269,8 @@
                       $t("home.ticketsLeft", {
                         num: Number(
                           new bigNumber(item.limitNum || 0).minus(
-                            item.numberOfTicketsSold || 0
-                          )
+                            item.numberOfTicketsSold || 0,
+                          ),
                         ),
                       })
                     }}</span
@@ -280,8 +280,8 @@
                       $t("home.ticketLeft", {
                         num: Number(
                           new bigNumber(item.limitNum || 0).minus(
-                            item.numberOfTicketsSold || 0
-                          )
+                            item.numberOfTicketsSold || 0,
+                          ),
                         ),
                       })
                     }}
@@ -463,8 +463,6 @@ import {
   delNewOrderMark,
 } from "@/services/api/oneBuy";
 import { getCacheTicker } from "@/services/api";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -525,12 +523,12 @@ export default {
 
       return [
         {
-          label: t("user.entered"),
+          label: this.$t("user.entered"),
           value: "ENTERED",
           showDot: enteredStatus,
         },
         {
-          label: t("user.myCopmetitions"),
+          label: this.$t("user.myCopmetitions"),
           value: "MY_COMPETITIONS",
           showDot: myTreasureDrawStatus,
         },
@@ -581,13 +579,13 @@ export default {
         if (!price) return 0;
         if (!ticketPrice) return 0;
         maxNum = Number(
-          Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4))
+          Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)),
         );
       } else if (orderType == "LIMITED_PRICE_COIN") {
         maxNum = Number(Math.ceil(new bigNumber(limitNum).dividedBy(4)));
       } else {
         maxNum = Number(
-          Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4))
+          Math.ceil(new bigNumber(price).dividedBy(ticketPrice).dividedBy(4)),
         );
       }
 
@@ -669,10 +667,10 @@ export default {
   },
   created() {
     this.statuDrop = [
-      { label: t("user.inProgress"), value: "IN_PROGRESS" },
-      { label: t("user.sale"), value: "DRAWN" },
-      { label: t("user.cancel"), value: "CANCELLED" },
-      { label: t("user.aborted"), value: "CLOSED" },
+      { label: this.$t("user.inProgress"), value: "IN_PROGRESS" },
+      { label: this.$t("user.sale"), value: "DRAWN" },
+      { label: this.$t("user.cancel"), value: "CANCELLED" },
+      { label: this.$t("user.aborted"), value: "CLOSED" },
     ];
 
     this.fetchCacheTicker();

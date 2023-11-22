@@ -21,21 +21,21 @@
             :class="[walletOperating == 1 && 'active']"
             @click="handleOperating(1)"
           >
-            {{ t("user.deposit") }}
+            {{ $t("user.deposit") }}
           </div>
           <div
             class="operating_btn"
             :class="[walletOperating == 2 && 'active']"
             @click="handleOperating(2)"
           >
-            {{ t("user.withdraw") }}
+            {{ $t("user.withdraw") }}
           </div>
           <div
             class="operating_btn"
             :class="[walletOperating == 3 && 'active']"
             @click="handleOperating(3)"
           >
-            {{ t("user.exchange") }}
+            {{ $t("user.exchange") }}
           </div>
         </div>
         <div class="choose_operating" v-if="walletOperating != 3">
@@ -43,7 +43,7 @@
             <div class="withdraw_item_lable">
               <span>
                 {{
-                  t("user.currency", {
+                  $t("user.currency", {
                     operating: `${
                       walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
                     }`,
@@ -82,7 +82,7 @@
             <div class="withdraw_item_lable">
               <span>
                 {{
-                  t("user.network", {
+                  $t("user.network", {
                     operating: `${
                       walletOperating == 1 ? "DEPOSIT" : "WITHDRAW"
                     }`,
@@ -115,7 +115,7 @@
             <div class="qr_code_box">
               <div class="wallet_addr">
                 <div class="tips_text">
-                  {{ t("user.sendHint", { coin: operatingCoin }) }}
+                  {{ $t("user.sendHint", { coin: operatingCoin }) }}
                 </div>
                 <div
                   class="img_box"
@@ -141,7 +141,7 @@
                 </el-input>
                 <div class="recharge_hint">
                   <span>{{
-                    t("user.hintText1", {
+                    $t("user.hintText1", {
                       coin: operatingCoin,
                       num: confirmNum(),
                     })
@@ -181,7 +181,7 @@
               </el-input>
             </div>
             <div class="price_convert_text">
-              {{ t("user.hintText3", { coin: `${operatingCoin}` }) }}
+              {{ $t("user.hintText3", { coin: `${operatingCoin}` }) }}
             </div>
           </div>
           <div class="withdraw_relevant" v-else-if="walletOperating == 2">
@@ -189,7 +189,7 @@
               <div class="withdraw_item_lable">
                 <img :src="getCion(operatingCoin)" alt="" />
                 <span>
-                  {{ t("user.receivingAddr", { coin: operatingCoin }) }}
+                  {{ $t("user.receivingAddr", { coin: operatingCoin }) }}
                 </span>
                 <span class="required">*</span>
               </div>
@@ -210,7 +210,7 @@
             <div class="withdraw_item">
               <div class="withdraw_item_lable exchange_item_lable">
                 <p>
-                  <span>{{ t("user.withdrawalAmount") }}</span>
+                  <span>{{ $t("user.withdrawalAmount") }}</span>
                   <span class="required">*</span>
                 </p>
                 <p>
@@ -249,7 +249,7 @@
               </div>
               <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
                 <span class="fee_title">
-                  {{ t("user.fee") }}
+                  {{ $t("user.fee") }}
                 </span>
                 <span class="fee_val">
                   {{
@@ -271,11 +271,11 @@
               @click="onWithdrawalBalance()"
             >
               <img v-if="loading" src="@/assets/img/user/loading.png" alt="" />
-              <span>{{ t("user.requestBtn") }}</span>
+              <span>{{ $t("user.requestBtn") }}</span>
             </div>
             <div class="withdraw_hint">
               <p>
-                {{ t("user.addrTips2") }}
+                {{ $t("user.addrTips2") }}
               </p>
             </div>
           </div>
@@ -284,11 +284,11 @@
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p>
-                    <span> {{ t("user.from") }} </span>
+                    <span> {{ $t("user.from") }} </span>
                     <span class="required">*</span>
                   </p>
                   <p>
-                    {{ t("user.available") }}
+                    {{ $t("user.available") }}
                     {{
                       getCoinBalance(exchangeInfo.exchangeFromCoin).toFixed(4) +
                       " " +
@@ -348,7 +348,7 @@
               <div class="withdraw_item">
                 <div class="withdraw_item_lable exchange_item_lable">
                   <p>
-                    <span> {{ t("user.to") }} </span>
+                    <span> {{ $t("user.to") }} </span>
                     <span class="required">*</span>
                   </p>
                 </div>
@@ -455,8 +455,6 @@
 <script>
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import {
   getTheUserSPayoutAddress,
@@ -614,8 +612,6 @@ export default {
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
     timeFormat: timeFormat,
-    t: t,
-
     getCoinBalance(coin) {
       coin = coin === "WETH" ? "ETH" : coin;
       const res = this.assetLists.filter((x) => x.coinName === coin);
@@ -671,19 +667,21 @@ export default {
         !this.exchangeInfo.exchangeFromAmount ||
         this.exchangeInfo.exchangeFromAmount == 0
       ) {
-        this.exchangeAmountTips = t("user.enterError6");
+        this.exchangeAmountTips = this.$t("user.enterError6");
       } else if (
         this.exchangeInfo.exchangeFromAmount >
         this.getCoinBalance(this.exchangeInfo.exchangeFromCoin)
       ) {
-        this.exchangeAmountTips = t("user.enterError4");
+        this.exchangeAmountTips = this.$t("user.enterError4");
       } else if (
         (this.exchangeInfo.exchangeFromCoin == "USDT" &&
           this.exchangeInfo.exchangeFromAmount < 1) ||
         (this.exchangeInfo.exchangeToCoin == "USDT" &&
           this.exchangeInfo.exchangeToAmount < 1)
       ) {
-        this.exchangeAmountTips = t("user.enterError7", { data: "1 USDT" });
+        this.exchangeAmountTips = this.$t("user.enterError7", {
+          data: "1 USDT",
+        });
       } else {
         this.exchangeAmountTips = null;
       }
@@ -904,7 +902,7 @@ export default {
 
       if (type == "submit" || type == "coin") {
         if (!operatingCoin) {
-          this.coinTips = t("user.currencyError");
+          this.coinTips = this.$t("user.currencyError");
           this.verifys = false;
           return;
         }
@@ -915,7 +913,7 @@ export default {
 
       if (type == "submit" || type == "network") {
         if (!walletNetwork) {
-          this.networkTips = t("user.networkError");
+          this.networkTips = this.$t("user.networkError");
           this.verifys = false;
           return;
         }
@@ -926,7 +924,7 @@ export default {
 
       if (type == "submit" || type == "address") {
         if (!walletAddr) {
-          this.walletAddrTips = t("user.enterError1", {
+          this.walletAddrTips = this.$t("user.enterError1", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });
           this.verifys = false;
@@ -936,13 +934,13 @@ export default {
           (x) => x.chain == this.walletNetwork
         )?.type;
         if (type == "TRON" && !isValiTronAddress(walletAddr)) {
-          this.walletAddrTips = t("user.enterError2", {
+          this.walletAddrTips = this.$t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });
           this.verifys = false;
           return;
         } else if (type != "TRON" && !isValidEthAddress(walletAddr)) {
-          this.walletAddrTips = t("user.enterError2", {
+          this.walletAddrTips = this.$t("user.enterError2", {
             coin: `${operatingCoin != "USDT" ? "Ethereum" : "Tether"}`,
           });
           this.verifys = false;
@@ -955,20 +953,20 @@ export default {
 
       if (type == "submit" || type == "amount") {
         if (!walletAmount) {
-          this.tipsText = t("user.enterError3");
+          this.tipsText = this.$t("user.enterError3");
           this.verifys = false;
           return;
         } else if (
           Number(walletAmount) > this.getCoinBalance(this.operatingCoin)
         ) {
-          this.tipsText = t("user.enterError4");
+          this.tipsText = this.$t("user.enterError4");
           this.verifys = false;
           return;
         } else if (
           !setting.freeFeeStatus &&
           Number(network?.gas) > Number(this.walletAmount)
         ) {
-          this.tipsText = t("user.enterError5");
+          this.tipsText = this.$t("user.enterError5");
           this.verifys = false;
           return;
         }
@@ -1008,9 +1006,9 @@ export default {
         userStore.setLoad(!this.loadLog);
 
         if (this.userInfo.userType == "NORMAL") {
-          this.$message.success(t("user.submitTestHint"));
+          this.$message.success(this.$t("user.submitTestHint"));
         } else {
-          this.$message.success(t("user.submitHint"));
+          this.$message.success(this.$t("user.submitHint"));
         }
         this.handleClose();
       }

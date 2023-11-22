@@ -130,8 +130,6 @@
 </template>
 
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import {
@@ -197,11 +195,11 @@ export default {
     onVerify() {
       const { inviteCode } = this;
       if (!inviteCode) {
-        this.inviteTips = t("airdrop.enterCodeHint");
+        this.inviteTips = this.$t("airdrop.enterCodeHint");
         this.verifys = false;
         return;
       } else if (inviteCode.length < 3) {
-        this.inviteTips = t("airdrop.enterCodeNum");
+        this.inviteTips = this.$t("airdrop.enterCodeNum");
         this.verifys = false;
         return;
       }
@@ -218,7 +216,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.inviteCode = null;
-        this.$message.success(t("common.createdTips"));
+        this.$message.success(this.$t("common.createdTips"));
         this.fetchRebatesFindList();
       }
     },

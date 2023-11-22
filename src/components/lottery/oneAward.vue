@@ -130,7 +130,7 @@ export default {
         padding: "5px 10px",
       },
       awardsList: JSON.parse(JSON.stringify(this.awards)).concat(
-        JSON.parse(JSON.stringify(this.awards))
+        JSON.parse(JSON.stringify(this.awards)),
       ),
       linearTime: null, //匀速动画duration时间
       slowTime: "6s", //减速动画duration时间
@@ -270,9 +270,12 @@ export default {
       handler: function (newData) {
         if (newData.length > 0) {
           this.slowScrollFunc(newData[0]);
-          setTimeout(() => {
-            this.stopScroll(newData[0]);
-          }, parseFloat(this.slowTime) * 1000);
+          setTimeout(
+            () => {
+              this.stopScroll(newData[0]);
+            },
+            parseFloat(this.slowTime) * 1000,
+          );
         }
       },
     },

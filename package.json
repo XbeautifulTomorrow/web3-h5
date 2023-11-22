@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "vite --mode test",
+    "start:ssr": "cross-env NODE_ENV=developemnt node server",
+    "prod:ssr": "cross-env NODE_ENV=production node server",
     "build": "vite build",
     "serve": "vite preview --mode dev",
-    "serve:pro": "vite preview --mode pro",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
+    "build:ssr": "npm run build:client && npm run build:server",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write",
-    "build:dev": "vite build --mode dev",
-    "build:pro": "vite build --mode pro"
+    "format": "prettier .  --write"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -48,11 +50,14 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.1.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^8.7.1",
+    "express": "^4.18.2",
     "html-webpack-plugin": "^5.5.1",
+    "jsdom": "^22.1.0",
     "postcss-px-to-viewport": "^1.1.1",
     "prettier": "3.1.0",
     "rollup-plugin-terser": "^7.0.2",

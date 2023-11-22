@@ -87,8 +87,6 @@
 import { getBoxPageList } from "@/services/api/index";
 import bigNumber from "bignumber.js";
 import { dateDiff } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import Image from "@/components/imageView";
 export default {
@@ -174,9 +172,9 @@ export default {
   created() {
     this.changeSort("popularity");
     this.sortDrop = [
-      { label: t("homeReplenish.sortPopularity"), value: "popularity" },
-      { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
-      { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" },
+      { label: this.$t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: this.$t("homeReplenish.sortPriceLow"), value: "price_asc" },
+      { label: this.$t("homeReplenish.sortPriceHigh"), value: "price_desc" },
     ];
   },
 };

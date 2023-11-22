@@ -49,8 +49,6 @@
   </el-form>
 </template>
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { reactive, watch, toRefs, onMounted, ref, onBeforeUnmount } from "vue";
 import { ElMessage } from "element-plus";
 
@@ -195,7 +193,7 @@ export default {
       });
       if (res && res.code === 200) {
         ElMessage({
-          message: t("login.sendHint"),
+          message: this.$t("login.sendHint"),
           type: "success",
         });
 
@@ -225,7 +223,7 @@ export default {
           emit("changeTypeFun", 2, { captcha: codeV });
         } else {
           ElMessage({
-            message: t("errorTips." + res.data.messageKey),
+            message: this.$t("errorTips." + res.data.messageKey),
             type: "error",
           });
           initializationFun();

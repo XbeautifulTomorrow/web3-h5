@@ -1,13 +1,14 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path' //引入node的path模块 这里报错
-import vue from '@vitejs/plugin-vue'
-import { terser } from "rollup-plugin-terser"
+import { defineConfig } from "vite";
+import { resolve } from "path"; //引入node的path模块 这里报错
+import vue from "@vitejs/plugin-vue";
+import { terser } from "rollup-plugin-terser";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  resolve: {//路径别名
+  resolve: {
+    //路径别名
     alias: {
-      '@': resolve(__dirname, './src')
+      "@": resolve(__dirname, "./src"),
     },
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
   },
@@ -15,23 +16,25 @@ export default defineConfig({
     host: "localhost",
     port: 8082,
     https: false,
-    open: true
+    open: true,
   },
   build: {
-    minify: 'terser',
+    minify: "terser",
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
-      }
+        drop_debugger: true,
+      },
     },
     rollupOptions: {
       // 引入 terser 插件
-      plugins: [terser({
-        format: {
-          comments: false, // 去除注释
-        },
-      })]
-    }
-  }
-})
+      plugins: [
+        terser({
+          format: {
+            comments: false, // 去除注释
+          },
+        }),
+      ],
+    },
+  },
+});

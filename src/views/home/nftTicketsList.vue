@@ -143,8 +143,8 @@
                     v-if="
                       Number(
                         new bigNumber(item.limitNum || 0).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ) > 1
                     "
                   >
@@ -152,8 +152,8 @@
                       $t("home.ticketsLeft", {
                         num: Number(
                           new bigNumber(item.limitNum || 0).minus(
-                            item.numberOfTicketsSold || 0
-                          )
+                            item.numberOfTicketsSold || 0,
+                          ),
                         ),
                       })
                     }}</span
@@ -163,8 +163,8 @@
                       $t("home.ticketLeft", {
                         num: Number(
                           new bigNumber(item.limitNum || 0).minus(
-                            item.numberOfTicketsSold || 0
-                          )
+                            item.numberOfTicketsSold || 0,
+                          ),
                         ),
                       })
                     }}
@@ -206,8 +206,8 @@
                   `$ ${Number(
                     accurateDecimal(
                       new bigNumber(exchangeRate).multipliedBy(item.price),
-                      4
-                    )
+                      4,
+                    ),
                   ).toLocaleString()}`
                 }}
               </span>
@@ -306,8 +306,6 @@ import { getCacheTicker } from "@/services/api";
 import bigNumber from "bignumber.js";
 import countDown from "@/components/countDown";
 import { accurateDecimal, dateDiff, timeFormat } from "@/utils";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import Image from "@/components/imageView";
 
 import Login from "../login/index.vue";
@@ -476,14 +474,14 @@ export default {
     this.fetchCacheTicker();
 
     this.statusDrop = [
-      { label: t("homeReplenish.inProgress"), value: "IN_PROGRESS" },
-      { label: t("homeReplenish.ended"), value: "DRAWN" },
+      { label: this.$t("homeReplenish.inProgress"), value: "IN_PROGRESS" },
+      { label: this.$t("homeReplenish.ended"), value: "DRAWN" },
     ];
     this.sortDrop = [
-      { label: t("homeReplenish.sortPopularity"), value: "popularity" },
-      { label: t("ticketsInfo.remaining"), value: "remaining" },
-      { label: t("homeReplenish.sortPriceLow"), value: "price_asc" },
-      { label: t("homeReplenish.sortPriceHigh"), value: "price_desc" },
+      { label: this.$t("homeReplenish.sortPopularity"), value: "popularity" },
+      { label: this.$t("ticketsInfo.remaining"), value: "remaining" },
+      { label: this.$t("homeReplenish.sortPriceLow"), value: "price_asc" },
+      { label: this.$t("homeReplenish.sortPriceHigh"), value: "price_desc" },
     ];
   },
 };

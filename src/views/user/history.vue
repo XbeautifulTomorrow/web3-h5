@@ -177,8 +177,6 @@
 <script>
 import { getUserBuyHistory } from "@/services/api/user";
 import { getUserOneOrder } from "@/services/api/oneBuy";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -294,11 +292,11 @@ export default {
   created() {
     this.tabsList = [
       {
-        label: t("user.mysteryBox"),
+        label: this.$t("user.mysteryBox"),
         value: "MYSTERY_BOX",
       },
       {
-        label: t("user.competition"),
+        label: this.$t("user.competition"),
         value: "COMPETITION",
       },
     ];

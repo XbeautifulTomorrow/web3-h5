@@ -81,7 +81,7 @@
                   undefined,
                   {
                     minimumFractionDigits: 2,
-                  }
+                  },
                 )
               }}
             </span>
@@ -202,8 +202,6 @@
 </template>
 
 <script>
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
@@ -298,55 +296,55 @@ export default {
 
       return [
         {
-          text: t("header.profile"),
+          text: this.$t("header.profile"),
           page: "profile",
           icon: userNav.icon_profile,
           showDota: false,
         },
         {
-          text: t("header.balances"),
+          text: this.$t("header.balances"),
           page: "balances",
           icon: userNav.icon_balances,
           showDota: false,
         },
         {
-          text: t("header.inventory"),
+          text: this.$t("header.inventory"),
           page: "inventory",
           icon: userNav.icon_inventory,
           showDot: walletNftSystemStatus,
         },
         {
-          text: t("header.promotions"),
+          text: this.$t("header.promotions"),
           page: "promotions",
           icon: icon_promotions,
           showDot: false,
           className: "promotions_nav",
         },
         {
-          text: t("header.competition"),
+          text: this.$t("header.competition"),
           page: "competition",
           icon: userNav.icon_competition,
           showDot: oneNftStatus,
         },
         {
-          text: t("header.history"),
+          text: this.$t("header.history"),
           page: "history",
           icon: userNav.icon_history,
           showDota: false,
         },
         {
-          text: t("header.referrals"),
+          text: this.$t("header.referrals"),
           page: "referrals",
           icon: userNav.icon_referrals,
           showDota: false,
         },
         // {
-        //   text: t("header.settings"),
+        //   text: this.$t("header.settings"),
         //   page: "settings",
         //   icon: userNav.icon_setting,
         // },
         {
-          text: t("header.logout"),
+          text: this.$t("header.logout"),
           page: "logout",
           icon: userNav.icon_logout,
           showDota: false,

@@ -104,10 +104,10 @@
                       `$ ${Number(
                         accurateDecimal(
                           new bigNumber(exchangeRate || 0).multipliedBy(
-                            nftInfo?.totalPrice || 0
+                            nftInfo?.totalPrice || 0,
                           ),
-                          4
-                        )
+                          4,
+                        ),
                       ).toLocaleString()}`
                     }}
                   </span>
@@ -361,7 +361,7 @@
                 v-html="
                   $t('ticketsInfo.closeHint', {
                     num: new bigNumber(nftInfo?.price || 0).multipliedBy(
-                      (drawnInfo && drawnInfo.userNum) || 0
+                      (drawnInfo && drawnInfo.userNum) || 0,
                     ),
                   })
                 "
@@ -762,15 +762,15 @@
                     v-if="
                       Number(
                         new bigNumber(item.limitNum).minus(
-                          item.numberOfTicketsSold || 0
-                        )
+                          item.numberOfTicketsSold || 0,
+                        ),
                       ) > 1
                     "
                   >
                     {{
                       $t("home.ticketsLeft", {
                         num: new bigNumber(item.limitNum).minus(
-                          item.numberOfTicketsSold || 0
+                          item.numberOfTicketsSold || 0,
                         ),
                       })
                     }}
@@ -779,7 +779,7 @@
                     {{
                       $t("home.ticketLeft", {
                         num: new bigNumber(item.limitNum).minus(
-                          item.numberOfTicketsSold || 0
+                          item.numberOfTicketsSold || 0,
                         ),
                       })
                     }}
@@ -965,9 +965,6 @@ import countDown from "@/components/countDown";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
 
-import { i18n } from "@/locales";
-const { t } = i18n.global;
-
 import { CScrollbar } from "c-scrollbar";
 
 import Login from "../login/index.vue";
@@ -1106,16 +1103,16 @@ export default {
             new bigNumber(totalPrice)
               .dividedBy(price)
               .dividedBy(4)
-              .minus((drawnInfo && drawnInfo.userNum) || 0)
-          )
+              .minus((drawnInfo && drawnInfo.userNum) || 0),
+          ),
         );
       } else if (orderType == "LIMITED_PRICE_COIN") {
         maxNum = Number(
           Math.ceil(
             new bigNumber(limitNum)
               .dividedBy(4)
-              .minus((drawnInfo && drawnInfo.userNum) || 0)
-          )
+              .minus((drawnInfo && drawnInfo.userNum) || 0),
+          ),
         );
 
         // 如果余票不足最大票数，取余票数量
@@ -1129,8 +1126,8 @@ export default {
             new bigNumber(totalPrice)
               .dividedBy(price)
               .dividedBy(4)
-              .minus((drawnInfo && drawnInfo.userNum) || 0)
-          )
+              .minus((drawnInfo && drawnInfo.userNum) || 0),
+          ),
         );
 
         // 如果余票不足最大票数，取余票数量
@@ -1218,12 +1215,12 @@ export default {
       if (this.maxBuyNum > 0) {
         hintText = null;
       } else {
-        hintText = t("ticketsInfo.buyHint");
+        hintText = this.$t("ticketsInfo.buyHint");
       }
 
       if (orderType == "LIMITED_PRICE") {
         if (!Number(maximumPurchaseQuantity) > 0) {
-          hintText = t("ticketsInfo.soldOut");
+          hintText = this.$t("ticketsInfo.soldOut");
         }
       }
 
@@ -1250,11 +1247,11 @@ export default {
       const { orderId, buyVotes, ethBalance, buyPrice } = this;
 
       if (!buyVotes || buyVotes < 1) {
-        this.$message.error(t("ticketsInfo.enterHint"));
+        this.$message.error(this.$t("ticketsInfo.enterHint"));
         return;
       }
       if (Number(ethBalance) < buyPrice) {
-        this.$message.error(t("mysteryBox.rechargeHint"));
+        this.$message.error(this.$t("mysteryBox.rechargeHint"));
         this.pageType = "recharge";
         return;
       }
@@ -1683,7 +1680,7 @@ export default {
     onVerify() {
       const { shareLink } = this;
       if (!shareLink) {
-        this.errorTips = t("errorTips.tweets_link_error");
+        this.errorTips = this.$t("errorTips.tweets_link_error");
         this.verifys = false;
         return;
       }
@@ -1696,7 +1693,7 @@ export default {
       const reg = /^https?:\/\/twitter\.com\/\S+\/status\S+/;
 
       if (!reg.test(link)) {
-        this.errorTips = t("errorTips.tweets_link_error");
+        this.errorTips = this.$t("errorTips.tweets_link_error");
         this.verifys = false;
         return;
       }
@@ -1751,14 +1748,14 @@ export default {
         if (res.data) {
           this.shareClose();
           this.loadInterface();
-          this.$message.success(t("ticketsInfo.verifySuccess"));
+          this.$message.success(this.$t("ticketsInfo.verifySuccess"));
         }
 
         this.verifys = false;
         this.errorTips = null;
       } else {
         const { data } = res;
-        this.errorTips = t("errorTips." + data.messageKey);
+        this.errorTips = this.$t("errorTips." + data.messageKey);
         this.verifys = true;
       }
     },
@@ -1780,7 +1777,7 @@ export default {
     },
     echartFormat(event) {
       const chart = this.chartData.find(
-        (e) => this.timeFormat(e.endTime) == event
+        (e) => this.timeFormat(e.endTime) == event,
       );
       return chart;
     },
@@ -1834,10 +1831,10 @@ export default {
             }
 
             const chatrs = that.echartFormat(datas[0].name);
-            res += t("ticketsInfo.participants") + "：";
+            res += this.$t("ticketsInfo.participants") + "：";
             res += chatrs.numberOfTicketsSold;
             res += "<br/>";
-            res += t("virtualCurrency.winner") + "：";
+            res += this.$t("virtualCurrency.winner") + "：";
             res += chatrs.winner;
             res += "<br/>";
             return res;

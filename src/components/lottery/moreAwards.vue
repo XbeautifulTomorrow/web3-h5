@@ -146,7 +146,7 @@ export default {
       };
       let targetAwardType = this.winData[index].qualityType;
       const sametype = this.winData.filter(
-        (x) => x.qualityType == targetAwardType
+        (x) => x.qualityType == targetAwardType,
       );
       if (sametype?.length) {
         let file = null;
@@ -180,9 +180,12 @@ export default {
           setTimeout(() => {
             this.slipeMusic && this.slipeMusic.pause();
           }, this.delayTimer * 1000);
-          setTimeout(() => {
-            this.$emit("showResultFun", true);
-          }, Number(this.delayTimer * 1000 + 1000));
+          setTimeout(
+            () => {
+              this.$emit("showResultFun", true);
+            },
+            Number(this.delayTimer * 1000 + 1000),
+          );
         }
       }, 1000);
     },

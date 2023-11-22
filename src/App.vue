@@ -14,7 +14,9 @@
 </template>
 
 <script>
-import { useUserStore } from "@/store/user.js";
+import { getLang } from "@/locales";
+import localeZH from "element-plus/dist/locale/zh-tw.mjs";
+import localeEN from "element-plus/dist/locale/en.mjs";
 export default {
   name: "App",
   provide() {
@@ -30,12 +32,9 @@ export default {
   },
   computed: {
     locale() {
-      const userStore = useUserStore();
-      return userStore.locale;
+      const localeStr = getLang() == "en_US" ? localeEN : localeZH;
+      return localeStr;
     },
-  },
-  created() {
-    this.getCoinList();
   },
   methods: {
     reload() {
@@ -43,10 +42,6 @@ export default {
       this.$nextTick(function () {
         this.isRouterAlive = true; //再打开
       });
-    },
-    getCoinList() {
-      const headerStore = useUserStore();
-      return headerStore.getCoinList();
     },
   },
 };

@@ -27,10 +27,12 @@ body {
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
-  background-image: radial-gradient(circle at center,
-      #444444,
-      #1d1e22 80%,
-      #1d1e22 100%);
+  background-image: radial-gradient(
+    circle at center,
+    #444444,
+    #1d1e22 80%,
+    #1d1e22 100%
+  );
 }
 
 .slider_wrapper {
@@ -78,157 +80,157 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    transition: transform (math.div($transition-duration, 2)) $transition-timing-function (
-      math.div($transition-duration, 2)
-    );
-  transform-style: preserve-3d;
-}
-
-&-item {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  color: rgba(255, 255, 255, 0);
-  transform: translate3d(0, 0, -15vh) rotateY(45deg);
-  transition: transform ($transition-duration) $transition-timing-function (
-    math.div($transition-duration, 4)
-  );
-
-&__trigger {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  height: 120%;
-  margin-left: -10%;
-  margin-top: -10%;
-  z-index: 100;
-  cursor: pointer;
-  outline: none;
-
-  &%item--active__trigger {
-    display: none;
+    transition: transform (math.div($transition-duration, 2))
+      $transition-timing-function (math.div($transition-duration, 2));
+    transform-style: preserve-3d;
   }
 
-  &%item--inactive__trigger {
-    display: block;
-  }
-}
-
-&__inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-origin: center center;
-  transform: scale(0.75);
-  transition: transform (math.div($transition-duration, 2)) $transition-timing-function 0s;
-  backface-visibility: hidden;
-  z-index: 10;
-
-  &::before,
-  &::after {
+  &-item {
     display: block;
     position: absolute;
-    content: "";
-  }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    color: rgba(255, 255, 255, 0);
+    transform: translate3d(0, 0, -15vh) rotateY(45deg);
+    transition: transform ($transition-duration) $transition-timing-function
+      (math.div($transition-duration, 4));
 
-  &::before {
-    top: 1.5rem;
-    left: 1.5rem;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 0;
-    transition: transform (math.div($transition-duration, 2)) $transition-timing-function (
-      math.div($transition-duration, 4)
-    );
-  transform: translate(-1.5rem, 12px);
-  box-shadow:
-    0 0.875rem 1.75rem rgba(0, 0, 0, 0.25),
-    0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
-}
+    &__trigger {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120%;
+      height: 120%;
+      margin-left: -10%;
+      margin-top: -10%;
+      z-index: 100;
+      cursor: pointer;
+      outline: none;
 
-&::after {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  background-image: linear-gradient(90deg,
-      rgba(0, 0, 0, 0) 0%,
-      #000 50%,
-      rgba(0, 0, 0, 0) 100%);
-  background-repeat: repeat-x;
-  background-size: 200% 100%;
-  background-position: 0% 0%;
-  transition:
-    opacity $transition-duration linear,
-    background-position (math.div($transition-duration, 2)) linear;
-}
+      &%item--active__trigger {
+        display: none;
+      }
 
-&%item--active__inner {
-  transform: scale(1);
-  transition-delay: ($transition-duration);
+      &%item--inactive__trigger {
+        display: block;
+      }
+    }
 
-  &::before {
-    transform: translate(0, 1.5rem);
-  }
+    &__inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-origin: center center;
+      transform: scale(0.75);
+      transition: transform (math.div($transition-duration, 2))
+        $transition-timing-function 0s;
+      backface-visibility: hidden;
+      z-index: 10;
 
-  &::after {
-    background-position: -50% 0%;
-    opacity: 0;
-  }
-}
+      &::before,
+      &::after {
+        display: block;
+        position: absolute;
+        content: "";
+      }
 
-&%item--inactive__inner {
-  &::before {
-    transform: translate(1.5rem, 0.75rem);
-  }
+      &::before {
+        top: 1.5rem;
+        left: 1.5rem;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 0;
+        transition: transform (math.div($transition-duration, 2))
+          $transition-timing-function (math.div($transition-duration, 4));
+        transform: translate(-1.5rem, 12px);
+        box-shadow:
+          0 0.875rem 1.75rem rgba(0, 0, 0, 0.25),
+          0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
+      }
 
-  &::after {
-    background-position: -100% 0%;
-  }
-}
-}
+      &::after {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        background-image: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 0%,
+          #000 50%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        background-repeat: repeat-x;
+        background-size: 200% 100%;
+        background-position: 0% 0%;
+        transition:
+          opacity $transition-duration linear,
+          background-position (math.div($transition-duration, 2)) linear;
+      }
 
-&.active {
-  color: #fff;
-  transform: translate3d(0, 0, 0) rotateY(0deg);
+      &%item--active__inner {
+        transform: scale(1);
+        transition-delay: ($transition-duration);
 
-  & .#{$component}-item__inner {
-    @extend %item--active__inner;
-  }
+        &::before {
+          transform: translate(0, 1.5rem);
+        }
 
-  & .#{$component}-item__trigger {
-    @extend %item--active__trigger;
-  }
-}
+        &::after {
+          background-position: -50% 0%;
+          opacity: 0;
+        }
+      }
 
-&.prev {
-  transform: translate3d(-20%, 0, -10vh) rotateY(50deg);
-}
+      &%item--inactive__inner {
+        &::before {
+          transform: translate(1.5rem, 0.75rem);
+        }
 
-&.next {
-  transform: translate3d(20%, 0, -10vh) rotateY(-50deg);
+        &::after {
+          background-position: -100% 0%;
+        }
+      }
+    }
 
-  & .#{$component}-item__inner {
-    @extend %item--inactive__inner;
-  }
+    &.active {
+      color: #fff;
+      transform: translate3d(0, 0, 0) rotateY(0deg);
 
-  &~.#{$component}-item {
-    transform: translate3d(0, 0, -15vh) rotateY(-45deg);
+      & .#{$component}-item__inner {
+        @extend %item--active__inner;
+      }
 
-    & .#{$component}-item__inner {
-      @extend %item--inactive__inner;
+      & .#{$component}-item__trigger {
+        @extend %item--active__trigger;
+      }
+    }
+
+    &.prev {
+      transform: translate3d(-20%, 0, -10vh) rotateY(50deg);
+    }
+
+    &.next {
+      transform: translate3d(20%, 0, -10vh) rotateY(-50deg);
+
+      & .#{$component}-item__inner {
+        @extend %item--inactive__inner;
+      }
+
+      & ~ .#{$component}-item {
+        transform: translate3d(0, 0, -15vh) rotateY(-45deg);
+
+        & .#{$component}-item__inner {
+          @extend %item--inactive__inner;
+        }
+      }
     }
   }
-}
-}
 }
 
 .card {
@@ -238,7 +240,8 @@ body {
   height: 100%;
   margin: 0;
   color: currentColor;
-  transition: color math.div($transition-duration, 2) linear math.div($transition-duration, 2);
+  transition: color math.div($transition-duration, 2) linear
+    math.div($transition-duration, 2);
   border-radius: 0.25rem;
 
   &.series_level_bg_1 {
@@ -308,7 +311,8 @@ body {
     border-radius: 50%;
     overflow: hidden;
     opacity: 0;
-    transition: opacity math.div($transition-duration, 2) $transition-timing-function;
+    transition: opacity math.div($transition-duration, 2)
+      $transition-timing-function;
   }
 
   &:hover::before {
@@ -322,9 +326,9 @@ body {
     overflow: hidden;
     border-radius: inherit;
 
-    &>*,
-    &> ::before,
-    &> ::after {
+    & > *,
+    & > ::before,
+    & > ::after {
       border-radius: inherit;
     }
 
@@ -396,7 +400,7 @@ body {
     line-height: 1.6;
     color: #0cbb3e;
 
-    &>span:nth-child(1) {
+    & > span:nth-child(1) {
       flex: 1;
       max-width: 50%;
       overflow: hidden;
@@ -429,11 +433,11 @@ body {
     flex-wrap: wrap;
     padding-top: 0.625rem;
 
-    &>img+img {
+    & > img + img {
       margin-left: 1.25rem;
     }
 
-    &>img {
+    & > img {
       width: 3rem;
       height: auto;
       border-radius: 50%;

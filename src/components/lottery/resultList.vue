@@ -286,6 +286,7 @@ import {
   nextTick,
   watch,
 } from "vue";
+import { useI18n } from "vue-i18n";
 import * as workerTimers from "worker-timers";
 import { BigNumber } from "bignumber.js";
 import dayjs from "dayjs";
@@ -294,7 +295,6 @@ import timezone from "dayjs/plugin/timezone";
 import zoomWrap from "../zoomWrap.vue";
 import ImageView from "../imageView";
 import { getTheUserBalance } from "@/services/api/user";
-import { i18n } from "@/locales";
 import { Howl } from "howler";
 
 import moreUsually from "@/assets/music/more-usually.mp3";
@@ -306,7 +306,7 @@ import NORMAL1 from "@/assets/music/more-NORMAL1.mp3";
 
 import coinSrc from "@/assets/svg/user/icon_usdt_gold.svg";
 
-const { t } = i18n.global;
+const { t } = useI18n();
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -363,7 +363,7 @@ watch(
       clearTimerFun();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 onMounted(async () => {
   audioPlay();
@@ -491,9 +491,9 @@ const getTheUserBalanceApi = async () => {
     const timer = parseInt(
       60 -
         Math.ceil(
-          new Date(res.localDateTime) - new Date(result[0].lotteryTime)
+          new Date(res.localDateTime) - new Date(result[0].lotteryTime),
         ) /
-          1000
+          1000,
     );
     const extraTime = result?.length == 1 ? 8 : result?.length == 5 ? 7 : 11;
     second.value =

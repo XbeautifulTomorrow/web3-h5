@@ -283,8 +283,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { deepClone, accurateDecimal } from "@/utils";
 import { getAutoConfig, setAutoConfig } from "@/services/api/tokenWar";
 import bigNumber from "bignumber.js";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+
 export default {
   name: "WarConfig",
   props: {
@@ -366,7 +365,7 @@ export default {
         const rate = deepClone(res.data);
 
         const winRate = Number(
-          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100)
+          new bigNumber(rate?.lockWinRate || 0).multipliedBy(100),
         );
 
         const params = {
@@ -414,7 +413,7 @@ export default {
       const { type, autoConfig } = this;
 
       if (type == "auto" && !autoConfig.autoBuyNumber) {
-        this.$message.error(t("tokenWar.lockErrorTips"));
+        this.$message.error(this.$t("tokenWar.lockErrorTips"));
         return;
       }
 
@@ -428,7 +427,7 @@ export default {
       const rate = deepClone(autoConfig);
 
       params.lockWinRate = Number(
-        new bigNumber(rate.lockWinRate).dividedBy(100)
+        new bigNumber(rate.lockWinRate).dividedBy(100),
       );
 
       // 删除剩余局数

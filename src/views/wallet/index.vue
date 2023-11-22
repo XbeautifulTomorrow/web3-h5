@@ -43,8 +43,6 @@
 <script>
 import Web3 from "web3";
 import { EthereumProvider } from "@walletconnect/ethereum-provider";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import { BigNumber } from "bignumber.js";
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
@@ -114,7 +112,7 @@ export default {
             _that.web3 = web3;
             const headerStore = useHeaderStore();
             const _ethBalance = new BigNumber(
-              await _that.web3.eth.getBalance(accounts[0])
+              await _that.web3.eth.getBalance(accounts[0]),
             )
               .div(1e18)
               .toFixed(4);
@@ -130,7 +128,7 @@ export default {
               // 用户拒绝登录后执行语句；
             } else {
               // 本不该执行到这里，但是真到这里了，说明发生了意外
-              ElMessage.error(t("airdrop.failedTips"));
+              ElMessage.error(this.$t("airdrop.failedTips"));
             }
           });
       }
@@ -170,7 +168,7 @@ export default {
           _that.web3 = web3;
           const headerStore = useHeaderStore();
           const _ethBalance = new BigNumber(
-            await _that.web3.eth.getBalance(accounts[0])
+            await _that.web3.eth.getBalance(accounts[0]),
           )
             .div(1e18)
             .toFixed(4);
@@ -186,7 +184,7 @@ export default {
             // 用户拒绝登录后执行语句；
           } else {
             // 本不该执行到这里，但是真到这里了，说明发生了意外
-            ElMessage.error(t("airdrop.failedTips"));
+            ElMessage.error(this.$t("airdrop.failedTips"));
           }
         });
     },

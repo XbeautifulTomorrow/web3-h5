@@ -34,8 +34,6 @@
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from "@/locales";
-const { t } = i18n.global;
 import Setting from "./setting.vue";
 import Wallet from "./wallet.vue";
 import Inventory from "./inventory.vue";
@@ -89,28 +87,28 @@ export default {
 
       return [
         {
-          text: t("header.profile"),
+          text: this.$t("header.profile"),
           page: "profile",
           icon: userNav.icon_profile,
           iconActive: userNav.icon_profile_active,
           showDot: false,
         },
         {
-          text: t("header.balances"),
+          text: this.$t("header.balances"),
           page: "balances",
           icon: userNav.icon_balances,
           iconActive: userNav.icon_balances_active,
           showDot: false,
         },
         {
-          text: t("header.inventory"),
+          text: this.$t("header.inventory"),
           page: "inventory",
           icon: userNav.icon_inventory,
           iconActive: userNav.icon_inventory_active,
           showDot: walletNftSystemStatus,
         },
         {
-          text: t("header.promotions"),
+          text: this.$t("header.promotions"),
           page: "promotions",
           icon: icon_promotions,
           iconActive: icon_promotions,
@@ -118,21 +116,21 @@ export default {
           className: "promotions_nav",
         },
         {
-          text: t("header.competition"),
+          text: this.$t("header.competition"),
           page: "competition",
           icon: userNav.icon_competition,
           iconActive: userNav.icon_competition_active,
           showDot: oneNftStatus,
         },
         {
-          text: t("header.history"),
+          text: this.$t("header.history"),
           page: "history",
           icon: userNav.icon_history,
           iconActive: userNav.icon_history_active,
           showDot: false,
         },
         {
-          text: t("header.referrals"),
+          text: this.$t("header.referrals"),
           page: "referrals",
           icon: userNav.icon_referrals,
           iconActive: userNav.icon_referrals_active,

@@ -345,7 +345,7 @@
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
     <!-- 第三方支付成功弹框 -->
-    <checkResult v-if="checkResultDialog" @closeDialogFun="checkResultDialog = false"></checkResult>
+    <checkLoading v-if="showLoadingeDialog" @closeDialogFun="showLoadingeDialog = false"></checkLoading>
   </div>
 </template>
 <script>
@@ -369,13 +369,13 @@ import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat, openUrl, isEthTransactionHashValid } from "@/utils";
 import Points from "./pointsDetails.vue";
 import Recharge from "./recharge.vue";
-import checkResult from "@/components/checkDialog/checkResult";
+import checkLoading from "@/components/checkDialog/checkLoading";
 export default {
   name: "myWallet",
   components: {
     Points,
     Recharge,
-    checkResult,
+    checkLoading,
   },
   data() {
     return {
@@ -404,11 +404,15 @@ export default {
       exchangeCount: 0,
       exchangeData: [],
       thirdPartyList: [],
-      checkResultDialog: false,
+      showLoadingeDialog: false,
     };
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
+    userRechargeShowList() {
+      const headerStore = useHeaderStore();
+      return headerStore.userRechargeShowList;
+    },
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -641,6 +645,11 @@ export default {
     },
   },
   watch: {
+    userRechargeShowList(val) {
+      if (val?.length > 0) {
+        this.showLoadingeDialog = false;
+      }
+    },
     loadLog() {
       if (this.coin == "NFT") {
         return;
@@ -651,7 +660,7 @@ export default {
   },
   created() {
     if (this.$route.query?.paymentType) {
-      this.checkResultDialog = true;
+      this.showLoadingeDialog = true;
     }
     if (this.isLogin && this.userInfo?.id) {
       this.fetchHistory();

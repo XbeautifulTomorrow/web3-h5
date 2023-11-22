@@ -47,7 +47,7 @@
             <span>USDT</span>
           </div>
 
-          <el-input type="number" v-model="exchangeToAmount" :readonly="toLoading" placeholder="0.0000" @input="handleInput('to')">
+          <el-input type="number" v-model="exchangeToAmount" readonly placeholder="0.0000" @input="handleInput('to')">
             <template #suffix>
               <el-icon class="is-loading" v-if="toLoading">
                 <Loading />

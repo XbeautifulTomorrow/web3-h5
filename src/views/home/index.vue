@@ -78,10 +78,8 @@ export default {
       if (showTips && showTips == 2) {
         this.isWarPosterShow = false;
       } else {
-        this.isWarPosterShow = true;
         const image = new Image();
         image.onload = () => {
-          console.log(2);
           this.isWarPosterShow = true;
           if (this.isLogin) {
             setSessionStore("showWarTips", 2);

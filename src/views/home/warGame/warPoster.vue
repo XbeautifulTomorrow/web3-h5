@@ -82,6 +82,7 @@ export default {
     background-position: top center !important;
     background-image: none !important;
     box-sizing: border-box;
+    background-color: transparent;
   }
 
   .el-dialog__body {

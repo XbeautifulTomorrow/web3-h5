@@ -56,7 +56,7 @@ export default {
       boxList: [],
       NFTList: [],
       generateKey: "",
-      isWarPosterShow: true,
+      isWarPosterShow: false,
     };
   },
   created() {
@@ -80,11 +80,12 @@ export default {
       } else {
         const image = new Image();
         image.onload = () => {
+          this.isWarPosterShow = true;
           if (this.isLogin) {
             setSessionStore("showWarTips", 2);
           }
         };
-        image.src = require("@/assets/img/home/poster/bg_03.webp");
+        image.src = require("@/assets/img/home/poster/bg_02.webp");
       }
     },
     bannerGo(data) {

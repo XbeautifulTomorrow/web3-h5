@@ -377,7 +377,7 @@ export function getDifferent(jsons, contrast) {
  * @description: 1-1.00 如果超出2位，比如1.255就正常显示1.255
  * @param {string} number：为你要转换的数字
  */
-export const formatNumber = (num) => {
+export function formatNumber(num) {
   if (num == null || num == undefined) {
     return 0.0;
   }
@@ -444,7 +444,7 @@ function isEmpty(ObjVal) {
 }
 
 // 验证地址正确性的函数
-export const isValidEthAddress = (address) => {
+export function isValidEthAddress(address) {
   if (!address) return false;
 
   // 去除"0x"前缀
@@ -481,7 +481,7 @@ export const isValidEthAddress = (address) => {
 };
 
 // 验证地址正确性的函数
-export const isValiTronAddress = (address) => {
+export function isValiTronAddress(address) {
   if (!address) return false;
   // Base58字符集
   const base58Chars =
@@ -495,7 +495,7 @@ export const isValiTronAddress = (address) => {
 };
 
 // 验证 以太坊交易哈希
-export const isEthTransactionHashValid = (hash) => {
+export function isEthTransactionHashValid(hash) {
   // 以太坊交易哈希的正则表达式
   const ethTxHashRegex = /^(0x)?[0-9a-fA-F]{64}$/;
 
@@ -508,7 +508,7 @@ export const isEthTransactionHashValid = (hash) => {
  * @param {string} word：token
  * @param {string} keyStr：key值（16位）
  */
-export const encryptECB = (word, keyStr) => {
+export function encryptECB(word, keyStr) {
   keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
   try {
     var key = CryptoJS.enc.Utf8.parse(keyStr);
@@ -528,7 +528,7 @@ export const encryptECB = (word, keyStr) => {
  * @param {string} word：token
  * @param {string} keyStr：key值（16位）
  */
-export const decryptECB = (word, keyStr) => {
+export function decryptECB(word, keyStr) {
   keyStr = keyStr || "JokerJokerXtreme"; // 密文（密钥）
   try {
     var key = CryptoJS.enc.Utf8.parse(keyStr); // Latin1 w8m31+Yy/Nw6thPsMpO5fg==
@@ -547,7 +547,7 @@ export const decryptECB = (word, keyStr) => {
  * @param {string} word：token
  * @param {string} keyStr：key值（16位）
  */
-export const encryptCBC = (word, keyStr) => {
+export function encryptCBC(word, keyStr) {
   keyStr = keyStr || "JokerJokerXtreme"; // 密钥
 
   let ivStr = "JokerLoseCyclone"; // 偏移量
@@ -578,7 +578,7 @@ export const encryptCBC = (word, keyStr) => {
  * @param {string} word：token
  * @param {string} keyStr：key值（16位）
  */
-export const decryptCBC = (word, keyStr) => {
+export function decryptCBC(word, keyStr) {
   keyStr = keyStr || "JokerJokerXtreme"; // 密钥
 
   let ivStr = "JokerLoseCyclone";
@@ -613,30 +613,30 @@ export const decryptCBC = (word, keyStr) => {
  * @param Number d: 从起始位置到终止位置的经过时间（实际上时执行多少次/帧数）
  */
 // 缓入函数
-export const easeIn = (t, b, c, d) => {
+export function easeIn(t, b, c, d) {
   if (t >= d) t = d;
   return c * (t /= d) * t + b;
 };
 
 // 缓出函数
-export const easeOut = (t, b, c, d) => {
+export function easeOut(t, b, c, d) {
   if (t >= d) t = d;
   return -c * (t /= d) * (t - 2) + b;
 };
 
 // 动画循环（每秒60帧）
-export const rAF = (callback) => {
+export function rAF(callback) {
   return window.setTimeout(callback, 1000 / 60);
 };
 
 // 格式化U
-export const formatUsd = (event, type = 2) => {
+export function formatUsd(event, type = 2) {
   const num = event || 0;
   return Number(accurateDecimal(num, type)).toLocaleString();
 };
 
 // 首字母大写
-export const upperFirstConcat = (strV) => {
+export function upperFirstConcat(strV) {
   let str = strV;
   str = str.replace(/\b\w+\b/g, (word) => {
     return word.substring(0, 1).toUpperCase() + word.substring(1);

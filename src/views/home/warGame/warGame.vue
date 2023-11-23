@@ -2,7 +2,7 @@
   <div class="war_game_wrapper">
     <div class="war_game_panel">
       <div class="bloody_battle">
-        <img src="@/assets/svg/home/warGame/bg/heading_bg.svg" alt="" />
+        <img src="@/assets/svg/home/warGame/bg/heading_bg.webp" alt="" />
         <div class="bloody_battle_box">
           <div class="war_title">{{ $t("tokenWar.endWar") }}</div>
           <div class="total_bonus">
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="war_game_user panel_bg">
+      <div class="war_game_user panel_bg" :style="{ backgroundImage: `url(${getTheme(0)})` }">
         <div class="basic_info">
           <div class="user_num">
             {{ $t("tokenWar.playersNum", { num: warData.length }) }}
@@ -80,7 +80,7 @@
           </c-scrollbar>
         </div>
       </div>
-      <div class="lottery_panel panel_bg">
+      <div class="lottery_panel panel_bg" :style="{ backgroundImage: `url(${getTheme(1)})` }">
         <div class="prize_pool">
           <div class="round">
             <div class="round_title">{{ $t("tokenWar.currentRound") }}</div>
@@ -235,7 +235,7 @@
         </div>
       </div>
       <div class="round_info_panel">
-        <div class="round_info panel_bg">
+        <div class="round_info panel_bg" :style="{ backgroundImage: `url(${getTheme(2)})` }">
           <div class="round_num">
             {{ $t("tokenWar.roundId", { num: warInfo?.id || "--" }) }}
           </div>
@@ -278,7 +278,7 @@
             </div>
           </div>
         </div>
-        <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']">
+        <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']" :style="{ backgroundImage: `url(${getTheme(3)})` }">
           <div class="not_connect" v-if="isHistory">
             <div class="enter_war" @click="handleBack()">
               {{ $t("tokenWar.backText") }}
@@ -650,6 +650,20 @@ export default {
       config: null,
 
       isFAQ: false,
+      theme:[
+        [
+        require('@/assets/svg/home/warGame/bg/theme1/Bg1.webp'),
+        require('@/assets/svg/home/warGame/bg/theme1/Bg2.webp'),
+        require('@/assets/svg/home/warGame/bg/theme1/Bg3.webp'),
+        require('@/assets/svg/home/warGame/bg/theme1/Bg4.webp'),
+        ],
+        [
+        require('@/assets/svg/home/warGame/bg/theme2/Bg1.webp'),
+        require('@/assets/svg/home/warGame/bg/theme2/Bg2.webp'),
+        require('@/assets/svg/home/warGame/bg/theme2/Bg3.webp'),
+        require('@/assets/svg/home/warGame/bg/theme2/Bg4.webp'),
+        ]
+      ]
     };
   },
   computed: {
@@ -679,6 +693,14 @@ export default {
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
+    getTheme(index){
+      if(this.warInfo) {
+        const { bigPrizeStatus } = this.warInfo;
+        return this.theme[ bigPrizeStatus == 'TRUE' ? 1 : 0 ][index]
+      } else {
+        return this.theme[0][index]
+      }
+    },
     closeDialogFun() {
       this.pageType = "";
       if (this.userInfo?.id && this.isLogin) {

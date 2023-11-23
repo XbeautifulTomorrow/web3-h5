@@ -5,6 +5,9 @@ import { terser } from "rollup-plugin-terser";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  ssr: {
+    noExternal: ["swiper"]
+  },
   resolve: {
     //路径别名
     alias: {

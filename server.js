@@ -72,10 +72,10 @@ async function createServer() {
     }
   });
 
-  app.listen(3000, () =>
+  app.listen(25666, () =>
     console.log(
       `server is running at ${isProd ? "线上" : "开发"
-      }环境： http://localhost:3000`,
+      }环境： http://localhost:25666`,
     ),
   );
 }

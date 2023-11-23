@@ -4,26 +4,43 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("user.youPayWith") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youPayWith") }} </span>
+            <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
           <div class="exhange_icon">
-            <el-select v-model="exchangeFromCoin" @change="getAmountFunc('from')" :popper-append-to-body="false">
+            <el-select
+              v-model="exchangeFromCoin"
+              @change="getAmountFunc('from')"
+              :popper-append-to-body="false"
+            >
               <template #prefix>
-                <img :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)" alt="" />
+                <img
+                  :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)"
+                  alt=""
+                />
               </template>
               <template v-for="(item, index) in coinList" :key="index">
                 <el-option :label="index" :value="index">
                   <div class="icon_label">
-                    <img :src="require(`@/assets/svg/newCoin/${index}.svg`)" alt="" />
+                    <img
+                      :src="require(`@/assets/svg/newCoin/${index}.svg`)"
+                      alt=""
+                    />
                     <span>{{ index }}</span>
                   </div>
                 </el-option>
               </template>
             </el-select>
           </div>
-          <el-input type="number" v-model="exchangeFromAmount" :readonly="fromLoading" placeholder="0.0000" @input="handleInput('from')">
+          <el-input
+            type="number"
+            v-model="exchangeFromAmount"
+            :readonly="fromLoading"
+            placeholder="0.0000"
+            @input="handleInput('from')"
+          >
             <template #suffix>
               <el-icon class="is-loading" v-if="fromLoading">
                 <Loading />
@@ -38,7 +55,8 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("user.youGet") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youGet") }} </span>
+            <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
@@ -47,7 +65,13 @@
             <span>USDT</span>
           </div>
 
-          <el-input type="number" v-model="exchangeToAmount" readonly placeholder="0.0000" @input="handleInput('to')">
+          <el-input
+            type="number"
+            v-model="exchangeToAmount"
+            readonly
+            placeholder="0.0000"
+            @input="handleInput('to')"
+          >
             <template #suffix>
               <el-icon class="is-loading" v-if="toLoading">
                 <Loading />
@@ -81,7 +105,9 @@
           <el-icon class="is-loading" v-if="fromLoading">
             <Loading />
           </el-icon>
-          <span v-else>{{ (exchangeFromAmount || 0) + " " + exchangeFromCoin }}</span>
+          <span v-else>{{
+            (exchangeFromAmount || 0) + " " + exchangeFromCoin
+          }}</span>
         </p>
       </div>
       <div class="item_info">
@@ -90,7 +116,9 @@
           <el-icon class="is-loading" v-if="toLoading">
             <Loading />
           </el-icon>
-          <span v-else>{{ (exchangeToAmount || 0) + " " + exchangeToCoin }}</span>
+          <span v-else>{{
+            (exchangeToAmount || 0) + " " + exchangeToCoin
+          }}</span>
         </p>
       </div>
     </div>
@@ -103,7 +131,12 @@
         <span v-show="agree" class="form-rember-rectangle-fill"></span>
       </span>
       <div class="form-rember-text" @click="agreeFun">
-        <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
+        <el-tooltip
+          class="item"
+          effect="dark"
+          placement="top"
+          popper-class="tooltip_popper_disclaimer"
+        >
           <template #content>
             <div class="tooltip_content">
               {{ $t("user.threePayDisclaimer") }}
@@ -116,24 +149,33 @@
     <div
       :class="[
         'handle_btn',
-        { dark_btn: !exchangeFromAmount || !exchangeToAmount || exchangeFromAmountTips || exchangeToAmountTips || !agree },
+        {
+          dark_btn:
+            !exchangeFromAmount ||
+            !exchangeToAmount ||
+            exchangeFromAmountTips ||
+            exchangeToAmountTips ||
+            !agree,
+        },
       ]"
       @click="submitFunc"
     >
       MERCURYO
     </div>
-    <checkLoading v-if="showLoadingeDialog" @closeDialogFun="showLoadingeDialog = false"></checkLoading>
+    <checkLoading
+      v-if="showLoadingeDialog"
+      @closeDialogFun="showLoadingeDialog = false"
+    ></checkLoading>
   </div>
 </template>
 <script>
-import { mapStores } from "pinia";
-import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
-import { productionOfThirdPartyOrders, productionOfThirdPartyRate } from "@/services/api/user";
-import { i18n } from "@/locales";
-const { t } = i18n.global;
+import {
+  productionOfThirdPartyOrders,
+  productionOfThirdPartyRate,
+} from "@/services/api/user";
 import checkLoading from "@/components/checkDialog/checkLoading";
 
 export default {
@@ -159,18 +201,17 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useHeaderStore),
     coinList() {
-      const headerStore = useUserStore();
-      return headerStore.buyCryptoCoinRates;
+      const userStore = useUserStore();
+      return userStore.buyCryptoCoinRates;
     },
     three_pay_widget_id() {
-      const headerStore = useUserStore();
-      return headerStore.three_pay_widget_id;
+      const userStore = useUserStore();
+      return userStore.three_pay_widget_id;
     },
     userInfo() {
-      const { userInfo } = this.userStore;
-      return userInfo;
+      const userStore = useUserStore();
+      return userStore.userInfo;
     },
   },
   watch: {
@@ -202,17 +243,27 @@ export default {
     async getAmountFunc(type) {
       this.errorRes = null;
       this.onVerifyExchange(type);
-      type == "from" ? (this.exchangeToAmount = null) : (this.exchangeFromAmount = null);
+      type == "from"
+        ? (this.exchangeToAmount = null)
+        : (this.exchangeFromAmount = null);
       let from = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
       let to = type == "from" ? this.exchangeToCoin : this.exchangeFromCoin;
-      let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
+      let amount =
+        type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
 
       if (amount > 0) {
         type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
-        const res = await productionOfThirdPartyRate({ from, to, amount, widget_id: this.three_pay_widget_id });
+        const res = await productionOfThirdPartyRate({
+          from,
+          to,
+          amount,
+          widget_id: this.three_pay_widget_id,
+        });
         if (res && res.data) {
           if (res?.headers) {
-            type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+            type == "from"
+              ? (this.toLoading = false)
+              : (this.fromLoading = false);
             let data = res?.data;
             if (data?.code == 400005) {
               this.errorRes = data?.data;
@@ -225,7 +276,9 @@ export default {
               }
             }
           } else {
-            type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+            type == "from"
+              ? (this.toLoading = false)
+              : (this.fromLoading = false);
             this.errorRes = null;
             let data = res?.data;
             if (type == "from") {
@@ -241,7 +294,11 @@ export default {
     async submitFunc() {
       this.onVerifyExchange("from");
       this.onVerifyExchange("to");
-      if (!this.exchangeFromAmountTips && !this.exchangeToAmountTips && this.agree) {
+      if (
+        !this.exchangeFromAmountTips &&
+        !this.exchangeToAmountTips &&
+        this.agree
+      ) {
         let res = await productionOfThirdPartyOrders();
         if (res && res.code == 200) {
           let targetUrl = `${res.data}&amount=${this.exchangeToAmount}&fiat_currencies=${this.exchangeFromCoin}`;
@@ -257,7 +314,8 @@ export default {
       this.exchangeToAmountTips = null;
       let exchangeAmountTips = null;
       let coin = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
-      let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
+      let amount =
+        type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
       let min = 0;
       let max = 0;
       if (this.errorRes) {
@@ -266,13 +324,19 @@ export default {
       }
       if (!this.errorRes) {
         if (amount && amount <= 0) {
-          exchangeAmountTips = t("user.ruleTip1");
+          exchangeAmountTips = this.$t("user.ruleTip1");
         }
       } else {
         if (Number(amount) < Number(min)) {
-          exchangeAmountTips = t("user.ruleTip2", { min, coin: this.exchangeFromCoin });
+          exchangeAmountTips = this.$t("user.ruleTip2", {
+            min,
+            coin: this.exchangeFromCoin,
+          });
         } else if (Number(amount) > Number(max)) {
-          exchangeAmountTips = t("user.ruleTip3", { max, coin: this.exchangeFromCoin });
+          exchangeAmountTips = this.$t("user.ruleTip3", {
+            max,
+            coin: this.exchangeFromCoin,
+          });
         } else {
           exchangeAmountTips = null;
         }

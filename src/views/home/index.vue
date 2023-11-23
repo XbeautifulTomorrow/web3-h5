@@ -9,6 +9,10 @@
       @closeDialogFun="closeDialogFun"
       @changeTypeFun="changeTypeFun"
     />
+    <war-poster
+      v-if="isWarPosterShow"
+      @closeDialogFun="isWarPosterShow = false"
+    ></war-poster>
   </div>
 </template>
 
@@ -23,6 +27,7 @@ import Login from "../login/index.vue";
 import WarPoster from "./warGame/warPoster";
 import { getBoxList, getNFTList } from "@/services/api/index";
 import { setSessionStore, getSessionStore } from "@/utils";
+import warPosterBg from "@/assets/img/home/poster/bg_02.webp";
 
 export default {
   name: "IndexPage",
@@ -86,7 +91,7 @@ export default {
             setSessionStore("showWarTips", 2);
           }
         };
-        image.src = require("@/assets/img/home/poster/bg_02.webp");
+        image.src = warPosterBg;
       }
     },
     bannerGo(data) {

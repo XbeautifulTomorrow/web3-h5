@@ -24,7 +24,7 @@
                     undefined,
                     {
                       minimumFractionDigits: 2,
-                    },
+                    }
                   ) || 0
                 }}
               </span>
@@ -76,7 +76,7 @@
                       undefined,
                       {
                         minimumFractionDigits: 4,
-                      },
+                      }
                     )
                   }}
                 </span>
@@ -86,7 +86,7 @@
                       undefined,
                       {
                         minimumFractionDigits: 2,
-                      },
+                      }
                     )
                   }}
                 </span>
@@ -382,7 +382,10 @@
           >
             <template #default="scope">
               <div class="amount_box">
-                <span v-priceFormat:4="scope.row.userNum" v-if="scope.row.buyCoin == 'ETH'"></span>
+                <span
+                  v-priceFormat:4="scope.row.userNum"
+                  v-if="scope.row.buyCoin == 'ETH'"
+                ></span>
                 <span v-priceFormat="scope.row.userNum" v-else></span>
                 <img :src="getCoin(scope.row.buyCoin)" alt="" />
               </div>
@@ -404,33 +407,90 @@
       </template>
       <template v-else-if="coin == 'BUYCRYPTO'">
         <el-table :data="thirdPartyList" class="table_container">
-          <el-table-column prop="logType" :label="$t('user.logType')" min-width="100" align="center" key="1">
+          <el-table-column
+            prop="logType"
+            :label="$t('user.logType')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
             <template #default="scope">
               <span>{{ scope.row.logType }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="orderId" :label="'Id'" min-width="100" align="center" key="2" show-overflow-tooltip />
-          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel3')" min-width="100" align="center" key="2" show-overflow-tooltip>
+          <el-table-column
+            prop="orderId"
+            :label="'Id'"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="sellCoin"
+            :label="$t('user.balanceTabel3')"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               <p><span v-priceFormat="scope.row.amount"></span> USDT</p>
             </template>
           </el-table-column>
-          <el-table-column prop="provider" :label="$t('user.balanceTabel10')" min-width="100" align="center" key="1"> </el-table-column>
-          <el-table-column prop="sellCoin" :label="$t('user.balanceTabel4')" min-width="100" align="center" key="2" show-overflow-tooltip>
+          <el-table-column
+            prop="provider"
+            :label="$t('user.balanceTabel10')"
+            min-width="100"
+            align="center"
+            key="1"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="sellCoin"
+            :label="$t('user.balanceTabel4')"
+            min-width="100"
+            align="center"
+            key="2"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               <div :class="['sync_status', scope.row.status]">
-                <span> {{ scope.row.status == "IN_PROGRESS" ? $t("user.inProgress") : scope.row.status }}</span>
+                <span>
+                  {{
+                    scope.row.status == "IN_PROGRESS"
+                      ? $t("user.inProgress")
+                      : scope.row.status
+                  }}</span
+                >
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="chainType" :label="$t('user.date')" min-width="100" align="center" key="7" show-overflow-tooltip>
+          <el-table-column
+            prop="chainType"
+            :label="$t('user.date')"
+            min-width="100"
+            align="center"
+            key="7"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               {{ timeFormat(scope.row.datetime) }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('user.balanceTabel6')" align="center" min-width="100" key="10" fixed="right">
+          <el-table-column
+            :label="$t('user.balanceTabel6')"
+            align="center"
+            min-width="100"
+            key="10"
+            fixed="right"
+          >
             <template #default="scope">
-              <div class="view_btn" v-if="scope.row.status == 'SUCCESS'" @click="viewThreePartyTxid(scope.row)">
+              <div
+                class="view_btn"
+                v-if="scope.row.status == 'SUCCESS'"
+                @click="viewThreePartyTxid(scope.row)"
+              >
                 {{ $t("user.view") }}
               </div>
               <div v-else>--</div>
@@ -494,7 +554,10 @@
     <!-- 积分详情弹窗 -->
     <Points v-if="showPoints" @closeDialogFun="handleClose()"></Points>
     <!-- 第三方支付成功弹框 -->
-    <checkLoading v-if="showLoadingeDialog" @closeDialogFun="showLoadingeDialog = false"></checkLoading>
+    <checkLoading
+      v-if="showLoadingeDialog"
+      @closeDialogFun="showLoadingeDialog = false"
+    ></checkLoading>
   </div>
 </template>
 <script>
@@ -560,14 +623,6 @@ export default {
     };
   },
   computed: {
-<<<<<<< HEAD
-=======
-    ...mapStores(useUserStore, useHeaderStore),
-    userRechargeShowList() {
-      const headerStore = useHeaderStore();
-      return headerStore.userRechargeShowList;
-    },
->>>>>>> master
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;

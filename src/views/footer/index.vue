@@ -182,6 +182,7 @@ const nav = computed(() => {
     {
       text: t("header.tokenWar"),
       page: "TokenWar",
+      page: "TokenWar",
     },
   ];
 });
@@ -189,16 +190,20 @@ const nav = computed(() => {
 const aboutUs = computed(() => {
   return [
     {
+      text: t("header.news"),
+      page: "News",
+    },
+    {
       text: t("header.whitebook"),
       page: "Whitebook",
     },
     {
       text: t("login.privacyPolicy"),
-      page: "privacy-policy",
+      page: "Privacy-policy",
     },
     {
       text: t("login.userAgreement"),
-      page: "terms-and-conditions",
+      page: "Terms-and-conditions",
     },
     {
       text: t("header.faq"),
@@ -252,7 +257,7 @@ const goLink = (event) => {
     return;
   } else if (event === 4) {
     openUrl(
-      "https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D",
+      "https://www.instagram.com/bitzing.io/?igshid=MzRlODBiNWFlZA%3D%3D"
     );
     return;
   } else if (event === 5) {

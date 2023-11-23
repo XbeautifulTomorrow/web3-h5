@@ -210,6 +210,48 @@ export default {
         height: null,
         minHeight: null,
       },
+      {
+        title: this.$t("faq.faqQuestion15"),
+        description: this.$t("faq.faqAnswer15"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
+      {
+        title: this.$t("faq.faqQuestion16"),
+        description: this.$t("faq.faqAnswer16"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
+      {
+        title: this.$t("faq.faqQuestion17"),
+        description: this.$t("faq.faqAnswer17"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
+      {
+        title: this.$t("faq.faqQuestion18"),
+        description: this.$t("faq.faqAnswer18"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
+      {
+        title: this.$t("faq.faqQuestion19"),
+        description: this.$t("faq.faqAnswer19"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
+      {
+        title: this.$t("faq.faqQuestion20"),
+        description: this.$t("faq.faqAnswer20"),
+        isExpand: false,
+        height: null,
+        minHeight: null,
+      },
     ];
   },
   mounted() {

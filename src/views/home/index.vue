@@ -20,7 +20,9 @@ import MysteryBoxes from "./mysteryBoxes.vue";
 import NftTickets from "./nftTickets.vue";
 import ContentsInfo from "./contentsInfo.vue";
 import Login from "../login/index.vue";
+import WarPoster from "./warGame/warPoster";
 import { getBoxList, getNFTList } from "@/services/api/index";
+import { setSessionStore, getSessionStore } from "@/utils";
 
 export default {
   name: "IndexPage",
@@ -30,6 +32,7 @@ export default {
     MysteryBoxes,
     NftTickets,
     ContentsInfo,
+    WarPoster,
   },
   beforeRouteLeave(to, from, next) {
     if (to.meta.requiresAuth && (!this.isLogin || !this.userInfo?.id)) {
@@ -54,9 +57,11 @@ export default {
       boxList: [],
       NFTList: [],
       generateKey: "",
+      isWarPosterShow: false,
     };
   },
   created() {
+    this.showWarPoster();
     getBoxList().then((res) => {
       if (res.data && res.data.length > 0) {
         this.boxList = res.data;
@@ -69,12 +74,26 @@ export default {
     });
   },
   methods: {
+    showWarPoster() {
+      const showTips = getSessionStore("showWarTips");
+      if (showTips && showTips == 2) {
+        this.isWarPosterShow = false;
+      } else {
+        const image = new Image();
+        image.onload = () => {
+          this.isWarPosterShow = true;
+          if (this.isLogin) {
+            setSessionStore("showWarTips", 2);
+          }
+        };
+        image.src = require("@/assets/img/home/poster/bg_02.webp");
+      }
+    },
     bannerGo(data) {
       let query = {};
       if (data.split("?").length > 1) {
         query = parseQuery(data.split("?")[1]);
       }
-      console.log(data, "-------");
       this.$router.push({ path: data, query });
     },
     closeDialogFun() {

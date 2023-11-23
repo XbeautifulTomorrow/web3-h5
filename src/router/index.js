@@ -23,6 +23,8 @@ const User = () => import("../views/user/index.vue");
 const warGame = () => import("../views/home/warGame/index.vue");
 const privacyPolicy = () => import("../views/privacyPolicy/privacyPolicy.vue");
 const userAgreement = () => import("../views/privacyPolicy/userAgreement.vue");
+const news = () => import("../views/news");
+const newsDeatails = () => import("../views/news/details.vue");
 
 //2. 路由配置
 const routes = [
@@ -162,6 +164,24 @@ const routes = [
     name: "UserAgreement",
     components: {
       default: userAgreement,
+      Header,
+      Footer,
+    },
+  },
+  {
+    path: "/news",
+    name: "News",
+    components: {
+      default: news,
+      Header,
+      Footer,
+    },
+  },
+  {
+    path: "/news/deatails/:id",
+    name: "NewsDeatails",
+    components: {
+      default: newsDeatails,
       Header,
       Footer,
     },

@@ -98,6 +98,13 @@ const flashExchange = (params) =>
 const exchangeRateV2 = (params) =>
   apiService.get("mystery-web-user/index/exchangeRateV2", params); // 获取真实汇率
 
+const productionOfThirdPartyOrders = (params) =>
+  apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrders", params); // 法币交易提交提单
+const getProductionOfThirdPartyOrdersList = (params) =>
+  apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrdersList", params); // 第三方支付历史记录
+const productionOfThirdPartyCoin = (params) => apiService.get("mystery-web-user/three-party-transaction/rates", params); // 获取第三方支付币种
+const productionOfThirdPartyRate = (params) => apiService.get("mystery-web-user/three-party-transaction/rate", params); // 获取第三方支付汇率
+
 export {
   getKey,
   authLogin,
@@ -134,4 +141,8 @@ export {
   getActivityPoint,
   flashExchange,
   exchangeRateV2,
+  productionOfThirdPartyOrders,
+  getProductionOfThirdPartyOrdersList,
+  productionOfThirdPartyCoin,
+  productionOfThirdPartyRate,
 };

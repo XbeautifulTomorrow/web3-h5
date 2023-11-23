@@ -37,8 +37,11 @@
           >
             {{ $t("user.exchange") }}
           </div>
+          <div class="operating_btn buy_crypTo" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
+            {{ t("BUY CRYPTO") }}
+          </div>
         </div>
-        <div class="choose_operating" v-if="walletOperating != 3">
+        <div class="choose_operating" v-if="walletOperating == 1 || walletOperating == 2">
           <div class="withdraw_item">
             <div class="withdraw_item_lable">
               <span>
@@ -111,6 +114,7 @@
           </div>
         </div>
         <div class="recharge_panel">
+<<<<<<< HEAD
           <div class="recharge_relevant" v-if="walletOperating == 1">
             <div class="qr_code_box">
               <div class="wallet_addr">
@@ -184,6 +188,54 @@
               {{ $t("user.hintText3", { coin: `${operatingCoin}` }) }}
             </div>
           </div>
+=======
+          <template v-if="walletOperating == 1">
+            <div class="recharge_relevant">
+              <div class="qr_code_box">
+                <div class="wallet_addr">
+                  <div class="tips_text">
+                    {{ t("user.sendHint", { coin: operatingCoin }) }}
+                  </div>
+                  <div class="img_box" v-if="screenWidth < 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
+                  <el-input class="wallet_addr_input" readonly="readonly" v-model="receiverAddr" :placeholder="t('user.enterAddrHint')">
+                    <template #append>
+                      <div class="copy_btn" @click="onCopy(receiverAddr)">
+                        <img class="not-select" src="@/assets/svg/user/icon_copy.svg" alt="" />
+                      </div>
+                    </template>
+                  </el-input>
+                  <div class="recharge_hint">
+                    <span>{{
+                      t("user.hintText1", {
+                        coin: operatingCoin,
+                        num: confirmNum(),
+                      })
+                    }}</span>
+                  </div>
+                </div>
+                <div class="img_box" v-if="screenWidth > 950" id="qrCodeDiv" ref="qrCodeDiv"></div>
+              </div>
+            </div>
+            <div class="recharge_estimated_price">
+              <div class="price_convert">
+                <el-input class="price_input" @focus="isConvert = true" v-model="walletAmount" type="number">
+                  <template #prefix>
+                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                  </template>
+                </el-input>
+                <div class="convert_interval">~</div>
+                <el-input class="price_input" @focus="isConvert = false" v-model="ethNum" type="number">
+                  <template #prefix>
+                    <img :src="getCion(operatingCoin)" alt="" />
+                  </template>
+                </el-input>
+              </div>
+              <div class="price_convert_text">
+                {{ t("user.hintText3", { coin: `${operatingCoin}` }) }}
+              </div>
+            </div>
+          </template>
+>>>>>>> master
           <div class="withdraw_relevant" v-else-if="walletOperating == 2">
             <div class="withdraw_item">
               <div class="withdraw_item_lable">
@@ -429,13 +481,19 @@
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
             <div
               :class="['withdraw_btn exchange_btn', loading && 'loading']"
               @click="exchangeFunc"
             >
               <span>{{ t("EXCHANGE") }}</span>
+=======
+            <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
+              <span>{{ t("user.exchange") }}</span>
+>>>>>>> master
             </div>
           </div>
+          <rechargeBuyCrypto v-else-if="walletOperating == 4"></rechargeBuyCrypto>
         </div>
         <div class="verify_box">
           <div class="verify_title">
@@ -458,6 +516,11 @@ import { useUserStore } from "@/store/user.js";
 
 import {
   getTheUserSPayoutAddress,
+<<<<<<< HEAD
+=======
+  // getRechargeExchangeRate,
+  // getWithdrawalExchangeRate,
+>>>>>>> master
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,
@@ -475,10 +538,12 @@ import {
 } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 import rechargeExchangeResult from "./components/rechargeExchangeResult";
+import rechargeBuyCrypto from "./components/rechargeBuyCrypto";
 export default {
   name: "myWallet",
   components: {
     rechargeExchangeResult,
+    rechargeBuyCrypto,
   },
   props: {
     type: {

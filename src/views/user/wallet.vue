@@ -380,7 +380,8 @@ export default {
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO"],
+      coinList: ["COIN", "NFT", "CONVERT"],
+      // coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO"],
       historyData: [],
       userPoints: null,
       userTickets: null,

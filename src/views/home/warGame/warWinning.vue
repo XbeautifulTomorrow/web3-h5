@@ -122,26 +122,27 @@ export default {
     formatUsd: formatUsd,
     accurateDecimal: accurateDecimal,
     // 验证公平性
-    onVerify(event) {
+    onVerify() {
+      const { winInfo } = this;
       let chainLink = process.env.VUE_APP_TRANSACTION_ADDR;
-      if (event.lotteryChainType == "OKT_TEST") {
+      if (winInfo.lotteryChainType == "OKT_TEST") {
         chainLink = process.env.VUE_APP_CHAIN_OKT_TEST_ADDR;
-      } else if (event.lotteryChainType == "BSC_TEST") {
+      } else if (winInfo.lotteryChainType == "BSC_TEST") {
         chainLink = process.env.VUE_APP_CHAIN_BSC_TEST_ADDR;
-      } else if (event.lotteryChainType == "BASE") {
+      } else if (winInfo.lotteryChainType == "BASE") {
         chainLink = process.env.VUE_APP_CHAIN_BASE_ADDR;
-      } else if (event.lotteryChainType == "BSC") {
+      } else if (winInfo.lotteryChainType == "BSC") {
         chainLink = process.env.VUE_APP_CHAIN_BSC_ADDR;
-      } else if (event.lotteryChainType == "OKT") {
+      } else if (winInfo.lotteryChainType == "OKT") {
         chainLink = process.env.VUE_APP_CHAIN_OKT_ADDR;
-      } else if (event.lotteryChainType == "ThunderCore") {
+      } else if (winInfo.lotteryChainType == "ThunderCore") {
         chainLink = process.env.VUE_APP_CHAIN_THUNDERCORE_ADDR;
-      } else if (event.lotteryChainType == "TRC_20_TEST") {
+      } else if (winInfo.lotteryChainType == "TRC_20_TEST") {
         chainLink = process.env.VUE_APP_CHAIN_TRC20TEST_ADDR;
-      } else if (event.lotteryChainType == "TRC_20") {
+      } else if (winInfo.lotteryChainType == "TRC_20") {
         chainLink = process.env.VUE_APP_CHAIN_TRC20_ADDR;
       }
-      openUrl(`${chainLink}${event.hash}`);
+      openUrl(`${chainLink}${winInfo.hash}`);
     },
     // 格式化胜率
     getWinningRate(event) {

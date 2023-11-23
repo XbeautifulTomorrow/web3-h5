@@ -419,15 +419,17 @@ export default {
       }
     },
     watchVisibilitychange(){
-      let self= this;
       document.addEventListener('visibilitychange', ()=> {
       if (document.visibilityState === 'visible') {
         // 当浏览器窗口重新获得焦点时
-        self.isRecursive=true;
-        self.timeoutBalance();
+        this.isRecursive=true;
+        if (this.isLogin && this.userInfo?.id) {
+            this.getTheUserBalanceInfo();
+          }
+        this.timeoutBalance();
       } else {
         // 当浏览器窗口失去焦点时
-        self.isRecursive=false;
+        this.isRecursive=false;
       }
     });
     }

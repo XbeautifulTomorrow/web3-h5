@@ -384,7 +384,7 @@ export default {
             this.getTheUserBalanceInfo();
           }
           this.timeoutBalance();
-        }, 3000);
+        }, 30000);
       }
     },
     goTo(page = "home") {

@@ -26,7 +26,7 @@ global.location = document.location;
 global.localStorage = window.localStorage;
 global.sessionStorage = window.sessionStorage;
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "pro";
 
 async function createServer() {
   const app = express();

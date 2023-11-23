@@ -1,10 +1,9 @@
 import { createApp } from "./main.js";
-import router from "./router";
 import dayjs from "dayjs";
+import CScrollbar from 'c-scrollbar';
 import ElementPlus from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { i18n } from "@/locales";
-import store from "./store/index";
 
 import "element-plus/dist/index.css";
 import "@/assets/font/font.css";
@@ -63,8 +62,7 @@ app.directive("priceFormat", {
 });
 
 app.use(i18n);
-app.use(store);
+app.use(CScrollbar);
 app.use(dayjs);
 app.use(ElementPlus, { size: "large", zIndex: 3000 });
-app.use(router);
 app.mount("#app");

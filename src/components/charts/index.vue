@@ -4,7 +4,6 @@
 
 <script>
 import * as echarts from "echarts";
-import "echarts/theme/macarons"; // echarts theme
 import resize from "./resize";
 
 export default {

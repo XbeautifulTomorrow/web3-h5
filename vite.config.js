@@ -6,7 +6,7 @@ import { terser } from "rollup-plugin-terser";
 export default defineConfig({
   plugins: [vue()],
   ssr: {
-    noExternal: ["swiper"]
+    noExternal: ["swiper", "c-scrollbar", "d3"]
   },
   resolve: {
     //路径别名

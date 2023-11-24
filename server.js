@@ -4,7 +4,7 @@ const express = require("express");
 const serveStatic = require("serve-static");
 const { createServer: createViteServer } = require("vite");
 
-require('dotenv').config({ path: path.resolve(__dirname, './.env.' + process.env.NODE_ENV) })
+require('dotenv').config({ path: path.resolve(__dirname, `.env.${process.env.NODE_ENV != "pro" ? "test" : "pro"}`) })
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -26,7 +26,7 @@ global.location = document.location;
 global.localStorage = window.localStorage;
 global.sessionStorage = window.sessionStorage;
 
-const isProd = process.env.NODE_ENV === "pro";
+const isProd = process.env.NODE_ENV != "test";
 
 async function createServer() {
   const app = express();

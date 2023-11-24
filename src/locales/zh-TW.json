@@ -280,6 +280,7 @@
     "balanceTabel7": "系列",
     "balanceTabel8": "手續費",
     "balanceTabel9": "手續費",
+    "balanceTabel10": "Provider",
     "view": "查看",
     "enterId": "輸入交易ID",
     "enterHint": "在這裡粘貼您的ERC20錢包地址",

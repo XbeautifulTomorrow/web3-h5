@@ -184,11 +184,11 @@
 }
 
 .discount {
-  top: -0.125rem;
-  left: -0.125rem;
+  top: -0.25rem;
+  left: -0.25rem;
   position: absolute;
-  width: 3.375rem;
-  height: 3.375rem;
+  width: 4.625rem;
+  height: 4.625rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,12 +197,12 @@
   background-size: contain;
   z-index: 1;
   .val {
-    padding-bottom: 1.05rem;
+    padding-bottom: 1.75rem;
     display: inline-block;
     transform: rotate(-45deg);
     text-align: center;
     font-family: LeagueSpartan;
-    font-size: .75rem;
+    font-size: 1rem;
     font-weight: bold;
     line-height: 1;
     color: #fff;
@@ -565,6 +565,16 @@
     padding: 0 1rem;
     margin: 1.5rem auto 1.5rem;
     box-sizing: border-box;
+  }
+  .discount {
+    width: 3rem;
+    height: 3rem;
+    top: -0.125rem;
+    left: -0.125rem;
+    .val{
+      padding-bottom: 1.1rem;
+      font-size: 0.75rem;
+    }
   }
 
   .banner_box {

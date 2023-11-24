@@ -258,6 +258,7 @@ export default {
       showNav: false,
       showUser: false,
       screenWidth: null,
+      isRecursive:true
     };
   },
   computed: {
@@ -373,16 +374,18 @@ export default {
       headerStore.fetchGlobalNew();
     },
     timeoutBalance() {
-      if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
-      }
-      this.timer = setTimeout(() => {
-        if (this.isLogin && this.userInfo?.id) {
-          this.getTheUserBalanceInfo();
+      if(this.isRecursive) {
+        if (this.timer) {
+          clearTimeout(this.timer);
+          this.timer = null;
         }
-        this.timeoutBalance();
-      }, 30000);
+        this.timer = setTimeout(() => {
+          if (this.isLogin && this.userInfo?.id) {
+            this.getTheUserBalanceInfo();
+          }
+          this.timeoutBalance();
+        }, 30000);
+      }
     },
     goTo(page = "home") {
       this.showNav = false;
@@ -415,6 +418,21 @@ export default {
         this.showUser = true;
       }
     },
+    watchVisibilitychange(){
+      document.addEventListener('visibilitychange', ()=> {
+      if (document.visibilityState === 'visible') {
+        // 当浏览器窗口重新获得焦点时
+        this.isRecursive=true;
+        if (this.isLogin && this.userInfo?.id) {
+            this.getTheUserBalanceInfo();
+          }
+        this.timeoutBalance();
+      } else {
+        // 当浏览器窗口失去焦点时
+        this.isRecursive=false;
+      }
+    });
+    }
   },
   // 监听,当路由发生变化的时候执行
   watch: {
@@ -477,6 +495,7 @@ export default {
     ];
   },
   mounted() {
+    this.watchVisibilitychange()
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;

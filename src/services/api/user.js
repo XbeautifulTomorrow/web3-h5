@@ -64,6 +64,8 @@ const productionOfThirdPartyOrders = (params) =>
   apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrders", params); // 法币交易提交提单
 const getProductionOfThirdPartyOrdersList = (params) =>
   apiService.get("mystery-web-user/three-party-transaction/productionOfThirdPartyOrdersList", params); // 第三方支付历史记录
+const productionOfThirdPartyCoin = (params) => apiService.get("mystery-web-user/three-party-transaction/rates", params); // 获取第三方支付币种
+const productionOfThirdPartyRate = (params) => apiService.get("mystery-web-user/three-party-transaction/rate", params); // 获取第三方支付汇率
 
 export {
   getKey,
@@ -103,4 +105,6 @@ export {
   exchangeRateV2,
   productionOfThirdPartyOrders,
   getProductionOfThirdPartyOrdersList,
+  productionOfThirdPartyCoin,
+  productionOfThirdPartyRate,
 };

@@ -4,7 +4,7 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("YOU PAY WITH") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youPayWith") }} </span> <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
@@ -38,7 +38,7 @@
       <div class="withdraw_item">
         <div class="withdraw_item_lable exchange_item_lable">
           <p>
-            <span> {{ $t("YOU GET") }} </span> <span class="required">*</span>
+            <span> {{ $t("user.youGet") }} </span> <span class="required">*</span>
           </p>
         </div>
         <div class="withdraw_addr_input exchange_addr_input">
@@ -47,7 +47,7 @@
             <span>USDT</span>
           </div>
 
-          <el-input type="number" v-model="exchangeToAmount" :readonly="toLoading" placeholder="0.0000" @input="handleInput('to')">
+          <el-input type="number" v-model="exchangeToAmount" readonly placeholder="0.0000" @input="handleInput('to')">
             <template #suffix>
               <el-icon class="is-loading" v-if="toLoading">
                 <Loading />
@@ -62,13 +62,13 @@
     </div>
     <div class="module_info">
       <div class="item_info">
-        <p class="label">{{ $t("Payment Provider") }}</p>
+        <p class="label">{{ $t("user.paymentProvider") }}</p>
         <p class="info_tag">
           <img src="@/assets/img/user/payment.png" alt="" />
         </p>
       </div>
       <div class="item_info">
-        <p class="label">{{ $t("Deposit To Account") }}</p>
+        <p class="label">{{ $t("user.depositAccount") }}</p>
         <p class="info">
           {{ userInfo?.userName || userInfo?.email }}
         </p>
@@ -76,7 +76,7 @@
     </div>
     <div class="module_info">
       <div class="item_info">
-        <p class="label">{{ $t("Total（including fee）") }}</p>
+        <p class="label">{{ $t("user.totalAmount") }}</p>
         <p class="info font1">
           <el-icon class="is-loading" v-if="fromLoading">
             <Loading />
@@ -85,7 +85,7 @@
         </p>
       </div>
       <div class="item_info">
-        <p class="label">{{ $t("You Will Get") }}</p>
+        <p class="label">{{ $t("user.youWillGet") }}</p>
         <p class="info font2">
           <el-icon class="is-loading" v-if="toLoading">
             <Loading />
@@ -95,23 +95,21 @@
       </div>
     </div>
     <div class="notice_box">
-      <span class="label">NOTICE:</span>
-      <span class="tip">Depending on the blockchain, the deposit may take a few minutes to 1 hour to arrive.</span>
+      <span class="label">{{ $t("lottery.notice") }}:</span>
+      <span class="tip">{{ $t("user.threePayTip") }}</span>
     </div>
     <div class="form-rember">
       <span class="form-rember-rectangle" @click="agreeFun">
         <span v-show="agree" class="form-rember-rectangle-fill"></span>
       </span>
-      <div class="form-rember-text">
+      <div class="form-rember-text" @click="agreeFun">
         <el-tooltip class="item" effect="dark" placement="top" popper-class="tooltip_popper_disclaimer">
           <template #content>
             <div class="tooltip_content">
-              Disclaimer: The above third party services can be used to purchase crypto that can be used to play on Bitzing. By registering
-              on their platform, you are also accepting to their terms of service and will be required to pass their KYC process, which runs
-              independently to ours.
+              {{ $t("user.threePayDisclaimer") }}
             </div>
           </template>
-          <p>{{ $t("I have read and agree to the disclaimer.") }}</p>
+          <p v-html="$t('user.agreeDisclaimer')"></p>
         </el-tooltip>
       </div>
     </div>
@@ -124,6 +122,7 @@
     >
       MERCURYO
     </div>
+    <checkLoading v-if="showLoadingeDialog" @closeDialogFun="showLoadingeDialog = false"></checkLoading>
   </div>
 </template>
 <script>
@@ -132,13 +131,15 @@ import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import bigNumber from "bignumber.js";
 import { timeForStr } from "@/utils";
-import { productionOfThirdPartyOrders } from "@/services/api/user";
+import { productionOfThirdPartyOrders, productionOfThirdPartyRate } from "@/services/api/user";
 import { i18n } from "@/locales";
-import axios from "axios";
 const { t } = i18n.global;
+import checkLoading from "@/components/checkDialog/checkLoading";
+
 export default {
   name: "rechargeBuyCrypto",
   props: {},
+  components: { checkLoading },
   data() {
     return {
       agree: false,
@@ -154,6 +155,7 @@ export default {
       inputTimer: null,
       fromLoading: false,
       toLoading: false,
+      showLoadingeDialog: false,
     };
   },
   computed: {
@@ -161,6 +163,10 @@ export default {
     coinList() {
       const headerStore = useUserStore();
       return headerStore.buyCryptoCoinRates;
+    },
+    three_pay_widget_id() {
+      const headerStore = useUserStore();
+      return headerStore.three_pay_widget_id;
     },
     userInfo() {
       const { userInfo } = this.userStore;
@@ -193,49 +199,43 @@ export default {
         this.getAmountFunc(type);
       }, 500);
     },
-    getAmountFunc(type) {
+    async getAmountFunc(type) {
       this.errorRes = null;
       this.onVerifyExchange(type);
       type == "from" ? (this.exchangeToAmount = null) : (this.exchangeFromAmount = null);
       let from = type == "from" ? this.exchangeFromCoin : this.exchangeToCoin;
       let to = type == "from" ? this.exchangeToCoin : this.exchangeFromCoin;
       let amount = type == "from" ? this.exchangeFromAmount : this.exchangeToAmount;
-      let is_total = type == "from" ? true : false;
 
       if (amount > 0) {
         type == "from" ? (this.toLoading = true) : (this.fromLoading = true);
-        const getUrl = `https://api.mercuryo.io/v1.6/widget/buy/rate?from=${from}&to=${to}&amount=${amount}&network=TRON&widget_id=67710925-8b40-4767-846e-3b88db69f04d&is_total=${is_total}`;
-        axios
-          .get(getUrl, {
-            responseType: "json",
-          })
-          .then((res) => {
-            if (res?.data?.status == 200) {
-              type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
-              this.errorRes = null;
-              let data = res?.data?.data;
-              if (type == "from") {
-                this.exchangeToAmount = data?.amount;
-              } else {
-                this.exchangeFromAmount = data?.fiat_amount;
-              }
-              this.onVerifyExchange(type);
-            }
-          })
-          .catch((err) => {
+        const res = await productionOfThirdPartyRate({ from, to, amount, widget_id: this.three_pay_widget_id });
+        if (res && res.data) {
+          if (res?.headers) {
             type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
-            let data = err?.response?.data;
+            let data = res?.data;
             if (data?.code == 400005) {
               this.errorRes = data?.data;
               this.onVerifyExchange(type);
             } else if (data?.code == 400001) {
               if (type == "from") {
-                this.exchangeFromAmountTips = data?.data?.amount[0];
+                this.exchangeFromAmountTips = data?.data.amount[0];
               } else {
-                this.exchangeToAmountTips = data?.data?.amount[0];
+                this.exchangeToAmountTips = data?.data.amount[0];
               }
             }
-          });
+          } else {
+            type == "from" ? (this.toLoading = false) : (this.fromLoading = false);
+            this.errorRes = null;
+            let data = res?.data;
+            if (type == "from") {
+              this.exchangeToAmount = data?.amount;
+            } else {
+              this.exchangeFromAmount = data?.fiat_amount;
+            }
+            this.onVerifyExchange(type);
+          }
+        }
       }
     },
     async submitFunc() {
@@ -245,7 +245,10 @@ export default {
         let res = await productionOfThirdPartyOrders();
         if (res && res.code == 200) {
           let targetUrl = `${res.data}&amount=${this.exchangeToAmount}&fiat_currencies=${this.exchangeFromCoin}`;
-          window.open(targetUrl);
+          this.showLoadingeDialog = true;
+          setTimeout(() => {
+            window.open(targetUrl);
+          }, 1000);
         }
       }
     },
@@ -262,16 +265,14 @@ export default {
         max = this.errorRes[coin].max;
       }
       if (!this.errorRes) {
-        if (!amount) {
-          exchangeAmountTips = t("user.enterError6");
-        } else if (amount <= 0) {
-          exchangeAmountTips = t("Amount must be greater than 0");
+        if (amount && amount <= 0) {
+          exchangeAmountTips = t("user.ruleTip1");
         }
       } else {
         if (Number(amount) < Number(min)) {
-          exchangeAmountTips = `Limits are off — min ${min + " " + this.exchangeFromCoin}`;
+          exchangeAmountTips = t("user.ruleTip2", { min, coin: this.exchangeFromCoin });
         } else if (Number(amount) > Number(max)) {
-          exchangeAmountTips = `Limits are off — max ${max + " " + this.exchangeFromCoin}`;
+          exchangeAmountTips = t("user.ruleTip3", { max, coin: this.exchangeFromCoin });
         } else {
           exchangeAmountTips = null;
         }
@@ -385,7 +386,6 @@ export default {
 
   .form-rember-text {
     font-size: 1rem;
-    line-height: 1.6;
     text-align: left;
     color: #a9a4b4;
     cursor: pointer;
@@ -544,6 +544,7 @@ export default {
   .buy_crypto_box {
     .module_info {
       margin-top: 0.5rem;
+      border-radius: 0.25rem;
       .item_info {
         .info {
           &.font1 {
@@ -562,10 +563,12 @@ export default {
       }
     }
     .notice_box {
+      height: auto;
       display: block;
       text-align: left;
-      padding: 0 0.5rem;
+      padding: 0.5rem;
       margin-top: 0.5rem;
+      border-radius: 0.25rem;
       .label {
         margin-right: 0.25rem;
       }

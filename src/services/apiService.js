@@ -23,6 +23,7 @@ const notMessage = [
   "mystery-web-user/twitterInfo/shareTwitter",
   "mystery-web-user/oneNftLotteryOrders/tweetSendTikect",
   "mystery-web-user/box/catGas",
+  "mystery-web-user/three-party-transaction/rate",
 ];
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -78,8 +79,7 @@ const handleRes = ({ response, url, data }) => {
   if (data && data.localDateTime) {
     setCurrentTime(data.localDateTime);
   }
-
-  if (data.code === 200) {
+  if (data.code === 200 || data.status === 200) {
     return data;
   } else if (data.code === 20011) {
     const { logoutApi } = useUserStore();

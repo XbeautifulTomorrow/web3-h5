@@ -9,6 +9,11 @@
     width="522"
     :before-close="closeDialogFun"
   >
+    <template #header="{ close }">
+      <div class="public-dialog-header">
+        <img class="public-dialog-header-icon" src="@/assets/svg/close.svg" alt="" v-on="{ click: [close, closeDialogFun] }" />
+      </div>
+    </template>
     <div class="public-dialog-content">
       <h2 class="public-dialog-loading">
         <img src="@/assets/img/lottery/loading.png" alt="" />
@@ -45,6 +50,7 @@ const closeDialogFun = () => {
     animation: rotate 1s linear infinite;
     margin-top: 1.875rem;
   }
+  margin-top: -4rem;
 }
 .public-dialog-loading-text {
   font-family: BlenderPro;
@@ -56,5 +62,10 @@ const closeDialogFun = () => {
 .public-dialog-illustrate {
   margin-bottom: 3.125rem;
   color: #a9a4b4;
+}
+.public-dialog-header-icon {
+  margin-top: 1.875rem;
+  margin-right: 1.875rem;
+  cursor: pointer;
 }
 </style>

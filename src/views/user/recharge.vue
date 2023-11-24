@@ -25,9 +25,9 @@
           <div class="operating_btn" :class="[walletOperating == 3 && 'active']" @click="handleOperating(3)">
             {{ t("user.exchange") }}
           </div>
-          <div class="operating_btn" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
+          <!-- <div class="operating_btn buy_crypTo" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
             {{ t("BUY CRYPTO") }}
-          </div>
+          </div> -->
         </div>
         <div class="choose_operating" v-if="walletOperating == 1 || walletOperating == 2">
           <div class="withdraw_item">
@@ -316,7 +316,7 @@
               </div>
             </div>
             <div :class="['withdraw_btn exchange_btn', loading && 'loading']" @click="exchangeFunc">
-              <span>{{ t("EXCHANGE") }}</span>
+              <span>{{ t("user.exchange") }}</span>
             </div>
           </div>
           <rechargeBuyCrypto v-else-if="walletOperating == 4"></rechargeBuyCrypto>

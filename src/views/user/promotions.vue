@@ -31,13 +31,8 @@
                   {{ $t("home.nftTicketBtn") }}
                 </p>
                 <p class="btn" @click="goDetail(item)">
-                  <span>
-                    {{ $t("user.readMore") }}
-                    <b
-                      class="new_dot"
-                      v-if="item.activityType == 'WELCOME_BONUS'&&(newStatus.welcomeBounsStatus || newStatus.welcomeBounsReceiveStatus)"
-                    ></b>
-                  </span>
+                  <b class="new_dot" v-if="item.activityType == 'WELCOME_BONUS'&&(newStatus.welcomeBounsStatus || newStatus.welcomeBounsReceiveStatus)"></b>
+                  {{ $t("user.readMore") }}
                 </p>
               </div>
             </div>

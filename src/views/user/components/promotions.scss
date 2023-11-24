@@ -96,6 +96,7 @@
   display: flex;
   gap: 0.625rem;
   .btn {
+    position: relative;
     flex: 1;
     height: 3.75rem;
     line-height: 3.75rem;
@@ -110,10 +111,6 @@
       border: none;
       background-image: linear-gradient(to top, #e3a406, #fbd851);
       color: #13151f;
-    }
-    span{
-      position: relative;
-      padding: 1rem;
     }
   }
 }
@@ -386,7 +383,7 @@
 .new_dot {
   position: absolute;
   top: 0.5rem;
-  left: 0;
+  left: 0.5rem;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;

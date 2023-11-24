@@ -30,7 +30,15 @@
                 <p class="btn active" v-else-if="item.activityType == 'TREASURES_WIN_POINTS'" @click="goPage('treasureDraw')">
                   {{ $t("home.nftTicketBtn") }}
                 </p>
-                <p class="btn" @click="goDetail(item)">{{ $t("user.readMore") }}</p>
+                <p class="btn" @click="goDetail(item)">
+                  <span>
+                    {{ $t("user.readMore") }}
+                    <b
+                      class="new_dot"
+                      v-if="item.activityType == 'WELCOME_BONUS'&&(newStatus.welcomeBounsStatus || newStatus.welcomeBounsReceiveStatus)"
+                    ></b>
+                  </span>
+                </p>
               </div>
             </div>
           </div>
@@ -77,6 +85,10 @@ export default {
     isLogin() {
       const { isLogin } = this.userStore;
       return isLogin;
+    },
+    newStatus() {
+      const headerStore = useHeaderStore();
+      return headerStore.newStatus;
     },
   },
   methods: {

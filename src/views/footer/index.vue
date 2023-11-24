@@ -8,7 +8,7 @@
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
 
         <div class="friendship-logo">
-          <a href="https://skynet.certik.com/zh-CN/projects/bitzing" target="_blank">
+          <a href="https://skynet.certik.com/projects/bitzing" target="_blank">
             <img src="@/assets/svg/featured_certik_logo.svg" alt="logo" />
           </a>
         </div>

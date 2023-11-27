@@ -1,5 +1,5 @@
 // import { createApp } from "vue";
-import { createRouter } from "./router";
+import router from "./router";
 import store from "./store/index";
 import { createSSRApp } from "vue";
 import App from "./App.vue";
@@ -10,7 +10,6 @@ export function createApp() {
   // 先不挂载dom，在客户端和服务端分别挂载
   // - app.mount('#app')
   app.use(store)
-  const router = createRouter()
   app.use(router);
   return { app, router };
 }

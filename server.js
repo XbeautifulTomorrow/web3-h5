@@ -25,6 +25,7 @@ global.navigator = window.navigator;
 global.location = document.location;
 global.localStorage = window.localStorage;
 global.sessionStorage = window.sessionStorage;
+global.history = window.history;
 
 const isProd = process.env.NODE_ENV != "test";
 

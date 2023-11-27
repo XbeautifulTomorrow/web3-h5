@@ -258,6 +258,4 @@ router.beforeEach(async (to, from, next) => {
 });
 
 // 4. 导出router
-export function createRouter() {
-  return router;
-};
+export default router;

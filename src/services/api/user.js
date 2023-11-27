@@ -57,6 +57,8 @@ const getActivityTargetList = (params) => apiService.get("mystery-web-user/activ
 const getActivityTargetHeaderDataTotal = (params) => apiService.get("mystery-web-user/activity/targetHeaderDataTotal", params); // 奖励领取数据统计
 const activityReceive = (params) => apiService.get("mystery-web-user/activity/receive", params); // 奖励领取
 const getActivityPoint = (params) => apiService.get("mystery-web-user/activity/getPoint", params); // 积分获取
+const removeWelcomeBounsRedDots = (params) => apiService.get("mystery-web-user/oneNftOrders/remove/welcomeBounsRedDots ", params); // 移除活动小红点
+
 const flashExchange = (params) => apiService.post("mystery-web-user/withdrawal/flashExchange", params); // 闪兑
 const exchangeRateV2 = (params) => apiService.get("mystery-web-user/index/exchangeRateV2", params); // 获取真实汇率
 
@@ -101,6 +103,7 @@ export {
   getActivityTargetHeaderDataTotal,
   activityReceive,
   getActivityPoint,
+  removeWelcomeBounsRedDots,
   flashExchange,
   exchangeRateV2,
   productionOfThirdPartyOrders,

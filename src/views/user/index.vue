@@ -74,7 +74,7 @@ export default {
       return isLogin;
     },
     navList() {
-      const { walletNftSystemStatus, oneNftStatus } = this.newStatus
+      const { walletNftSystemStatus, oneNftStatus, welcomeBounsStatus, welcomeBounsReceiveStatus } = this.newStatus
       return [
         {
           text: t("header.profile"),
@@ -102,7 +102,7 @@ export default {
           page: "promotions",
           icon: require("@/assets/img/user/icon_Promotions.gif"),
           iconActive: require("@/assets/img/user/icon_Promotions.gif"),
-          showDot: false,
+          showDot: welcomeBounsStatus || welcomeBounsReceiveStatus,
           className: "promotions_nav",
         },
         {

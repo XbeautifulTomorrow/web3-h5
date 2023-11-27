@@ -91,6 +91,7 @@
             <p class="table-btn" v-if="scope.row.status == 'RECEIVED'">{{ $t("user.claimed2") }}</p>
             <p class="table-btn active" v-else-if="scope.row.status == 'NOT_CLAIMED'" @click="activityReceiveFunc">
               {{ $t("user.claim") }}
+              <b class="new_dot"></b>
             </p>
             <p class="btn-text" v-else-if="scope.row.status == 'IN_PROGRESS'">{{ $t("user.underWay") }}</p>
             <span v-else>--</span>
@@ -115,7 +116,7 @@ const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { getActivityTargetList, getActivityTargetHeaderDataTotal, activityReceive, getActivityPoint } from "@/services/api/user";
+import { getActivityTargetList, getActivityTargetHeaderDataTotal, activityReceive, getActivityPoint, removeWelcomeBounsRedDots } from "@/services/api/user";
 
 import bigNumber from "bignumber.js";
 import { accurateDecimal, onCopy, timeFormat } from "@/utils";
@@ -162,6 +163,14 @@ export default {
       const headerStore = useHeaderStore();
       headerStore.getTheUserBalanceApi();
     },
+    // 移除活动小红点
+    async removeWelcomeBounsRedDotsFunc() {
+      const res = await removeWelcomeBounsRedDots();
+      if (res && res.code == 200) {
+        const headerStore = useHeaderStore();
+        headerStore.fetchGlobalNew();
+      }
+    },
     // 欢迎奖金表格
     async getActivityTargetListFunc() {
       const res = await getActivityTargetList();
@@ -192,6 +201,7 @@ export default {
         this.getTheUserBalanceInfo();
         this.getActivityTargetListFunc();
         this.getActivityTargetHeaderDataTotalFunc();
+        this.removeWelcomeBounsRedDotsFunc();
       }
     },
 
@@ -207,6 +217,7 @@ export default {
       this.getActivityTargetListFunc();
       if (this.details.activityType == "WELCOME_BONUS") {
         this.getActivityTargetHeaderDataTotalFunc();
+        this.removeWelcomeBounsRedDotsFunc();
       } else {
         this.getActivityPointFunc();
       }

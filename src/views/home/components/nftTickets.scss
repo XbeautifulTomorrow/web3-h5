@@ -41,11 +41,11 @@
 }
 
 .ntf-tickets-item {
+  position: relative;
   width: 22.3125rem;
   height: 33.4375rem;
   border-radius: 0.625rem;
   background-color: #1d0f36;
-  overflow: hidden;
 
   &:hover {
     .img-box {
@@ -228,6 +228,10 @@
   background-origin: border-box;
   background-clip: content-box, border-box;
   cursor: pointer;
+  &.boxes-free-button{
+    background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+     linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 71%);
+  }
 
   &:hover {
     background-image: linear-gradient(to top, #e3a406, #fbd851);
@@ -251,6 +255,35 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  &.name-free{
+    background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 71%);
+  }
+}
+
+.discount {
+  top: -0.25rem;
+  left: -0.25rem;
+  position: absolute;
+  width: 4.625rem;
+  height: 4.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("@/assets/img/home/nft_tag.webp");
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+  .val {
+    padding-bottom: 1.75rem;
+    display: inline-block;
+    transform: rotate(-45deg);
+    text-align: center;
+    font-family: LeagueSpartan;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+  }
 }
 
 .buy_btn {
@@ -333,6 +366,17 @@
       width: 100%;
       font-size: 0.75rem;
       line-height: 1.2;
+    }
+  }
+
+  .discount {
+    width: 3rem;
+    height: 3rem;
+    top: -0.125rem;
+    left: -0.125rem;
+    .val{
+      padding-bottom: 1.1rem;
+      font-size: 0.75rem;
     }
   }
 

@@ -105,7 +105,7 @@
             />
             <div
               class="new_dot header_dot"
-              v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus"
+              v-if="newStatus.oneNftStatus || newStatus.walletNftSystemStatus || newStatus.welcomeBounsStatus || newStatus.welcomeBounsReceiveStatus"
             ></div>
             <span class="header-user-text text-ellipsis">
               {{ userInfo?.userName || userInfo?.email }}
@@ -147,7 +147,7 @@
                 <div
                   class="new_dot header_dot"
                   v-if="
-                    newStatus.oneNftStatus || newStatus.walletNftSystemStatus
+                    newStatus.oneNftStatus || newStatus.walletNftSystemStatus || newStatus.welcomeBounsStatus || newStatus.welcomeBounsReceiveStatus
                   "
                 ></div>
                 <span class="header-user-text text-ellipsis">
@@ -292,7 +292,7 @@ export default {
       return regInfo;
     },
     userList() {
-      const { walletNftSystemStatus, oneNftStatus } = this.newStatus;
+      const { walletNftSystemStatus, oneNftStatus, welcomeBounsStatus, welcomeBounsReceiveStatus } = this.newStatus;
       return [
         {
           text: t("header.profile"),
@@ -316,7 +316,7 @@ export default {
           text: t("header.promotions"),
           page: "promotions",
           icon: require("@/assets/img/user/icon_Promotions.gif"),
-          showDot: false,
+          showDot: welcomeBounsStatus || welcomeBounsReceiveStatus,
           className: "promotions_nav",
         },
         {

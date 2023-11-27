@@ -12,6 +12,9 @@
           v-if="index < 4"
           :key="`tickets-${index}`"
         >
+          <div class="discount" v-if="item.sendTicketsSwitch == 1">
+            <div class="val">FREE</div>
+          </div>
           <div class="img-box">
             <Image
               fit="cover"
@@ -116,7 +119,15 @@
               }}
             </span>
           </div>
-          <div class="boxes-button" v-if="item.currentStatus == 'IN_PROGRESS'">
+          <div
+            class="boxes-button boxes-free-button"
+            v-if="item.currentStatus == 'IN_PROGRESS' && item.sendTicketsSwitch == 1"
+          >
+            <span class="boxes-button-name name-free">{{
+              $t("home.nftTicketBtn2")
+            }}</span>
+          </div>
+          <div class="boxes-button" v-else-if="item.currentStatus == 'IN_PROGRESS'">
             <span class="boxes-button-name">{{ $t("home.nftTicketBtn") }}</span>
           </div>
           <div class="buy_btn winner" v-else-if="item.currentStatus == 'DRAWN'">

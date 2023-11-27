@@ -94,6 +94,9 @@
       <ul class="boxes-content" v-if="count > 0">
         <template v-for="(item, index) in ticketList" :key="`tickets-${index}`">
           <li class="ntf-tickets-item" @click="handleTickets(item)">
+            <div class="discount" v-if="item.sendTicketsSwitch == 1">
+              <div class="val">FREE</div>
+            </div>
             <div class="img-box">
               <Image
                 fit="cover"
@@ -199,8 +202,16 @@
               </span>
             </div>
             <div
+              class="boxes-button boxes-free-button"
+              v-if="item.currentStatus == 'IN_PROGRESS' && item.sendTicketsSwitch == 1"
+            >
+              <span class="boxes-button-name name-free">{{
+                $t("home.nftTicketBtn2")
+              }}</span>
+            </div>
+            <div
               class="boxes-button"
-              v-if="item.currentStatus == 'IN_PROGRESS'"
+              v-else-if="item.currentStatus == 'IN_PROGRESS'"
             >
               <span class="boxes-button-name">{{
                 $t("home.nftTicketBtn")

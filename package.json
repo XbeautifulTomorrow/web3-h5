@@ -7,8 +7,8 @@
     "start:ssr": "cross-env NODE_ENV=test node server",
     "prod:ssr": "cross-env NODE_ENV=pro node server",
     "build": "vite build",
-    "build:client": "vite build --outDir dist/client --mode pro",
-    "build:server": "vite build --outDir dist/server --mode pro --ssr src/entry-server.js",
+    "build:client": "vite build --outDir dist/client --ssrManifest",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
     "build:ssr": "npm run build:client && npm run build:server",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write"

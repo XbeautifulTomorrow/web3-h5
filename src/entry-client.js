@@ -9,7 +9,7 @@ import "element-plus/dist/index.css";
 import "@/assets/font/font.css";
 import "@/assets/css/element.scss";
 
-const { app } = createApp();
+const { app, router } = createApp();
 
 for (const name in ElementPlusIconsVue) {
   app.component(name, ElementPlusIconsVue[name]);
@@ -65,4 +65,7 @@ app.use(i18n);
 app.use(CScrollbar);
 app.use(dayjs);
 app.use(ElementPlus, { size: "large", zIndex: 3000 });
-app.mount("#app");
+
+router.isReady().then(() => {
+  app.mount('#app')
+})

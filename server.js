@@ -29,6 +29,15 @@ global.sessionStorage = window.sessionStorage;
 const isProd = process.env.NODE_ENV != "test";
 
 async function createServer() {
+  const manifest = isProd
+    ? JSON.parse(
+      fs.readFileSync(
+        path.resolve('dist/client/ssr-manifest.json'),
+        'utf-8',
+      ),
+    )
+    : {}
+
   const app = express();
 
   let vite = await createViteServer({
@@ -62,8 +71,13 @@ async function createServer() {
         template = await vite.transformIndexHtml(url, template);
         render = (await vite.ssrLoadModule("/src/entry-server.js")).render;
       }
-      const appHtml = await render(url);
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+
+      const [appHtml, preloadLinks] = await render(url, manifest)
+
+      const html = template
+        .replace(`<!--preload-links-->`, preloadLinks)
+        .replace(`<!--app-html-->`, appHtml)
+
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } catch (e) {
       vite.ssrFixStacktrace(e);

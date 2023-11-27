@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter as _createRouter,
+  createMemoryHistory,
+  createWebHistory,
+} from "vue-router";
 import { statisticsClick } from "@/services/api/user";
 import { setSessionStore, upperFirstConcat } from "@/utils";
 import { useUserStore } from "@/store/user.js";
@@ -189,8 +193,12 @@ const routes = [
 ];
 
 // 3. 创建路由实例
-const router = createRouter({
-  history: createWebHistory(),
+const router = _createRouter({
+  // use appropriate history implementation for server/client
+  // import.meta.env.SSR is injected by Vite.
+  history: import.meta.env.SSR
+    ? createMemoryHistory()
+    : createWebHistory(),
   routes,
 });
 
@@ -250,4 +258,6 @@ router.beforeEach(async (to, from, next) => {
 });
 
 // 4. 导出router
-export default router;
+export function createRouter() {
+  return router;
+};

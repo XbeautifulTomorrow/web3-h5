@@ -3,7 +3,7 @@
     <div class="footer-container">
       <div class="footer-logo">
         <div class="header-logo">
-          <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
+          <img src="@/assets/img/headerFooter/logo.svg" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
 

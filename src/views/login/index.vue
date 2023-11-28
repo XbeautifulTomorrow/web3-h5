@@ -126,20 +126,20 @@ const goGooleFunc = async () => {
   //打开小窗口
   const newWindow = window.open(googleUrl, '_blank', params);
   window.addEventListener("message", (event) => {
-      const res = event.data;
+      // const res = event.data;
       console.log(event,'resevent------------------------')
-      newWindow.close();
+      // newWindow.close();
       //小窗口的登录信息，包含token
-      if(res.code == '000000'){
-          //拿到相应的登录token去登录，如果失败给出提示
-          this.dispatch("user/getUserInfo", res.token).then(() => {
-              this.$router.replace("/");
-          });
-      } else {
-        console.log('login fail')
-          // this.$message.closeAll();
-          // this.$message.error(res.message || "login fail~");
-      }
+      // if(res.code == '000000'){
+      //     //拿到相应的登录token去登录，如果失败给出提示
+      //     this.dispatch("user/getUserInfo", res.token).then(() => {
+      //         this.$router.replace("/");
+      //     });
+      // } else {
+      //   console.log('login fail')
+      //     // this.$message.closeAll();
+      //     // this.$message.error(res.message || "login fail~");
+      // }
   });
 }
 

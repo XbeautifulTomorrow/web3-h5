@@ -16,6 +16,7 @@
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
+import { getCookie,encryptCBC } from "@/utils";
 export default {
   name: "App",
   provide() {
@@ -51,6 +52,11 @@ export default {
   },
   created() {
     this.getCoinList();
+    const certificate = getCookie('certificate')
+    console.log(certificate,'certificate--------------')
+    if(certificate){
+      localStorage.setItem("certificate", encryptCBC(certificate));
+    }
   },
 };
 </script>

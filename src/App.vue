@@ -16,7 +16,6 @@
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
-import { getCookie,encryptCBC } from "@/utils";
 export default {
   name: "App",
   provide() {
@@ -44,19 +43,18 @@ export default {
         this.isRouterAlive = true; //再打开
       });
     },
-    getCoinList() {
-      const { getCoinList, exchangeLegalRate } = useUserStore();
+    init() {
+      const { getCoinList, exchangeLegalRate, googleLogin } = useUserStore();
+      // 是否谷歌登录
+      if (this.$route.query?.googleLoginCode) {
+        googleLogin({code:this.$route.query.googleLoginCode})
+      }
       getCoinList();
       // exchangeLegalRate();
     },
   },
   created() {
-    this.getCoinList();
-    const certificate = getCookie('certificate')
-    console.log(certificate,'certificate--------------')
-    if(certificate){
-      localStorage.setItem("certificate", encryptCBC(certificate));
-    }
+    this.init();
   },
 };
 </script>

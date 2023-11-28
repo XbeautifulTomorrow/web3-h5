@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { getLocalStore, setSessionStore, getSessionStore } from "@/utils";
-import { productionOfThirdPartyCoin } from "@/services/api/user";
-import { getWithdrawalChain } from "@/services/api/user";
+import { getLocalStore, setSessionStore, getSessionStore, encryptCBC } from "@/utils";
+import { productionOfThirdPartyCoin, authGoogleLogin, getWithdrawalChain } from "@/services/api/user";
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
 import localeJA from "element-plus/dist/locale/ja.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
+import { useHeaderStore } from "@/store/header.js";
 
 const langMenu = {
   "zh_CN": localeZH,
@@ -112,6 +112,20 @@ export const useUserStore = defineStore("user", {
       const res = await productionOfThirdPartyCoin({ widget_id: this.three_pay_widget_id });
       if (res && res.data) {
         this.buyCryptoCoinRates = res?.data?.buy?.USDT;
+      }
+    },
+    // google登录
+    async googleLogin(param) {
+      const res = await authGoogleLogin({ ...param });
+      console.log(res,'res--------------')
+      if (res && res.code === 200) {
+        if (res.data.certificate) {
+          localStorage.setItem("certificate", encryptCBC(res.data.certificate));
+        }
+        this.setLogin(res.data);
+        const headerStore = useHeaderStore();
+        headerStore.getTheUserBalanceApi();
+        headerStore.fetchTheUserPoint();
       }
     },
   },

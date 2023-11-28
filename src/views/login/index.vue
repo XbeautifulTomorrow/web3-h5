@@ -55,7 +55,7 @@
 import { ref, reactive, onBeforeMount, onMounted, defineEmits } from "vue";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
-import { getLogin, getGoogleValidateStatus,googleRedictUrl } from "@/services/api/user";
+import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
 import { encryptCBC } from "@/utils";
 import { i18n } from '@/locales';
 import config from "@/services/env";

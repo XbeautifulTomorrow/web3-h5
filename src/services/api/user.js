@@ -4,6 +4,8 @@ const getKey = (params) => apiService.get("mystery-web-user/auth/generate/key", 
 
 const authLogin = (params) => apiService.post("mystery-web-user/auth/login", params);
 
+const authGoogleLogin = (params) => apiService.post("mystery-web-user/auth/google/login", params);
+
 const updateUserInfo = (params) => apiService.post("mystery-web-user/user/updateInfo", params);
 
 const getTheUserSPayoutAddress = (params) => apiService.get("mystery-web-user/user/getTheUserSPayoutAddress", params); //收款地址
@@ -72,6 +74,7 @@ const productionOfThirdPartyRate = (params) => apiService.get("mystery-web-user/
 export {
   getKey,
   authLogin,
+  authGoogleLogin,
   updateUserInfo,
   getTheUserSPayoutAddress,
   getTheUserBalance,

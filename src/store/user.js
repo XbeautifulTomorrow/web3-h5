@@ -4,12 +4,19 @@ import { productionOfThirdPartyCoin } from "@/services/api/user";
 import { getWithdrawalChain } from "@/services/api/user";
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
+import localeJA from "element-plus/dist/locale/ja.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
 
+const langMenu = {
+  "zh_CN": localeZH,
+  "en_US": localeEN,
+  "ja_JP": localeJA
+}
+
 export const useUserStore = defineStore("user", {
   state: () => ({
-    locale: getLang() == "en_US" ? localeEN : localeZH,
+    locale: langMenu[getLang()],
     userInfo: undefined,
     regInfo: undefined,
     userPage: null,

@@ -120,11 +120,11 @@ export const useUserStore = defineStore("user", {
       var googleLoginCode = getUrlParams("googleLoginCode");
       if (!googleLoginCode) return;
       const res = await authGoogleLogin({ code: googleLoginCode });
-      console.log(res, "res--------------");
       if (res && res.code === 200) {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
+        router.push({ path: "/home" });
         this.setLogin(res.data);
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();

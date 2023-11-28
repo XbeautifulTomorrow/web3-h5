@@ -71,36 +71,29 @@
           </div>
         </div>
         <div class="h5_lottery_boxs_r" v-else>
-          <div class="sub_lottery_box one_lottery" @click="rollNumberFun('ONE')">
-            <div class="sub_lottery">
-              <div class="lottery_box_title">OPEN 1 BOX</div>
-              <div class="lottery_price_box">
-                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span v-priceFormat="blindDetailInfo?.price"></span>
-              </div>
+          <div class="lottery_calculate_box">
+            <div class="calculate_btn" @click="calculateAmountFunc('sub')">
+              <img src="@/assets/svg/lottery/subtract.svg" alt="" />
+            </div>
+            <div class="calculate_txt">{{ amountArr[amountIndex] }}</div>
+            <div class="calculate_btn" @click="calculateAmountFunc('add')">
+              <img src="@/assets/svg/lottery/add.svg" alt="" />
             </div>
           </div>
-          <div class="sub_lottery_box five_lottery" @click="rollNumberFun('FIVE')">
-            <div class="h5_discount" v-if="fiveRebate > 0">
+          <div class="lottery_open_btn" @click="rollNumberFun(amountIndex == 0 ? 'ONE' : amountIndex == 1 ? 'FIVE' : 'TEN')">
+            <div class="discount_h5 five" v-if="amountIndex == 1 && fiveRebate > 0">
               <div class="val">{{ `${fiveRebate}% OFF` }}</div>
             </div>
-            <div class="sub_lottery">
-              <div class="lottery_box_title">OPEN 5 BOXES</div>
-              <div class="lottery_price_box">
-                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
-              </div>
-            </div>
-          </div>
-          <div class="sub_lottery_box ten_lottery" @click="rollNumberFun('TEN')">
-            <div class="h5_discount" v-if="tenRebate > 0">
+            <div class="discount_h5 ten" v-if="amountIndex == 2 && tenRebate > 0">
               <div class="val">{{ `${tenRebate}% OFF` }}</div>
             </div>
-            <div class="sub_lottery">
-              <div class="lottery_box_title">OPEN 10 BOXES</div>
+            <div>
+              <div class="lottery_box_title">OPEN {{ amountArr[amountIndex] }} BOX</div>
               <div class="lottery_price_box">
                 <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
+                <span v-priceFormat="blindDetailInfo?.price" v-if="amountIndex == 0"></span>
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)" v-else-if="amountIndex == 1"></span>
+                <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)" v-else-if="amountIndex == 2"></span>
               </div>
             </div>
           </div>
@@ -281,6 +274,8 @@ export default {
       count: 0,
       isShowMore: null,
       innerWidth: 0,
+      amountIndex: 0,
+      amountArr: [1, 5, 10],
     };
   },
   computed: {
@@ -314,8 +309,22 @@ export default {
   },
   methods: {
     timeFormat: timeFormat,
-
     bigNumber: bigNumber,
+    calculateAmountFunc(type) {
+      if (type == "sub") {
+        if (this.amountIndex <= 0) {
+          this.amountIndex = 0;
+        } else {
+          this.amountIndex--;
+        }
+      } else {
+        if (this.amountIndex >= 2) {
+          this.amountIndex = 2;
+        } else {
+          this.amountIndex++;
+        }
+      }
+    },
     messageFun(message = t("mysteryBox.rechargeHint"), type = "warning") {
       ElMessage({
         message,

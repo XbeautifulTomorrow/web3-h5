@@ -572,12 +572,12 @@ export default {
   .roll-lottery-dialog {
     background-image: none !important;
   }
-  .blind-lottory-box {
-    .el-overlay {
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(0px);
-    }
-  }
+  // .blind-lottory-box {
+  //   .el-overlay {
+  //     background-color: rgba(0, 0, 0, 0.7);
+  //     backdrop-filter: blur(0px);
+  //   }
+  // }
 }
 </style>
 <style lang="scss">

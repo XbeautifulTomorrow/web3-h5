@@ -125,7 +125,11 @@ const goGooleFunc = async () => {
   let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=800,height=500,left=10%,top=20%`;
   //打开小窗口
   const newWindow = window.open(googleUrl, '_blank', params);
-  window.addEventListener("message", (event) => {
+  newWindow.addEventListener('load', function(event) {
+  // 处理iframe内容已加载完成的逻辑
+  console.log(event,'load------------------------')
+});
+  newWindow.addEventListener("message", (event) => {
       // const res = event.data;
       console.log(event,'resevent------------------------')
       // newWindow.close();

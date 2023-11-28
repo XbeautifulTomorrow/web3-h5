@@ -4,7 +4,7 @@ const getKey = (params) => apiService.get("mystery-web-user/auth/generate/key", 
 
 const authLogin = (params) => apiService.post("mystery-web-user/auth/login", params);
 
-const authGoogleLogin = (params) => apiService.post("mystery-web-user/auth/google/login", params);
+const authGoogleLogin = (params) => apiService.get("mystery-web-user/auth/google/login", params);
 
 const updateUserInfo = (params) => apiService.post("mystery-web-user/user/updateInfo", params);
 

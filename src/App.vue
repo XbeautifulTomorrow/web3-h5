@@ -43,14 +43,16 @@ export default {
         this.isRouterAlive = true; //再打开
       });
     },
-    getCoinList() {
-      const { getCoinList, exchangeLegalRate } = useUserStore();
+    init() {
+      const { getCoinList, exchangeLegalRate, googleLogin } = useUserStore();
+      // 是否谷歌登录
+      googleLogin()
       getCoinList();
       // exchangeLegalRate();
     },
   },
   created() {
-    this.getCoinList();
+    this.init();
   },
 };
 </script>

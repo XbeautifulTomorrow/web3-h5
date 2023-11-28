@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getLocalStore, setSessionStore, getSessionStore, encryptCBC } from "@/utils";
+import { getLocalStore, setSessionStore, getSessionStore, encryptCBC, getUrlParams } from "@/utils";
 import { productionOfThirdPartyCoin, authGoogleLogin, getWithdrawalChain } from "@/services/api/user";
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
@@ -114,10 +114,13 @@ export const useUserStore = defineStore("user", {
         this.buyCryptoCoinRates = res?.data?.buy?.USDT;
       }
     },
+    
     // google登录
-    async googleLogin(param) {
-      const res = await authGoogleLogin({ ...param });
-      console.log(res,'res--------------')
+    async googleLogin() {
+      var googleLoginCode = getUrlParams("googleLoginCode");
+      if (!googleLoginCode) return;
+      const res = await authGoogleLogin({ code: googleLoginCode });
+      console.log(res, "res--------------");
       if (res && res.code === 200) {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));

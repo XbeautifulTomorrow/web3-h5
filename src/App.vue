@@ -46,9 +46,7 @@ export default {
     init() {
       const { getCoinList, exchangeLegalRate, googleLogin } = useUserStore();
       // 是否谷歌登录
-      if (this.$route.query?.googleLoginCode) {
-        googleLogin({code:this.$route.query.googleLoginCode})
-      }
+      googleLogin()
       getCoinList();
       // exchangeLegalRate();
     },

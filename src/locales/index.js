@@ -3,11 +3,13 @@ import { getDifferent } from "@/utils/index";
 import zh_CN from "./zh-TW.json";
 import en_US from "./en.json";
 import ja_JP from "./jp.json";
+import pt_PT from "./pt.json";
 
 const LANG_MENU = {
   cn: "zh_CN",
   en: "en_US",
-  ja: "ja_JP"
+  ja: "ja_JP",
+  pt: "pt_PT"
 };
 
 // 获取当前语言
@@ -49,17 +51,24 @@ const messages = {
   },
   ja_JP: {
     ...ja_JP
+  },
+  pt_PT: {
+    ...pt_PT
   }
 };
 
 //对比语言包json属性
-// 英文>>中文
+// 英语>>中文
 getDifferent(messages["en_US"], messages["zh_CN"]);
 getDifferent(messages["zh_CN"], messages["en_US"]);
 
-// 英文>>日文
+// 英语>>日语
 getDifferent(messages["en_US"], messages["ja_JP"]);
 getDifferent(messages["ja_JP"], messages["en_US"]);
+
+// 英文>>葡萄牙语
+getDifferent(messages["en_US"], messages["pt_PT"]);
+getDifferent(messages["pt_PT"], messages["en_US"]);
 
 const i18n = new createI18n({
   allowComposition: true,

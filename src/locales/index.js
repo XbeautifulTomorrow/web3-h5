@@ -2,10 +2,12 @@ import { createI18n } from "vue-i18n";
 import { getDifferent } from "@/utils/index";
 import zh_CN from "./zh-TW.json";
 import en_US from "./en.json";
+import ja_JP from "./jp.json";
 
 const LANG_MENU = {
   cn: "zh_CN",
-  en: "en_US"
+  en: "en_US",
+  ja: "ja_JP"
 };
 
 // 获取当前语言
@@ -44,12 +46,20 @@ const messages = {
   },
   en_US: {
     ...en_US
+  },
+  ja_JP: {
+    ...ja_JP
   }
 };
 
 //对比语言包json属性
+// 英文>>中文
 getDifferent(messages["en_US"], messages["zh_CN"]);
 getDifferent(messages["zh_CN"], messages["en_US"]);
+
+// 英文>>日文
+getDifferent(messages["en_US"], messages["ja_JP"]);
+getDifferent(messages["ja_JP"], messages["en_US"]);
 
 const i18n = new createI18n({
   allowComposition: true,

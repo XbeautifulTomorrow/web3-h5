@@ -40,9 +40,10 @@
           {{ $t("common.login") }}
         </el-button>
         <p class="form-register">
-          <a :href="googleUrl" style="color:#fff;text-decoration: auto;">
+          <!-- <a :href="googleUrl" style="color:#fff;text-decoration: auto;">
             <span>{{ $t("login.notRegisteredHint") }}</span>
-          </a>
+          </a> -->
+          <span @click="goGooleFunc">{{ $t("login.notRegisteredHint") }}</span>
           <span class="form-register-link" @click="goTo('register')">
             {{ $t("login.registerUpper") }}
           </span>
@@ -55,7 +56,7 @@
 import { ref, reactive, onBeforeMount, onMounted, defineEmits } from "vue";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
-import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
+import { getLogin, getGoogleValidateStatus,googleRedictUrl } from "@/services/api/user";
 import { encryptCBC } from "@/utils";
 import { i18n } from '@/locales';
 import config from "@/services/env";
@@ -69,6 +70,7 @@ const rememberMe = ref(false);
 const ruleFormRef = ref();
 const isAuth = ref(false);
 const googleUrl = config.api+'mystery-web-user/auth/google/redictUrl'
+const iframeNode = ref(null)
 
 let formLogin = reactive({
   account: "",
@@ -119,6 +121,31 @@ const goTo = (page) => {
   //   router.push({ path: `${page}` });
   emit("changeTypeFun", page);
 };
+const goGooleFunc = async () => {
+  let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=800,height=500,left=10%,top=20%`;
+  //打开小窗口
+  const newWindow = window.open(googleUrl, '_blank', params);
+  newWindow.addEventListener('load', function(event) {
+  // 处理iframe内容已加载完成的逻辑
+  console.log(event,'load------------------------')
+});
+  newWindow.addEventListener("message", (event) => {
+      // const res = event.data;
+      console.log(event,'resevent------------------------')
+      // newWindow.close();
+      //小窗口的登录信息，包含token
+      // if(res.code == '000000'){
+      //     //拿到相应的登录token去登录，如果失败给出提示
+      //     this.dispatch("user/getUserInfo", res.token).then(() => {
+      //         this.$router.replace("/");
+      //     });
+      // } else {
+      //   console.log('login fail')
+      //     // this.$message.closeAll();
+      //     // this.$message.error(res.message || "login fail~");
+      // }
+  });
+}
 
 const fetchGoogleAuth = async () => {
   const res = await getGoogleValidateStatus({

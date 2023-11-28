@@ -40,7 +40,9 @@
           {{ $t("common.login") }}
         </el-button>
         <p class="form-register">
-          <span>{{ $t("login.notRegisteredHint") }}</span>
+          <a :href="googleUrl" style="color:#fff;text-decoration: auto;">
+            <span>{{ $t("login.notRegisteredHint") }}</span>
+          </a>
           <span class="form-register-link" @click="goTo('register')">
             {{ $t("login.registerUpper") }}
           </span>
@@ -56,6 +58,7 @@ import { useHeaderStore } from "@/store/header.js";
 import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
 import { encryptCBC } from "@/utils";
 import { i18n } from '@/locales';
+import config from "@/services/env";
 const { t } = i18n.global;
 
 const userStore = useUserStore();
@@ -65,6 +68,8 @@ const visible = ref(true);
 const rememberMe = ref(false);
 const ruleFormRef = ref();
 const isAuth = ref(false);
+const googleUrl = config.api+'mystery-web-user/auth/google/redictUrl'
+
 let formLogin = reactive({
   account: "",
   passWord: "",

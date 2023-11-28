@@ -294,9 +294,9 @@ export default {
         if (res.data?.length) {
           this.failList = res.data;
         }
-        this.showDialog = dialog;
         let isExternal = false;
         if (chooseIds.length > 0) {
+          this.showDialog = dialog;
           awardItem.map((x) => {
             chooseIds.map((y) => {
               if (y == x.id) {
@@ -309,12 +309,18 @@ export default {
           this.checkInterVal = setInterval(() => {
             this.lotteryCheckFunc();
           }, 3000);
+        } else {
+          this.closeDialogFun();
         }
         this.headerStoreStore.getTheUserBalanceApi();
       } else {
         if (res?.length == 3 && res[2].messageKey == "already_automatically_recycled") {
           localStorage.removeItem("result");
-          this.showDialog = dialog;
+          if (chooseIds.length > 0) {
+            this.showDialog = dialog;
+          } else {
+            this.closeDialogFun();
+          }
           this.headerStoreStore.getTheUserBalanceApi();
         } else {
           this.showDialog = "";

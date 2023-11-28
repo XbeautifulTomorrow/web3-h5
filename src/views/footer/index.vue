@@ -3,7 +3,7 @@
     <div class="footer-container">
       <div class="footer-logo">
         <div class="header-logo">
-          <img src="@/assets/img/headerFooter/logo.png" alt="logo" />
+          <img src="@/assets/img/headerFooter/logo.svg" alt="logo" />
         </div>
         <span>{{ $t("footer.copyright", { year: year }) }}</span>
 
@@ -22,7 +22,8 @@
               {{ $t("footer.menu") }}
             </li>
             <ul class="footer-nav">
-              <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+              <li class="footer-nav-text" v-for="(item, index) in nav" :key="`footer-nav-${index}`"
+                @click="goTo(item.page)">
                 {{ item.text }}
               </li>
             </ul>
@@ -35,7 +36,8 @@
               {{ $t("footer.about") }}
             </li>
             <ul class="footer-nav">
-              <li class="footer-nav-text" v-for="(item, index) in aboutUs" :key="`footer-nav-${index}`" @click="goTo(item.page)">
+              <li class="footer-nav-text" v-for="(item, index) in aboutUs" :key="`footer-nav-${index}`"
+                @click="goTo(item.page)">
                 {{ item.text }}
               </li>
             </ul>
@@ -77,9 +79,9 @@
             <a href="mailto:support@Bitzing.io">support@Bitzing.io</a>
           </p>
         </div>
-        <!-- <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
+        <el-select class="language_select" v-model="language" @change="languageChange" size="large" effect="dark">
           <el-option v-for="(item, index) in langDrop" :key="index" :label="item.name" :value="item.key" />
-        </el-select> -->
+        </el-select>
       </div>
     </div>
     <div class="footer-featured">

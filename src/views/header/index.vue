@@ -9,7 +9,7 @@
             @click="showNav = true"
           />
           <img
-            src="@/assets/img/headerFooter/logo.png"
+            src="@/assets/img/headerFooter/logo.svg"
             @click="goTo()"
             alt="logo"
           />

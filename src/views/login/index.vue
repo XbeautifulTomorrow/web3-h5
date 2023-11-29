@@ -1,8 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <el-dialog v-model="visible" destroy-on-close :show-close="false" :close-on-click-modal="false" :align-center="true"
-      class="public-dialog" width="43.75rem" :before-close="closeDialogFun">
+    <el-dialog
+      v-model="visible"
+      destroy-on-close
+      :show-close="false"
+      :close-on-click-modal="false"
+      :align-center="true"
+      class="public-dialog"
+      width="43.75rem"
+      :before-close="closeDialogFun"
+    >
       <template #header="{ close }">
         <div class="close_btn" v-on="{ click: [close, closeDialogFun] }">
           <el-icon>
@@ -12,19 +20,24 @@
       </template>
       <div class="public-dialog-content form-content">
         <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
-        <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formLogin" :rules="rules"
-          :hide-required-asterisk="true" :status-icon="true" class="public-form">
+        <el-form
+          ref="ruleFormRef"
+          label-position="top"
+          label-width="max-content"
+          :model="formLogin"
+          :rules="rules"
+          :hide-required-asterisk="true"
+          :status-icon="true"
+          class="public-form"
+        >
           <el-form-item :label="$t('login.email')" prop="account">
-            <el-input class="public-input" v-model="formLogin.account" @blur="fetchGoogleAuth"
-              :placeholder="$t('login.emailHint')" />
+            <el-input class="public-input" v-model="formLogin.account" @blur="fetchGoogleAuth" :placeholder="$t('login.emailHint')" />
           </el-form-item>
           <el-form-item :label="$t('login.password')" prop="passWord">
-            <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')"
-              type="password" />
+            <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')" type="password" />
           </el-form-item>
           <el-form-item :label="$t('user.inputTitle')" prop="validatCode" v-if="isAuth">
-            <el-input class="public-input" v-model="formLogin.validatCode" :placeholder="$t('login.captchaHint')"
-              type="password" />
+            <el-input class="public-input" v-model="formLogin.validatCode" :placeholder="$t('login.captchaHint')" type="password" />
           </el-form-item>
         </el-form>
         <div class="form-link">
@@ -39,10 +52,16 @@
         <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
           {{ $t("common.login") }}
         </el-button>
-        <p class="form-register">
-          <a :href="googleUrl" style="color:#fff;text-decoration: auto;">
-            <span>{{ $t("login.notRegisteredHint") }}</span>
+        <div class="dividing-line">OR</div>
+        <div class="login-style">
+          <a :href="googleUrl">
+            <p>
+              <img src="@/assets/svg/google.svg" alt="" />
+            </p>
           </a>
+        </div>
+        <p class="form-register">
+          <span>{{ $t("login.notRegisteredHint") }}</span>
           <span class="form-register-link" @click="goTo('register')">
             {{ $t("login.registerUpper") }}
           </span>
@@ -57,7 +76,7 @@ import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
 import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
 import { encryptCBC } from "@/utils";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
 
@@ -68,12 +87,12 @@ const visible = ref(true);
 const rememberMe = ref(false);
 const ruleFormRef = ref();
 const isAuth = ref(false);
-const googleUrl = config.api+'mystery-web-user/auth/google/redictUrl'
+const googleUrl = config.api + "mystery-web-user/auth/google/redictUrl";
 
 let formLogin = reactive({
   account: "",
   passWord: "",
-  validatCode: ""
+  validatCode: "",
 });
 const rules = reactive({
   account: [
@@ -122,12 +141,12 @@ const goTo = (page) => {
 
 const fetchGoogleAuth = async () => {
   const res = await getGoogleValidateStatus({
-    email: formLogin.account
+    email: formLogin.account,
   });
   if (res && res.code == 200) {
-    isAuth.value = res.data == "TRUE"
+    isAuth.value = res.data == "TRUE";
   }
-}
+};
 
 const loginFun = async (formEl) => {
   if (!formEl) return;

@@ -106,7 +106,7 @@ import BeenSold from "./beenSold.vue";
 import PartSold from "./partSold.vue";
 import TransactionWarning from "./transactionWarning.vue";
 
-import Loading from "../loading/index.vue";
+import Loading from "@/components/loading/index.vue";
 import LotteryNotify from "@/components/lottery/lotteryNotify";
 
 import dayjs from "dayjs";

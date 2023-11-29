@@ -155,52 +155,6 @@
         </div>
       </div>
     </div>
-    <div class="contents-info">
-      <div class="home-public-title">
-        <div class="title-box-l">
-          <div class="title_text">{{ $t("mysteryBox.snapshotTitle") }}</div>
-        </div>
-        <div class="title-box-r">
-          <div class="title">{{ $t("mysteryBox.snapshotId") }}</div>
-          <el-input
-            v-model.number="snapshotId"
-            @keyup.enter="handleSearch()"
-            class="snapshot_input"
-            :placeholder="$t('mysteryBox.snapshotIdHint')"
-          >
-            <template #suffix>
-              <el-icon class="search_btn el-input__icon" @click="handleSearch()">
-                <search />
-              </el-icon>
-            </template>
-          </el-input>
-        </div>
-      </div>
-      <div class="snapshot_box">
-        <div class="snapshot_panel">
-          <div class="snapshot_item" v-for="(item, index) in snapshotData" @click="handleActive(item)" :key="index">
-            <div class="active_btn">
-              <img class="nft_info" src="@/assets/svg/box/icon_info.svg" alt="" />
-              <img class="nft_info_active" src="@/assets/svg/box/icon_info_active.svg" alt="" />
-            </div>
-            <div class="snapshot_num">{{ `NO.${item.id}` }}</div>
-            <div class="snapshot_date">{{ timeFormat(item.createTime) }}</div>
-          </div>
-        </div>
-        <div class="pagination-box" v-if="count > size">
-          <el-pagination
-            v-model="page"
-            :page-size="size"
-            @current-change="handleCurrentChange"
-            :pager-count="5"
-            layout="prev, pager, next"
-            :total="count"
-            :prev-text="$t('common.prev')"
-            :next-text="$t('common.next')"
-          />
-        </div>
-      </div>
-    </div>
   </div>
   <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
   <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />

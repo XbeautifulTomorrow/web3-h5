@@ -6,6 +6,7 @@
       <div class="gradual-bg"></div>
       <div class="gradual-bg"></div>
       <router-view class="font-family" name="Header"></router-view>
+      <router-view class="font-family" name="LogoHeader"></router-view>
       <router-view class="font-family" name="Currency"></router-view>
       <router-view class="wrapper_panel font-family"></router-view>
       <router-view class="font-family" name="Footer"></router-view>
@@ -46,7 +47,7 @@ export default {
     init() {
       const { getCoinList, exchangeLegalRate, googleLogin } = useUserStore();
       // 是否谷歌登录
-      googleLogin()
+      googleLogin();
       getCoinList();
       // exchangeLegalRate();
     },

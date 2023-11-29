@@ -7,6 +7,7 @@ import { useUserStore } from "@/store/user.js";
 import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
 import Currency from "../views/virtualCurrency/index.vue";
+import LogoHeader from "../views/header/logoHeader.vue";
 
 // const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
@@ -25,6 +26,7 @@ const privacyPolicy = () => import(/* webpackChunkName: "user" */ "../views/priv
 const userAgreement = () => import(/* webpackChunkName: "user" */ "../views/privacyPolicy/userAgreement.vue");
 const news = () => import(/* webpackChunkName: "user" */ "../views/news");
 const newsDeatails = () => import(/* webpackChunkName: "user" */ "../views/news/details.vue");
+const lootboxes = () => import("../views/lootboxes/index.vue");
 
 //2. 路由配置
 const routes = [
@@ -186,6 +188,15 @@ const routes = [
       Footer,
     },
   },
+  {
+    path: "/landing/lootboxes",
+    name: "Lootboxes",
+    components: {
+      default: lootboxes,
+      LogoHeader,
+      Currency,
+    },
+  },
 ];
 
 // 3. 创建路由实例
@@ -213,14 +224,7 @@ router.onError((error) => {
 router.beforeEach(async (to, from, next) => {
   const { path, query } = to;
 
-  const invateUrl = [
-    "Home",
-    "home",
-    "FreeNFT",
-    "freeNFT",
-    "TokenWar",
-    "tokenWar"
-  ];
+  const invateUrl = ["Home", "home", "FreeNFT", "freeNFT", "TokenWar", "tokenWar"];
 
   const userStore = useUserStore();
   if (to.meta.requiresAuth && !userStore.isLogin) {

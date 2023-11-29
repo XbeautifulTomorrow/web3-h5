@@ -4,6 +4,7 @@ import { productionOfThirdPartyCoin, authGoogleLogin, getWithdrawalChain } from 
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
 import localeJA from "element-plus/dist/locale/ja.mjs";
+import localePT from "element-plus/dist/locale/pt.mjs";
 import { getLang } from "@/locales";
 import router from "@/router";
 import { useHeaderStore } from "@/store/header.js";
@@ -11,7 +12,8 @@ import { useHeaderStore } from "@/store/header.js";
 const langMenu = {
   "zh_CN": localeZH,
   "en_US": localeEN,
-  "ja_JP": localeJA
+  "ja_JP": localeJA,
+  "pt_PT": localePT
 }
 
 export const useUserStore = defineStore("user", {
@@ -114,7 +116,7 @@ export const useUserStore = defineStore("user", {
         this.buyCryptoCoinRates = res?.data?.buy?.USDT;
       }
     },
-    
+
     // google登录
     async googleLogin() {
       var googleLoginCode = getUrlParams("googleLoginCode");

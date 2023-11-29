@@ -172,6 +172,8 @@ const langDrop = reactive([
   { name: "English", key: "en_US" },
   { name: "繁體中文", key: "zh_CN" },
   { name: "日本語", key: "ja_JP" },
+  { name: "Português", key: "pt_PT" },
+
 ]);
 
 // eslint-disable-next-line no-unused-vars

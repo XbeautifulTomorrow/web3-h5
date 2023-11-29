@@ -22,41 +22,25 @@
           </div>
         </div>
         <div :class="['user_list_box', showTooltips ? 'active' : '']">
-          <c-scrollbar
-            class="choose_nft"
-            width="100%"
-            trigger="hover"
+          <c-scrollbar class="choose_nft" width="100%" trigger="hover"
             :vBarStyle="{ 'background-color': 'rgb(29, 15, 54, 1)' }"
             :vThumbStyle="{ 'background-color': 'rgb(109, 101, 130, 1)' }"
-            :height="screenWidth > 950 ? '35.75rem' : '19rem'"
-          >
-            <div
-              :class="[
-                'user_item',
-                tooltips?.userId == item.userId ? 'hover' : '',
-              ]"
-              v-for="(item, index) in warData"
-              @click="showWarUser(item)"
-              :key="index"
-            >
+            :height="screenWidth > 950 ? '35.75rem' : '19rem'">
+            <div :class="[
+              'user_item',
+              tooltips?.userId == item.userId ? 'hover' : '',
+            ]" v-for="(item, index) in warData" @click="showWarUser(item)" :key="index">
               <div class="user_badge">
                 <img :src="getRank(item.buyPrice)" alt="" />
               </div>
               <div class="user_info">
                 <div class="info_box">
                   <div class="avatar">
-                    <img
-                      class="avatar_img"
-                      src="@/assets/svg/user/default_avatar.svg"
-                      alt=""
-                    />
+                    <img class="avatar_img" src="@/assets/svg/user/default_avatar.svg" alt="" />
                     <div class="buy_info">
                       <div class="user_name">{{ item.userName || "--" }}</div>
                       <div class="buy">
-                        <img
-                          src="@/assets/svg/user/icon_usdt_gold.svg"
-                          alt=""
-                        />
+                        <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                         <span>{{ item.buyPrice }}</span>
                       </div>
                     </div>
@@ -86,31 +70,20 @@
             <div class="round_title">{{ $t("tokenWar.currentRound") }}</div>
             <div class="round_val">{{ warInfo?.id || "--" }}</div>
           </div>
-          <div
-            class="history_btn"
-            @click="
-              () => {
-                $emit('toHistory');
-              }
-            "
-          >
+          <div class="history_btn" @click="() => {
+              $emit('toHistory');
+            }
+            ">
             <img src="@/assets/svg/home/warGame/icon_history.svg" alt="" />
             <span v-if="screenWidth > 950">{{ $t("tokenWar.history") }}</span>
           </div>
         </div>
         <div class="war_game_box">
           <svg id="war_container" width="450" height="450"></svg>
-          <div
-            class="outer_ring"
-            :style="{
-              pointerEvents: currentStatus == 'WAIT' ? 'auto' : 'none',
-            }"
-            v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"
-          ></div>
-          <div
-            class="win_pointer"
-            v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"
-          ></div>
+          <div class="outer_ring" :style="{
+            pointerEvents: currentStatus == 'WAIT' ? 'auto' : 'none',
+          }" v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"></div>
+          <div class="win_pointer" v-if="currentStatus == 'WAIT' || currentStatus == 'WIN'"></div>
           <div class="round_prize">
             <div class="round_num" v-if="currentStatus != 'WIN'">
               {{ $t("tokenWar.roundId", { num: warInfo?.id || "--" }) }}
@@ -122,9 +95,7 @@
               <span v-if="userInfo?.id == winInfo?.winerUserId">YUO WIN</span>
               <span v-else>{{ winInfo?.winerUserName || "--" }}</span>
             </div>
-            <div
-              :class="['round_prize_val', currentStatus == 'WIN' ? 'win' : '']"
-            >
+            <div :class="['round_prize_val', currentStatus == 'WIN' ? 'win' : '']">
               <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
               <span v-if="currentStatus != 'WIN'">
                 {{ formatUsd(warInfo?.totalBonus) }}
@@ -138,12 +109,10 @@
                 }}
               </span>
             </div>
-            <div
-              :class="[
-                'round_prize_status',
-                currentStatus == 'WAIT' ? 'cancel' : '',
-              ]"
-            >
+            <div :class="[
+                  'round_prize_status',
+                  currentStatus == 'WAIT' ? 'cancel' : '',
+                ]">
               <span v-if="currentStatus == 'WAIT'">
                 {{ $t("tokenWar.waitHint") }}
               </span>
@@ -153,10 +122,7 @@
               <span v-if="currentStatus == 'WIN'" class="win_id">
                 {{ $t("tokenWar.winnerId", { num: winInfo?.openId || "--" }) }}
               </span>
-              <span
-                v-if="currentStatus == 'WIN' && !isHistory"
-                class="next_round"
-              >
+              <span v-if="currentStatus == 'WIN' && !isHistory" class="next_round">
                 {{
                   $t("tokenWar.nextRound", { time: `00${seconds}`.slice(-2) })
                 }}
@@ -164,67 +130,40 @@
             </div>
           </div>
         </div>
-        <div
-          :class="[
-            'countdown_box',
-            currentStatus == 'INIT'
-              ? ''
-              : currentStatus == 'WAIT'
+        <div :class="[
+          'countdown_box',
+          currentStatus == 'INIT'
+            ? ''
+            : currentStatus == 'WAIT'
               ? 'battle'
               : 'next',
-          ]"
-          v-if="!isHistory"
-        >
+        ]" v-if="!isHistory">
           <div class="percentage_box">
             <div class="time">
-              <img
-                v-if="currentStatus == 'INIT'"
-                src="@/assets/svg/home/warGame/progress/icon_war.svg"
-              />
-              <img
-                v-else-if="currentStatus == 'WAIT'"
-                src="@/assets/svg/home/warGame/progress/icon_battle.svg"
-              />
-              <img
-                v-else
-                src="@/assets/svg/home/warGame/progress/icon_next.svg"
-              />
+              <img v-if="currentStatus == 'INIT'" src="@/assets/svg/home/warGame/progress/icon_war.svg" />
+              <img v-else-if="currentStatus == 'WAIT'" src="@/assets/svg/home/warGame/progress/icon_battle.svg" />
+              <img v-else src="@/assets/svg/home/warGame/progress/icon_next.svg" />
             </div>
-            <div
-              :class="[
-                'progress_bar',
-                currentStatus == 'INIT'
-                  ? 'init'
-                  : currentStatus == 'WAIT'
+            <div :class="[
+              'progress_bar',
+              currentStatus == 'INIT'
+                ? 'init'
+                : currentStatus == 'WAIT'
                   ? 'wait'
                   : 'next',
-              ]"
-            >
-              <el-progress
-                :percentage="percentage"
-                :stroke-width="getRatio().fontSize * 0.75"
-                striped
-                striped-flow
-                :duration="10"
-                :color="
-                  currentStatus == 'INIT'
+            ]">
+              <el-progress :percentage="percentage" :stroke-width="getRatio().fontSize * 0.75" striped striped-flow
+                :duration="10" :color="currentStatus == 'INIT'
                     ? '#fad54d'
                     : currentStatus == 'WAIT'
-                    ? '#c72ae9'
-                    : '#b3b9c4'
-                "
-                :show-text="false"
-              />
+                      ? '#c72ae9'
+                      : '#b3b9c4'
+                  " :show-text="false" />
             </div>
           </div>
           <div class="countdown">
-            <countDown
-              v-if="currentStatus == 'INIT'"
-              v-slot="timeObj"
-              @onEnd="startLottery()"
-              @onCountDown="getPercentage"
-              :time="warTime.countdownTime"
-            >
+            <countDown v-if="currentStatus == 'INIT'" v-slot="timeObj" @onEnd="startLottery()"
+              @onCountDown="getPercentage" :time="warTime.countdownTime">
               {{ `${timeObj.hh}:${timeObj.mm}:${timeObj.ss}` }}
             </countDown>
             <div v-else-if="currentStatus == 'WAIT'" class="dot">
@@ -278,21 +217,15 @@
             </div>
           </div>
         </div>
-        <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']" :style="{ backgroundImage: `url(${getTheme(3)})` }">
+        <div :class="['connect_box', screenWidth > 950 ? 'panel_bg' : '']"
+          :style="{ backgroundImage: `url(${getTheme(3)})` }">
           <div class="not_connect" v-if="isHistory">
             <div class="enter_war" @click="handleBack()">
               {{ $t("tokenWar.backText") }}
             </div>
           </div>
-          <war-buy
-            v-else
-            :status="currentStatus"
-            @showDialogFun="handlePopups"
-            @showLogin="pageType = 'login'"
-            :config="cahngeConfig"
-            :warInfo="warInfo"
-            :userData="userData"
-          ></war-buy>
+          <war-buy v-else :status="currentStatus" @showDialogFun="handlePopups" @showLogin="pageType = 'login'"
+            :config="cahngeConfig" :warInfo="warInfo" :userData="userData"></war-buy>
         </div>
       </div>
       <div class="faq_btn" @click="showFAQ()" v-if="screenWidth <= 950">
@@ -305,19 +238,10 @@
         <div class="introduce_box">
           <div class="introduce_title">
             <span>{{ $t("tokenWar.illustrateTitle") }}</span>
-            <img
-              v-if="screenWidth <= 950"
-              class="back_btn"
-              src="@/assets/svg/home/warGame/icon_back.svg"
-              alt=""
-              @click="isFAQ = false"
-            />
+            <img v-if="screenWidth <= 950" class="back_btn" src="@/assets/svg/home/warGame/icon_back.svg" alt=""
+              @click="isFAQ = false" />
           </div>
-          <img
-            class="introduce_divider"
-            src="@/assets/svg/home/warGame/bg/introduce_divider.svg"
-            alt=""
-          />
+          <img class="introduce_divider" src="@/assets/svg/home/warGame/bg/introduce_divider.svg" alt="" />
           <div class="introduce_description">
             <p>{{ $t("tokenWar.illustrateText1") }}</p>
             <p>{{ $t("tokenWar.illustrateText2") }}</p>
@@ -337,12 +261,7 @@
               <div class="round">01</div>
               <div class="description">{{ $t("tokenWar.stepText1") }}</div>
             </div>
-            <img
-              v-if="screenWidth <= 950"
-              class="step_arrow_img"
-              src="@/assets/svg/home/warGame/icon_arrow.svg"
-              alt=""
-            />
+            <img v-if="screenWidth <= 950" class="step_arrow_img" src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
             <div class="step_item">
               <div class="step_img img_2">
                 <img src="@/assets/svg/home/warGame/icon_share.svg" alt="" />
@@ -350,34 +269,18 @@
               <div class="round">02</div>
               <div class="description">{{ $t("tokenWar.stepText2") }}</div>
             </div>
-            <img
-              v-if="screenWidth <= 950"
-              class="step_arrow_img"
-              src="@/assets/svg/home/warGame/icon_arrow.svg"
-              alt=""
-            />
+            <img v-if="screenWidth <= 950" class="step_arrow_img" src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
             <div class="step_item">
               <div class="step_img img_3">
-                <img
-                  src="@/assets/svg/home/warGame/icon_invite_users.svg"
-                  alt=""
-                />
+                <img src="@/assets/svg/home/warGame/icon_invite_users.svg" alt="" />
               </div>
               <div class="round">03</div>
               <div class="description">{{ $t("tokenWar.stepText3") }}</div>
             </div>
-            <img
-              v-if="screenWidth <= 950"
-              class="step_arrow_img"
-              src="@/assets/svg/home/warGame/icon_arrow.svg"
-              alt=""
-            />
+            <img v-if="screenWidth <= 950" class="step_arrow_img" src="@/assets/svg/home/warGame/icon_arrow.svg" alt="" />
             <div class="step_item">
               <div class="step_img img_4">
-                <img
-                  src="@/assets/svg/home/warGame/icon_calculate.svg"
-                  alt=""
-                />
+                <img src="@/assets/svg/home/warGame/icon_calculate.svg" alt="" />
               </div>
               <div class="round">04</div>
               <div class="description">{{ $t("tokenWar.stepText4") }}</div>
@@ -450,57 +353,18 @@
         </div>
       </div>
     </div>
-    <war-config
-      :type="operationType"
-      v-if="operationType"
-      @closeDialogFun="handleClose"
-    ></war-config>
-    <war-must-read
-      v-if="pageType == 'must_read'"
-      @closeDialogFun="handlePopups"
-      @changeTypeFun="changeTypeFun"
-    ></war-must-read>
-    <war-winning
-      :winInfo="winUser"
-      :warData="warData"
-      :config="config"
-      v-if="pageType == 'war_win'"
-      @closeReceiveFun="changeTypeFun"
-      @closeDialogFun="closeDialogFun"
-    ></war-winning>
-    <war-user-info
-      :id="warUserId"
-      v-if="pageType == 'user_info'"
-      @closeDialogFun="closeDialogFun"
-    ></war-user-info>
-    <Login
-      v-if="pageType === 'login'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Register
-      v-if="pageType === 'register'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Forgot
-      v-if="pageType === 'forgot'"
-      @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
-    />
-    <Modify
-      v-if="pageType === 'modify'"
-      @onModify="closeDialogFun"
-      @closeDialogFun="closeDialogFun"
-    ></Modify>
-    <Recharge
-      v-if="pageType === 'recharge'"
-      @closeDialogFun="closeDialogFun"
-    ></Recharge>
-    <createVerification
-      v-if="pageType === 'auth'"
-      @closeDialogFun="changeNameFun"
-    >
+    <war-config :type="operationType" v-if="operationType" @closeDialogFun="handleClose"></war-config>
+    <war-must-read v-if="pageType == 'must_read'" @closeDialogFun="handlePopups"
+      @changeTypeFun="changeTypeFun"></war-must-read>
+    <war-winning :winInfo="winUser" :warData="warData" :config="config" v-if="pageType == 'war_win'"
+      @closeReceiveFun="changeTypeFun" @closeDialogFun="closeDialogFun"></war-winning>
+    <war-user-info :id="warUserId" v-if="pageType == 'user_info'" @closeDialogFun="closeDialogFun"></war-user-info>
+    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
+    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
+    <createVerification v-if="pageType === 'auth'" @closeDialogFun="changeNameFun">
     </createVerification>
     <div class="tooltips_box" :style="style" v-if="showTooltips">
       <div class="tooltip_badge">
@@ -518,8 +382,7 @@
           </div>
           <span class="reward_id">
             {{
-              `Reward ID:${tooltips?.startNumber || "-"}-${
-                tooltips?.endNumber || ""
+              `Reward ID:${tooltips?.startNumber || "-"}-${tooltips?.endNumber || ""
               }`
             }}
           </span>
@@ -528,7 +391,7 @@
     </div>
   </div>
 </template>
-  <script>
+<script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 import { useHeaderStore } from "@/store/header.js";
@@ -650,18 +513,18 @@ export default {
       config: null,
 
       isFAQ: false,
-      theme:[
+      theme: [
         [
-        require('@/assets/svg/home/warGame/bg/theme1/Bg1.webp'),
-        require('@/assets/svg/home/warGame/bg/theme1/Bg2.webp'),
-        require('@/assets/svg/home/warGame/bg/theme1/Bg3.webp'),
-        require('@/assets/svg/home/warGame/bg/theme1/Bg4.webp'),
+          require('@/assets/svg/home/warGame/bg/theme1/Bg1.webp'),
+          require('@/assets/svg/home/warGame/bg/theme1/Bg2.webp'),
+          require('@/assets/svg/home/warGame/bg/theme1/Bg3.webp'),
+          require('@/assets/svg/home/warGame/bg/theme1/Bg4.webp'),
         ],
         [
-        require('@/assets/svg/home/warGame/bg/theme2/Bg1.webp'),
-        require('@/assets/svg/home/warGame/bg/theme2/Bg2.webp'),
-        require('@/assets/svg/home/warGame/bg/theme2/Bg3.webp'),
-        require('@/assets/svg/home/warGame/bg/theme2/Bg4.webp'),
+          require('@/assets/svg/home/warGame/bg/theme2/Bg1.webp'),
+          require('@/assets/svg/home/warGame/bg/theme2/Bg2.webp'),
+          require('@/assets/svg/home/warGame/bg/theme2/Bg3.webp'),
+          require('@/assets/svg/home/warGame/bg/theme2/Bg4.webp'),
         ]
       ]
     };
@@ -693,10 +556,10 @@ export default {
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
-    getTheme(index){
-      if(this.warInfo) {
+    getTheme(index) {
+      if (this.warInfo) {
         const { bigPrizeStatus } = this.warInfo;
-        return this.theme[ bigPrizeStatus == 'TRUE' ? 1 : 0 ][index]
+        return this.theme[bigPrizeStatus == 'TRUE' ? 1 : 0][index]
       } else {
         return this.theme[0][index]
       }
@@ -744,8 +607,7 @@ export default {
     createSSE() {
       if (window.EventSource) {
         // 根据环境的不同，变更url
-        const url =
-          config.ENV == "pro" ? "https://sse.bitzing.io/" : config.api;
+        const url = config.api;
 
         let headerParams = {
           "Content-Type": "text/event-stream",
@@ -1000,10 +862,10 @@ export default {
               .attr(
                 "transform",
                 "translate( " +
-                  Number(array[0]).toFixed(4) +
-                  ", " +
-                  Number(array[1]).toFixed(4) +
-                  " )"
+                Number(array[0]).toFixed(4) +
+                ", " +
+                Number(array[1]).toFixed(4) +
+                " )"
               );
           } else {
             that.showTooltips = false;
@@ -1099,10 +961,10 @@ export default {
               .attr(
                 "transform",
                 "translate( " +
-                  Number(array[0]).toFixed(4) +
-                  ", " +
-                  Number(array[1]).toFixed(4) +
-                  " )"
+                Number(array[0]).toFixed(4) +
+                ", " +
+                Number(array[1]).toFixed(4) +
+                " )"
               );
           } else {
             that.showTooltips = false;
@@ -1510,15 +1372,15 @@ export default {
         if (type == 1) {
           document
             .getElementsByClassName("user_item")
-            // eslint-disable-next-line no-unexpected-multiline
-            [index].insertAdjacentElement("afterbegin", svgDom);
+          // eslint-disable-next-line no-unexpected-multiline
+          [index].insertAdjacentElement("afterbegin", svgDom);
         } else {
           if (!document.getElementsByClassName("tooltips_box").length > 0)
             return;
 
           document
             .getElementsByClassName("tooltips_box") // eslint-disable-next-line no-unexpected-multiline
-            [0].insertAdjacentElement("afterbegin", svgDom);
+          [0].insertAdjacentElement("afterbegin", svgDom);
         }
       });
       xhr.addEventListener("error", (err) => {

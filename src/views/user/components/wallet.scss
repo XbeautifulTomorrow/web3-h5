@@ -1437,6 +1437,8 @@
     padding-top: 2.25rem;
 
     .operating_box {
+      flex-wrap: wrap;
+
       .operating_btn+.operating_btn {
         margin-left: 0.25rem;
       }
@@ -1448,6 +1450,7 @@
         line-height: 2rem;
         border-radius: 0.25rem;
         font-size: 0.75rem;
+        margin-bottom: 0.25rem;
 
         &.buy_crypTo {
           flex: 1.2;

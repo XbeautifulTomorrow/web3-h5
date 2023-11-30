@@ -393,10 +393,6 @@ export default {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
         this.$router.push({ path: "/home" });
-        this.registerIsAuth = true;
-        setTimeout(() => {
-          this.pageType = "register";
-        }, 300);
         if (res.data.firstStatus == "TRUE") {
           this.registerIsAuth = true;
           setTimeout(() => {

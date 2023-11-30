@@ -78,11 +78,12 @@ export default {
       if (showTips && showTips == 2) {
         this.isWarPosterShow = false;
       } else {
-        const image = new Image();
-        image.onload = () => {
-          this.isWarPosterShow = true;
-        };
-        image.src = require("@/assets/img/home/poster/bg_02.webp");
+        this.isWarPosterShow = true;
+        // const image = new Image();
+        // image.onload = () => {
+        //   this.isWarPosterShow = true;
+        // };
+        // image.src = require("@/assets/img/home/poster/bg_02.webp");
       }
     },
     bannerGo(data) {

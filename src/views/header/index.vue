@@ -411,6 +411,7 @@ export default {
   },
   created() {
     this.hideNavFunc();
+    this.googleLogin();
     emitter.on("pageTypeChange", (type) => {
       this.pageType = type;
     });

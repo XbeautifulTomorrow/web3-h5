@@ -49,7 +49,7 @@ export default {
       // 是否谷歌登录
       googleLogin();
       getCoinList();
-      // exchangeLegalRate();
+      exchangeLegalRate();
     },
   },
   created() {

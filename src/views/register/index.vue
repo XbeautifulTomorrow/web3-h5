@@ -118,6 +118,7 @@
 import { ref, reactive, onBeforeUnmount, defineEmits, defineProps, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
+import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user";
 import errorTips from "./errorTips.vue";
 import imgVerify from "./imgVerify.vue";
@@ -324,6 +325,7 @@ const registerFun = async (formEl) => {
 
         userStore.setLogin(res.data);
         userStore.setReg(res.data);
+        useHeaderStore().fetchSetting();
 
         try {
           // eslint-disable-next-line no-undef

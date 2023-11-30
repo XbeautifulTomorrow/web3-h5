@@ -476,7 +476,7 @@
       v-if="pageType == 'coupons'"
       @closeDialogFun="pageType = null"
     ></couponSuccess>
-    <checkWarningDialog v-if="pageType == 'checkWarningDialog'" :customerLink="setting.customerLink" @closeDialogFun="pageType = null">{{t("user.accountExceptionTip")}}</checkWarningDialog>
+    <checkWarningDialog v-if="pageType == 'checkWarningDialog'" :setting="setting" @closeDialogFun="pageType = null">{{t("user.accountExceptionTip")}}</checkWarningDialog>
   </div>
 </template>
 <script>

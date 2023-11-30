@@ -28,36 +28,24 @@
             <div class="jackpot-box nft_series">
               <div class="home-public-title">
                 <div class="title_box">
-                  <div class="title_text">Jackpot</div>
+                  <div class="title_text">JACKPOT</div>
                 </div>
               </div>
               <div class="nft_series_list" v-if="blindDetailInfo">
-                <template v-for="(item, index) in blindDetailInfo.series">
-                  <div class="nft_series_item" :class="[`series_level_bg_${typrFormat(item)}`]" v-if="index < 2" :key="index">
-                    <div :class="['item_bg', `series_level_${typrFormat(item)}`]">
+                <template v-for="(item, index) in blindDetailInfo.boxNftInfos">
+                  <div class="nft_series_item" :class="[`series_level_bg_${typrFormat(item,true)}`]" v-if="index < 2" :key="index">
+                    <div :class="['item_bg', `series_level_${typrFormat(item,true)}`]">
                       <div class="img_box">
-                        <Image fit="cover" class="nft_img" :src="item.seriesImg" alt="" />
+                        <Image fit="cover" class="nft_img" :src="item.nftImg" alt="" />
                       </div>
                       <div class="series_info">
                         <div class="series_name">
-                          <span>{{ item.seriesName }}</span>
+                          <span>{{ item.nftName }}</span>
                           <img src="@/assets/svg/home/icon_certified.svg" alt="" />
                         </div>
-                        <div v-if="item.nftType == 'EXTERNAL'" class="series_price">
-                          <p v-if="item.minPrice == item.maxPrice">
-                            <img src="@/assets/svg/user/icon_usdt_gold.svg" />
-                            <span>{{ ` ${formatPrice(item.minPrice)}` }}</span>
-                          </p>
-                          <p v-else>
-                            <img src="@/assets/svg/user/icon_usdt_gold.svg" />
-                            <span>{{ ` ${formatPrice(item.minPrice)} - ` }}</span>
-                            <img src="@/assets/svg/user/icon_usdt_gold.svg" />
-                            <span>{{ ` ${formatPrice(item.maxPrice)}` }}</span>
-                          </p>
-                        </div>
-                        <div v-else class="series_price">
+                        <div class="series_price">
                           <img src="@/assets/svg/user/icon_usdt_gold.svg" />
-                          <span>{{ ` ${formatPrice(item.maxPrice)}` }}</span>
+                          <span>{{ ` ${formatPrice(item.price)}` }}</span>
                         </div>
                       </div>
                     </div>
@@ -299,10 +287,16 @@ export default {
     rollNumberFun(type) {
       this.$emit("rollNumberFun", type);
     },
-    typrFormat(event) {
-      const { boxNftInfos } = event;
-      if (!boxNftInfos.length > 0) return "4";
-      const { qualityType } = boxNftInfos[0];
+    typrFormat(event,type) {
+      let qualityType = null
+      if(!type){
+        const { boxNftInfos } = event;
+        if (!boxNftInfos.length > 0) return "4";
+        qualityType = boxNftInfos[0].qualityType;
+      } else {
+        qualityType = event.qualityType
+      }
+      
       if (qualityType == "LEGEND") {
         return "1";
       }

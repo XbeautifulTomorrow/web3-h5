@@ -1005,6 +1005,17 @@
       }
     }
 
+    .jackpot-box {
+      padding: 0.625rem;
+      box-sizing: border-box;
+      .home-public-title {
+        margin-bottom: 0.5rem;
+      }
+      .series_price {
+        font-size: 0.875rem !important;
+      }
+    }
+
     .nft_series {
       width: 100%;
       padding-top: 1.5rem;

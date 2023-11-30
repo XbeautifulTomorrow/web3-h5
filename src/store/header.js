@@ -3,6 +3,7 @@ import bigNumber from "bignumber.js";
 
 import { getTheUserBalance, getTheUserPoint } from "@/services/api/user";
 import { getGlobalNew } from "@/services/api/oneBuy";
+import { getSetting } from "@/services/api/invite";
 
 import notifyMessage from "@/views/user/notifyMessage.vue";
 import { ElNotification } from "element-plus";
@@ -24,6 +25,7 @@ export const useHeaderStore = defineStore("headerStore", {
     },
     walletAddr: "",
     userRechargeShowList: [],
+    setting:{}
   }),
   persist: {
     enabled: true,
@@ -102,6 +104,16 @@ export const useHeaderStore = defineStore("headerStore", {
     },
     setWallet(data) {
       this.walletAddr = data;
+    },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "ETH",
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+      }
     },
   },
 });

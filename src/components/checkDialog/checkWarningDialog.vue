@@ -22,9 +22,9 @@
         <slot></slot>
       </p>
       <div class="telegram-box">
-        <a :href="customerLink"  target="_blank">
+        <a :href="setting?.customerLink"  target="_blank">
           <img src="@/assets/svg/telegram.svg" class="status_icon" />
-          <p>Bitzing Offical</p>
+          <p>{{setting?.customerName||'Bitzing Offical'}}</p>
         </a>
       </div>
       <!-- <div class="handle_btn" @click="closeDialogFun">
@@ -36,8 +36,11 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 defineProps({
-  customerLink: {
-    type: String,
+  setting: {
+    type: Object,
+    default: () => {
+      return {}
+    },
     requird: false,
   },
 });
@@ -99,5 +102,24 @@ const closeDialogFun = () => {
   line-height: 1.21;
   text-align: center;
   color: #13151f;
+}
+@media (max-width: 950px) {
+  .public-dialog-header-icon {
+    width: 1.5rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+  .public-dialog-content{
+    margin-top:0;
+  }
+  .public-dialog-loading-title{
+    font-size:1.5rem;
+  }
+  .telegram-box{
+    margin-top:3rem;
+    img{
+      width:3.125rem;
+    }
+  }
 }
 </style>

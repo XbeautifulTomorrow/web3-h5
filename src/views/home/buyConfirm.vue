@@ -147,7 +147,7 @@ export default {
 
       // 构建推特的分享链接
       var twitterUrl =
-        "https://twitter.com/share?text=" +
+        "https://twitter.com/intent/tweet?text=" +
         encodeURIComponent(inviteText) +
         "&url=" +
         link;

@@ -23,7 +23,7 @@
           alt=""
         />
         <div class="exchange_data">
-          <span class="exchange_val">{{ `1 USDT ` }}</span>
+          <span class="exchange_val">{{ `${couponsVal} USDT ` }}</span>
           <span>
             {{ $t("user.exchangeInstructions") }}
           </span>
@@ -42,12 +42,7 @@
 export default {
   name: "couponSuccess",
   props: {
-    coupon: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
+    couponsVal: null,
   },
   data() {
     return {
@@ -88,13 +83,14 @@ export default {
 .exchange_data {
   margin-bottom: 1.875rem;
   font-family: Inter;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   line-height: 1.57;
   text-align: center;
   color: white;
 
   .exchange_val {
     color: #fad54d;
+    font-weight: bold;
   }
 }
 

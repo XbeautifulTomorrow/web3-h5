@@ -7,7 +7,6 @@ import { useUserStore } from "@/store/user.js";
 import Header from "../views/header/index.vue";
 import Footer from "../views/footer/index.vue";
 import Currency from "../views/virtualCurrency/index.vue";
-import LogoHeader from "../views/header/logoHeader.vue";
 
 // const welcome = () => import("../views/welcome/index.vue");
 const Home = () => import("../views/home/index.vue");
@@ -193,7 +192,7 @@ const routes = [
     name: "Lootboxes",
     components: {
       default: lootboxes,
-      LogoHeader,
+      Header,
       Currency,
     },
   },

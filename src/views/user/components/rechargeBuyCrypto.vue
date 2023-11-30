@@ -11,12 +11,12 @@
           <div class="exhange_icon">
             <el-select v-model="exchangeFromCoin" @change="getAmountFunc('from')" :popper-append-to-body="false">
               <template #prefix>
-                <img :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)" alt="" />
+                <img :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)" v-if="index!='INR'" alt="" />
               </template>
               <template v-for="(item, index) in coinList" :key="index">
                 <el-option :label="index" :value="index">
                   <div class="icon_label">
-                    <img :src="require(`@/assets/svg/newCoin/${index}.svg`)" alt="" />
+                    <img :src="require(`@/assets/svg/newCoin/${index}.svg`)" alt="" v-if="index!='INR'" />
                     <span>{{ index }}</span>
                   </div>
                 </el-option>

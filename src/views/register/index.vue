@@ -115,7 +115,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
+import { ref, reactive, onBeforeUnmount, defineEmits, defineProps, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
@@ -123,10 +123,16 @@ import errorTips from "./errorTips.vue";
 import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
-import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
+import { getSessionStore, setSessionStore, getLocalStore, openUrl, encryptCBC } from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
+const props = defineProps({
+  isAuth: {
+    type: Boolean,
+    requird: false,
+  },
+});
 
 // const router = useRouter();
 const userStore = useUserStore();
@@ -303,10 +309,16 @@ const registerFun = async (formEl) => {
       if (inviteCode) {
         data.inviteCode = inviteCode;
       }
+      // 如果langdingPage入金
+      const boxBounsKey = getLocalStore("boxBounsKey") || null;
+      if (boxBounsKey) {
+        data.boxBounsKey = boxBounsKey;
+      }
 
       const res = await getReg(data);
       if (res && res.code === 200) {
         if (res.data.certificate) {
+          localStorage.removeItem("boxBounsKey");
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
 
@@ -330,6 +342,11 @@ const registerFun = async (formEl) => {
     }
   });
 };
+onMounted(async () => {
+  if (props.isAuth) {
+    isLogin.value = true;
+  }
+});
 </script>
 <style lang="scss" scoped>
 .form-content {

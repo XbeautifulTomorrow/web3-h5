@@ -20,15 +20,6 @@
         @showResultFun="showResultFun"
       />
     </keep-alive>
-    <!-- 多个中奖 -->
-    <more-awards
-      v-else
-      :prizeList="rollNumber === 'FIVE' ? fiveList : tenList"
-      :apiIsError="apiIsError"
-      :awardItem="awardItem"
-      :blindDetailInfo="blindDetailInfo"
-      @showResultFun="showResultFun"
-    />
     <!-- 中奖列表 -->
     <result-list
       v-if="showResult"
@@ -36,104 +27,27 @@
       :idLotteryIn="idLotteryIn"
       :localDateTime="localDateTime"
       :clearResultTimer="clearResultTimer"
-      @chooseLotteryHold="chooseLotteryHold"
       @closeDialogFun="closeDialogFun"
-    />
-    <!-- 弹窗 -->
-    <choose-token v-if="showDialog === 'chooseToken'" @closeDialogFun="closeDialogFun" />
-    <your-reard
-      v-else-if="showDialog === 'yourReard'"
-      :sold="awardItem[0]"
-      :blindPrice="blindPrice"
-      @inventoryFun="inventoryFun"
-      @unboxAgain="unboxAgain"
-      @closeDialogFun="closeDialogFun"
-    />
-    <chain-dialog
-      v-else-if="showDialog === 'chainDialog'"
-      :sold="awardItem[0]"
-      :blindPrice="blindPrice"
-      @balanceFun="balanceFun"
-      @unboxAgain="unboxAgain"
-      @closeDialogFun="closeDialogFun"
-    />
-    <been-sold
-      v-else-if="showDialog === 'beenSold'"
-      :soldList="awardItem"
-      :blindPrice="blindPrice"
-      @unboxAgain="unboxAgain"
-      @closeDialogFun="closeDialogFun"
-    />
-    <part-sold
-      v-else-if="showDialog === 'partSold'"
-      :soldList="awardItem"
-      :chooseIds="chooseIds"
-      :failList="failList"
-      :blindPrice="blindPrice"
-      @inventoryFun="inventoryFun"
-      @unboxAgain="unboxAgain"
-      @closeDialogFun="closeDialogFun"
-    />
-    <transaction-warning
-      v-else-if="showDialog === 'transactionWarning'"
-      @unboxAgain="unboxAgain"
-      @closeDialogFun="closeDialogFun"
-      :text="warningText"
-      :blindPrice="blindPrice"
     />
     <Loading :loading="loading" />
   </el-dialog>
 </template>
 
 <script>
-import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
-
-import { lotteryHold, lotteryCheck } from "@/services/api/blindBox";
-import { useHeaderStore } from "@/store/header.js";
-import { useUserStore } from "@/store/user.js";
 
 import { shuffle } from "@/assets/js";
 
-import MoreAwards from "./moreAwards.vue";
 import oneAward from "./oneAward.vue";
 import ResultList from "./resultList.vue";
 
-import ChooseToken from "./chooseToken.vue";
-import YourReard from "./yourReard.vue";
-import ChainDialog from "./chainDialog.vue";
-import BeenSold from "./beenSold.vue";
-import PartSold from "./partSold.vue";
-import TransactionWarning from "./transactionWarning.vue";
-
 import Loading from "@/components/loading/index.vue";
-import LotteryNotify from "@/components/lottery/lotteryNotify";
-
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-import emitter from "@/utils/event-bus.js";
-import bigNumber from "bignumber.js";
-import { h } from "vue";
-
-import { i18n } from "@/locales";
-const { t } = i18n.global;
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 const itemWidth = 220;
 export default {
   name: "LotteryPage",
   components: {
     ResultList,
-    MoreAwards,
-    ChooseToken,
-    YourReard,
-    ChainDialog,
-    BeenSold,
-    PartSold,
-    TransactionWarning,
     oneAward,
     Loading,
   },
@@ -141,32 +55,16 @@ export default {
   data() {
     return {
       loading: false,
-      showDialog: "",
-      // warningText
-      // Due to congestion on the chain or Gas fee set too low, this purchase time-out, your payment in the chain after the completion of processing will be automatically transferred to the balance.
-      // Timeout not paid, this transaction is closed
-      warningText: "",
       oneAwards: [], //滚动的卡片列表
       awardItem: [], //中奖道具
-      chooseIds: [],
-      failList: [],
-      fiveList: [],
-      tenList: [],
       musicLoop: true,
       showNumber: 0,
-      imteImg: [],
       showResult: false,
-      resultSecondTimer: null,
       moreLuck: [],
-      localDateTime: new Date(),
-      checkInterVal: null,
       idLotteryIn: false,
-      clearResultTimer: false, //清除中奖页倒计时
-      notifyGroup: {},
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useUserStore),
     newValue: {
       get: function () {
         return this.showRoll;
@@ -175,202 +73,20 @@ export default {
         this.$emit("update:showRoll", value);
       },
     },
-    blindPrice() {
-      let price = 0;
-      if (this.blindDetailInfo) {
-        if (this.rollNumber === "ONE") {
-          price = this.blindDetailInfo.price;
-        } else if (this.rollNumber === "FIVE") {
-          price = new bigNumber(this.blindDetailInfo.fivePrice || 0).multipliedBy(5);
-        } else if (this.rollNumber === "TEN") {
-          price = new bigNumber(this.blindDetailInfo.tenPrice || 0).multipliedBy(10);
-        }
-      }
-
-      return price;
-    },
   },
   watch: {
-    loading(newData) {
-      if (newData) {
-        this.clearResultTimer = true;
-      }
-    },
-    showDialog(newData) {
-      const dialog = ["yourReard", "chainDialog", "beenSold", "partSold"];
-      if (dialog.includes(newData)) {
-        document.getElementsByClassName("header-wallet")[0].classList.add("show-top-walletvb");
-        document.getElementsByClassName("header-wallet")[1].classList.add("show-top-walletvb");
-      } else {
-        document.getElementsByClassName("header-wallet")[0].classList.remove("show-top-walletvb");
-        document.getElementsByClassName("header-wallet")[1].classList.remove("show-top-walletvb");
-      }
-      this.clearResultTimer = true;
-    },
     lottResult: function (newVal) {
-      if (newVal && newVal.data && newVal.data.length) {
-        this.awardItem = shuffle(newVal.data);
-        this.localDateTime = newVal.localDateTime;
+      console.log(newVal, "newVal----------------");
+      if (newVal?.length) {
+        this.awardItem = shuffle(newVal);
       } else {
         this.messageFun(this.$t("lottery.no_win"));
-      }
-    },
-    apiIsError: function (newData) {
-      if (newData) {
-        const { errorText } = this;
-        this.$emit("apiIsErrorFun", true);
-        this.showDialog = "transactionWarning";
-        this.warningText = typeof errorText === "string" ? errorText : this.$t("errorTips.image_enum_error");
       }
     },
   },
   created() {},
   methods: {
-    async inventoryFun() {
-      // const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
-      // if (res && res.code === 200) {
-      //   console.log(res.data);
-      // }
-    },
-    notificationFunc(type, data, orderId) {
-      if (this.notifyGroup[`${type}_${orderId}`]) return;
-      const notifyGroupKey = Object.keys(this.notifyGroup);
-      notifyGroupKey.forEach((x) => {
-        let orderKey = x.split("_")[1];
-        if (orderKey == orderId) {
-          this.notifyGroup[x].close();
-        }
-      });
-      const notifyObj = this.$notify({
-        customClass: type == "warning" ? "custom-notify lottery-warning-notify" : "custom-notify",
-        position: "bottom-right",
-        duration: 0,
-        dangerouslyUseHTMLString: true,
-        message: h(LotteryNotify, { type, data }),
-      });
-      this.notifyGroup[`${type}_${orderId}`] = notifyObj;
-    },
-    async lotteryCheckFunc() {
-      const { awardItem } = this;
-      const res = await lotteryCheck({ orderId: awardItem[0]?.orderId });
-      if (res && res.code === 200) {
-        let data = res.data;
-        let type = null;
-        let waitData = data.filter((x) => x.lotteryStatus == "WAIT");
-        if (waitData?.length == 0) {
-          this.checkInterVal && clearInterval(this.checkInterVal);
-          const failList = data.filter((x) => x.lotteryStatus == "FAIL").map((x) => x.id);
-          if (failList?.length > 0) {
-            type = "warning";
-          } else {
-            type = "success";
-          }
-        } else {
-          type = "loading";
-        }
-        let filterData = data.filter((x) => x.userSelect == "HOLD" && x.nftType == "EXTERNAL");
-        if (filterData?.length > 0) {
-          this.notificationFunc(type, filterData, awardItem[0]?.orderId);
-        }
-      }
-    },
-    async lotteryHoldApi(isSell, dialog = "partSold") {
-      const { chooseIds, awardItem } = this;
-      if (isSell.value) {
-        localStorage.removeItem("result");
-        this.showDialog = dialog;
-        this.headerStoreStore.getTheUserBalanceApi();
-        this.loading = false;
-        return;
-      }
-      const _data = {
-        lotteryIds: chooseIds.length > 0 ? chooseIds.join(",") : undefined,
-        orderId: awardItem[0]?.orderId,
-      };
-      const res = await lotteryHold(_data);
-      this.loading = false;
-      localStorage.removeItem("result");
-      if (res && res.code === 200) {
-        if (res.data?.length) {
-          this.failList = res.data;
-        }
-        let isExternal = false;
-        if (chooseIds.length > 0) {
-          this.showDialog = dialog;
-          awardItem.map((x) => {
-            chooseIds.map((y) => {
-              if (y == x.id) {
-                isExternal = true;
-              }
-            });
-          });
-          if (!isExternal) return;
-          this.lotteryCheckFunc();
-          this.checkInterVal = setInterval(() => {
-            this.lotteryCheckFunc();
-          }, 3000);
-        } else {
-          this.closeDialogFun();
-        }
-        this.headerStoreStore.getTheUserBalanceApi();
-      } else {
-        if (res?.length == 3 && res[2].messageKey == "already_automatically_recycled") {
-          localStorage.removeItem("result");
-          if (chooseIds.length > 0) {
-            this.showDialog = dialog;
-          } else {
-            this.closeDialogFun();
-          }
-          this.headerStoreStore.getTheUserBalanceApi();
-        } else {
-          this.showDialog = "";
-        }
-      }
-    },
-    getTheUserBalanceApiFun() {
-      this.headerStoreStore.getTheUserBalanceApi();
-    },
-    goInventory() {
-      localStorage.removeItem("result");
-      this.$router.push({ path: "/user/inventory" });
-      this.closeDialogFun();
-    },
-    balanceFun() {
-      localStorage.removeItem("result");
-      this.$router.push({ path: "/user/balances" });
-      this.closeDialogFun();
-    },
-    unboxAgain() {
-      const { blindDetailInfo } = this;
-      this.headerStoreStore.getTheUserBalanceApi();
-      const { balance } = this.headerStoreStore;
-      const { userInfo } = this.userStore;
-      const type = this.rollNumber;
-      if (!userInfo) {
-        this.messageFun(t("mysteryBox.loginHint"));
-        return;
-      }
-      if (
-        (type === "ONE" && blindDetailInfo.price > balance) ||
-        (type === "FIVE" && blindDetailInfo.fivePrice * 5 > balance) ||
-        (type === "TEN" && blindDetailInfo.tenPrice * 10 > balance)
-      ) {
-        this.messageFun();
-        // 充值弹框
-        emitter.emit("pageTypeChange", "recharge");
-        return;
-      }
-      localStorage.removeItem("result");
-      this.closeDialogFun();
-      setTimeout(() => {
-        emitter.emit("unBoxAgainFunc", this.rollNumber);
-      }, 200);
-    },
     closeDialogFun() {
-      this.showDialog = "";
-      this.chooseIds = [];
-      this.failList = [];
-      this.showResult = false;
       setTimeout(() => {
         this.$emit("closeRollFun");
       });
@@ -379,85 +95,15 @@ export default {
       this.showResult = true;
       this.idLotteryIn = data || false;
     },
-    async chooseLotteryHold(type, _choose, isSell) {
-      const { awardItem } = this;
-      if (type === "hold") {
-        //传入id take
-        this.loading = true;
-        if (awardItem.length < 2) {
-          const _data = {
-            lotteryIds: awardItem[0]?.id,
-            orderId: awardItem[0]?.orderId,
-          };
-          const res = await lotteryHold(_data);
-          this.loading = false;
-          if (res && res.code === 200) {
-            if (res.data?.length) {
-              this.showDialog = "chainDialog";
-            } else {
-              this.showDialog = "yourReard";
-              this.lotteryCheckFunc();
-              this.checkInterVal = setInterval(() => {
-                this.lotteryCheckFunc();
-              }, 3000);
-            }
-          }
-          localStorage.removeItem("result");
-        } else {
-          if (_choose.value.length) {
-            this.chooseIds = _choose.value;
-          }
-          this.lotteryHoldApi(isSell);
-        }
-      } else {
-        if (awardItem.length < 2) {
-          this.lotteryHoldApi(isSell, "beenSold");
-        } else {
-          this.chooseIds = _choose.value;
-          this.lotteryHoldApi(isSell);
-        }
-      }
-    },
-    // 余额不足,请充值
-    messageFun(message = this.$t("lottery.tips5"), type = "warning") {
+    messageFun(message, type = "warning") {
       ElMessage({
         message,
         type,
         customClass: "roll-message",
       });
     },
-    getRand(start, end) {
-      return Math.floor(Math.random() * (end - start + 1) + start);
-    },
-    awardsFun(_showNumber = this.showNumber) {
-      const itemList = this.transformArr(50);
-      let _items = [];
-      let _item = [];
-      const _itemList = JSON.parse(JSON.stringify(itemList));
-      for (;;) {
-        _itemList.forEach((item) => {
-          if (_item.length >= _showNumber) {
-            _items.push(shuffle(_item));
-            _item = [];
-          }
-          _item.push(item);
-        });
-        if (_items.length >= 3) {
-          return shuffle(_items);
-        }
-      }
-    },
-    moreListFun(number = 5, showNumber = 3) {
-      let _arr = [];
-      for (let i = 0; i < number; i++) {
-        _arr.push(this.awardsFun(showNumber));
-      }
-      return shuffle(_arr);
-    },
     dataFun() {
       this.oneAwards = this.transformArr();
-      this.fiveList = this.moreListFun(5);
-      this.tenList = this.moreListFun(10);
     },
     transformArr(len = 100) {
       const lottoList = JSON.parse(JSON.stringify(this.lottoList));
@@ -497,23 +143,12 @@ export default {
     const number = Math.ceil(clientWidth / itemWidth);
     this.showNumber = number;
     this.dataFun();
-    const result = localStorage.getItem("result");
+    const result = sessionStorage.getItem("result");
     if (result) {
       const _result = JSON.parse(result);
-      const { localDateTime } = _result.result;
-      const _time = dayjs().utc().diff(localDateTime, "s") - 480 * 60;
-      if (_time > 60) {
-        localStorage.removeItem("result");
-      } else {
-        this.messageFun(this.$t("lottery.tips6"));
-        this.awardItem = _result.result.data;
-        this.localDateTime = _result.result.localDateTime;
-        this.showResultFun();
-      }
+      this.awardItem = _result;
+      console.log(this.awardItem, "awardItem-------------");
     }
-  },
-  beforeUnmount() {
-    // this.checkInterVal && clearInterval(this.checkInterVal);
   },
 };
 </script>

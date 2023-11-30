@@ -118,7 +118,6 @@ export default {
   async mounted() {
     this.formatDataList();
     this.getAwardsListFunc();
-    const result = localStorage.getItem("result");
     if (this.apiIsError) {
       return;
     }
@@ -126,14 +125,12 @@ export default {
     setTimeout(() => {
       this.matchWidth();
     }, 100);
-    if (!result) {
-      setTimeout(() => {
-        if (!this.apiIsError) {
-          this.isAutoplay = true;
-        }
-      }, 100);
-      this.slipeMusic = this.playSound(slipe, true);
-    }
+    setTimeout(() => {
+      if (!this.apiIsError) {
+        this.isAutoplay = true;
+      }
+    }, 100);
+    this.slipeMusic = this.playSound(slipe, true);
   },
   methods: {
     formatDataList() {
@@ -242,6 +239,7 @@ export default {
     awardItem: {
       deep: true,
       handler: function (newData) {
+        console.log(newData, "newData----------------");
         if (newData.length > 0) {
           this.slowScrollFunc(newData[0]);
           setTimeout(() => {

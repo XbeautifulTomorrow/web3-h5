@@ -37,9 +37,13 @@
           >
             {{ t("user.exchange") }}
           </div>
-          <!-- <div class="operating_btn buy_crypTo" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
+          <div
+            class="operating_btn buy_crypTo"
+            :class="[walletOperating == 4 && 'active']"
+            @click="handleOperating(4)"
+          >
             {{ t("user.buyCrypto") }}
-          </div> -->
+          </div>
           <div
             class="operating_btn"
             :class="[walletOperating == 5 && 'active']"
@@ -455,7 +459,7 @@
             v-else-if="walletOperating == 4"
           ></rechargeBuyCrypto>
           <coupons
-            @couponsTips="pageType = 'coupons'"
+            @couponsTips="couponTips"
             v-else-if="walletOperating == 5"
           ></coupons>
         </div>
@@ -474,8 +478,15 @@
     ></rechargeExchangeResult>
     <couponSuccess
       v-if="pageType == 'coupons'"
+      :couponsVal="couponUSD"
       @closeDialogFun="pageType = null"
     ></couponSuccess>
+    <checkWarningDialog
+      v-if="pageType == 'checkWarningDialog'"
+      :customerLink="setting.customerLink"
+      @closeDialogFun="pageType = null"
+      >{{ t("user.accountExceptionTip") }}</checkWarningDialog
+    >
   </div>
 </template>
 <script>
@@ -509,6 +520,7 @@ import rechargeExchangeResult from "./components/rechargeExchangeResult";
 import rechargeBuyCrypto from "./components/rechargeBuyCrypto";
 import coupons from "./components/coupons";
 import couponSuccess from "./components/couponSuccess";
+import checkWarningDialog from "@/components/checkDialog/checkWarningDialog";
 export default {
   name: "myWallet",
   components: {
@@ -516,6 +528,7 @@ export default {
     rechargeBuyCrypto,
     coupons,
     couponSuccess,
+    checkWarningDialog,
   },
   props: {
     type: {
@@ -568,6 +581,7 @@ export default {
       exchangeRateTimer: null,
       receiverAddrList: [],
       processStatus: true,
+      couponUSD: null,
     };
   },
   computed: {
@@ -1048,6 +1062,10 @@ export default {
           this.$message.success(t("user.submitHint"));
         }
         this.handleClose();
+      } else if (res?.length == 3) {
+        if (res[2].messageKey === "the_account_limit_withdrawal") {
+          this.pageType = "checkWarningDialog";
+        }
       }
     },
     // 更新当前余额
@@ -1089,6 +1107,11 @@ export default {
           });
         }
       }
+    },
+    couponTips(event) {
+      this.pageType = "coupons";
+      this.couponUSD = event;
+      this.renewBalance();
     },
     // 设置
     async fetchSetting() {

@@ -18,6 +18,8 @@
       <el-form-item prop="code">
         <el-input
           class="coupons_input"
+          @change="handleChange"
+          @blur="handleChange"
           v-model="couponsForm.code"
           :placeholder="$t('user.enterCode')"
         />
@@ -55,6 +57,7 @@ export default {
       },
       rules: {},
       linkData: {},
+      codeStatus: null,
     };
   },
   computed: {
@@ -62,6 +65,9 @@ export default {
   },
   methods: {
     openUrl: openUrl,
+    handleChange() {
+      this.codeStatus = null;
+    },
     // 使用兑换码
     async handleExchange(formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -72,7 +78,11 @@ export default {
           if (res.code == 200) {
             this.couponsForm.code == null;
             this.$message.success(this.$t("common.operationTips"));
-            this.$emit("couponsTips");
+            this.$emit("couponsTips", res.data);
+          } else {
+            const { data } = res;
+            this.codeStatus = data.messageKey;
+            this.$refs[formName].validate(async () => {});
           }
         } else {
           console.log("error submit!!");
@@ -89,6 +99,19 @@ export default {
     },
   },
   created() {
+    const validateStatus = async (rule, value, callback) => {
+      const { codeStatus } = this;
+      if (codeStatus == "redeem_code_not_found") {
+        callback(new Error(this.$t("errorTips.redeem_code_not_found")));
+      } else if (codeStatus == "redeem_code_used") {
+        callback(new Error(this.$t("errorTips.redeem_code_used")));
+      } else if (codeStatus == "redeem_code_type_repeat") {
+        callback(new Error(this.$t("errorTips.redeem_code_type_repeat")));
+      } else {
+        callback();
+      }
+    };
+
     this.rules = {
       code: [
         {
@@ -96,6 +119,7 @@ export default {
           message: this.$t("user.enterCode"),
           trigger: ["blur", "change"],
         },
+        { validator: validateStatus, trigger: ["blur", "change"] },
       ],
     };
 
@@ -128,9 +152,8 @@ export default {
   .el-input__wrapper {
     height: 3.75rem;
     border-radius: 0.5rem;
-    border: solid 1px #363945;
+    box-shadow: 0 0 0 1px #363945 inset;
     background-color: #13151f;
-    box-shadow: none;
 
     input {
       font-family: Inter;

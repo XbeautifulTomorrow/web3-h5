@@ -292,6 +292,8 @@
     "deposit": "DEPOSIT",
     "withdraw": "WITHDRAW",
     "exchange": "CONVERT",
+    "buyCrypto": "BUY CRYPTO",
+    "coupons": "COUPONS",
     "depositType": "DEPOSIT OPTIONS",
     "withdrawType": "WITHDRAWAL OPTIONS",
     "depositCoin": "DEPOSIT {cion}",
@@ -495,7 +497,13 @@
     "agreeDisclaimer": "I have read and agree to the <span style=\"text-decoration: underline\">disclaimer</span> .",
     "ruleTip1": "Amount must be greater than 0",
     "ruleTip2": "Limits are off — min {min} {coin}",
-    "ruleTip3": "Limits are off — max {max} {coin}"
+    "ruleTip3": "Limits are off — max {max} {coin}",
+    "couponTitle": "REDEEM COUPON CODE",
+    "enterCode": "Enter Coupon Code...",
+    "linkIllustrate": "We regularly post these on our",
+    "claimText": "CLAIM",
+    "exchangeInstructions": "has been added to your balance.",
+    "couponCode": "COUPON CODE"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -742,7 +750,8 @@
     "email_once_a_time": "You can only send once every 60 seconds.",
     "code_expired_send_again": "Verification code has expired, please send again.",
     "not_yet_open": "Verification code has expired, please send again.",
-    "the_amount_must_greater_than": "The amount added must be greater than 1 USDT."
+    "the_amount_must_greater_than": "The amount added must be greater than 1 USDT.",
+    "redeem_code_not_found": "Coupon not found"
   },
   "lottery": {
     "notice": "NOTICE",

@@ -2,11 +2,19 @@
   <div class="wrapper_bg">
     <div class="index_wrapper">
       <div class="nav_box">
-        <div :class="['nav_item', userPage == item.page && 'active', item.className]" @click="chooseNav(item)"
-          v-for="(item, index) in navList" :key="index">
+        <div
+          :class="[
+            'nav_item',
+            userPage == item.page && 'active',
+            item.className,
+          ]"
+          @click="chooseNav(item)"
+          v-for="(item, index) in navList"
+          :key="index"
+        >
           <div class="new_dot" v-if="item.showDot"></div>
-          <img class="default" :src="item.icon" alt="">
-          <img class="active" :src="item.iconActive" alt="">
+          <img class="default" :src="item.icon" alt="" />
+          <img class="active" :src="item.iconActive" alt="" />
           <span>{{ item.text }}</span>
         </div>
       </div>
@@ -27,7 +35,7 @@ import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import Setting from "./setting.vue";
 import Wallet from "./wallet.vue";
@@ -45,11 +53,10 @@ export default {
     Competitions,
     History,
     Referrals,
-    Promotions
+    Promotions,
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapStores(useUserStore, useHeaderStore),
@@ -74,28 +81,33 @@ export default {
       return isLogin;
     },
     navList() {
-      const { walletNftSystemStatus, oneNftStatus, welcomeBounsStatus, welcomeBounsReceiveStatus } = this.newStatus
+      const {
+        walletNftSystemStatus,
+        oneNftStatus,
+        welcomeBounsStatus,
+        welcomeBounsReceiveStatus,
+      } = this.newStatus;
       return [
         {
           text: t("header.profile"),
           page: "profile",
           icon: require("@/assets/svg/user/nav/icon_profile.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_profile_active.svg"),
-          showDot: false
+          showDot: false,
         },
         {
           text: t("header.balances"),
           page: "balances",
           icon: require("@/assets/svg/user/nav/icon_balances.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_balances_active.svg"),
-          showDot: false
+          showDot: false,
         },
         {
           text: t("header.inventory"),
           page: "inventory",
           icon: require("@/assets/svg/user/nav/icon_inventory.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_inventory_active.svg"),
-          showDot: walletNftSystemStatus
+          showDot: walletNftSystemStatus,
         },
         {
           text: t("header.promotions"),
@@ -110,21 +122,21 @@ export default {
           page: "competition",
           icon: require("@/assets/svg/user/nav/icon_competition.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_competition_active.svg"),
-          showDot: oneNftStatus
+          showDot: oneNftStatus,
         },
         {
           text: t("header.history"),
           page: "history",
           icon: require("@/assets/svg/user/nav/icon_history.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_history_active.svg"),
-          showDot: false
+          showDot: false,
         },
         {
           text: t("header.referrals"),
           page: "referrals",
           icon: require("@/assets/svg/user/nav/icon_referrals.svg"),
           iconActive: require("@/assets/svg/user/nav/icon_referrals_active.svg"),
-          showDot: false
+          showDot: false,
         },
         // {
         //   text: "Settings",
@@ -132,8 +144,8 @@ export default {
         //   icon: require("@/assets/svg/user/nav/icon_setting.svg"),
         //   iconActive: require("@/assets/svg/user/nav/icon_setting_active.svg")
         // }
-      ]
-    }
+      ];
+    },
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {
@@ -145,7 +157,7 @@ export default {
   methods: {
     chooseNav(evnet) {
       this.userStore.setUserPage(this.$route.path, evnet.page);
-    }
+    },
   },
 };
 </script>
@@ -162,7 +174,7 @@ export default {
   box-sizing: border-box;
 
   .tips_title {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;
@@ -170,7 +182,7 @@ export default {
   }
 
   .tips_text {
-    font-family: 'Medium';
+    font-family: "Medium";
     font-size: 0.75rem;
     line-height: 1.3;
     text-align: left;

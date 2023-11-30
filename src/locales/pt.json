@@ -201,7 +201,8 @@
         "unable_nft_on_sale": "Não é possível retirar NFTs que estão à venda.",
         "parameter_verification_exception": "Entrada ilegal detectada, acesso negado.",
         "at_least_one_must_be_selected": "Pelo menos um deve ser selecionado.",
-        "the_network_is_busy": "A configuração padrão não pode ser excluída."
+        "the_network_is_busy": "A configuração padrão não pode ser excluída.",
+        "redeem_code_not_found": "Coupon not found"
     },
     "footer": {
         "contactUs": "Contacte-nos",
@@ -894,6 +895,14 @@
         "createSuccess": "Criado com sucesso",
         "depositNotify1": "Você depositou com sucesso <b style=\"color:#fad54d\">{oldPrice} ETH</b> e converteu automaticamente para <b style=\"color:#fad54d\">{price} USDT</b>.",
         "POINT": "PONTOS",
-        "getTotalPoint": "Você recebe pontos totais:"
+        "getTotalPoint": "Você recebe pontos totais:",
+        "coupons": "COUPONS",
+        "buyCrypto": "BUY CRYPTO",
+        "couponTitle": "REDEEM COUPON CODE",
+        "enterCode": "Enter Coupon Code...",
+        "linkIllustrate": "We regularly post these on our",
+        "claimText": "CLAIM",
+        "exchangeInstructions": "has been added to your balance.",
+        "couponCode": "COUPON CODE"
     }
 }

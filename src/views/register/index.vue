@@ -88,6 +88,14 @@
         <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
           {{ $t("login.completeUpper") }}
         </el-button>
+        <div class="dividing-line">OR</div>
+        <div class="login-style">
+          <a :href="googleUrl">
+            <p>
+              <img src="@/assets/svg/google.svg" alt="" />
+            </p>
+          </a>
+        </div>
       </div>
       <div class="public-dialog-content form-content" v-else>
         <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
@@ -117,6 +125,7 @@ import { getCaptcha, getReg } from "@/services/api/user";
 
 import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
 import { i18n } from "@/locales";
+import config from "@/services/env";
 const { t } = i18n.global;
 
 // const router = useRouter();
@@ -131,6 +140,7 @@ const showRemember = ref(false);
 const loading = ref(false);
 const ruleFormRef = ref();
 const time = ref(60);
+const googleUrl = config.api + "mystery-web-user/auth/google/redictUrl";
 const formRegister = reactive({
   email: "",
   passWord: "",
@@ -411,6 +421,46 @@ const registerFun = async (formEl) => {
     .circular {
       width: 2rem;
     }
+  }
+}
+.dividing-line {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: #ffffff;
+  margin: 1.125rem 0;
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 0.625rem;
+    display: block;
+    content: "";
+    border-top: 1px solid #a9a4b4;
+    width: calc((100% - 2.5rem) / 2);
+  }
+  &::after {
+    position: absolute;
+    right: 0;
+    top: 0.625rem;
+    display: block;
+    content: "";
+    border-top: 1px solid #a9a4b4;
+    width: calc((100% - 2.5rem) / 2);
+  }
+}
+.login-style {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: #ffffff;
+    border-radius: 0.25rem;
   }
 }
 

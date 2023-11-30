@@ -71,6 +71,11 @@ const getProductionOfThirdPartyOrdersList = (params) =>
 const productionOfThirdPartyCoin = (params) => apiService.get("mystery-web-user/three-party-transaction/rates", params); // 获取第三方支付币种
 const productionOfThirdPartyRate = (params) => apiService.get("mystery-web-user/three-party-transaction/rate", params); // 获取第三方支付汇率
 
+const exchangeCoupons = (params) => apiService.get("mystery-web-user/redeem-code-info/redeem", params); // 使用兑换码
+const getRedeemTextSetting = (params) => apiService.get("mystery-web-user/redeem-code-info/findRedeemTextSetting", params); // 兑换码获取渠道
+const getExchangeCouponsList = (params) => apiService.get("mystery-web-user/redeem-code-info/pageList", params); // 兑换码兑换记录
+
+
 export {
   getKey,
   authLogin,
@@ -113,4 +118,7 @@ export {
   getProductionOfThirdPartyOrdersList,
   productionOfThirdPartyCoin,
   productionOfThirdPartyRate,
+  exchangeCoupons,
+  getRedeemTextSetting,
+  getExchangeCouponsList
 };

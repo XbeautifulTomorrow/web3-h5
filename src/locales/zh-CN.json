@@ -201,7 +201,8 @@
     "unable_nft_on_sale": "无法撤销正在销售中的NFTs。",
     "parameter_verification_exception": "检测到非法入侵，拒绝访问。",
     "at_least_one_must_be_selected": "至少需要选择一项。",
-    "the_network_is_busy": "默认配置不能被删除。"
+    "the_network_is_busy": "默认配置不能被删除。",
+    "redeem_code_not_found": "Coupon not found"
   },
   "footer": {
     "contactUs": "联系我们",
@@ -894,6 +895,14 @@
     "createSuccess": "成功创建",
     "depositNotify1": "您已成功存入 <b style=\"color:#fad54d\">{oldPrice} ETH</b> 并自动转换成 <b style=\"color:#fad54d\">{price} USDT</b> .",
     "POINT": "积分",
-    "getTotalPoint": "你获得的总积分："
+    "getTotalPoint": "你获得的总积分：",
+    "coupons": "COUPONS",
+    "buyCrypto": "BUY CRYPTO",
+    "couponTitle": "REDEEM COUPON CODE",
+    "enterCode": "Enter Coupon Code...",
+    "linkIllustrate": "We regularly post these on our",
+    "claimText": "CLAIM",
+    "exchangeInstructions": "has been added to your balance.",
+    "couponCode": "COUPON CODE"
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="details_wrapper">
+  <div class="details_wrapper" id="lootboxes_details_wrapper">
     <div class="mask_box"></div>
     <div class="details_content">
       <div class="lottery_panel">
@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="lottery_boxs_r" v-if="innerWidth > 950">
+          <!-- <div class="lottery_boxs_r" v-if="innerWidth > 950">
             <div class="top">
               <div class="lottery_type" @click="rollNumberFun('ONE')">
                 <div class="lottery_info">
@@ -108,8 +108,8 @@
                 <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
               </div>
             </div>
-          </div>
-          <div class="h5_lottery_boxs_r" v-else>
+          </div> -->
+          <div class="h5_lottery_boxs_r">
             <div class="lottery_calculate_box">
               <div class="calculate_btn disable" @click="calculateAmountFunc('sub')">
                 <img src="@/assets/svg/lottery/subtract.svg" alt="" />
@@ -238,7 +238,7 @@ export default {
       size: 36,
       count: 0,
       isShowMore: null,
-      innerWidth: 700,
+      innerWidth: 0,
       amountIndex: 0,
       amountArr: [1, 5, 10],
     };

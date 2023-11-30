@@ -111,7 +111,6 @@ export default {
           let result = {};
           let filterData = this.blindDetailInfo.series.filter((x) => x.seriesName === res.data.name);
           if (filterData?.length > 0) {
-            localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
             result = { ...res.data, ...filterData[0] };
             result.nftImg = filterData[0].seriesImg;
             result.price = filterData[0].boxNftInfos[0].price;
@@ -119,6 +118,17 @@ export default {
             this.lottResult = [];
             this.lottResult.push(result);
             console.log(this.lottResult, "this.lottResult-----------");
+            localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
+            sessionStorage.setItem("result", JSON.stringify(this.lottResult));
+          } else {
+            result = { ...res.data, ...this.blindDetailInfo.series[0] };
+            result.seriesName = res.data.name;
+            result.nftImg = this.blindDetailInfo.series[0].seriesImg;
+            result.price = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+            result.initPrice = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+            this.lottResult = [];
+            this.lottResult.push(result);
+            localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
             sessionStorage.setItem("result", JSON.stringify(this.lottResult));
           }
         }, 5000);
@@ -155,7 +165,9 @@ export default {
       }
     },
   },
-  created() {},
+  created() {
+    localStorage.clear();
+  },
 };
 </script>
 <style lang="scss" scoped>

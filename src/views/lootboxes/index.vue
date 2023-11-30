@@ -13,14 +13,10 @@
         :errorText="errorText"
         @apiIsErrorFun="apiIsErrorFun"
         @closeRollFun="closeRollFun"
-        @changeTypeFun="changeTypeFun"
       />
     </div>
     <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
     <Loading :loading="loading" />
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
     <div class="preloadingimg"></div>
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
@@ -42,8 +38,6 @@ import Loading from "@/components/loading/index";
 import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
 import { useWalletStore } from "@/store/wallet.js";
-import Login from "../login/index.vue";
-import Register from "../register/index.vue";
 
 import { Howl } from "howler";
 import * as audioResource from "@/utils/audioResource";
@@ -57,8 +51,6 @@ export default {
     Lottory,
     boxDetails,
     Loading,
-    Login,
-    Register,
   },
   data() {
     return {
@@ -83,7 +75,6 @@ export default {
       errorText: undefined,
 
       showTips: true,
-      pageType: "",
     };
   },
   computed: {
@@ -106,13 +97,6 @@ export default {
     },
   },
   methods: {
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
-      console.log(page, "changeTypeFun---------------------");
-    },
     audioPreloadFunc() {
       const audioSrc = audioResource;
       Object.values(audioSrc).forEach((x) => new Howl({ src: x }));
@@ -125,14 +109,6 @@ export default {
         this.rollNumber = "ONE";
         setTimeout(() => {
           let result = {};
-          result = { ...res.data, ...this.blindDetailInfo.series[0] };
-          result.nftImg = this.blindDetailInfo.series[0].seriesImg;
-          result.price = this.blindDetailInfo.series[0].boxNftInfos[0].price;
-          result.initPrice = this.blindDetailInfo.series[0].boxNftInfos[0].price;
-          this.lottResult = [];
-          this.lottResult.push(result);
-          console.log(this.lottResult, "this.lottResult-----------");
-          sessionStorage.setItem("result", JSON.stringify(this.lottResult));
           let filterData = this.blindDetailInfo.series.filter((x) => x.seriesName === res.data.name);
           if (filterData?.length > 0) {
             localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);

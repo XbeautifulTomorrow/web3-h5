@@ -312,6 +312,7 @@ const registerFun = async (formEl) => {
       const res = await getReg(data);
       if (res && res.code === 200) {
         if (res.data.certificate) {
+          localStorage.removeItem("boxBounsKey");
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
 

@@ -98,6 +98,7 @@ import zoomWrap from "@/components/zoomWrap.vue";
 import ImageView from "@/components/imageView";
 import { Howl } from "howler";
 import { flop, flopAfter, EPIC1, LEGEND, NORMAL1, moreUsually } from "@/utils/audioResource";
+import emitter from "@/utils/event-bus.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -112,7 +113,7 @@ const props = defineProps({
     requird: false,
   },
 });
-const emit = defineEmits(["closeDialogFun", "changeTypeFun"]);
+const emit = defineEmits(["closeDialogFun"]);
 const visible = ref(true);
 const cardRef = ref(null);
 const cardRefH = ref(200);
@@ -123,7 +124,7 @@ onMounted(async () => {
   window.addEventListener("resize", getListHeight);
 });
 const changeTypeFun = () => {
-  emit("changeTypeFun", "register");
+  emitter.emit("pageTypeChange", "register");
 };
 const getListHeight = () => {
   const { innerWidth } = window;

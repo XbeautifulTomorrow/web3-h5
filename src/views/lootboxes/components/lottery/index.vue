@@ -28,7 +28,6 @@
       :localDateTime="localDateTime"
       :clearResultTimer="clearResultTimer"
       @closeDialogFun="closeDialogFun"
-      @changeTypeFun="changeTypeFun"
     />
     <Loading :loading="loading" />
   </el-dialog>
@@ -87,9 +86,6 @@ export default {
   },
   created() {},
   methods: {
-    changeTypeFun(data) {
-      this.$emit("changeTypeFun", data);
-    },
     closeDialogFun() {
       setTimeout(() => {
         this.$emit("closeRollFun");

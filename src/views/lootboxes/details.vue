@@ -5,7 +5,7 @@
       <div class="lottery_panel">
         <div class="home-public-title">
           <div class="title_box">
-            <div class="title_text">Welcom Bonus</div>
+            <div class="title_text">{{ blindDetailInfo.boxName }}</div>
             <div class="title_description">Free to win $10,000 USDT</div>
           </div>
         </div>
@@ -185,11 +185,6 @@
       </div>
     </div>
   </div>
-  <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-  <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-  <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
   <el-dialog v-model="showSeriesDialog" class="series_dialog" fullscreen align-center>
     <div class="close_btn">
       <el-icon @click="showSeriesDialog = false">
@@ -213,26 +208,14 @@ import { getSnapshotList } from "@/services/api/blindBox";
 import seriesSlider from "./slider.vue";
 import bigNumber from "bignumber.js";
 import { timeFormat, setSessionStore, accurateDecimal } from "@/utils";
-
-import Login from "../login/index.vue";
-import Register from "../register/index.vue";
-import Forgot from "../forgot/index.vue";
-import Modify from "@/views/Airdrop/components/modify.vue";
 import Image from "@/components/imageView";
-import emitter from "@/utils/event-bus.js";
-import Recharge from "@/views/user/recharge.vue";
 
 export default {
   name: "boxDetails",
   emits: ["rollNumberFun"],
   components: {
     seriesSlider,
-    Login,
-    Register,
-    Forgot,
-    Modify,
     Image,
-    Recharge,
   },
   props: {
     blindDetailInfo: {
@@ -244,7 +227,6 @@ export default {
   },
   data() {
     return {
-      pageType: null,
       snapshotId: null,
       showSeriesDialog: false,
       seriesList: [],
@@ -387,12 +369,6 @@ export default {
       }
 
       return new bigNumber(event).dividedBy(numTotal).multipliedBy(100).toFixed(4);
-    },
-    closeDialogFun() {
-      this.pageType = "";
-    },
-    changeTypeFun(page) {
-      this.pageType = page;
     },
     formatPrice(event) {
       if (!event) return event;

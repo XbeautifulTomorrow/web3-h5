@@ -45,9 +45,7 @@ export default {
       });
     },
     init() {
-      const { getCoinList, exchangeLegalRate, googleLogin } = useUserStore();
-      // 是否谷歌登录
-      googleLogin();
+      const { getCoinList, exchangeLegalRate } = useUserStore();
       getCoinList();
       exchangeLegalRate();
     },

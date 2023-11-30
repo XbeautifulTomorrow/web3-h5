@@ -37,7 +37,11 @@
           >
             {{ t("user.exchange") }}
           </div>
-          <div class="operating_btn buy_crypTo" :class="[walletOperating == 4 && 'active']" @click="handleOperating(4)">
+          <div
+            class="operating_btn buy_crypTo"
+            :class="[walletOperating == 4 && 'active']"
+            @click="handleOperating(4)"
+          >
             {{ t("user.buyCrypto") }}
           </div>
           <div
@@ -455,7 +459,7 @@
             v-else-if="walletOperating == 4"
           ></rechargeBuyCrypto>
           <coupons
-            @couponsTips="pageType = 'coupons'"
+            @couponsTips="couponTips"
             v-else-if="walletOperating == 5"
           ></coupons>
         </div>
@@ -474,9 +478,15 @@
     ></rechargeExchangeResult>
     <couponSuccess
       v-if="pageType == 'coupons'"
+      :couponsVal="couponUSD"
       @closeDialogFun="pageType = null"
     ></couponSuccess>
-    <checkWarningDialog v-if="pageType == 'checkWarningDialog'" :customerLink="setting.customerLink" @closeDialogFun="pageType = null">{{t("user.accountExceptionTip")}}</checkWarningDialog>
+    <checkWarningDialog
+      v-if="pageType == 'checkWarningDialog'"
+      :customerLink="setting.customerLink"
+      @closeDialogFun="pageType = null"
+      >{{ t("user.accountExceptionTip") }}</checkWarningDialog
+    >
   </div>
 </template>
 <script>
@@ -518,7 +528,7 @@ export default {
     rechargeBuyCrypto,
     coupons,
     couponSuccess,
-    checkWarningDialog
+    checkWarningDialog,
   },
   props: {
     type: {
@@ -571,6 +581,7 @@ export default {
       exchangeRateTimer: null,
       receiverAddrList: [],
       processStatus: true,
+      couponUSD: null,
     };
   },
   computed: {
@@ -1039,6 +1050,7 @@ export default {
       });
 
       this.loading = false;
+
       if (res && res.code == 200) {
         this.renewBalance();
 
@@ -1050,9 +1062,9 @@ export default {
           this.$message.success(t("user.submitHint"));
         }
         this.handleClose();
-      } else if(res?.length==3){
-        if(res[2].messageKey==="the_account_limit_withdrawal"){
-          this.pageType = 'checkWarningDialog'
+      } else if (res?.length == 3) {
+        if (res[2].messageKey === "the_account_limit_withdrawal") {
+          this.pageType = "checkWarningDialog";
         }
       }
     },
@@ -1095,6 +1107,11 @@ export default {
           });
         }
       }
+    },
+    couponTips(event) {
+      this.pageType = "coupons";
+      this.couponUSD = event;
+      this.renewBalance();
     },
     // 设置
     async fetchSetting() {

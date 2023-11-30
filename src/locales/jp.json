@@ -203,6 +203,8 @@
     "at_least_one_must_be_selected": "少なくとも一つを選択しなければなりません。",
     "the_network_is_busy": "デフォルトの設定は削除できません。",
     "redeem_code_not_found": "Coupon not found",
+    "redeem_code_type_repeat": "You have already redeemed such coupon codes.",
+    "redeem_code_used": "Coupon has been used",
     "the_account_limit_withdrawal": "Account restrictions on withdrawals."
   },
   "footer": {

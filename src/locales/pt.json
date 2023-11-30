@@ -203,6 +203,8 @@
     "at_least_one_must_be_selected": "Pelo menos um deve ser selecionado.",
     "the_network_is_busy": "A configuração padrão não pode ser excluída.",
     "redeem_code_not_found": "Coupon not found",
+    "redeem_code_type_repeat": "You have already redeemed such coupon codes.",
+    "redeem_code_used": "Coupon has been used",
     "the_account_limit_withdrawal": "Account restrictions on withdrawals."
   },
   "footer": {

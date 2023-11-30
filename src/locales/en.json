@@ -41,7 +41,7 @@
     "inventory": "Inventory",
     "competition": "Treasure Draw",
     "history": "Purchase History",
-    "referrals": "Referral",
+    "referrals": "Affiliate",
     "settings": "Settings",
     "promotions": "Promotions",
     "tokenWar": "Token War"
@@ -376,7 +376,7 @@
     "numTickets": "x { num } Tickets",
     "noDataHistory": "NO PURCHASE HISTORY FOUND",
     "mysteryBox": "RAFFLE BOX",
-    "referrals": "REFERRAL",
+    "referrals": "AFFILIATE",
     "inviteTitle": "Earn ETH by sharing BITZING!",
     "inviteDescription": "Share your unique tracker on your social media and send it to anyone passionate about NFTs, along with a brief explanation of Bitzing. You will be handsomely rewarded with up to <span style=\"color： white\">{ num }%</span> of their daily purchases, paid to you in ETH.",
     "createTitle": "Set custom referral code",
@@ -504,7 +504,7 @@
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
     "couponCode": "COUPON CODE",
-    "accountExceptionTip":"检测到账号异常，请联系客服验证账号。"
+    "accountExceptionTip": "检测到账号异常，请联系客服验证账号。"
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -753,6 +753,8 @@
     "not_yet_open": "Verification code has expired, please send again.",
     "the_amount_must_greater_than": "The amount added must be greater than 1 USDT.",
     "redeem_code_not_found": "Coupon not found",
+    "redeem_code_used": "Coupon has been used",
+    "redeem_code_type_repeat": "You have already redeemed such coupon codes.",
     "the_account_limit_withdrawal": "Account restrictions on withdrawals."
   },
   "lottery": {

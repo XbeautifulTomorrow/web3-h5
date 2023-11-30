@@ -476,6 +476,7 @@
       v-if="pageType == 'coupons'"
       @closeDialogFun="pageType = null"
     ></couponSuccess>
+    <checkWarningDialog v-if="pageType == 'checkWarningDialog'" :customerLink="setting.customerLink" @closeDialogFun="pageType = null">{{t("user.accountExceptionTip")}}</checkWarningDialog>
   </div>
 </template>
 <script>
@@ -509,6 +510,7 @@ import rechargeExchangeResult from "./components/rechargeExchangeResult";
 import rechargeBuyCrypto from "./components/rechargeBuyCrypto";
 import coupons from "./components/coupons";
 import couponSuccess from "./components/couponSuccess";
+import checkWarningDialog from "@/components/checkDialog/checkWarningDialog";
 export default {
   name: "myWallet",
   components: {
@@ -516,6 +518,7 @@ export default {
     rechargeBuyCrypto,
     coupons,
     couponSuccess,
+    checkWarningDialog
   },
   props: {
     type: {
@@ -1036,7 +1039,6 @@ export default {
       });
 
       this.loading = false;
-
       if (res && res.code == 200) {
         this.renewBalance();
 
@@ -1048,6 +1050,10 @@ export default {
           this.$message.success(t("user.submitHint"));
         }
         this.handleClose();
+      } else if(res?.length==3){
+        if(res[2].messageKey==="the_account_limit_withdrawal"){
+          this.pageType = 'checkWarningDialog'
+        }
       }
     },
     // 更新当前余额

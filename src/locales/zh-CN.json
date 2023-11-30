@@ -202,7 +202,8 @@
     "parameter_verification_exception": "检测到非法入侵，拒绝访问。",
     "at_least_one_must_be_selected": "至少需要选择一项。",
     "the_network_is_busy": "默认配置不能被删除。",
-    "redeem_code_not_found": "Coupon not found"
+    "redeem_code_not_found": "Coupon not found",
+    "the_account_limit_withdrawal": "Account restrictions on withdrawals."
   },
   "footer": {
     "contactUs": "联系我们",
@@ -903,6 +904,7 @@
     "linkIllustrate": "We regularly post these on our",
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
-    "couponCode": "COUPON CODE"
+    "couponCode": "COUPON CODE",
+    "accountExceptionTip": "检测到账号异常，请联系客服验证账号。"
   }
 }

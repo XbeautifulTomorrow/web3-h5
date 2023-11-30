@@ -46,7 +46,7 @@ export default {
     getCoinList() {
       const { getCoinList, exchangeLegalRate } = useUserStore();
       getCoinList();
-      // exchangeLegalRate();
+      exchangeLegalRate();
     },
   },
   created() {

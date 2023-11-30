@@ -5,6 +5,18 @@
   background-repeat: no-repeat;
   background-size: 100% auto;
   padding-bottom: 10.625rem !important;
+  .mask_box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 13rem;
+    z-index: 11;
+  }
+  .details_content {
+    position: relative;
+    z-index: 12;
+  }
 }
 
 .home-public-title {
@@ -291,6 +303,16 @@
     .val {
       color: white;
     }
+  }
+}
+.jackpot-box {
+  padding: 0.625rem;
+  box-sizing: border-box;
+  .home-public-title {
+    margin-bottom: 0.5rem;
+  }
+  .series_price {
+    font-size: 0.875rem !important;
   }
 }
 
@@ -908,7 +930,7 @@
         padding: 0.875rem 1rem;
         border-top: solid 0.0315rem #2c3e5d;
         background-color: #13151f;
-        z-index: 10;
+        z-index: 12;
         box-sizing: border-box;
         .lottery_calculate_box {
           flex: 1;
@@ -927,6 +949,11 @@
             width: 2.75rem;
             height: 2.75rem;
             background-image: linear-gradient(to bottom, #1e90f9, #e022e3);
+            &.disable {
+              background-image: none;
+              background-color: #2b2c35;
+              pointer-events: none;
+            }
             .calculate_icon {
               width: 0.8em;
               height: 0.8em;
@@ -947,23 +974,17 @@
           background: #fad54d;
           height: 2.75rem;
           border-radius: 0.125rem;
-          overflow: hidden;
           .discount_h5 {
             position: absolute;
-            left: -0.25rem;
-            top: -0.25rem;
-            width: 3.125rem;
-            height: 3.125rem;
+            left: -0.125rem;
+            top: -0.125rem;
+            width: 3rem;
+            height: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            &.five {
-              background-image: url("@/assets/img/box/five_bg.png");
-              background-repeat: no-repeat;
-              background-size: contain;
-            }
-            &.ten {
-              background-image: url("@/assets/img/box/ten_bg.png");
+            &.free {
+              background-image: url("@/assets/img/box/free_bg.png");
               background-repeat: no-repeat;
               background-size: contain;
             }
@@ -973,16 +994,16 @@
               text-align: center;
               font-family: LeagueSpartan;
               font-weight: bold;
-              zoom: 0.5;
-              padding-bottom: 1.45rem;
+              font-size: 0.75rem;
+              color: #fff;
+              padding-bottom: 1.12rem;
             }
           }
 
           .lottery_box_title {
             height: 1rem;
             line-height: 1.33;
-            font-family: BlenderPro;
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             color: #13151f;
             font-weight: bold;
           }

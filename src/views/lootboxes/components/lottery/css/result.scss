@@ -335,18 +335,18 @@
   justify-items: center;
   justify-content: space-around;
   margin: 16px auto;
-  padding: 15px 20px;
+  padding: 0 20px;
   border-radius: 10px;
   border: solid 1px #25293e;
   background-color: #110429;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
 .result-link-img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .result-link-line {
   padding: 0 0.625rem;
@@ -451,7 +451,7 @@
       font-size: 0.75rem;
     }
     .result-one-footer {
-      height: 4rem;
+      height: auto;
     }
     .public-dialog-icon {
       width: 1rem;
@@ -478,7 +478,7 @@
     .onlyOne {
       .result-list {
         width: 13.25rem;
-        min-height: 20.7rem;
+        min-height: 18.5rem;
       }
       .result-club {
         margin-top: 0.625rem;

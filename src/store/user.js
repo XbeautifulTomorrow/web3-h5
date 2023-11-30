@@ -10,11 +10,11 @@ import router from "@/router";
 import { useHeaderStore } from "@/store/header.js";
 
 const langMenu = {
-  "zh_CN": localeZH,
-  "en_US": localeEN,
-  "ja_JP": localeJA,
-  "pt_PT": localePT
-}
+  zh_CN: localeZH,
+  en_US: localeEN,
+  ja_JP: localeJA,
+  pt_PT: localePT,
+};
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -121,7 +121,9 @@ export const useUserStore = defineStore("user", {
     async googleLogin() {
       var googleLoginCode = getUrlParams("googleLoginCode");
       if (!googleLoginCode) return;
-      const res = await authGoogleLogin({ code: googleLoginCode });
+      // 如果langdingPage入金
+      const boxBounsKey = localStorage.getItem("boxBounsKey") || null;
+      const res = await authGoogleLogin({ code: googleLoginCode, boxBounsKey });
       if (res && res.code === 200) {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));

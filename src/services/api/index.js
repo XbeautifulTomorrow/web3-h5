@@ -32,4 +32,23 @@ const getCacheTicker = (
   params // 汇率换算
 ) => apiService.get("mystery-web-user/auth/getCacheTicker", params);
 
-export { getBoxList, getBoxPageList, getTicketList, getNFTList, authIp, getAuthimage, getCacheTicker, getBannerList };
+const getBoxReward = (
+  params // 假盲盒列表
+) => apiService.get("mystery-web-user/index/box/reward", params);
+
+const getBoxOpen = (
+  params // 假盲盒开盒
+) => apiService.get("mystery-web-user/index/box/open", params);
+
+export {
+  getBoxList,
+  getBoxPageList,
+  getTicketList,
+  getNFTList,
+  authIp,
+  getAuthimage,
+  getCacheTicker,
+  getBannerList,
+  getBoxReward,
+  getBoxOpen,
+};

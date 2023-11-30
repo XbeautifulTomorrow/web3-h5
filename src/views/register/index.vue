@@ -123,7 +123,7 @@ import errorTips from "./errorTips.vue";
 import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
-import { getSessionStore, setSessionStore, openUrl, encryptCBC } from "@/utils";
+import { getSessionStore, setSessionStore, getLocalStore, openUrl, encryptCBC } from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
@@ -302,6 +302,11 @@ const registerFun = async (formEl) => {
       const inviteCode = getSessionStore("invateCode") || null;
       if (inviteCode) {
         data.inviteCode = inviteCode;
+      }
+      // 如果langdingPage入金
+      const boxBounsKey = getLocalStore("boxBounsKey") || null;
+      if (boxBounsKey) {
+        data.boxBounsKey = boxBounsKey;
       }
 
       const res = await getReg(data);

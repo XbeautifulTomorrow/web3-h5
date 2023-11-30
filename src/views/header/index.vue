@@ -130,7 +130,7 @@
       </div>
     </div>
     <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
+    <Register v-if="pageType === 'register'" :isAuth="registerIsAuth" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
     <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
     <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
@@ -198,6 +198,7 @@ export default {
       isRecursive: true,
       isShowNav: true,
       hideNavPage: ["Lootboxes"],
+      registerIsAuth: false,
     };
   },
   computed: {
@@ -392,7 +393,17 @@ export default {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
         this.$router.push({ path: "/home" });
-        this.pageType = "modify";
+        this.registerIsAuth = true;
+        setTimeout(() => {
+          this.pageType = "register";
+        }, 300);
+        if (res.data.firstStatus == "TRUE") {
+          this.registerIsAuth = true;
+          setTimeout(() => {
+            this.pageType = "register";
+          }, 300);
+        }
+
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();
       }

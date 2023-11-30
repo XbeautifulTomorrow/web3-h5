@@ -115,7 +115,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onBeforeUnmount, defineEmits } from "vue";
+import { ref, reactive, onBeforeUnmount, defineEmits, defineProps, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
@@ -127,6 +127,12 @@ import { getSessionStore, setSessionStore, getLocalStore, openUrl, encryptCBC } 
 import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
+const props = defineProps({
+  isAuth: {
+    type: Boolean,
+    requird: false,
+  },
+});
 
 // const router = useRouter();
 const userStore = useUserStore();
@@ -336,6 +342,11 @@ const registerFun = async (formEl) => {
     }
   });
 };
+onMounted(async () => {
+  if (props.isAuth) {
+    isLogin.value = true;
+  }
+});
 </script>
 <style lang="scss" scoped>
 .form-content {

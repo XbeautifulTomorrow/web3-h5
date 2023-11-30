@@ -391,7 +391,7 @@ export default {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
-        this.router.push({ path: "/home" });
+        this.$router.push({ path: "/home" });
         this.pageType = "modify";
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();

@@ -101,11 +101,7 @@
         :label="$t('airdrop.bonus')"
         align="center"
       ></el-table-column>
-      <el-table-column
-        :label="$t('airdrop.share')"
-        align="center"
-        fixed="right"
-      >
+      <el-table-column :label="$t('user.copy')" align="center" fixed="right">
         <template #default="scope">
           <div class="copy_btn">
             <img
@@ -254,7 +250,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH",
+        coin: "USDT",
       });
       if (res && res.code == 200) {
         this.setting = res.data;

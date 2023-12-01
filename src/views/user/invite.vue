@@ -516,13 +516,13 @@ export default {
     // 复制邀请链接
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/Home/" + event;
+      let link = currentLink + "/landing/lootboxes/" + event;
       onCopy(link);
     },
     // 分享邀请链接到推特
     shareInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
-      let link = currentLink + "/Home/" + event;
+      let link = currentLink + "/landing/lootboxes/" + event;
       const inviteText = this.setting.inviteText.replace(/,/g, "\n");
 
       // 构建推特的分享链接
@@ -537,7 +537,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH",
+        coin: "USDT",
       });
 
       if (res && res.code == 200) {

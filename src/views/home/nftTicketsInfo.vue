@@ -1465,7 +1465,7 @@ export default {
     },
     // 默认邀请码
     async fetchSetting() {
-      const res = await getSetting({ coin: "ETH" });
+      const res = await getSetting({ coin: "USDT" });
       if (res && res.code == 200) {
         this.inviteVal = res.data.defaultInviteCode;
       }

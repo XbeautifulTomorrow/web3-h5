@@ -233,27 +233,28 @@
       color: white;
     }
   }
+}
 
-  .replenish_operating {
-    display: flex;
-    align-items: center;
-  }
+.replenish_operating {
+  display: flex;
+  align-items: center;
+  padding-top: 0.625rem;
+}
 
-  .replenish {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #a9a4b4;
-    padding-left: 1.875rem;
-    padding-right: 0.625rem;
-  }
+.replenish {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #a9a4b4;
+  padding-right: 0.25rem;
+}
 
-  .retrieve {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #fad54d;
-    text-decoration: underline;
-    cursor: pointer;
-  }
+.retrieve {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #fad54d;
+  text-decoration: underline;
+  cursor: pointer;
+  padding-right: 0.25rem;
 }
 
 :deep(.table_container) {
@@ -1281,21 +1282,21 @@
       border-radius: 0.25rem;
       font-size: 0.75rem;
     }
+  }
 
-    .replenish_operating {
-      width: 100%;
-      padding-top: 0.5rem;
-    }
+  .replenish_operating {
+    width: 100%;
+    padding-top: 0.5rem;
+  }
 
-    .replenish {
-      font-size: 0.75rem;
-      padding-left: 0;
-      padding-right: 0.5rem;
-    }
+  .replenish {
+    font-size: 0.75rem;
+    padding-left: 0;
+    padding-right: 0.5rem;
+  }
 
-    .retrieve {
-      font-size: 0.75rem;
-    }
+  .retrieve {
+    font-size: 0.75rem;
   }
 
   :deep(.table_container) {

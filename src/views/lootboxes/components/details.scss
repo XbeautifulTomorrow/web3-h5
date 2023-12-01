@@ -102,6 +102,7 @@
   background-size: 100% 100%;
 
   .img_box {
+    position: relative;
     width: 100%;
     height: 30rem;
     padding: 3.75rem;
@@ -312,7 +313,11 @@
     margin-bottom: 0.5rem;
   }
   .series_price {
-    font-size: 0.875rem !important;
+    font-size: 1rem !important;
+    justify-content: center;
+  }
+  .series_name{
+    justify-content: center;
   }
 }
 
@@ -349,6 +354,7 @@
     height: 28.625rem;
     position: relative;
     border-radius: 0.5rem;
+    overflow: hidden;
 
     .item_bg {
       height: 100%;
@@ -845,7 +851,19 @@
 
       .img_box {
         height: auto;
-        padding: 0.625rem;
+        padding: 0rem;
+        .nft-token {
+          position: absolute;
+          color: #0cbb3e;
+          left: 0.25rem;
+          bottom: 0.25rem;
+          padding: 0 0.25rem;
+          height: 1.25rem;
+          line-height: 1.25rem;
+          font-size: 0.75rem;
+          background-color: rgba(6, 91, 30, 0.8);
+          border-radius: 0.25rem;
+        }
       }
 
       .description_box {
@@ -1087,6 +1105,10 @@
             font-size: 0.75rem;
             display: flex;
             align-items: center;
+            width:100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
 
             img {
               width: 0.875rem;
@@ -1101,6 +1123,13 @@
           .series_price {
             font-size: 0.75rem;
             margin-top: 0;
+            width:100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            p{
+              zoom: 0.8;
+            }
 
             img {
               width: 0.75rem;

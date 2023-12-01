@@ -7,7 +7,7 @@
             fit="cover"
             class="nft_img"
             v-if="nftInfo?.orderType == 'LIMITED_PRICE_COIN'"
-            :src="require('@/assets/svg/user/create_eth.webp')" 
+            :src="require('@/assets/svg/user/create_eth.webp')"
           />
           <Image fit="cover" class="nft_img" v-else :src="nftInfo?.img" />
           <div
@@ -546,7 +546,10 @@
                         src="@/assets/svg/user/icon_usdt_gold.svg"
                         alt=""
                       />
-                      <span v-if="scope.row.price" v-priceFormat="scope.row.price"></span>
+                      <span
+                        v-if="scope.row.price"
+                        v-priceFormat="scope.row.price"
+                      ></span>
                       <span v-else>--</span>
                     </div>
                   </template>
@@ -619,7 +622,10 @@
               <div class="charts_price">
                 <div class="price_title">Last sale:</div>
                 <div class="price_val">
-                  <span v-if="historyPrice" v-priceFormat:0="historyPrice"></span>
+                  <span
+                    v-if="historyPrice"
+                    v-priceFormat:0="historyPrice"
+                  ></span>
                   <span v-else>--</span>
                 </div>
               </div>
@@ -808,17 +814,31 @@
                 {{ `${Number(item.price).toLocaleString()} ETH` }}
               </span>
               <p class="val" v-else>
-                $ 
-                <span v-priceFormat="new bigNumber(exchangeRate).multipliedBy(item.price)"></span>
+                $
+                <span
+                  v-priceFormat="
+                    new bigNumber(exchangeRate).multipliedBy(item.price)
+                  "
+                ></span>
               </p>
             </div>
             <div class="buy_btn">
               <span>{{ $t("home.nftTicketBtn") }}</span>
             </div>
             <div class="remaining_votes">
-              <span  v-html="$t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })" v-if="item.numberOfTicketsSold > 1">
+              <span
+                v-html="
+                  $t('home.ticketsSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-if="item.numberOfTicketsSold > 1"
+              >
               </span>
-              <span v-html="$t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })" v-else>
+              <span
+                v-html="
+                  $t('home.ticketSold', { num: item.numberOfTicketsSold || 0 })
+                "
+                v-else
+              >
               </span>
             </div>
           </div>
@@ -1445,7 +1465,7 @@ export default {
     },
     // 默认邀请码
     async fetchSetting() {
-      const res = await getSetting({ coin: "ETH" });
+      const res = await getSetting({ coin: "USDT" });
       if (res && res.code == 200) {
         this.inviteVal = res.data.defaultInviteCode;
       }
@@ -1584,7 +1604,7 @@ export default {
 
       // 构建推特的分享链接
       var twitterUrl =
-        "https://twitter.com/share?text=" +
+        "https://twitter.com/intent/tweet?text=" +
         encodeURIComponent(inviteText) +
         "&url=" +
         link;
@@ -1624,7 +1644,7 @@ export default {
 
       // 构建推特的分享链接
       var twitterUrl =
-        "https://twitter.com/share?text=" +
+        "https://twitter.com/intent/tweet?text=" +
         encodeURIComponent(inviteText) +
         "&url=" +
         link +

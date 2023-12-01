@@ -223,7 +223,7 @@ router.onError((error) => {
 router.beforeEach(async (to, from, next) => {
   const { path, query } = to;
 
-  const invateUrl = ["Home", "home", "FreeNFT", "freeNFT", "TokenWar", "tokenWar"];
+  const invateUrl = ["Home", "home", "FreeNFT", "freeNFT", "TokenWar", "tokenWar", "landing"];
 
   const userStore = useUserStore();
   if (to.meta.requiresAuth && !userStore.isLogin) {
@@ -231,9 +231,15 @@ router.beforeEach(async (to, from, next) => {
   }
 
   const pathArray = path.split("/"); // 这里会取到["", path, code]
+  let code = null;
+  if (pathArray[1] != "landing" && pathArray.length == 3) {
+    code = pathArray[2]
+  } else if (pathArray.length == 4) {
+    code = pathArray[3]
+  }
 
-  if (pathArray.length > 2 && invateUrl.indexOf(pathArray[1]) > -1) {
-    const code = pathArray[2];
+  if (code && invateUrl.indexOf(pathArray[1]) > -1) {
+
     // 保存邀请码到本地存储
     if (code) {
       setSessionStore("invateCode", code);
@@ -242,8 +248,11 @@ router.beforeEach(async (to, from, next) => {
     }
 
     const pathUrl = upperFirstConcat(pathArray[1]);
+
     if (pathUrl == "FreeNFT") {
       next({ name: "FreeNFT", query: { id: query.id } });
+    } else if (pathUrl == "Landing") {
+      next({ name: "Lootboxes" });
     } else {
       next({ name: upperFirstConcat(pathArray[1]) });
     }

@@ -13,7 +13,7 @@
         <p class="public-dialog-title">{{ $t("user.changePass") }}</p>
         <el-form ref="ruleFormRef" label-position="top" label-width="max-content" :model="formForgot" :rules="rules"
           :hide-required-asterisk="true" :status-icon="true" class="public-form">
-          <el-form-item prop="oldPassword">
+          <el-form-item prop="oldPassword" v-if="isPassword">
             <el-input v-model="formForgot.oldPassword" :placeholder="$t('user.oldPass')" class="public-input"
               type="password" show-password />
           </el-form-item>
@@ -34,17 +34,17 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, defineEmits } from "vue";
+import { ref, reactive, defineEmits,onMounted } from "vue";
 import { i18n } from '@/locales';
 const { t } = i18n.global;
 import { resetPassword } from "@/services/api/user";
 import { ElMessage } from "element-plus";
-
 const emit = defineEmits(["closeDialogFun"]);
 
 const visible = ref(true)
 const ruleFormRef = ref();
 const isSure = ref(false);
+const isPassword = ref(true)
 const formForgot = reactive({
   oldPassword: "",
   password: "",
@@ -118,6 +118,14 @@ const forgotFun = async (formEl) => {
     }
   });
 };
+onMounted(() => {
+  if(localStorage.getItem("userInfo")){
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"))?.userInfo
+    if(userInfo?.id){
+      isPassword.value = userInfo?.password
+    }
+  }
+});
 </script>
 <style lang="scss" scoped>
 .public-form {

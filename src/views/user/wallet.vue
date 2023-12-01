@@ -143,11 +143,15 @@
           >
             {{ item }}
           </div>
-          <div class="replenish_operating">
-            <div class="replenish">{{ $t("user.notReceived") }}</div>
-            <div class="retrieve" @click="showReplenish = true">
-              {{ $t("user.btnReplenish") }}
-            </div>
+        </div>
+        <div class="replenish_operating">
+          <div class="replenish">{{ $t("user.notReceived") }}</div>
+          <div class="retrieve" @click="showReplenish = true">
+            {{ $t("user.btnReplenish") }}
+          </div>
+          <div class="replenish">{{ $t("footer.or") }}</div>
+          <div class="retrieve" @click="openUrl(setting?.customerLink)">
+            {{ $t("footer.contactUss") }}
           </div>
         </div>
       </div>
@@ -615,8 +619,10 @@ import {
   getFlashExchangePage,
   getProductionOfThirdPartyOrdersList,
   getExchangeCouponsList,
+  getLegalCurrencyRechargeList,
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
+import { getSetting } from "@/services/api/invite";
 
 import bigNumber from "bignumber.js";
 import {
@@ -665,6 +671,8 @@ export default {
       thirdPartyList: [],
       couponsData: [],
       showLoadingeDialog: false,
+      legalPlatform: [],
+      setting: {},
     };
   },
   computed: {
@@ -700,6 +708,7 @@ export default {
   },
   methods: {
     onCopy: onCopy,
+    openUrl: openUrl,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
@@ -710,6 +719,13 @@ export default {
     showRechargeFunc(type) {
       this.showRecharge = true;
       this.walletOperating = type;
+    },
+    // 获取法币支付平台
+    async getLegalCurrencyRechargeListFunc() {
+      const res = await getLegalCurrencyRechargeList();
+      if (res && res.code == 200) {
+        this.legalPlatform = res.data;
+      }
     },
     // 个人总参与票数
     async fetchUserTotalTicket() {
@@ -934,6 +950,17 @@ export default {
       const balanceVal = new bigNumber(balance).multipliedBy(usdt).toFixed(2);
       return Number(balanceVal).toLocaleString();
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "USDT",
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        this.$forceUpdate();
+      }
+    },
   },
   watch: {
     userRechargeShowList(val) {
@@ -954,6 +981,7 @@ export default {
       this.showLoadingeDialog = true;
     }
     if (this.isLogin && this.userInfo?.id) {
+      this.getLegalCurrencyRechargeListFunc();
       this.fetchHistory();
       this.fetchTheUserPoint();
       this.fetchTheUserBalance();
@@ -961,6 +989,8 @@ export default {
       // this.fetchConvertList();
       // this.getProductionOfThirdPartyOrdersListFunc();
     }
+
+    this.fetchSetting();
   },
 };
 </script>

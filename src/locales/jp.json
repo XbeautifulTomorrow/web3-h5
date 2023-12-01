@@ -213,7 +213,9 @@
     "inProgress": "監査進行中。",
     "about": "私たちについて",
     "link": "ソーシャルメディア",
-    "menu": "PLATFORM"
+    "menu": "PLATFORM",
+    "contactUss": "contact us",
+    "or": "or"
   },
   "airdrop": {
     "registrationTime": "登録時間",

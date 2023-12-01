@@ -42,6 +42,8 @@ const getFlashExchangePage = (params) => apiService.get("mystery-web-user/withdr
 
 const rechargeByHash = (params) => apiService.get("mystery-web-user/withdrawal/rechargeByHash", params); // 补偿充值
 
+const getLegalCurrencyRechargeList = (params) => apiService.get("mystery-web-user/withdrawal/legalCurrencyRechargeList", params); // 获取法币支付平台
+
 const statisticsClick = (params) => apiService.get("mystery-web-user/user/invite", params); // 统计点击次数
 
 const getTheUserPoint = (params) => apiService.get("mystery-web-user/user/getTheUserPoint", params); // 积分余额
@@ -120,5 +122,6 @@ export {
   productionOfThirdPartyRate,
   exchangeCoupons,
   getRedeemTextSetting,
-  getExchangeCouponsList
+  getExchangeCouponsList,
+  getLegalCurrencyRechargeList,
 };

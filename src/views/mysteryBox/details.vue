@@ -15,7 +15,7 @@
           <div class="img_box">
             <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
           </div>
-          <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
+          <div :class="['description_box', { 'description-loaing': isShowMore === null }]"  v-if="innerWidth > 950">
             <div class="title">
               <img src="@/assets/svg/box/icon_description.svg" alt="" />
               {{ $t("mysteryBox.description") }}
@@ -26,6 +26,40 @@
               <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
             </p>
           </div>
+          <div class="jackpot-box nft_series" v-else>
+              <div class="home-public-title">
+                <div class="title_box">
+                  <div class="title_text">JACKPOT</div>
+                </div>
+              </div>
+              <div class="nft_series_list" v-if="blindDetailInfo">
+                <template v-for="(item, index) in blindDetailInfo.boxNftInfos">
+                  <div class="nft_series_item" :class="[`series_level_bg_${typrFormat(item,true)}`]" v-if="index < 2" :key="index">
+                    <div :class="['item_bg', `series_level_${typrFormat(item,true)}`]">
+                      <div class="img_box">
+                        <Image fit="cover" class="nft_img" :src="item.nftImg" alt="" />
+                        <div
+                          class="nft-token"
+                          v-if="item.tokenId"
+                        >
+                          {{ `#${item.tokenId}` }}
+                        </div>
+                      </div>
+                      <div class="series_info">
+                        <div class="series_name">
+                          <span>{{ item.nftName }}</span>
+                          <img src="@/assets/svg/home/icon_certified.svg" alt="" />
+                        </div>
+                        <div class="series_price">
+                          <img src="@/assets/svg/user/icon_usdt_gold.svg" />
+                          <span>{{ ` ${formatPrice(item.price)}` }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
         </div>
         <div class="lottery_boxs_r" v-if="innerWidth > 950">
           <div class="top">
@@ -358,10 +392,16 @@ export default {
       }
       this.$emit("rollNumberFun", type);
     },
-    typrFormat(event) {
-      const { boxNftInfos } = event;
-      if (!boxNftInfos.length > 0) return "4";
-      const { qualityType } = boxNftInfos[0];
+    typrFormat(event,type) {
+      let qualityType = null
+      if(!type){
+        const { boxNftInfos } = event;
+        if (!boxNftInfos.length > 0) return "4";
+        qualityType = boxNftInfos[0].qualityType;
+      } else {
+        qualityType = event.qualityType
+      }
+      
       if (qualityType == "LEGEND") {
         return "1";
       }

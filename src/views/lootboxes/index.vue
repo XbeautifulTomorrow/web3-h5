@@ -37,6 +37,7 @@ import Lottory from "./components/lottery/index";
 import Loading from "@/components/loading/index";
 import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
+import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
 
 import { Howl } from "howler";
@@ -78,10 +79,22 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useWalletStore),
+    ...mapStores(useHeaderStore, useUserStore, useWalletStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
+    },
+    userInfo() {
+      const { userInfo } = this.userStore;
+      return userInfo;
+    },
+    isLogin() {
+      const { isLogin } = this.userStore;
+      return isLogin;
+    },
+    setting() {
+      const headerStore = useHeaderStore();
+      return headerStore.setting;
     },
   },
   mounted() {
@@ -95,6 +108,11 @@ export default {
         window.scrollTo(0, 0);
       }
     },
+    setting(){
+      if(!this.showRoll){
+        window.location.href = this.setting?.jumpAddress||"/home";
+      }
+    }
   },
   methods: {
     audioPreloadFunc() {
@@ -102,37 +120,40 @@ export default {
       Object.values(audioSrc).forEach((x) => new Howl({ src: x }));
     },
     async rollNumberFun() {
-      const res = await getBoxOpen();
-      this.loading = false;
-      if (res && res.code == 200) {
-        this.showRoll = true;
-        this.rollNumber = "ONE";
-        setTimeout(() => {
-          let result = {};
-          let filterData = this.blindDetailInfo.series.filter((x) => x.seriesName === res.data.name);
-          if (filterData?.length > 0) {
-            result = { ...res.data, ...filterData[0] };
-            result.nftImg = filterData[0].seriesImg;
-            result.price = filterData[0].boxNftInfos[0].price;
-            result.initPrice = filterData[0].boxNftInfos[0].price;
-            this.lottResult = [];
-            this.lottResult.push(result);
-            console.log(this.lottResult, "this.lottResult-----------");
-            localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
-            sessionStorage.setItem("result", JSON.stringify(this.lottResult));
-          } else {
-            result = { ...res.data, ...this.blindDetailInfo.series[0] };
-            result.seriesName = res.data.name;
-            result.nftImg = this.blindDetailInfo.series[0].seriesImg;
-            result.price = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
-            result.initPrice = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
-            this.lottResult = [];
-            this.lottResult.push(result);
-            localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
-            sessionStorage.setItem("result", JSON.stringify(this.lottResult));
-          }
-        }, 5000);
+      if(this.blindDetailInfo&&this.blindDetailInfo?.series?.length>0){
+        const res = await getBoxOpen();
+        this.loading = false;
+        if (res && res.code == 200) {
+          this.showRoll = true;
+          this.rollNumber = "ONE";
+          setTimeout(() => {
+            let result = {};
+            let filterData = this.blindDetailInfo.series.filter((x) => x.seriesName === res.data.name);
+            if (filterData?.length > 0) {
+              result = { ...res.data, ...filterData[0] };
+              result.nftImg = filterData[0].seriesImg;
+              result.price = filterData[0].boxNftInfos[0].price;
+              result.initPrice = filterData[0].boxNftInfos[0].price;
+              this.lottResult = [];
+              this.lottResult.push(result);
+              console.log(this.lottResult, "this.lottResult-----------");
+              localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
+              sessionStorage.setItem("result", JSON.stringify(this.lottResult));
+            } else {
+              result = { ...res.data, ...this.blindDetailInfo.series[0] };
+              result.seriesName = res.data.name;
+              result.nftImg = this.blindDetailInfo.series[0].seriesImg;
+              result.price = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+              result.initPrice = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+              this.lottResult = [];
+              this.lottResult.push(result);
+              localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
+              sessionStorage.setItem("result", JSON.stringify(this.lottResult));
+            }
+          }, 5000);
+        }
       }
+      
     },
     closeRollFun() {
       this.showRoll = false;
@@ -166,7 +187,9 @@ export default {
     },
   },
   created() {
-    localStorage.clear();
+    if (this.isLogin && this.userInfo?.id) {
+      useHeaderStore().fetchSetting();
+    }
   },
 };
 </script>

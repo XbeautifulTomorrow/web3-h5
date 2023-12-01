@@ -231,6 +231,10 @@ export default {
       const { regInfo } = this.userStore;
       return regInfo;
     },
+    setting() {
+      const headerStore = useHeaderStore();
+      return headerStore.setting;
+    },
     userList() {
       const { walletNftSystemStatus, oneNftStatus, welcomeBounsStatus, welcomeBounsReceiveStatus } = this.newStatus;
       return [
@@ -302,7 +306,7 @@ export default {
       this.pageType = "";
       if (this.userInfo) {
         if (!this.isShowNav) {
-          window.location.href = "/home";
+          window.location.href = this.setting?.jumpAddress||"/home";
         }
         this.getTheUserBalanceInfo();
       } else if (this.regInfo) {
@@ -402,6 +406,7 @@ export default {
 
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();
+        useHeaderStore().fetchSetting();
       }
     },
   },
@@ -410,7 +415,6 @@ export default {
     $route: {
       handler: function (newV) {
         this.active = newV.name;
-        this.hideNavFunc();
       },
       // 深度观察监听
       deep: true,
@@ -419,6 +423,7 @@ export default {
   created() {
     this.hideNavFunc();
     this.googleLogin();
+    
     emitter.on("pageTypeChange", (type) => {
       this.pageType = type;
     });

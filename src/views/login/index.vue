@@ -172,6 +172,7 @@ const loginFun = async (formEl) => {
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
         headerStore.fetchTheUserPoint();
+        headerStore.fetchSetting();
         closeDialogFun();
       }
     } else {

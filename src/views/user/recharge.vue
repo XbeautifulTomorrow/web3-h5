@@ -41,6 +41,7 @@
             class="operating_btn buy_crypTo"
             :class="[walletOperating == 4 && 'active']"
             @click="handleOperating(4)"
+            v-if="legalPlatform?.length > 0"
           >
             {{ t("user.buyCrypto") }}
           </div>
@@ -232,8 +233,12 @@
                   <span>{{ t("user.withdrawalAmount") }}</span>
                   <span class="required">*</span>
                 </p>
-                <p>
-                  可用
+                <p v-if="operatingCoin == 'USDC'">
+                  {{ $t("user.available") }}
+                  {{ getCoinBalance("USDT").toFixed(4) + " " + operatingCoin }}
+                </p>
+                <p v-else>
+                  {{ $t("user.available") }}
                   {{
                     getCoinBalance(operatingCoin).toFixed(4) +
                     " " +
@@ -483,7 +488,7 @@
     ></couponSuccess>
     <checkWarningDialog
       v-if="pageType == 'checkWarningDialog'"
-      :customerLink="setting.customerLink"
+      :setting="setting"
       @closeDialogFun="pageType = null"
       >{{ t("user.accountExceptionTip") }}</checkWarningDialog
     >
@@ -503,6 +508,7 @@ import {
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,
+  getLegalCurrencyRechargeList,
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
@@ -582,6 +588,7 @@ export default {
       receiverAddrList: [],
       processStatus: true,
       couponUSD: null,
+      legalPlatform: [],
     };
   },
   computed: {
@@ -941,6 +948,13 @@ export default {
         this.exchangeRate = res.data / (1 - down);
       }
     },
+    // 获取法币支付平台
+    async getLegalCurrencyRechargeListFunc() {
+      const res = await getLegalCurrencyRechargeList();
+      if (res && res.code == 200) {
+        this.legalPlatform = res.data;
+      }
+    },
     // 验证
     onVerify(type) {
       const {
@@ -1004,13 +1018,13 @@ export default {
       }
 
       if (type == "submit" || type == "amount") {
+        const { operatingCoin } = this;
+        const coin = operatingCoin == "USDC" ? "USDT" : operatingCoin;
         if (!walletAmount) {
           this.tipsText = t("user.enterError3");
           this.verifys = false;
           return;
-        } else if (
-          Number(walletAmount) > this.getCoinBalance(this.operatingCoin)
-        ) {
+        } else if (Number(walletAmount) > this.getCoinBalance(coin)) {
           this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;
@@ -1043,7 +1057,7 @@ export default {
 
       this.loading = true;
       const res = await withdrawalBalance({
-        targetCoin: operatingCoin, // 目标币种
+        targetCoin: operatingCoin == "USDC" ? "USDT" : operatingCoin, // 目标币种
         walletAddress: walletAddr, // 钱包地址
         amount: walletAmount, // 扣除的ETH金额
         targetChain: walletNetwork, // 网络
@@ -1116,7 +1130,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH",
+        coin: "USDT",
       });
 
       if (res && res.code == 200) {
@@ -1145,6 +1159,7 @@ export default {
     }
   },
   created() {
+    this.getLegalCurrencyRechargeListFunc();
     this.renewBalance();
     this.fetchSetting();
     this.fetchWithdrawalChain(true);

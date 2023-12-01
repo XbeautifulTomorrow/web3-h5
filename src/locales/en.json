@@ -52,7 +52,9 @@
     "about": "ABOUT US",
     "link": "Social Media",
     "contactUs": "Contact Us",
-    "inProgress": "Audit in progress."
+    "inProgress": "Audit in progress.",
+    "contactUss": "contact us",
+    "or": "or"
   },
   "login": {
     "email": "Email",
@@ -269,8 +271,8 @@
     "details": "Details",
     "tickets": "TICKETS",
     "historyTitle": "DEPOSIT & WITHDRAW HISTORY",
-    "notReceived": "Is { coin } deposit missing?",
-    "btnReplenish": "Initiate deposit address.",
+    "notReceived": "Missing deposit?",
+    "btnReplenish": "Request deposit address sweep",
     "balanceTabel1": "Log Type",
     "balanceTabel2": "Amount",
     "balanceTabel3": "USDT Amount",
@@ -504,7 +506,7 @@
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
     "couponCode": "COUPON CODE",
-    "accountExceptionTip": "检测到账号异常，请联系客服验证账号。"
+    "accountExceptionTip": "Account anomaly detected, please click the button to contact official customer service."
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

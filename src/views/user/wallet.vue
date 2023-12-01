@@ -134,15 +134,17 @@
       <div class="wallet_operating">
         <div class="title_text">{{ $t("user.historyTitle") }}</div>
         <div class="choose_box">
-          <div
-            class="coin_item"
-            v-for="(item, index) in coinList"
-            :key="index"
-            @click="searchHistory(item)"
-            :class="coin == item && ['active']"
-          >
-            {{ item }}
-          </div>
+          <template v-for="(item, index) in coinList">
+            <div
+              class="coin_item"
+              :key="index"
+              @click="searchHistory(item)"
+              :class="coin == item && ['active']"
+              v-if="item=='BUYCRYPTO'?legalPlatform?.length > 0:true"
+            >
+              {{ item }}
+            </div>
+          </template>
           <div class="replenish_operating">
             <div class="replenish">{{ $t("user.notReceived") }}</div>
             <div class="retrieve" @click="showReplenish = true">
@@ -615,6 +617,7 @@ import {
   getFlashExchangePage,
   getProductionOfThirdPartyOrdersList,
   getExchangeCouponsList,
+  getLegalCurrencyRechargeList
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
 
@@ -665,6 +668,7 @@ export default {
       thirdPartyList: [],
       couponsData: [],
       showLoadingeDialog: false,
+      legalPlatform:[]
     };
   },
   computed: {
@@ -710,6 +714,13 @@ export default {
     showRechargeFunc(type) {
       this.showRecharge = true;
       this.walletOperating = type;
+    },
+    // 获取法币支付平台
+    async getLegalCurrencyRechargeListFunc() {
+      const res = await getLegalCurrencyRechargeList();
+      if (res && res.code == 200) {
+        this.legalPlatform = res.data
+      }
     },
     // 个人总参与票数
     async fetchUserTotalTicket() {
@@ -954,6 +965,7 @@ export default {
       this.showLoadingeDialog = true;
     }
     if (this.isLogin && this.userInfo?.id) {
+      this.getLegalCurrencyRechargeListFunc();
       this.fetchHistory();
       this.fetchTheUserPoint();
       this.fetchTheUserBalance();

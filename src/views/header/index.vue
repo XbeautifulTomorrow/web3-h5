@@ -146,7 +146,8 @@ import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { authGoogleLogin, getSetting  } from "@/services/api/user";
+import { authGoogleLogin  } from "@/services/api/user";
+import { getSetting } from "@/services/api/invite";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";

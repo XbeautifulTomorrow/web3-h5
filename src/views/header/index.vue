@@ -146,7 +146,7 @@ import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { authGoogleLogin } from "@/services/api/user";
+import { authGoogleLogin, getSetting  } from "@/services/api/user";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
@@ -385,6 +385,20 @@ export default {
         }
       });
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "USDT",
+      });
+      if (res && res.code == 200) {
+        const setting = res.data;
+        if(localStorage.getItem('boxBounsKey')){
+          this.$router.push({ path: setting?.jumpAddress || "/home" });
+        } else {
+          this.$router.push({ path: "/home" });
+        }
+      }
+    },
     // google登录
     async googleLogin() {
       var googleLoginCode = getUrlParams("googleLoginCode");
@@ -396,21 +410,15 @@ export default {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
-        if(localStorage.getItem('boxBounsKey')){
-          this.$router.push({ path: this.setting?.jumpAddress || "/home" });
-        } else {
-          this.$router.push({ path: "/home" });
-        }
+        this.fetchSetting();
         if (res.data.firstStatus == "TRUE") {
           this.registerIsAuth = true;
           setTimeout(() => {
             this.pageType = "register";
-          }, 300);
+          }, 500);
         }
-
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();
-        useHeaderStore().fetchSetting();
       }
     },
   },

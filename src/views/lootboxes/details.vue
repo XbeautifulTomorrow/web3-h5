@@ -6,7 +6,7 @@
         <div class="home-public-title">
           <div class="title_box">
             <div class="title_text">{{ blindDetailInfo.boxName }}</div>
-            <div class="title_description">Free to win $10,000 USDT</div>
+            <div class="title_description">Free to win 60,000 USDT</div>
           </div>
         </div>
         <div class="lottery_boxs">

@@ -68,4 +68,14 @@ const closeDialogFun = () => {
   margin-right: 1.875rem;
   cursor: pointer;
 }
+@media (max-width: 950px) {
+  .public-dialog-loading{
+    margin-top:0;
+  }
+  .public-dialog-header-icon {
+    width: 1.5rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+}
 </style>

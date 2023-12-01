@@ -151,7 +151,7 @@
           </div>
           <div class="replenish">{{ $t("footer.or") }}</div>
           <div class="retrieve" @click="openUrl(setting?.customerLink)">
-            {{ $t("footer.contactUs") }}
+            {{ $t("footer.contactUss") }}
           </div>
         </div>
       </div>

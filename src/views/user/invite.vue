@@ -530,7 +530,6 @@ export default {
         inviteText
       )}&url=${link}`;
 
-      console.log(twitterUrl);
       // 在新窗口中打开推特分享链接
       openUrl(twitterUrl);
     },

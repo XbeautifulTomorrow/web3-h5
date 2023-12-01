@@ -502,7 +502,7 @@
           </el-table-column>
         </el-table>
       </template>
-      <template v-else-if="coin == 'COUPONS'">
+      <template v-else-if="coin == 'REDEEM'">
         <el-table :data="couponsData" class="table_container">
           <el-table-column
             prop="cardamom"
@@ -645,7 +645,7 @@ export default {
   data() {
     return {
       coin: "COIN",
-      coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO", "COUPONS"],
+      coinList: ["COIN", "NFT", "CONVERT", "BUYCRYPTO", "REDEEM"],
       historyData: [],
       userPoints: null,
       userTickets: null,
@@ -788,7 +788,7 @@ export default {
       } else if (this.coin == "BUYCRYPTO") {
         this.getProductionOfThirdPartyOrdersListFunc(false);
         return;
-      } else if (this.coin == "COUPONS") {
+      } else if (this.coin == "REDEEM") {
         this.fetchCouponsList(false);
         return;
       }

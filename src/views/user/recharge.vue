@@ -233,8 +233,12 @@
                   <span>{{ t("user.withdrawalAmount") }}</span>
                   <span class="required">*</span>
                 </p>
-                <p>
-                  可用
+                <p v-if="operatingCoin == 'USDC'">
+                  {{ $t("user.available") }}
+                  {{ getCoinBalance("USDT").toFixed(4) + " " + operatingCoin }}
+                </p>
+                <p v-else>
+                  {{ $t("user.available") }}
                   {{
                     getCoinBalance(operatingCoin).toFixed(4) +
                     " " +
@@ -1014,13 +1018,13 @@ export default {
       }
 
       if (type == "submit" || type == "amount") {
+        const { operatingCoin } = this;
+        const coin = operatingCoin == "USDC" ? "USDT" : operatingCoin;
         if (!walletAmount) {
           this.tipsText = t("user.enterError3");
           this.verifys = false;
           return;
-        } else if (
-          Number(walletAmount) > this.getCoinBalance(this.operatingCoin)
-        ) {
+        } else if (Number(walletAmount) > this.getCoinBalance(coin)) {
           this.tipsText = t("user.enterError4");
           this.verifys = false;
           return;
@@ -1053,7 +1057,7 @@ export default {
 
       this.loading = true;
       const res = await withdrawalBalance({
-        targetCoin: operatingCoin, // 目标币种
+        targetCoin: operatingCoin == "USDC" ? "USDT" : operatingCoin, // 目标币种
         walletAddress: walletAddr, // 钱包地址
         amount: walletAmount, // 扣除的ETH金额
         targetChain: walletNetwork, // 网络

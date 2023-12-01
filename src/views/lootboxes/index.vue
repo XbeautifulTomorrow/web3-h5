@@ -102,6 +102,7 @@ export default {
     this.boxId = this.$route.query.boxId;
     this.getBoxRewardFunc();
     this.audioPreloadFunc();
+    this.dataLayerFunc();
   },
   watch: {
     showRoll(val) {
@@ -185,24 +186,25 @@ export default {
         });
       }
     },
-  },
-  created() {
-    const queryParams = parseURLParams(window.location.href);
-    if(Object.keys(queryParams).length !== 0) {
-      for (let key in queryParams) {
-        try {
-        // eslint-disable-next-line no-undef
-          dataLayer.push({
-            event: key,
-            ecommerce: "ok",
-          });
-        } catch (err) {
-          console.log(err);
+
+    dataLayerFunc(){
+      const queryParams = parseURLParams(window.location.href);
+      if(Object.keys(queryParams).length !== 0) {
+        for (let key in queryParams) {
+          try {
+          // eslint-disable-next-line no-undef
+            dataLayer.push({
+              event: key,
+              ecommerce: "ok",
+            });
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
-      
     }
-    
+  },
+  created() {
     if (this.isLogin && this.userInfo?.id) {
       useHeaderStore().fetchSetting();
     }

@@ -184,7 +184,7 @@
                   type="number"
                 >
                   <template #prefix>
-                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   </template>
                 </el-input>
                 <div class="convert_interval">~</div>
@@ -921,7 +921,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.exchangeRate = 1 / (res.data * (1 - down));
-        this.realExchangeRate = res.data
+        this.realExchangeRate = res.data;
         this.walletAmount = null;
         setTimeout(() => {
           this.walletAmount = 1;
@@ -1081,13 +1081,17 @@ export default {
       } else if (res?.length == 3) {
         if (res[2].messageKey === "the_account_limit_withdrawal") {
           this.pageType = "checkWarningDialog";
-        } else if(res[2].messageKey === "min_withdrawal_limit"){
+        } else if (res[2].messageKey === "min_withdrawal_limit") {
           this.$message.closeAll();
-          let amount = this.setting?.minWithdrawal
-          if(operatingCoin!='USDT'&&operatingCoin!='USDC'){
-            amount = (this.setting?.minWithdrawal / this.realExchangeRate).toFixed(4)
+          let amount = this.setting?.minWithdrawal;
+          if (operatingCoin != "USDT" && operatingCoin != "USDC") {
+            amount = (
+              this.setting?.minWithdrawal / this.realExchangeRate
+            ).toFixed(4);
           }
-          this.$message.warning(t("user.enterError8",{data:`${amount} ${operatingCoin}`}));
+          this.$message.warning(
+            t("user.enterError8", { data: `${amount} ${operatingCoin}` })
+          );
         }
       }
     },

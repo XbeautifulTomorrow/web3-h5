@@ -38,6 +38,12 @@
                     <div :class="['item_bg', `series_level_${typrFormat(item,true)}`]">
                       <div class="img_box">
                         <Image fit="cover" class="nft_img" :src="item.nftImg" alt="" />
+                        <div
+                          class="nft-token"
+                          v-if="item.tokenId"
+                        >
+                          {{ `#${item.tokenId}` }}
+                        </div>
                       </div>
                       <div class="series_info">
                         <div class="series_name">

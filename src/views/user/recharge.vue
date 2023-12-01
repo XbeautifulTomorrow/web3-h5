@@ -553,7 +553,7 @@ export default {
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
       exchangeRate: null, // 汇率
-      // realExchangeRate: null, // 真实汇率
+      realExchangeRate: null, // 真实汇率
       walletAmount: null, // 充币数量
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
@@ -851,6 +851,7 @@ export default {
 
         this.fetchRechargeExchangeRate(event);
       } else {
+        this.fetchRechargeExchangeRate(event);
         this.fetchWithdrawalExchangeRate();
       }
 
@@ -920,6 +921,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.exchangeRate = 1 / (res.data * (1 - down));
+        this.realExchangeRate = res.data
         this.walletAmount = null;
         setTimeout(() => {
           this.walletAmount = 1;
@@ -1081,7 +1083,11 @@ export default {
           this.pageType = "checkWarningDialog";
         } else if(res[2].messageKey === "min_withdrawal_limit"){
           this.$message.closeAll();
-          this.$message.warning(t("user.enterError8",{data:this.setting?.minWithdrawal}));
+          let amount = this.setting?.minWithdrawal
+          if(operatingCoin!='USDT'&&operatingCoin!='USDC'){
+            amount = (this.setting?.minWithdrawal / this.realExchangeRate).toFixed(4)
+          }
+          this.$message.warning(t("user.enterError8",{data:`${amount} ${operatingCoin}`}));
         }
       }
     },

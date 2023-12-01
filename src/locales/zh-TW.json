@@ -213,7 +213,9 @@
     "inProgress": "正在进行审计。",
     "about": "关于我们",
     "link": "社交媒体",
-    "menu": "平台"
+    "menu": "平台",
+    "contactUss": "contact us",
+    "or": "or"
   },
   "airdrop": {
     "registrationTime": "注册时间",

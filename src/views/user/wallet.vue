@@ -134,22 +134,24 @@
       <div class="wallet_operating">
         <div class="title_text">{{ $t("user.historyTitle") }}</div>
         <div class="choose_box">
-          <template v-for="(item, index) in coinList">
-            <div
-              class="coin_item"
-              :key="index"
-              @click="searchHistory(item)"
-              :class="coin == item && ['active']"
-              v-if="item=='BUYCRYPTO'?legalPlatform?.length > 0:true"
-            >
-              {{ item }}
-            </div>
-          </template>
-          <div class="replenish_operating">
-            <div class="replenish">{{ $t("user.notReceived") }}</div>
-            <div class="retrieve" @click="showReplenish = true">
-              {{ $t("user.btnReplenish") }}
-            </div>
+          <div
+            class="coin_item"
+            v-for="(item, index) in coinList"
+            :key="index"
+            @click="searchHistory(item)"
+            :class="coin == item && ['active']"
+          >
+            {{ item }}
+          </div>
+        </div>
+        <div class="replenish_operating">
+          <div class="replenish">{{ $t("user.notReceived") }}</div>
+          <div class="retrieve" @click="showReplenish = true">
+            {{ $t("user.btnReplenish") }}
+          </div>
+          <div class="replenish">{{ $t("footer.or") }}</div>
+          <div class="retrieve" @click="openUrl(setting?.customerLink)">
+            {{ $t("footer.contactUss") }}
           </div>
         </div>
       </div>
@@ -617,9 +619,10 @@ import {
   getFlashExchangePage,
   getProductionOfThirdPartyOrdersList,
   getExchangeCouponsList,
-  getLegalCurrencyRechargeList
+  getLegalCurrencyRechargeList,
 } from "@/services/api/user";
 import { getUserTotalTicket } from "@/services/api/oneBuy";
+import { getSetting } from "@/services/api/invite";
 
 import bigNumber from "bignumber.js";
 import {
@@ -668,7 +671,8 @@ export default {
       thirdPartyList: [],
       couponsData: [],
       showLoadingeDialog: false,
-      legalPlatform:[]
+      legalPlatform: [],
+      setting: {},
     };
   },
   computed: {
@@ -704,6 +708,7 @@ export default {
   },
   methods: {
     onCopy: onCopy,
+    openUrl: openUrl,
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
@@ -719,7 +724,7 @@ export default {
     async getLegalCurrencyRechargeListFunc() {
       const res = await getLegalCurrencyRechargeList();
       if (res && res.code == 200) {
-        this.legalPlatform = res.data
+        this.legalPlatform = res.data;
       }
     },
     // 个人总参与票数
@@ -945,6 +950,17 @@ export default {
       const balanceVal = new bigNumber(balance).multipliedBy(usdt).toFixed(2);
       return Number(balanceVal).toLocaleString();
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "USDT",
+      });
+
+      if (res && res.code == 200) {
+        this.setting = res.data;
+        this.$forceUpdate();
+      }
+    },
   },
   watch: {
     userRechargeShowList(val) {
@@ -973,6 +989,8 @@ export default {
       // this.fetchConvertList();
       // this.getProductionOfThirdPartyOrdersListFunc();
     }
+
+    this.fetchSetting();
   },
 };
 </script>

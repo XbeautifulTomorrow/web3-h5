@@ -482,7 +482,12 @@
       :couponsVal="couponUSD"
       @closeDialogFun="pageType = null"
     ></couponSuccess>
-    <checkWarningDialog v-if="pageType == 'checkWarningDialog'" :setting="setting" @closeDialogFun="pageType = null">{{t("user.accountExceptionTip")}}</checkWarningDialog>
+    <checkWarningDialog
+      v-if="pageType == 'checkWarningDialog'"
+      :setting="setting"
+      @closeDialogFun="pageType = null"
+      >{{ t("user.accountExceptionTip") }}</checkWarningDialog
+    >
   </div>
 </template>
 <script>
@@ -499,7 +504,7 @@ import {
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,
-  getLegalCurrencyRechargeList
+  getLegalCurrencyRechargeList,
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
@@ -943,7 +948,7 @@ export default {
     async getLegalCurrencyRechargeListFunc() {
       const res = await getLegalCurrencyRechargeList();
       if (res && res.code == 200) {
-        this.legalPlatform = res.data
+        this.legalPlatform = res.data;
       }
     },
     // 验证
@@ -1121,7 +1126,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH",
+        coin: "USDT",
       });
 
       if (res && res.code == 200) {

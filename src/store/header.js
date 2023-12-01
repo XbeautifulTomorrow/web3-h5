@@ -25,7 +25,7 @@ export const useHeaderStore = defineStore("headerStore", {
     },
     walletAddr: "",
     userRechargeShowList: [],
-    setting:{}
+    setting: {}
   }),
   persist: {
     enabled: true,
@@ -108,7 +108,7 @@ export const useHeaderStore = defineStore("headerStore", {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH",
+        coin: "USDT",
       });
 
       if (res && res.code == 200) {

@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-dialog v-model="show" destroy-on-close :close-on-click-modal="false" :show-close="false" :align-center="true"
-      class="public-dialog" :width="dialogType == 1 ? '43.75rem' : '32.625rem'" :before-close="handleClose">
+    <el-dialog
+      v-model="show"
+      destroy-on-close
+      :close-on-click-modal="false"
+      :show-close="false"
+      :align-center="true"
+      class="public-dialog"
+      :width="dialogType == 1 ? '43.75rem' : '32.625rem'"
+      :before-close="handleClose"
+    >
       <template #header>
         <div class="close_btn" @click="handleClose()">
           <el-icon>
@@ -10,11 +18,26 @@
         </div>
       </template>
       <div class="public-dialog-content form-content">
-        <p class="public-dialog-title" v-if="dialogType == 1">{{ $t("recharge.confirmTitle") }}</p>
-        <Image v-else-if="dialogType == 4" :src="nftInfo.nftImg" fit="cover" :class="['nft_img', 'depositImg']" />
-        <Image v-else fit="cover" :src="require('@/assets/img/home/loading.png')" class="loading-img" />
+        <p class="public-dialog-title" v-if="dialogType == 1">
+          {{ $t("recharge.confirmTitle") }}
+        </p>
+        <Image
+          v-else-if="dialogType == 4"
+          :src="nftInfo.nftImg"
+          fit="cover"
+          :class="['nft_img', 'depositImg']"
+        />
+        <Image
+          v-else
+          fit="cover"
+          :src="require('@/assets/img/home/loading.png')"
+          class="loading-img"
+        />
         <div class="confirm-description" v-if="dialogType == 1">
-          <span class="description-text" v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"></span>
+          <span
+            class="description-text"
+            v-html="$t('recharge.confirmDescription1', { gas: gasContent() })"
+          ></span>
           <span>{{ $t("recharge.confirmDescription2") }}</span>
         </div>
         <div v-else-if="dialogType == 2">
@@ -36,17 +59,28 @@
           <span>{{ $t("recharge.transactionId") }}</span>
           <span @click="viewTxid()">{{ txId }}</span>
         </div>
-        <Image v-if="dialogType == 1" fit="cover" class="nft_img" :src="nftInfo.img" />
+        <Image
+          v-if="dialogType == 1"
+          fit="cover"
+          class="nft_img"
+          :src="nftInfo.img"
+        />
         <div class="nft-info" v-if="dialogType == 1">
           <span>{{ nftInfo.name || "--" }}</span>
           <span>#{{ nftInfo.tokenId }}</span>
         </div>
         <div class="form-buttons" v-if="dialogType < 3">
-          <el-button v-if="dialogType == 1" class="public-button cancel-button" @click="handleClose()">
+          <el-button
+            v-if="dialogType == 1"
+            class="public-button cancel-button"
+            @click="handleClose()"
+          >
             {{ $t("common.cancelUpper") }}
           </el-button>
           <el-button class="public-button" @click="onConfirm()">
-            <span v-if="dialogType == 1">{{ $t("recharge.wthdrawBtnText") }}</span>
+            <span v-if="dialogType == 1">{{
+              $t("recharge.wthdrawBtnText")
+            }}</span>
             <span v-if="dialogType == 2">{{ $t("recharge.continue") }}</span>
           </el-button>
         </div>
@@ -59,37 +93,37 @@
 import { mapStores } from "pinia";
 import { useHeaderStore } from "@/store/header.js";
 import Image from "@/components/imageView";
-import { i18n } from '@/locales';
+import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { ElMessage } from "element-plus";
 import { openUrl } from "@/utils";
 import { getSetting } from "@/services/api/invite";
 
 export default {
-  name: 'modifyName',
+  name: "modifyName",
   components: {
-    Image
+    Image,
   },
   props: {
     nftInfo: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     dialogType: {
       type: Number,
-      default: 1 // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
+      default: 1, // 1:提取确认，2:提取等待，3:充值等待，4:充值完成
     },
     txId: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       show: true,
-      setting: {}
+      setting: {},
     };
   },
   computed: {
@@ -103,7 +137,7 @@ export default {
     // 设置
     async fetchSetting() {
       const res = await getSetting({
-        coin: "ETH"
+        coin: "USDT",
       });
 
       if (res && res.code == 200) {
@@ -113,7 +147,7 @@ export default {
     },
     gasContent() {
       let strV = `<div style="display: inline-flex;align-items: center;">`;
-      strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require('@/assets/svg/user/icon_usdt_gold.svg')}'>`;
+      strV += `<img style='width: 1.5rem;height: auto;margin-right: 0.25rem' src='${require("@/assets/svg/user/icon_usdt_gold.svg")}'>`;
       strV += `<span style='font-size: 1.25rem;color: #fad54d;' >${this.setting.nftWithdrawalFees}</span></div>`;
       return strV;
     },
@@ -125,7 +159,7 @@ export default {
             type: "error",
           });
 
-          return
+          return;
         }
         this.$emit("confirm");
       } else if (this.dialogType == 2) {
@@ -137,8 +171,8 @@ export default {
       openUrl(transactionUrl + this.txId);
     },
     /**
- * @description: 格式化地址
- */
+     * @description: 格式化地址
+     */
     formatAddr(event) {
       if (!event) return "";
       var reg = /^(\S{6})\S+(\S{4})$/;
@@ -150,13 +184,13 @@ export default {
 
       if (done) {
         done();
-        return
+        return;
       }
     },
   },
   created() {
     this.fetchSetting();
-  }
+  },
 };
 </script>
     
@@ -236,7 +270,7 @@ export default {
     align-items: center;
     justify-content: center;
 
-    span+span {
+    span + span {
       padding-left: 0.25rem;
     }
 
@@ -253,7 +287,7 @@ export default {
 .deposit_tx_id {
   padding: 1.25rem 0 1.875rem;
 
-  span+span {
+  span + span {
     padding-left: 0.25rem;
   }
 
@@ -293,14 +327,14 @@ export default {
   text-align: left;
   color: white;
 
-  &>span {
+  & > span {
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  &>span:last-child {
+  & > span:last-child {
     max-width: 40%;
   }
 }
@@ -311,21 +345,20 @@ export default {
   padding-bottom: 1.875rem;
 }
 @media screen and (max-width: 950px) {
-  .public-dialog{
+  .public-dialog {
     width: 90% !important;
   }
-  .form-content{
-    .confirm-description{
+  .form-content {
+    .confirm-description {
       font-size: 0.75rem;
     }
-    .nft_img{
+    .nft_img {
       width: 40%;
       height: auto;
     }
-    .nft-info{
+    .nft-info {
       font-size: 1rem;
     }
   }
-  
 }
 </style>

@@ -396,7 +396,11 @@ export default {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
-        this.$router.push({ path: "/home" });
+        if(localStorage.getItem('boxBounsKey')){
+          this.$router.push({ path: this.setting?.jumpAddress || "/home" });
+        } else {
+          this.$router.push({ path: "/home" });
+        }
         if (res.data.firstStatus == "TRUE") {
           this.registerIsAuth = true;
           setTimeout(() => {

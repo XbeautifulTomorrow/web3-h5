@@ -399,6 +399,7 @@ export default {
         } else {
           this.$router.push({ path: "/home" });
         }
+        localStorage.removeItem("boxBounsKey");
       }
     },
     // google登录

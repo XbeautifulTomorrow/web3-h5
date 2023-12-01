@@ -501,7 +501,7 @@
     "ruleTip1": "Amount must be greater than 0",
     "ruleTip2": "Limits are off — min {min} {coin}",
     "ruleTip3": "Limits are off — max {max} {coin}",
-    "couponTitle": "REDEEM COUPON CODE",
+    "couponTitle": "REDEEM CODE",
     "enterCode": "Enter Coupon Code...",
     "linkIllustrate": "We regularly post these on our",
     "claimText": "CLAIM",

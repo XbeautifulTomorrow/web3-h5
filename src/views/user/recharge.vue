@@ -1057,7 +1057,7 @@ export default {
 
       this.loading = true;
       const res = await withdrawalBalance({
-        targetCoin: operatingCoin == "USDC" ? "USDT" : operatingCoin, // 目标币种
+        targetCoin: operatingCoin, // 目标币种
         walletAddress: walletAddr, // 钱包地址
         amount: walletAmount, // 扣除的ETH金额
         targetChain: walletNetwork, // 网络

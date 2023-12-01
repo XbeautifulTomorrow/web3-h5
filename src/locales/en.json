@@ -321,6 +321,7 @@
     "enterError5": "Insufficient amount to cover withdrawal fee.",
     "enterError6": "Please enter the exchange amount.",
     "enterError7": "Conversion amount must be greater than {data}.",
+    "enterError8": "The withdrawal value must be greater than {data} USDT.",
     "submitHint": "Application successful. Please check system transfer status later.",
     "submitTestHint": "Withdrawals have been initiated...",
     "inventory": "INVENTORY",

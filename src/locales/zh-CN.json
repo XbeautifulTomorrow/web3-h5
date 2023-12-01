@@ -809,6 +809,7 @@
     "enterError4": "余额不足",
     "balanceTabel3": "USDT金额",
     "enterError5": "提现费用不足。",
+    "enterError8": "The withdrawal value must be greater than {data} USDT.",
     "tweetHint2": "*您可以设定免费票的最大数量以保障您的收入。",
     "createTitle": "设置自定义推荐码",
     "confirmBtn": "启用二次验证",

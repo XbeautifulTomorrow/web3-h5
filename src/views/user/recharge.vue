@@ -1079,6 +1079,9 @@ export default {
       } else if (res?.length == 3) {
         if (res[2].messageKey === "the_account_limit_withdrawal") {
           this.pageType = "checkWarningDialog";
+        } else if(res[2].messageKey === "min_withdrawal_limit"){
+          this.$message.closeAll();
+          this.$message.warning(t("user.enterError8",{data:this.setting?.minWithdrawal}));
         }
       }
     },

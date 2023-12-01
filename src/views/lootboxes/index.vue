@@ -39,6 +39,7 @@ import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
+import { parseURLParams } from "@/utils";
 
 import { Howl } from "howler";
 import * as audioResource from "@/utils/audioResource";
@@ -186,6 +187,22 @@ export default {
     },
   },
   created() {
+    const queryParams = parseURLParams(window.location.href);
+    if(Object.keys(queryParams).length !== 0) {
+      for (let key in queryParams) {
+        try {
+        // eslint-disable-next-line no-undef
+          dataLayer.push({
+            event: key,
+            ecommerce: "ok",
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      
+    }
+    
     if (this.isLogin && this.userInfo?.id) {
       useHeaderStore().fetchSetting();
     }

@@ -73,6 +73,7 @@
                       <img class="public-dialog-icon" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                       <span class="result-total" v-priceFormat="item.price"> </span>
                     </p>
+                    <img src="@/assets/img/home/poster/pointer.webp" alt="" class="pointer" />
                   </el-button>
                 </div>
               </div>

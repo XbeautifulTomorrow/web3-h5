@@ -109,7 +109,7 @@
             <div class="calculate_btn" @click="calculateAmountFunc('sub')">
               <img src="@/assets/svg/lottery/subtract.svg" alt="" />
             </div>
-            <div class="calculate_txt">{{ amountArr[amountIndex] }}</div>
+            <div class="calculate_txt">x {{ amountArr[amountIndex] }}</div>
             <div class="calculate_btn" @click="calculateAmountFunc('add')">
               <img src="@/assets/svg/lottery/add.svg" alt="" />
             </div>

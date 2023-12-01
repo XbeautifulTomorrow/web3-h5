@@ -80,8 +80,7 @@
   }
 
   .num {
-
-    &>span:nth-child(1),
+    & > span:nth-child(1),
     .balance_val {
       display: block;
       font-family: Tomorrow;
@@ -91,7 +90,7 @@
       color: #11cde9;
     }
 
-    &>span:last-child,
+    & > span:last-child,
     .balance_convert {
       display: block;
       font-size: 0.625rem;
@@ -150,7 +149,7 @@
   }
 
   &.asset {
-    .balance_val_box+.balance_val_box {
+    .balance_val_box + .balance_val_box {
       margin-left: 1.25rem;
     }
 
@@ -163,7 +162,7 @@
       display: flex;
       align-items: baseline;
 
-      &>span:last-child {
+      & > span:last-child {
         text-indent: 0.25rem;
       }
     }
@@ -197,7 +196,7 @@
     flex: 1;
   }
 
-  .balance_item+.balance_item {
+  .balance_item + .balance_item {
     margin-left: 0.5rem;
   }
 }
@@ -211,7 +210,7 @@
   display: flex;
   align-items: center;
 
-  &>.coin_item+.coin_item {
+  & > .coin_item + .coin_item {
     margin-left: 0.625rem;
   }
 
@@ -298,13 +297,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover>td {
+  .el-table__body tr:hover > td {
     background-color: transparent;
   }
 
   .el-table__body {
-    &>tbody {
-      &>.el-table__row {
+    & > tbody {
+      & > .el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -312,7 +311,7 @@
         }
       }
 
-      &>.el-table__row:nth-child(2n) {
+      & > .el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -379,7 +378,7 @@
       border: solid 1px #363945;
       background-color: #13151f;
 
-      &>input {
+      & > input {
         font-size: 1.125rem;
         line-height: 1.6;
         text-align: left;
@@ -469,7 +468,7 @@
     align-items: center;
     justify-content: center;
 
-    .operating_btn+.operating_btn {
+    .operating_btn + .operating_btn {
       margin-left: 0.625rem;
     }
 
@@ -501,7 +500,7 @@
     align-items: center;
     justify-content: center;
 
-    .wallet_operating_item+.wallet_operating_item {
+    .wallet_operating_item + .wallet_operating_item {
       margin-left: 1.875rem;
     }
 
@@ -553,7 +552,7 @@
     flex: 1;
   }
 
-  .withdraw_item+.withdraw_item {
+  .withdraw_item + .withdraw_item {
     margin-left: 1rem;
   }
 
@@ -609,7 +608,7 @@
     box-sizing: border-box;
     background-color: #fff;
 
-    &>img {
+    & > img {
       width: 100% !important;
       height: auto !important;
     }
@@ -640,7 +639,7 @@
       padding-left: 1.25rem;
       height: 3.75rem;
 
-      &>input {
+      & > input {
         height: 3.75rem;
         font-size: 0.875rem;
         color: white;
@@ -711,7 +710,7 @@
       box-shadow: none;
       padding: 0;
 
-      &>input {
+      & > input {
         font-size: 1.5rem;
         color: white;
       }
@@ -814,7 +813,7 @@
       box-shadow: none;
       padding: 0;
 
-      &>input {
+      & > input {
         font-size: 0.875rem;
         color: white;
       }
@@ -883,6 +882,18 @@
         height: 1.5rem;
         margin-right: 0.625rem;
       }
+      .coin_icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        font-size: 0.875rem;
+        margin-right: 0.625rem;
+        color: #13151f;
+        font-weight: bold;
+      }
     }
 
     :deep(.el-input) {
@@ -899,7 +910,7 @@
     }
 
     :deep(.el-select) {
-      .el-input__prefix-inner> :last-child {
+      .el-input__prefix-inner > :last-child {
         margin-right: 0;
       }
 
@@ -1041,14 +1052,14 @@
       box-shadow: none !important;
     }
 
-    &>.el-input__prefix {
+    & > .el-input__prefix {
       img {
         width: 1.5rem;
         height: auto;
       }
     }
 
-    &>input {
+    & > input {
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.6;
@@ -1100,7 +1111,7 @@
   }
 
   :deep(.el-pager) {
-    &>li+li {
+    & > li + li {
       margin-left: 0.75rem;
     }
 
@@ -1138,7 +1149,7 @@
   text-align: center;
   color: #a9a4b4;
 
-  &>img {
+  & > img {
     width: 1rem;
     margin-left: 0.5rem;
   }
@@ -1193,6 +1204,18 @@
     width: 1.25rem;
     margin-right: 0.5rem;
   }
+  .coin_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+    color: #13151f;
+    font-weight: bold;
+  }
 }
 
 @media screen and (max-width: 950px) {
@@ -1243,11 +1266,11 @@
     }
 
     .num {
-      &>span:nth-child(1) {
+      & > span:nth-child(1) {
         font-size: 0.75rem;
       }
 
-      &>span:last-child {
+      & > span:last-child {
         font-size: 0.625rem;
       }
     }
@@ -1273,7 +1296,7 @@
     padding-top: 0.5rem;
     flex-wrap: wrap;
 
-    &>.coin_item+.coin_item {
+    & > .coin_item + .coin_item {
       margin-left: 0.25rem;
     }
 
@@ -1369,7 +1392,7 @@
         border-radius: 0.5rem;
         padding: 0 1rem;
 
-        &>input {
+        & > input {
           height: 2.5rem;
           font-size: 0.75rem;
         }
@@ -1381,7 +1404,7 @@
       align-items: center;
       justify-content: space-between;
 
-      &>div+div {
+      & > div + div {
         margin-left: 0.5rem;
       }
 
@@ -1440,7 +1463,7 @@
     .operating_box {
       flex-wrap: wrap;
 
-      .operating_btn+.operating_btn {
+      .operating_btn + .operating_btn {
         margin-left: 0.25rem;
       }
 
@@ -1463,7 +1486,7 @@
     }
 
     .wallet_operating {
-      .wallet_operating_item+.wallet_operating_item {
+      .wallet_operating_item + .wallet_operating_item {
         margin-left: 1rem;
       }
 
@@ -1504,7 +1527,7 @@
       flex: 1;
     }
 
-    .withdraw_item+.withdraw_item {
+    .withdraw_item + .withdraw_item {
       margin-left: 1rem;
     }
 
@@ -1573,7 +1596,7 @@
         height: 1.875rem;
         padding-left: 0.25rem;
 
-        &>input {
+        & > input {
           height: 1.875rem;
           font-size: 0.75rem;
           color: white;
@@ -1635,7 +1658,7 @@
       .el-input__wrapper {
         height: 2rem;
 
-        &>input {
+        & > input {
           height: 2rem;
           font-size: 0.75rem;
           color: white;
@@ -1692,7 +1715,7 @@
       border-radius: 0.25rem;
 
       .el-input__wrapper {
-        &>input {
+        & > input {
           height: 2rem;
           font-size: 0.75rem;
         }
@@ -1748,11 +1771,23 @@
           width: 1rem;
           height: 1rem;
         }
+        .coin_icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1rem;
+          height: 1rem;
+          border-radius: 50%;
+          font-size: 0.875rem;
+          margin-right: 0.625rem;
+          color: #13151f;
+          font-weight: bold;
+        }
       }
 
       .el-input {
         .el-input__wrapper {
-          &>input {
+          & > input {
             font-size: 0.875rem;
           }
         }
@@ -1784,14 +1819,14 @@
         box-shadow: none !important;
       }
 
-      &>.el-input__prefix {
+      & > .el-input__prefix {
         img {
           width: 1rem;
           height: auto;
         }
       }
 
-      &>input {
+      & > input {
         height: 1.875rem;
         font-size: 0.75rem;
       }
@@ -1836,7 +1871,7 @@
     }
 
     :deep(.el-pager) {
-      &>li+li {
+      & > li + li {
         margin-left: 0.5rem;
       }
 
@@ -1852,7 +1887,7 @@
   .amount_box {
     font-size: 0.75rem;
 
-    &>img {
+    & > img {
       width: 0.75rem;
       margin-left: 0.25rem;
     }

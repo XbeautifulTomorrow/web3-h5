@@ -194,7 +194,7 @@ export default {
           try {
           // eslint-disable-next-line no-undef
             dataLayer.push({
-              event: key,
+              event: queryParams[key],
               ecommerce: "ok",
             });
           } catch (err) {

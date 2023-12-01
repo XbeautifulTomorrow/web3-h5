@@ -57,6 +57,7 @@
           <a :href="googleUrl">
             <p>
               <img src="@/assets/svg/google.svg" alt="" />
+              Continue with Google
             </p>
           </a>
         </div>

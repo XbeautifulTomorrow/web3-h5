@@ -136,7 +136,6 @@ export default {
               result.initPrice = filterData[0].boxNftInfos[0].price;
               this.lottResult = [];
               this.lottResult.push(result);
-              console.log(this.lottResult, "this.lottResult-----------");
               localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
               sessionStorage.setItem("result", JSON.stringify(this.lottResult));
             } else {

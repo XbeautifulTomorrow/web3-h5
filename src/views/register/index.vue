@@ -20,6 +20,16 @@
       </template>
       <div class="public-dialog-content form-content" v-if="!isLogin">
         <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
+        
+        <div class="login-style">
+          <a :href="googleUrl">
+            <p>
+              <img src="@/assets/svg/google.svg" alt="" />
+              Continue with Google
+            </p>
+          </a>
+        </div>
+        <div class="dividing-line">OR</div>
         <el-form
           ref="ruleFormRef"
           label-position="top"
@@ -88,15 +98,6 @@
         <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
           {{ $t("login.completeUpper") }}
         </el-button>
-        <div class="dividing-line">OR</div>
-        <div class="login-style">
-          <a :href="googleUrl">
-            <p>
-              <img src="@/assets/svg/google.svg" alt="" />
-              Continue with Google
-            </p>
-          </a>
-        </div>
       </div>
       <div class="public-dialog-content form-content" v-else>
         <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
@@ -473,7 +474,7 @@ onMounted(async () => {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0;
   a{
     width: 100%;
     text-decoration: none;

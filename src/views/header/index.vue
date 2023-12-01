@@ -154,7 +154,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
-import { accurateDecimal, openUrl, handleWindowResize, encryptCBC, getUrlParams } from "@/utils";
+import { accurateDecimal, openUrl, handleWindowResize, encryptCBC, getUrlParams ,parseURLParams } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
 export default {
@@ -394,7 +394,8 @@ export default {
       if (res && res.code == 200) {
         const setting = res.data;
         if(localStorage.getItem('boxBounsKey')){
-          this.$router.push({ path: setting?.jumpAddress || "/home" });
+          const queryParams = parseURLParams(setting?.jumpAddress)
+          this.$router.push({ path: setting?.jumpAddress || "/home" ,query:queryParams });
         } else {
           this.$router.push({ path: "/home" });
         }
@@ -428,6 +429,7 @@ export default {
     $route: {
       handler: function (newV) {
         this.active = newV.name;
+        
       },
       // 深度观察监听
       deep: true,

@@ -41,6 +41,7 @@
             class="operating_btn buy_crypTo"
             :class="[walletOperating == 4 && 'active']"
             @click="handleOperating(4)"
+            v-if="legalPlatform?.length > 0"
           >
             {{ t("user.buyCrypto") }}
           </div>
@@ -498,6 +499,7 @@ import {
   withdrawalBalance,
   getWithdrawalChain,
   exchangeRateV2,
+  getLegalCurrencyRechargeList
 } from "@/services/api/user";
 
 import QRCode from "qrcodejs2";
@@ -577,6 +579,7 @@ export default {
       receiverAddrList: [],
       processStatus: true,
       couponUSD: null,
+      legalPlatform: [],
     };
   },
   computed: {
@@ -936,6 +939,13 @@ export default {
         this.exchangeRate = res.data / (1 - down);
       }
     },
+    // 获取法币支付平台
+    async getLegalCurrencyRechargeListFunc() {
+      const res = await getLegalCurrencyRechargeList();
+      if (res && res.code == 200) {
+        this.legalPlatform = res.data
+      }
+    },
     // 验证
     onVerify(type) {
       const {
@@ -1140,6 +1150,7 @@ export default {
     }
   },
   created() {
+    this.getLegalCurrencyRechargeListFunc();
     this.renewBalance();
     this.fetchSetting();
     this.fetchWithdrawalChain(true);

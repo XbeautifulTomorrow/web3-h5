@@ -11,12 +11,14 @@
           <div class="exhange_icon">
             <el-select v-model="exchangeFromCoin" @change="getAmountFunc('from')" :popper-append-to-body="false">
               <template #prefix>
-                <img :src="require(`@/assets/svg/newCoin/${exchangeFromCoin}.svg`)" v-if="index!='INR'" alt="" />
+                <img :src="getImgFunc(exchangeFromCoin)" v-if="getImgFunc(exchangeFromCoin)" alt="" />
+                <p class="coin_icon" :style={background:noImgCoin[exchangeFromCoin]} v-else>{{exchangeFromCoin[0]}}</p>
               </template>
               <template v-for="(item, index) in coinList" :key="index">
                 <el-option :label="index" :value="index">
                   <div class="icon_label">
-                    <img :src="require(`@/assets/svg/newCoin/${index}.svg`)" alt="" v-if="index!='INR'" />
+                    <img :src="getImgFunc(index)" alt="" v-if="getImgFunc(index)" />
+                    <p class="coin_icon" :style={background:noImgCoin[index]} v-else>{{index[0]}}</p>
                     <span>{{ index }}</span>
                   </div>
                 </el-option>
@@ -156,6 +158,9 @@ export default {
       fromLoading: false,
       toLoading: false,
       showLoadingeDialog: false,
+      coinImgList:['AUD','BGN','BRL','CAD','CHF','CZK','DKK','EUR','GBP','GHS','HKD','JPY','KRW','MXN','NGN','PHP','PLN','SEK','TRY','TWD','USD','VND'],
+      noImgCoin:{},
+      colors:['#4489ff','#ee5396','#60c6d2','#a56dff','#02cd58','#f8cc33','#ff8a16']
     };
   },
   computed: {
@@ -183,12 +188,22 @@ export default {
   methods: {
     bigNumber: bigNumber,
     timeForStr: timeForStr,
+    getImgFunc(coin){
+      if(this.coinImgList.includes(coin)){
+        return require(`@/assets/svg/newCoin/${coin}.svg`)
+      } else {
+        this.getNoImgCoin(coin);
+        return false
+      }
+    },
+    getNoImgCoin(coin){
+      if(!this.noImgCoin[coin]){
+        this.noImgCoin[coin] = this.colors[Math.floor(Math.random() * this.colors.length)]
+      }
+    },
     getCoin(coin) {
       const headerStore = useUserStore();
       return headerStore.getCoin(coin);
-    },
-    getNewCoin(coin) {
-      return this.coinList[coin]?.img;
     },
     agreeFun() {
       this.agree = !this.agree;

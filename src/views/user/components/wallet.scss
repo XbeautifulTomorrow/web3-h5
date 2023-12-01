@@ -882,6 +882,18 @@
         height: 1.5rem;
         margin-right: 0.625rem;
       }
+      .coin_icon{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        font-size: .875rem;
+        margin-right: 0.625rem;
+        color: #13151f;
+        font-weight: bold;
+      }
     }
 
     :deep(.el-input) {
@@ -1191,6 +1203,18 @@
   img {
     width: 1.25rem;
     margin-right: 0.5rem;
+  }
+  .coin_icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    font-size: .875rem;
+    margin-right: 0.5rem;
+    color: #13151f;
+    font-weight: bold;
   }
 }
 
@@ -1746,6 +1770,18 @@
         img {
           width: 1rem;
           height: 1rem;
+        }
+        .coin_icon{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1rem;
+          height: 1rem;
+          border-radius: 50%;
+          font-size: .875rem;
+          margin-right: 0.625rem;
+          color: #13151f;
+          font-weight: bold;
         }
       }
 

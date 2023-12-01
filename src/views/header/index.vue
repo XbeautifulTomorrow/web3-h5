@@ -397,12 +397,12 @@ export default {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
         this.$router.push({ path: "/home" });
-        if (res.data.firstStatus == "TRUE") {
+        // if (res.data.firstStatus == "TRUE") {
           this.registerIsAuth = true;
           setTimeout(() => {
             this.pageType = "register";
           }, 300);
-        }
+        // }
 
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();

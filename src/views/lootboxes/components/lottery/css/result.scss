@@ -670,13 +670,20 @@
     height: 1.5rem;
   }
 
+  .result-one-button {
+    &.sell {
+      font-size: 1rem;
+      color: #13151f;
+    }
+  }
+
   .result-footer {
     margin-top: 1.25rem;
+  }
 
-    .public-dialog-button-p {
-      font-size: 1rem;
-      color: #13151f !important;
-    }
+  .public-dialog-button-p {
+    font-size: 1rem !important;
+    color: #13151f !important;
   }
 
   .result-total-other {

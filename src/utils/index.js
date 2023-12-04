@@ -102,7 +102,7 @@ export function getSessionStore(key) {
 export function onCopy(event) {
   if (!navigator.clipboard) {
     // use old commandExec() way
-    const oInput = document.createElement("input");
+    const oInput = document.createElement("textarea");
     oInput.value = event;
     document.body.appendChild(oInput);
     oInput.select(); // 选择对象;
@@ -598,7 +598,7 @@ export const upperFirstConcat = (strV) => {
 
 // 获取地址栏参数
 export const getUrlParams = (name) => {
-	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
   if (r != null) return unescape(r[2]);
   return null;

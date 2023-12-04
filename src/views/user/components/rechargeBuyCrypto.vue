@@ -150,7 +150,7 @@ export default {
       exchangeToAmountTips: null,
       exchangeFromAmount: null,
       exchangeToAmount: null,
-      exchangeFromCoin: "AUD",
+      exchangeFromCoin: "USD",
       exchangeToCoin: "USDT",
       errorRes: null,
       rate: null,

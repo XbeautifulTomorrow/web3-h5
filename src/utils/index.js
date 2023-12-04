@@ -603,3 +603,13 @@ export const getUrlParams = (name) => {
   if (r != null) return unescape(r[2]);
   return null;
 }
+// 获取地址栏参数转成对象
+export const parseURLParams = (urlString) => {
+  const url = new URL(urlString, "http://example.com");
+  const params = new URLSearchParams(url.search);
+  const paramsObject = {};
+  for (const [key, value] of params) {
+    paramsObject[key] = value;
+  }
+  return paramsObject;
+};

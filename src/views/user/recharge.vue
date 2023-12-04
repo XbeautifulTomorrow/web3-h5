@@ -184,7 +184,7 @@
                   type="number"
                 >
                   <template #prefix>
-                    <img src="@/assets/svg/user/icon_ethereum.svg" alt="" />
+                    <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
                   </template>
                 </el-input>
                 <div class="convert_interval">~</div>
@@ -553,7 +553,7 @@ export default {
       walletAddr: null, // 钱包地址
       operatingCoin: null, // 操作币种
       exchangeRate: null, // 汇率
-      // realExchangeRate: null, // 真实汇率
+      realExchangeRate: null, // 真实汇率
       walletAmount: null, // 充币数量
       ethNum: null, // 转化eth数量
       isConvert: true, // 转化类型
@@ -851,6 +851,7 @@ export default {
 
         this.fetchRechargeExchangeRate(event);
       } else {
+        this.fetchRechargeExchangeRate(event);
         this.fetchWithdrawalExchangeRate();
       }
 
@@ -920,6 +921,7 @@ export default {
       });
       if (res && res.code == 200) {
         this.exchangeRate = 1 / (res.data * (1 - down));
+        this.realExchangeRate = res.data;
         this.walletAmount = null;
         setTimeout(() => {
           this.walletAmount = 1;
@@ -1057,7 +1059,7 @@ export default {
 
       this.loading = true;
       const res = await withdrawalBalance({
-        targetCoin: operatingCoin == "USDC" ? "USDT" : operatingCoin, // 目标币种
+        targetCoin: operatingCoin, // 目标币种
         walletAddress: walletAddr, // 钱包地址
         amount: walletAmount, // 扣除的ETH金额
         targetChain: walletNetwork, // 网络
@@ -1079,6 +1081,17 @@ export default {
       } else if (res?.length == 3) {
         if (res[2].messageKey === "the_account_limit_withdrawal") {
           this.pageType = "checkWarningDialog";
+        } else if (res[2].messageKey === "min_withdrawal_limit") {
+          this.$message.closeAll();
+          let amount = this.setting?.minWithdrawal;
+          if (operatingCoin != "USDT" && operatingCoin != "USDC") {
+            amount = (
+              this.setting?.minWithdrawal / this.realExchangeRate
+            ).toFixed(4);
+          }
+          this.$message.warning(
+            t("user.enterError8", { data: `${amount} ${operatingCoin}` })
+          );
         }
       }
     },

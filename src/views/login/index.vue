@@ -20,6 +20,15 @@
       </template>
       <div class="public-dialog-content form-content">
         <p class="public-dialog-title">{{ $t("common.loginText") }}</p>
+        <div class="login-style">
+          <a :href="googleUrl">
+            <p>
+              <img src="@/assets/svg/google.svg" alt="" />
+              Continue with Google
+            </p>
+          </a>
+        </div>
+        <div class="dividing-line">OR</div>
         <el-form
           ref="ruleFormRef"
           label-position="top"
@@ -52,14 +61,7 @@
         <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
           {{ $t("common.login") }}
         </el-button>
-        <div class="dividing-line">OR</div>
-        <div class="login-style">
-          <a :href="googleUrl">
-            <p>
-              <img src="@/assets/svg/google.svg" alt="" />
-            </p>
-          </a>
-        </div>
+        
         <p class="form-register">
           <span>{{ $t("login.notRegisteredHint") }}</span>
           <span class="form-register-link" @click="goTo('register')">

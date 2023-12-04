@@ -809,6 +809,7 @@
     "enterError4": "Saldo Insuficiente",
     "balanceTabel3": "Quantidade de USDT",
     "enterError5": "Montante insuficiente para cobrir a taxa de retirada.",
+    "enterError8": "The withdrawal amount must be greater than {data}.",
     "tweetHint2": "*Você pode definir um número máximo de ingressos gratuitos para garantir sua receita.",
     "createTitle": "Definir código de referência personalizado",
     "confirmBtn": "ATIVAR 2FA",

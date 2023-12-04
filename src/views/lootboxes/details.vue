@@ -6,7 +6,7 @@
         <div class="home-public-title">
           <div class="title_box">
             <div class="title_text">{{ blindDetailInfo.boxName }}</div>
-            <div class="title_description">Free to win $10,000 USDT</div>
+            <div class="title_description">Free to win $60,000 USDT</div>
           </div>
         </div>
         <div class="lottery_boxs">
@@ -108,7 +108,7 @@
               <div class="calculate_btn disable" @click="calculateAmountFunc('sub')">
                 <img src="@/assets/svg/lottery/subtract.svg" alt="" />
               </div>
-              <div class="calculate_txt">{{ amountArr[amountIndex] }}</div>
+              <div class="calculate_txt">x {{ amountArr[amountIndex] }}</div>
               <div class="calculate_btn disable" @click="calculateAmountFunc('add')">
                 <img src="@/assets/svg/lottery/add.svg" alt="" />
               </div>
@@ -118,6 +118,7 @@
                 <div class="val">FREE</div>
               </div>
               <div class="lottery_box_title">OPEN</div>
+              <img src="@/assets/img/home/poster/pointer.webp" alt="" class="pointer" />
             </div>
           </div>
         </div>

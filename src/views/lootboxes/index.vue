@@ -39,6 +39,7 @@ import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
+import { parseURLParams } from "@/utils";
 
 import { Howl } from "howler";
 import * as audioResource from "@/utils/audioResource";
@@ -101,6 +102,7 @@ export default {
     this.boxId = this.$route.query.boxId;
     this.getBoxRewardFunc();
     this.audioPreloadFunc();
+    this.dataLayerFunc();
   },
   watch: {
     showRoll(val) {
@@ -136,7 +138,6 @@ export default {
               result.initPrice = filterData[0].boxNftInfos[0].price;
               this.lottResult = [];
               this.lottResult.push(result);
-              console.log(this.lottResult, "this.lottResult-----------");
               localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
               sessionStorage.setItem("result", JSON.stringify(this.lottResult));
             } else {
@@ -185,6 +186,23 @@ export default {
         });
       }
     },
+
+    dataLayerFunc(){
+      const queryParams = parseURLParams(window.location.href);
+      if(Object.keys(queryParams).length !== 0) {
+        for (let key in queryParams) {
+          try {
+          // eslint-disable-next-line no-undef
+            dataLayer.push({
+              event: queryParams[key],
+              ecommerce: "ok",
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    }
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {

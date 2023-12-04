@@ -112,6 +112,7 @@ const forgotFun = async (formEl) => {
           type: "success",
         });
         emit("closeDialogFun");
+        localStorage.setItem('isPwd',true)
       }
     } else {
       console.log("error submit!", fields);
@@ -122,7 +123,10 @@ onMounted(() => {
   if(localStorage.getItem("userInfo")){
     let userInfo = JSON.parse(localStorage.getItem("userInfo"))?.userInfo
     if(userInfo?.id){
-      isPassword.value = userInfo?.password
+      if(localStorage.getItem('isPwd')==null){
+        localStorage.setItem('isPwd',userInfo?.password)
+      }
+      isPassword.value = JSON.parse(localStorage.getItem('isPwd'))
     }
   }
 });

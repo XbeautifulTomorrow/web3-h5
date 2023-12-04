@@ -146,14 +146,15 @@ import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { authGoogleLogin } from "@/services/api/user";
+import { authGoogleLogin  } from "@/services/api/user";
+import { getSetting } from "@/services/api/invite";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
 import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
-import { accurateDecimal, openUrl, handleWindowResize, encryptCBC, getUrlParams } from "@/utils";
+import { accurateDecimal, openUrl, handleWindowResize, encryptCBC, getUrlParams ,parseURLParams } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
 export default {
@@ -385,6 +386,22 @@ export default {
         }
       });
     },
+    // 设置
+    async fetchSetting() {
+      const res = await getSetting({
+        coin: "USDT",
+      });
+      if (res && res.code == 200) {
+        const setting = res.data;
+        if(localStorage.getItem('boxBounsKey')){
+          const queryParams = parseURLParams(setting?.jumpAddress)
+          this.$router.push({ path: setting?.jumpAddress || "/home" ,query:queryParams });
+        } else {
+          this.$router.push({ path: "/home" });
+        }
+        localStorage.removeItem("boxBounsKey");
+      }
+    },
     // google登录
     async googleLogin() {
       var googleLoginCode = getUrlParams("googleLoginCode");
@@ -396,17 +413,15 @@ export default {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
         }
-        this.$router.push({ path: "/home" });
+        this.fetchSetting();
         if (res.data.firstStatus == "TRUE") {
           this.registerIsAuth = true;
           setTimeout(() => {
             this.pageType = "register";
-          }, 300);
+          }, 500);
         }
-
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();
-        useHeaderStore().fetchSetting();
       }
     },
   },
@@ -415,6 +430,7 @@ export default {
     $route: {
       handler: function (newV) {
         this.active = newV.name;
+        
       },
       // 深度观察监听
       deep: true,

@@ -809,6 +809,7 @@
     "enterError4": "残高不足",
     "balanceTabel3": "USDT数量",
     "enterError5": "引き出し手数料をカバーするには金額が不足しています。",
+    "enterError8": "The withdrawal amount must be greater than {data}.",
     "tweetHint2": "*あなたは自分の収入を確保するために、無料チケットの最大数を設定できます。",
     "createTitle": "カスタムリファラルコードを設定する",
     "confirmBtn": "2FAを有効にする",

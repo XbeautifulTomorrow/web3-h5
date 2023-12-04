@@ -101,6 +101,8 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("regInfo");
       localStorage.removeItem("userInfo");
       localStorage.removeItem("certificate");
+      localStorage.removeItem("boxBounsKey");
+      localStorage.removeItem("isPwd");
       this.isLogin = false;
       this.userInfo = undefined;
       this.regInfo = undefined;

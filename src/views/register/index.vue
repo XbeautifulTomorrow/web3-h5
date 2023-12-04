@@ -20,6 +20,16 @@
       </template>
       <div class="public-dialog-content form-content" v-if="!isLogin">
         <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
+        
+        <div class="login-style">
+          <a :href="googleUrl">
+            <p>
+              <img src="@/assets/svg/google.svg" alt="" />
+              Continue with Google
+            </p>
+          </a>
+        </div>
+        <div class="dividing-line">OR</div>
         <el-form
           ref="ruleFormRef"
           label-position="top"
@@ -88,14 +98,6 @@
         <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
           {{ $t("login.completeUpper") }}
         </el-button>
-        <div class="dividing-line">OR</div>
-        <div class="login-style">
-          <a :href="googleUrl">
-            <p>
-              <img src="@/assets/svg/google.svg" alt="" />
-            </p>
-          </a>
-        </div>
       </div>
       <div class="public-dialog-content form-content" v-else>
         <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
@@ -469,20 +471,46 @@ onMounted(async () => {
   }
 }
 .login-style {
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.25rem;
-  p {
+  margin: 1.25rem 0;
+  a{
+    width: 100%;
+    text-decoration: none;
+  }
+  img{
+    width: 1.875rem;
+    margin-right: 1.25rem;
+  }
+  p{
+    width: 100%;
+    height: 3.375rem;
+    line-height: 3.375rem;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    background: #ffffff;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
+    border: solid 1px rgba(228, 231, 245, 0.15);
+    background-color: rgba(239, 150, 46, 0.1);
+    font-family: Inter;
+    font-size: 1.125rem;
+    color: #13151f;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
   }
+  // p {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   width: 2.75rem;
+  //   height: 2.75rem;
+  //   background: #ffffff;
+  //   border-radius: 0.25rem;
+  // }
 }
-
 @media (max-width: 950px) {
   .form-rember-rectangle {
     width: 0.75rem;
@@ -514,6 +542,17 @@ onMounted(async () => {
 
   .tips_btn {
     padding: 0.75rem;
+  }
+  .login-style{
+    p{
+      height: 2.5rem;
+      line-height: 2.5rem;
+      font-size: .75rem;
+      img{
+        width: 1.5rem;
+        margin-right: .625rem;
+      }
+    }
   }
 }
 </style>

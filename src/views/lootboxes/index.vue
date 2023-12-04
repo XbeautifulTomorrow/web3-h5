@@ -222,9 +222,7 @@ export default {
     },
   },
   created() {
-    if (this.isLogin && this.userInfo?.id) {
-      useHeaderStore().fetchSetting();
-    }
+    useHeaderStore().fetchSetting();
   },
 };
 </script>

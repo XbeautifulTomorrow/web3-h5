@@ -1435,7 +1435,7 @@
   .connect_box {
     border-radius: 0.5rem;
     height: auto;
-    background-image: none;
+    background-image: none !important;
   }
 
   .not_connect {

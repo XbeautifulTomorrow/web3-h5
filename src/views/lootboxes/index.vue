@@ -1,6 +1,13 @@
 <template>
   <div class="blind-detail">
-    <div class="blind-lottory-box" v-if="blindDetailInfo && blindDetailInfo.series && blindDetailInfo.series.length > 0">
+    <div
+      class="blind-lottory-box"
+      v-if="
+        blindDetailInfo &&
+        blindDetailInfo.series &&
+        blindDetailInfo.series.length > 0
+      "
+    >
       <Lottory
         v-if="showRoll"
         ref="roll"
@@ -15,12 +22,19 @@
         @closeRollFun="closeRollFun"
       />
     </div>
-    <boxDetails :blindDetailInfo="blindDetailInfo" @rollNumberFun="rollNumberFun"></boxDetails>
+    <boxDetails
+      :blindDetailInfo="blindDetailInfo"
+      @rollNumberFun="rollNumberFun"
+    ></boxDetails>
     <Loading :loading="loading" />
     <div class="preloadingimg"></div>
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
-      <img v-for="(item, index) in preloadingImg" :src="item" :key="`img-${index}`" />
+      <img
+        v-for="(item, index) in preloadingImg"
+        :src="item"
+        :key="`img-${index}`"
+      />
     </div>
   </div>
 </template>
@@ -110,11 +124,11 @@ export default {
         window.scrollTo(0, 0);
       }
     },
-    setting(){
-      if(!this.showRoll){
-        window.location.href = this.setting?.jumpAddress||"/home";
+    setting() {
+      if (!this.showRoll) {
+        window.location.href = this.setting?.jumpAddress || "/home";
       }
-    }
+    },
   },
   methods: {
     audioPreloadFunc() {
@@ -122,7 +136,7 @@ export default {
       Object.values(audioSrc).forEach((x) => new Howl({ src: x }));
     },
     async rollNumberFun() {
-      if(this.blindDetailInfo&&this.blindDetailInfo?.series?.length>0){
+      if (this.blindDetailInfo && this.blindDetailInfo?.series?.length > 0) {
         const res = await getBoxOpen();
         this.loading = false;
         if (res && res.code == 200) {
@@ -130,7 +144,9 @@ export default {
           this.rollNumber = "ONE";
           setTimeout(() => {
             let result = {};
-            let filterData = this.blindDetailInfo.series.filter((x) => x.seriesName === res.data.name);
+            let filterData = this.blindDetailInfo.series.filter(
+              (x) => x.seriesName === res.data.name
+            );
             if (filterData?.length > 0) {
               result = { ...res.data, ...filterData[0] };
               result.nftImg = filterData[0].seriesImg;
@@ -144,8 +160,10 @@ export default {
               result = { ...res.data, ...this.blindDetailInfo.series[0] };
               result.seriesName = res.data.name;
               result.nftImg = this.blindDetailInfo.series[0].seriesImg;
-              result.price = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
-              result.initPrice = this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+              result.price =
+                this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
+              result.initPrice =
+                this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
               this.lottResult = [];
               this.lottResult.push(result);
               localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
@@ -154,7 +172,6 @@ export default {
           }, 5000);
         }
       }
-      
     },
     closeRollFun() {
       this.showRoll = false;
@@ -187,12 +204,12 @@ export default {
       }
     },
 
-    dataLayerFunc(){
+    dataLayerFunc() {
       const queryParams = parseURLParams(window.location.href);
-      if(Object.keys(queryParams).length !== 0) {
+      if (Object.keys(queryParams).length !== 0) {
         for (let key in queryParams) {
           try {
-          // eslint-disable-next-line no-undef
+            // eslint-disable-next-line no-undef
             dataLayer.push({
               event: queryParams[key],
               ecommerce: "ok",
@@ -202,7 +219,7 @@ export default {
           }
         }
       }
-    }
+    },
   },
   created() {
     if (this.isLogin && this.userInfo?.id) {
@@ -268,7 +285,11 @@ body {
   margin-right: 16px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-image: linear-gradient(228deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 62%);
+  background-image: linear-gradient(
+    228deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0) 62%
+  );
 
   &:last-child {
     margin-right: 0;
@@ -304,16 +325,27 @@ body {
   overflow: hidden;
   margin-top: 12px;
   padding: 2px;
-  border-image-source: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  border-image-source: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   border-image-slice: 1;
-  background-image: linear-gradient(to bottom, #1b082b, #1b082b), linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  background-image: linear-gradient(to bottom, #1b082b, #1b082b),
+    linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
   background-origin: border-box;
   background-clip: content-box, border-box;
   cursor: pointer;
 }
 
 .boxes-button-text {
-  background-image: linear-gradient(to bottom, #5fe3ef 12%, #00689d 53%, #b063f5 70%);
+  background-image: linear-gradient(
+    to bottom,
+    #5fe3ef 12%,
+    #00689d 53%,
+    #b063f5 70%
+  );
   font-size: 18px;
   font-weight: bold;
   -webkit-background-clip: text;

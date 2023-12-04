@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
 
-  & > span {
+  &>span {
     display: block;
     background-image: linear-gradient(to bottom, rgba(234, 32, 141, 0.9) 15%, #e63a97 39%, #f1f1cb 70%);
     font-family: Tomorrow;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
 
-  & > .coin_item + .coin_item {
+  &>.coin_item+.coin_item {
     margin-left: 0.625rem;
   }
 
@@ -133,7 +133,7 @@
       background-origin: border-box;
       background-clip: content-box, border-box;
 
-      & > input {
+      &>input {
         padding: 0 1.25rem;
         font-size: 1.125rem;
         line-height: 1.6;
@@ -197,7 +197,7 @@
     justify-content: space-between;
     padding-bottom: 1.25rem;
 
-    & > .statistics_item + .statistics_item {
+    &>.statistics_item+.statistics_item {
       margin-left: 1.25rem;
     }
   }
@@ -209,7 +209,7 @@
     border-radius: 0.5rem;
     background-color: #1d0f36;
 
-    & > div + div {
+    &>div+div {
       border-bottom: 0.125rem solid #1d1f2b;
     }
 
@@ -303,13 +303,13 @@
     color: #a9a4b4;
   }
 
-  .el-table__body tr:hover > td {
+  .el-table__body tr:hover>td {
     background-color: transparent;
   }
 
   .el-table__body {
-    & > tbody {
-      & > .el-table__row {
+    &>tbody {
+      &>.el-table__row {
         background-color: #151722;
 
         .el-table__cell {
@@ -317,7 +317,7 @@
         }
       }
 
-      & > .el-table__row:nth-child(2n) {
+      &>.el-table__row:nth-child(2n) {
         background-color: #281d31;
 
         .el-table__cell {
@@ -338,7 +338,7 @@
     align-items: center;
     justify-content: center;
 
-    & > img + img {
+    &>img+img {
       margin-left: 0.625rem;
     }
 
@@ -438,7 +438,7 @@
   }
 
   :deep(.el-pager) {
-    & > li + li {
+    &>li+li {
       margin-left: 0.75rem;
     }
 
@@ -473,15 +473,19 @@
     padding: 1.875rem 0;
     padding-top: 1rem;
     min-height: auto;
+
     &.small_bg {
       background-image: none;
       min-height: auto;
     }
-    .invite_text > span {
+
+    .invite_text>span {
       font-size: 1.125rem;
     }
+
     .choose_box {
       padding-bottom: 0.625rem;
+
       .coin_item {
         width: 50%;
         height: 1.75rem;
@@ -491,35 +495,44 @@
         border-radius: 0.25rem;
       }
     }
+
     .summary_box {
       .invite_panel {
         height: auto;
         padding: 0.5rem;
+
         .title_text {
           font-size: 1rem;
         }
+
         .invite_description {
           font-size: 0.75rem;
         }
       }
+
       .create_invite_code {
         padding-top: 0.5rem;
+
         .create_title {
           font-size: 1rem;
           padding-bottom: 0.25rem;
         }
+
         .create_input {
           width: 100%;
         }
+
         :deep(.create_input) {
           .el-input__wrapper {
             height: 2rem;
             line-height: 2rem;
             border-radius: 0.25rem 0 0 0.25rem;
+
             input {
               font-size: 0.75rem;
             }
           }
+
           .create_btn {
             width: 5rem;
             height: 2rem;
@@ -529,41 +542,63 @@
           }
         }
       }
+
       .statistics_panel {
         padding-top: 0;
+        display: flex;
+        flex-direction: column;
+
         .statistics_title {
           font-size: 1rem;
           padding-bottom: 0.25rem;
+          order: 1;
         }
+
+        .statistics_box {
+          order: 2;
+          padding-bottom: 0;
+        }
+
         .statistics_type {
           padding-bottom: 0;
         }
+
         .statistics_item {
           padding: 0.625rem;
+
           .title {
             font-size: 0.75rem;
           }
+
           .val {
             font-size: 1rem;
           }
+
           .statistics_time {
             height: 2rem;
           }
         }
       }
     }
-    .consumption_box img{
+
+    .consumption_box img {
       width: 0.75rem;
       margin-left: .5rem;
     }
-    .claim_box img{
+
+    .claim_box img {
       width: 0.75rem;
     }
+
     :deep(.table_container) {
+      order: 0;
+      margin-bottom: 1.25rem;
+
       th.el-table__cell .cell {
         font-size: 0.75rem;
-        
+
       }
+
       .el-table__empty-text {
         font-size: 0.75rem;
       }
@@ -576,9 +611,11 @@
     .statistics_panel {
       .statistics_box {
         display: block;
-        & > .statistics_item + .statistics_item {
+
+        &>.statistics_item+.statistics_item {
           margin-left: 0;
         }
+
         .statistics_item {
           margin-bottom: 0.5rem;
         }

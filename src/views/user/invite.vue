@@ -122,7 +122,7 @@
         </div>
         <el-table
           :data="inviteList"
-          height="23.5rem"
+          :height="screenWidth > 950 ? '23.5rem' : '10.0625rem'"
           class="table_container"
           style="width: 100%"
         >
@@ -336,7 +336,13 @@ import {
   setDefaultCode,
 } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
-import { onCopy, timeFormat, openUrl, accurateDecimal } from "@/utils";
+import {
+  onCopy,
+  timeFormat,
+  openUrl,
+  accurateDecimal,
+  handleWindowResize,
+} from "@/utils";
 export default {
   name: "myInvite",
   data() {
@@ -364,6 +370,7 @@ export default {
       setting: {
         downCommissionRate: null,
       },
+      screenWidth: null,
     };
   },
   computed: {
@@ -517,7 +524,8 @@ export default {
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
       let link = currentLink + "/landing/lootboxes/" + event;
-      onCopy(link);
+      const inviteText = this.setting.inviteText.replace(/,/g, "\n");
+      onCopy(inviteText + link);
     },
     // 分享邀请链接到推特
     shareInviteLink(event) {
@@ -567,6 +575,17 @@ export default {
       this.fetchRebatesFindList();
       this.fetchSetting();
     }
+
+    const that = this;
+    window.screenWidth = document.body.clientWidth;
+    that.screenWidth = window.screenWidth;
+  },
+  mounted() {
+    const that = this;
+    handleWindowResize(() => {
+      window.screenWidth = document.body.clientWidth;
+      that.screenWidth = window.screenWidth;
+    });
   },
 };
 </script>

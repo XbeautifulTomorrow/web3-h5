@@ -3,8 +3,16 @@
     <div class="header-main" v-if="isShowNav">
       <div class="header-left">
         <div class="header-logo">
-          <img class="menu_btn" src="@/assets/svg/home/icon_menu.svg" @click="showNav = true" />
-          <img src="@/assets/img/headerFooter/logo.svg" @click="goTo()" alt="logo" />
+          <img
+            class="menu_btn"
+            src="@/assets/svg/home/icon_menu.svg"
+            @click="showNav = true"
+          />
+          <img
+            src="@/assets/img/headerFooter/logo.svg"
+            @click="goTo()"
+            alt="logo"
+          />
         </div>
         <ul class="header-nav">
           <li
@@ -16,7 +24,13 @@
             {{ item.text }}
           </li>
         </ul>
-        <el-drawer v-model="showNav" direction="ltr" lock-scroll class="menu_drawer" :with-header="false">
+        <el-drawer
+          v-model="showNav"
+          direction="ltr"
+          lock-scroll
+          class="menu_drawer"
+          :with-header="false"
+        >
           <ul class="menu-list">
             <li
               :class="['menu-list-text', active == item.page && 'active']"
@@ -38,10 +52,17 @@
           {{ $t("common.register") }}
         </div>
       </div>
-      <div v-if="(isLogin && userInfo?.id) || conncectAddress" class="header-login">
+      <div
+        v-if="(isLogin && userInfo?.id) || conncectAddress"
+        class="header-login"
+      >
         <div class="header-wallet">
           <div class="balance">
-            <img class="header-wallet-img" src="@/assets/svg/user/icon_profile.svg" alt="" />
+            <img
+              class="header-wallet-img"
+              src="@/assets/svg/user/icon_point.svg"
+              alt=""
+            />
             <span class="header-wallet-money">
               {{ Number(userPoints).toLocaleString() }}
             </span>
@@ -49,12 +70,19 @@
         </div>
         <div class="header-wallet">
           <div class="balance">
-            <img class="header-wallet-img" src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+            <img
+              class="header-wallet-img"
+              src="@/assets/svg/user/icon_usdt_gold.svg"
+              alt=""
+            />
             <span class="header-wallet-money">
               {{
-                Number(accurateDecimal(usdBalance, 2)).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                })
+                Number(accurateDecimal(usdBalance, 2)).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                  }
+                )
               }}
             </span>
           </div>
@@ -64,9 +92,17 @@
             </el-icon>
           </span>
         </div>
-        <div class="header-user" @click="openUser()" v-if="isLogin && userInfo?.id">
+        <div
+          class="header-user"
+          @click="openUser()"
+          v-if="isLogin && userInfo?.id"
+        >
           <div class="user_info">
-            <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
+            <img
+              class="header-user-img"
+              src="@/assets/svg/user/default_avatar.svg"
+              alt=""
+            />
             <div
               class="new_dot header_dot"
               v-if="
@@ -80,7 +116,11 @@
               {{ userInfo?.userName || userInfo?.email }}
             </span>
           </div>
-          <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
+          <img
+            class="header-user-down"
+            src="@/assets/img/headerFooter/icon-arrowup.png"
+            alt=""
+          />
           <div class="header-user-popup">
             <ul class="header-user-content">
               <li
@@ -95,10 +135,20 @@
               </li>
             </ul>
           </div>
-          <el-drawer v-model="showUser" direction="rtl" lock-scroll class="menu_drawer" :with-header="false">
+          <el-drawer
+            v-model="showUser"
+            direction="rtl"
+            lock-scroll
+            class="menu_drawer"
+            :with-header="false"
+          >
             <ul class="menu-list">
               <div class="user_info">
-                <img class="header-user-img" src="@/assets/svg/user/default_avatar.svg" alt="" />
+                <img
+                  class="header-user-img"
+                  src="@/assets/svg/user/default_avatar.svg"
+                  alt=""
+                />
                 <div
                   class="new_dot header_dot"
                   v-if="
@@ -112,7 +162,12 @@
                   {{ userInfo?.userName || userInfo?.email }}
                 </span>
               </div>
-              <li :class="['menu-list-text']" v-for="(item, index) in userList" :key="`box-${index}`" @click="othersideBoxFun(item)">
+              <li
+                :class="['menu-list-text']"
+                v-for="(item, index) in userList"
+                :key="`box-${index}`"
+                @click="othersideBoxFun(item)"
+              >
                 <div class="new_dot" v-if="item.showDot"></div>
                 <img class="header-user-list-img" :src="item.icon" alt="" />
                 <span>{{ item.text }}</span>
@@ -129,12 +184,36 @@
         </div>
       </div>
     </div>
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Register v-if="pageType === 'register'" :isAuth="registerIsAuth" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Forgot v-if="pageType === 'forgot'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <Modify v-if="pageType === 'modify'" @onModify="closeDialogFun" @closeDialogFun="closeDialogFun"></Modify>
-    <Recharge v-if="pageType === 'recharge'" @closeDialogFun="closeDialogFun"></Recharge>
-    <createVerification v-if="pageType === 'auth'" @closeDialogFun="changeNameFun"> </createVerification>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Register
+      v-if="pageType === 'register'"
+      :isAuth="registerIsAuth"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Forgot
+      v-if="pageType === 'forgot'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <Modify
+      v-if="pageType === 'modify'"
+      @onModify="closeDialogFun"
+      @closeDialogFun="closeDialogFun"
+    ></Modify>
+    <Recharge
+      v-if="pageType === 'recharge'"
+      @closeDialogFun="closeDialogFun"
+    ></Recharge>
+    <createVerification
+      v-if="pageType === 'auth'"
+      @closeDialogFun="changeNameFun"
+    >
+    </createVerification>
   </div>
 </template>
 
@@ -146,7 +225,7 @@ import { ElMessage } from "element-plus";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { authGoogleLogin  } from "@/services/api/user";
+import { authGoogleLogin } from "@/services/api/user";
 import { getSetting } from "@/services/api/invite";
 import Login from "../login/index.vue";
 import Register from "../register/index.vue";
@@ -154,7 +233,14 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
-import { accurateDecimal, openUrl, handleWindowResize, encryptCBC, getUrlParams ,parseURLParams } from "@/utils";
+import {
+  accurateDecimal,
+  openUrl,
+  handleWindowResize,
+  encryptCBC,
+  getUrlParams,
+  parseURLParams,
+} from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
 export default {
@@ -237,7 +323,12 @@ export default {
       return headerStore.setting;
     },
     userList() {
-      const { walletNftSystemStatus, oneNftStatus, welcomeBounsStatus, welcomeBounsReceiveStatus } = this.newStatus;
+      const {
+        walletNftSystemStatus,
+        oneNftStatus,
+        welcomeBounsStatus,
+        welcomeBounsReceiveStatus,
+      } = this.newStatus;
       return [
         {
           text: t("header.profile"),
@@ -307,7 +398,7 @@ export default {
       this.pageType = "";
       if (this.userInfo) {
         if (!this.isShowNav) {
-          window.location.href = this.setting?.jumpAddress||"/home";
+          window.location.href = this.setting?.jumpAddress || "/home";
         }
         this.getTheUserBalanceInfo();
       } else if (this.regInfo) {
@@ -393,9 +484,12 @@ export default {
       });
       if (res && res.code == 200) {
         const setting = res.data;
-        if(localStorage.getItem('boxBounsKey')){
-          const queryParams = parseURLParams(setting?.jumpAddress)
-          this.$router.push({ path: setting?.jumpAddress || "/home" ,query:queryParams });
+        if (localStorage.getItem("boxBounsKey")) {
+          const queryParams = parseURLParams(setting?.jumpAddress);
+          this.$router.push({
+            path: setting?.jumpAddress || "/home",
+            query: queryParams,
+          });
         } else {
           this.$router.push({ path: "/home" });
         }
@@ -430,7 +524,6 @@ export default {
     $route: {
       handler: function (newV) {
         this.active = newV.name;
-        
       },
       // 深度观察监听
       deep: true,
@@ -439,7 +532,7 @@ export default {
   created() {
     this.hideNavFunc();
     this.googleLogin();
-    
+
     emitter.on("pageTypeChange", (type) => {
       this.pageType = type;
     });

@@ -524,14 +524,14 @@ export default {
     copyInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
       let link = currentLink + "/landing/lootboxes/" + event;
-      const inviteText = this.setting.inviteText.replace(/,/g, "\n");
+      const inviteText = this.setting.inviteText.replace(/,/g, "\r\n");
       onCopy(inviteText + link);
     },
     // 分享邀请链接到推特
     shareInviteLink(event) {
       const currentLink = "https://www.bitzing.io";
       let link = currentLink + "/landing/lootboxes/" + event;
-      const inviteText = this.setting.inviteText.replace(/,/g, "\n");
+      const inviteText = this.setting.inviteText.replace(/,/g, "\r\n");
 
       // 构建推特的分享链接
       var twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(

@@ -125,8 +125,8 @@ export default {
       }
     },
     setting() {
-      if (!this.showRoll) {
-        window.location.href = this.setting?.jumpAddress || "/home";
+      if (!this.showRoll && this.setting?.jumpAddress) {
+        window.location.href = this.setting?.jumpAddress;
       }
     },
   },

@@ -36,6 +36,14 @@ export default {
       const { locale } = this.userStore;
       return locale;
     },
+    userInfo() {
+      const userStore = useUserStore();
+      return userStore.userInfo;
+    },
+    isLogin() {
+      const userStore = useUserStore();
+      return userStore.isLogin;
+    },
   },
   methods: {
     reload() {
@@ -51,7 +59,9 @@ export default {
     },
   },
   created() {
-    this.init();
+    if (this.isLogin && this.userInfo?.id) {
+      this.init();
+    }
   },
 };
 </script>

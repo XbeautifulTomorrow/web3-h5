@@ -40,28 +40,55 @@
           class="public-form"
         >
           <el-form-item :label="$t('login.email')" prop="account">
-            <el-input class="public-input" v-model="formLogin.account" @blur="fetchGoogleAuth" :placeholder="$t('login.emailHint')" />
+            <el-input
+              class="public-input"
+              v-model="formLogin.account"
+              @blur="fetchGoogleAuth"
+              :placeholder="$t('login.emailHint')"
+            />
           </el-form-item>
           <el-form-item :label="$t('login.password')" prop="passWord">
-            <el-input class="public-input" v-model="formLogin.passWord" :placeholder="$t('login.passwordHint')" type="password" />
+            <el-input
+              class="public-input"
+              v-model="formLogin.passWord"
+              :placeholder="$t('login.passwordHint')"
+              type="password"
+            />
           </el-form-item>
-          <el-form-item :label="$t('user.inputTitle')" prop="validatCode" v-if="isAuth">
-            <el-input class="public-input" v-model="formLogin.validatCode" :placeholder="$t('login.captchaHint')" type="password" />
+          <el-form-item
+            :label="$t('user.inputTitle')"
+            prop="validatCode"
+            v-if="isAuth"
+          >
+            <el-input
+              class="public-input"
+              v-model="formLogin.validatCode"
+              :placeholder="$t('login.captchaHint')"
+              type="password"
+            />
           </el-form-item>
         </el-form>
         <div class="form-link">
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun">
-              <span v-show="rememberMe" class="form-rember-rectangle-fill"></span>
+              <span
+                v-show="rememberMe"
+                class="form-rember-rectangle-fill"
+              ></span>
             </span>
             <span class="form-rember-text">{{ $t("login.rememberMe") }}</span>
           </div>
-          <div class="form-forgot" @click="goTo('forgot')">{{ $t("login.goForgot") }}</div>
+          <div class="form-forgot" @click="goTo('forgot')">
+            {{ $t("login.goForgot") }}
+          </div>
         </div>
-        <el-button class="public-button form-button" @click="loginFun(ruleFormRef)">
+        <el-button
+          class="public-button form-button"
+          @click="loginFun(ruleFormRef)"
+        >
           {{ $t("common.login") }}
         </el-button>
-        
+
         <p class="form-register">
           <span>{{ $t("login.notRegisteredHint") }}</span>
           <span class="form-register-link" @click="goTo('register')">
@@ -171,6 +198,8 @@ const loginFun = async (formEl) => {
         //   });
         // }
         userStore.setLogin(res.data);
+        userStore.getCoinList();
+        userStore.exchangeLegalRate();
         const headerStore = useHeaderStore();
         headerStore.getTheUserBalanceApi();
         headerStore.fetchTheUserPoint();

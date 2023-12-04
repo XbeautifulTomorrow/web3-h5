@@ -20,7 +20,7 @@
       </template>
       <div class="public-dialog-content form-content" v-if="!isLogin">
         <h2 class="public-dialog-title">{{ $t("login.registerTitle") }}</h2>
-        
+
         <div class="login-style">
           <a :href="googleUrl">
             <p>
@@ -41,7 +41,11 @@
           class="public-form"
         >
           <el-form-item :label="$t('login.email')" prop="email">
-            <el-input v-model="formRegister.email" class="public-input" :placeholder="$t('login.emailHint')" />
+            <el-input
+              v-model="formRegister.email"
+              class="public-input"
+              :placeholder="$t('login.emailHint')"
+            />
           </el-form-item>
           <el-form-item :label="$t('login.password')" prop="passWord">
             <el-input
@@ -61,13 +65,25 @@
               show-password
             />
           </el-form-item>
-          <el-form-item class="register-captcha" :label="$t('login.captcha')" prop="captcha">
-            <el-input v-model="formRegister.captcha" class="public-input" :placeholder="$t('login.captchaHint')">
+          <el-form-item
+            class="register-captcha"
+            :label="$t('login.captcha')"
+            prop="captcha"
+          >
+            <el-input
+              v-model="formRegister.captcha"
+              class="public-input"
+              :placeholder="$t('login.captchaHint')"
+            >
               <template #suffix>
                 <!-- <el-button type="warning" @click.stop="getCaptchaApi(ruleFormRef)">
                 {{ time < 60 ? `${time}s` : $t("login.send") }} </el-button> -->
 
-                <el-button type="warning" v-loading="loading" @click.stop="sendVerify(ruleFormRef)">
+                <el-button
+                  type="warning"
+                  v-loading="loading"
+                  @click.stop="sendVerify(ruleFormRef)"
+                >
                   {{ time < 60 ? `${time}s` : $t("login.send") }}
                 </el-button>
               </template>
@@ -80,44 +96,81 @@
           />
         </el-form-item> -->
         </el-form>
-        <div class="tips_btn" @click="showDialog()">{{ $t("login.notReceived") }}</div>
+        <div class="tips_btn" @click="showDialog()">
+          {{ $t("login.notReceived") }}
+        </div>
         <div class="form-link">
           <div class="form-rember">
             <span class="form-rember-rectangle" @click="showRememberFun">
-              <span v-show="showRemember" class="form-rember-rectangle-fill"></span>
+              <span
+                v-show="showRemember"
+                class="form-rember-rectangle-fill"
+              ></span>
             </span>
             <span class="form-rember-text">
               <span>{{ $t("login.termsText") }}</span>
-              <span class="user_agreement" @click="onOpenUrl()">{{ $t("login.userAgreement") }}</span>
+              <span class="user_agreement" @click="onOpenUrl()">{{
+                $t("login.userAgreement")
+              }}</span>
             </span>
           </div>
         </div>
-        <el-button v-if="!showRemember" class="public-button form-button disabled">
+        <el-button
+          v-if="!showRemember"
+          class="public-button form-button disabled"
+        >
           {{ $t("login.completeUpper") }}
         </el-button>
-        <el-button v-else class="public-button form-button" @click="registerFun(ruleFormRef)">
+        <el-button
+          v-else
+          class="public-button form-button"
+          @click="registerFun(ruleFormRef)"
+        >
           {{ $t("login.completeUpper") }}
         </el-button>
       </div>
       <div class="public-dialog-content form-content" v-else>
         <p class="public-dialog-title auth">{{ $t("user.authTitle") }}</p>
         <p class="public-dialog-description">
-          Using two-factor authentication is highly recommended because it protects your account with both your password and your phone.
+          Using two-factor authentication is highly recommended because it
+          protects your account with both your password and your phone.
         </p>
-        <el-button class="public-button form-button" @click="emit('changeTypeFun', 'auth')">
+        <el-button
+          class="public-button form-button"
+          @click="emit('changeTypeFun', 'auth')"
+        >
           {{ $t("user.confirmBtn") }}
         </el-button>
-        <el-button class="public-button form-button cancel-button" @click="emit('changeTypeFun', 'modify')">
+        <el-button
+          class="public-button form-button cancel-button"
+          @click="emit('changeTypeFun', 'modify')"
+        >
           {{ $t("common.skip") }}
         </el-button>
       </div>
-      <errorTips v-if="showErr" @changeTypeFun="changeTypePage" @closeFun="handleClose()"></errorTips>
-      <imgVerify ref="childComp" v-if="showVerify" @changeTypeFun="getCaptchaApi" @closeFun="handleClose()"></imgVerify>
+      <errorTips
+        v-if="showErr"
+        @changeTypeFun="changeTypePage"
+        @closeFun="handleClose()"
+      ></errorTips>
+      <imgVerify
+        ref="childComp"
+        v-if="showVerify"
+        @changeTypeFun="getCaptchaApi"
+        @closeFun="handleClose()"
+      ></imgVerify>
     </el-dialog>
   </div>
 </template>
 <script setup>
-import { ref, reactive, onBeforeUnmount, defineEmits, defineProps, onMounted } from "vue";
+import {
+  ref,
+  reactive,
+  onBeforeUnmount,
+  defineEmits,
+  defineProps,
+  onMounted,
+} from "vue";
 // import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useHeaderStore } from "@/store/header.js";
@@ -126,7 +179,13 @@ import errorTips from "./errorTips.vue";
 import imgVerify from "./imgVerify.vue";
 import { getCaptcha, getReg } from "@/services/api/user";
 
-import { getSessionStore, setSessionStore, getLocalStore, openUrl, encryptCBC } from "@/utils";
+import {
+  getSessionStore,
+  setSessionStore,
+  getLocalStore,
+  openUrl,
+  encryptCBC,
+} from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
@@ -327,6 +386,8 @@ const registerFun = async (formEl) => {
 
         userStore.setLogin(res.data);
         userStore.setReg(res.data);
+        userStore.getCoinList();
+        userStore.exchangeLegalRate();
         useHeaderStore().fetchSetting();
 
         try {
@@ -475,15 +536,15 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   margin: 1.25rem 0;
-  a{
+  a {
     width: 100%;
     text-decoration: none;
   }
-  img{
+  img {
     width: 1.875rem;
     margin-right: 1.25rem;
   }
-  p{
+  p {
     width: 100%;
     height: 3.375rem;
     line-height: 3.375rem;
@@ -543,14 +604,14 @@ onMounted(async () => {
   .tips_btn {
     padding: 0.75rem;
   }
-  .login-style{
-    p{
+  .login-style {
+    p {
       height: 2.5rem;
       line-height: 2.5rem;
-      font-size: .75rem;
-      img{
+      font-size: 0.75rem;
+      img {
         width: 1.5rem;
-        margin-right: .625rem;
+        margin-right: 0.625rem;
       }
     }
   }

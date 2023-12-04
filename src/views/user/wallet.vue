@@ -110,7 +110,7 @@
       <div class="balance_items">
         <div class="balance_item">
           <div class="balance_item_l">
-            <img src="@/assets/svg/user/icon_profile.svg" alt="" />
+            <img src="@/assets/svg/user/icon_point.svg" alt="" />
             <div class="num">
               <span>{{ Number(userPoints).toLocaleString() || 0 }}</span>
               <span>{{ $t("user.point") }}</span>

@@ -46,6 +46,7 @@
     <link rel="apple-touch-icon" sizes="72x72" href="<%= BASE_URL %>favicon.ico" />
     <link rel="apple-touch-icon" sizes="114x114" href="<%= BASE_URL %>favicon.ico" />
     <link rel="apple-touch-icon" sizes="144x144" href="<%= BASE_URL %>favicon.ico" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>BITZING</title>
   </head>
 
@@ -59,11 +60,36 @@
     <noscript>
       <strong>We're sorry but BITZING doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <script>
+    function onGoogleLoad() {
+        gapi.load('auth2', function() {
+            auth2 = gapi.auth2.init({
+                client_id: '844010994511-cre6l69ghd2r3o05vbd4buk3e6l7pcuj.apps.googleusercontent.com',
+                scope: 'email'
+            });
+            auth2.attachClickHandler('elementId', {}, onSuccess, onFailure);
+        });
+    }
+
+    function onSuccess(googleUser) {
+        console.log('Login success:', googleUser);
+        // 在这里处理登录成功后的逻辑
+    }
+
+    function onFailure(error) {
+        console.log('Login failure:', error);
+        // 在这里处理登录失败后的逻辑
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+        onGoogleLoad();
+    });
+    </script>
     <!-- <div id="logo" class="logo"></div> -->
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ9DVVS2VG"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ9DVVS2VG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -72,6 +98,7 @@
       gtag("js", new Date());
 
       gtag("config", "G-BZ9DVVS2VG");
+     
     </script>
   </body>
 </html>

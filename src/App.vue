@@ -33,6 +33,7 @@ export default {
         client_id:'555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com',
         auto_select:false,
         cancel_on_tap_outside:false,
+        login_uri:"http://test1.e-vo.io:33080/home",
         context:'signin'
       }
     };

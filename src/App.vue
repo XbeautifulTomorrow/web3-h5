@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import googleOneTap from "google-one-tap";
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 export default {
@@ -28,6 +29,12 @@ export default {
   data() {
     return {
       isRouterAlive: true, //控制视图是否显示的变量
+      googleOptions:{
+        client_id:'555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com',
+        auto_select:false,
+        cancel_on_tap_outside:false,
+        context:'signin'
+      }
     };
   },
   computed: {
@@ -63,6 +70,15 @@ export default {
       this.init();
     }
   },
+  mounted(){
+    if(!this.isLogin){
+      console.log(222)
+      googleOneTap(this.googleOptions,async(res)=>{
+       console.log(res,'res-+----------')
+       console.log(res?.credential,'res-+----------')
+      })
+    }
+  }
 };
 </script>
 

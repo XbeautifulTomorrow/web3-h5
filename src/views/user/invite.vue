@@ -161,6 +161,12 @@
             show-overflow-tooltip
           />
           <el-table-column
+            prop="clickNumber"
+            :label="$t('user.CLICKS')"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
             prop="invitePeople"
             :label="$t('user.refs')"
             align="center"

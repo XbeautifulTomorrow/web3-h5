@@ -4,8 +4,15 @@
     <mystery-boxes :boxList="boxList" />
     <nft-tickets />
     <contents-info />
-    <Login v-if="pageType === 'login'" @closeDialogFun="closeDialogFun" @changeTypeFun="changeTypeFun" />
-    <war-poster v-if="isWarPosterShow" @closeDialogFun="isWarPosterShow = false"></war-poster>
+    <Login
+      v-if="pageType === 'login'"
+      @closeDialogFun="closeDialogFun"
+      @changeTypeFun="changeTypeFun"
+    />
+    <war-poster
+      v-if="isWarPosterShow"
+      @closeDialogFun="isWarPosterShow = false"
+    ></war-poster>
   </div>
 </template>
 
@@ -79,11 +86,11 @@ export default {
         this.isWarPosterShow = false;
       } else {
         this.isWarPosterShow = true;
-        // const image = new Image();
-        // image.onload = () => {
-        //   this.isWarPosterShow = true;
-        // };
-        // image.src = require("@/assets/img/home/poster/bg_02.webp");
+        const image = new Image();
+        image.onload = () => {
+          this.isWarPosterShow = true;
+        };
+        image.src = require("@/assets/img/home/poster/bg_02.webp");
       }
     },
     bannerGo(data) {

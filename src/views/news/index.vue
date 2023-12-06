@@ -14,7 +14,7 @@
             </p>
             <div class="news_time">
               <p>by Bitzing</p>
-              <p>{{ timeFormat(item.webTime||item.createTime) }}</p>
+              <p>{{ timeFormat(item.releaseTime) }}</p>
             </div>
           </div>
         </div>

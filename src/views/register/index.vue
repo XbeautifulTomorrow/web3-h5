@@ -185,6 +185,7 @@ import {
   getLocalStore,
   openUrl,
   encryptCBC,
+  setCookie
 } from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
@@ -382,6 +383,7 @@ const registerFun = async (formEl) => {
         if (res.data.certificate) {
           localStorage.removeItem("boxBounsKey");
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
+          setCookie("certificate", encryptCBC(res.data.certificate), 1000);
         }
 
         userStore.setLogin(res.data);

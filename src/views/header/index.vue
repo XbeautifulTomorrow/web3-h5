@@ -240,6 +240,7 @@ import {
   encryptCBC,
   getUrlParams,
   parseURLParams,
+  setCookie
 } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
@@ -506,6 +507,7 @@ export default {
       if (res && res.code === 200) {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
+          setCookie("certificate", encryptCBC(res.data.certificate), 1000);
         }
         this.fetchSetting();
         if (res.data.firstStatus == "TRUE") {

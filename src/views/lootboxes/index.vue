@@ -53,7 +53,7 @@ import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
 import { useWalletStore } from "@/store/wallet.js";
-import { parseURLParams } from "@/utils";
+import { parseURLParams, setCookie } from "@/utils";
 
 import { Howl } from "howler";
 import * as audioResource from "@/utils/audioResource";
@@ -154,7 +154,7 @@ export default {
               result.initPrice = filterData[0].boxNftInfos[0].price;
               this.lottResult = [];
               this.lottResult.push(result);
-              localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
+              setCookie("boxBounsKey",res.data?.boxBounsKey)
               sessionStorage.setItem("result", JSON.stringify(this.lottResult));
             } else {
               result = { ...res.data, ...this.blindDetailInfo.series[0] };
@@ -166,7 +166,7 @@ export default {
                 this.blindDetailInfo.series[0].boxNftInfos[0].minPrice;
               this.lottResult = [];
               this.lottResult.push(result);
-              localStorage.setItem("boxBounsKey", res.data?.boxBounsKey);
+              setCookie("boxBounsKey",res.data?.boxBounsKey)
               sessionStorage.setItem("result", JSON.stringify(this.lottResult));
             }
           }, 5000);

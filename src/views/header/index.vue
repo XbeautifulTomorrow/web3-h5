@@ -240,7 +240,9 @@ import {
   encryptCBC,
   getUrlParams,
   parseURLParams,
-  setCookie
+  setCookie,
+  getCookie,
+  delCookie
 } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
@@ -485,7 +487,7 @@ export default {
       });
       if (res && res.code == 200) {
         const setting = res.data;
-        if (localStorage.getItem("boxBounsKey")) {
+        if (getCookie("boxBounsKey")) {
           const queryParams = parseURLParams(setting?.jumpAddress);
           this.$router.push({
             path: setting?.jumpAddress || "/home",
@@ -494,7 +496,7 @@ export default {
         } else {
           this.$router.push({ path: "/home" });
         }
-        localStorage.removeItem("boxBounsKey");
+        delCookie('boxBounsKey')
       }
     },
     // google登录
@@ -502,7 +504,7 @@ export default {
       var googleLoginCode = getUrlParams("googleLoginCode");
       if (!googleLoginCode) return;
       // 如果langdingPage入金
-      const boxBounsKey = localStorage.getItem("boxBounsKey") || null;
+      const boxBounsKey = getCookie('boxBounsKey') || null;
       const res = await authGoogleLogin({ code: googleLoginCode, boxBounsKey });
       if (res && res.code === 200) {
         if (res.data.certificate) {
@@ -542,8 +544,19 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
+    } else if(!this.hideNavPage.includes(this.$route.name)) {
+      let certificate = getCookie('certificate')
+      let userInfo = getCookie('userInfo')
+      if(certificate) {
+        localStorage.setItem('certificate',certificate)
+      }
+      if(userInfo) {
+        const userStore = useUserStore();
+        userStore.setLogin(JSON.parse(userInfo));
+        localStorage.setItem('userInfo',userInfo)
+      }
     }
-
+ 
     this.timeoutBalance();
 
     this.nav = [

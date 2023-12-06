@@ -185,7 +185,9 @@ import {
   getLocalStore,
   openUrl,
   encryptCBC,
-  setCookie
+  setCookie,
+  getCookie,
+  delCookie
 } from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
@@ -373,7 +375,7 @@ const registerFun = async (formEl) => {
         data.inviteCode = inviteCode;
       }
       // 如果langdingPage入金
-      const boxBounsKey = getLocalStore("boxBounsKey") || null;
+      const boxBounsKey = getCookie("boxBounsKey") || null;
       if (boxBounsKey) {
         data.boxBounsKey = boxBounsKey;
       }
@@ -381,7 +383,7 @@ const registerFun = async (formEl) => {
       const res = await getReg(data);
       if (res && res.code === 200) {
         if (res.data.certificate) {
-          localStorage.removeItem("boxBounsKey");
+          delCookie("boxBounsKey");
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
           setCookie("certificate", encryptCBC(res.data.certificate), 1000);
         }

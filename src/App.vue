@@ -17,7 +17,6 @@
 <script>
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
-import { getCookie } from "@/utils";
 export default {
   name: "App",
   provide() {
@@ -62,23 +61,6 @@ export default {
   created() {
     if (this.isLogin && this.userInfo?.id) {
       this.init();
-    } else {
-      let certificate = getCookie('certificate')
-      let userInfo = getCookie('userInfo')
-      let regInfo = getCookie('regInfo')
-      console.log(certificate)
-      console.log(userInfo)
-      console.log(regInfo)
-      if(certificate) {
-        localStorage.setItem('certificate',certificate)
-      }
-      if(userInfo) {
-        localStorage.setItem('userInfo',userInfo)
-      }
-      if(regInfo) {
-        localStorage.setItem('certificate',regInfo)
-      }
-      
     }
   },
 };

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getLocalStore, setSessionStore, getSessionStore, setCookie, getCookie, delCookie } from "@/utils";
+import { getLocalStore, setSessionStore, getSessionStore, setCookie, delCookie } from "@/utils";
 import { productionOfThirdPartyCoin, getWithdrawalChain } from "@/services/api/user";
 import localeZH from "element-plus/dist/locale/zh-tw.mjs";
 import localeEN from "element-plus/dist/locale/en.mjs";
@@ -81,7 +81,6 @@ export const useUserStore = defineStore("user", {
         delete data.certificate;
       }
       this.regInfo = data;
-      setCookie("regInfo", JSON.stringify(data), 1000);
     },
     setLocale(data) {
       this.locale = data == "en_US" ? localeEN : localeZH;
@@ -103,11 +102,10 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("regInfo");
       localStorage.removeItem("userInfo");
       localStorage.removeItem("certificate");
-      localStorage.removeItem("boxBounsKey");
       localStorage.removeItem("isPwd");
       delCookie("certificate");
       delCookie("userInfo");
-      delCookie("userInfo");
+      delCookie("boxBounsKey");
       this.isLogin = false;
       this.userInfo = undefined;
       this.regInfo = undefined;

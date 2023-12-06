@@ -15,7 +15,8 @@
 </template>
 
 <script>
-import googleOneTap from "google-one-tap";
+// import googleOneTap from "google-one-tap";
+import googleOneTapSignin from '@/utils/googleLogin.js' 
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
 export default {
@@ -29,13 +30,7 @@ export default {
   data() {
     return {
       isRouterAlive: true, //控制视图是否显示的变量
-      googleOptions:{
-        client_id:'555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com',
-        auto_select:false,
-        cancel_on_tap_outside:false,
-        login_uri:"http://test1.e-vo.io:33080/home",
-        context:'signin'
-      }
+      
     };
   },
   computed: {
@@ -72,13 +67,22 @@ export default {
     }
   },
   mounted(){
-    if(!this.isLogin){
-      console.log(222)
-      googleOneTap(this.googleOptions,async(res)=>{
-       console.log(res,'res-+----------')
-       console.log(res?.credential,'res-+----------')
-      })
-    }
+    // if(!this.isLogin){
+    //   const options = {
+    //     client_id:'555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com',
+        
+    //     auto_select:false,
+    //     cancel_on_tap_outside:false,
+    //     context:'signin'
+    //   }
+    //   googleOneTap(options,async(res)=>{
+    //    console.log(res,'res-+----------')
+    //    console.log(res?.credential,'res-+----------')
+    //   })
+    // }
+    // const { googleOptions, oneTapSignin } = googleOneTapSignin()
+    //   oneTapSignin(googleOptions)
+
   }
 };
 </script>

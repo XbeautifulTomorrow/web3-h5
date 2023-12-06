@@ -2,7 +2,7 @@ import axios from "axios";
 import { ref } from "vue";
 
 export default function () {
-  const CLIENT_ID = "555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com";
+  const CLIENT_ID = "844010994511-cre6l69ghd2r3o05vbd4buk3e6l7pcuj.apps.googleusercontent.com";
   const CLIENT_URL = "http://test1.e-vo.io:33080/home";
   const API_URL = "http://test1.e-vo.io:33080";
 

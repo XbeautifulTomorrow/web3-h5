@@ -98,8 +98,8 @@ export default {
     //    console.log(res?.credential,'res-+----------')
     //   })
     // }
-    // const { googleOptions, oneTapSignin } = googleOneTapSignin()
-    //   oneTapSignin(googleOptions)
+    const { googleOptions, oneTapSignin } = googleOneTapSignin()
+      oneTapSignin(googleOptions)
 
   }
 };

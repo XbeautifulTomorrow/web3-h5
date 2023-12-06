@@ -104,7 +104,7 @@ import { ref, reactive, onBeforeMount, onMounted, defineEmits } from "vue";
 import { useUserStore } from "@/store/user";
 import { useHeaderStore } from "@/store/header.js";
 import { getLogin, getGoogleValidateStatus } from "@/services/api/user";
-import { encryptCBC } from "@/utils";
+import { encryptCBC, setCookie } from "@/utils";
 import { i18n } from "@/locales";
 import config from "@/services/env";
 const { t } = i18n.global;
@@ -190,6 +190,8 @@ const loginFun = async (formEl) => {
         }
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
+          setCookie("certificate", encryptCBC(res.data.certificate), 1000);
+          
         }
         // if (res.data.userType !== "NORMAL") {
         //   ElMessage({

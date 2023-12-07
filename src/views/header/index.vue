@@ -527,7 +527,7 @@ export default {
     },
     async googleoneTapLogin(){
       const options = {
-        client_id:process.env.GOOGLE_CLIENT_ID,
+        client_id:process.env.VUE_APP_GOOGLE_CLIENT_ID,
         auto_select:false,
         cancel_on_tap_outside:false,
         context:'signin'
@@ -561,7 +561,7 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
     } else {
-      
+      this.googleoneTapLogin();
     }
 
 

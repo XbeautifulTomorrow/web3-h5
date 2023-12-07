@@ -910,6 +910,10 @@
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
     "couponCode": "COUPON CODE",
-    "accountExceptionTip": "检测到账号异常，请联系客服验证账号。"
+    "accountExceptionTip": "检测到账号异常，请联系客服验证账号。",
+    "maxV": "MAX",
+    "depositTo": "DEPOSIT TO ",
+    "getBonus": "GET 200% BONUS",
+    "upTo": "UP TO "
   }
 }

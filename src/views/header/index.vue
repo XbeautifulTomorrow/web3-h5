@@ -560,7 +560,7 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
-    } else {
+    } else if(window.location.protocol === 'https:') {
       this.googleoneTapLogin();
     }
 

@@ -100,7 +100,6 @@ const handleRes = ({ response, url, data }) => {
       });
     }
 
-    console.log(url)
     if (notMessage.includes(url)) {
       return response;
     } else {

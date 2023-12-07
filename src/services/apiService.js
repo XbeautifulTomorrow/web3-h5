@@ -14,6 +14,8 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 300000,
 });
+
+// 希望控制报错信息，就把接口地址写这里
 const notMessage = [
   "mystery-web-user/auth/check/captcha",
   "mystery-web-user/auth/getIp",
@@ -26,9 +28,9 @@ const notMessage = [
   "mystery-web-user/three-party-transaction/rate",
   "mystery-web-user/redeem-code-info/redeem",
   "mystery-web-user/oneNftLotteryOrders/balancePurchases",
-  "mystery-web-user/war/buy",
-
+  "mystery-web-game/war/buy"
 ];
+
 axiosInstance.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("certificate")) {
@@ -98,6 +100,7 @@ const handleRes = ({ response, url, data }) => {
       });
     }
 
+    console.log(url)
     if (notMessage.includes(url)) {
       return response;
     } else {

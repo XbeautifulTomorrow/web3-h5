@@ -1166,7 +1166,7 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
-    dataLayerFunc(event){
+    dataLayerFunc(event) {
       try {
         // eslint-disable-next-line no-undef
         dataLayer.push({
@@ -1278,7 +1278,7 @@ export default {
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
-        this.dataLayerFunc("game_one_start")
+        this.dataLayerFunc("game_one_start");
       } else {
         const { data } = res;
         if (data.messageKey == "pvp_limit") {

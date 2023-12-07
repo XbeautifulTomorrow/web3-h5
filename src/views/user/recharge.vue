@@ -54,6 +54,31 @@
           </div>
         </div>
         <div
+          class="banner_promotion_box"
+          v-if="walletOperating == 1 || walletOperating == 3"
+        >
+          <img
+            v-if="screenWidth > 950"
+            src="@/assets/img/user/recharge_banner.webp"
+            alt=""
+          />
+          <img
+            v-else
+            src="@/assets/img/user/recharge_banner_mobile.webp"
+            alt=""
+          />
+          <div class="promotion_text">
+            <div>
+              <span>{{ $t("user.depositTo") }}</span>
+              <span class="bonus">{{ $t("user.getBonus") }}</span>
+            </div>
+            <div>
+              <span>{{ $t("user.upTo") }}</span>
+              <span class="bonus">$ 1,000,000</span>
+            </div>
+          </div>
+        </div>
+        <div
           class="choose_operating"
           v-if="walletOperating == 1 || walletOperating == 2"
         >
@@ -184,7 +209,16 @@
                   type="number"
                 >
                   <template #prefix>
-                    <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
+                    <img
+                      v-if="operatingCoin == 'ETH'"
+                      :src="getCion(operatingCoin)"
+                      alt=""
+                    />
+                    <img
+                      v-else
+                      src="@/assets/svg/user/icon_usdt_gold.svg"
+                      alt=""
+                    />
                   </template>
                 </el-input>
                 <div class="convert_interval">~</div>
@@ -195,7 +229,12 @@
                   type="number"
                 >
                   <template #prefix>
-                    <img :src="getCion(operatingCoin)" alt="" />
+                    <img
+                      v-if="operatingCoin == 'ETH'"
+                      src="@/assets/svg/user/icon_usdt_gold.svg"
+                      alt=""
+                    />
+                    <img v-else :src="getCion(operatingCoin)" alt="" />
                   </template>
                 </el-input>
               </div>
@@ -235,12 +274,17 @@
                 </p>
                 <p v-if="operatingCoin == 'USDC'">
                   {{ $t("user.available") }}
-                  {{ getCoinBalance("USDT").toFixed(4) + " " + operatingCoin }}
+
+                  {{
+                    accurateDecimal(getCoinBalance("USDT"), 4, true) +
+                    " " +
+                    operatingCoin
+                  }}
                 </p>
                 <p v-else>
                   {{ $t("user.available") }}
                   {{
-                    getCoinBalance(operatingCoin).toFixed(4) +
+                    accurateDecimal(getCoinBalance(operatingCoin), 4, true) +
                     " " +
                     operatingCoin
                   }}
@@ -271,20 +315,25 @@
                   </el-input> -->
                 </div>
               </div>
-              <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
-                <span class="fee_title">
-                  {{ t("user.fee") }}
-                </span>
-                <span class="fee_val">
-                  {{
-                    `${network?.newGas || network?.gas} ${
-                      operatingCoin || "--"
-                    }`
-                  }}
-                </span>
-                <span class="free_text" v-if="setting.freeFeeStatus">{{
-                  t("recharge.free")
-                }}</span>
+              <div class="additional_box">
+                <div :class="['withdraw_fee', setting.freeFeeStatus && 'free']">
+                  <span class="fee_title">
+                    {{ t("user.fee") }}
+                  </span>
+                  <span class="fee_val">
+                    {{
+                      `${network?.newGas || network?.gas} ${
+                        operatingCoin || "--"
+                      }`
+                    }}
+                  </span>
+                  <span class="free_text" v-if="setting.freeFeeStatus">
+                    {{ t("recharge.free") }}
+                  </span>
+                </div>
+                <div class="max_btn" @click="maxBalance">
+                  {{ $t("user.maxV") }}
+                </div>
               </div>
               <div class="withdraw_item_error">
                 {{ tipsText }}
@@ -361,7 +410,7 @@
                 </div>
                 <div class="withdraw_item_error">
                   <p>{{ exchangeAmountTips }}</p>
-                  <p class="max" @click="maxFunc">MAX</p>
+                  <p class="max" @click="maxFunc">{{ $t("user.maxV") }}</p>
                 </div>
               </div>
             </div>
@@ -645,7 +694,7 @@ export default {
         this.ethNum =
           accurateDecimal(
             new bigNumber(newV || 0).dividedBy(exchangeRate || 0),
-            8
+            2
           ) || 0;
       }, 300);
     },
@@ -688,6 +737,18 @@ export default {
           this.getCoinBalance(this.exchangeInfo.exchangeFromCoin) * 10000
         ) / 10000;
       this.exchangeFromAmountFunc();
+    },
+    // 提取所有余额
+    maxBalance() {
+      const { operatingCoin, getCoinBalance } = this;
+      let balance = 0;
+      if (operatingCoin == "USDC") {
+        balance = Number(accurateDecimal(getCoinBalance("USDT"), 4));
+      } else {
+        balance = Number(accurateDecimal(getCoinBalance(operatingCoin), 4));
+      }
+
+      this.walletAmount = balance;
     },
     // 获取下浮比率
     getExchangeDown(coin) {
@@ -1192,8 +1253,7 @@ export default {
   width: 100% !important;
   height: auto !important;
 }
-</style>
-<style lang="scss">
+
 .el-select__popper {
   border: none !important;
   background-color: #1d0f36 !important;

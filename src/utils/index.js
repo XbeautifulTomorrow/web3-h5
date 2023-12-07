@@ -613,3 +613,24 @@ export const parseURLParams = (urlString) => {
   }
   return paramsObject;
 };
+
+// 设置cookie
+export const setCookie = (name, value, day) => {
+  let date = new Date();
+  date.setDate(date.getDate() + day);
+  document.cookie = name + "=" + value + ";expires=" + date;
+}
+// 获取cookie
+export const getCookie = (name) => {
+  let reg = RegExp(name + "=([^;]+)");
+  let arr = document.cookie.match(reg);
+  if (arr) {
+    return arr[1];
+  } else {
+    return "";
+  }
+}
+// 删除cookie
+export const delCookie = (name) => {
+   setCookie(name, null, -1)
+ }

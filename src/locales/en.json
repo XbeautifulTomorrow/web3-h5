@@ -507,7 +507,11 @@
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
     "couponCode": "COUPON CODE",
-    "accountExceptionTip": "Account anomaly detected, please click the button to contact official customer service."
+    "accountExceptionTip": "Account anomaly detected, please click the button to contact official customer service.",
+    "maxV": "MAX",
+    "depositTo": "DEPOSIT TO ",
+    "getBonus": "GET 200% BONUS",
+    "upTo": "UP TO "
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",

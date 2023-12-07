@@ -5,7 +5,7 @@
       <p class="title">{{ dataInfo.title }}</p>
       <div class="news_time">
         <p>by Bitzing</p>
-        <p class="timer">{{ timeFormat(dataInfo.webTime||dataInfo.createTime) }}</p>
+        <p class="timer">{{ timeFormat(dataInfo.releaseTime) }}</p>
       </div>
       <div class="news_content" v-html="dataInfo.contentHtml"></div>
     </div>

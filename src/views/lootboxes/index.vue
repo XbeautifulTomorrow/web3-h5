@@ -27,7 +27,6 @@
       @rollNumberFun="rollNumberFun"
     ></boxDetails>
     <Loading :loading="loading" />
-    <div class="preloadingimg"></div>
     <!-- 预加载图片 -->
     <div :style="{ display: 'none' }">
       <img
@@ -52,11 +51,10 @@ import Loading from "@/components/loading/index";
 import boxDetails from "./details.vue";
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
-import { useWalletStore } from "@/store/wallet.js";
 import { parseURLParams } from "@/utils";
 
 import { Howl } from "howler";
-import * as audioResource from "@/utils/audioResource";
+import {slipe, oneSlow} from "@/utils/audioResource";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -75,26 +73,16 @@ export default {
       rollNumber: "",
       showRoll: false,
       boxList: [],
-      ticketList: [],
-      NFTList: [],
-      generateKey: "",
       boxId: null,
-      walletOrderDetail: "",
-      usdtAddress: "0x6712957c6b71d6dc7432ca7ebb16a4dbca76e535",
-      lottContractAddress: "0x7729c592e087d88afea4b55c367c8570e0025ee0", //抽奖合约，
-      transferAddress: "0x927e481e98e01bef13d1486be2fcc23a00761524",
       blindDetailInfo: {},
-      lottStatus: true,
       lottResult: [],
       apiIsError: false,
-      resultTimer: null,
       errorText: undefined,
-
       showTips: true,
     };
   },
   computed: {
-    ...mapStores(useHeaderStore, useUserStore, useWalletStore),
+    ...mapStores(useHeaderStore, useUserStore),
     ethBalance() {
       const headerStore = useHeaderStore();
       return headerStore.balance;
@@ -132,7 +120,7 @@ export default {
   },
   methods: {
     audioPreloadFunc() {
-      const audioSrc = audioResource;
+      const audioSrc = {slipe,oneSlow};
       Object.values(audioSrc).forEach((x) => new Howl({ src: x }));
     },
     async rollNumberFun() {
@@ -252,9 +240,6 @@ export default {
   }
   .tips-text {
     font-size: 0.75rem !important;
-  }
-  .preloadingimg {
-    background: url("@/assets/img/h5/lottery/05.gif") no-repeat;
   }
 }
 </style>

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import googleOneTap from "google-one-tap";
+import googleOneTap from "google-one-tap";
 import googleOneTapSignin from '@/utils/googleLogin.js' 
 import { mapStores } from "pinia";
 import { useUserStore } from "@/store/user.js";
@@ -85,21 +85,20 @@ export default {
     }
   },
   mounted(){
-    // if(!this.isLogin){
-    //   const options = {
-    //     client_id:'555035588589-5mb41b2i34loeiigc2rjvr5dfhc46tlg.apps.googleusercontent.com',
-        
-    //     auto_select:false,
-    //     cancel_on_tap_outside:false,
-    //     context:'signin'
-    //   }
-    //   googleOneTap(options,async(res)=>{
-    //    console.log(res,'res-+----------')
-    //    console.log(res?.credential,'res-+----------')
-    //   })
-    // }
-    const { googleOptions, oneTapSignin } = googleOneTapSignin()
-      oneTapSignin(googleOptions)
+    if(!this.isLogin){
+      const options = {
+        client_id:'967797472276-mj9teq8i836dchjn7v9q9qg99v0qu77n.apps.googleusercontent.com',
+        auto_select:false,
+        cancel_on_tap_outside:false,
+        context:'signin'
+      }
+      googleOneTap(options,async(res)=>{
+       console.log(res,'res-+----------')
+       console.log(res?.credential,'res-+----------')
+      })
+    }
+    // const { googleOptions, oneTapSignin } = googleOneTapSignin()
+    //   oneTapSignin(googleOptions)
 
   }
 };

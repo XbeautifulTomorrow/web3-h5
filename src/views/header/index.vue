@@ -560,7 +560,7 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
-    } else if(window.location.protocol === 'https:') {
+    } else if(!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:') {
       this.googleoneTapLogin();
     }
 

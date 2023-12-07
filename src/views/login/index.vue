@@ -197,6 +197,15 @@ const loginFun = async (formEl) => {
         //     type: "warning",
         //   });
         // }
+        try {
+          // eslint-disable-next-line no-undef
+          dataLayer.push({
+            event: "app_start",
+            ecommerce: "ok",
+          });
+        } catch (err) {
+          console.log(err);
+        }
         userStore.setLogin(res.data);
         userStore.getCoinList();
         userStore.exchangeLegalRate();

@@ -313,6 +313,17 @@ export default {
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
+     dataLayerFunc(event){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     // 更新购买数据
     setAmount(event) {
       this.buyNum = Number(this.buyNum) + Number(event);
@@ -365,6 +376,7 @@ export default {
       if (res.code == 200) {
         this.getTheUserBalanceInfo();
         this.buyNum = null;
+        this.dataLayerFunc("game_token_war_start");
       }
     },
     async getTheUserBalanceInfo() {

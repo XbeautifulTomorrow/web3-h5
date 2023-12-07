@@ -1164,6 +1164,17 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    dataLayerFunc(event){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     // 获取Nft信息
     async fetchOneBuyInfo() {
       const res = await getOneBuyInfo({
@@ -1265,6 +1276,7 @@ export default {
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
+        this.dataLayerFunc("game_one_start")
       }
     },
     async getTheUserBalanceInfo() {
@@ -1898,6 +1910,7 @@ export default {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
     });
+    this.dataLayerFunc("game_one_loading");
   },
   created() {
     // 获取一元购 ID

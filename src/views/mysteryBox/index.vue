@@ -144,6 +144,7 @@ export default {
   },
   mounted() {
     this.audioPreloadFunc();
+    this.dataLayerFunc();
   },
   watch: {
     showRoll(val) {
@@ -153,6 +154,17 @@ export default {
     },
   },
   methods: {
+    dataLayerFunc(){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: "game_box_loading",
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     audioPreloadFunc() {
       const audioSrc = audioResource;
       Object.values(audioSrc).forEach((x) => new Howl({ src: x }));

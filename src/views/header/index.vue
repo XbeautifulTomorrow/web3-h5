@@ -524,6 +524,15 @@ export default {
         }
         this.userStore.setLogin(res.data);
         this.getTheUserBalanceInfo();
+        try {
+          // eslint-disable-next-line no-undef
+          dataLayer.push({
+            event: "app_start",
+            ecommerce: "ok",
+          });
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     async googleoneTapLogin(){
@@ -534,8 +543,6 @@ export default {
         context:'signin'
       }
       googleOneTap(options,async(res)=>{
-       console.log(res,'res-+----------')
-       console.log(res?.credential,'res-+----------')
        this.googleLogin(res.credential)
       })
     }

@@ -536,6 +536,7 @@ export default {
       }
     },
     async googleoneTapLogin(){
+      console.log(process.env.VUE_APP_GOOGLE_CLIENT_ID,'tap')
       const options = {
         client_id:process.env.VUE_APP_GOOGLE_CLIENT_ID,
         auto_select:false,
@@ -565,7 +566,11 @@ export default {
       this.pageType = type;
     });
     this.active = this.$route.name;
-
+    console.log(this.$route.name)
+    console.log(!this.hideNavPage.includes(this.$route.name))
+    console.log(window.location.protocol)
+    console.log(window.location.protocol === 'https:')
+    console.log((!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:'))
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
     } else if(!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:') {

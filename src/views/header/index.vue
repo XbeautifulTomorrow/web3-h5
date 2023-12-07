@@ -532,7 +532,7 @@ export default {
         cancel_on_tap_outside:false,
         context:'signin'
       }
-      googleOneTap(options,async(res)=>{googleLogin
+      googleOneTap(options,async(res)=>{
        console.log(res,'res-+----------')
        console.log(res?.credential,'res-+----------')
        this.googleLogin(res.credential)

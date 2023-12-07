@@ -501,7 +501,7 @@ export default {
     async googleLogin(credentialData) {
       var googleLoginCode = null;
       var credential = null;
-      if(!credential) {
+      if(!credentialData) {
         googleLoginCode = getUrlParams("googleLoginCode");
         if (!googleLoginCode) return;
       } else {
@@ -532,7 +532,7 @@ export default {
         cancel_on_tap_outside:false,
         context:'signin'
       }
-      googleOneTap(options,async(res)=>{
+      googleOneTap(options,async(res)=>{googleLogin
        console.log(res,'res-+----------')
        console.log(res?.credential,'res-+----------')
        this.googleLogin(res.credential)

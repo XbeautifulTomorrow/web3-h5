@@ -241,6 +241,7 @@ import {
   encryptCBC,
   getUrlParams,
   parseURLParams,
+  delCookie
 } from "@/utils";
 import emitter from "@/utils/event-bus.js";
 
@@ -561,12 +562,9 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
     } else if(!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:') {
+      delCookie('g_state')
       this.googleoneTapLogin();
     }
-
-
-    
-
     this.timeoutBalance();
 
     this.nav = [

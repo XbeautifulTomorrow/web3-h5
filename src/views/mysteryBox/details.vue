@@ -344,6 +344,17 @@ export default {
   methods: {
     timeFormat: timeFormat,
     bigNumber: bigNumber,
+    dataLayerFunc(){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: "game_box_start",
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     calculateAmountFunc(type) {
       if (type == "sub") {
         if (this.amountIndex <= 0) {
@@ -377,6 +388,7 @@ export default {
         this.messageFun(t("mysteryBox.loginHint"));
         return;
       }
+      this.dataLayerFunc();
       if (type === "ONE" && blindDetailInfo.price > balance) {
         this.messageFun();
         this.pageType = "recharge";

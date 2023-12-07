@@ -395,6 +395,17 @@ export default {
     bigNumber: bigNumber,
     timeFormat: timeFormat,
     accurateDecimal: accurateDecimal,
+    dataLayerFunc(event){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     handleChange(event) {
       this.page = 1;
       this.size = 5;
@@ -436,6 +447,7 @@ export default {
         this.inviteCode = null;
         this.$message.success(t("common.createdTips"));
         this.fetchRebatesFindList();
+        this.dataLayerFunc("affiliate_share");
       }
     },
     // 邀请统计
@@ -592,6 +604,7 @@ export default {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
     });
+    this.dataLayerFunc("affiliate_loading");
   },
 };
 </script>

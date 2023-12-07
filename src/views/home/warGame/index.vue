@@ -54,12 +54,24 @@ export default {
       this.warData = event;
       this.isHistory = true;
     },
+    dataLayerFunc(event){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   beforeUnmount() {},
   created() {
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
+    this.dataLayerFunc("game_token_war_loading");
   },
   mounted() {
     const that = this;

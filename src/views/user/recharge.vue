@@ -1231,6 +1231,15 @@ export default {
     if (typeof this.type === "number") {
       this.handleOperating(this.type);
     }
+    try {
+      // eslint-disable-next-line no-undef
+      dataLayer.push({
+        event: "payment_loading",
+        ecommerce: "ok",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   },
   created() {
     this.getLegalCurrencyRechargeListFunc();

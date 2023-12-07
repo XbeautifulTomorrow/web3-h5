@@ -228,6 +228,7 @@ import {
   setAutoConfig,
   getConfig,
 } from "@/services/api/tokenWar";
+import { getSetting } from "@/services/api/invite";
 import bigNumber from "bignumber.js";
 import { i18n } from "@/locales";
 const { t } = i18n.global;
@@ -271,6 +272,7 @@ export default {
       systemConfig: null,
       customizeStyle: null,
       screenWidth: null,
+      configs: null,
     };
   },
   computed: {
@@ -313,6 +315,17 @@ export default {
     formatUsd: formatUsd,
     bigNumber: bigNumber,
     accurateDecimal: accurateDecimal,
+    dataLayerFunc(event) {
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     // 更新购买数据
     setAmount(event) {
       this.buyNum = Number(this.buyNum) + Number(event);
@@ -365,12 +378,13 @@ export default {
       if (res.code == 200) {
         this.getTheUserBalanceInfo();
         this.buyNum = null;
+        this.dataLayerFunc("game_token_war_start");
       } else {
         const { data } = res;
         if (data.messageKey == "pvp_limit") {
           this.$message.error(
             this.$t("errorTips." + data.messageKey, {
-              val: this.systemConfig?.pvpThresholds,
+              val: this.configs?.pvpThresholds,
             })
           );
           return;
@@ -449,6 +463,13 @@ export default {
         this.systemConfig = res.data;
       }
     },
+    // 默认邀请码
+    async fetchSetting() {
+      const res = await getSetting({ coin: "USDT" });
+      if (res && res.code == 200) {
+        this.configs = res.data;
+      }
+    },
   },
   created() {
     if (this.userInfo?.id && this.isLogin) {
@@ -456,6 +477,7 @@ export default {
     }
 
     this.fetchConfig();
+    this.fetchSetting();
 
     this.customizeStyle =
       "-webkit-text-fill-color: transparent;font-weight: bold;";

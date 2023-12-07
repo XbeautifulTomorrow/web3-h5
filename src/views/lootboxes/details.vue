@@ -11,7 +11,7 @@
         </div>
         <div class="lottery_boxs">
           <div class="lottery_boxs_l">
-            <div class="img_box">
+            <div class="img_box img_cover">
               <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
             </div>
             <!-- <div :class="['description_box', { 'description-loaing': isShowMore === null }]">

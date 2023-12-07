@@ -222,6 +222,7 @@ import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
+import googleOneTap from "google-one-tap";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";
@@ -497,12 +498,18 @@ export default {
       }
     },
     // google登录
-    async googleLogin() {
-      var googleLoginCode = getUrlParams("googleLoginCode");
-      if (!googleLoginCode) return;
+    async googleLogin(credentialData) {
+      var googleLoginCode = null;
+      var credential = null;
+      if(!credential) {
+        googleLoginCode = getUrlParams("googleLoginCode");
+        if (!googleLoginCode) return;
+      } else {
+        credential = credentialData
+      }
       // 如果langdingPage入金
       const boxBounsKey = localStorage.getItem("boxBounsKey") || null;
-      const res = await authGoogleLogin({ code: googleLoginCode, boxBounsKey });
+      const res = await authGoogleLogin({ code: googleLoginCode, credential, boxBounsKey });
       if (res && res.code === 200) {
         if (res.data.certificate) {
           localStorage.setItem("certificate", encryptCBC(res.data.certificate));
@@ -518,6 +525,19 @@ export default {
         this.getTheUserBalanceInfo();
       }
     },
+    async googleoneTapLogin(){
+      const options = {
+        client_id:process.env.GOOGLE_CLIENT_ID,
+        auto_select:false,
+        cancel_on_tap_outside:false,
+        context:'signin'
+      }
+      googleOneTap(options,async(res)=>{
+       console.log(res,'res-+----------')
+       console.log(res?.credential,'res-+----------')
+       this.googleLogin(res.credential)
+      })
+    }
   },
   // 监听,当路由发生变化的时候执行
   watch: {
@@ -540,7 +560,12 @@ export default {
 
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
+    } else {
+      
     }
+
+
+    
 
     this.timeoutBalance();
 

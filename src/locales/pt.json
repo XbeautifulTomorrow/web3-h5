@@ -205,7 +205,8 @@
     "redeem_code_not_found": "Coupon not found",
     "redeem_code_type_repeat": "You have already redeemed such coupon codes.",
     "redeem_code_used": "Coupon has been used",
-    "the_account_limit_withdrawal": "Account restrictions on withdrawals."
+    "the_account_limit_withdrawal": "Account restrictions on withdrawals.",
+    "pvp_limit": "To participate in this game you need to make a deposit of more than { val } USDT."
   },
   "footer": {
     "contactUs": "Contacte-nos",

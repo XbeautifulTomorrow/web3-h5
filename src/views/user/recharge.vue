@@ -55,7 +55,7 @@
         </div>
         <div
           class="banner_promotion_box"
-          v-if="walletOperating == 1 || walletOperating == 3"
+          v-if="walletOperating == 1 || walletOperating == 4"
         >
           <img
             v-if="screenWidth > 950"

@@ -365,6 +365,18 @@ export default {
       if (res.code == 200) {
         this.getTheUserBalanceInfo();
         this.buyNum = null;
+      } else {
+        const { data } = res;
+        if (data.messageKey == "pvp_limit") {
+          this.$message.error(
+            this.$t("errorTips." + data.messageKey, {
+              val: this.systemConfig?.pvpThresholds,
+            })
+          );
+          return;
+        }
+
+        this.$message.error(this.$t("errorTips." + data.messageKey));
       }
     },
     async getTheUserBalanceInfo() {

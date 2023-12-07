@@ -1042,6 +1042,8 @@ export default {
       loading: false,
       verifys: false,
       errorTips: null,
+
+      config: null,
     };
   },
   computed: {
@@ -1265,6 +1267,18 @@ export default {
         this.fetchOneBuyInfo();
         this.getTheUserBalanceInfo();
         this.fetchBuyRecord();
+      } else {
+        const { data } = res;
+        if (data.messageKey == "pvp_limit") {
+          this.$message.error(
+            this.$t("errorTips." + data.messageKey, {
+              val: this.config?.pvpThresholds,
+            })
+          );
+          return;
+        }
+
+        this.$message.error(this.$t("errorTips." + data.messageKey));
       }
     },
     async getTheUserBalanceInfo() {
@@ -1467,6 +1481,7 @@ export default {
     async fetchSetting() {
       const res = await getSetting({ coin: "USDT" });
       if (res && res.code == 200) {
+        this.config = res.data;
         this.inviteVal = res.data.defaultInviteCode;
       }
     },

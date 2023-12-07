@@ -24,7 +24,10 @@ const notMessage = [
   "mystery-web-user/oneNftLotteryOrders/tweetSendTikect",
   "mystery-web-user/box/catGas",
   "mystery-web-user/three-party-transaction/rate",
-  "mystery-web-user/redeem-code-info/redeem"
+  "mystery-web-user/redeem-code-info/redeem",
+  "mystery-web-user/oneNftLotteryOrders/balancePurchases",
+  "mystery-web-user/war/buy",
+
 ];
 axiosInstance.interceptors.request.use(
   (config) => {

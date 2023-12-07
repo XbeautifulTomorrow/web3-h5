@@ -377,6 +377,18 @@ export default {
         this.getTheUserBalanceInfo();
         this.buyNum = null;
         this.dataLayerFunc("game_token_war_start");
+      } else {
+        const { data } = res;
+        if (data.messageKey == "pvp_limit") {
+          this.$message.error(
+            this.$t("errorTips." + data.messageKey, {
+              val: this.systemConfig?.pvpThresholds,
+            })
+          );
+          return;
+        }
+
+        this.$message.error(this.$t("errorTips." + data.messageKey));
       }
     },
     async getTheUserBalanceInfo() {

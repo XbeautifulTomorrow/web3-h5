@@ -507,7 +507,11 @@
     "claimText": "CLAIM",
     "exchangeInstructions": "has been added to your balance.",
     "couponCode": "COUPON CODE",
-    "accountExceptionTip": "Account anomaly detected, please click the button to contact official customer service."
+    "accountExceptionTip": "Account anomaly detected, please click the button to contact official customer service.",
+    "maxV": "MAX",
+    "depositTo": "DEPOSIT TO ",
+    "getBonus": "GET 200% BONUS",
+    "upTo": "UP TO "
   },
   "recharge": {
     "notDeposit": "{ name } is not supported",
@@ -758,7 +762,8 @@
     "redeem_code_not_found": "Coupon not found",
     "redeem_code_used": "Coupon has been used",
     "redeem_code_type_repeat": "You have already redeemed such coupon codes.",
-    "the_account_limit_withdrawal": "Account restrictions on withdrawals."
+    "the_account_limit_withdrawal": "Account restrictions on withdrawals.",
+    "pvp_limit": "To participate in this game you need to make a deposit of more than { val } USDT."
   },
   "lottery": {
     "notice": "NOTICE",

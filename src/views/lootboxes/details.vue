@@ -14,17 +14,6 @@
             <div class="img_box img_cover">
               <Image fit="cover" class="nft_img" :src="blindDetailInfo.boxImg" alt="" />
             </div>
-            <!-- <div :class="['description_box', { 'description-loaing': isShowMore === null }]">
-            <div class="title">
-              <img src="@/assets/svg/box/icon_description.svg" alt="" />
-              {{ $t("mysteryBox.description") }}
-            </div>
-            <div ref="contentInfo" :class="['text', { 'all-text': !isShowMore }]" v-html="blindDetailInfo.boxDesc"></div>
-            <p class="see-more" @click="isShowMore = !isShowMore" v-if="isShowMore" ref="contentInfo2">
-              <span>See more</span>
-              <img class="header-user-down" src="@/assets/img/headerFooter/icon-arrowup.png" alt="" />
-            </p>
-          </div> -->
             <div class="jackpot-box nft_series">
               <div class="home-public-title">
                 <div class="title_box">
@@ -60,49 +49,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="lottery_boxs_r" v-if="innerWidth > 950">
-            <div class="top">
-              <div class="lottery_type" @click="rollNumberFun('ONE')">
-                <div class="lottery_info">
-                  <div class="open_text">{{ $t("mysteryBox.open") }}</div>
-                  <div class="num_text">1</div>
-                  <div class="box_text">{{ $t("mysteryBox.box") }}</div>
-                </div>
-                <div class="lottery_btn">
-                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                  <span v-priceFormat="blindDetailInfo?.price"></span>
-                </div>
-              </div>
-              <div class="lottery_type five" @click="rollNumberFun('FIVE')">
-                <div class="discount" v-if="fiveRebate > 0">
-                  <div class="val">{{ `${fiveRebate}% OFF` }}</div>
-                </div>
-                <div class="lottery_info">
-                  <div class="open_text">{{ $t("mysteryBox.open") }}</div>
-                  <div class="num_text">5</div>
-                  <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
-                </div>
-                <div class="lottery_btn">
-                  <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                  <span v-priceFormat="new bigNumber(blindDetailInfo?.fivePrice || 0).multipliedBy(5)"></span>
-                </div>
-              </div>
-            </div>
-            <div class="lottery_type ten" @click="rollNumberFun('TEN')">
-              <div class="discount" v-if="tenRebate > 0">
-                <div class="val">{{ `${tenRebate}% OFF` }}</div>
-              </div>
-              <div class="lottery_info">
-                <div class="open_text">{{ $t("mysteryBox.open") }}</div>
-                <div class="num_text">10</div>
-                <div class="box_text">{{ $t("mysteryBox.boxes") }}</div>
-              </div>
-              <div class="lottery_btn">
-                <img src="@/assets/svg/user/icon_usdt_gold.svg" alt="" />
-                <span v-priceFormat="new bigNumber(blindDetailInfo?.tenPrice || 0).multipliedBy(10)"></span>
-              </div>
-            </div>
-          </div> -->
           <div class="h5_lottery_boxs_r">
             <div class="lottery_calculate_box">
               <div class="calculate_btn disable" @click="calculateAmountFunc('sub')">
@@ -233,7 +179,6 @@ export default {
       size: 36,
       count: 0,
       isShowMore: null,
-      innerWidth: 0,
       amountIndex: 0,
       amountArr: [1, 5, 10],
     };
@@ -389,9 +334,6 @@ export default {
         this.isShowMore = contentInfo ? contentInfo.scrollHeight > contentInfo.clientHeight : false;
       });
     },
-  },
-  mounted() {
-    this.innerWidth = window.innerWidth;
   },
 };
 </script>

@@ -191,7 +191,6 @@ export default {
         });
       }
     },
-
     dataLayerFunc() {
       const queryParams = parseURLParams(window.location.href);
       if (Object.keys(queryParams).length !== 0) {
@@ -206,6 +205,15 @@ export default {
             console.log(err);
           }
         }
+      }
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: 'lootboxes_loading_completed',
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
       }
     },
   },

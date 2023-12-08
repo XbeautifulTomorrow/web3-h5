@@ -72,7 +72,21 @@ export default {
       }
     });
   },
+  mounted(){
+    this.dataLayerFunc();
+  },
   methods: {
+    dataLayerFunc(){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: "home_loading_completed",
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     showWarPoster() {
       const showTips = getSessionStore("showWarTips");
       if (showTips && showTips == 2) {

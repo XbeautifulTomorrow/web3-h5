@@ -222,7 +222,7 @@ import { i18n } from "@/locales";
 const { t } = i18n.global;
 import { mapStores } from "pinia";
 import { ElMessage } from "element-plus";
-import googleOneTap from "google-one-tap";
+import googleOneTap from "@/utils/googleOneTap";
 
 import { useHeaderStore } from "@/store/header.js";
 import { useUserStore } from "@/store/user.js";

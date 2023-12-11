@@ -163,6 +163,7 @@
             min-width="100"
             align="center"
             key="1"
+            show-overflow-tooltip
           >
             <template #default="scope">
               {{

@@ -352,6 +352,17 @@ const getCaptchaApi = async (code) => {
     }
   });
 };
+const dataLayerFunc = async (event)=>{
+  try {
+    // eslint-disable-next-line no-undef
+    dataLayer.push({
+      event: event,
+      ecommerce: "ok",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
 const registerFun = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -389,16 +400,8 @@ const registerFun = async (formEl) => {
         userStore.getCoinList();
         userStore.exchangeLegalRate();
         useHeaderStore().fetchSetting();
-
-        try {
-          // eslint-disable-next-line no-undef
-          dataLayer.push({
-            event: "registration",
-            ecommerce: "ok",
-          });
-        } catch (err) {
-          console.log(err);
-        }
+        dataLayerFunc("registration")
+        dataLayerFunc("register_success")
 
         isLogin.value = true;
       }
@@ -411,6 +414,7 @@ onMounted(async () => {
   if (props.isAuth) {
     isLogin.value = true;
   }
+  dataLayerFunc("register_box_open")
 });
 </script>
 <style lang="scss" scoped>

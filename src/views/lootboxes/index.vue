@@ -104,7 +104,7 @@ export default {
     this.boxId = this.$route.query.boxId;
     this.getBoxRewardFunc();
     this.audioPreloadFunc();
-    this.dataLayerFunc();
+    this.dataLayerLoadFunc();
   },
   watch: {
     showRoll(val) {
@@ -191,21 +191,25 @@ export default {
         });
       }
     },
-
-    dataLayerFunc() {
+    dataLayerLoadFunc() {
       const queryParams = parseURLParams(window.location.href);
       if (Object.keys(queryParams).length !== 0) {
         for (let key in queryParams) {
-          try {
-            // eslint-disable-next-line no-undef
-            dataLayer.push({
-              event: queryParams[key],
-              ecommerce: "ok",
-            });
-          } catch (err) {
-            console.log(err);
-          }
+          this.dataLayerFunc(queryParams[key])
         }
+      }
+      this.dataLayerFunc("lootboxes_loading_completed")
+      this.dataLayerFunc("loading_end")
+    },
+    dataLayerFunc(event){
+      try {
+        // eslint-disable-next-line no-undef
+        dataLayer.push({
+          event: event,
+          ecommerce: "ok",
+        });
+      } catch (err) {
+        console.log(err);
       }
     },
   },
@@ -213,6 +217,7 @@ export default {
     if (this.isLogin && this.userInfo?.id) {
       useHeaderStore().fetchSetting();
     }
+    this.dataLayerFunc("loading_start")
   },
 };
 </script>

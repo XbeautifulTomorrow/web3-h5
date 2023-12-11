@@ -1234,7 +1234,7 @@ export default {
     try {
       // eslint-disable-next-line no-undef
       dataLayer.push({
-        event: "payment_loading",
+        event: "deposit_box_open",
         ecommerce: "ok",
       });
     } catch (err) {

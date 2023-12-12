@@ -214,6 +214,7 @@
       @closeDialogFun="changeNameFun"
     >
     </createVerification>
+    <pwaAddTip v-if="isPwaAddTip" @closeDialogFun="isPwaAddTip = false" @addPwaConfirm="addPwaConfirm"></pwaAddTip>
   </div>
 </template>
 
@@ -234,6 +235,7 @@ import Forgot from "../forgot/index.vue";
 import Modify from "@/views/Airdrop/components/modify.vue";
 import Recharge from "@/views/user/recharge.vue";
 import createVerification from "@/views/user/createVerification.vue";
+import pwaAddTip from "@/components/checkDialog/pwaAddTip.vue";
 import {
   accurateDecimal,
   openUrl,
@@ -254,6 +256,7 @@ export default {
     Modify,
     Recharge,
     createVerification,
+    pwaAddTip
   },
   inject: ["reload"],
   data() {
@@ -288,6 +291,8 @@ export default {
       isShowNav: true,
       hideNavPage: ["Lootboxes"],
       registerIsAuth: false,
+      isPwaAddTip: false,
+      appPromptEvent: null
     };
   },
   computed: {
@@ -535,6 +540,7 @@ export default {
         }
       }
     },
+    // 初始化谷歌弹框登录
     async googleoneTapLogin(){
       const options = {
         client_id:process.env.VUE_APP_GOOGLE_CLIENT_ID,
@@ -545,6 +551,29 @@ export default {
       googleOneTap(options,async(res)=>{
        this.googleLogin(res.credential)
       })
+    },
+    // pwa应用弹框
+    pwaTipShowFunc(){
+      window.addEventListener('beforeinstallprompt', (event) => {
+          event.preventDefault();
+          this.appPromptEvent = event;
+          this.isPwaAddTip = true
+          return false;
+      });
+    },
+    // 添加pwa应用
+    addPwaConfirm(){
+      if (this.appPromptEvent !== null) {
+        this.appPromptEvent.prompt();
+        this.appPromptEvent.userChoice.then((result) => {
+          if (result.outcome == 'accepted') {
+              this.isPwaAddTip = false;
+          } else {
+              console.log('不同意安装应用');
+          }
+          this.appPromptEvent = null;
+        });
+      }
     }
   },
   // 监听,当路由发生变化的时候执行
@@ -611,8 +640,9 @@ export default {
       },
     ];
   },
-  mounted() {
+  async mounted() {
     this.watchVisibilitychange();
+    this.pwaTipShowFunc();
     const that = this;
     window.screenWidth = document.body.clientWidth;
     that.screenWidth = window.screenWidth;
@@ -621,6 +651,7 @@ export default {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
     });
+    
   },
 };
 </script>

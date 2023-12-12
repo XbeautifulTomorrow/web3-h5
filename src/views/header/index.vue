@@ -596,9 +596,6 @@ export default {
     this.active = this.$route.name;
     if (this.isLogin && this.userInfo?.id) {
       this.getTheUserBalanceInfo();
-    } else if(!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:') {
-      delCookie('g_state')
-      this.googleoneTapLogin();
     }
     this.timeoutBalance();
 
@@ -651,7 +648,12 @@ export default {
       window.screenWidth = document.body.clientWidth;
       that.screenWidth = window.screenWidth;
     });
-    
+    setTimeout(() => {
+      if(!this.userInfo?.id&&!this.hideNavPage.includes(this.$route.name)&&window.location.protocol === 'https:') {
+        delCookie('g_state')
+        this.googleoneTapLogin();
+      }
+    }, 800);
   },
 };
 </script>

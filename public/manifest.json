@@ -1,0 +1,14 @@
+{
+  "name": "BITZING",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "./logo.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "background_color":"#110429",
+  "theme_color":"#110429"
+}

@@ -134,7 +134,9 @@
     "ticketSold": "<span style=\"color: #11cde9;\">{num}</span> Ticket sold",
     "ticketsSold": "<span style=\"color: #11cde9;\">{num}</span> Tickets sold",
     "bannerCopywriting1": "Unleash the Fun, Level Up Your Game: Fairness, Transparency, and the Thrill of Blue-Chip NFTs.",
-    "bannerCopywriting2": ""
+    "bannerCopywriting2": "",
+    "pwaTip":"We would like to add Bitzing.io to your home screen for the latest free box and bonus updates.",
+    "notNow":"Not Now"
   },
   "homeReplenish": {
     "viewBox": "View All Raffle Boxes",

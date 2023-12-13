@@ -13,15 +13,15 @@
       <div class="tip_box">
         <img src="/logo.png" class="logo_icon" />
         <p class="text">
-          {{ $t("We would like to add Bitzing.io to your home screen for the latest free box and bonus updates.") }}
+          {{ $t("home.pwaTip") }}
         </p>
       </div>
       <div class="handle_btn_box">
         <div class="handle_btn dark_btn" @click="closeDialogFun">
-          {{ $t("Not Now") }}
+          {{ $t("home.notNow") }}
         </div>
         <div class="handle_btn" @click="addPwaConfirm">
-          {{ $t("Continue") }}
+          {{ $t("recharge.continue") }}
         </div>
       </div>
     </div>

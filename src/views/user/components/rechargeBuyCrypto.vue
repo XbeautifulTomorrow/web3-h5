@@ -233,10 +233,14 @@ export default {
               this.errorRes = data?.data;
               this.onVerifyExchange(type);
             } else if (data?.code == 400001) {
-              if (type == "from") {
-                this.exchangeFromAmountTips = data?.data.amount[0];
+              if(data?.data?.to&&data?.data?.to.length>0){
+                this.exchangeToAmountTips = data?.data?.to[0];
               } else {
-                this.exchangeToAmountTips = data?.data.amount[0];
+                if (type == "from") {
+                  this.exchangeFromAmountTips = data?.data?.amount[0];
+                } else {
+                  this.exchangeToAmountTips = data?.data?.amount[0];
+                }
               }
             }
           } else {

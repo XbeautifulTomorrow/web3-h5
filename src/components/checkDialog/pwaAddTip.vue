@@ -61,6 +61,7 @@ const addPwaConfirm = () => {
   text-align: center;
   color: #13151f;
   &.dark_btn {
+    font-size:.875rem;
     border: solid 1px rgba(228, 231, 245, 0.15);
     background-color: #292c36;
     background-image: none;
